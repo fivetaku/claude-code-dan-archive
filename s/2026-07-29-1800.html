@@ -5,21 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>클코단 7월 29일 — 대화 타임라인</title>
 <style>
-:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#847A66;
+:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;
 --accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;
 --shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;
---ink:#EFE8D8;--muted:#A2977F;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;
+--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;
 --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;
---muted:#A2977F;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;
+--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;
 --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);}
 :root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;
---muted:#847A66;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;
+--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;
 --shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);}
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);
-font-family:"Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;line-height:1.65}
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
 .mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
@@ -34,11 +37,31 @@ h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spa
 .meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
 .meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
 .meta b{color:var(--ink);font-weight:700}
-.pulseband{margin:36px 0 4px;overflow-x:auto}
-.pb{position:relative;min-width:600px;height:74px;border-bottom:2px solid var(--line)}
-.pb .bar{position:absolute;bottom:0;width:5px;border-radius:2px 2px 0 0;background:var(--accent);opacity:.85}
-.pb .lbl{position:absolute;top:100%;margin-top:6px;transform:translateX(-50%);
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
 font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
 .details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
 .dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
 padding:22px 24px;box-shadow:var(--shadow)}
@@ -57,6 +80,7 @@ display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size
 <body>
 <div class="wrap">
 <nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
 <header>
   <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
   <h1>7월 29일, 클코단에서 오간 이야기</h1>
@@ -67,10 +91,15 @@ display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size
     <span>주제 <b>6</b>갈래</span>
   </div>
 </header>
-<div class="pulseband"><div class="pb"><div class="bar" style="left:2.0%;height:17px"></div><div class="bar" style="left:4.3%;height:26px"></div><div class="bar" style="left:6.7%;height:9px"></div><div class="bar" style="left:9.1%;height:30px"></div><div class="bar" style="left:11.4%;height:30px"></div><div class="bar" style="left:13.8%;height:6px"></div><div class="bar" style="left:16.1%;height:9px"></div><div class="bar" style="left:18.4%;height:9px"></div><div class="bar" style="left:20.8%;height:13px"></div><div class="bar" style="left:23.2%;height:6px"></div><div class="bar" style="left:25.5%;height:9px"></div><div class="bar" style="left:27.9%;height:9px"></div><div class="bar" style="left:30.2%;height:17px"></div><div class="bar" style="left:32.5%;height:6px"></div><div class="bar" style="left:34.9%;height:13px"></div><div class="bar" style="left:37.2%;height:9px"></div><div class="bar" style="left:39.6%;height:9px"></div><div class="bar" style="left:41.9%;height:6px"></div><div class="bar" style="left:44.3%;height:6px"></div><div class="bar" style="left:46.6%;height:6px"></div><div class="bar" style="left:49.0%;height:6px"></div><div class="bar" style="left:51.4%;height:9px"></div><div class="bar" style="left:53.7%;height:6px"></div><div class="bar" style="left:56.0%;height:6px"></div><div class="bar" style="left:58.4%;height:34px"></div><div class="bar" style="left:60.8%;height:6px"></div><div class="bar" style="left:63.1%;height:6px"></div><div class="bar" style="left:65.5%;height:9px"></div><div class="bar" style="left:67.8%;height:21px"></div><div class="bar" style="left:70.1%;height:26px"></div><div class="bar" style="left:72.5%;height:9px"></div><div class="bar" style="left:74.9%;height:13px"></div><div class="bar" style="left:77.2%;height:26px"></div><div class="bar" style="left:79.5%;height:13px"></div><div class="bar" style="left:81.9%;height:17px"></div><div class="bar" style="left:84.2%;height:21px"></div><div class="bar" style="left:86.6%;height:13px"></div><div class="bar" style="left:89.0%;height:17px"></div><div class="bar" style="left:91.3%;height:60px"></div><div class="bar" style="left:93.6%;height:26px"></div><div class="bar" style="left:96.0%;height:26px"></div><div class="lbl" style="left:2.0%">17:08</div><div class="lbl" style="left:16.1%">17:15</div><div class="lbl" style="left:30.2%">17:21</div><div class="lbl" style="left:44.3%">17:31</div><div class="lbl" style="left:58.4%">17:46</div><div class="lbl" style="left:72.5%">17:52</div><div class="lbl" style="left:86.6%">17:58</div><div class="lbl" style="left:96.0%">18:02</div></div></div>
+
+<div class="bonebox"><div class="bone"><div class="spine"></div><div class="bar" style="left:2.0%;height:17px"></div><div class="bar" style="left:4.3%;height:25px"></div><div class="bar" style="left:6.7%;height:8px"></div><div class="bar" style="left:9.1%;height:29px"></div><div class="bar" style="left:11.4%;height:29px"></div><div class="bar" style="left:13.8%;height:6px"></div><div class="bar" style="left:16.1%;height:8px"></div><div class="bar" style="left:18.4%;height:8px"></div><div class="bar" style="left:20.8%;height:12px"></div><div class="bar" style="left:23.2%;height:6px"></div><div class="bar" style="left:25.5%;height:8px"></div><div class="bar" style="left:27.9%;height:8px"></div><div class="bar" style="left:30.2%;height:17px"></div><div class="bar" style="left:32.5%;height:6px"></div><div class="bar" style="left:34.9%;height:12px"></div><div class="bar" style="left:37.2%;height:8px"></div><div class="bar" style="left:39.6%;height:8px"></div><div class="bar" style="left:41.9%;height:6px"></div><div class="bar" style="left:44.3%;height:6px"></div><div class="bar" style="left:46.6%;height:6px"></div><div class="bar" style="left:49.0%;height:6px"></div><div class="bar" style="left:51.4%;height:8px"></div><div class="bar" style="left:53.7%;height:6px"></div><div class="bar" style="left:56.0%;height:6px"></div><div class="bar" style="left:58.4%;height:33px"></div><div class="bar" style="left:60.8%;height:6px"></div><div class="bar" style="left:63.1%;height:6px"></div><div class="bar" style="left:65.5%;height:8px"></div><div class="bar" style="left:67.8%;height:21px"></div><div class="bar" style="left:70.1%;height:25px"></div><div class="bar" style="left:72.5%;height:8px"></div><div class="bar" style="left:74.9%;height:12px"></div><div class="bar" style="left:77.2%;height:25px"></div><div class="bar" style="left:79.5%;height:12px"></div><div class="bar" style="left:81.9%;height:17px"></div><div class="bar" style="left:84.2%;height:21px"></div><div class="bar" style="left:86.6%;height:12px"></div><div class="bar" style="left:89.0%;height:17px"></div><div class="bar peak" style="left:91.3%;height:58px"></div><div class="bar" style="left:93.6%;height:25px"></div><div class="bar" style="left:96.0%;height:41px"></div><div class="lbl" style="left:2.0%">17:08</div><div class="lbl" style="left:16.1%">17:15</div><div class="lbl" style="left:30.2%">17:21</div><div class="lbl" style="left:44.3%">17:31</div><div class="lbl" style="left:58.4%">17:46</div><div class="lbl" style="left:72.5%">17:52</div><div class="lbl" style="left:86.6%">17:58</div><div class="peaktag" style="left:91.3%;bottom:66px">18:00 · 14건</div><div class="lbl" style="left:96.0%">18:02</div><div class="rib up" style="left:2.0%"><div class="stem"></div><div class="ribcard"><div class="t">17:08-17:17</div><h3>insane-search 차단 대응</h3></div></div><div class="rib dn" style="left:6.7%"><div class="stem"></div><div class="ribcard"><div class="t">17:11-17:31</div><h3>요약봇 테스트와 아티팩트</h3></div></div><div class="rib up" style="left:53.7%"><div class="stem"></div><div class="ribcard"><div class="t">17:44-17:50</div><h3>워크스페이스 분할 관리</h3></div></div><div class="rib dn" style="left:70.1%"><div class="stem"></div><div class="ribcard"><div class="t">17:51-17:55</div><h3>지식관리 도구 조언</h3></div></div><div class="rib up" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">17:55-17:58</div><h3>세션 인수인계 방법</h3></div></div><div class="rib dn" style="left:67.8%"><div class="stem"></div><div class="ribcard"><div class="t">17:50-17:56</div><h3>윈도우 배포와 사용량 확인</h3></div></div></div></div>
+
 <section class="details"><article class="dcard"><div class="t">17:08-17:17</div><h2>insane-search 차단 대응</h2><p class="sum">공개 페이지 리더 도구 insane-search 소개 링크가 공유되고, 특정 쇼핑몰이 막혔는지 질문이 나옴. 플레이라이트로는 되는데 cffi 경로는 전부 막혔다는 확인이 있었고, 기능을 추가할수록 차단만 유발한다는 판단에 신규 기능 추가를 보류하는 쪽으로 기울었다. 도구 자체를 분석시키면 모델이 추천은 못하겠다는 반응을 낸다는 후일담도 나옴.</p><ul><li>insane-search는 Claude Code용 공개 페이지 리더로 소개됨</li><li>cffi 기반 접근은 차단, 플레이라이트 경로는 아직 동작</li><li>기능 추가 때마다 차단당할 것 같아 신규 기능 개발을 멈출지 고민 중</li><li>기능을 안 넣으면 오히려 우회 난이도가 올라간다는 역설적 이유도 언급</li><li><a href="https://github.com/fivetaku/insane-search/">https://github.com/fivetaku/insane-search/</a></li></ul></article><article class="dcard"><div class="t">17:11-17:31</div><h2>요약봇 테스트와 아티팩트</h2><p class="sum">요약 봇이 아직 테스트 중이며 현재 fable 모델로 돌고 있다는 설명이 나옴. 요약 품질이 떨어진다는 지적에는 메신저 대화가 비정형이라 빠르게 처리하면 노이즈가 많아진다는 답이 붙었다. 결과물을 아티팩트로 띄워봤지만 권한이 작성자 본인에게만 열려 깃허브 페이지로 바꾸기로 정리됨.</p><ul><li>요약 봇은 현재 fable 모델 기반으로 테스트 운영 중</li><li>링크 요약 기능에 물려 있어 깃허브 레포 상세 분석은 안 됨 — 리드미를 읽는 별도 기능이 필요</li><li>아티팩트는 자동 공유 시 본인만 열람 가능해 깃허브 페이지로 전환</li><li>CSV 5,217건 분석 기반으로 활동 저점에 맞춘 09:00/13:30/18:00/22:00 4회 발송안 제시, 100건 미만은 스킵</li></ul></article><article class="dcard"><div class="t">17:44-17:50</div><h2>워크스페이스 분할 관리</h2><p class="sum">프로젝트 하나에 블록을 몰아넣는 구조와 상위 오케스트레이터 프로젝트를 두는 구조를 두고 질문이 오감. 오케스트레이터 방식은 작업이 늘수록 누락이 생기고 관리가 어려워져서, 세부 작업은 개별 워크스페이스에서 하고 상위 폴더는 파일 찾기·이력 확인 용도로만 쓴다는 답이 나왔다. 기능 단위 분할이 기준이며 정답은 아니라는 단서가 붙음.</p><ul><li>상위 오케스트레이터 단일 관리는 작업량이 늘면 누락과 관리 실패를 부름</li><li>기능 단위로 워크스페이스를 쪼개고 세부 프로젝트·강의는 별도 운영</li><li>답변자는 관리 중인 워크스페이스가 40~50개 규모</li><li>같은 블록을 여러 곳에서 재사용하려는 욕심이 관리 난이도를 올리는 지점으로 지목됨</li></ul></article><article class="dcard"><div class="t">17:51-17:55</div><h2>지식관리 도구 조언</h2><p class="sum">옵시디언을 붙여 지식관리를 하느냐는 질문에, 남들이 좋다는 걸 다 따라 쓰면 못 쫓아간다며 클로드코드로 관리해도 된다는 답이 나옴. AI가 생성한 문서와 직접 작성한 문서를 구분해서 구성하라는 조언이 이어졌고, 읽지도 않고 찍어낸 세컨브레인은 서치 캐싱 이상의 의미가 없다는 지적으로 정리됨.</p><ul><li>옵시디언은 그래프뷰로 자랑할 목적이 아니면 굳이 권하지 않음</li><li>레퍼런스·아티클 축적은 클로드코드 워크스페이스 분할로 대체 가능</li><li>AI 생성물과 직접 작성물을 구분해 구성할 것</li><li>생성만 하고 읽지 않는 문서는 캐싱 역할에 그친다는 판단</li></ul></article><article class="dcard"><div class="t">17:55-17:58</div><h2>세션 인수인계 방법</h2><p class="sum">세션에서 라운드를 여러 번 돌리면 꼬인다는 고민에 대해, 세션을 마무리할 때 wrap 절차를 만들고 내부에 KB나 SLLM 위키를 두고 갱신하라는 답이 나옴. 다만 생성된 인수인계 문서를 읽어보지 않았다는 답변이 나오자, 확인 절차를 건너뛰고 AI 탓을 하면 안 된다는 지적으로 마무리됨.</p><ul><li>세션 종료 시 wrap 루틴을 만들어 상태를 정리</li><li>프로젝트 내부에 KB 또는 SLLM 위키를 두고 지속 업데이트</li><li>생성된 인수인계 문서는 누락·정확성을 직접 검수해야 함</li><li>완료 항목 아카이브를 훅으로 빼고 핸드오프 문서 한 권으로 이어가는 시도도 공유됨</li></ul></article><article class="dcard"><div class="t">17:50-17:56</div><h2>윈도우 배포와 사용량 확인</h2><p class="sum">윈도우 프로그램 배포 시 백신 차단을 피하려면 어떻게 하냐는 질문에, MS 스토어 등록 대기보다 codesign 인증이 핵심이며 인증받아도 바로 통과되는 게 아니라 사용자 데이터가 쌓여야 한다는 답이 나옴. CLI 사용량 확인은 /usage 명령과 statusline 설정으로 해결되며, 통합 모니터링 대시보드 플러그인도 공유됨.</p><ul><li>윈도우 배포는 codesign 인증 필요, 초기엔 평판 데이터가 쌓여야 백신 경고가 사라짐</li><li>AI CLI 사용량은 /usage 명령과 statusline 설정으로 상시 확인 가능</li><li>claude-dashboard는 Claude·Codex·Gemini·z.ai 사용량을 한 상태줄에 통합하는 플러그인</li><li>질문자는 캐릭터형 사용량 뷰어를 무료 배포하고 꾸미기 요소만 유료화할 계획</li><li><a href="https://github.com/uppinote20/claude-dashboard">https://github.com/uppinote20/claude-dashboard</a></li></ul></article></section>
-<footer><span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
-<span class="mono">2026-07-29-1800</span></footer>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-07-29-1800</span>
+</footer>
 </div>
 </body>
 </html>
