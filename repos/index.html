@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>클코단 아카이브</title>
+<title>클코단 아카이브 — 공유된 레포</title>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -87,23 +87,18 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 <div class="wrap">
 <header>
   <span class="mark">지피탁구</span>
-  <h1>클코단 아카이브</h1>
-  <p class="sub">방에서 오간 대화를 하루 네 번 주제별로 정리해 쌓아둡니다.</p>
+  <h1>공유된 레포</h1>
+  <p class="sub">방에서 공유된 GitHub 레포를 자동 분석해 모아둡니다.</p>
 </header>
-<nav class="tabs"><a class="on" href="./">대화 요약</a><a href="repos/">공유된 레포</a></nav>
-<section class="hero"><div class="fresh">방금 갱신 · 07-29 22:00</div><h2><a href="s/2026-07-29-2200.html">매출DB 연동에 MCP가 필요한가 · 클로드가 파일 지워버린 사례들 · 오푸스5 토큰 소모와 하네스</a></h2><div class="hmeta">234건 · 22명</div></section>
+<nav class="tabs"><a href="../">대화 요약</a><a class="on" href="./">공유된 레포</a></nav>
 <div class="find">
-  <input id="q" type="search" placeholder="주제 검색 — 예: 훅, MCP, 서브에이전트" disabled
-         autocomplete="off" enterkeyhint="search" aria-label="요약 검색">
-  <p class="findhint">제목과 주제에서 찾습니다. 초성 검색도 됩니다.</p>
+  <input id="q" type="search" placeholder="레포 검색 — 이름·설명·언어" disabled
+         autocomplete="off" enterkeyhint="search" aria-label="레포 검색">
+  <p class="findhint">레포 이름과 설명에서 찾습니다. 초성도 됩니다.</p>
 </div>
 <div id="results" hidden></div>
-<div id="browse">
-<section class="dategroup"><h2>2026-07-29</h2><article class="entry"><div class="slot">18:00</div><div><h3><a href="s/2026-07-29-1800.html">insane-search 차단 대응 · 요약봇 테스트와 아티팩트 · 워크스페이스 분할 관리</a></h3><div class="emeta">138건 · 15명</div><div class="chips"><span class="chip">지식관리 도구 조언</span><span class="chip">세션 인수인계 방법</span><span class="chip">윈도우 배포와 사용량 확인</span></div></div></article><article class="entry"><div class="slot">17:10</div><div><h3><a href="s/2026-07-29-1710.html">스레드 계정 운영 · 아침 자동화 구상 · 요약봇·개인정보</a></h3><div class="emeta">150건 · 12명</div><div class="chips"><span class="chip">완성 조건·골잡이</span><span class="chip">인세인서치·크롤링</span></div></div></article></section>
-
-</div>
-<footer>지피탁구 봇이 자동 생성한 요약 모음입니다. 발화 원문과 닉네임은 담지 않습니다.<br>
-요약 3건 · 정리된 발화 522건</footer>
+<div id="browse"><section class="dategroup"><article class="entry repo"><div><h3><a href="fivetaku-insane-search.html">fivetaku/insane-search</a></h3><div class="rmeta"><span class="rlang">Python (Claude Code 플러그인)</span>차단된 공개 웹페이지를 우회 접근해 읽어오는 Claude Code 플러그인</div></div></article></section></div>
+<footer>방에 올라온 GitHub 링크를 봇이 자동 분석한 모음입니다. 레포 1개.</footer>
 </div>
 <script>
 (function(){
@@ -115,22 +110,20 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
   var input=document.getElementById('q');
   if(!input) return;
   var IDX=null, tmr=null;
-  fetch('data/index.json').then(function(r){return r.json();}).then(function(d){
+  fetch('data.json').then(function(r){return r.json();}).then(function(d){
     IDX=d.e; input.disabled=false;
-  }).catch(function(){ /* 검색 실패해도 목록은 그대로 */ });
+  }).catch(function(){});
   function esc(t){return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function render(list){
     var host=document.getElementById('results'), base=document.getElementById('browse');
     if(!list){host.hidden=true;base.hidden=false;host.innerHTML='';return;}
     base.hidden=true;host.hidden=false;
-    if(!list.length){host.innerHTML='<p class="empty">찾는 내용이 없어요. 다른 말로 검색해보세요.</p>';return;}
+    if(!list.length){host.innerHTML='<p class="empty">찾는 레포가 없어요.</p>';return;}
     var h='<div class="dategroup">';
     list.slice(0,200).forEach(function(e){
-      var sl=e.i.slice(11), t=e.t.join(' \u00b7 ');
-      h+='<article class="entry"><div class="slot">'+e.i.slice(5,10)+' '+sl.slice(0,2)+':'+sl.slice(2)+'</div><div>'+
-         '<h3><a href="s/'+e.i+'.html">'+esc(t)+'</a></h3>'+
-         '<div class="emeta">'+e.c+'건 · '+e.s+'명</div></div></article>';
+      h+='<article class="entry repo"><div><h3><a href="'+e.i+'.html">'+esc(e.t[0])+'</a></h3>'+
+         '<div class="rmeta">'+esc(e.t[1]||'')+'</div></div></article>';
     });
     host.innerHTML=h+'</div>';
   }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>클코단 아카이브</title>
+<title>fivetaku/insane-search — 클코단 레포 아카이브</title>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -85,69 +85,19 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 </head>
 <body>
 <div class="wrap">
+<nav><a href="./">&larr; 공유된 레포</a></nav>
 <header>
-  <span class="mark">지피탁구</span>
-  <h1>클코단 아카이브</h1>
-  <p class="sub">방에서 오간 대화를 하루 네 번 주제별로 정리해 쌓아둡니다.</p>
+  <div class="eyebrow" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--accent-deep)">REPOSITORY</div>
+  <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">fivetaku/insane-search</h1>
+  <p class="sub">차단된 공개 웹페이지를 우회 접근해 읽어오는 Claude Code 플러그인</p>
 </header>
-<nav class="tabs"><a class="on" href="./">대화 요약</a><a href="repos/">공유된 레포</a></nav>
-<section class="hero"><div class="fresh">방금 갱신 · 07-29 22:00</div><h2><a href="s/2026-07-29-2200.html">매출DB 연동에 MCP가 필요한가 · 클로드가 파일 지워버린 사례들 · 오푸스5 토큰 소모와 하네스</a></h2><div class="hmeta">234건 · 22명</div></section>
-<div class="find">
-  <input id="q" type="search" placeholder="주제 검색 — 예: 훅, MCP, 서브에이전트" disabled
-         autocomplete="off" enterkeyhint="search" aria-label="요약 검색">
-  <p class="findhint">제목과 주제에서 찾습니다. 초성 검색도 됩니다.</p>
+<div class="repo">
+<p class="rmeta"><span class="rlang">Python (Claude Code 플러그인)</span><a class="gh" href="https://github.com/fivetaku/insane-search">GitHub에서 보기 →</a></p>
+<p class="rmeta">Claude Code에서 403이나 봇 차단으로 막힌 공개 웹페이지를 읽어야 하는 사용자</p>
+<ul><li>공개 API 리더 → 동기화 게이트웨이 → TLS 위장 → 실제 헤드리스 브라우저 순으로 단계적으로 우회 시도한다</li><li>X, Reddit, YouTube, Hacker News, Naver, Coupang 등 다수 플랫폼과 공개 페이지/피드/RSS가 있는 사이트에서 동작한다</li><li>실제 브라우저의 네트워크 트래픽을 관찰해 사이트 내부 JSON API를 찾아 재사용한다</li><li>curl_cffi, yt-dlp 등 필요한 도구를 최초 사용 시 자동 설치하며 API 키나 가입이 필요 없다</li><li>로그인 월이나 페이월은 우회하지 않고 인증 필요 상태를 그대로 보고한다</li></ul>
+<p class="rmeta">설치: /plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git 후 /plugin install insane-search@gptaku-plugins</p>
 </div>
-<div id="results" hidden></div>
-<div id="browse">
-<section class="dategroup"><h2>2026-07-29</h2><article class="entry"><div class="slot">18:00</div><div><h3><a href="s/2026-07-29-1800.html">insane-search 차단 대응 · 요약봇 테스트와 아티팩트 · 워크스페이스 분할 관리</a></h3><div class="emeta">138건 · 15명</div><div class="chips"><span class="chip">지식관리 도구 조언</span><span class="chip">세션 인수인계 방법</span><span class="chip">윈도우 배포와 사용량 확인</span></div></div></article><article class="entry"><div class="slot">17:10</div><div><h3><a href="s/2026-07-29-1710.html">스레드 계정 운영 · 아침 자동화 구상 · 요약봇·개인정보</a></h3><div class="emeta">150건 · 12명</div><div class="chips"><span class="chip">완성 조건·골잡이</span><span class="chip">인세인서치·크롤링</span></div></div></article></section>
-
+<footer>봇이 README를 읽고 자동 분석한 요약입니다. 원문은 GitHub 레포를 확인하세요.</footer>
 </div>
-<footer>지피탁구 봇이 자동 생성한 요약 모음입니다. 발화 원문과 닉네임은 담지 않습니다.<br>
-요약 3건 · 정리된 발화 522건</footer>
-</div>
-<script>
-(function(){
-  var CHO='\u3131\u3132\u3134\u3137\u3138\u3139\u3141\u3142\u3143\u3145\u3146\u3147\u3148\u3149\u314a\u314b\u314c\u314d\u314e';
-  function norm(s){return s.normalize('NFC').toLowerCase().replace(/[\s\-_\u00b7\/]+/g,'');}
-  function toCho(s){var o='';for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);
-    o+=(c>=0xAC00&&c<=0xD7A3)?CHO[Math.floor((c-0xAC00)/588)]:s[i];}return o;}
-  function isCho(q){return /^[\u3131-\u314e]+$/.test(q);}
-  var input=document.getElementById('q');
-  if(!input) return;
-  var IDX=null, tmr=null;
-  fetch('data/index.json').then(function(r){return r.json();}).then(function(d){
-    IDX=d.e; input.disabled=false;
-  }).catch(function(){ /* 검색 실패해도 목록은 그대로 */ });
-  function esc(t){return String(t).replace(/[&<>"]/g,function(c){
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function render(list){
-    var host=document.getElementById('results'), base=document.getElementById('browse');
-    if(!list){host.hidden=true;base.hidden=false;host.innerHTML='';return;}
-    base.hidden=true;host.hidden=false;
-    if(!list.length){host.innerHTML='<p class="empty">찾는 내용이 없어요. 다른 말로 검색해보세요.</p>';return;}
-    var h='<div class="dategroup">';
-    list.slice(0,200).forEach(function(e){
-      var sl=e.i.slice(11), t=e.t.join(' \u00b7 ');
-      h+='<article class="entry"><div class="slot">'+e.i.slice(5,10)+' '+sl.slice(0,2)+':'+sl.slice(2)+'</div><div>'+
-         '<h3><a href="s/'+e.i+'.html">'+esc(t)+'</a></h3>'+
-         '<div class="emeta">'+e.c+'건 · '+e.s+'명</div></div></article>';
-    });
-    host.innerHTML=h+'</div>';
-  }
-  function run(){
-    if(!IDX) return;
-    var q=norm(input.value);
-    if(!q){render(null);return;}
-    var cho=isCho(q);
-    render(IDX.filter(function(e){
-      if(!e._h){e._h=norm(e.t.join(' ')+' '+(e.f||''));}
-      if(e._h.indexOf(q)>-1) return true;
-      if(cho){ if(!e._c) e._c=toCho(e._h); return e._c.indexOf(q)>-1; }
-      return false;
-    }));
-  }
-  input.addEventListener('input',function(){clearTimeout(tmr);tmr=setTimeout(run,120);});
-})();
-</script>
 </body>
 </html>
