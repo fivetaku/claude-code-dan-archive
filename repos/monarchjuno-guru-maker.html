@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>클코단 아카이브 — 공유된 레포</title>
+<title>monarchjuno/guru-maker — 클코단 레포 아카이브</title>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -85,62 +85,19 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 </head>
 <body>
 <div class="wrap">
+<nav><a href="./">&larr; 공유된 레포</a></nav>
 <header>
-  <span class="mark">지피탁구</span>
-  <h1>공유된 레포</h1>
-  <p class="sub">방에서 공유된 GitHub 레포를 자동 분석해 모아둡니다.</p>
+  <div class="eyebrow" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--accent-deep)">REPOSITORY</div>
+  <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">monarchjuno/guru-maker</h1>
+  <p class="sub">에이전트에 투자 리서치용 영속 메모리를 부여하는 도구</p>
 </header>
-<nav class="tabs"><a href="../">대화 요약</a><a class="on" href="./">공유된 레포</a></nav>
-<div class="find">
-  <input id="q" type="search" placeholder="레포 검색 — 이름·설명·언어" disabled
-         autocomplete="off" enterkeyhint="search" aria-label="레포 검색">
-  <p class="findhint">레포 이름과 설명에서 찾습니다. 초성도 됩니다.</p>
+<div class="repo">
+<p class="rmeta"><span class="rlang">Rust</span><a class="gh" href="https://github.com/monarchjuno/guru-maker">GitHub에서 보기 →</a></p>
+<p class="rmeta">Codex 또는 Claude Code로 투자 리서치를 수행하며 프로젝트별 지식을 지속적으로 축적하고 싶은 사용자</p>
+<ul><li>프로젝트 메모리를 Wiki, Lens, Evidence, Method, Decision 5종으로 구조화해 마크다운으로 저장한다.</li><li>guru-research, guru-memory, guru-decision, guru-train, guru-packs 5개의 공개 Skill을 제공한다.</li><li>리서치 결과를 재사용 가능한 Wiki로 남겨 다음 리서치가 처음부터 다시 구축하지 않도록 돕는다.</li><li>반복 사례와 반증 검토를 통과한 교훈만 Lens/Method로 승격시켜 과적합을 방지한다.</li><li>Guru Mode(auto/off) 설정으로 메모리 자동 업데이트 범위를 제어할 수 있다.</li></ul>
+<p class="rmeta">설치: Codex/Claude Code 플러그인 마켓플레이스에서 설치 후 /guru-maker:guru-memory로 프로젝트 초기화</p>
 </div>
-<div id="results" hidden></div>
-<div id="browse"><section class="dategroup"><article class="entry repo"><div><h3><a href="monarchjuno-guru-maker.html">monarchjuno/guru-maker</a></h3><div class="rmeta"><span class="rlang">Rust</span>에이전트에 투자 리서치용 영속 메모리를 부여하는 도구</div></div></article><article class="entry repo"><div><h3><a href="fivetaku-insane-search.html">fivetaku/insane-search</a></h3><div class="rmeta"><span class="rlang">Python (Claude Code 플러그인)</span>차단된 공개 웹페이지를 우회 접근해 읽어오는 Claude Code 플러그인</div></div></article><article class="entry repo"><div><h3><a href="uppinote20-claude-dashboard.html">uppinote20/claude-dashboard</a></h3><div class="rmeta"><span class="rlang">Node.js</span>Claude Code 상태줄에 AI CLI 사용량·비용 표시</div></div></article></section></div>
-<footer>방에 올라온 GitHub 링크를 봇이 자동 분석한 모음입니다. 레포 3개.</footer>
+<footer>봇이 README를 읽고 자동 분석한 요약입니다. 원문은 GitHub 레포를 확인하세요.</footer>
 </div>
-<script>
-(function(){
-  var CHO='\u3131\u3132\u3134\u3137\u3138\u3139\u3141\u3142\u3143\u3145\u3146\u3147\u3148\u3149\u314a\u314b\u314c\u314d\u314e';
-  function norm(s){return s.normalize('NFC').toLowerCase().replace(/[\s\-_\u00b7\/]+/g,'');}
-  function toCho(s){var o='';for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);
-    o+=(c>=0xAC00&&c<=0xD7A3)?CHO[Math.floor((c-0xAC00)/588)]:s[i];}return o;}
-  function isCho(q){return /^[\u3131-\u314e]+$/.test(q);}
-  var input=document.getElementById('q');
-  if(!input) return;
-  var IDX=null, tmr=null;
-  fetch('data.json').then(function(r){return r.json();}).then(function(d){
-    IDX=d.e; input.disabled=false;
-  }).catch(function(){});
-  function esc(t){return String(t).replace(/[&<>"]/g,function(c){
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function render(list){
-    var host=document.getElementById('results'), base=document.getElementById('browse');
-    if(!list){host.hidden=true;base.hidden=false;host.innerHTML='';return;}
-    base.hidden=true;host.hidden=false;
-    if(!list.length){host.innerHTML='<p class="empty">찾는 레포가 없어요.</p>';return;}
-    var h='<div class="dategroup">';
-    list.slice(0,200).forEach(function(e){
-      h+='<article class="entry repo"><div><h3><a href="'+e.i+'.html">'+esc(e.t[0])+'</a></h3>'+
-         '<div class="rmeta">'+esc(e.t[1]||'')+'</div></div></article>';
-    });
-    host.innerHTML=h+'</div>';
-  }
-  function run(){
-    if(!IDX) return;
-    var q=norm(input.value);
-    if(!q){render(null);return;}
-    var cho=isCho(q);
-    render(IDX.filter(function(e){
-      if(!e._h){e._h=norm(e.t.join(' ')+' '+(e.f||''));}
-      if(e._h.indexOf(q)>-1) return true;
-      if(cho){ if(!e._c) e._c=toCho(e._h); return e._c.indexOf(q)>-1; }
-      return false;
-    }));
-  }
-  input.addEventListener('input',function(){clearTimeout(tmr);tmr=setTimeout(run,120);});
-})();
-</script>
 </body>
 </html>
