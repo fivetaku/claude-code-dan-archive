@@ -16,9 +16,10 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 -webkit-text-size-adjust:100%}
 .mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
 
 /* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
-.wrap{max-width:740px;margin:0 auto;padding:28px 20px 88px}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
 @media(min-width:600px){.wrap{padding:44px 24px 88px}}
 header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
 font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
@@ -69,6 +70,43 @@ border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
 text-decoration:none;border:1px solid var(--line);border-radius:8px;
 padding:7px 13px;margin:0 6px 6px 0}
 .empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 </style>
@@ -78,9 +116,9 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 <header>
   <span class="mark">지피탁구</span>
   <h1>2026년 7월 요약</h1>
-  <p class="sub">이 달에 정리된 요약 3건입니다.</p>
+  <p class="sub">이 달에 정리된 요약 4건입니다.</p>
 </header>
-<div id="browse"><section class="dategroup"><h2>2026-07-29</h2><article class="entry"><div class="slot">22:00</div><div><h3><a href="../s/2026-07-29-2200.html">매출DB 연동에 MCP가 필요한가 · 클로드가 파일 지워버린 사례들 · 오푸스5 토큰 소모와 하네스</a></h3><div class="emeta">234건 · 22명</div><div class="chips"><span class="chip">Guru Maker 오픈소스 공유</span><span class="chip">OMO Native 유출 소동</span><span class="chip">요금제·구독 잡담</span><span class="chip">+1</span></div></div></article><article class="entry"><div class="slot">18:00</div><div><h3><a href="../s/2026-07-29-1800.html">insane-search 차단 대응 · 요약봇 테스트와 아티팩트 · 워크스페이스 분할 관리</a></h3><div class="emeta">138건 · 15명</div><div class="chips"><span class="chip">지식관리 도구 조언</span><span class="chip">세션 인수인계 방법</span><span class="chip">윈도우 배포와 사용량 확인</span></div></div></article><article class="entry"><div class="slot">17:10</div><div><h3><a href="../s/2026-07-29-1710.html">스레드 계정 운영 · 아침 자동화 구상 · 요약봇·개인정보</a></h3><div class="emeta">150건 · 12명</div><div class="chips"><span class="chip">완성 조건·골잡이</span><span class="chip">인세인서치·크롤링</span></div></div></article></section></div>
+<div id="browse"><section class="dategroup"><h2>2026-07-30</h2><article class="entry"><div class="slot">09:00</div><div><h3><a href="../s/2026-07-30-0900.html">스마트스토어·쿠팡 크롤링 차단 이슈 · 플러그인 레포 스타 품앗이 · insane-research 소개</a></h3><div class="emeta">220건 · 24명</div><div class="chips"><span class="chip">Opus 5 지식 컷오프 추정</span><span class="chip">젠스파크 출시 지연 &amp; CLI</span><span class="chip">클로드 서비스 장애</span><span class="chip">+5</span></div></div></article></section><section class="dategroup"><h2>2026-07-29</h2><article class="entry"><div class="slot">22:00</div><div><h3><a href="../s/2026-07-29-2200.html">매출DB 연동에 MCP가 필요한가 · 클로드가 파일 지워버린 사례들 · 오푸스5 토큰 소모와 하네스</a></h3><div class="emeta">234건 · 22명</div><div class="chips"><span class="chip">Guru Maker 오픈소스 공유</span><span class="chip">OMO Native 유출 소동</span><span class="chip">요금제·구독 잡담</span><span class="chip">+1</span></div></div></article><article class="entry"><div class="slot">18:00</div><div><h3><a href="../s/2026-07-29-1800.html">insane-search 차단 대응 · 요약봇 테스트와 아티팩트 · 워크스페이스 분할 관리</a></h3><div class="emeta">138건 · 15명</div><div class="chips"><span class="chip">지식관리 도구 조언</span><span class="chip">세션 인수인계 방법</span><span class="chip">윈도우 배포와 사용량 확인</span></div></div></article><article class="entry"><div class="slot">17:10</div><div><h3><a href="../s/2026-07-29-1710.html">스레드 계정 운영 · 아침 자동화 구상 · 요약봇·개인정보</a></h3><div class="emeta">150건 · 12명</div><div class="chips"><span class="chip">완성 조건·골잡이</span><span class="chip">인세인서치·크롤링</span></div></div></article></section></div>
 <div class="months"><a href="../">← 최근 요약으로</a></div>
 <footer>지피탁구 봇이 자동 생성한 요약 모음입니다.</footer>
 </div>
