@@ -73,6 +73,18 @@ padding:7px 13px;margin:0 6px 6px 0}
 .tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
 padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
 .tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* PC에서 레포 카탈로그는 넓게 — 여러 카드를 2~3열로 */
+.repowrap{max-width:1100px}
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
 .repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
 .repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
 background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
@@ -84,7 +96,7 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap repowrap">
 <header>
   <span class="mark">지피탁구</span>
   <h1>공유된 레포</h1>
@@ -97,7 +109,7 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
   <p class="findhint">레포 이름과 설명에서 찾습니다. 초성도 됩니다.</p>
 </div>
 <div id="results" hidden></div>
-<div id="browse"><section class="dategroup"><article class="entry repo"><div><h3><a href="Heoooooon-lazy-starter-kit.html">Heoooooon/lazy-starter-kit</a></h3><div class="rmeta"><span class="rlang">Shell/PowerShell</span>명령어 한 줄로 개발 환경을 자동 설치·검증·제거하는 스크립트</div></div></article><article class="entry repo"><div><h3><a href="fivetaku-gptaku_plugins.html">fivetaku/gptaku_plugins</a></h3><div class="rmeta">Claude Code용 웹 접근·리뷰·PRD 등 14개 플러그인 모음</div></div></article><article class="entry repo"><div><h3><a href="siteboon-claudecodeui.html">siteboon/claudecodeui</a></h3><div class="rmeta"><span class="rlang">JavaScript (React, Vite, Node.js)</span>Claude Code·Cursor CLI·Codex를 위한 데스크톱/모바일 웹 UI</div></div></article><article class="entry repo"><div><h3><a href="fivetaku-insane-search.html">fivetaku/insane-search</a></h3><div class="rmeta"><span class="rlang">Python (Claude Code 플러그인)</span>차단된 공개 웹페이지를 우회 접근해 읽어오는 Claude Code 플러그인</div></div></article><article class="entry repo"><div><h3><a href="uppinote20-claude-dashboard.html">uppinote20/claude-dashboard</a></h3><div class="rmeta"><span class="rlang">Node.js</span>Claude Code 상태줄에 AI CLI 사용량·비용 표시</div></div></article></section></div>
+<div id="browse"><div class="repogrid"><article class="entry repo"><div><h3><a href="Heoooooon-lazy-starter-kit.html">Heoooooon/lazy-starter-kit</a></h3><div class="rmeta"><span class="rlang">Shell/PowerShell</span>명령어 한 줄로 개발 환경을 자동 설치·검증·제거하는 스크립트</div></div></article><article class="entry repo"><div><h3><a href="fivetaku-gptaku_plugins.html">fivetaku/gptaku_plugins</a></h3><div class="rmeta">Claude Code용 웹 접근·리뷰·PRD 등 14개 플러그인 모음</div></div></article><article class="entry repo"><div><h3><a href="siteboon-claudecodeui.html">siteboon/claudecodeui</a></h3><div class="rmeta"><span class="rlang">JavaScript (React, Vite, Node.js)</span>Claude Code·Cursor CLI·Codex를 위한 데스크톱/모바일 웹 UI</div></div></article><article class="entry repo"><div><h3><a href="fivetaku-insane-search.html">fivetaku/insane-search</a></h3><div class="rmeta"><span class="rlang">Python (Claude Code 플러그인)</span>차단된 공개 웹페이지를 우회 접근해 읽어오는 Claude Code 플러그인</div></div></article><article class="entry repo"><div><h3><a href="uppinote20-claude-dashboard.html">uppinote20/claude-dashboard</a></h3><div class="rmeta"><span class="rlang">Node.js</span>Claude Code 상태줄에 AI CLI 사용량·비용 표시</div></div></article></div></div>
 <footer>방에 올라온 GitHub 링크를 봇이 자동 분석한 모음입니다. 레포 5개.</footer>
 </div>
 <script>
@@ -120,7 +132,7 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
     if(!list){host.hidden=true;base.hidden=false;host.innerHTML='';return;}
     base.hidden=true;host.hidden=false;
     if(!list.length){host.innerHTML='<p class="empty">찾는 레포가 없어요.</p>';return;}
-    var h='<div class="dategroup">';
+    var h='<div class="repogrid">';
     list.slice(0,200).forEach(function(e){
       h+='<article class="entry repo"><div><h3><a href="'+e.i+'.html">'+esc(e.t[0])+'</a></h3>'+
          '<div class="rmeta">'+esc(e.t[1]||'')+'</div></div></article>';
