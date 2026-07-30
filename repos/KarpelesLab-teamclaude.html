@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KarpelesLab/teamclaude — 클코단 레포 아카이브</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="./">&larr; 공유된 레포</a></nav>
+<header>
+  <div class="eyebrow" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--accent-deep)">REPOSITORY</div>
+  <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">KarpelesLab/teamclaude</h1>
+  <p class="sub">여러 Claude 계정을 쿼터 기준 자동 전환하는 프록시</p>
+</header>
+<div class="repo">
+<p class="rmeta"><span class="rlang">Node.js</span><a class="gh" href="https://github.com/KarpelesLab/teamclaude">GitHub에서 보기 →</a></p>
+<p class="rmeta">여러 Claude Max 계정으로 Claude Code를 쓰며 쿼터 소진 시 수동 전환 없이 작업을 계속하고 싶은 개발자</p>
+<ul><li>세션(5시간)·주간(7일) 쿼터가 설정된 임계값(기본 98%)에 도달하면 다음 계정으로 자동 전환한다.</li><li>429 응답을 쿼터 소진과 속도 제한으로 구분해, 속도 제한일 때는 계정을 바꾸지 않고 같은 계정에서 재시도한다.</li><li>계정 전환 직후 요청을 점진적으로 늘리는 스톰 컨트롤로 새 계정이 한꺼번에 몰려 소진되는 것을 막는다.</li><li>쿼터 바와 활동 로그를 보여주는 대화형 TUI, 헤드리스 모드, 핫리로드 계정 추가를 지원한다.</li><li>Claude 계정 외에 DeepSeek·GLM 같은 Anthropic 호환 서드파티 API도 폴백 계정으로 연결할 수 있다.</li></ul>
+<p class="rmeta">설치: npm install -g @karpeleslab/teamclaude 후 teamclaude login, teamclaude server로 실행</p>
+</div>
+<footer>봇이 README를 읽고 자동 분석한 요약입니다. 원문은 GitHub 레포를 확인하세요.</footer>
+</div>
+</body>
+</html>
