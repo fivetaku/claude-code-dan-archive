@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 7월 30일 — 대화 타임라인</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>7월 30일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>07-30 12:27~13:20</b></span>
+    <span>발화 <b>245</b></span>
+    <span>참여 <b>16</b>명</span>
+    <span>주제 <b>9</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone"><div class="spine"></div><div class="bar" style="left:2.0%;height:25px"></div><div class="bar" style="left:4.2%;height:29px"></div><div class="bar" style="left:6.4%;height:25px"></div><div class="bar" style="left:8.6%;height:37px"></div><div class="bar" style="left:10.7%;height:25px"></div><div class="bar" style="left:12.9%;height:41px"></div><div class="bar" style="left:15.1%;height:25px"></div><div class="bar" style="left:17.3%;height:21px"></div><div class="bar" style="left:19.5%;height:17px"></div><div class="bar" style="left:21.7%;height:33px"></div><div class="bar" style="left:23.9%;height:6px"></div><div class="bar" style="left:26.0%;height:6px"></div><div class="bar" style="left:28.2%;height:8px"></div><div class="bar" style="left:30.4%;height:12px"></div><div class="bar" style="left:32.6%;height:6px"></div><div class="bar" style="left:34.8%;height:6px"></div><div class="bar" style="left:37.0%;height:25px"></div><div class="bar" style="left:39.2%;height:21px"></div><div class="bar" style="left:41.3%;height:29px"></div><div class="bar" style="left:43.5%;height:21px"></div><div class="bar" style="left:45.7%;height:37px"></div><div class="bar" style="left:47.9%;height:37px"></div><div class="bar" style="left:50.1%;height:21px"></div><div class="bar" style="left:52.3%;height:6px"></div><div class="bar" style="left:54.5%;height:17px"></div><div class="bar" style="left:56.7%;height:21px"></div><div class="bar" style="left:58.8%;height:17px"></div><div class="bar" style="left:61.0%;height:33px"></div><div class="bar peak" style="left:63.2%;height:54px"></div><div class="bar" style="left:65.4%;height:29px"></div><div class="bar" style="left:67.6%;height:25px"></div><div class="bar" style="left:69.8%;height:37px"></div><div class="bar" style="left:72.0%;height:12px"></div><div class="bar" style="left:74.1%;height:25px"></div><div class="bar peak" style="left:76.3%;height:58px"></div><div class="bar" style="left:78.5%;height:12px"></div><div class="bar" style="left:80.7%;height:25px"></div><div class="bar" style="left:82.9%;height:21px"></div><div class="bar" style="left:85.1%;height:21px"></div><div class="bar" style="left:87.3%;height:29px"></div><div class="bar" style="left:89.4%;height:12px"></div><div class="bar" style="left:91.6%;height:21px"></div><div class="bar" style="left:93.8%;height:33px"></div><div class="bar" style="left:96.0%;height:6px"></div><div class="lbl" style="left:2.0%">12:27</div><div class="lbl" style="left:17.3%">12:34</div><div class="lbl" style="left:32.6%">12:49</div><div class="lbl" style="left:47.9%">12:56</div><div class="peaktag" style="left:63.2%;bottom:62px">13:03 · 13건</div><div class="lbl" style="left:63.2%">13:03</div><div class="peaktag" style="left:76.3%;bottom:66px">13:09 · 14건</div><div class="lbl" style="left:78.5%">13:11</div><div class="lbl" style="left:93.8%">13:18</div><div class="lbl" style="left:96.0%">13:20</div><div class="rib up" style="left:41.3%"><div class="stem"></div><div class="ribcard"><div class="t">12:53-13:11</div><h3>프롬프트 인젝션·블랙리스트</h3></div></div><div class="rib dn" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">13:13-13:20</div><h3>키로(Kiro) 활용 워크플로우</h3></div></div><div class="rib up" style="left:12.9%"><div class="stem"></div><div class="ribcard"><div class="t">12:32-12:36</div><h3>네이버 API 정책 변화</h3></div></div><div class="rib dn" style="left:37.0%"><div class="stem"></div><div class="ribcard"><div class="t">12:51-12:53</div><h3>봇 알림 차단 방법</h3></div></div><div class="rib up" style="left:65.4%"><div class="stem"></div><div class="ribcard"><div class="t">13:04-13:09</div><h3>봇 커스텀 명령어 소개</h3></div></div><div class="rib dn" style="left:65.4%"><div class="stem"></div><div class="ribcard"><div class="t">13:04-13:06</div><h3>문서 정리 워크플로우 제안</h3></div></div><div class="rib up" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">13:13-13:17</div><h3>코딩 AI 모델 비교(솔·오퍼스)</h3></div></div><div class="rib dn" style="left:4.2%"><div class="stem"></div><div class="ribcard"><div class="t">12:28-13:03</div><h3>봇 답글 기능 버그</h3></div></div><div class="rib up" style="left:8.6%"><div class="stem"></div><div class="ribcard"><div class="t">12:30-13:08</div><h3>이미지·영상 기능 차단</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">12:53-13:11</div><h2>프롬프트 인젝션·블랙리스트</h2><p class="sum">일부 참가자가 봇을 상대로 세션ID, GPS, UUID 요청 등 다양한 프롬프트 인젝션을 시도함. 방장은 인젝션 시도가 3회 이상 감지되면 자동으로 블랙리스트에 등록되도록 설계했다고 밝혔고, 실제로 시도자가 차단됨을 확인함. 닉네임을 바꿔도 내부 키값은 동일해 차단이 유지된다는 점도 공유됨. 예전에 타 부서에서 sLLM 레드팀 테스트로 인젝션을 뚫어 부적절한 콘텐츠를 생성시킨 사례도 언급됨.</p><ul><li>세션ID·GPS·UUID 등을 캐내려는 인젝션 시도가 다수 있었음</li><li>인젝션 3회 이상 감지 시 자동 블랙리스트 등록되는 가드레일 존재</li><li>닉네임을 바꿔도 내부 식별 키값은 동일해 차단이 유지됨</li><li>사용자 적을 때 미리 레드팀 테스트를 해볼 수 있어 유용했다는 평가</li><li>과거 사내 sLLM 레드팀에서 인젝션으로 부적절한 콘텐츠 생성된 사례 공유</li></ul></article><article class="dcard"><div class="t">13:13-13:20</div><h2>키로(Kiro) 활용 워크플로우</h2><p class="sum">AWS의 AI 에이전트 IDE 키로(Kiro)를 쓰는 참가자가 사용 후기를 공유함. 주간 시간 제한이 없고 병렬 처리 시 5천 크레딧을 다 못 쓸 정도로 여유가 있어 평소 해보고 싶던 알고리즘 개발을 맡겼다고 함. 기획→개발→리뷰(1,2,3 병렬)→개선점분석으로 이어지는 사이클이 효과적이라는 팁이 공유됐고, 다만 웹 버전은 6시간짜리 세션에 들어가면 500분 전 대화내역을 전부 다시 불러오는 버그가 있어 불편하다는 불만도 나옴.</p><ul><li>키로는 주간 시간 제한이 없고 병렬 처리 크레딧(5천)도 여유로움</li><li>여유 크레딧으로 평소 해보고 싶던 알고리즘 개발을 시도</li><li>기획→개발→병렬 리뷰(3개)→개선점 분석 사이클이 효과적이라는 팁 공유</li><li>웹 버전은 오래된 세션 재접속 시 대화내역을 처음부터 다시 불러오는 버그가 있음</li></ul></article><article class="dcard"><div class="t">12:32-12:36</div><h2>네이버 API 정책 변화</h2><p class="sum">네이버쇼핑 셀러 API가 특정 시점 이후 신규 가입자에게는 제공되지 않는다는 정보 공유. 네이버 검색 API도 제공을 중단하고 클라우드 유료 서비스로 전환되는 분위기라는 이야기가 이어짐. 현금영수증 자동발행 등 기존 자동화 업무에 지장이 생길 수 있다는 우려가 나옴.</p><ul><li>네이버쇼핑 셀러 API는 특정 시점 이전 가입자에게만 계속 제공</li><li>신규 가입자는 이상한 어드민을 거쳐야 하고 API 제공 불가</li><li>네이버 검색 API도 중단 후 유료 클라우드 서비스로 전환 추정</li><li>현금영수증 자동발행 등 기존 자동화 업무 차질 우려</li></ul></article><article class="dcard"><div class="t">12:51-12:53</div><h2>봇 알림 차단 방법</h2><p class="sum">봇 답변 알림이 폰에 계속 뜨는 게 불편하다는 질문에, 봇 계정을 눌러 차단하면 된다는 답이 나옴. 키워드 알림 설정으로 대체하는 방법도 언급됨. 간단한 안내로 바로 해결됨.</p><ul><li>봇 답변 알림이 계속 떠서 차단 방법 문의</li><li>봇 계정을 직접 눌러 차단하면 알림이 사라짐</li><li>키워드 알림 기능으로 대체 설정하는 방법도 안내됨</li></ul></article><article class="dcard"><div class="t">13:04-13:09</div><h2>봇 커스텀 명령어 소개</h2><p class="sum">봇에 .하이닉스, .한강수온, .요약 등 커스텀 명령어가 있다는 게 알려짐. 한강 수온 명령어는 실제로 정상 작동해 실시간 데이터를 출력함. 다만 주식(하이닉스)과 요약 명령어는 남용을 우려해 방장이 이미 막아둔 상태로 확인됨.</p><ul><li>.한강수온 명령어는 실시간 서울시 수질측정망 데이터를 정상 출력</li><li>.하이닉스(주식) 명령어는 마음이 아파서 막아뒀다고 함</li><li>.요약 명령어도 전날 저녁 남용 때문에 비활성화됨</li><li>URL 요약 등 특정 사용자에게는 의도적으로 응답을 막아둔 경우도 있음</li></ul></article><article class="dcard"><div class="t">13:04-13:06</div><h2>문서 정리 워크플로우 제안</h2><p class="sum">한 참가자가 파편화된 프로젝트 문서를 오전 내내 재정비했다고 공유함. 다른 참가자가 섹션을 나누고 state machine으로 플로우를 그린 뒤 시퀀스 다이어그램으로 설명하는 방식을 제안함. 제안받은 쪽은 정확한 개념은 몰라도 일단 그대로 시도해보겠다고 답함.</p><ul><li>파편화된 프로젝트 문서를 재정비하는 작업 진행 중</li><li>섹션 분리 후 state machine으로 플로우를 시각화하는 방법 제안</li><li>시퀀스 다이어그램으로 보완 설명하는 방식도 함께 제안됨</li><li>제안받은 참가자는 개념을 정확히 몰라도 일단 적용해보기로 함</li></ul></article><article class="dcard"><div class="t">13:13-13:17</div><h2>코딩 AI 모델 비교(솔·오퍼스)</h2><p class="sum">리셋 주기, Opus 위주 사용 경험, 페이블(Claude Fable) 성능 저하 논란 등 여러 모델 사용 후기가 오감. 서브에이전트를 솔로 여러 개 돌리면 rate limit에 걸려 멈춘다는 경험담이 공유됨. 서브에이전트는 두세 개 정도까지만 병렬로 돌리는 게 안정적이라는 결론으로 모아짐.</p><ul><li>8월 1일 새벽 리셋을 앞두고 사용량 상황 공유</li><li>그동안 Opus 위주로 쓰다가 다른 모델(솔)로 전환해보는 중</li><li>페이블(Claude Fable) 성능 저하 논란이 있었다는 언급</li><li>서브에이전트를 다수 병렬 실행하면 rate limit로 실패, 2~3개가 적정선</li></ul></article><article class="dcard"><div class="t">12:28-13:03</div><h2>봇 답글 기능 버그</h2><p class="sum">방장 미니미 봇에게 카톡 답글(댓글) 형식으로 응답을 유도하는 테스트가 이어짐. 우클릭 후 댓글을 눌러야 하는데도 답글 형식 응답 자체는 계속 실패로 확인됨. 여러 차례 재시도했지만 끝내 안 되는 것으로 정리됨.</p><ul><li>답글(댓글)로 응답받기를 여러 명이 시도했으나 실패</li><li>우클릭 후 댓글 메뉴를 이용해야 한다는 팁 공유</li><li>카톡 답글 UI와 봇 응답 방식이 호환되지 않는 것으로 추정</li></ul></article><article class="dcard"><div class="t">12:30-13:08</div><h2>이미지·영상 기능 차단</h2><p class="sum">방장이 봇의 이미지·영상 처리 기능은 악용 방지를 위해 막아뒀다고 밝힘. 사용자들이 몰려 테스트하면서 방장이 의도치 않은 스트레스테스트 상황이라고 언급. 계정 정지 우려와 카카오의 최근 API 단속 강화 분위기도 함께 언급됨.</p><ul><li>이미지·영상 기능은 악용 방지 목적으로 비활성화 상태</li><li>다수 인원의 동시 테스트로 봇에 트래픽 부하 발생</li><li>부계정 정지 가능성과 신고 리스크에 대한 우려 공유</li><li>카카오가 최근 자동화/API성 활동을 강하게 단속하는 추세라는 의견</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-07-30-1330</span>
+</footer>
+</div>
+</body>
+</html>
