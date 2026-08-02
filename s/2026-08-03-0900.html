@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 8월 3일 — 대화 타임라인</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 3일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-02 15:08~08-03 08:10</b></span>
+    <span>발화 <b>202</b></span>
+    <span>참여 <b>40</b>명</span>
+    <span>주제 <b>16</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone"><div class="spine"></div><div class="bar" style="left:2.0%;height:11px"></div><div class="bar" style="left:3.0%;height:21px"></div><div class="bar" style="left:3.9%;height:6px"></div><div class="bar" style="left:4.9%;height:6px"></div><div class="bar" style="left:5.9%;height:26px"></div><div class="bar" style="left:6.8%;height:6px"></div><div class="bar" style="left:7.8%;height:11px"></div><div class="bar" style="left:8.8%;height:6px"></div><div class="bar" style="left:9.8%;height:6px"></div><div class="bar" style="left:10.7%;height:6px"></div><div class="bar" style="left:11.7%;height:6px"></div><div class="bar" style="left:12.7%;height:6px"></div><div class="bar" style="left:13.6%;height:11px"></div><div class="bar" style="left:14.6%;height:6px"></div><div class="bar" style="left:15.6%;height:6px"></div><div class="bar" style="left:16.5%;height:6px"></div><div class="bar" style="left:17.5%;height:21px"></div><div class="bar" style="left:18.5%;height:6px"></div><div class="bar" style="left:19.4%;height:16px"></div><div class="bar" style="left:20.4%;height:6px"></div><div class="bar" style="left:21.4%;height:6px"></div><div class="bar" style="left:22.4%;height:21px"></div><div class="bar" style="left:23.3%;height:6px"></div><div class="bar" style="left:24.3%;height:11px"></div><div class="bar" style="left:25.3%;height:11px"></div><div class="bar" style="left:26.2%;height:6px"></div><div class="bar" style="left:27.2%;height:6px"></div><div class="bar" style="left:28.2%;height:11px"></div><div class="bar" style="left:29.1%;height:6px"></div><div class="bar" style="left:30.1%;height:6px"></div><div class="bar" style="left:31.1%;height:11px"></div><div class="bar" style="left:32.0%;height:6px"></div><div class="bar" style="left:33.0%;height:11px"></div><div class="bar" style="left:34.0%;height:6px"></div><div class="bar" style="left:34.9%;height:21px"></div><div class="bar" style="left:35.9%;height:6px"></div><div class="bar" style="left:36.9%;height:11px"></div><div class="bar peak" style="left:37.9%;height:47px"></div><div class="bar" style="left:38.8%;height:26px"></div><div class="bar" style="left:39.8%;height:6px"></div><div class="bar" style="left:40.8%;height:6px"></div><div class="bar" style="left:41.7%;height:6px"></div><div class="bar" style="left:42.7%;height:16px"></div><div class="bar" style="left:43.7%;height:6px"></div><div class="bar" style="left:44.6%;height:6px"></div><div class="bar" style="left:45.6%;height:6px"></div><div class="bar" style="left:46.6%;height:6px"></div><div class="bar" style="left:47.5%;height:6px"></div><div class="bar" style="left:48.5%;height:6px"></div><div class="bar" style="left:49.5%;height:6px"></div><div class="bar" style="left:50.5%;height:6px"></div><div class="bar" style="left:51.4%;height:6px"></div><div class="bar" style="left:52.4%;height:11px"></div><div class="bar" style="left:53.4%;height:6px"></div><div class="bar" style="left:54.3%;height:6px"></div><div class="bar" style="left:55.3%;height:6px"></div><div class="bar" style="left:56.3%;height:6px"></div><div class="bar" style="left:57.2%;height:6px"></div><div class="bar" style="left:58.2%;height:6px"></div><div class="bar" style="left:59.2%;height:6px"></div><div class="bar" style="left:60.1%;height:6px"></div><div class="bar" style="left:61.1%;height:11px"></div><div class="bar" style="left:62.1%;height:11px"></div><div class="bar" style="left:63.1%;height:11px"></div><div class="bar" style="left:64.0%;height:6px"></div><div class="bar" style="left:65.0%;height:11px"></div><div class="bar" style="left:66.0%;height:16px"></div><div class="bar" style="left:66.9%;height:6px"></div><div class="bar" style="left:67.9%;height:32px"></div><div class="bar" style="left:68.9%;height:11px"></div><div class="bar" style="left:69.8%;height:6px"></div><div class="bar" style="left:70.8%;height:6px"></div><div class="bar" style="left:71.8%;height:6px"></div><div class="bar" style="left:72.7%;height:16px"></div><div class="bar" style="left:73.7%;height:6px"></div><div class="bar" style="left:74.7%;height:6px"></div><div class="bar" style="left:75.6%;height:6px"></div><div class="bar" style="left:76.6%;height:6px"></div><div class="bar" style="left:77.6%;height:6px"></div><div class="bar" style="left:78.6%;height:11px"></div><div class="bar" style="left:79.5%;height:32px"></div><div class="bar peak" style="left:80.5%;height:58px"></div><div class="bar" style="left:81.5%;height:32px"></div><div class="bar" style="left:82.4%;height:26px"></div><div class="bar" style="left:83.4%;height:26px"></div><div class="bar" style="left:84.4%;height:37px"></div><div class="bar" style="left:85.3%;height:6px"></div><div class="bar" style="left:86.3%;height:16px"></div><div class="bar" style="left:87.3%;height:11px"></div><div class="bar" style="left:88.2%;height:16px"></div><div class="bar" style="left:89.2%;height:6px"></div><div class="bar" style="left:90.2%;height:6px"></div><div class="bar" style="left:91.2%;height:16px"></div><div class="bar" style="left:92.1%;height:11px"></div><div class="bar" style="left:93.1%;height:16px"></div><div class="bar" style="left:94.1%;height:21px"></div><div class="bar" style="left:95.0%;height:6px"></div><div class="bar" style="left:96.0%;height:6px"></div><div class="lbl" style="left:2.0%">00:10</div><div class="lbl" style="left:17.5%">00:30</div><div class="lbl" style="left:33.0%">08:03</div><div class="peaktag" style="left:37.9%;bottom:55px">15:09 · 9건</div><div class="lbl" style="left:48.5%">17:03</div><div class="lbl" style="left:64.0%">19:53</div><div class="lbl" style="left:79.5%">22:00</div><div class="peaktag" style="left:80.5%;bottom:66px">22:01 · 11건</div><div class="lbl" style="left:95.0%">23:54</div><div class="lbl" style="left:96.0%">23:55</div><div class="rib up" style="left:29.1%"><div class="stem"></div><div class="ribcard"><div class="t">07:23-08:10</div><h3>카톡 챗봇 만드는 법</h3></div></div><div class="rib dn" style="left:36.9%"><div class="stem"></div><div class="ribcard"><div class="t">15:08-15:14</div><h3>지피탁구 정체 발각</h3></div></div><div class="rib up" style="left:66.9%"><div class="stem"></div><div class="ribcard"><div class="t">20:05-20:09</div><h3>텔레그램 알람 설정 팁</h3></div></div><div class="rib dn" style="left:68.9%"><div class="stem"></div><div class="ribcard"><div class="t">20:09-20:33</div><h3>가재코드·모바일 tmux 뷰어</h3></div></div><div class="rib up" style="left:75.6%"><div class="stem"></div><div class="ribcard"><div class="t">20:36-22:13</div><h3>클코 Max 다중계정 운영</h3></div></div><div class="rib dn" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">22:00-22:11</div><h3>사용량 급감·캐싱 버그 논의</h3></div></div><div class="rib up" style="left:50.5%"><div class="stem"></div><div class="ribcard"><div class="t">17:43-19:49</div><h3>클코 사용량 급소진 불만</h3></div></div><div class="rib dn" style="left:63.1%"><div class="stem"></div><div class="ribcard"><div class="t">19:52-20:01</div><h3>Orca 사용 후기</h3></div></div><div class="rib up" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">23:47-00:14</div><h3>윤자동 강의 고수익 화제</h3></div></div><div class="rib dn" style="left:53.4%"><div class="stem"></div><div class="ribcard"><div class="t">18:33-18:36</div><h3>젠스파크 세컨브레인노트 문의</h3></div></div><div class="rib up" style="left:2.0%"><div class="stem"></div><div class="ribcard"><div class="t">00:10-00:36</div><h3>지피탁구 캐릭터 놀이·수익화 잡담</h3></div></div><div class="rib dn" style="left:23.3%"><div class="stem"></div><div class="ribcard"><div class="t">00:44-00:46</div><h3>온라인 광고시장 진입 질문</h3></div></div><div class="rib up" style="left:26.2%"><div class="stem"></div><div class="ribcard"><div class="t">00:53-00:53</div><h3>Claude guest pass 질문</h3></div></div><div class="rib dn" style="left:27.2%"><div class="stem"></div><div class="ribcard"><div class="t">07:16-07:23</div><h3>오픈소스 좀비 스타 논의</h3></div></div><div class="rib up" style="left:43.7%"><div class="stem"></div><div class="ribcard"><div class="t">15:26-21:03</div><h3>신규 멤버 인사</h3></div></div><div class="rib dn" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">22:20-22:20</div><h3>/context 명령 점검</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">07:23-08:10</div><h2>카톡 챗봇 만드는 법</h2><p class="sum">지피탁구 같은 카카오톡 챗봇을 어떻게 만들고 운영하는지 질문이 나왔다. 여분 계정을 만들어 미사용 모바일 기기에 카톡을 설치·로그인해 운용하고, 기기에 쌓이는 채팅 로그 데이터에 특정 트리거 문자열(예: &#x27;탁구야&#x27;)이 감지되면 AI에 요청을 던진 뒤 응답을 다시 채팅방에 전송하는 구조라는 설명이 나왔다. quick reply나 loco 방식 중 하나를 쓸 거라는 언급도 있었고, 실제 트리거는 &#x27;%탁구ya%&#x27; 형태로 보인다는 관찰도 나왔다.</p><ul><li>여분 계정 + 미사용 모바일 기기로 챗봇 운용</li><li>채팅 로그에 트리거 문자열 감지 → AI 호출 → 답변 전송 구조</li><li>quick reply 또는 loco 방식 중 하나 사용 추정</li><li>실제 트리거는 &#x27;%탁구ya%&#x27; 패턴으로 보임</li></ul></article><article class="dcard"><div class="t">15:08-15:14</div><h2>지피탁구 정체 발각</h2><p class="sum">지피탁구가 자동으로 답장하는 AI 봇이라는 걸 방 사람들이 알아채고 신기해했다. 말투까지 원본(지피타쿠)과 비슷하게 튜닝되어 있다는 게 밝혀졌다. 운영자가 소넷으로 요약을 4번 돌리는 비용이 하루 약 6천원이라고 언급했다. 방법을 팔면 얼마에 팔릴지 등 농담 섞인 반응이 이어졌다.</p><ul><li>지피탁구가 자동 답장 AI 봇임을 다수가 알아챔</li><li>말투를 원본 캐릭터와 비슷하게 넣어놨다는 설명</li><li>소넷 기준 요약 4회 = 하루 약 6천원 비용</li><li>봇 제작 방법을 판매하면 어떨지 농담</li></ul></article><article class="dcard"><div class="t">20:05-20:09</div><h2>텔레그램 알람 설정 팁</h2><p class="sum">모바일 환경에서는 작업 완료 후 답변 알람이 안 오는 문제가 있어, 텔레그램 봇 알람을 따로 설정해두면 좋다는 팁이 공유됐다. 이 방법은 가재코드를 쓰다가 알게 된 것이라고 언급했다.</p><ul><li>모바일에서는 작업완료 알람이 기본으로 안 옴</li><li>텔레그램 봇 알람을 별도로 설정하는 방법 공유</li><li>가재코드 사용 중 알게 된 팁이라고 출처 언급</li></ul></article><article class="dcard"><div class="t">20:09-20:33</div><h2>가재코드·모바일 tmux 뷰어</h2><p class="sum">가재코드가 어떤지, 다른 도구(에르메스)보다 대화하기 좋은지 묻는 질문이 나왔다. 세세하게 직접 설정하고 싶은 사람에게 추천한다는 의견이 있었다. 모바일에서 쓸 경우를 위해 tmux 세션을 볼 수 있는 chatmux라는 깃허브 프로젝트가 소개됐다.</p><ul><li>가재코드 vs 다른 코딩 에이전트 비교 질문</li><li>세밀하게 직접 세팅하려는 사람에게 추천된다는 의견</li><li>모바일에서 tmux 세션을 보는 chatmux 프로젝트 공유</li><li><a href="https://github.com/devswha/chatmux">https://github.com/devswha/chatmux</a></li></ul></article><article class="dcard"><div class="t">20:36-22:13</div><h2>클코 Max 다중계정 운영</h2><p class="sum">Max20 하나로는 부족해 계정을 추가로 운영하려는데 관련 팁이나 정보가 부족하다는 질문이 나왔다. 이후 방에 아카이빙된 자료 중 &#x27;팀클로드&#x27;라는 프로젝트를 확인해보라는 답이 왔고, 질문자가 실제로 해당 깃허브 저장소를 찾아 설치까지 완료했다고 후기를 남겼다.</p><ul><li>Max20 계정 하나로 부족해 추가 계정 운영 팁 문의</li><li>방 아카이빙 자료 중 &#x27;팀클로드&#x27; 프로젝트 안내</li><li>질문자가 해당 깃허브 저장소를 찾아 설치 완료</li><li><a href="https://github.com/jung-wan-kim/teamclaude">https://github.com/jung-wan-kim/teamclaude</a></li></ul></article><article class="dcard"><div class="t">22:00-22:11</div><h2>사용량 급감·캐싱 버그 논의</h2><p class="sum">평소보다 사용량이 3~4배 빨리 닳는다는 불만이 나왔고, 프롬프트 캐싱 방식이 최근 바뀐 뒤 첫 버전이라 버그일 수 있다는 추측이 나왔다. 클로드가 요청을 이해하기 위해 이전 대화 세션이나 워크스페이스 문서를 추가로 읽어들이는 경우가 있어 토큰이 더 소모될 수 있다는 설명도 있었다. 인세인리서치라는 작업을 쓸 때 토큰 소모가 크다는 얘기와, 실제로는 리서치보다 다른 작업이 더 많이 먹었다는 후기, 대화 세션 자체를 검토시켜 토큰 사용 내역을 물어보면 잘 알려준다는 팁이 공유됐다.</p><ul><li>사용량이 평소보다 3~4배 빨리 소진된다는 불만</li><li>프롬프트 캐싱 방식 변경 직후라 버그 가능성 제기</li><li>요청 이해를 위해 이전 세션·워크스페이스 문서를 추가로 읽는 경우가 있음</li><li>인세인리서치 작업은 토큰 소모가 큼(오퍼스 대신 소넷 권장)</li><li>대화 세션을 검토시켜 토큰 사용 내역을 확인하는 팁 공유</li></ul></article><article class="dcard"><div class="t">17:43-19:49</div><h2>클코 사용량 급소진 불만</h2><p class="sum">Pro 요금제로 찍먹하려던 사람이 하루 사용량이 너무 빨리 닳는다고 토로했고, 결국 Max 결제를 권유받았다. Pro는 사실상 무료 체험판이고 유료는 Max부터라는 정리가 나왔다. GPT와 클로드를 둘 다 결제했다는 사람도 있었다.</p><ul><li>Pro 구독으로는 하루 사용량이 금방 소진됨</li><li>Pro는 무료판 취급, 실질 유료는 Max부터라는 공감대</li><li>GPT·클로드 둘 다 결제한 사례 공유</li></ul></article><article class="dcard"><div class="t">19:52-20:01</div><h2>Orca 사용 후기</h2><p class="sum">한 멤버가 Orca를 처음 써보고 만족스럽다는 후기를 남겼다. 에이전트 대시보드와 모바일 사용 경험이 좋다고 평가했고, 다른 멤버가 주로 어떤 기능을 쓰는지 물었다.</p><ul><li>Orca를 처음 사용해보고 만족감 표현</li><li>에이전트 대시보드·모바일 사용성이 특히 좋다는 평가</li></ul></article><article class="dcard"><div class="t">23:47-00:14</div><h2>윤자동 강의 고수익 화제</h2><p class="sum">한 멤버(윤자동)가 300만원짜리 강의를 팔아 짧은 시간에 큰 매출을 올렸다는 소식에 다들 놀라워했다. 3시간만에 1억, 1시간만에 1.4억을 벌었다는 이야기가 나오며 실행력에 대한 감탄이 이어졌다. 관련 영상은 이미 비공개 처리된 상태였다.</p><ul><li>300만원 강의로 짧은 시간에 고매출 달성 소식</li><li>3시간 1억, 1시간 1.4억 매출 언급</li><li>관련 영상은 이미 비공개 처리됨</li></ul></article><article class="dcard"><div class="t">18:33-18:36</div><h2>젠스파크 세컨브레인노트 문의</h2><p class="sum">한 멤버가 젠스파크 세컨브레인노트를 써본 사람이 있는지, 품질이 어땠는지 물었다. 별다른 답변 없이 반응만 짧게 오갔다.</p><ul><li>젠스파크 세컨브레인노트 사용 경험 질문</li><li>구체적인 답변은 이어지지 않음</li></ul></article><article class="dcard"><div class="t">00:10-00:36</div><h2>지피탁구 캐릭터 놀이·수익화 잡담</h2><p class="sum">윤자동 강의 얘기에 자극받아 운영자가 지피탁구에게 장난스럽게 돈 벌 방법을 캐물었는데, 봇이 매번 회피성 답변만 내놓아 다들 재밌어했다. MBTI T/J 드립도 섞였다. 운영자는 지피탁구용 스레드 계정을 만들어 클코단 내용을 올려볼지 고민을 공유했고, 봇 조련(길들이기) 노하우를 강의로 팔면 어떨지 농담이 오갔다.</p><ul><li>봇에게 돈 벌 방법을 물었으나 계속 회피성 답변만 함</li><li>지피탁구용 스레드 계정 개설, 클코단 내용 업로드 구상</li><li>봇 조련 노하우를 원데이 클래스·강의로 팔면 어떨지 농담</li><li>MBTI T/J 드립 등 캐릭터 놀이 이어짐</li><li><a href="https://www.threads.com/@gptaggu">https://www.threads.com/@gptaggu</a></li></ul></article><article class="dcard"><div class="t">00:44-00:46</div><h2>온라인 광고시장 진입 질문</h2><p class="sum">아마존·쿠팡 같은 온라인 광고시장에 어떻게 접근해야 하는지 봇에게 질문했는데, 봇이 엉뚱한 자료(도서관 통계 등)를 검색결과로 내놓아 질문자가 의도를 다시 정정했다.</p><ul><li>아마존·쿠팡 등 온라인 광고시장 접근 방법 질문</li><li>봇이 무관한 검색결과를 내놓아 질문자가 의도를 재설명</li></ul></article><article class="dcard"><div class="t">00:53-00:53</div><h2>Claude guest pass 질문</h2><p class="sum">Claude에서 guest pass 3장을 준다는 게 무슨 의미인지 묻는 질문이 있었으나 답변은 이어지지 않았다.</p><ul><li>Claude guest pass 3장 지급 관련 의미 문의</li></ul></article><article class="dcard"><div class="t">07:16-07:23</div><h2>오픈소스 좀비 스타 논의</h2><p class="sum">가만히 놔둬도 스타가 알아서 쌓이는 &#x27;좀비 스타&#x27; 프로젝트 현상에 대한 얘기가 나왔다. 결국 프로젝트에 중요한 건 스타 수보다 실제 컨트리뷰터라는 의견이 나왔다.</p><ul><li>방치해도 스타가 쌓이는 &#x27;좀비 스타&#x27; 현상 언급</li><li>프로젝트 가치는 스타 수보다 컨트리뷰터라는 의견</li></ul></article><article class="dcard"><div class="t">15:26-21:03</div><h2>신규 멤버 인사</h2><p class="sum">새로 들어온 멤버 여러 명이 순차적으로 자기소개를 했다. 데스크톱앱 개발자, 최근 클코를 처음 써봤다는 사람, 해커톤 교육에서 만난 사람 등 다양한 배경이 섞여 있었다.</p><ul><li>데스크톱앱 개발자가 에이전트 사용에 관심 있어 합류</li><li>클코를 최근 처음 써본 신규 멤버 인사</li><li>해커톤 교육에서 만난 인연으로 합류한 멤버도 있음</li></ul></article><article class="dcard"><div class="t">22:20-22:20</div><h2>/context 명령 점검</h2><p class="sum">한 멤버가 /context 명령으로 일차 점검을 해봤다고 짧게 언급했다.</p><ul><li>/context 명령으로 상태를 간단히 확인</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-03-0900</span>
+</footer>
+</div>
+</body>
+</html>
