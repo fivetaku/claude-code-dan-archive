@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드 코드로 전자세금계산서를 자동 발행하려는 1인 사업자·프리랜서를 위해 볼타와 팝빌의 차이, CLI·API 방식의 실체, 사업자 등록 전 유의점을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/ai-tax-invoice-automation-bolta-popbill.html">
+<meta property="og:title" content="세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌">
+<meta property="og:description" content="클로드 코드로 전자세금계산서를 자동 발행하려는 1인 사업자·프리랜서를 위해 볼타와 팝빌의 차이, CLI·API 방식의 실체, 사업자 등록 전 유의점을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/ai-tax-invoice-automation-bolta-popbill.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌", "description": "클로드 코드로 전자세금계산서를 자동 발행하려는 1인 사업자·프리랜서를 위해 볼타와 팝빌의 차이, CLI·API 방식의 실체, 사업자 등록 전 유의점을 정리했다.", "datePublished": "2026-08-03", "dateModified": "2026-08-03", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/ai-tax-invoice-automation-bolta-popbill.html"}, "articleSection": "도구·라이브러리", "keywords": "볼타, 팝빌, 전자세금계산서, 클로드 코드, 사업자등록, 세무 자동화"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드 코드로 전자세금계산서를 자동 발행할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "볼타가 제공하는 CLI를 통해 API 키를 한 번 등록하면, 클로드 등 AI 에이전트에 자연어로 요청해 발행·조회·수정을 처리할 수 있다. 팝빌은 REST API 형태라 별도 개발 없이 AI가 직접 명령을 실행하는 구조는 확인되지 않는다."}}, {"@type": "Question", "name": "볼타와 팝빌 중 비개발자에게 더 쉬운 서비스는?", "acceptedAnswer": {"@type": "Answer", "text": "볼타는 웹 화면·엑셀 업로드에 더해 AI 연동 CLI까지 제공해 코드를 몰라도 접근할 수 있다. 팝빌은 개발자용 API·SDK 중심으로 설계돼 있어 연동을 위해서는 개발 리소스나 팝빌 연동 프로그램이 필요하다."}}, {"@type": "Question", "name": "사업자 등록 없이도 세금계산서를 받을 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "사업자 등록이 안 된 프리랜서는 세금계산서를 발행할 수 없고, 거래처가 용역비의 3.3%를 원천징수한다. 세금계산서를 발행하려면 사업자 등록을 먼저 마쳐야 하며, 이후 부가세·종합소득세 신고 의무가 함께 발생한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-tax-invoice-automation-bolta-popbill.png" alt="세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</h1>
+  <p class="sub">클로드 코드로 세금계산서를 자동 발행할 수 있을까 — 비개발자 기준 볼타·팝빌 비교와 사업자 등록의 함정</p>
+  <div class="meta"><span>2026-08-03</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>1인 사업자와 프리랜서 사이에서 &quot;클로드 코드로 세금계산서 발행까지 자동화할 수 있느냐&quot;는 질문이 늘고 있다. 반복되는 홈택스 로그인과 수기 입력에 지친 사용자들이 AI 에이전트에게 회계 실무를 맡기려 하면서, 전자세금계산서 서비스 중 어디가 AI 연동에 적합한지가 실질적인 선택 기준으로 떠올랐다. 클코단 오픈채팅방에서도 볼타(Bolta)와 팝빌(Popbill) 중 비개발자가 다루기 쉬운 쪽이 어디인지를 묻는 질문이 이어졌다.</p>
+<h2>볼타: 홈택스 연동 SaaS에서 AI 연동 CLI까지</h2>
+<p>볼타는 볼타코퍼레이션이 2023년 선보인 전자세금계산서 발행·관리 SaaS다. 국세청 홈택스와 직접 연동돼 발행과 국세청 전송이 한 번에 끝나며, 웹 화면에서 직접 입력하거나 엑셀 대량 업로드(최대 3,000건)로 처리할 수 있다. 볼타 측에 따르면 2024년 7월 약 400개였던 이용 고객사가 2025년 약 5,000개로 늘었다고 밝힌 바 있다.</p>
+<p>볼타는 최근 CLI(Command Line Interface) 도구를 통해 클로드나 챗GPT 같은 AI 에이전트와 직접 연동하는 방식을 내놓았다. 개발자센터에서 발급받은 API 키를 CLI에 한 번 등록해두면, 이후로는 터미널 명령어 없이 &quot;주식회사 베타에 4월분 세금계산서 발행해줘, 품목은 SaaS 이용료, 공급가액 200만 원&quot; 같은 자연어 요청만으로 AI가 명령을 해석해 실행한다. 거래처 정보가 저장되기 때문에 다음 달부터는 &quot;지난달이랑 동일하게&quot;라는 한 마디로 반복 발행이 끝난다. 최소 사용료나 기술 지원비 없이 발행 건수만큼만 과금되는 구조도 특징이다.</p>
+<h2>팝빌: 2004년부터 이어온 개발자용 API 표준</h2>
+<p>팝빌은 2004년부터 전자세금계산서·현금영수증·홈택스 자료수집 등을 API로 제공해온, 이 분야의 원조격 서비스다. 한국인터넷진흥원(KISA)의 표준전자세금계산서(V3.0) 개발지침을 준수하며 정발행·역발행·위수탁발행을 모두 지원하고, 14개 이상의 프로그래밍 언어로 SDK를 제공한다. 요금은 1원 = 1포인트로 환산해 쓴 만큼만 과금하는 방식이다.</p>
+<p>다만 팝빌은 철저히 &quot;자사 시스템에 연동하는 개발자용 API&quot;로 설계돼 있다. 웹에서 검색한 범위 내에서는 볼타처럼 AI 에이전트가 자연어로 명령을 내리는 CLI나 노코드 연동 도구는 확인되지 않는다. 즉 팝빌을 쓰려면 API 문서를 읽고 인증·서명 로직을 직접 구현하거나, 이미 팝빌과 연동된 회계·ERP 프로그램을 거쳐야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-tax-invoice-automation-bolta-popbill.png" alt="" loading="lazy"><h2>비개발자 기준으로 보면 격차가 있다</h2>
+<p>볼타가 자체적으로 정리한 전자세금계산서 프로그램 비교 기준에 따르면, 발행 방식은 크게 홈택스(무료·수동, 월 10건 이하 소규모용), ERP 내장형(중견기업용, 높은 도입비), 전문 발행 서비스(웹·엑셀 기반, 낮은 진입장벽), API 기반 자동 발행(개발 리소스 필요)으로 나뉜다. 이 구분에서 볼타는 &quot;전문 발행 서비스&quot;이자 최근 AI 연동 CLI로 API 자동화 영역까지 넘어온 반면, 팝빌은 순수 API 기반 자동 발행 쪽에 머물러 있다. 방 안에서 나온 &quot;비개발자 기준 어느 쪽이 쉬운가&quot;라는 질문에는, 웹 화면·엑셀 업로드와 AI 자연어 연동을 함께 제공하는 볼타 쪽이 코드를 직접 다루지 않는 사용자에게 더 접근성이 높다는 의견이 많았다. 다만 이미 개발 인력이 있고 회계 시스템에 깊이 연동해야 하는 기업이라면 2004년부터 안정적으로 운영된 팝빌의 API 성숙도가 강점이 될 수 있다.</p>
+<p>참고로 이런 &quot;CLI + AI 에이전트&quot; 조합은 볼타만의 시도는 아니다. 2026년 들어 가상자산 거래소 코빗도 챗GPT·클로드와 연동해 시세 조회부터 주문까지 자연어로 처리하는 설치형 프로그램 &#x27;코빗 CLI&#x27;를 내놓는 등, 여러 국내 서비스가 AI 에이전트를 위한 전용 인터페이스를 별도로 준비하는 흐름이 나타나고 있다.</p>
+<h2>자동화 전에 필요한 것: 사업자 등록</h2>
+<p>볼타든 팝빌이든 전자세금계산서를 발행하려면 전제 조건이 있다. 사업자 등록이 안 된 프리랜서는 세금계산서를 발행할 수 없고, 대신 거래처가 용역비 지급 시 3.3%(소득세 3%+지방소득세 0.3%)를 원천징수하는 방식으로 처리된다. 이 원천징수액은 나중에 종합소득세 신고 때 기납부세액으로 정산·환급받을 수 있다.</p>
+<p>반면 사업자 등록을 하면 세금계산서 발행이 가능해지고 장부 신뢰도가 높아져 각종 공제·감면 제도를 활용할 여지가 커지지만, 그 대가로 부가가치세 신고(연 2회)와 종합소득세 신고(연 1회)를 모두 챙겨야 한다. 방 논의에서 현직 회계사라고 밝힌 참여자는 매입세액 공제만을 목적으로 사업자 등록을 하는 것은 권하지 않는다고 조언했는데, 이는 사업자 등록이 세금계산서 발행 권한과 함께 부가세·종합소득세 신고 의무까지 통째로 딸려 오는 구조이기 때문이라는 설명이었다. 즉 &quot;세금계산서를 발행받아 비용 처리를 하고 싶다&quot;는 이유만으로 등록을 서두르기보다는, 예상 매출 규모와 신고 부담을 함께 따져본 뒤 결정하라는 것이 세무 실무에서 공통적으로 나오는 조언이다.</p>
+<h2>정리</h2>
+<p>클로드 코드로 세금계산서 자동화를 하고 싶다면, 지금 웹에서 확인되는 범위에서는 볼타의 CLI+AI 연동이 비개발자에게 가장 진입장벽이 낮은 경로다. 팝빌은 API가 성숙했지만 개발 리소스가 전제된다. 그리고 두 서비스 모두 사업자 등록이 된 사업자만 이용할 수 있다는 점에서, 자동화 도구를 고르는 문제와 사업자 등록 여부를 결정하는 문제는 서로 다른 층위의 판단이라는 점을 구분해야 한다.</p></div>
+<div class="chips"><span class="chip">볼타</span><span class="chip">팝빌</span><span class="chip">전자세금계산서</span><span class="chip">클로드 코드</span><span class="chip">사업자등록</span><span class="chip">세무 자동화</span></div>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드로 전자세금계산서를 자동 발행할 수 있나요?</h2><p class="sum">볼타가 제공하는 CLI를 통해 API 키를 한 번 등록하면, 클로드 등 AI 에이전트에 자연어로 요청해 발행·조회·수정을 처리할 수 있다. 팝빌은 REST API 형태라 별도 개발 없이 AI가 직접 명령을 실행하는 구조는 확인되지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>볼타와 팝빌 중 비개발자에게 더 쉬운 서비스는?</h2><p class="sum">볼타는 웹 화면·엑셀 업로드에 더해 AI 연동 CLI까지 제공해 코드를 몰라도 접근할 수 있다. 팝빌은 개발자용 API·SDK 중심으로 설계돼 있어 연동을 위해서는 개발 리소스나 팝빌 연동 프로그램이 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>사업자 등록 없이도 세금계산서를 받을 수 있나요?</h2><p class="sum">사업자 등록이 안 된 프리랜서는 세금계산서를 발행할 수 없고, 거래처가 용역비의 3.3%를 원천징수한다. 세금계산서를 발행하려면 사업자 등록을 먼저 마쳐야 하며, 이후 부가세·종합소득세 신고 의무가 함께 발생한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-03-1800.html">2026-08-03 08-03 14:27~17:50</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

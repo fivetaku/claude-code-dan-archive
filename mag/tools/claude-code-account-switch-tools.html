@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드 코드 한도 소진 시 로그아웃 없이 다음 계정으로 세션을 넘기는 teamclaude·orca 등 멀티 계정 스위치 도구의 작동 방식과 약관 리스크를 웹 조사와 실사용 경험으로 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/claude-code-account-switch-tools.html">
+<meta property="og:title" content="클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들">
+<meta property="og:description" content="클로드 코드 한도 소진 시 로그아웃 없이 다음 계정으로 세션을 넘기는 teamclaude·orca 등 멀티 계정 스위치 도구의 작동 방식과 약관 리스크를 웹 조사와 실사용 경험으로 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/claude-code-account-switch-tools.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들", "description": "클로드 코드 한도 소진 시 로그아웃 없이 다음 계정으로 세션을 넘기는 teamclaude·orca 등 멀티 계정 스위치 도구의 작동 방식과 약관 리스크를 웹 조사와 실사용 경험으로 정리했다.", "datePublished": "2026-07-30", "dateModified": "2026-07-30", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-code-account-switch-tools.html"}, "articleSection": "도구·라이브러리", "keywords": "클로드코드, Claude Code, 멀티계정, teamclaude, orca, rate limit, 계정 스위칭"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드코드 멀티 계정 스위치 도구는 서비스 약관 위반인가요?", "acceptedAnswer": {"@type": "Answer", "text": "계정을 여러 개 보유하는 것 자체는 위반이 아니지만 계정 공유와 토큰 재판매는 금지된다. 2026년 1월 Anthropic이 서드파티 도구에서 구독 OAuth 토큰 사용을 일시 차단했다가 되돌렸고, 2월 문서 업데이트로 서드파티 도구에서 소비자 플랜 OAuth 토큰을 쓰는 것이 약관 위반이라는 점을 명확히 했다. 요청을 가로채는 프록시형 도구는 이 기준에서 애매한 위치에 있다."}}, {"@type": "Question", "name": "teamclaude와 orca는 어떻게 다른가요?", "acceptedAnswer": {"@type": "Answer", "text": "teamclaude는 클로드 코드와 Anthropic API 사이에서 요청을 가로채는 프록시로, 한도 임계값에 도달하면 자동으로 계정을 순환시킨다. orca는 여러 코딩 에이전트를 병렬로 돌리는 개발 환경(ADE)이며, 그 안의 계정 스위처 기능으로 사용량 확인과 재로그인 없는 핫스왑을 지원한다."}}, {"@type": "Question", "name": "클로드 코드 자체에 계정 전환 기능이 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "아직 없다. GitHub의 claude-code 저장소에는 멀티 계정 지원을 요청하는 이슈가 여러 건 열려 있지만 공식 지원은 나오지 않았고, 그 공백을 teamclaude·orca·claude-swap 같은 커뮤니티 도구가 메우고 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-account-switch-tools.png" alt="클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</h1>
+  <p class="sub">5시간 한도에 걸려도 로그아웃 없이 계정을 바꿔주는 teamclaude·orca 실사용 후기와 약관상 주의해야 할 지점을 짚었다</p>
+  <div class="meta"><span>2026-07-30</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>클로드 코드 계정 여러 개, 한도 걸릴 때마다 몰래 갈아타도 될까 — teamclaude·orca 사용기</h2>
+<p>클로드 코드를 매일 켜두는 사람이라면 한 번쯤 겪는 순간이 있다. 한창 작업 중에 &quot;5시간 한도에 도달했습니다&quot;라는 경고가 뜨고, 다음 리셋 시각까지 손을 놓아야 하는 순간이다. 이 문제를 우회하려고 클로드 계정을 두 개, 세 개씩 굴리는 사용자가 늘면서 세션을 끊지 않고 계정을 통째로 갈아타게 해주는 서드파티 도구들이 개발자 커뮤니티에서 조용히 자리를 잡고 있다. 클코단에서도 &quot;계정 1번이 한도를 소진했을 때 모든 세션을 계정 2번으로 한번에 바꾸는 방법&quot;을 묻는 질문이 나왔고, teamclaude와 orca 같은 도구가 답으로 공유됐다. 이 도구들이 실제로 무엇을 해결해주는지, 그리고 어디까지가 안전한 사용인지를 정리했다.</p>
+<h2>클로드 코드 한도, 왜 이렇게 자주 걸리나</h2>
+<p>클로드 코드는 5시간 롤링 윈도우 방식으로 사용량을 제한한다. 한도에 도달하면 CLI가 오류를 반환하고 다음 리셋 시각까지 잠긴다. 여기에 더해 2025년 8월 28일부터는 7일 단위로 리셋되는 주간 한도가 추가됐다. Anthropic은 이 조치가 클로드 코드를 하루 종일 쉬지 않고 돌리는 극단적 사용과 계정 공유를 막기 위한 것이며, 전체 구독자의 5% 미만에게만 영향을 줄 것이라고 발표한 바 있다. Pro 플랜은 주당 소넷4 40~80시간, Max($100) 플랜은 소넷4 140~280시간에 오퍼스4 15~35시간이 배정되는 식이었다.</p>
+<p>이후 상황은 다소 완화됐다. 2026년 5월 6일 Anthropic은 SpaceX와 컴퓨트 계약을 발표하면서 Pro·Max·Team·좌석형 Enterprise 플랜의 5시간 한도를 두 배로 늘리고 Pro·Max의 피크 시간대 한도 축소 조치를 없앴다고 밝혔다. 다만 주간 한도 자체가 사라진 것은 아니어서, 오퍼스처럼 무거운 모델을 집중적으로 쓰는 사용자는 여전히 한도에 부딪힌다.</p>
+<h2>&quot;계정을 통째로 갈아탄다&quot; — 클코단에서 나온 질문</h2>
+<p>클코단에서 나온 질문은 단순했다. 계정 두 개를 쓰는데, 1번 계정이 한도를 소진했을 때 로그아웃-재로그인 없이 진행 중인 세션까지 한번에 2번 계정으로 넘길 방법이 없느냐는 것이었다. 답으로 언급된 도구는 두 가지, teamclaude와 orca였다. 두 도구 모두 &quot;재로그인 없이&quot; &quot;한도 임박 시 자동으로&quot; 계정을 바꿔준다는 공통점이 있지만 접근 방식은 다르다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-account-switch-tools.png" alt="" loading="lazy"><h2>teamclaude — 프록시가 계정을 자동으로 순환시킨다</h2>
+<p>teamclaude는 클로드 코드와 Anthropic API 사이에 끼어드는 로컬 프록시다. npm으로 설치해 여러 계정을 등록해두면, 세션(5시간) 또는 주간 한도가 설정 임계값(기본 98%)에 가까워질 때만 다음 계정으로 라운드로빈 전환한다. 클로드 코드는 매 턴마다 대화 전체를 다시 보내는데, teamclaude가 요청의 계정 식별자를 바꿔치기해주기 때문에 중간에 계정이 바뀌어도 클라이언트 쪽에서는 대화가 끊긴 것처럼 보이지 않는다. 모델별 주간 한도도 따로 추적해서, 예컨대 오퍼스 한도만 소진된 계정은 오퍼스 요청만 건너뛰고 다른 모델 요청은 그대로 처리한다. 다만 프롬프트 캐시는 계정 단위로 스코프되기 때문에 전환 직후 첫 턴은 캐시가 무효화된다는 한계가 있다. GitHub에서 별 210개, 포크 66개를 받은 MIT 라이선스 프로젝트다.</p>
+<h2>orca — 여러 에이전트를 굴리는 개발 환경 속 계정 스위처</h2>
+<p>orca는 애초에 계정 스위칭 전용 도구가 아니라, 클로드 코드·코덱스 등 여러 코딩 에이전트를 병렬 워크트리에서 동시에 돌리는 &quot;에이전트 개발 환경(ADE)&quot;이다. 그 안에 포함된 계정 스위처 기능이 클로드·코덱스 사용량과 rate-limit 리셋 시각을 상태바에서 실시간으로 보여주고, 재로그인 없이 계정을 핫스왑할 수 있게 해준다. 업무용·개인용 계정을 오가거나, 한도에 걸린 계정에서 다른 계정으로 즉시 넘어갈 때 쓰기 좋다. MIT 라이선스 오픈소스로, 올해 스타 수가 2100개에서 2만 개 이상으로 급증했을 만큼 관심을 받고 있다.</p>
+<p>이 밖에도 claude-swap, ClaudeCodeMultiAccounts, cc-account-switcher 등 비슷한 목적의 커뮤니티 도구가 여럿 있다. 그중 claude-swap은 자동 로테이션과 실시간 사용량 대시보드, 병렬 세션 지원까지 갖춰 기능 면에서 가장 폭넓다는 평가를 받는다. 이렇게 도구가 난립하는 이유는 단순하다 — Anthropic이 아직 계정 전환을 공식 기능으로 내놓지 않았기 때문이다. GitHub의 claude-code 저장소에는 멀티 계정 지원을 요청하는 이슈가 여러 건 쌓여 있고, 그중 하나는 &quot;/switch 명령이나 프로필 지정만으로 계정을 바꿀 수 있게 해달라&quot;는 요청이지만 아직 공식 답은 없다.</p>
+<h2>계정 여러 개는 되지만 &quot;공유&quot;는 다른 문제</h2>
+<p>여기서 짚어야 할 것은 약관 리스크다. 계정을 여러 개 보유하는 것 자체는 Anthropic 약관 위반이 아니다. 문제가 되는 것은 계정 공유와 토큰 재판매다. 그런데 2026년 1월 9일 Anthropic은 구독 OAuth 토큰이 클로드 코드 공식 클라이언트 밖에서 쓰이는 것을 서버 단에서 차단하기 시작했고 개발자 커뮤니티의 반발로 며칠 만에 되돌렸다. 이후 2월 19일 문서를 업데이트해 &quot;Free·Pro·Max 구독의 OAuth 토큰을 서드파티 도구에서 쓰는 것은 약관 위반&quot;이라는 점을 명문화했다.</p>
+<p>이 대목이 teamclaude 같은 프록시형 도구에는 애매한 지점이다. teamclaude 문서 자체도 &quot;Anthropic이 자동화된 계정 풀링을 명시적으로 승인한 적은 없다&quot;고 인정하면서 진짜 클로드 코드 CLI를 쓰고, 본인이 정당하게 구매한 구독만 등록하고, 사람이 실제로 개입하는 방식으로 쓰는 한 약관 취지에 부합한다고 보고 있다고 설명한다. orca나 claude-swap처럼 로그인 세션 자체를 스위칭하는 방식(진짜 CLI 로그인을 여러 개 유지하다가 활성 계정만 바꾸는 것)은 상대적으로 이 리스크에서 자유롭지만 요청을 가로채 재작성하는 프록시 방식은 서드파티 도구로 분류될 여지가 있다. 실제로 올해 들어 계정 정지 사례들이 종종 보고됐고 그 배경에는 타임존·API 포워딩 주소 같은 정보를 분석하는 탐지 로직이 있었다는 분석도 나온 바 있다.</p>
+<h2>정리</h2>
+<p>클로드 코드의 한도 정책은 5월 완화 이후에도 여전히 헤비 유저에게는 빠듯하고, Anthropic이 공식 계정 전환 기능을 내놓기 전까지는 teamclaude·orca·claude-swap 같은 커뮤니티 도구가 그 공백을 메우는 역할을 할 것으로 보인다. 클코단에서도 이런 도구들이 &quot;한도 걸릴 때마다 로그아웃-로그인을 반복하지 않아도 된다&quot;는 점에서 유용하다는 의견이 많았다. 다만 계정을 여러 개 보유하는 것과 그 계정들을 자동화 도구로 묶어 굴리는 것은 약관상 결이 다른 이야기라는 점은 염두에 둘 필요가 있다. 진짜 CLI로, 본인 명의의 구독만, 사람이 개입하는 방식으로 쓰는 원칙을 지키는 선에서 활용하는 것이 현재로선 가장 안전한 선택지다.</p></div>
+<div class="chips"><span class="chip">클로드코드</span><span class="chip">Claude Code</span><span class="chip">멀티계정</span><span class="chip">teamclaude</span><span class="chip">orca</span><span class="chip">rate limit</span><span class="chip">계정 스위칭</span></div>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드코드 멀티 계정 스위치 도구는 서비스 약관 위반인가요?</h2><p class="sum">계정을 여러 개 보유하는 것 자체는 위반이 아니지만 계정 공유와 토큰 재판매는 금지된다. 2026년 1월 Anthropic이 서드파티 도구에서 구독 OAuth 토큰 사용을 일시 차단했다가 되돌렸고, 2월 문서 업데이트로 서드파티 도구에서 소비자 플랜 OAuth 토큰을 쓰는 것이 약관 위반이라는 점을 명확히 했다. 요청을 가로채는 프록시형 도구는 이 기준에서 애매한 위치에 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>teamclaude와 orca는 어떻게 다른가요?</h2><p class="sum">teamclaude는 클로드 코드와 Anthropic API 사이에서 요청을 가로채는 프록시로, 한도 임계값에 도달하면 자동으로 계정을 순환시킨다. orca는 여러 코딩 에이전트를 병렬로 돌리는 개발 환경(ADE)이며, 그 안의 계정 스위처 기능으로 사용량 확인과 재로그인 없는 핫스왑을 지원한다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코드 자체에 계정 전환 기능이 있나요?</h2><p class="sum">아직 없다. GitHub의 claude-code 저장소에는 멀티 계정 지원을 요청하는 이슈가 여러 건 열려 있지만 공식 지원은 나오지 않았고, 그 공백을 teamclaude·orca·claude-swap 같은 커뮤니티 도구가 메우고 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-07-30-1800.html">2026-07-30 07-30 15:38~17:50</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

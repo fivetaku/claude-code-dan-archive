@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드코드처럼 파일에 장기 기억을 쌓는 에이전트가 늘면서 메모리 붕괴 사례가 늘고 있다. 최신 arXiv 연구와 클코단 실사용 경험으로 원인과 대안을 짚었다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/ai-agent-memory-collapse.html">
+<meta property="og:title" content="AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가">
+<meta property="og:description" content="클로드코드처럼 파일에 장기 기억을 쌓는 에이전트가 늘면서 메모리 붕괴 사례가 늘고 있다. 최신 arXiv 연구와 클코단 실사용 경험으로 원인과 대안을 짚었다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/ai-agent-memory-collapse.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가", "description": "클로드코드처럼 파일에 장기 기억을 쌓는 에이전트가 늘면서 메모리 붕괴 사례가 늘고 있다. 최신 arXiv 연구와 클코단 실사용 경험으로 원인과 대안을 짚었다.", "datePublished": "2026-08-02", "dateModified": "2026-08-02", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/ai-agent-memory-collapse.html"}, "articleSection": "워크플로우·방법론", "keywords": "에이전트 메모리, 클로드코드, CLAUDE.md, 파일시스템 메모리, 메모리 포이즈닝, 컨텍스트 엔지니어링"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "파일시스템 기반 메모리란 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "에이전트가 대화가 끝나도 알게 된 정보를 마크다운 파일 등에 직접 쓰고 읽으며 세션 간에 이어가는 방식이다. 앤트로픽의 메모리 툴, 클로드코드의 CLAUDE.md·MEMORY.md 분리 구조가 대표적 사례다."}}, {"@type": "Question", "name": "메모리 파일은 왜 시간이 지나면 무너지나?", "acceptedAnswer": {"@type": "Answer", "text": "arXiv 2607.26637 연구에 따르면 가장 강력한 관리 에이전트를 제외하곤 시간이 지날수록 정리 상태가 무너졌고, 정리된 저장소조차 실제 답변 품질을 끌어올리지는 못했다. 사람이 주기적으로 큐레이팅하지 않으면 몇 달 안에 못 쓰게 된다는 현업 보고도 있다."}}, {"@type": "Question", "name": "개인이나 조직이 메모리를 온톨로지로 체계화하면 되지 않나?", "acceptedAnswer": {"@type": "Answer", "text": "온톨로지는 택소노미보다 구축·유지 비용이 훨씬 커 전문 지식 엔지니어가 따로 필요하고, 관계가 늘어날수록 유지보수 부담이 커져 개인이나 소규모 조직이 감당하기 어렵다는 게 중론이다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-agent-memory-collapse.png" alt="AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가" loading="eager">
+<header>
+  <div class="eyebrow">워크플로우·방법론</div>
+  <h1>AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</h1>
+  <p class="sub">메모리를 파일로 쌓아 올리는 에이전트가 늘고 있지만, 정리한다고 답이 좋아지는 건 아니라는 게 최신 연구의 결론이다</p>
+  <div class="meta"><span>2026-08-02</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>왜 지금 &quot;메모리 파일&quot;이 화두인가</h2>
+<p>클로드코드 같은 코딩 에이전트들이 세션이 끝나도 맥락을 이어가려고 CLAUDE.md, MEMORY.md 같은 마크다운 파일 더미를 스스로 쓰고 고쳐 쌓기 시작했다. 이 파일들은 몇 달만 지나면 무엇이 맞는 정보인지 에이전트 자신도 구분 못 하는 상태로 무너진다는 게 문제다. 지난 7월 말 공개된 논문 한 편이 이 현상을 처음으로 체계적으로 검증했고, 클코단에서도 비슷한 붕괴 경험과 대안 논의가 오갔다. 파일시스템 메모리는 왜, 어떻게 무너지고 업계는 어떤 대안을 찾고 있는지 정리했다.</p>
+<p>앤트로픽은 지난해 말 클로드 개발자 플랫폼에 메모리 툴을 공개 베타로 내놓았다. 에이전트가 파일을 만들고 읽고 고치고 지우면서 세션 간 지식을 쌓게 하는 구조다. 모든 정보를 컨텍스트 창에 욱여넣는 대신, 필요할 때 파일을 열어보게 해 컨텍스트를 절약하자는 취지다. 클로드코드의 CLAUDE.md와 MEMORY.md 분리도 같은 맥락이다. 자주 안 바뀌는 규칙은 CLAUDE.md에, 수시로 바뀌는 현재 상태는 MEMORY.md에 나눠 담으라는 게 공식 가이드다. 실제로 MEMORY.md는 200줄, 25KB 한도를 넘기면 줄이라는 경고가 뜨도록 설계돼 있다. 파일 기반 메모리를 런타임과 분리해 필요할 때만 불러오는 방식, 즉 핫로드 구조가 최근 에이전트 설계의 기본값이 되고 있다는 게 클코단 논의의 핵심 진단이었고, 웹에서 확인한 업계 흐름과도 일치한다.</p>
+<h2>논문이 확인한 것: 정리해도 답이 좋아지진 않는다</h2>
+<p>클코단에서 공유된 arXiv 2607.26637 &quot;Filesystem-Based Memory for LLM Agents&quot;는 이 구조를 처음으로 정면에서 검증한 연구다. 저자들은 메모리 파일시스템을 세 역할로 쪼갰다. 콘텐츠를 통합하고 정리하는 관리 에이전트, 출처를 인용해 질문에 답하는 검색 에이전트, 작업 과정을 기술(skill)로 증류하는 실행 에이전트다. 결과는 냉정했다. 가장 강한 관리 에이전트를 제외하면 시간이 지날수록 정리 상태 자체가 무너졌다. 정리가 잘 된 저장소가 검색 비용은 절반으로 줄였지만, 어떤 에이전트도 그 정리를 실제로 더 나은 답변으로 바꾸지는 못했다는 점도 드러났다. 정리와 성능은 별개라는 뜻이다. 도구 구성을 바꾸는 것만으로도 모델을 바꾸는 것만큼 메모리 구조 자체가 흔들렸다는 결과도 눈에 띈다. 저자들은 파일시스템 메모리를 당연한 기본값이 아니라 앞으로 계속 검증해야 할 설계 공간으로 재정의해야 한다고 결론지었다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-agent-memory-collapse.png" alt="" loading="lazy"><h2>&quot;2~3달이면 무너진다&quot;는 경험, 근거가 쌓이고 있다</h2>
+<p>클코단에서는 업서트마다 사람이 큐레이팅하지 않으면 메모리가 2~3개월 안에 무너진다는 현업 경험이 공유됐는데, 이는 논문의 실험 결과와 방향이 일치한다. 웹 조사에서도 비슷한 문제가 여러 곳에서 확인됐다. OpenAI는 올해 6월 챗GPT 메모리 개편 공지에서 &quot;오래되고 서로 모순되는 기억&quot;을 명시적으로 문제로 지목했다. 한 번 잘못 저장된 정보가 사실과 같은 확신으로 답변에 섞여 나오고, 이를 뒤늦게 걷어내기가 매우 어렵다는 지적도 있었다. 보안 쪽에서는 문제가 더 심각하다. 메모리 포이즈닝 공격은 세션이 끝나도, 심지어 모델이 바뀌어도 살아남는 오염된 기억을 심는데, 통제된 실험에서 공격 성공률이 90%를 넘긴 사례도 보고됐고, LLM 기반 탐지기가 오염된 항목의 66%를 걸러내지 못했다는 조사 결과도 있다. 클코단에서 나온 &quot;쌓일수록 환각 확률이 커진다&quot;는 지적은 과장이 아니었던 셈이다.</p>
+<h2>온톨로지는 개인에게, 어쩌면 조직에도 버겁다</h2>
+<p>클코단 논의에서는 개인 레벨의 온톨로지 구성이 관계 확장을 감당하기 어려워 실효성이 낮다는 의견이 나왔다. 지식관리 분야 연구도 이를 뒷받침한다. 불안정한 어휘 위에 세운 온톨로지는 복잡도가 커질수록 스스로의 유지보수 부담에 짓눌려 무너지며, 온톨로지는 택소노미보다 구축·유지가 훨씬 복잡해 전문 지식 엔지니어가 따로 필요하다는 게 정설이다. 조직 차원에서도 사정은 비슷하다. 컨플루언스 같은 사내 위키는 오래된 문서가 쌓여 방치되는 경우가 많다는 지적이 나올 만큼 낡은 문서를 걸러내기 어렵고, 최근에는 AI가 오래된 콘텐츠를 자동으로 탐지해 소유자에게 갱신을 요청하는 &quot;자가 유지보수형&quot; 지식베이스 도구까지 등장했다. 사람도 조직도 과거 이력을 규칙만으로 판단하며 지식을 관리하기가 점점 힘들어지고 있고, 이 때문에 상태를 최소로 유지하는 stateless 설계로 무게중심이 옮겨가고 있다는 게 클코단의 결론이었다.</p>
+<h2>그래서 업계는 &quot;가볍게, 분리해서, 사람이 판단&quot;으로 간다</h2>
+<p>메모리 벤더 mem0가 올해 4월 내놓은 토큰 효율 알고리즘은 시간·다중홉 질의에서 정확도를 큰 폭으로 끌어올리면서도 검색 호출당 토큰 사용량을 전체 컨텍스트 방식 대비 크게 줄였다고 발표했다. 방향은 뚜렷하다. 모든 걸 다 기억하는 게 아니라, 무엇을 남기고 무엇을 지울지 판단하는 능력이 메모리 시스템의 핵심 경쟁력이 됐다. 실무에서 확인되는 패턴도 비슷하다. 작업 후 요약 에이전트가 배운 것을 추출하면, 사람이 그 내용을 장기 기억에 커밋할지 검토하는 게이트를 거친 뒤에야 별도의 메모리 기록 에이전트가 이를 저장한다. 이 휴먼인더루프 게이트는 메모리 포이즈닝 위험에 대한 현실적인 대응으로 꼽힌다.</p>
+<h2>결론: 큐레이션은 결국 사람의 몫이다</h2>
+<p>클코단 논의는 도서관 비유로 정리됐다. 데이터가 아무리 많아도 실제로 꺼내 쓰는 건 극소수이므로, 무엇을 서가에 남기고 무엇을 폐기할지 정하는 큐레이션이 핵심이라는 것이다. 레거시 데이터인지 아닌지는 정해진 규칙이 아니라 실제 피드백과 사람의 검토, 즉 휴먼인더루프 기준으로만 판단할 수 있다는 결론에 이르렀다. 이는 논문이 확인한 &quot;정리 자체는 성능을 보장하지 않는다&quot;는 결과, 그리고 챗GPT·기업 지식관리 도구가 마주한 &quot;오래된 기억이 답을 오염시킨다&quot;는 문제와도 맞닿아 있다. 파일에 기억을 쌓는 방식 자체는 당분간 계속되겠지만, 그 파일을 누가, 어떤 기준으로 솎아낼지에 대한 답은 아직 사람의 판단 밖으로 완전히 넘어가지 못했다.</p></div>
+<div class="chips"><span class="chip">에이전트 메모리</span><span class="chip">클로드코드</span><span class="chip">CLAUDE.md</span><span class="chip">파일시스템 메모리</span><span class="chip">메모리 포이즈닝</span><span class="chip">컨텍스트 엔지니어링</span></div>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>파일시스템 기반 메모리란 무엇인가?</h2><p class="sum">에이전트가 대화가 끝나도 알게 된 정보를 마크다운 파일 등에 직접 쓰고 읽으며 세션 간에 이어가는 방식이다. 앤트로픽의 메모리 툴, 클로드코드의 CLAUDE.md·MEMORY.md 분리 구조가 대표적 사례다.</p></article><article class="dcard"><div class="t">Q</div><h2>메모리 파일은 왜 시간이 지나면 무너지나?</h2><p class="sum">arXiv 2607.26637 연구에 따르면 가장 강력한 관리 에이전트를 제외하곤 시간이 지날수록 정리 상태가 무너졌고, 정리된 저장소조차 실제 답변 품질을 끌어올리지는 못했다. 사람이 주기적으로 큐레이팅하지 않으면 몇 달 안에 못 쓰게 된다는 현업 보고도 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>개인이나 조직이 메모리를 온톨로지로 체계화하면 되지 않나?</h2><p class="sum">온톨로지는 택소노미보다 구축·유지 비용이 훨씬 커 전문 지식 엔지니어가 따로 필요하고, 관계가 늘어날수록 유지보수 부담이 커져 개인이나 소규모 조직이 감당하기 어렵다는 게 중론이다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-02-1037.html">2026-08-02 08-02 09:59~10:37</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
