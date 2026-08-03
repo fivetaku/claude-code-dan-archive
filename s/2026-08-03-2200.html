@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 8월 3일 — 대화 타임라인</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 3일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-03 17:51~21:48</b></span>
+    <span>발화 <b>133</b></span>
+    <span>참여 <b>34</b>명</span>
+    <span>주제 <b>10</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone"><div class="spine"></div><div class="bar" style="left:2.0%;height:11px"></div><div class="bar" style="left:3.6%;height:16px"></div><div class="bar" style="left:5.2%;height:16px"></div><div class="bar" style="left:6.9%;height:6px"></div><div class="bar" style="left:8.5%;height:6px"></div><div class="bar" style="left:10.1%;height:6px"></div><div class="bar" style="left:11.7%;height:26px"></div><div class="bar" style="left:13.3%;height:6px"></div><div class="bar" style="left:15.0%;height:6px"></div><div class="bar" style="left:16.6%;height:6px"></div><div class="bar" style="left:18.2%;height:6px"></div><div class="bar" style="left:19.8%;height:21px"></div><div class="bar" style="left:21.4%;height:16px"></div><div class="bar" style="left:23.1%;height:26px"></div><div class="bar" style="left:24.7%;height:6px"></div><div class="bar" style="left:26.3%;height:6px"></div><div class="bar" style="left:27.9%;height:6px"></div><div class="bar" style="left:29.6%;height:6px"></div><div class="bar" style="left:31.2%;height:6px"></div><div class="bar" style="left:32.8%;height:6px"></div><div class="bar" style="left:34.4%;height:16px"></div><div class="bar" style="left:36.0%;height:37px"></div><div class="bar" style="left:37.7%;height:11px"></div><div class="bar" style="left:39.3%;height:16px"></div><div class="bar" style="left:40.9%;height:6px"></div><div class="bar" style="left:42.5%;height:16px"></div><div class="bar" style="left:44.1%;height:21px"></div><div class="bar" style="left:45.8%;height:16px"></div><div class="bar" style="left:47.4%;height:6px"></div><div class="bar" style="left:49.0%;height:32px"></div><div class="bar" style="left:50.6%;height:6px"></div><div class="bar peak" style="left:52.2%;height:58px"></div><div class="bar" style="left:53.9%;height:6px"></div><div class="bar" style="left:55.5%;height:26px"></div><div class="bar" style="left:57.1%;height:26px"></div><div class="bar" style="left:58.7%;height:6px"></div><div class="bar" style="left:60.3%;height:6px"></div><div class="bar" style="left:62.0%;height:6px"></div><div class="bar" style="left:63.6%;height:6px"></div><div class="bar" style="left:65.2%;height:16px"></div><div class="bar" style="left:66.8%;height:11px"></div><div class="bar" style="left:68.4%;height:11px"></div><div class="bar" style="left:70.1%;height:11px"></div><div class="bar" style="left:71.7%;height:16px"></div><div class="bar" style="left:73.3%;height:11px"></div><div class="bar" style="left:74.9%;height:21px"></div><div class="bar" style="left:76.6%;height:6px"></div><div class="bar" style="left:78.2%;height:6px"></div><div class="bar" style="left:79.8%;height:6px"></div><div class="bar" style="left:81.4%;height:6px"></div><div class="bar" style="left:83.0%;height:11px"></div><div class="bar" style="left:84.7%;height:6px"></div><div class="bar" style="left:86.3%;height:6px"></div><div class="bar" style="left:87.9%;height:6px"></div><div class="bar" style="left:89.5%;height:6px"></div><div class="bar" style="left:91.1%;height:11px"></div><div class="bar" style="left:92.8%;height:6px"></div><div class="bar" style="left:94.4%;height:11px"></div><div class="bar" style="left:96.0%;height:11px"></div><div class="lbl" style="left:2.0%">17:51</div><div class="lbl" style="left:16.6%">18:31</div><div class="lbl" style="left:31.2%">19:02</div><div class="lbl" style="left:45.8%">19:29</div><div class="peaktag" style="left:52.2%;bottom:66px">19:54 · 11건</div><div class="lbl" style="left:60.3%">19:59</div><div class="lbl" style="left:74.9%">20:09</div><div class="lbl" style="left:89.5%">20:37</div><div class="lbl" style="left:96.0%">21:48</div><div class="rib up" style="left:70.1%"><div class="stem"></div><div class="ribcard"><div class="t">20:06-20:15</div><h3>오퍼스5 사용량·성능 저하 논의</h3></div></div><div class="rib dn" style="left:52.2%"><div class="stem"></div><div class="ribcard"><div class="t">19:54</div><h3>룽지봇 명령어·날씨 기능 안내</h3></div></div><div class="rib up" style="left:11.7%"><div class="stem"></div><div class="ribcard"><div class="t">18:28-19:33</div><h3>룽지봇 닉네임 통계 조회</h3></div></div><div class="rib dn" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">21:21-21:48</div><h3>1000명 달성 임박 화제</h3></div></div><div class="rib up" style="left:5.2%"><div class="stem"></div><div class="ribcard"><div class="t">18:24-18:28</div><h3>닉네임 미변경 숙청 소동</h3></div></div><div class="rib dn" style="left:26.3%"><div class="stem"></div><div class="ribcard"><div class="t">18:58-20:04</div><h3>탁구봇 모델·가드레일 정체 논쟁</h3></div></div><div class="rib up" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">20:36-20:38</div><h3>탁구봇 탈옥 시도·블랙리스트 드립</h3></div></div><div class="rib dn" style="left:2.0%"><div class="stem"></div><div class="ribcard"><div class="t">17:51-17:52</div><h3>신규 회원 인사</h3></div></div><div class="rib up" style="left:8.5%"><div class="stem"></div><div class="ribcard"><div class="t">18:26-19:01</div><h3>탁구봇 잡다한 요청 러시</h3></div></div><div class="rib dn" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">20:31</div><h3>02번호 사용 관련 질문</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">20:06-20:15</div><h2>오퍼스5 사용량·성능 저하 논의</h2><p class="sum">오퍼스 5로 바뀐 뒤 하네스 동작이 예전보다 멍청해졌다는 불만이 나옴 — 시도·재시도 없이 그냥 넘어가거나 배포와 테스트 순서가 꼬인다는 사례가 공유됨. 200 Max 요금제가 100 Max 대비 광고된 4배보다 실제 체감 차이는 2~3배 정도라는 의견이 다수 나옴. 대응으로 모델별 오케스트레이션 구조를 만들어 테스트 중이라는 공유가 있었고, 순정 하네스가 이전 커스텀 하네스보다 낫다는 의견도 나옴. 4배라는 수치는 5시간 세션에만 적용되고 주간 한도엔 해당 안 될 수 있다는 추가 정보도 나옴.</p><ul><li>오퍼스 5 이후 하네스가 시도·재시도 없이 그냥 진행한다는 불만</li><li>200max vs 100max 실사용 차이는 광고된 4배가 아니라 2~3배 체감</li><li>대응책으로 모델별 오케스트레이션 구조 테스트 중</li><li>이전 커스텀 하네스보다 순정이 낫다는 의견</li><li>4배 수치는 5시간 세션 한정이고 주간 한도엔 미적용 가능성 언급</li></ul></article><article class="dcard"><div class="t">19:54</div><h2>룽지봇 명령어·날씨 기능 안내</h2><p class="sum">누룽지(룽지)봇이 서울 날씨(30.8도, 체감 37.8도)와 한강 수온(28.6도) 정보를 제공하고, 이 방에서 쓸 수 있는 전체 명령어 가이드를 공지함. 날씨·미세먼지·환율·로또·OCR·알림 등 다양한 기능이 있으며 주식 조회와 대화수집 기능은 이 방에서 비활성화되어 있다고 명시함. 실사용 가능한 봇 기능 목록이라 방 전체에 유용한 정보.</p><ul><li>생활 정보: 날씨/미세먼지/한강수온/지하철/로또/환율/뉴스</li><li>유틸: 계산/맞춤법/번역/검색</li><li>이미지: OCR/영수증/차트분석 URL 처리</li><li>알림 예약 기능(아침브리핑, 뉴스알림 등)</li><li>주식 조회·대화수집 기능은 이 방에서 미사용 명시</li></ul></article><article class="dcard"><div class="t">18:28-19:33</div><h2>룽지봇 닉네임 통계 조회</h2><p class="sum">다른 봇인 &#x27;누룽지(룽지)&#x27;에게 방 안 닉네임 중 춘식이·라이언 등 카카오프렌즈 이름이 몇 명인지 물어봄. 춘식이 포함 닉네임 44명, 중복 닉네임 45종 126명이라는 상세 통계를 제공했고 프렌즈 캐릭터 13종은 각 1명씩이라 답변. 재미로 물어본 통계였지만 방 규모(885명 닉네임 스캔)를 체감하게 해준 사례.</p><ul><li>춘식이 포함 닉네임 44명</li><li>중복 닉네임 45종 총 126명 집계</li><li>고구마 먹는 춘식이 7명으로 최다</li><li>라이언·무지 등 프렌즈 기본닉 13종은 각 1명씩</li></ul></article><article class="dcard"><div class="t">21:21-21:48</div><h2>1000명 달성 임박 화제</h2><p class="sum">방 인원이 오늘 밤 1000명을 채울 것 같다는 기대가 나오며 달성 시 치킨을 먹자는 제안이 있었음. 운영진 측에서는 1000명이 되어도 당분간 방을 추가로 열 계획은 없다고 답함.</p><ul><li>오늘 밤 1000명 달성 기대감 공유</li><li>달성 기념 치킨 제안</li><li>1000명 도달해도 추가 방 개설은 당분간 없음</li></ul></article><article class="dcard"><div class="t">18:24-18:28</div><h2>닉네임 미변경 숙청 소동</h2><p class="sum">방 인원이 900명을 넘으면 카카오 기본 아이디를 쓰는 사람들을 내보내겠다는 농담 섞인 공지가 나옴. &#x27;숙청&#x27;이라는 표현으로 장난스럽게 반응이 이어졌고 실제 조치로는 이어지지 않음.</p><ul><li>카카오 기본 아이디 사용자 닉네임 변경 요청</li><li>숙청 드립으로 장난스러운 반응 다수</li></ul></article><article class="dcard"><div class="t">18:58-20:04</div><h2>탁구봇 모델·가드레일 정체 논쟁</h2><p class="sum">탁구봇의 가드레일 범위와 실제 사용 모델이 무엇인지에 대한 질문이 이어짐. 하이쿠 모델이라는 추측이 나오며 &#x27;반박시 반박함&#x27; 드립으로 놀렸고, 트리거 문구가 없어서 벤을 피했다는 분석도 나옴. &#x27;미니미&#x27;가 어떤 모델을 쓰는지, 클로드를 안 쓰는 것 아니냐는 의문도 제기됨.</p><ul><li>가드레일 기준·범위 질문</li><li>하이쿠 모델설과 반박 드립</li><li>&#x27;트리거 없어서 벤 안 먹었다&#x27;는 분석</li><li>미니미가 어떤 모델인지 질문 이어짐</li></ul></article><article class="dcard"><div class="t">20:36-20:38</div><h2>탁구봇 탈옥 시도·블랙리스트 드립</h2><p class="sum">한 사용자가 여러 언어를 섞은 문장으로 탁구봇에게 자극적인 표현을 반복 시도하며 프롬프트 인젝션을 테스트함. &#x27;할머니가 들려주는 api key 이야기&#x27; 때문에 블랙리스트에 올랐냐고 묻는 등 과거 탈옥 시도 이력을 암시하는 드립이 나옴. 봇은 자극적인 질문에 직접 답하지 않고 우회적으로 응답함.</p><ul><li>여러 언어를 섞은 반복 문장으로 봇 반응 유도 시도</li><li>과거 &#x27;API 키 이야기&#x27;로 블랙리스트에 올랐다는 언급</li><li>봇은 직접 답 대신 우회적 응답으로 넘어감</li></ul></article><article class="dcard"><div class="t">17:51-17:52</div><h2>신규 회원 인사</h2><p class="sum">새로 들어온 사람들에게 인사해달라는 요청들이 이어짐. 탁구봇에게 신규 회원용 환영 인사와 생산적인 발언을 요청했고 짧게 응답함. 특별한 논의로 이어지지는 않음.</p><ul><li>신규 회원 인사 요청 다수</li><li>봇에게 &#x27;생산적으로 말해보라&#x27;는 주문도 있었음</li></ul></article><article class="dcard"><div class="t">18:26-19:01</div><h2>탁구봇 잡다한 요청 러시</h2><p class="sum">세차장까지 도보 시간, 삼성전자 매수가, 갈비찜 레시피, 맥북 풀옵 사고싶다는 등 탁구봇에게 관련 없는 요청이 쏟아짐. 대부분 장난성 질문이라 답변이 없거나 실망했다는 반응이 나옴. 봇이 말이 많다/알림이 계속 뜬다는 불만도 나옴.</p><ul><li>세차장 도보 거리, 매수가 추천, 레시피 등 잡다한 요청</li><li>봇 알림(빨간 숫자)에 대한 불만 제기</li><li>특정 응답 없이 넘어간 요청 다수</li></ul></article><article class="dcard"><div class="t">20:31</div><h2>02번호 사용 관련 질문</h2><p class="sum">이전 맥락이 방에 남아있지 않은 상태에서 &#x27;핸드폰으로 돌린다&#x27;는 말의 의미를 되묻는 질문이 나옴. 02 번호를 그대로 써야 해서 010 번호로는 어렵다는 상황 설명만 있고 후속 답변 없이 끝남.</p><ul><li>앞선 대화 맥락이 로그에 없어 배경 불명확</li><li>02 유선번호 유지 필요성 언급</li><li>후속 답변 없이 대화 종료</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-03-2200</span>
+</footer>
+</div>
+</body>
+</html>
