@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>쿠팡·스마트스토어 크롤링이 자꾸 막히는 이유와 우회법 — 클코단 매거진</title>
+<meta name="description" content="클로드코드 에이전트로 스마트스토어·쿠팡을 크롤링하면 왜 막히는지, insane search와 컴퓨터유즈를 이용한 우회 시도, 그 한계까지 커뮤니티 논의를 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-scraping-block.html">
+<meta property="og:title" content="쿠팡·스마트스토어 크롤링이 자꾸 막히는 이유와 우회법">
+<meta property="og:description" content="클로드코드 에이전트로 스마트스토어·쿠팡을 크롤링하면 왜 막히는지, insane search와 컴퓨터유즈를 이용한 우회 시도, 그 한계까지 커뮤니티 논의를 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-scraping-block.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "쿠팡·스마트스토어 크롤링이 자꾸 막히는 이유와 우회법", "description": "클로드코드 에이전트로 스마트스토어·쿠팡을 크롤링하면 왜 막히는지, insane search와 컴퓨터유즈를 이용한 우회 시도, 그 한계까지 커뮤니티 논의를 정리했다.", "datePublished": "2026-07-30", "dateModified": "2026-07-30", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-scraping-block.html"}, "articleSection": "질문·트러블슈팅", "keywords": "클로드코드, 크롤링, 쿠팡, 스마트스토어, insane search, 컴퓨터유즈"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드코드 에이전트로 쿠팡·스마트스토어를 크롤링하면 왜 계속 막히나요?", "acceptedAnswer": {"@type": "Answer", "text": "두 플랫폼 모두 자산 보호를 위해 크롤링 접근을 의도적으로 차단하고 있다는 의견이 있다. 계속 시도하면 IP 차단 같은 제재로 이어질 수 있다."}}, {"@type": "Question", "name": "insane search로 우회하면 안전한가요?", "acceptedAnswer": {"@type": "Answer", "text": "insane search는 patchright 기반 스텔스 래퍼로 만들어졌지만, patchright가 업데이트되면 다시 막힐 수 있는 구조다. 실제로 쿠팡은 현재 이 방식으로도 차단된 상태라고 확인됐다."}}, {"@type": "Question", "name": "더 확실한 우회 방법은 없나요?", "acceptedAnswer": {"@type": "Answer", "text": "컴퓨터유즈로 브라우저를 직접 조작하면 감지를 피할 가능성이 높다는 대안이 제시됐다. 다만 토큰 소모가 스크립트 방식보다 훨씬 커서 비용이 많이 든다는 점이 함께 지적됐다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.magnav{display:flex;flex-wrap:wrap;gap:14px;padding:10px 0 14px;border-bottom:2px solid var(--ink);margin-bottom:22px}
+.magnav a{font-size:13.5px;font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.magnav a:hover,.magnav a.on{color:var(--accent-deep)}
+.magnav .brand{font-weight:900;margin-right:6px}
+.lede{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:26px}
+.lede .cat,.card .cat{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;
+color:var(--on-accent);background:var(--accent);padding:3px 8px;border-radius:3px;margin-bottom:10px}
+.lede h2{font-size:clamp(26px,5.2vw,40px);line-height:1.22;margin:6px 0 10px;letter-spacing:-.02em}
+.lede h2 a,.card h3 a{color:var(--ink);text-decoration:none}
+.lede h2 a:hover,.card h3 a:hover{color:var(--accent-deep)}
+.lede .dek{font-size:16px;color:var(--muted);line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px 26px}
+.card{border-top:1px solid var(--line);padding-top:14px}
+.card h3{font-size:17.5px;line-height:1.35;margin:6px 0 8px;letter-spacing:-.01em}
+.card .dek{font-size:13.5px;color:var(--muted);line-height:1.55}
+.meta{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted);margin-top:8px}
+.article{max-width:720px}
+.article h1{font-size:clamp(24px,5vw,36px);line-height:1.25;letter-spacing:-.02em;margin:10px 0 12px}
+.article .dek{font-size:17px;color:var(--muted);line-height:1.6;margin-bottom:18px}
+.article h2{font-size:19px;margin:26px 0 10px;letter-spacing:-.01em}
+.article p{font-size:16px;line-height:1.75;margin:12px 0}
+.article ul{margin:12px 0 12px 18px}.article li{font-size:16px;line-height:1.7;margin:5px 0}
+.faq{margin-top:34px;border-top:1px solid var(--line);padding-top:20px}
+.faq h2{font-size:18px;margin-bottom:12px}
+.faq details{border-bottom:1px solid var(--line);padding:11px 0}
+.faq summary{font-size:15.5px;font-weight:700;cursor:pointer;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"Q  ";color:var(--accent-deep);font-family:ui-monospace,Menlo,monospace}
+.faq p{font-size:15px;color:var(--muted);margin:9px 0 2px;padding-left:20px}
+.tags{margin-top:26px;display:flex;flex-wrap:wrap;gap:7px}
+.tags span{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.src{margin-top:26px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:9px;font-size:13.5px;color:var(--muted)}
+.src a{color:var(--accent-deep)}
+.magfoot{margin-top:44px;border-top:2px solid var(--ink);padding-top:18px;font-size:13px;color:var(--muted);line-height:1.9}
+.magfoot .cols{display:flex;flex-wrap:wrap;gap:28px;margin-bottom:14px}
+.magfoot a{color:var(--ink);text-decoration:none}.magfoot a:hover{color:var(--accent-deep)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="magnav"><a class="brand" href="../../mag/">클코단 매거진</a><a href="../../mag/tools/">도구·라이브러리</a><a href="../../mag/workflow/">워크플로우·방법론</a><a class="on" href="../../mag/troubleshooting/">질문·트러블슈팅</a><a href="../../mag/models/">AI 모델·프롬프트</a><a href="../../mag/ops/">배포·운영</a><a href="../../mag/resources/">자료·링크 공유</a><a href="../../">아카이브</a></nav>
+<article class="article">
+<span class="cat">질문·트러블슈팅</span>
+<h1>쿠팡·스마트스토어 크롤링이 자꾸 막히는 이유와 우회법</h1>
+<p class="dek">에이전트로 쇼핑몰에 접속하면 왜 계속 차단되는지, 방에서 나온 원인 분석과 우회 시도를 정리했다</p>
+<div class="meta">2026-07-30 · 클코단 논의 1회 정리</div>
+<h2>왜 자꾸 막히나</h2>
+<p>스마트스토어와 쿠팡은 크롤링 접근을 의도적으로 차단하고 있다는 의견이 나왔다. 상품·가격 데이터 같은 자산을 보호하려는 목적으로 보이며, 에이전트로 반복 접속을 시도하면 IP 차단 같은 제재를 받을 수 있다는 경고가 있었다.</p>
+<h2>우회 시도와 한계</h2>
+<p>insane search라는 도구가 언급됐다. patchright 기반의 스텔스 래퍼로 차단을 우회하도록 설계됐지만, patchright 자체가 업데이트되면 다시 막힐 수 있는 구조라는 기술적 설명이 나왔다. 실제로 쿠팡은 현재 이 방식으로도 접근이 막혀 있는 상태라고 확인됐다.</p>
+<p>더 확실한 대안으로 컴퓨터유즈로 크롬을 직접 조작하는 방법이 제시됐다. 사람이 조작하는 것처럼 보이기 때문에 봇 감지를 피할 가능성이 높지만, 토큰 소모가 일반 스크립트 방식보다 훨씬 커서 비용 부담이 크다는 지적이 함께 나왔다.</p>
+<h2>남은 물음</h2>
+<p>결국 얼마나 급한 작업인지, 비용을 얼마나 감당할 수 있는지에 따라 선택이 갈리는 문제로 보인다. 방에서는 쿠팡 판매자 페이지의 상품·별점을 수집하는 크롤러를 주말 중 오픈소스로 공개하겠다는 이야기도 나왔는데, 실제로 어떤 방식을 택했을지는 공개 후 확인이 필요하다.</p>
+<section class="faq"><h2>자주 묻는 질문</h2><details><summary>클로드코드 에이전트로 쿠팡·스마트스토어를 크롤링하면 왜 계속 막히나요?</summary><p>두 플랫폼 모두 자산 보호를 위해 크롤링 접근을 의도적으로 차단하고 있다는 의견이 있다. 계속 시도하면 IP 차단 같은 제재로 이어질 수 있다.</p></details><details><summary>insane search로 우회하면 안전한가요?</summary><p>insane search는 patchright 기반 스텔스 래퍼로 만들어졌지만, patchright가 업데이트되면 다시 막힐 수 있는 구조다. 실제로 쿠팡은 현재 이 방식으로도 차단된 상태라고 확인됐다.</p></details><details><summary>더 확실한 우회 방법은 없나요?</summary><p>컴퓨터유즈로 브라우저를 직접 조작하면 감지를 피할 가능성이 높다는 대안이 제시됐다. 다만 토큰 소모가 스크립트 방식보다 훨씬 커서 비용이 많이 든다는 점이 함께 지적됐다.</p></details></section>
+<div class="tags"><span>클로드코드</span><span>크롤링</span><span>쿠팡</span><span>스마트스토어</span><span>insane search</span><span>컴퓨터유즈</span></div>
+<div class="src">이 기사는 클코단 오픈채팅 논의를 정리한 것입니다. 원 아카이브: <a href="../../s/2026-07-30-0900.html">2026-07-30 07-29 23:33~07-30 08:45</a></div>
+</article>
+<section class="faq"><h2>같은 주제 더 보기</h2><ul><li><a href="claude-code-file-delete-safety.html">클로드코드가 파일을 지웠다면, 되돌릴 방법은 있을까</a></li></ul></section>
+<footer class="magfoot"><div class="cols"><div><a href="../../mag/tools/">도구·라이브러리</a> · <a href="../../mag/workflow/">워크플로우·방법론</a> · <a href="../../mag/troubleshooting/">질문·트러블슈팅</a> · <a href="../../mag/models/">AI 모델·프롬프트</a> · <a href="../../mag/ops/">배포·운영</a> · <a href="../../mag/resources/">자료·링크 공유</a></div></div><div><a href="../../">대화 아카이브</a> · <a href="../../repos/">공유된 레포</a> · <a href="../../weekly/">주간 정리</a></div><div style="margin-top:10px">클코단(클로드코드 사용자 오픈채팅) 논의를 정리한 매거진입니다. 개별 발화와 닉네임은 싣지 않습니다.</div></footer>
+</div>
+</body>
+</html>

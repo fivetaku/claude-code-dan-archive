@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드코드 바이브선생, 점수 몇 점이면 잘하는 걸까 — 클코단 매거진</title>
+<meta name="description" content="클로드코드 대화 세션을 분석해 점수를 매기는 자가진단 도구 &#x27;바이브선생&#x27;. 평균 점수와 평가 항목, 실행 방법과 커뮤니티에서 나온 갈린 의견을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/vibe-sunsang-claude-code-score.html">
+<meta property="og:title" content="클로드코드 바이브선생, 점수 몇 점이면 잘하는 걸까">
+<meta property="og:description" content="클로드코드 대화 세션을 분석해 점수를 매기는 자가진단 도구 &#x27;바이브선생&#x27;. 평균 점수와 평가 항목, 실행 방법과 커뮤니티에서 나온 갈린 의견을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/vibe-sunsang-claude-code-score.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드코드 바이브선생, 점수 몇 점이면 잘하는 걸까", "description": "클로드코드 대화 세션을 분석해 점수를 매기는 자가진단 도구 '바이브선생'. 평균 점수와 평가 항목, 실행 방법과 커뮤니티에서 나온 갈린 의견을 정리했다.", "datePublished": "2026-08-02", "dateModified": "2026-08-02", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/vibe-sunsang-claude-code-score.html"}, "articleSection": "도구·라이브러리", "keywords": "클로드코드, 바이브선생, gptaku, 세션평가, 바이브코딩, 프롬프트습관"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "바이브선생이 정확히 뭔가요?", "acceptedAnswer": {"@type": "Answer", "text": "fivetaku가 만든 오픈소스 자가진단 도구이자 gptaku 플러그인의 세션 평가 기능이다. 클로드코드와 나눈 대화 세션을 분석해 시작·평가·멘토링·성장 네 항목으로 점수를 매긴다."}}, {"@type": "Question", "name": "평균 점수는 몇 점인가요?", "acceptedAnswer": {"@type": "Answer", "text": "커뮤니티에서 언급된 평균은 6.3점이며, 잘하는 사람은 7점대가 나온다는 이야기가 있었다. 다만 점수보다 실무 활용도가 더 중요하다는 의견도 함께 나왔다."}}, {"@type": "Question", "name": "GPT 대화 세션도 분석되나요?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 지금까지는 클로드코드 세션만 가져와 분석하며, GPT 대화 세션은 가져오지 못한다는 설명이 있었다."}}, {"@type": "Question", "name": "바이브선생은 어떻게 실행하나요?", "acceptedAnswer": {"@type": "Answer", "text": "터미널에서 \"바이브선생 실행해줘\"라고 말하면 알아서 설치·실행됐다는 공유가 있었다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.magnav{display:flex;flex-wrap:wrap;gap:14px;padding:10px 0 14px;border-bottom:2px solid var(--ink);margin-bottom:22px}
+.magnav a{font-size:13.5px;font-weight:800;color:var(--ink);text-decoration:none;letter-spacing:-.01em}
+.magnav a:hover,.magnav a.on{color:var(--accent-deep)}
+.magnav .brand{font-weight:900;margin-right:6px}
+.lede{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:26px}
+.lede .cat,.card .cat{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;
+color:var(--on-accent);background:var(--accent);padding:3px 8px;border-radius:3px;margin-bottom:10px}
+.lede h2{font-size:clamp(26px,5.2vw,40px);line-height:1.22;margin:6px 0 10px;letter-spacing:-.02em}
+.lede h2 a,.card h3 a{color:var(--ink);text-decoration:none}
+.lede h2 a:hover,.card h3 a:hover{color:var(--accent-deep)}
+.lede .dek{font-size:16px;color:var(--muted);line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px 26px}
+.card{border-top:1px solid var(--line);padding-top:14px}
+.card h3{font-size:17.5px;line-height:1.35;margin:6px 0 8px;letter-spacing:-.01em}
+.card .dek{font-size:13.5px;color:var(--muted);line-height:1.55}
+.meta{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted);margin-top:8px}
+.article{max-width:720px}
+.article h1{font-size:clamp(24px,5vw,36px);line-height:1.25;letter-spacing:-.02em;margin:10px 0 12px}
+.article .dek{font-size:17px;color:var(--muted);line-height:1.6;margin-bottom:18px}
+.article h2{font-size:19px;margin:26px 0 10px;letter-spacing:-.01em}
+.article p{font-size:16px;line-height:1.75;margin:12px 0}
+.article ul{margin:12px 0 12px 18px}.article li{font-size:16px;line-height:1.7;margin:5px 0}
+.faq{margin-top:34px;border-top:1px solid var(--line);padding-top:20px}
+.faq h2{font-size:18px;margin-bottom:12px}
+.faq details{border-bottom:1px solid var(--line);padding:11px 0}
+.faq summary{font-size:15.5px;font-weight:700;cursor:pointer;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"Q  ";color:var(--accent-deep);font-family:ui-monospace,Menlo,monospace}
+.faq p{font-size:15px;color:var(--muted);margin:9px 0 2px;padding-left:20px}
+.tags{margin-top:26px;display:flex;flex-wrap:wrap;gap:7px}
+.tags span{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.src{margin-top:26px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:9px;font-size:13.5px;color:var(--muted)}
+.src a{color:var(--accent-deep)}
+.magfoot{margin-top:44px;border-top:2px solid var(--ink);padding-top:18px;font-size:13px;color:var(--muted);line-height:1.9}
+.magfoot .cols{display:flex;flex-wrap:wrap;gap:28px;margin-bottom:14px}
+.magfoot a{color:var(--ink);text-decoration:none}.magfoot a:hover{color:var(--accent-deep)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="magnav"><a class="brand" href="../../mag/">클코단 매거진</a><a class="on" href="../../mag/tools/">도구·라이브러리</a><a href="../../mag/workflow/">워크플로우·방법론</a><a href="../../mag/troubleshooting/">질문·트러블슈팅</a><a href="../../mag/models/">AI 모델·프롬프트</a><a href="../../mag/ops/">배포·운영</a><a href="../../mag/resources/">자료·링크 공유</a><a href="../../">아카이브</a></nav>
+<article class="article">
+<span class="cat">도구·라이브러리</span>
+<h1>클로드코드 바이브선생, 점수 몇 점이면 잘하는 걸까</h1>
+<p class="dek">gptaku 플러그인의 세션 자가진단 기능 &#x27;바이브선생&#x27;, 평균 점수와 실제로 봐야 할 지표를 정리했다</p>
+<div class="meta">2026-08-02 · 클코단 논의 2회 정리</div>
+<h2>문제: 내 프롬프트, 잘 쓰고 있는 걸까</h2>
+<p>클로드코드로 매일 작업은 하지만 스스로 습관을 점검할 방법은 마땅치 않다. 오픈채팅방에서는 gptaku 플러그인을 쓴 뒤 에이전트 결과물이 탄탄해지고 자가진단 점수(일명 &#x27;바선생&#x27; 점수)가 올랐다는 후기가 나오면서, 이 점수를 어떻게 봐야 하는지 논의가 이어졌다.</p>
+<h2>바이브선생은 무엇을 보나</h2>
+<p>바이브선생은 fivetaku가 만든 오픈소스 자가진단 도구로, gptaku 플러그인의 세션 평가 기능이다. 지금까지 클로드코드와 나눈 대화 세션을 가져와 시작·평가·멘토링·성장 네 항목으로 주 단위 점검을 해준다. 다만 GPT 대화 세션은 가져오지 못하고 클로드코드 세션만 분석 대상이라는 설명이 있었다. 터미널에 &quot;바이브선생 실행해줘&quot;라고만 말해도 알아서 설치·실행된다는 공유도 있었다.</p>
+<h2>몇 점이면 잘하는 걸까 — 갈린 의견</h2>
+<p>평균은 6.3점, 잘하는 사람은 7점대가 나온다는 언급이 있었지만, 점수가 높다고 실제로 잘 쓰는 건 아니라는 의견도 나왔다. 결국 중요한 건 점수 자체보다 실무에 얼마나 써먹는지, 그리고 꾸준히 실습하는 태도라는 조언이 이어졌다. 한 참가자는 클로드·코덱스·가재코드 세션 로그를 월별로 분석해 안티패턴과 프롬프트 글자수, 연속 작업시간 등을 직접 체크하는 자체 파일까지 만들어 공유하기도 했다.</p>
+<section class="faq"><h2>자주 묻는 질문</h2><details><summary>바이브선생이 정확히 뭔가요?</summary><p>fivetaku가 만든 오픈소스 자가진단 도구이자 gptaku 플러그인의 세션 평가 기능이다. 클로드코드와 나눈 대화 세션을 분석해 시작·평가·멘토링·성장 네 항목으로 점수를 매긴다.</p></details><details><summary>평균 점수는 몇 점인가요?</summary><p>커뮤니티에서 언급된 평균은 6.3점이며, 잘하는 사람은 7점대가 나온다는 이야기가 있었다. 다만 점수보다 실무 활용도가 더 중요하다는 의견도 함께 나왔다.</p></details><details><summary>GPT 대화 세션도 분석되나요?</summary><p>아니다. 지금까지는 클로드코드 세션만 가져와 분석하며, GPT 대화 세션은 가져오지 못한다는 설명이 있었다.</p></details><details><summary>바이브선생은 어떻게 실행하나요?</summary><p>터미널에서 &quot;바이브선생 실행해줘&quot;라고 말하면 알아서 설치·실행됐다는 공유가 있었다.</p></details></section>
+<div class="tags"><span>클로드코드</span><span>바이브선생</span><span>gptaku</span><span>세션평가</span><span>바이브코딩</span><span>프롬프트습관</span></div>
+<div class="src">이 기사는 클코단 오픈채팅 논의를 정리한 것입니다. 원 아카이브: <a href="../../s/2026-08-01-1800.html">2026-08-01 08-01 13:32~17:43</a> · <a href="../../s/2026-08-02-0900.html">2026-08-02 08-01 20:37~08-02 08:18</a></div>
+</article>
+
+<footer class="magfoot"><div class="cols"><div><a href="../../mag/tools/">도구·라이브러리</a> · <a href="../../mag/workflow/">워크플로우·방법론</a> · <a href="../../mag/troubleshooting/">질문·트러블슈팅</a> · <a href="../../mag/models/">AI 모델·프롬프트</a> · <a href="../../mag/ops/">배포·운영</a> · <a href="../../mag/resources/">자료·링크 공유</a></div></div><div><a href="../../">대화 아카이브</a> · <a href="../../repos/">공유된 레포</a> · <a href="../../weekly/">주간 정리</a></div><div style="margin-top:10px">클코단(클로드코드 사용자 오픈채팅) 논의를 정리한 매거진입니다. 개별 발화와 닉네임은 싣지 않습니다.</div></footer>
+</div>
+</body>
+</html>
