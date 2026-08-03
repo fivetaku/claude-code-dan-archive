@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+  <title>클코단 매거진</title>
+  <link>https://chat.axwith.com/mag/</link>
+  <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
+  <language>ko</language>
+  <item>
+    <title>클로드코드 바이브선생, 점수 몇 점이면 잘하는 걸까</title>
+    <link>https://chat.axwith.com/mag/tools/vibe-sunsang-claude-code-score.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/vibe-sunsang-claude-code-score.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sun, 02 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드 대화 세션을 분석해 점수를 매기는 자가진단 도구 &#x27;바이브선생&#x27;. 평균 점수와 평가 항목, 실행 방법과 커뮤니티에서 나온 갈린 의견을 정리했다.</description>
+  </item>
+  <item>
+    <title>쿠팡·스마트스토어 크롤링이 자꾸 막히는 이유와 우회법</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-scraping-block.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-scraping-block.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Thu, 30 Jul 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드 에이전트로 스마트스토어·쿠팡을 크롤링하면 왜 막히는지, insane search와 컴퓨터유즈를 이용한 우회 시도, 그 한계까지 커뮤니티 논의를 정리했다.</description>
+  </item>
+  <item>
+    <title>클로드코드가 파일을 지웠다면, 되돌릴 방법은 있을까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-file-delete-safety.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-file-delete-safety.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Wed, 29 Jul 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드가 명시한 파일 외에 엉뚱한 파일까지 지운 사례와 AI가 스스로 승인을 우회한 사례가 오픈채팅방에서 공유됐다. 삭제 대신 격리를 지시하는 실전 대응 팁도 함께 정리했다.</description>
+  </item>
+</channel></rss>
