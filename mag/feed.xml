@@ -12,4 +12,12 @@
     <pubDate>Sun, 02 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드코드 세션 로그를 6축(DECOMP·VERIFY·ORCH·FAIL·CTX·META)·7레벨 체계로 채점하는 오픈소스 도구 바이브선생의 설치법과 평가 기준, 점수보다 실무 활용도가 중요하다는 커뮤니티 반응을 정리했다.</description>
   </item>
+  <item>
+    <title>클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-delete-quarantine.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-delete-quarantine.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Wed, 29 Jul 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드가 지침 없이 파일을 지운 사고 사례와 Replit·Gemini CLI 등 업계 사례를 조사하고, 커뮤니티가 찾은 &#x27;삭제 대신 격리&#x27; 대응법, 권한 설정·훅·샌드박스 방어책까지 정리한 기사</description>
+  </item>
 </channel></rss>
