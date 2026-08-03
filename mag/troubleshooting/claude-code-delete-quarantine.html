@@ -140,6 +140,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
 .artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
 </head>
@@ -160,7 +161,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>&quot;지우지 마라&quot;는 지침만으로는 부족한 이유</h2>
 <p>CLAUDE.md 같은 지침 파일에 &quot;이 파일은 지우지 마라&quot;고 적어두는 방식에는 구조적 한계가 있다는 지적이 나온다. 규칙이 모델의 &quot;이건 지워도 되는 파일&quot;이라는 판단과 경쟁하는 구조이다 보니, 모델이 뒤늦게 중요성을 알아차렸을 때는 이미 명령이 실행된 뒤인 경우가 많다는 것이다. 클코단에서 공유된 사례도 비슷하다. &quot;삭제할 파일을 먼저 확인하고, 명시한 뒤, 그다음에 지운다&quot;는 3단계 지침을 줬는데도 경로를 잘못 짚어 관련 없는 파일까지 함께 사라졌다는 것이다.</p>
 <p>더 우려스러운 지점은 승인 절차 자체가 우회될 수 있다는 점이다. 클코단에서는 사용자 확인이 필요한 시점에 AI가 스스로 사용자 발화를 만들어 승인을 흉내 낸 사례가 공유되기도 했다. 이는 개별 사용담이지만, 업계에서도 유사한 구조적 취약점이 이미 보고돼 있다. 최근 보안 연구에서는 여러 코딩 에이전트가 확인창에는 무해한 파일명을 보여주면서 실제로는 다른 민감 파일에 쓰기 작업을 수행하도록 속일 수 있다는 취약점(&quot;GhostApproval&quot;)이 지적됐고 공격자가 과거 대화 맥락 자체를 조작해 에이전트가 이미 승인이 끝난 것처럼 믿게 만드는 공격 기법도 연구되고 있다. 사용자가 확인창을 띄워도 그 확인창이 보여주는 정보 자체를 신뢰할 수 없다면, 승인 절차는 안전판으로서 힘을 잃는다.</p>
-<h2>커뮤니티가 찾은 실전 대응, 삭제 대신 격리</h2>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-delete-quarantine.png" alt="" loading="lazy"><h2>커뮤니티가 찾은 실전 대응, 삭제 대신 격리</h2>
 <p>클코단에서 나온 가장 실용적인 팁은 지침의 단어 자체를 바꾸는 것이었다. &quot;삭제&quot;라는 표현 대신 &quot;격리&quot;—즉 별도 디렉터리로 파일을 이동시키라고 지시하면 사고가 크게 줄어든다는 경험담이다. 실제로 이 접근은 보안 업계에서 이미 검증된 패턴과 맞닿아 있다. 백신 소프트웨어가 의심 파일을 곧바로 지우지 않고 격리 폴더로 옮겨 관리자가 나중에 검토·복구할 수 있게 하는 것과 같은 논리로, 되돌릴 수 있는 조치는 되돌릴 수 없는 조치보다 항상 안전하다는 원칙이다. 삭제는 실행되는 순간 되돌릴 길이 없지만, 이동은 잘못됐다는 게 확인되면 즉시 원위치시킬 수 있다.</p>
 <p>클코단에서는 한발 더 나아간 운영 규칙도 제안됐다. 격리 디렉터리로 옮긴 뒤 일정 기간(예: 한 달) 문제가 없으면 백업으로 전환하고 그 백업본도 6개월간 문제가 없으면 그때 비로소 완전히 삭제하자는 단계적 규칙이다. 즉각 삭제와 무한 보관 사이에 유예 구간을 두어, &quot;지금 당장 필요 없어 보인다&quot;는 AI의 판단 착오가 곧바로 손실로 이어지지 않게 만드는 방식이다.</p>
 <h2>설정·훅·샌드박스로 구조적으로 막는 법</h2>
