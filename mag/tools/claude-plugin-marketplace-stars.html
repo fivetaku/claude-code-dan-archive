@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드코드 플러그인 마켓플레이스, 스타 100개가 신뢰 기준 됐다 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드코드 플러그인 마켓플레이스의 구조와 최근 커진 레몬스퀴즈-폴라 결제 대안 논의, 깃허브 스타 품앗이와 가짜 스타 조작 문제까지 웹 조사와 커뮤니티 경험을 함께 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/claude-plugin-marketplace-stars.html">
+<meta property="og:title" content="클로드코드 플러그인 마켓플레이스, 스타 100개가 신뢰 기준 됐다">
+<meta property="og:description" content="클로드코드 플러그인 마켓플레이스의 구조와 최근 커진 레몬스퀴즈-폴라 결제 대안 논의, 깃허브 스타 품앗이와 가짜 스타 조작 문제까지 웹 조사와 커뮤니티 경험을 함께 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/claude-plugin-marketplace-stars.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드코드 플러그인 마켓플레이스, 스타 100개가 신뢰 기준 됐다", "description": "클로드코드 플러그인 마켓플레이스의 구조와 최근 커진 레몬스퀴즈-폴라 결제 대안 논의, 깃허브 스타 품앗이와 가짜 스타 조작 문제까지 웹 조사와 커뮤니티 경험을 함께 정리했다.", "datePublished": "2026-07-30", "dateModified": "2026-07-30", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-plugin-marketplace-stars.html"}, "articleSection": "도구·라이브러리", "keywords": "클로드코드, 클로드코드 플러그인, 플러그인 마켓플레이스, 레몬스퀴즈, 폴라 결제, GitHub 스타"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드코드 플러그인 마켓플레이스는 어떻게 쓰나요?", "acceptedAnswer": {"@type": "Answer", "text": "`/plugin marketplace add`로 GitHub 등 소스의 마켓플레이스를 등록한 뒤 `/plugin search`와 `/plugin list`로 카탈로그를 검색하고 설치하면 된다. 플러그인은 슬래시 명령, 서브에이전트, 훅, MCP 서버, 스킬을 한 번에 묶어 제공한다."}}, {"@type": "Question", "name": "레몬스퀴즈는 왜 요즘 대안을 찾는 사람이 늘었나요?", "acceptedAnswer": {"@type": "Answer", "text": "2024년 7월 스트라이프에 인수된 뒤 2025년 4월 스트라이프가 자체 MOR 상품 '스트라이프 매니지드 페이먼츠'를 내놓으면서 두 서비스의 장기 통합이 예고됐고, 2026년 1월에는 이전 경로 준비 소식도 나와 로드맵 불확실성이 커졌기 때문이다."}}, {"@type": "Question", "name": "깃허브 스타 품앗이는 안전한가요?", "acceptedAnswer": {"@type": "Answer", "text": "지인 간 품앗이 자체가 불법은 아니지만, 스타 수를 큐레이션 기준으로 삼을 경우 가짜 스타 캠페인처럼 수치가 왜곡될 여지가 있다는 연구 결과도 있어 실사용 후기와 함께 참고하는 것이 안전하다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-plugin-marketplace-stars.png" alt="클로드코드 플러그인 마켓플레이스, 스타 100개가 신뢰 기준 됐다" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>클로드코드 플러그인 마켓플레이스, 스타 100개가 신뢰 기준 됐다</h1>
+  <p class="sub">결제 대행사를 갈아타고 스타를 주고받는 클로드코드 플러그인 생태계, 그 신뢰 구조를 웹 조사로 짚어봤다</p>
+  <div class="meta"><span>2026-07-30</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>커지는 플러그인 생태계, 마켓플레이스가 여러 개</h2>
+<p>Claude Code 플러그인 생태계가 몇 달 새 빠르게 커지면서, 개발자 커뮤니티에서는 마켓플레이스에 무엇을 올릴지, 어떤 결제 수단으로 유료화할지, 좋은 레포를 어떻게 가려낼지가 새로운 화두로 떠올랐다. 클로드단 오픈채팅방에서도 최근 자신이 만든 플러그인 레포를 공유하고 서로 스타를 눌러주는 품앗이, 그리고 결제 심사에서 튕겨난 경험담이 오갔다. 이 기사는 클로드코드 플러그인 마켓플레이스의 구조와 결제 인프라의 최근 변화를 웹 조사로 확인하고, 실제 사용자들의 경험을 더해 정리한다.</p>
+<p>Claude Code는 플러그인 배포 시스템을 정식 지원한다. `/plugin marketplace add` 명령으로 GitHub, npm, GitLab, 로컬 경로 등 다양한 소스의 마켓플레이스를 등록하면 `/plugin search`와 `/plugin list`로 카탈로그를 검색·설치할 수 있다. 앤트로픽이 직접 관리하는 공식 디렉터리(`anthropics/claude-plugins-official`) 외에도 커뮤니티가 만든 마켓플레이스가 여럿이다. 한 커뮤니티 큐레이션 목록은 192개의 마켓플레이스와 2500개가 넘는 플러그인을 집계하고 있고, &#x27;tonsofskills&#x27; 같은 대형 카탈로그는 471개 플러그인과 3000개가 넘는 스킬을 CLI 패키지 매니저로 관리한다. 플러그인 하나는 슬래시 명령, 서브에이전트, 훅, MCP 서버, 스킬 등을 한 번에 묶어 배포하는 단위다.</p>
+<p>이런 폭발적 증가는 동시에 &#x27;무엇을 믿고 설치할 것인가&#x27;라는 문제를 낳는다. 방에서는 gptaku_plugins라는 레포가 공유됐는데, WAF·403·캡차 등 접근 제한을 우회해 정보를 가져오는 insane-search, 웹사이트 디자인 시스템을 추출하는 insane-design 등 14개 플러그인을 묶은 마켓플레이스로, 대부분 별도 API 키 없이 클로드코드 환경에서 바로 동작한다는 설명과 함께 반응이 좋았다는 후기가 많았다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-plugin-marketplace-stars.png" alt="" loading="lazy"><h2>레몬스퀴즈 대신 폴라, 결제 모듈을 바꾸는 이유</h2>
+<p>플러그인이나 스킬을 유료로 팔려는 1인 개발자들에게 결제 대행사(Merchant of Record) 선택은 또 다른 관문이다. 방에서는 레몬스퀴즈 심사에서 거부당한 사례가 공유되며 대안으로 폴라(Polar)가 추천됐다. 실제로 레몬스퀴즈는 2024년 7월 스트라이프에 인수된 뒤 로드맵이 불투명해졌고, 스트라이프가 2025년 4월 자체 MOR 상품인 &#x27;스트라이프 매니지드 페이먼츠&#x27;를 내놓으면서 두 상품의 장기적 통합이 예고된 상태다. 2026년 1월에는 레몬스퀴즈 창업자가 레몬스퀴즈에서 스트라이프 매니지드 페이먼츠로 옮기는 경로를 준비 중이라고 밝히기도 했다.</p>
+<p>이런 불확실성 속에서 오픈소스 기반인 폴라가 대안으로 꼽히는 경우가 늘고 있다. 폴라는 개발자 친화적인 API와 4%+0.4달러 수준의 수수료 구조를 내세우며, 특히 미국 고객 비중이 높은 1인 개발자·인디해커 사이에서 온보딩이 빠르고 대시보드가 직관적이라는 평가를 받는다. 레몬스퀴즈가 주로 솔로 크리에이터를 겨냥한다면 폴라는 API 통제권과 확장성을 중시하는 개발자층을 타깃으로 한다는 평가도 있다. 방에서도 심사 문턱에 걸린 경험 이후 폴라로 갈아탔다는 의견이 있었다.</p>
+<h2>스타 품앗이, 신뢰의 지표인가 왜곡의 씨앗인가</h2>
+<p>방에서는 gptaku_plugins 외에도 chatmux, naite-personal-memory, lazy-starter-kit 등 여러 레포가 오가며 서로 스타를 눌러주는 품앗이가 이어졌고, 플러그인 목록에 별 100개 이상 레포만 골라 넣는 큐레이션 작업이 진행 중이라는 안내도 있었다. 스타 개수를 품질의 대리 지표로 쓰는 관행 자체는 오픈소스 생태계에서 오래됐지만, 최근 연구에 따르면 이 지표는 조작에 취약하다. 2019년부터 2024년까지의 깃허브 이벤트 데이터를 분석한 한 연구는 1만5835개 레포에서 600만 개에 달하는 의심스러운 가짜 스타를 발견했고, 2024년 7월 정점에는 스타 활동이 있는 레포의 16%가 가짜 스타 캠페인과 연관됐다고 밝혔다. 별점 교환 사이트나 프리랜서 마켓의 유료 프로모션 판매도 이런 흐름과 무관하지 않다.</p>
+<p>물론 지인 사이의 스타 품앗이와 봇을 동원한 가짜 스타 판매는 성격이 다르다. 그러나 마켓플레이스가 &#x27;별 100개 이상&#x27; 같은 단순 수치를 큐레이션 기준으로 삼는다면, 실사용 후기 없이 스타 개수만으로 신뢰도가 부풀려질 여지가 있다는 의견도 방에서 나왔다. 실제로 설치해보고 동작을 확인한 뒤 공유하는 흐름이 함께 있었다는 점은 이런 우려를 어느 정도 완화하는 요소로 꼽혔다.</p>
+<h2>정리</h2>
+<p>클로드코드 플러그인 생태계는 공식 마켓플레이스와 커뮤니티 카탈로그가 함께 커지는 단계에 있고, 그만큼 무엇을 설치하고 어떻게 값을 매길지를 둘러싼 실무 고민도 늘고 있다. 레몬스퀴즈의 인수·통합 이슈는 결제 인프라를 직접 선택해야 하는 1인 개발자들에게 실질적인 변수로 작용하고 있고, 스타 개수를 둘러싼 신뢰 문제는 마켓플레이스 큐레이션이 다음 단계로 넘어가면서 함께 풀어야 할 숙제로 남아 있다.</p></div>
+<div class="chips"><span class="chip">클로드코드</span><span class="chip">클로드코드 플러그인</span><span class="chip">플러그인 마켓플레이스</span><span class="chip">레몬스퀴즈</span><span class="chip">폴라 결제</span><span class="chip">GitHub 스타</span></div>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드코드 플러그인 마켓플레이스는 어떻게 쓰나요?</h2><p class="sum">`/plugin marketplace add`로 GitHub 등 소스의 마켓플레이스를 등록한 뒤 `/plugin search`와 `/plugin list`로 카탈로그를 검색하고 설치하면 된다. 플러그인은 슬래시 명령, 서브에이전트, 훅, MCP 서버, 스킬을 한 번에 묶어 제공한다.</p></article><article class="dcard"><div class="t">Q</div><h2>레몬스퀴즈는 왜 요즘 대안을 찾는 사람이 늘었나요?</h2><p class="sum">2024년 7월 스트라이프에 인수된 뒤 2025년 4월 스트라이프가 자체 MOR 상품 &#x27;스트라이프 매니지드 페이먼츠&#x27;를 내놓으면서 두 서비스의 장기 통합이 예고됐고, 2026년 1월에는 이전 경로 준비 소식도 나와 로드맵 불확실성이 커졌기 때문이다.</p></article><article class="dcard"><div class="t">Q</div><h2>깃허브 스타 품앗이는 안전한가요?</h2><p class="sum">지인 간 품앗이 자체가 불법은 아니지만, 스타 수를 큐레이션 기준으로 삼을 경우 가짜 스타 캠페인처럼 수치가 왜곡될 여지가 있다는 연구 결과도 있어 실사용 후기와 함께 참고하는 것이 안전하다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-07-30-0900.html">2026-07-30 07-29 23:33~07-30 08:45</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
