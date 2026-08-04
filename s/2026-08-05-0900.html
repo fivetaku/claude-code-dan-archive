@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 8월 5일 09:00 — 픽셀 스프라이트 제작 AI</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 5일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-05 00:09~08:43</b></span>
+    <span>발화 <b>250</b></span>
+    <span>참여 <b>39</b>명</span>
+    <span>주제 <b>15</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone"><div class="spine"></div><div class="bar" style="left:2.0%;height:19px"></div><div class="bar" style="left:3.3%;height:29px"></div><div class="bar" style="left:4.5%;height:23px"></div><div class="bar peak" style="left:5.8%;height:45px"></div><div class="bar" style="left:7.1%;height:42px"></div><div class="bar" style="left:8.4%;height:19px"></div><div class="bar peak" style="left:9.6%;height:58px"></div><div class="bar" style="left:10.9%;height:26px"></div><div class="bar" style="left:12.2%;height:6px"></div><div class="bar" style="left:13.4%;height:16px"></div><div class="bar" style="left:14.7%;height:6px"></div><div class="bar" style="left:16.0%;height:6px"></div><div class="bar" style="left:17.2%;height:6px"></div><div class="bar" style="left:18.5%;height:6px"></div><div class="bar" style="left:19.8%;height:10px"></div><div class="bar" style="left:21.1%;height:19px"></div><div class="bar" style="left:22.3%;height:6px"></div><div class="bar" style="left:23.6%;height:6px"></div><div class="bar" style="left:24.9%;height:10px"></div><div class="bar" style="left:26.1%;height:19px"></div><div class="bar" style="left:27.4%;height:13px"></div><div class="bar" style="left:28.7%;height:32px"></div><div class="bar" style="left:29.9%;height:19px"></div><div class="bar" style="left:31.2%;height:10px"></div><div class="bar" style="left:32.5%;height:6px"></div><div class="bar" style="left:33.8%;height:6px"></div><div class="bar" style="left:35.0%;height:6px"></div><div class="bar" style="left:36.3%;height:10px"></div><div class="bar" style="left:37.6%;height:6px"></div><div class="bar" style="left:38.8%;height:6px"></div><div class="bar" style="left:40.1%;height:10px"></div><div class="bar" style="left:41.4%;height:6px"></div><div class="bar" style="left:42.6%;height:29px"></div><div class="bar" style="left:43.9%;height:42px"></div><div class="bar" style="left:45.2%;height:6px"></div><div class="bar" style="left:46.5%;height:6px"></div><div class="bar" style="left:47.7%;height:6px"></div><div class="bar" style="left:49.0%;height:6px"></div><div class="bar" style="left:50.3%;height:13px"></div><div class="bar" style="left:51.5%;height:6px"></div><div class="bar" style="left:52.8%;height:6px"></div><div class="bar" style="left:54.1%;height:6px"></div><div class="bar" style="left:55.4%;height:6px"></div><div class="bar" style="left:56.6%;height:6px"></div><div class="bar" style="left:57.9%;height:6px"></div><div class="bar" style="left:59.2%;height:6px"></div><div class="bar" style="left:60.4%;height:6px"></div><div class="bar" style="left:61.7%;height:6px"></div><div class="bar" style="left:63.0%;height:6px"></div><div class="bar" style="left:64.2%;height:10px"></div><div class="bar" style="left:65.5%;height:6px"></div><div class="bar" style="left:66.8%;height:10px"></div><div class="bar" style="left:68.1%;height:13px"></div><div class="bar" style="left:69.3%;height:10px"></div><div class="bar" style="left:70.6%;height:6px"></div><div class="bar" style="left:71.9%;height:6px"></div><div class="bar" style="left:73.1%;height:6px"></div><div class="bar" style="left:74.4%;height:6px"></div><div class="bar" style="left:75.7%;height:6px"></div><div class="bar" style="left:76.9%;height:6px"></div><div class="bar" style="left:78.2%;height:10px"></div><div class="bar" style="left:79.5%;height:6px"></div><div class="bar" style="left:80.8%;height:10px"></div><div class="bar" style="left:82.0%;height:6px"></div><div class="bar" style="left:83.3%;height:6px"></div><div class="bar" style="left:84.6%;height:6px"></div><div class="bar" style="left:85.8%;height:6px"></div><div class="bar" style="left:87.1%;height:16px"></div><div class="bar" style="left:88.4%;height:10px"></div><div class="bar" style="left:89.6%;height:10px"></div><div class="bar" style="left:90.9%;height:6px"></div><div class="bar" style="left:92.2%;height:6px"></div><div class="bar" style="left:93.5%;height:6px"></div><div class="bar" style="left:94.7%;height:6px"></div><div class="bar" style="left:96.0%;height:10px"></div><div class="lbl" style="left:2.0%">00:09</div><div class="peaktag" style="left:5.8%;bottom:53px">00:12 · 14건</div><div class="lbl" style="left:17.2%">00:26</div><div class="lbl" style="left:32.5%">00:43</div><div class="lbl" style="left:47.7%">00:58</div><div class="lbl" style="left:63.0%">05:10</div><div class="lbl" style="left:78.2%">08:06</div><div class="lbl" style="left:93.5%">08:41</div><div class="lbl" style="left:96.0%">08:43</div><div class="rib up" style="left:26.1%"><div class="stem"></div><div class="ribcard"><div class="t">00:38-00:39</div><h3>픽셀 스프라이트 제작 AI</h3></div></div><div class="rib dn" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">08:34-08:43</div><h3>모델 조합 전략(오푸스/소넷)</h3></div></div><div class="rib up" style="left:12.2%"><div class="stem"></div><div class="ribcard"><div class="t">00:17-00:31</div><h3>도메인 구매처 공유</h3></div></div><div class="rib dn" style="left:35.0%"><div class="stem"></div><div class="ribcard"><div class="t">00:48-00:55</div><h3>탁구 봇 토큰 사용량 급증</h3></div></div><div class="rib up" style="left:52.8%"><div class="stem"></div><div class="ribcard"><div class="t">02:15-02:38</div><h3>클로드코드 구독 전환 문의</h3></div></div><div class="rib dn" style="left:56.6%"><div class="stem"></div><div class="ribcard"><div class="t">05:05-05:12</div><h3>울트라코드 모드 오해 정정</h3></div></div><div class="rib up" style="left:8.4%"><div class="stem"></div><div class="ribcard"><div class="t">00:14-00:17</div><h3>오모(omo.dev) 소개</h3></div></div><div class="rib dn" style="left:21.1%"><div class="stem"></div><div class="ribcard"><div class="t">00:33-00:44</div><h3>탁구 사칭 소동</h3></div></div><div class="rib up" style="left:26.1%"><div class="stem"></div><div class="ribcard"><div class="t">00:38</div><h3>ChatGPT 팀 계정 전화번호 문제</h3></div></div><div class="rib dn" style="left:41.4%"><div class="stem"></div><div class="ribcard"><div class="t">00:53-00:55</div><h3>탁구 멘션/답장 구현 질문</h3></div></div><div class="rib up" style="left:46.5%"><div class="stem"></div><div class="ribcard"><div class="t">00:57-00:58</div><h3>가재코드 역할 세팅 질문</h3></div></div><div class="rib dn" style="left:78.0%"><div class="stem"></div><div class="ribcard"><div class="t">08:14-08:24</div><h3>제조업 AX 화제 관찰</h3></div></div><div class="rib up" style="left:2.0%"><div class="stem"></div><div class="ribcard"><div class="t">00:09-00:14</div><h3>노트북/폰 잡담</h3></div></div><div class="rib dn" style="left:49.0%"><div class="stem"></div><div class="ribcard"><div class="t">00:59-01:00</div><h3>딥식 전환 제안</h3></div></div><div class="rib up" style="left:66.8%"><div class="stem"></div><div class="ribcard"><div class="t">07:28-07:38</div><h3>중복 닉네임 통계</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">00:38-00:39</div><h2>픽셀 스프라이트 제작 AI</h2><p class="sum">게임용 픽셀 스프라이트 에셋 제작에 좋은 AI를 묻는 질문에 sprite-gen이라는 오픈소스 깃허브 프로젝트가 소개됐다. 다만 답변자가 탁구 봇을 사칭한 계정이어서 이후 사칭 소동으로 이어졌다.</p><ul><li>픽셀 스프라이트 에셋 제작 도구로 sprite-gen(GitHub) 추천됨</li><li>답변자가 탁구 봇 사칭 계정이었음이 이후 드러남</li><li><a href="https://github.com/aldegad/sprite-gen">https://github.com/aldegad/sprite-gen</a></li></ul></article><article class="dcard"><div class="t">08:34-08:43</div><h2>모델 조합 전략(오푸스/소넷)</h2><p class="sum">계획은 오푸스로, 코드 작성은 소넷으로 나눠 써도 되는지 묻는 질문에서 심도 있는 논의가 이어졌다. 짧은 작업은 모델을 나누면 오히려 토큰 손해이고, 30분~1시간 걸리는 장기 플랜이나 프론트/백엔드 분리 같은 경우에 나누는 게 효율적이라는 의견이 나왔다. 명확한 지시서가 있는 단순 작업은 소넷이 낫고, 오푸스는 상황에 따라 하위 에이전트를 안 쓰고 혼자 다 처리해버리는 경우도 있다는 관찰이 공유됐다. 개인 메모리·skills 설정 여부에 따라 결과 차이가 크다는 데로 결론이 모였다.</p><ul><li>계획=오푸스, 코드작성=소넷 조합에 대한 질문에서 논의 시작</li><li>짧은 작업은 모델을 나누면 토큰만 더 소모된다는 지적</li><li>30분~1시간 걸리는 장기 플랜이나 프론트/백 분리 작업엔 모델 분리가 효율적</li><li>오푸스가 상황에 따라 하위 에이전트 없이 혼자 다 처리하는 경우도 있음</li><li>개인 메모리·skills 설정 여부에 따라 결과 편차가 크다는 결론</li></ul></article><article class="dcard"><div class="t">00:17-00:31</div><h2>도메인 구매처 공유</h2><p class="sum">클로드로 웹사이트를 만든 뒤 도메인을 어디서 사는지 묻는 질문에서 시작됐다. duckdns로 테스트만 해본 멤버가 실제 구매처를 물었고, NAS+역방향프록시 조합, Vercel, Railway, Cloudflare 등 다양한 답이 나왔다. 최종적으로 클라우드플레어를 추천하는 의견이 우세했다.</p><ul><li>duckdns로 맛만 보고 정식 도메인 구매를 고민하는 질문에서 시작</li><li>도메인 1개 구매 후 나스+역방향프록시로 여러 서브도메인 운용하는 방법 공유</li><li>Vercel, Railway에서도 도메인 구매 가능하다는 경험담</li><li>최종적으로 클라우드플레어 추천 의견이 많았음</li></ul></article><article class="dcard"><div class="t">00:48-00:55</div><h2>탁구 봇 토큰 사용량 급증</h2><p class="sum">방장이 탁구 봇을 맥스20 플랜으로 돌리는데 24시간 만에 사용량 50%가 찼다고 놀랐다. 채팅방 요약·아카이빙은 별도 프록시 계정으로 돌아가고 탁구 전용 계정만으로 24시간 동안 7300만 토큰을 썼다며 원인을 특정하지 못했다. 검색·분석에 붙여둔 소넷을 하이쿠로 교체할지 고민 중이라고 밝혔다.</p><ul><li>맥스20 플랜으로 탁구 봇 운영 중 24시간 만에 사용량 50% 소진</li><li>채팅방 요약·아카이빙은 별도 프록시 계정, 탁구 전용 계정만으로도 과다 소모</li><li>24시간 동안 약 7300만 토큰 사용</li><li>검색·분석용 소넷을 하이쿠로 교체 검토 중</li></ul></article><article class="dcard"><div class="t">02:15-02:38</div><h2>클로드코드 구독 전환 문의</h2><p class="sum">앱스토어로 비싸게 구독한 클로드코드를 웹 구독으로 바꾸려는데 전환이 안 된다는 질문이 올라왔다. 다른 멤버는 앱스토어에서 먼저 해지한 뒤 웹에서 새로 구독해야 할 것 같다는 의견을 냈다.</p><ul><li>앱스토어 구독 → 웹 구독 전환이 되지 않는 문제 제기</li><li>앱스토어에서 해지 후 웹에서 재구독하는 방법이 대안으로 제시됨</li></ul></article><article class="dcard"><div class="t">05:05-05:12</div><h2>울트라코드 모드 오해 정정</h2><p class="sum">한 멤버가 울트라코드 모드를 사고능력이 최고로 올라가는 모드로 착각했다가, 실제로는 병렬 에이전트 구동 모드라는 걸 뒤늦게 알았다고 밝혔다. 다른 멤버는 잘못 켜면 토큰이 순식간에 사라진다고 경고했다. 이어 바쁠 때 대충 지시를 던지면 결과가 슬롭으로 쌓이는 악순환, 그리고 &#x27;바이오토큰&#x27;(사람의 시간·에너지) 관리의 중요성도 함께 언급됐다.</p><ul><li>울트라코드 모드는 &#x27;사고력 최대&#x27;가 아니라 병렬 에이전트 구동 모드임을 뒤늦게 인지</li><li>잘못 켜면 토큰이 빠르게 소모된다는 경고</li><li>바쁘게 대충 지시하면 슬롭(저품질 산출물)이 쌓이는 악순환 언급</li><li>&#x27;바이오토큰&#x27;(사람의 시간·에너지) 관리도 중요하다는 의견</li></ul></article><article class="dcard"><div class="t">00:14-00:17</div><h2>오모(omo.dev) 소개</h2><p class="sum">한 멤버가 스레드 링크를 공유하며 &#x27;오모네이티브&#x27;로 재경험하게 될 거라 예고했고, 이는 omo.dev라는 도메인/커뮤니티 플러그인과 연결됐다. 다른 멤버는 관련 도메인을 갖고 있었는데 이미 마케팅용으로 써버렸다고 아쉬워했다. 방 인원이 곧 1000명이라는 이야기도 함께 나왔다.</p><ul><li>omo.dev는 OpenCode를 다중 에이전트 시스템으로 확장하는 커뮤니티 플러그인</li><li>스레드 링크 공유로 화제가 시작됨</li><li>관련 도메인을 이미 다른 용도로 써버렸다는 후일담 공유</li><li><a href="https://omo.dev">https://omo.dev</a></li></ul></article><article class="dcard"><div class="t">00:33-00:44</div><h2>탁구 사칭 소동</h2><p class="sum">닉네임이 춘식이로 표시되던 멤버가 강퇴됐다가 재입장하는 과정에서 닉네임 오인 해프닝이 있었다. 곧이어 실제 탁구 봇을 흉내내는 사칭 계정이 등장했고, 방장은 사칭은 강퇴 대상이라고 언급했다. 진짜 탁구 봇이 응답하며 소동이 정리됐지만 그날 하루 응답 한도가 다 찼다는 후일담이 이어졌다.</p><ul><li>닉네임 표시 오인으로 잘못 강퇴됐다가 해제된 해프닝</li><li>탁구 봇을 사칭하는 계정 등장, 강퇴 대상으로 지목됨</li><li>실제 탁구 봇이 응답했으나 곧 하루 사용 한도 소진</li></ul></article><article class="dcard"><div class="t">00:38</div><h2>ChatGPT 팀 계정 전화번호 문제</h2><p class="sum">ChatGPT 팀 플랜을 추가 계정에 등록하려는데 전화번호가 다른 걸 요구해서 막힌다는 질문이 올라왔다. 두 개까지는 됐는데 세 번째부터 안 된다는 구체적 상황이 공유됐다. 비교 답변으로 클로드는 개인/팀 계정을 오가니제이션으로 스왑할 수 있다는 점이 언급됐지만 ChatGPT 쪽 해결책은 나오지 않았다.</p><ul><li>ChatGPT 팀 플랜 추가 계정 등록 시 전화번호 중복 문제</li><li>세 번째 계정부터 등록 실패</li><li>클로드는 개인/팀 계정 오가니제이션 스왑 가능하다는 비교 언급</li></ul></article><article class="dcard"><div class="t">00:53-00:55</div><h2>탁구 멘션/답장 구현 질문</h2><p class="sum">한 멤버가 자신도 Iris로 봇을 돌리는데 대화는 되지만 탁구처럼 멘션·답장 기능이 구현되지 않는다며 방법을 물었다. 방장은 메타데이터를 직접 뜯어서 테스트하며 만든 자체 구현이라 구체적으로 공개하기 어렵다고 답했다.</p><ul><li>Iris로 봇을 돌리는 멤버가 멘션·답장 구현 방법 문의</li><li>방장은 메타데이터 분석 기반 자체 구현이라 상세 공개는 어렵다고 답함</li></ul></article><article class="dcard"><div class="t">00:57-00:58</div><h2>가재코드 역할 세팅 질문</h2><p class="sum">한 멤버가 가재코드의 AI 역할 세팅 추천을 탁구 봇에게 요청했다. 이어지는 답변은 대화 로그에서 확인되지 않았다.</p><ul><li>가재코드 AI 역할 세팅 추천 요청</li><li>이어지는 답변 내용은 로그에 남아있지 않음</li></ul></article><article class="dcard"><div class="t">08:14-08:24</div><h2>제조업 AX 화제 관찰</h2><p class="sum">최근 제조업 AX(AI 전환) 사례가 유독 많이 보인다는 관찰에서 잡담이 시작됐다. 인건비 대체 효과가 눈에 띄어 ROI가 잘 나오기 때문 아니냐는 의견이 나왔다.</p><ul><li>제조업 AX 사례가 최근 많이 보인다는 관찰 공유</li><li>인건비 대체 효과로 ROI가 잘 나오는 것이 이유라는 의견</li></ul></article><article class="dcard"><div class="t">00:09-00:14</div><h2>노트북/폰 잡담</h2><p class="sum">갤럭시 폴드 구매 고민과 폴드 피로파괴 경험담으로 대화가 시작됐다. 아이폰 미니, 아이폰13 프로 등 각자 쓰는 폰 얘기로 흘러가다 맥북으로 화제가 넘어갔다. 다수가 맥북 에어 M1을 극찬하며 중고 시세와 크램쉘 모드 활용 팁을 공유했다. 무리하게 돌리면 보드가 나갈 수 있으니 살짝 벌려서 크램쉘 쓰라는 경험담도 나왔다.</p><ul><li>폴드류는 피로파괴 경험 후 기피한다는 의견</li><li>맥북 에어 M1이 가성비 최고라는 데 의견 모임</li><li>당근에서 40만원 내외로 M1 에어 중고 구매 가능</li><li>크램쉘 모드로 무리하게 돌리면 보드 손상 위험 있음</li></ul></article><article class="dcard"><div class="t">00:59-01:00</div><h2>딥식 전환 제안</h2><p class="sum">탁구 봇을 딥식으로 바꾸는 게 어떠냐는 제안이 나왔다. 방장은 API로 쓰는 게 아니면 딥식 상태가 오락가락한다며 부정적인 의견을 냈다.</p><ul><li>탁구 봇의 모델을 딥식으로 바꾸자는 제안</li><li>API 사용이 아니면 딥식 상태가 불안정하다는 답</li></ul></article><article class="dcard"><div class="t">07:28-07:38</div><h2>중복 닉네임 통계</h2><p class="sum">방 봇에게 동일 닉네임을 가진 사람이 몇 명인지 물어본 결과 중복 닉네임 36종, 해당 인원 84명이라는 답이 나왔다. 이어 특정 닉네임을 검색했을 때 봇이 &#x27;0명&#x27; → &#x27;모름&#x27; → &#x27;2명&#x27;으로 답을 계속 바꿔 신뢰도 이슈가 드러났다.</p><ul><li>방 봇 조회 결과 중복 닉네임 36종, 해당 인원 84명</li><li>특정 닉네임 검색 시 봇 답변이 매번 달라지는 신뢰도 문제 노출</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-05-0900</span>
+</footer>
+</div>
+</body>
+</html>
