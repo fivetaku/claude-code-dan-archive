@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="GPT-5.6 루나 API 가격이 80% 내려 클로드 하이쿠보다 싸졌다. 딥시크 V4 플래시와 벤치마크·가격을 비교하고, 오픈코드 고 요금제 실사용 워크플로우를 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/gpt-luna-terra-price-cut.html">
+<meta property="og:title" content="GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니">
+<meta property="og:description" content="GPT-5.6 루나 API 가격이 80% 내려 클로드 하이쿠보다 싸졌다. 딥시크 V4 플래시와 벤치마크·가격을 비교하고, 오픈코드 고 요금제 실사용 워크플로우를 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/gpt-luna-terra-price-cut.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니", "description": "GPT-5.6 루나 API 가격이 80% 내려 클로드 하이쿠보다 싸졌다. 딥시크 V4 플래시와 벤치마크·가격을 비교하고, 오픈코드 고 요금제 실사용 워크플로우를 정리했다.", "datePublished": "2026-07-31", "dateModified": "2026-07-31", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/gpt-luna-terra-price-cut.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "GPT-5.6, 루나, API 가격 인하, 딥시크 V4, 클로드 하이쿠, 오픈코드, opencode go"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "GPT-5.6 루나와 테라는 각각 얼마나 저렴해졌나요?", "acceptedAnswer": {"@type": "Answer", "text": "2026년 7월 30일 기준 루나는 100만 토큰당 입력·출력 가격이 1달러/6달러에서 0.20달러/1.20달러로 약 80% 내렸고, 테라는 2.50달러/15달러에서 2달러/12달러로 약 20% 내렸습니다. 플래그십 솔은 가격이 유지됐습니다."}}, {"@type": "Question", "name": "GPT-5.6 루나는 클로드 하이쿠 4.5보다 저렴한가요?", "acceptedAnswer": {"@type": "Answer", "text": "네. 클로드 하이쿠 4.5는 100만 토큰당 입력 1달러·출력 5달러인 반면, 인하 후 루나는 입력 0.20달러·출력 1.20달러로 더 저렴합니다. 다만 딥시크 V4 플래시(입력 0.14달러·출력 0.28달러)는 루나보다도 쌉니다."}}, {"@type": "Question", "name": "오픈코드 고(Go) 요금제는 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "오픈코드가 제공하는 월 정액형 요금제로, 월 10달러(첫 달 5달러)에 딥시크 V4 프로 등 십수 종의 오픈웨이트 코딩 모델을 5시간·주간·월간 단위의 사용 한도 안에서 쓸 수 있습니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/gpt-luna-terra-price-cut.png" alt="GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니" loading="eager">
+<header>
+  <div class="eyebrow">AI 모델·프롬프트</div>
+  <h1>GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</h1>
+  <p class="sub">오픈AI가 GPT-5.6 루나·테라 가격을 내리면서 촉발된 &#x27;가장 싼 코딩 모델&#x27; 논쟁, 클코단 실사용 워크플로우로 검증했다</p>
+  <div class="meta"><span>2026-07-31</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>오픈AI가 2026년 7월 30일 GPT-5.6 라인업의 API 가격을 조정했다. 최저가 모델 루나(Luna)는 80%, 중간급 테라(Terra)는 20% 내렸고, 플래그십 솔(Sol)은 가격을 유지한 채 속도만 높였다. GPT-5.6이 출시된 지 불과 3주 만의 인하였다. 오픈채팅방 &#x27;클코단&#x27;에서도 이 소식이 화제였는데, 논쟁의 핵심은 단순했다 — 이 정도 가격이면 딥시크(DeepSeek) 대신 쓸 만한가.</p>
+<h2>정확히 얼마나 내렸나</h2>
+<p>루나는 100만 토큰당 입력 1달러·출력 6달러였던 가격이 입력 0.20달러·출력 1.20달러로, 테라는 입력 2.50달러·출력 15달러에서 입력 2달러·출력 12달러로 낮아졌다. 솔은 입력 5달러·출력 30달러를 유지하되 처리 속도를 최대 2.5배 높인 &#x27;패스트 모드&#x27;를 새로 붙였다. 오픈AI는 GPU 커널을 재작성해 서빙 비용을 약 20% 줄였고, 추측 디코딩(speculative decoding)용 드래프트 모델을 새로 설계해 토큰 생성 효율을 15% 이상 개선했다고 인하 배경을 밝혔다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/gpt-luna-terra-price-cut.png" alt="" loading="lazy"><h2>하이쿠보다 싸다는 말, 사실일까</h2>
+<p>방에서 나온 &quot;루나가 클로드 하이쿠보다도 싸다&quot;는 반응은 숫자로 확인된다. 앤트로픽의 클로드 하이쿠 4.5는 100만 토큰당 입력 1달러·출력 5달러인 반면, 루나는 입력 0.20달러·출력 1.20달러로 확실히 더 저렴하다. 다만 딥시크 V4 플래시(입력 0.14달러·출력 0.28달러)와 비교하면 여전히 루나가 비싼 편이다. 특히 출력 토큰 단가는 4배 이상 차이가 나서, 순수 가격만 보면 딥시크의 우위가 뚜렷하다.</p>
+<h2>성능은 딥시크가 나을까, 루나가 나을까</h2>
+<p>방에서는 딥시크의 성능이 더 나을 것이라는 의견과, 벤치마크상 같은 가격이면 루나가 나을 것이라는 의견이 맞섰다. 실제 모델 비교 사이트의 벤치마크 결과를 보면 루나가 SWE-Bench Pro·GPQA·GDPval-AA 등 다수 지표에서 딥시크 V4 프로·플래시 계열을 앞선다. 다만 이런 자동 비교 사이트의 점수는 참고용일 뿐, 실제 코딩 작업 체감과는 차이가 날 수 있다. 딥시크 V4 플래시는 코딩·에이전틱 벤치마크에서 동급 대비 상위권 점수를 유지하면서도 압도적으로 싼 가격을 무기로 내세우고 있어, &#x27;가격 대비 성능&#x27;을 어떻게 저울질하느냐에 따라 결론이 갈리는 구조다.</p>
+<h2>클코단의 실전 워크플로우</h2>
+<p>방에서 공유된 실사용 조합은 설계는 클로드 페이블·오푸스로, 구현은 오픈코드(OpenCode)의 &#x27;고(Go)&#x27; 요금제에 포함된 딥시크 V4 플래시로 맡기는 방식이었다. 오픈코드 고는 월 10달러(첫 달 5달러)에 딥시크 V4 프로를 포함한 십수 종의 오픈웨이트 코딩 모델을 다달이 정액 한도 내에서 쓸 수 있게 한 요금제다. 한 참여자는 딥시크 V4 플래시만으로 회사 내부 홈페이지를 만들고 있다고 전했다. 이번 가격 인하로 루나가 구현 단계의 새 후보로 오르내리는 것도 이런 배경에서다. 다만 이번 인하가 API 단가에 한정된 조치인지 구독형 요금제에도 반영될지는 아직 방 안에서도 추측 수준이며, 구독 서비스 쪽 변동은 별도 확인이 필요하다.</p>
+<p>루나·테라의 가격 인하는 오픈AI가 중국발 저가 모델들과의 경쟁, 비용에 민감해진 기업 고객층을 동시에 겨냥한 조치로 읽힌다. 다만 순수 토큰 단가에서는 딥시크가 여전히 앞서 있어, 결국 선택은 &#x27;가격&#x27;이 아니라 &#x27;작업 성격에 맞는 성능&#x27;의 문제로 좁혀지고 있다.</p></div>
+<div class="chips"><span class="chip">GPT-5.6</span><span class="chip">루나</span><span class="chip">API 가격 인하</span><span class="chip">딥시크 V4</span><span class="chip">클로드 하이쿠</span><span class="chip">오픈코드</span><span class="chip">opencode go</span></div>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>GPT-5.6 루나와 테라는 각각 얼마나 저렴해졌나요?</h2><p class="sum">2026년 7월 30일 기준 루나는 100만 토큰당 입력·출력 가격이 1달러/6달러에서 0.20달러/1.20달러로 약 80% 내렸고, 테라는 2.50달러/15달러에서 2달러/12달러로 약 20% 내렸습니다. 플래그십 솔은 가격이 유지됐습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPT-5.6 루나는 클로드 하이쿠 4.5보다 저렴한가요?</h2><p class="sum">네. 클로드 하이쿠 4.5는 100만 토큰당 입력 1달러·출력 5달러인 반면, 인하 후 루나는 입력 0.20달러·출력 1.20달러로 더 저렴합니다. 다만 딥시크 V4 플래시(입력 0.14달러·출력 0.28달러)는 루나보다도 쌉니다.</p></article><article class="dcard"><div class="t">Q</div><h2>오픈코드 고(Go) 요금제는 무엇인가요?</h2><p class="sum">오픈코드가 제공하는 월 정액형 요금제로, 월 10달러(첫 달 5달러)에 딥시크 V4 프로 등 십수 종의 오픈웨이트 코딩 모델을 5시간·주간·월간 단위의 사용 한도 안에서 쓸 수 있습니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-07-31-0900.html">2026-07-31 07-31 00:52~08:50</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

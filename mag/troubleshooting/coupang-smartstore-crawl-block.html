@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="쿠팡과 네이버 스마트스토어가 크롤링을 막는 기술적 원리, patchright와 컴퓨터유즈로 우회를 시도한 클코단의 경험, 잡코리아·여기어때 판례로 확인한 크롤링의 법적 리스크까지 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-crawl-block.html">
+<meta property="og:title" content="쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나">
+<meta property="og:description" content="쿠팡과 네이버 스마트스토어가 크롤링을 막는 기술적 원리, patchright와 컴퓨터유즈로 우회를 시도한 클코단의 경험, 잡코리아·여기어때 판례로 확인한 크롤링의 법적 리스크까지 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-crawl-block.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나", "description": "쿠팡과 네이버 스마트스토어가 크롤링을 막는 기술적 원리, patchright와 컴퓨터유즈로 우회를 시도한 클코단의 경험, 잡코리아·여기어때 판례로 확인한 크롤링의 법적 리스크까지 정리했다.", "datePublished": "2026-07-30", "dateModified": "2026-07-30", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-crawl-block.html"}, "articleSection": "질문·트러블슈팅", "keywords": "쿠팡 크롤링, 스마트스토어 크롤링, patchright, 봇 탐지 우회, 컴퓨터유즈, 크롤링 법적 책임, insane search"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "쿠팡이나 네이버 스마트스토어 크롤링이 왜 막히나요?", "acceptedAnswer": {"@type": "Answer", "text": "쿠팡은 Akamai Bot Manager로 자바스크립트 실행 여부와 마우스·키보드 행동 패턴을 분석해 자동화 도구를 걸러내고, robots.txt로도 구글봇 외 크롤러 접근을 기본 차단한다. 네이버도 2024년 3월부터 스마트스토어센터에 자체 봇 차단 시스템을 도입해 비정상적 기계 접근을 막고 있다."}}, {"@type": "Question", "name": "patchright는 무엇이고 왜 다시 막힐 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "patchright는 Playwright의 자동화 흔적을 패치해 Cloudflare·Akamai·Datadome 등 봇 탐지를 우회하는 오픈소스 라이브러리다. 다만 탐지 측이 로직을 업데이트하면 우회도 다시 막히는 창과 방패 싸움이 반복된다."}}, {"@type": "Question", "name": "크롤링은 한국에서 불법인가요?", "acceptedAnswer": {"@type": "Answer", "text": "크롤링 자체가 곧바로 형사처벌되는 것은 아니지만, 잡코리아·야놀자 사례처럼 경쟁사 데이터를 대량·반복 수집하면 데이터베이스권 침해나 부정경쟁방지법 위반으로 민사상 손해배상 책임을 질 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/coupang-smartstore-crawl-block.png" alt="쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나" loading="eager">
+<header>
+  <div class="eyebrow">질문·트러블슈팅</div>
+  <h1>쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</h1>
+  <p class="sub">쿠팡과 네이버 스마트스토어가 AI 에이전트 접속을 막는 이유와 patchright 우회 기술의 한계, 크롤링의 법적 책임까지 살펴봤다</p>
+  <div class="meta"><span>2026-07-30</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>크롤링을 막는 쿠팡·네이버, AI 에이전트는 어떻게 우회하려 하는가</h2>
+<p>클로드 코드로 에이전트를 붙여 쿠팡이나 네이버 스마트스토어에서 상품 정보를 가져오려던 사용자들이 최근 잇달아 접속 차단을 겪고 있다. 결론부터 말하면 이는 버그가 아니라 두 플랫폼이 의도적으로 세워둔 방어벽이다. 이 기사는 두 사이트가 왜, 어떻게 크롤링을 막는지, AI 에이전트로 이를 우회하는 기술이 실제로 통하는지, 그리고 그 과정에서 어떤 법적 리스크가 따르는지를 정리한다.</p>
+<h2>쿠팡과 스마트스토어가 크롤링을 막는 이유</h2>
+<p>쿠팡은 robots.txt에서 구글봇을 제외한 모든 크롤러의 접근을 기본적으로 차단(Disallow: /)하고 있고 실제 서비스 단에서는 Akamai Bot Manager를 사용한다. 페이지가 열리면 약 70KB 분량의 Akamai 센서 스크립트가 실행돼 브라우저의 자바스크립트 실행 여부, 응답값, 마우스·키보드 움직임 같은 행동 패턴까지 종합해 지문을 만들고 _abck 쿠키를 발급한다. Selenium·Playwright·Puppeteer 같은 표준 자동화 도구는 이 단계에서 대부분 걸러진다. 같은 IP로 짧은 시간 내 동일 상품 페이지에 반복 접속하면 IP 자체가 차단되며 통상 접속 중단 후 이틀 정도가 지나야 재접속이 가능해진다는 보고가 많다.</p>
+<p>네이버도 2024년 3월 27일부터 스마트스토어센터에 대한 비정상적·기계적 접근을 체계적으로 차단하기 시작했다. 자체 봇 차단 시스템을 운영하며 크롤링이 의심되면 &quot;비정상적인 요청이 감지됐다&quot;는 메시지와 함께 접근을 막는다. 판매자나 솔루션 업체가 주문 건수·결제 통계 등을 무분별하게 긁어가면 서버 부하가 급증해 다른 판매자에게 피해가 갈 수 있다는 게 네이버가 밝힌 도입 배경이다. 네이버는 대안으로 커머스 API 센터 같은 공식 경로 이용을 안내하고 있다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/coupang-smartstore-crawl-block.png" alt="" loading="lazy"><h2>클코단에서 확인된 실제 우회 경험</h2>
+<p>방 안에서는 에이전트가 두 사이트에 접속할 때마다 막히는 이유를 묻는 질문에서 논의가 시작됐다. 결론은 두 플랫폼이 자산 보호를 위해 의도적으로 접근을 차단하고 있으며 계속 시도하면 IP 차단 등 제재를 받을 수 있다는 것이었다. 특히 자주 언급된 도구는 insane search로, 이는 patchright라는 오픈소스 라이브러리 기반의 스텔스 래퍼다. patchright는 Playwright의 자동화 흔적(자동화 플래그 등)을 패치해 Cloudflare, Kasada, Akamai, Datadome, Fingerprint.com 등 주요 봇 탐지 서비스를 통과하도록 설계된 프로젝트다.</p>
+<p>이 우회는 영구적이지 않다는 게 문제다. 방 논의에서는 patchright가 업데이트되면 언제든 다시 막힐 수 있다는 기술적 설명이 나왔고 실제로 쿠팡은 현재 접속이 막힌 상태라는 게 확인됐다. 탐지 기술과 우회 기술이 서로 업데이트를 주고받으며 쫓고 쫓기는, 전형적인 &quot;창과 방패&quot; 구도다. Akamai 쪽도 탐지 로직을 계속 갱신하기 때문에, 오늘 뚫리는 우회 방법이 내일도 통한다는 보장은 없다는 의견이 많았다.</p>
+<h2>컴퓨터유즈라는 대안, 그러나 비싼 값</h2>
+<p>대안으로 거론된 것이 앤트로픽의 컴퓨터유즈 기능이다. 이는 스크린샷을 찍고 마우스를 움직이고 클릭·타이핑하는 식으로 실제 사람처럼 브라우저를 조작하는 방식이라, 자동화 플래그 자체가 남지 않아 봇 탐지를 원천적으로 우회할 수 있다는 설명이 나왔다. 다만 비용이 걸림돌이다. 컴퓨터유즈는 스크린샷 한 장 한 장이 이미지 입력 토큰으로 계산되고 작업 하나에 수십 장이 소요되는 경우가 많아 한 번의 다단계 작업에 5만에서 많게는 20만 토큰 이상이 든다는 분석이 있다. 스크립트 기반 크롤링에 비하면 훨씬 비싼 방식인 셈이라, 소량·고가치 작업에는 적합해도 대량 수집에는 비용 부담이 크다는 게 방 논의의 결론이었다.</p>
+<h2>크롤링, 어디까지가 합법인가</h2>
+<p>기술적으로 우회가 가능하다고 해서 법적으로 안전한 것은 아니다. 한국에서는 잡코리아와 사람인 간의 크롤링 분쟁에서 법원이 무단 크롤링을 데이터베이스제작자 권리 침해로 인정하고 사람인 측에 4억 5000만원 배상을 명령한 바 있다. 반면 야놀자와 여기어때 간 소송에서는 결과가 갈렸다. 형사재판에서는 여기어때 창업주 등에게 무죄가 확정됐는데 재판부가 수집된 정보 대부분이 이용자에게 이미 공개된 정보였다고 판단했기 때문이다. 그러나 민사재판에서는 다른 판단이 나왔다. 법원은 여기어때가 야놀자의 상당한 투자와 노력으로 만들어진 성과를 부정한 방법으로 가져다 썼다고 보고 부정경쟁방지법 위반을 인정, 10억원의 손해배상을 명령했다.</p>
+<p>즉 크롤링 자체가 형사처벌 대상은 아니더라도, 경쟁사 데이터를 대량·반복적으로 가져다 쓰면 민사상 부정경쟁행위나 데이터베이스권 침해로 책임질 수 있다는 게 국내 판례의 흐름이다. 정보통신망법상으로도 크롤링은 상황에 따라 정보통신망 침입, 컴퓨터등장애업무방해죄 등을 구성할 수 있어, 법적 평가는 접근 방식과 피해 발생 여부에 따라 사안마다 달라진다는 게 법조계의 공통된 설명이다.</p>
+<h2>정리</h2>
+<p>방 논의에서는 쿠팡 판매자 페이지의 상품·별점 정보를 수집하는 크롤러를 오픈소스로 공개할 예정이라는 이야기도 나왔다. 다만 도구가 공개되더라도 앞서 살펴본 기술적 한계와 법적 리스크는 그대로 남는다. patchright 기반 우회는 상대 플랫폼의 업데이트 한 번으로 무력화될 수 있고 컴퓨터유즈는 비용 때문에 대량 수집에는 맞지 않으며, 반복적·체계적인 수집은 민사상 손해배상 책임으로 이어질 수 있다. 에이전트로 쇼핑몰 데이터를 다루려는 이들에게는 우회 기술 자체보다, 언제 막히고 언제 책임질 수 있는지를 함께 아는 게 더 실질적인 대비라는 의견이 방 안에서 많았다.</p></div>
+<div class="chips"><span class="chip">쿠팡 크롤링</span><span class="chip">스마트스토어 크롤링</span><span class="chip">patchright</span><span class="chip">봇 탐지 우회</span><span class="chip">컴퓨터유즈</span><span class="chip">크롤링 법적 책임</span><span class="chip">insane search</span></div>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>쿠팡이나 네이버 스마트스토어 크롤링이 왜 막히나요?</h2><p class="sum">쿠팡은 Akamai Bot Manager로 자바스크립트 실행 여부와 마우스·키보드 행동 패턴을 분석해 자동화 도구를 걸러내고, robots.txt로도 구글봇 외 크롤러 접근을 기본 차단한다. 네이버도 2024년 3월부터 스마트스토어센터에 자체 봇 차단 시스템을 도입해 비정상적 기계 접근을 막고 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>patchright는 무엇이고 왜 다시 막힐 수 있나요?</h2><p class="sum">patchright는 Playwright의 자동화 흔적을 패치해 Cloudflare·Akamai·Datadome 등 봇 탐지를 우회하는 오픈소스 라이브러리다. 다만 탐지 측이 로직을 업데이트하면 우회도 다시 막히는 창과 방패 싸움이 반복된다.</p></article><article class="dcard"><div class="t">Q</div><h2>크롤링은 한국에서 불법인가요?</h2><p class="sum">크롤링 자체가 곧바로 형사처벌되는 것은 아니지만, 잡코리아·야놀자 사례처럼 경쟁사 데이터를 대량·반복 수집하면 데이터베이스권 침해나 부정경쟁방지법 위반으로 민사상 손해배상 책임을 질 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-07-30-0900.html">2026-07-30 07-29 23:33~07-30 08:45</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

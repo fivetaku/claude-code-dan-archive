@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="문서 RAG 워크플로우의 파서·청킹·벡터DB 선택 기준을 정리했다. docling과 PaddleOCR 비교부터, 벡터DB 없이 YAML과 grep만으로 검색하는 대안까지 최신 조사와 클코단 실전 경험을 엮었다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-rag-without-vectordb.html">
+<meta property="og:title" content="클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유">
+<meta property="og:description" content="문서 RAG 워크플로우의 파서·청킹·벡터DB 선택 기준을 정리했다. docling과 PaddleOCR 비교부터, 벡터DB 없이 YAML과 grep만으로 검색하는 대안까지 최신 조사와 클코단 실전 경험을 엮었다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/claude-code-rag-without-vectordb.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유", "description": "문서 RAG 워크플로우의 파서·청킹·벡터DB 선택 기준을 정리했다. docling과 PaddleOCR 비교부터, 벡터DB 없이 YAML과 grep만으로 검색하는 대안까지 최신 조사와 클코단 실전 경험을 엮었다.", "datePublished": "2026-08-04", "dateModified": "2026-08-04", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/claude-code-rag-without-vectordb.html"}, "articleSection": "워크플로우·방법론", "keywords": "docling, RAG, 클로드 코드, PaddleOCR, 벡터DB, GraphRAG, YAML 프런트매터"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "docling과 PaddleOCR 중 어떤 걸 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "문서 성격에 따라 다르다. born-digital 문서는 OCR 자체가 필요 없고, 가벼운 처리 위주면 docling이 가성비 좋은 선택이다. 손글씨나 복잡한 표가 많은 스캔본은 PaddleOCR/PP-StructureV3의 인식 정확도가 더 높지만 GPU 자원이 필요하다."}}, {"@type": "Question", "name": "RAG를 만들 때 벡터DB가 꼭 필요한가요?", "acceptedAnswer": {"@type": "Answer", "text": "문서 규모에 달렸다. 수백~수천 페이지 규모의 큐레이션된 지식베이스는 YAML 프런트매터와 grep만으로도 충분하다는 'LLM 위키' 패턴 사례가 있다. 문서가 수만 건을 넘거나 빠른 응답이 필요해지면 벡터 검색이 다시 필요해진다."}}, {"@type": "Question", "name": "RAG에서 top-k는 몇으로 설정해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "고정된 정답은 없다. 업계에서는 top-50~100개를 넉넉히 가져온 뒤 리랭커로 재정렬해 최종 top-5~10개만 생성 단계에 넘기는 2단계 구조를 권장한다. k를 너무 작게 잡으면 정답 구간이 잘리고, 너무 크게 잡으면 잡음이 늘어 리랭커 성능이 떨어진다."}}, {"@type": "Question", "name": "카패시의 'LLM 위키' 패턴은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "임베딩과 벡터DB 없이 구조화된 마크다운 파일을 LLM 컨텍스트에 직접 읽혀 처리하는 지식베이스 패턴이다. 세션 시작 시 요약 캐시와 마스터 인덱스를 읽고, 필요한 페이지만 찾아 읽는 방식으로 grep을 보조 검색 수단으로 쓴다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-rag-without-vectordb.png" alt="클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유" loading="eager">
+<header>
+  <div class="eyebrow">워크플로우·방법론</div>
+  <h1>클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</h1>
+  <p class="sub">docling·PaddleOCR 중 뭘 써야 할까, 벡터DB는 꼭 필요할까 — 클코단 실전 경험과 최신 조사로 답을 찾았다</p>
+  <div class="meta"><span>2026-08-04</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>대용량 문서를 클로드 코드에 읽혀 위키나 지식베이스를 만들려는 시도가 늘고 있다. docling 같은 도구로 PDF·PPTX·스캔본을 마크다운으로 바꾼 뒤, 클로드 코드가 읽고 정리·저작까지 하게 만드는 워크플로우다. 문제는 &quot;이 문서량에 맞는 만능 RAG 레시피가 있느냐&quot;는 것인데, 결론부터 말하면 없다. 파서도, 청킹 전략도, 벡터DB를 쓸지 말지도 문서의 성격과 규모에 따라 달라진다. 클로드 코드 사용자 커뮤니티 &#x27;클코단&#x27;에서 나온 실전 토론과 최신 조사를 엮어 이 판단 기준을 정리한다.</p>
+<h2>파서는 문서마다 다르다 — docling과 paddle의 역할 분담</h2>
+<p>가장 먼저 부딪히는 문제는 파싱이다. IBM이 만든 오픈소스 도구 docling은 PDF, DOCX, PPTX, XLSX, 이미지, HTML, AsciiDoc, 마크다운을 입력받아 마크다운이나 JSON으로 변환한다. LF AI &amp; Data Foundation 산하로 이관돼 MIT 라이선스로 매주 릴리스가 나올 만큼 활발히 개발되고 있고, 파이썬 API 몇 줄이면 노트북에서도 돌아갈 만큼 가볍다. 반면 PaddleOCR 계열의 PP-StructureV3는 레이아웃 분석·표 인식·수식 인식을 하나의 파이프라인으로 묶은 구조로, 손글씨 인식 정확도가 약 73%로 Tesseract(45%)나 EasyOCR(62%)보다 확연히 높고 GPU에서 분당 120페이지 처리량을 낸다. 다국어·CJK와 복잡한 표에 강하지만 GPU 자원이 필요하다.</p>
+<p>이 둘은 경쟁 관계라기보다 역할이 다르다. docling 자체는 PaddleOCR을 직접 지원하지 않고, 내부 OCR 엔진인 RapidOCR이 사실상 PaddleOCR을 onnxruntime으로 구동하는 형태다. 실제 벤치마크에서도 &quot;가장 강한 엔진은 문서마다 매번 바뀐다&quot;는 결론이 반복됐다. 클코단에서도 &quot;가성비는 docling, 퀄리티는 paddle&quot;이라는 정리가 나왔는데, 문서 난이도에 따라 도구를 바꿔야 한다는 벤치마크 결과와 맞아떨어진다. born-digital 문서, 즉 워드·파워포인트에서 바로 뽑은 PDF는 텍스트 레이어가 이미 있어 OCR 자체가 필요 없다는 구분도 고려해야 한다. 확대해도 또렷한 텍스트, 스캔본보다 훨씬 작은 파일 용량이 판별 기준이다. &quot;모든 문서 형태를 커버하는 만능 파서는 없다&quot;는 결론은 이 구조적 차이에서 나온다.</p>
+<h2>문서 전체 대신 디스크립션만 임베딩한다</h2>
+<p>파싱이 끝나면 청킹과 임베딩 문제가 남는다. 2026년 기준 업계에서 가장 널리 쓰이는 방식은 계층형(hierarchical) 청킹으로, 작은 단위는 검색 정밀도를, 큰 단위는 맥락 이해를 담당하게 나눠 트레이드오프를 완화한다. docling도 HybridChunker를 제공하는데, 문서 구조를 보존하는 계층형 청킹을 1차로 수행한 뒤 임베딩 모델의 토크나이저 기준으로 너무 큰 청크는 쪼개고 너무 작은 청크는 합치는 2단계 방식을 쓴다. 청크 크기는 512토큰이 실용적인 기본값으로 자리잡았고, 2026년 1월 한 체계적 분석에서는 청크 간 오버랩이 검색 성능에 별 도움이 되지 않고 인덱싱 비용만 늘린다는 결과도 나왔다.</p>
+<p>클코단에서 공유된 실전 팁, 즉 &quot;문서 전체를 임베딩하는 대신 디스크립션만 임베딩하고 파일 경로 등 메타데이터를 붙여 클로드 코드에 던진다&quot;는 방식은 앤스로픽이 2024년 발표한 contextual retrieval와 원리가 통한다. 이 기법은 청크마다 &quot;이 문단이 어느 문서, 어느 맥락에 속하는지&quot;를 요약한 50~100토큰짜리 설명을 덧붙인 뒤 임베딩하는데, 상위 20개 청크 기준 검색 실패율을 5.7%에서 3.7%로 35% 낮췄다는 결과가 보고됐다. 원문 전체를 벡터화하는 대신 압축한 설명을 벡터화하고, 실제 처리는 원문 경로를 클로드 코드에 넘겨 맡기는 방식은 임베딩 비용과 검색 정밀도를 동시에 잡는 절충안인 셈이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-rag-without-vectordb.png" alt="" loading="lazy"><h2>벡터DB 하나로는 안 된다</h2>
+<p>클코단 토론에서 나온 또 하나의 핵심은 &quot;RAG는 벡터DB만의 문제가 아니라 SQL·그래프DB를 병행해야 품질이 올라간다&quot;는 지적이었다. 이는 실제 RAG 아키텍처 논의와 일치한다. 벡터 검색은 표현이 달라도 같은 주제의 문서를 찾아내는 데 강하지만, 두 문서가 왜 연결되는지는 설명하지 못한다. 반대로 그래프 데이터베이스는 엔터티 간 관계를 타고 다니며 다중 홉 추론을 할 수 있지만 의미적 유사도 판단에는 약하다. 그래서 하이브리드RAG는 비정형·반정형 데이터는 벡터DB에, 관계 중심의 정형 데이터는 그래프DB에 나눠 맡기는 구조를 취한다. 마이크로소프트의 GraphRAG가 대표적인데, 원문에서 지식 그래프를 뽑고 커뮤니티 단위로 계층화해 요약을 생성한 뒤 검색에 활용하는 방식으로, 여러 문서를 넘나드는 복합 질의에서 단순 벡터 검색보다 낫다는 평가를 받는다. 2025년 나온 LazyGraphRAG는 인덱싱 비용을 기존 대비 0.1% 수준으로 낮췄다. 여기에 SQL을 더하는 이유도 명확하다. 날짜·작성자·카테고리 같은 정형 필터는 벡터 유사도보다 관계형 쿼리가 정확하고 빠르다. 결국 좋은 RAG는 &quot;무엇이 비슷한가&quot;는 벡터DB, &quot;어떻게 연결되는가&quot;는 그래프DB, &quot;어떤 조건에 맞는가&quot;는 SQL로 나눠 맡기는 구조로 수렴한다.</p>
+<h2>top-k 잘림과 리랭킹의 딜레마</h2>
+<p>클코단에서 고질적 어려움으로 꼽힌 top-k 잘림과 리랭킹 기준의 자의성도 근거가 있다. k가 작으면 정답이 들어있는 구간이 통째로 잘려나가고, k가 크면 잡음이 늘어 리랭커 성능이 오히려 떨어진다는 게 최근 연구의 공통 지적이다. 업계 절충안은 top-50~100개를 넉넉히 가져온 뒤 리랭커로 재정렬해 최종 top-5~10개만 생성 단계에 넘기는 2단계 구조다. Cohere Rerank 4.0 같은 상용 리랭커는 청크당 80~150ms 지연을 더하는 대신 정밀도를 끌어올린다. 다만 &quot;어디서 잘라야 정답인가&quot;는 문서 분포와 질의 유형마다 달라 고정된 공식으로 못 박기는 어렵다는 게 공통된 진단이다.</p>
+<h2>벡터DB 없이 가는 길도 있다</h2>
+<p>클코단에서 소개된 사례 중 눈에 띄는 것은 마크다운 상단에 YAML 메타데이터를 넣고 grep으로 검색하는, 벡터DB를 아예 쓰지 않는 구성이었다. 이 방식은 2025년 후반 앤드리 카패시가 제안해 화제가 된 &#x27;LLM 위키&#x27; 패턴과 사실상 같은 철학을 공유한다. 임베딩도 벡터DB도 없이 구조화된 마크다운 파일들을 그대로 LLM 컨텍스트에 읽혀서 처리하는 방식으로, 검색은 세션 시작 시 로드하는 요약 캐시, 페이지당 한 줄인 마스터 인덱스, 거기서 지목된 서너 개 페이지를 읽는 순서로 이뤄지고 grep은 보조 수단으로 쓰인다. 실제로 이 패턴을 클로드 코드 플러그인으로 구현한 오픈소스 프로젝트도 나와 있다.</p>
+<p>이 방식이 통하는 이유는 마크다운 프런트매터가 검색의 &#x27;의미적 고리&#x27; 역할을 하기 때문이다. RAG 실패의 상당수가 답변 생성이 아니라 관련 문서를 찾지 못하는 검색 단계에서 발생한다는 점을 감안하면, 파일 경로·태그·요약을 YAML로 명시해두고 grep이나 파일 시스템 탐색만으로 찾아내는 방식이 수백~수천 페이지 규모에서는 벡터DB보다 오히려 예측 가능하고 유지보수가 쉬울 수 있다는 뜻이다. 다만 문서 규모가 수만 건을 넘어가거나 응답 속도가 중요해지는 시점부터는 다시 벡터 검색이 필요해진다는 게 이 패턴을 조사한 여러 글의 공통된 경계선이었다.</p>
+<h2>정리</h2>
+<p>결국 클코단이 던진 질문, &quot;docling으로 변환한 문서를 클로드 코드가 처리하는 데 참고할 만능 레퍼런스가 있느냐&quot;의 답은 &quot;그런 단일 정답은 없고, 규모와 문서 성격에 따라 조합을 짜야 한다&quot;는 쪽으로 수렴한다. 문서가 born-digital이면 파서 자체가 필요 없고, 스캔본 위주면 docling과 paddle 중 정확도와 비용을 저울질해야 한다. 컬렉션이 수백~수천 페이지 규모라면 벡터DB 없이 YAML 프런트매터와 grep만으로도 충분할 수 있고, 그 이상으로 커지면 벡터·SQL·그래프DB를 섞은 하이브리드 구조와 리랭킹 단계가 필요해진다. 어느 쪽이든 &quot;문서 전체가 아니라 요약과 메타데이터를 임베딩하고 실제 처리는 클로드 코드에 맡긴다&quot;는 원칙은 규모와 무관하게 유효한 절충안이다.</p></div>
+<div class="chips"><span class="chip">docling</span><span class="chip">RAG</span><span class="chip">클로드 코드</span><span class="chip">PaddleOCR</span><span class="chip">벡터DB</span><span class="chip">GraphRAG</span><span class="chip">YAML 프런트매터</span></div>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>docling과 PaddleOCR 중 어떤 걸 써야 하나요?</h2><p class="sum">문서 성격에 따라 다르다. born-digital 문서는 OCR 자체가 필요 없고, 가벼운 처리 위주면 docling이 가성비 좋은 선택이다. 손글씨나 복잡한 표가 많은 스캔본은 PaddleOCR/PP-StructureV3의 인식 정확도가 더 높지만 GPU 자원이 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>RAG를 만들 때 벡터DB가 꼭 필요한가요?</h2><p class="sum">문서 규모에 달렸다. 수백~수천 페이지 규모의 큐레이션된 지식베이스는 YAML 프런트매터와 grep만으로도 충분하다는 &#x27;LLM 위키&#x27; 패턴 사례가 있다. 문서가 수만 건을 넘거나 빠른 응답이 필요해지면 벡터 검색이 다시 필요해진다.</p></article><article class="dcard"><div class="t">Q</div><h2>RAG에서 top-k는 몇으로 설정해야 하나요?</h2><p class="sum">고정된 정답은 없다. 업계에서는 top-50~100개를 넉넉히 가져온 뒤 리랭커로 재정렬해 최종 top-5~10개만 생성 단계에 넘기는 2단계 구조를 권장한다. k를 너무 작게 잡으면 정답 구간이 잘리고, 너무 크게 잡으면 잡음이 늘어 리랭커 성능이 떨어진다.</p></article><article class="dcard"><div class="t">Q</div><h2>카패시의 &#x27;LLM 위키&#x27; 패턴은 무엇인가요?</h2><p class="sum">임베딩과 벡터DB 없이 구조화된 마크다운 파일을 LLM 컨텍스트에 직접 읽혀 처리하는 지식베이스 패턴이다. 세션 시작 시 요약 캐시와 마스터 인덱스를 읽고, 필요한 페이지만 찾아 읽는 방식으로 grep을 보조 검색 수단으로 쓴다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-04-2200.html">2026-08-04 08-04 18:03~21:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

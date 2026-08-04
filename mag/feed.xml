@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-rag-without-vectordb.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-rag-without-vectordb.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
+    <description>문서 RAG 워크플로우의 파서·청킹·벡터DB 선택 기준을 정리했다. docling과 PaddleOCR 비교부터, 벡터DB 없이 YAML과 grep만으로 검색하는 대안까지 최신 조사와 클코단 실전 경험을 엮었다.</description>
+  </item>
+  <item>
+    <title>카드뉴스 이미지 자동화, 크롤링 대신 AI 생성 쓰는 이유</title>
+    <link>https://chat.axwith.com/mag/tools/card-news-image-generation-cost.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/card-news-image-generation-cost.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
+    <description>미국 속보를 카드뉴스로 자동 발행하려는 이들이 크롤링 대신 AI 이미지 생성을 택한 이유와, GPT 이미지 API의 실제 장당 비용, 영상 생성과의 비용 격차를 정리했다.</description>
+  </item>
+  <item>
     <title>오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</title>
     <link>https://chat.axwith.com/mag/models/opus-5-claude-code-limits.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/opus-5-claude-code-limits.html</guid>
@@ -19,6 +35,14 @@
     <category>워크플로우·방법론</category>
     <pubDate>Mon, 03 Aug 2026 12:00:00 +0900</pubDate>
     <description>카카오톡은 슬랙·디스코드와 달리 개인용 봇 API가 없다. LOCO 프로토콜, DB 관찰, 알림 감지 등 비공식 카카오톡 챗봇 제작법과 계정 정지 리스크, 공식 대안을 조사해 정리했다.</description>
+  </item>
+  <item>
+    <title>클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-cache-bug-usage.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-cache-bug-usage.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Mon, 03 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드 사용량이 평소보다 빨리 닳는다는 불만의 배경에는 프롬프트 캐싱 TTL 변경과 캐시를 무효화하는 버그가 겹쳐 있었다. 앤트로픽의 공식 대응과 지금 상태를 확인하는 방법을 정리했다.</description>
   </item>
   <item>
     <title>세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</title>
@@ -37,6 +61,22 @@
     <description>클로드코드 세션 로그를 6축(DECOMP·VERIFY·ORCH·FAIL·CTX·META)·7레벨 체계로 채점하는 오픈소스 도구 바이브선생의 설치법과 평가 기준, 점수보다 실무 활용도가 중요하다는 커뮤니티 반응을 정리했다.</description>
   </item>
   <item>
+    <title>중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</title>
+    <link>https://chat.axwith.com/mag/models/kimi-glm-hermes-open-models.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/kimi-glm-hermes-open-models.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 02 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드 커뮤니티에서 화제가 된 중국산 오픈웨이트 모델 Kimi K3, GLM-5.2, Hermes 조합 활용법을 벤치마크·요금제·증류 논란까지 웹 조사로 검증한 실전 비교 기사.</description>
+  </item>
+  <item>
+    <title>AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-agent-orchestrator-goal-design.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-orchestrator-goal-design.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sun, 02 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드 오케스트레이터가 지시 이상으로 작업을 확장하는 스코프 크리프 문제와, 멀티턴 프롬프팅 대신 &#x27;골&#x27; 설계가 각광받는 이유를 사실과 실전 경험으로 짚는다.</description>
+  </item>
+  <item>
     <title>AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</title>
     <link>https://chat.axwith.com/mag/workflow/ai-agent-memory-collapse.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-memory-collapse.html</guid>
@@ -53,6 +93,22 @@
     <description>AWS 에이전틱 IDE 키로의 스펙 기반 개발, 크레딧 요금제, 오토파일럿 끊김 문제를 클로드·코덱스 병행 사용기와 함께 정리했다.</description>
   </item>
   <item>
+    <title>모션 이펙트 214종을 코드로 가져오는 법, Remotion과 HyperFrames</title>
+    <link>https://chat.axwith.com/mag/resources/dexa-vfx-remotion-hyperframes.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/dexa-vfx-remotion-hyperframes.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Sat, 01 Aug 2026 12:00:00 +0900</pubDate>
+    <description>214가지 모션 이펙트를 브라우저에서 비교해 Remotion TSX나 HyperFrames HTML로 내보내는 카탈로그 도구와, 그 배경이 되는 두 코드형 영상 생태계를 정리했다.</description>
+  </item>
+  <item>
+    <title>GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</title>
+    <link>https://chat.axwith.com/mag/models/gpt-luna-terra-price-cut.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-luna-terra-price-cut.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Fri, 31 Jul 2026 12:00:00 +0900</pubDate>
+    <description>GPT-5.6 루나 API 가격이 80% 내려 클로드 하이쿠보다 싸졌다. 딥시크 V4 플래시와 벤치마크·가격을 비교하고, 오픈코드 고 요금제 실사용 워크플로우를 정리했다.</description>
+  </item>
+  <item>
     <title>AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</title>
     <link>https://chat.axwith.com/mag/tools/ai-slop-style-cloning-tools.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/ai-slop-style-cloning-tools.html</guid>
@@ -67,6 +123,22 @@
     <category>워크플로우·방법론</category>
     <pubDate>Thu, 30 Jul 2026 12:00:00 +0900</pubDate>
     <description>바이브코딩 확산 속 코드 품질 저하 데이터와, 클코단에서 공유된 용어 학습·버그 수정 루틴·유닛테스트·디자인패턴 활용법을 함께 짚었다.</description>
+  </item>
+  <item>
+    <title>오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</title>
+    <link>https://chat.axwith.com/mag/models/openchat-bot-prompt-injection-defense.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/openchat-bot-prompt-injection-defense.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Thu, 30 Jul 2026 12:00:00 +0900</pubDate>
+    <description>오픈채팅 봇을 노린 프롬프트 인젝션 시도와 3회 감지 자동 블랙리스트 가드레일 사례를 OWASP 최신 동향, 국내외 유출 사고와 함께 분석한다.</description>
+  </item>
+  <item>
+    <title>쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-crawl-block.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-crawl-block.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Thu, 30 Jul 2026 12:00:00 +0900</pubDate>
+    <description>쿠팡과 네이버 스마트스토어가 크롤링을 막는 기술적 원리, patchright와 컴퓨터유즈로 우회를 시도한 클코단의 경험, 잡코리아·여기어때 판례로 확인한 크롤링의 법적 리스크까지 정리했다.</description>
   </item>
   <item>
     <title>클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</title>
