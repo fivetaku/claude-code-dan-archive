@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 8월 5일 18:00 — superpowers vs 우로보로스 조합</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 5일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-05 17:26~17:43</b></span>
+    <span>발화 <b>142</b></span>
+    <span>참여 <b>13</b>명</span>
+    <span>주제 <b>4</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone"><div class="spine"></div><div class="bar" style="left:2.0%;height:7px"></div><div class="bar" style="left:7.5%;height:20px"></div><div class="bar" style="left:13.1%;height:24px"></div><div class="bar" style="left:18.6%;height:38px"></div><div class="bar" style="left:24.1%;height:10px"></div><div class="bar peak" style="left:29.6%;height:44px"></div><div class="bar" style="left:35.2%;height:14px"></div><div class="bar" style="left:40.7%;height:6px"></div><div class="bar" style="left:46.2%;height:27px"></div><div class="bar" style="left:51.8%;height:34px"></div><div class="bar" style="left:57.3%;height:34px"></div><div class="bar" style="left:62.8%;height:27px"></div><div class="bar" style="left:68.4%;height:27px"></div><div class="bar peak" style="left:73.9%;height:51px"></div><div class="bar peak" style="left:79.4%;height:58px"></div><div class="bar peak" style="left:84.9%;height:44px"></div><div class="bar" style="left:90.5%;height:17px"></div><div class="bar" style="left:96.0%;height:6px"></div><div class="lbl" style="left:2.0%">17:26</div><div class="lbl" style="left:18.6%">17:29</div><div class="peaktag" style="left:29.6%;bottom:52px">17:31 · 13건</div><div class="lbl" style="left:35.2%">17:32</div><div class="lbl" style="left:51.8%">17:35</div><div class="lbl" style="left:68.4%">17:38</div><div class="peaktag" style="left:73.9%;bottom:59px">17:39 · 15건</div><div class="peaktag" style="left:84.9%;bottom:52px">17:41 · 13건</div><div class="lbl" style="left:84.9%">17:41</div><div class="lbl" style="left:96.0%">17:43</div><div class="rib up" style="left:35.2%"><div class="stem"></div><div class="ribcard"><div class="t">17:32-17:39</div><h3>superpowers vs 우로보로스 조합</h3></div></div><div class="rib dn" style="left:73.9%"><div class="stem"></div><div class="ribcard"><div class="t">17:39-17:43</div><h3>클로드+코덱스 병행 스크립트 공유</h3></div></div><div class="rib up" style="left:73.9%"><div class="stem"></div><div class="ribcard"><div class="t">17:39-17:41</div><h3>DB·기획 과잉설계 경계론</h3></div></div><div class="rib dn" style="left:2.0%"><div class="stem"></div><div class="ribcard"><div class="t">17:26-17:31</div><h3>강제할루시네이션 잡담</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">17:32-17:39</div><h2>superpowers vs 우로보로스 조합</h2><p class="sum">TDD 기반 워크플로우를 쓰던 사람이 SDD로 전환을 고민하며 superpowers 사용 여부를 물었고, superpowers와 우로보로스(ouroboros) 두 프레임워크를 조합해 쓸 수 있는지가 논의됐다. 두 도구 모두 &#x27;인터뷰→스펙→검증&#x27; 단계가 겹쳐서 동시에 쓰면 워크플로우가 충돌한다는 의견이 우세했다. superpowers 사용 시 스펙·플랜 검증은 결국 사람이 해야 한다는 점도 확인됐다.</p><ul><li>기존 AI TDD 워크플로우가 AI에게는 병목일 수 있다는 의견을 듣고 SDD 전환을 검토 중</li><li>superpowers는 브레인스토밍 스킬이 발동하면 강제로 사용되는 구조</li><li>superpowers의 스펙·플랜 검증은 AI가 독립적으로 해주지 않고 사람이 직접 해야 함</li><li>우로보로스는 인터뷰→스펙→실행→평가→진화 흐름이 메인이며 구현 부분은 상대적으로 부실하다는 평가</li><li>두 도구를 함께 쓰면 역할이 겹쳐 워크플로우가 충돌하니 하나만 선택해 써보라는 권고</li><li><a href="https://github.com/obra/superpowers">https://github.com/obra/superpowers</a></li></ul></article><article class="dcard"><div class="t">17:39-17:43</div><h2>클로드+코덱스 병행 스크립트 공유</h2><p class="sum">클로드코드와 코덱스를 함께 쓰는 사람이 관련 오픈소스 스크립트 저장소를 공유했다. 두 에이전트를 같이 쓸 때 공유 규칙이나 세션 트랜스레이트 같은 기능이 담긴 것으로 추정되며, 공유자 본인도 정확한 용도는 잘 모른다는 반응이었다.</p><ul><li>클로드코드와 코덱스를 동시에 쓰는 사용자가 관련 참고 자료를 요청받아 공유</li><li>저장소에 두 에이전트를 함께 쓸 때 필요한 공유 규칙 관련 스크립트가 있는 것으로 추정</li><li>정확한 기능은 공유자도 명확히 설명하지 못함</li><li><a href="https://github.com/steipete/agent-scripts">https://github.com/steipete/agent-scripts</a></li></ul></article><article class="dcard"><div class="t">17:39-17:41</div><h2>DB·기획 과잉설계 경계론</h2><p class="sum">지금 당장 필요한 것만 정의하고 나머지는 지양해야 한다는 의견에서 출발해, 완벽한 설계보다는 빠르게 만들어 배포하고 필요하면 갈아엎는 반복(iteration)이 정상적인 개발 흐름이라는 데 공감대가 형성됐다. 정규화·완벽설계에 집착하면 오히려 발목 잡힌다는 농담 섞인 경고도 나왔다.</p><ul><li>지금 상황에서 진짜 필요한 것만 정의하고 과욕은 지양하자는 제안</li><li>운영과 개발의 반복(이터레이션)을 만드는 것이 핵심이라는 의견</li><li>완벽하게 처음부터 설계하려다 프로젝트가 산으로 가는 경험담 공유</li><li>&#x27;정규화가 정답이다&#x27; 식의 경직된 태도를 경계하는 농담</li></ul></article><article class="dcard"><div class="t">17:26-17:31</div><h2>강제할루시네이션 잡담</h2><p class="sum">AI에게 &#x27;넌 전문가야&#x27;라고 하면 오히려 할루시네이션이 강해진다는 얘기로 시작해 결국 직접 파보는 수밖에 없다는 공감대가 형성됐다. 이어서 주니어 시절 운영DB를 실수로 엎어본 경험담이 여러 명 나오며 추억팔이로 흘러갔다. 5년차 미만은 3인 1조 복명복창으로 쿼리를 날린다는 팁도 공유됐다.</p><ul><li>AI에게 전문가 역할을 부여하면 할루시네이션이 강제되는 느낌이라는 지적이 나옴</li><li>결국 직접 손으로 파보는 수밖에 없다는 결론</li><li>여러 명이 운영DB를 실수로 날려본 경험을 공유</li><li>5년차 미만은 3인 1조 복명복창 방식으로 쿼리 실행한다는 사내 관행 언급</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-05-1800</span>
+</footer>
+</div>
+</body>
+</html>
