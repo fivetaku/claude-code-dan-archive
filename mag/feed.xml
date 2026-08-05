@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>AX 전환이 조직에서 멈추는 진짜 이유, 직원은 왜 협조를 꺼리나</title>
+    <link>https://chat.axwith.com/mag/workflow/ax-adoption-employee-resistance.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ax-adoption-employee-resistance.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
+    <description>AI 전환(AX) 도입 과정에서 실무자가 협조를 꺼리는 이유와 조직문화, API 비용 산정, 할루시네이션 불안까지 국내외 데이터로 짚은 기사.</description>
+  </item>
+  <item>
+    <title>에이전트 관측성과 이벨 자동화, 결국 남는 건 데이터다</title>
+    <link>https://chat.axwith.com/mag/workflow/agent-observability-eval-automation.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/agent-observability-eval-automation.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Langfuse·LangSmith 같은 에이전트 관측성 도구가 왜 초반에만 쓰이다 마는지, 골든셋과 LLM-as-judge로 이벨을 자동화하는 법, 토큰 캐싱·라우팅으로 비용을 줄이는 법까지 정리했다.</description>
+  </item>
+  <item>
     <title>클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</title>
     <link>https://chat.axwith.com/mag/workflow/claude-code-rag-without-vectordb.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-rag-without-vectordb.html</guid>
