@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 8월 7일 09:00 — 오르카·파세오·cmux 도구 비교</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 7일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-06 23:36~08-07 08:38</b></span>
+    <span>발화 <b>216</b></span>
+    <span>참여 <b>23</b>명</span>
+    <span>주제 <b>12</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone" style="height:700px;min-width:1470px"><div class="spine"></div><div class="bar" style="left:2.0%;height:6px"></div><div class="bar" style="left:3.6%;height:6px"></div><div class="bar" style="left:5.2%;height:22px"></div><div class="bar peak" style="left:6.8%;height:58px"></div><div class="bar peak" style="left:8.4%;height:44px"></div><div class="bar" style="left:10.0%;height:22px"></div><div class="bar" style="left:11.6%;height:36px"></div><div class="bar" style="left:13.2%;height:11px"></div><div class="bar" style="left:14.7%;height:6px"></div><div class="bar" style="left:16.3%;height:11px"></div><div class="bar" style="left:17.9%;height:7px"></div><div class="bar" style="left:19.5%;height:6px"></div><div class="bar" style="left:21.1%;height:6px"></div><div class="bar" style="left:22.7%;height:14px"></div><div class="bar" style="left:24.3%;height:11px"></div><div class="bar" style="left:25.9%;height:6px"></div><div class="bar" style="left:27.5%;height:29px"></div><div class="bar" style="left:29.1%;height:11px"></div><div class="bar" style="left:30.7%;height:7px"></div><div class="bar" style="left:32.3%;height:18px"></div><div class="bar" style="left:33.9%;height:7px"></div><div class="bar" style="left:35.5%;height:14px"></div><div class="bar" style="left:37.1%;height:18px"></div><div class="bar" style="left:38.6%;height:7px"></div><div class="bar" style="left:40.2%;height:6px"></div><div class="bar" style="left:41.8%;height:6px"></div><div class="bar" style="left:43.4%;height:6px"></div><div class="bar" style="left:45.0%;height:7px"></div><div class="bar" style="left:46.6%;height:7px"></div><div class="bar" style="left:48.2%;height:6px"></div><div class="bar" style="left:49.8%;height:6px"></div><div class="bar" style="left:51.4%;height:6px"></div><div class="bar" style="left:53.0%;height:22px"></div><div class="bar" style="left:54.6%;height:25px"></div><div class="bar" style="left:56.2%;height:6px"></div><div class="bar" style="left:57.8%;height:7px"></div><div class="bar" style="left:59.4%;height:11px"></div><div class="bar" style="left:60.9%;height:14px"></div><div class="bar" style="left:62.5%;height:7px"></div><div class="bar" style="left:64.1%;height:6px"></div><div class="bar" style="left:65.7%;height:11px"></div><div class="bar" style="left:67.3%;height:6px"></div><div class="bar" style="left:68.9%;height:18px"></div><div class="bar" style="left:70.5%;height:6px"></div><div class="bar" style="left:72.1%;height:22px"></div><div class="bar" style="left:73.7%;height:22px"></div><div class="bar" style="left:75.3%;height:18px"></div><div class="bar" style="left:76.9%;height:29px"></div><div class="bar" style="left:78.5%;height:6px"></div><div class="bar" style="left:80.1%;height:11px"></div><div class="bar" style="left:81.7%;height:7px"></div><div class="bar" style="left:83.3%;height:14px"></div><div class="bar" style="left:84.8%;height:25px"></div><div class="bar" style="left:86.4%;height:18px"></div><div class="bar" style="left:88.0%;height:18px"></div><div class="bar" style="left:89.6%;height:6px"></div><div class="bar" style="left:91.2%;height:29px"></div><div class="bar" style="left:92.8%;height:11px"></div><div class="bar" style="left:94.4%;height:7px"></div><div class="bar" style="left:96.0%;height:7px"></div><div class="lbl" style="left:2.0%">00:00</div><div class="peaktag" style="left:6.8%;bottom:66px">00:08 · 16건</div><div class="lbl" style="left:17.9%">00:20</div><div class="lbl" style="left:33.9%">00:32</div><div class="lbl" style="left:49.8%">08:02</div><div class="lbl" style="left:65.7%">08:27</div><div class="lbl" style="left:81.7%">23:43</div><div class="lbl" style="left:96.0%">23:59</div><div class="rib up" style="left:5.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">00:07-00:15</div><h3>마곡 아구찜 맛집 이야기</h3></div></div><div class="rib dn" style="left:16.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">00:15-00:21</div><h3>플랜 모드 사용법 질문</h3></div></div><div class="rib up" style="left:21.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">00:24-01:12</div><h3>탁구봇 한도·경고 정책 질문</h3></div></div><div class="rib dn" style="left:33.9%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">00:32-00:38</div><h3>AX(AI 전환)가 뭔가 논의</h3></div></div><div class="rib up" style="left:49.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">08:02-08:21</div><h3>오르카·파세오·cmux 도구 비교</h3></div></div><div class="rib dn" style="left:56.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">08:06-08:15</div><h3>오르카 한글입력 밀림 이슈</h3></div></div><div class="rib up" style="left:65.7%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">08:27-08:38</div><h3>모바일 디자인 최적화 질문</h3></div></div><div class="rib dn" style="left:67.3%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">08:36-08:37</div><h3>탁구봇 사용 통계 공유</h3></div></div><div class="rib dn" style="left:72.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">23:36-23:43</div><h3>무지성 매수 잡담</h3></div></div><div class="rib up flip" style="left:76.8%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">23:51-23:51</div><h3>신규 멤버 인사</h3></div></div><div class="rib up flip" style="left:78.4%"><div class="stem" style="height:230px"></div><div class="ribcard" style="margin-bottom:230px"><div class="t">23:57-00:04</div><h3>탁구봇 장난 호출</h3></div></div><div class="rib up" style="left:83.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">23:44-23:51</div><h3>노트북 충전 불가 문제</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">08:02-08:21</div><h2>오르카·파세오·cmux 도구 비교</h2><p class="sum">AI 코딩 에이전트 관리 도구인 오르카, 파세오, cmux에 대한 사용 경험이 활발히 오갔다. 오르카는 갈아타는 비용이 커서 그대로 쓴다는 의견, 파세오는 리쥼(기존 대화 이어가기)이 안 돼서 방치했다는 불만이 있었고, cmux는 심플해서 바꾸기 어렵다는 평도 나왔다. 오르카는 폰트를 바꾸면 한글 입력 밀림 문제가 해결된다는 팁도 공유됐다.</p><ul><li>오르카: 갈아타는 비용이 커서 계속 쓴다는 의견 다수</li><li>파세오: 기존 대화창(리쥼) 불러오기가 안 돼서 방치 중이라는 불만</li><li>cmux: 심플함 때문에 바꾸기 어렵다는 평가</li><li>오르카 한글 입력 밀림 문제는 폰트 변경 또는 최신 릴리즈 업데이트로 해결된다는 팁 공유</li></ul></article><article class="dcard"><div class="t">00:15-00:21</div><h2>플랜 모드 사용법 질문</h2><p class="sum">예전엔 무조건 플랜 모드를 돌렸는데 요즘은 대화로 부족한 부분을 채우고 md로 작업 지시하는 방식으로 바뀌었다는 질문이 나왔다. 답변자는 플랜모드를 따로 쓰지 않고 자체 스킬로 플랜을 짜서 골을 생성한 뒤 드리븐 방식으로 작업한다고 밝혔다.</p><ul><li>예전에는 플랜 모드를 항상 사용, 최근엔 대화+md 지시 방식으로 전환한 사례 질문</li><li>답변자는 자체 스킬로 플랜을 생성 후 골 기반 드리븐 방식 사용</li></ul></article><article class="dcard"><div class="t">23:44-23:51</div><h2>노트북 충전 불가 문제</h2><p class="sum">LG 노트북이 배터리 방전 후 충전이 안 되는 상황에 대해 도움을 요청했다. 탄내가 없고 산 지 6개월 미만이라 무상 수리 대상이라는 조언을 받았다. 클로드 코덱스로 작업한 파일들이 백업이 안 되어 있다는 우려도 나왔다.</p><ul><li>탄내 여부로 상태 점검, 없으면 전원충전단이나 배터리 교체 가능성 언급</li><li>구매 6개월 미만이라 무상 수리 대상으로 안내</li><li>무상 수리 시 기능 테스트 등 추가 점검도 함께 요청하라는 팁</li><li>백업 안 된 작업 파일에 대한 걱정 표출</li></ul></article><article class="dcard"><div class="t">00:32-00:38</div><h2>AX(AI 전환)가 뭔가 논의</h2><p class="sum">AX가 무엇인지, 단순히 AI 활용 개발을 의미하는 건지 질문이 나왔다. 중국 도매 주문을 위챗 수작업에서 API 자동화로 바꾼 사례를 들며 이것이 AX화인지 물었고, 단순 자동화를 AX라 부르는 것에 대한 반론(너무 좁은 범위 아니냐는 의견)이 제기됐다.</p><ul><li>AX 정의에 대한 질문 제기</li><li>중국 도매 주문 자동화 사례를 AX 여부로 예시 제시</li><li>단순 자동화=AX라는 정의에 대한 반론 나옴</li></ul></article><article class="dcard"><div class="t">08:06-08:15</div><h2>오르카 한글입력 밀림 이슈</h2><p class="sum">오르카에서 한글 입력이 밀리는 문제가 보고됐다. IME 이슈로 추정되며, 최신 릴리즈로 업데이트하면 그제 기준 문제가 없었다는 확인이 나왔다. 업데이트 시도했으나 실패해서 일단 그대로 사용 중이라는 후기도 있었다.</p><ul><li>오르카 한글 입력 지연 문제 제보</li><li>IME 이슈로 추정, 폰트 변경으로 완화된다는 썰</li><li>최신 릴리즈 업데이트로 문제 해결됐다는 확인</li><li>업데이트 실패로 미해결 상태인 사용자도 있음</li></ul></article><article class="dcard"><div class="t">08:27-08:38</div><h2>모바일 디자인 최적화 질문</h2><p class="sum">클로드 코드 에이전트가 만든 디자인을 모바일에서 보기 좋게 최적화하는 방법을 물었다. 모바일용 디자인 토큰 등을 시도했으나 에이전트 리서치가 부족했다는 불만이 있었고, 프론트엔드는 말로 설명하기 어려워 실기기에서 직접 체크하며 수정해야 한다는 조언, 스티치를 활용해 만들어보라는 대안도 제시됐다.</p><ul><li>클로드코드 에이전트 결과물의 모바일 최적화 방법 질문</li><li>모바일 디자인 토큰 리서치를 에이전트에 시켰으나 결과 부족</li><li>프론트엔드는 실기기 체크 기반 수정이 필요하다는 조언</li><li>대안으로 스티치 활용 제안</li></ul></article><article class="dcard"><div class="t">00:07-00:15</div><h2>마곡 아구찜 맛집 이야기</h2><p class="sum">마곡의 또순이네(똑순이네) 아구찜/된장찌개 맛집에 대한 대화가 이어졌다. 선유도가 본점이고 마곡점은 아들이 운영하는데 불친절하다는 평이 있었다. 오래된 맛집일수록 하나만 파고들어 최적화되어 맛있다는 의견과, 항암 식단으로 된장찌개가 좋다는 개인 경험담, 박진영의 &#x27;안좋은 걸 안 먹는 게 중요하다&#x27;는 어록이 언급됐다.</p><ul><li>또순이네(똑순이네) 아구찜/된장찌개집 선유도 본점, 마곡 분점 이야기</li><li>오래된 맛집이 한 메뉴에 집중해 최적화되어 맛있다는 의견</li><li>항암 치료 중 된장찌개 위주 식단이 도움됐다는 경험담 공유</li><li>박진영의 &#x27;안 좋은 걸 안 먹는 게 중요하다&#x27;는 어록 인용</li></ul></article><article class="dcard"><div class="t">00:24-01:12</div><h2>탁구봇 한도·경고 정책 질문</h2><p class="sum">탁구봇에게 어떤 언어모델을 쓰는지(하이쿠라는 답), 호출 한도, 경고 누적 및 초기화 정책 등을 여러 멤버가 물었다. 주식 관련 질문은 금지 주제로 지정되어 있으며, 위반 시 1주일간 봇이 답을 하지 않는 방식으로 차단된다는 설명이 있었다.</p><ul><li>탁구봇이 하이쿠 모델 기반이라는 언급</li><li>주식은 금지 주제로 지정, 언급 시 1주일간 봇 응답 차단</li><li>경고 누적·초기화 정책에 대한 질문 다수, 명확한 답은 확인 안 됨</li><li>탁구봇 호출에 한도가 있다는 언급</li></ul></article><article class="dcard"><div class="t">08:36-08:37</div><h2>탁구봇 사용 통계 공유</h2><p class="sum">전날 탁구봇 호출 건수가 479건으로 전전날 대비 33% 증가했다는 통계가 공유됐다. 주말이라 오늘은 호출이 줄어들 것으로 예상된다는 코멘트가 붙었다.</p><ul><li>전날 탁구봇 호출 479건, 전전날 대비 33% 증가</li><li>주말이라 호출 감소 예상 코멘트</li></ul></article><article class="dcard"><div class="t">23:36-23:43</div><h2>무지성 매수 잡담</h2><p class="sum">생각 없이 주식을 사는 것에 대한 농담이 오갔다. AI에게 투자 조언을 구하는 건 안 된다는 이야기가 나왔고, 확률적으로 답하는 AI 특성상 투자 자문은 곤란하다는 언급이 있었다. 잡담 중 한 명이 주식이 떨어져 속이 쓰리다고 했다.</p><ul><li>생각 없이 사는 게 낫다는 농담식 대화</li><li>AI는 확률적으로 답하기 때문에 투자 자문에 부적합하다는 언급</li><li>주식 하락으로 속이 쓰리다는 잡담으로 마무리</li></ul></article><article class="dcard"><div class="t">23:51-23:51</div><h2>신규 멤버 인사</h2><p class="sum">새로운 참여자가 인사를 건네며 방에 합류했고 다른 멤버들이 환영했다.</p><ul><li>신규 참여자 인사</li><li>기존 멤버들의 환영 반응</li></ul></article><article class="dcard"><div class="t">23:57-00:04</div><h2>탁구봇 장난 호출</h2><p class="sum">여러 멤버가 탁구봇에게 2행시, 모델 정보, 하네스 추천, 메신저봇 앱 등 다양한 장난스러운 질문을 던졌다. 단순 재미 목적의 상호작용이었다.</p><ul><li>탁구 2행시, 사용 모델 등 봇 관련 장난 질문 다수</li><li>메신저봇 앱 관련 질문도 포함</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-07-0900</span>
+</footer>
+</div>
+</body>
+</html>
