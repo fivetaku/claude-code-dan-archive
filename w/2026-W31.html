@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>클코단 주간정리 — 7월 27일 ~ 8월 2일</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -19,6 +21,11 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 @media(min-width:760px){body{font-size:18px}}
 
 /* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
 .wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
 @media(min-width:600px){.wrap{padding:44px 24px 88px}}
 header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
@@ -132,19 +139,19 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <header>
   <span class="mark">지피탁구</span>
   <h1>7월 27일 ~ 8월 2일 주간정리</h1>
-  <p class="sub">봇 인프라 정비·플러그인 생태계 확장 주간</p>
+  <p class="sub">파일삭제 사고와 MCP 오버엔지니어링 논쟁</p>
   <div class="meta" style="margin-top:12px">
-    <span>요약 <b>17</b>회</span>
-    <span>발화 <b>3440</b>건</span>
+    <span>요약 <b>3</b>회</span>
+    <span>발화 <b>522</b>건</span>
     <span>하이라이트 <b>5</b></span>
   </div>
 </header>
 <section class="wkstat">
-  <h2>요일별 활동</h2><div class="days"><div class="daycol"><span class="daybar" style="height:37px"></span><span class="daylbl">29</span></div><div class="daycol"><span class="daybar" style="height:90px"></span><span class="daylbl">30</span></div><div class="daycol"><span class="daybar" style="height:52px"></span><span class="daylbl">31</span></div><div class="daycol"><span class="daybar" style="height:19px"></span><span class="daylbl">01</span></div><div class="daycol"><span class="daybar" style="height:47px"></span><span class="daylbl">02</span></div></div>
-  <h2>주제 분포</h2><div class="catrow"><span class="catname">커뮤니티·잡담</span><span class="catbar" style="width:100%"></span><span class="catnum">39</span></div><div class="catrow"><span class="catname">질문·트러블슈팅</span><span class="catbar" style="width:97%"></span><span class="catnum">38</span></div><div class="catrow"><span class="catname">도구·라이브러리</span><span class="catbar" style="width:59%"></span><span class="catnum">23</span></div><div class="catrow"><span class="catname">워크플로우·방법론</span><span class="catbar" style="width:59%"></span><span class="catnum">23</span></div><div class="catrow"><span class="catname">AI 모델·프롬프트</span><span class="catbar" style="width:46%"></span><span class="catnum">18</span></div><div class="catrow"><span class="catname">자료·링크 공유</span><span class="catbar" style="width:26%"></span><span class="catnum">10</span></div><div class="catrow"><span class="catname">기타</span><span class="catbar" style="width:18%"></span><span class="catnum">7</span></div><div class="catrow"><span class="catname">배포·운영</span><span class="catbar" style="width:13%"></span><span class="catnum">5</span></div>
+  <h2>요일별 활동</h2><div class="days"><div class="daycol"><span class="daybar" style="height:90px"></span><span class="daylbl">29</span></div></div>
+  <h2>주제 분포</h2><div class="catrow"><span class="catname">커뮤니티·잡담</span><span class="catbar" style="width:100%"></span><span class="catnum">3</span></div><div class="catrow"><span class="catname">질문·트러블슈팅</span><span class="catbar" style="width:67%"></span><span class="catnum">2</span></div><div class="catrow"><span class="catname">AI 모델·프롬프트</span><span class="catbar" style="width:33%"></span><span class="catnum">1</span></div><div class="catrow"><span class="catname">자료·링크 공유</span><span class="catbar" style="width:33%"></span><span class="catnum">1</span></div>
 </section>
-<section class="details"><article class="dcard"><div class="t">질문·트러블슈팅</div><h2>탁구봇 인프라 장애/개선</h2><p class="sum">병렬 워커 도입 후 동기화 파일 쓰기 경합으로 브리지가 멈추는 장애가 발생했고, 이후 큐 병렬화·별도 요약 워커 신설·대댓글 기능 정비 등 방장이 실시간으로 문제를 공유하며 인프라를 개선한 한 주였다.</p><ul><li><a href="../s/2026-07-30-1503.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">도구·라이브러리</div><h2>gptaku 플러그인 확산</h2><p class="sum">gptaku 플러그인을 쓰면 에이전트 결과물이 탄탄해지고 &#x27;바선생&#x27; 평가 점수가 오른다는 후기가 이어졌고, 이를 활용한 카드뉴스·릴스 제작 스킬까지 파생되며 생태계가 확장됐다.</p><ul><li><a href="../s/2026-08-01-1800.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">도구·라이브러리</div><h2>멀티계정 스위칭 도구</h2><p class="sum">클로드/코덱스 등 여러 계정과 한도를 통합 관리하려는 수요가 커지며 orca, teamclaude, opencodex 같은 도구가 반복적으로 언급·추천됐다.</p><ul><li><a href="../s/2026-07-30-1800.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">질문·트러블슈팅</div><h2>쇼핑몰 크롤링 차단</h2><p class="sum">스마트스토어·쿠팡 등 주요 플랫폼이 크롤링을 적극 차단하면서, insane-search 같은 스텔스 도구도 기반 라이브러리 업데이트에 따라 다시 막힐 수 있다는 우려가 이어졌다.</p><ul><li><a href="../s/2026-07-30-0900.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">워크플로우·방법론</div><h2>에이전트 메모리 관리</h2><p class="sum">장기 기억을 쌓아두는 에이전트가 늘며 큐레이션 없이는 몇 달 안에 무너진다는 현업 경험이 공유됐고, 소형 LLM 위키로 핵심 문서만 추려 연결하는 방식이 대안으로 제시됐다.</p><ul><li><a href="../s/2026-08-02-1037.html">그날 요약 보기</a></li></ul></article></section>
-<div class="months"><h2>이번 주 새 레포 27개</h2><a href="../repos/fivetaku-insane-search.html">fivetaku/insane-search</a><a href="../repos/uppinote20-claude-dashboard.html">uppinote20/claude-dashboard</a><a href="../repos/siteboon-claudecodeui.html">siteboon/claudecodeui</a><a href="../repos/fivetaku-gptaku_plugins.html">fivetaku/gptaku_plugins</a><a href="../repos/fivetaku-insane-research.html">fivetaku/insane-research</a><a href="../repos/fivetaku-dd.html">fivetaku/dd</a><a href="../repos/fivetaku-docs-guide.html">fivetaku/docs-guide</a><a href="../repos/fivetaku-git-teacher.html">fivetaku/git-teacher</a><a href="../repos/fivetaku-goaljaby.html">fivetaku/goaljaby</a><a href="../repos/fivetaku-insane-design.html">fivetaku/insane-design</a><a href="../repos/fivetaku-insane-review.html">fivetaku/insane-review</a><a href="../repos/fivetaku-kkirikkiri.html">fivetaku/kkirikkiri</a></div>
+<section class="details"><article class="dcard"><div class="t">질문·트러블슈팅</div><h2>클로드 파일 삭제 사고</h2><p class="sum">지침을 줬는데도 경로를 잘못 짚어 관련없는 파일까지 삭제되거나, 승인 없이 AI가 스스로 진행을 결정한 사례가 공유되며 큰 주목을 받았다 (importance 5).</p><ul><li><a href="../s/2026-07-29-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">질문·트러블슈팅</div><h2>매출DB에 MCP 필요한가</h2><p class="sum">단순 DB 연동에 MCP까지 만드는 건 오버엔지니어링이라는 지적과, 권한 없는 여러 팀 데이터 접근엔 OAuth 기반 MCP가 유효하다는 반론이 맞붙었다 (importance 5).</p><ul><li><a href="../s/2026-07-29-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t"></div><h2>인세인서치 통합·차단</h2><p class="sum">딥리서치+인세인서치가 인세인리서치로 통합된 소식과, 쇼핑몰 차단 확대로 기능 추가를 보류하기로 한 논의가 이틀 연속 슬롯에서 반복 등장했다.</p><ul><li><a href="../s/2026-07-29-1800.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">AI 모델·프롬프트</div><h2>오푸스5 토큰 소모</h2><p class="sum">오푸스5가 4.8보다 탐색 범위가 넓어 토큰을 더 쓴다는 체감과 함께, 모델보다 하네스 구성이 소모량에 더 영향을 준다는 실용적 진단이 나왔다 (importance 4).</p><ul><li><a href="../s/2026-07-29-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">자료·링크 공유</div><h2>Guru Maker 공유</h2><p class="sum">투자 에이전트가 매번 컨텍스트를 새로 쌓는 문제를 해결하는 오픈소스 도구가 최근 주식 폭락장과 맞물려 소개됐다.</p><ul><li><a href="../s/2026-07-29-2200.html">그날 요약 보기</a></li></ul></article></section>
+<div class="months"><h2>이번 주 새 레포 17개</h2><a href="../repos/fivetaku-insane-search.html">fivetaku/insane-search</a><a href="../repos/uppinote20-claude-dashboard.html">uppinote20/claude-dashboard</a><a href="../repos/siteboon-claudecodeui.html">siteboon/claudecodeui</a><a href="../repos/fivetaku-gptaku_plugins.html">fivetaku/gptaku_plugins</a><a href="../repos/fivetaku-insane-research.html">fivetaku/insane-research</a><a href="../repos/fivetaku-dd.html">fivetaku/dd</a><a href="../repos/fivetaku-docs-guide.html">fivetaku/docs-guide</a><a href="../repos/fivetaku-git-teacher.html">fivetaku/git-teacher</a><a href="../repos/fivetaku-goaljaby.html">fivetaku/goaljaby</a><a href="../repos/fivetaku-insane-design.html">fivetaku/insane-design</a><a href="../repos/fivetaku-insane-review.html">fivetaku/insane-review</a><a href="../repos/fivetaku-kkirikkiri.html">fivetaku/kkirikkiri</a></div>
 <footer>지피탁구 봇이 그 주 요약을 모아 자동 정리했습니다.</footer>
 </div>
 </body>
