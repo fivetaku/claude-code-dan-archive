@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>클로드 코드 입문 가이드: 구독부터 토큰 절약 팁까지</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-beginner-guide-tokens.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-beginner-guide-tokens.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드를 처음 쓰는 사람이 꼭 알아야 할 구독 요건, CS 지식 유무에 따른 체감 차이, 토큰과 대화 턴을 아끼는 실전 팁을 웹 조사와 실사용 경험을 엮어 정리했다.</description>
+  </item>
+  <item>
+    <title>세금계산서 발행 넘어, 볼타가 입출금까지 자동으로 맞춘다</title>
+    <link>https://chat.axwith.com/mag/tools/bolta-tax-invoice-auto-match.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/bolta-tax-invoice-auto-match.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
+    <description>세금계산서 발행 서비스로만 알려졌던 볼타가 실제로는 입출금 내역을 계산서와 자동으로 매칭해주는 기능을 갖춘 배경과 원리, 요금제, 경쟁 서비스와의 차이를 함께 정리했다.</description>
+  </item>
+  <item>
     <title>클로드코드 SDD 전환기, superpowers·우로보로스 병행이 어려운 이유</title>
     <link>https://chat.axwith.com/mag/workflow/superpowers-ouroboros-sdd-conflict.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/superpowers-ouroboros-sdd-conflict.html</guid>
