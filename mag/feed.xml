@@ -5,20 +5,20 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
-    <title>클로드코드 팀 하네스 만들기: 다직무 협업 스킬·메모리 설계</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-team-harness-skills.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-team-harness-skills.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Thu, 06 Aug 2026 12:00:00 +0900</pubDate>
-    <description>개발·기획·아트가 한 프로젝트를 같이 쓰는 클로드 코드 팀 하네스를 어떻게 짜야 할지, 스킬 공유 구조와 프로필별 on/off, 메모리 계층, 구독 비용까지 실사용 경험을 엮어 정리했다.</description>
-  </item>
-  <item>
     <title>클로드코드 SDD 전환기, superpowers·우로보로스 병행이 어려운 이유</title>
     <link>https://chat.axwith.com/mag/workflow/superpowers-ouroboros-sdd-conflict.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/superpowers-ouroboros-sdd-conflict.html</guid>
     <category>워크플로우·방법론</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
+    <pubDate>Fri, 07 Aug 2026 12:00:00 +0900</pubDate>
     <description>Claude Code에서 TDD 대신 SDD로 전환하려는 흐름 속에 superpowers와 우로보로스(Ouroboros) 프레임워크의 정체와 차이, 함께 쓰면 워크플로우가 충돌하는 이유를 실사용 경험과 함께 짚었다.</description>
+  </item>
+  <item>
+    <title>클로드코드 팀 하네스 만들기: 다직무 협업 스킬·메모리 설계</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-team-harness-skills.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-team-harness-skills.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Fri, 07 Aug 2026 12:00:00 +0900</pubDate>
+    <description>개발·기획·아트가 한 프로젝트를 같이 쓰는 클로드 코드 팀 하네스를 어떻게 짜야 할지, 스킬 공유 구조와 프로필별 on/off, 메모리 계층, 구독 비용까지 실사용 경험을 엮어 정리했다.</description>
   </item>
   <item>
     <title>AX 전환이 조직에서 멈추는 진짜 이유, 직원은 왜 협조를 꺼리나</title>
