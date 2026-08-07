@@ -13,6 +13,22 @@
     <description>Claude Code에서 TDD 대신 SDD로 전환하려는 흐름 속에 superpowers와 우로보로스(Ouroboros) 프레임워크의 정체와 차이, 함께 쓰면 워크플로우가 충돌하는 이유를 실사용 경험과 함께 짚었다.</description>
   </item>
   <item>
+    <title>대부분 작업은 소넷으로 충분하고 오퍼스와 페이블은 아껴 쓴다는 전략</title>
+    <link>https://chat.axwith.com/mag/models/sonnet-opus-fable-model-strategy.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/sonnet-opus-fable-model-strategy.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Fri, 07 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드 커뮤니티 클코단에서 오간 오퍼스5·페이블5 모델 선택 전략을 가격, 이펙트 레벨, 플랜 모드, GPT-5.6 비교까지 웹 조사로 확인해 자세히 정리했다.</description>
+  </item>
+  <item>
+    <title>제미나이 CLI 개인 서비스는 끊겼어도 저장소는 여전히 매일 릴리즈되고 있다</title>
+    <link>https://chat.axwith.com/mag/models/gemini-cli-still-releasing-daily.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-cli-still-releasing-daily.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Fri, 07 Aug 2026 12:00:00 +0900</pubDate>
+    <description>제미나이 CLI가 종료된 줄 알았던 커뮤니티가 깃허브를 확인해보니 개인 요금제만 끊기고 저장소는 여전히 활발했다. 안티그래비티와의 관계, 엔터프라이즈 접근 현황을 정리했다.</description>
+  </item>
+  <item>
     <title>클로드코드 팀 하네스 만들기: 다직무 협업 스킬·메모리 설계</title>
     <link>https://chat.axwith.com/mag/workflow/claude-code-team-harness-skills.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-team-harness-skills.html</guid>
