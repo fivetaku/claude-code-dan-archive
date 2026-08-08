@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>오르카·파세오·cmux, 갈아타기 힘든 이유는 따로 있다</title>
+    <link>https://chat.axwith.com/mag/tools/orca-paseo-cmux-compare.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/orca-paseo-cmux-compare.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
+    <description>오르카·파세오·cmux 세 도구의 실사용 불만을 공식 문서·이슈 트래커와 대조했다. 갈아타기 어려운 이유는 기능이 아니라 설정 투자였다.</description>
+  </item>
+  <item>
+    <title>클로드코드, 텔레그램·디스코드로 옮겨 쓰는 세 갈래 길</title>
+    <link>https://chat.axwith.com/mag/tools/claude-code-channels-remote.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-channels-remote.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드를 텔레그램·디스코드에 연결하는 공식 Channels 기능과, 슬랙 같은 미지원 채널을 직접 만드는 SDK·headless 방식의 차이, 코덱스와의 구조 비교까지 정리했다.</description>
+  </item>
+  <item>
     <title>클로드 코드 입문 가이드: 구독부터 토큰 절약 팁까지</title>
     <link>https://chat.axwith.com/mag/workflow/claude-code-beginner-guide-tokens.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-beginner-guide-tokens.html</guid>
@@ -19,6 +35,14 @@
     <category>도구·라이브러리</category>
     <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
     <description>세금계산서 발행 서비스로만 알려졌던 볼타가 실제로는 입출금 내역을 계산서와 자동으로 매칭해주는 기능을 갖춘 배경과 원리, 요금제, 경쟁 서비스와의 차이를 함께 정리했다.</description>
+  </item>
+  <item>
+    <title>AX(AI 전환)란 무엇인가, 자동화와는 뭐가 다른가</title>
+    <link>https://chat.axwith.com/mag/workflow/ax-ai-transformation-vs-automation.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ax-ai-transformation-vs-automation.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
+    <description>중국 도매 발주를 위챗에서 API로 바꾼 사례를 두고 AX인지 아닌지 의견이 갈렸다. AX와 DX, 자동화의 정의 차이와 정부 지원 조건, 실무 체감도까지 확인했다.</description>
   </item>
   <item>
     <title>클로드코드 SDD 전환기, superpowers·우로보로스 병행이 어려운 이유</title>
@@ -219,13 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드코드처럼 파일에 장기 기억을 쌓는 에이전트가 늘면서 메모리 붕괴 사례가 늘고 있다. 최신 arXiv 연구와 클코단 실사용 경험으로 원인과 대안을 짚었다.</description>
-  </item>
-  <item>
-    <title>바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</title>
-    <link>https://chat.axwith.com/mag/tools/vibe-sunsang-claude-code-score.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/vibe-sunsang-claude-code-score.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Mon, 03 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드 세션 로그를 6축(DECOMP·VERIFY·ORCH·FAIL·CTX·META)·7레벨 체계로 채점하는 오픈소스 도구 바이브선생의 설치법과 평가 기준, 점수보다 실무 활용도가 중요하다는 커뮤니티 반응을 정리했다.</description>
   </item>
 </channel></rss>

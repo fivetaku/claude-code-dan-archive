@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오르카·파세오·cmux, 갈아타기 힘든 이유는 따로 있다 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="오르카·파세오·cmux 세 도구의 실사용 불만을 공식 문서·이슈 트래커와 대조했다. 갈아타기 어려운 이유는 기능이 아니라 설정 투자였다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/orca-paseo-cmux-compare.html">
+<meta property="og:title" content="오르카·파세오·cmux, 갈아타기 힘든 이유는 따로 있다">
+<meta property="og:description" content="오르카·파세오·cmux 세 도구의 실사용 불만을 공식 문서·이슈 트래커와 대조했다. 갈아타기 어려운 이유는 기능이 아니라 설정 투자였다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/orca-paseo-cmux-compare.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "오르카·파세오·cmux, 갈아타기 힘든 이유는 따로 있다", "description": "오르카·파세오·cmux 세 도구의 실사용 불만을 공식 문서·이슈 트래커와 대조했다. 갈아타기 어려운 이유는 기능이 아니라 설정 투자였다.", "datePublished": "2026-08-08", "dateModified": "2026-08-08", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/orca-paseo-cmux-compare.html"}, "articleSection": "도구·라이브러리", "keywords": "오르카, 파세오, cmux, AI 코딩 에이전트, git worktree, 클로드 코드"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "오르카 한글 입력 밀림 문제는 어떻게 고치나", "acceptedAnswer": {"@type": "Answer", "text": "오르카 모바일 터미널에서 한글 조합 자모가 사라지는 회귀 버그가 실제로 보고됐고, 이후 배포에서 조합 종료 시점 처리와 macOS 조합 유지를 고쳤다. 폰트를 바꾸는 방법도 방에서 돌지만, 최신 버전으로 업데이트하는 쪽이 근본적인 해결책이다."}}, {"@type": "Question", "name": "파세오는 기존 클로드 코드 세션을 이어서 쓸 수 있나", "acceptedAnswer": {"@type": "Answer", "text": "paseo import 명령으로 터미널에서 시작한 클로드 코드·코덱스·OpenCode 세션을 앱에서 불러와 이어갈 수 있다. 다만 모델이나 사고 수준 같은 세부 설정이 그대로 넘어오지 않는 버그가 보고돼 있어 완전하지는 않다."}}, {"@type": "Question", "name": "오르카·파세오·cmux 중 무엇을 먼저 써봐야 하나", "acceptedAnswer": {"@type": "Answer", "text": "운영체제와 계정 개수가 갈림길이다. macOS 외 환경이면 cmux는 제외되고, 여러 계정과 GitHub·Linear 연동이 필요하면 오르카, 자체 서버를 운영하며 모바일로도 확인하고 싶으면 파세오가 맞다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/orca-paseo-cmux-compare.png" alt="오르카·파세오·cmux, 갈아타기 힘든 이유는 따로 있다" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>오르카·파세오·cmux, 갈아타기 힘든 이유는 따로 있다</h1>
+  <p class="sub">AI 코딩 에이전트를 동시에 여러 개 돌리는 사람이 늘면서, 관리 도구를 한번 고르면 잘 안 바꾸는 이유가 드러났다</p>
+  <div class="meta"><span>2026-08-08</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>에이전트를 하나만 켜놓고 순서대로 작업 지시를 내리던 방식은 코딩 에이전트 여러 개를 동시에 돌리는 흐름으로 넘어갔다. 각 에이전트가 같은 작업 폴더를 건드리면 파일이 꼬이는 탓에, git worktree로 브랜치별 작업 공간을 나눠주는 게 표준 대응법으로 자리잡았다. 문제는 워크트리마다 .env, node_modules, 빌드 캐시처럼 gitignore된 것들이 따라오지 않는다는 점이다. 매번 몇 분씩 세팅해야 하는 번거로움이 남는다. 오르카·파세오·cmux는 이 번거로움을 각자 다른 방식으로 없애려는 도구들이고, 그 방식 차이가 갈아타기 어렵다는 방의 체감으로 이어진다.</p>
+<h2>오르카, 기능을 쌓아올려 떠나기 어렵다</h2>
+<p>오르카(Orca, 개발사 Stably)는 MIT 라이선스 오픈소스로, 클로드 코드·코덱스·OpenCode를 포함해 30개 넘는 CLI 에이전트를 각각 독립된 git 워크트리에서 돌려준다. macOS·윈도우·리눅스를 모두 지원하고, iOS·안드로이드 동반 앱으로 외부에서도 작업을 확인한다. 계정을 여러 개 등록해 한 번의 클릭으로 바꿔 쓰는 기능, SSH로 원격 서버의 워크트리를 관리하는 기능, GitHub·Linear 이슈를 앱 안에서 바로 연결하는 기능까지 붙어 있다.</p>
+<p>방에서 나온 갈아타는 비용이 크다 보니 그대로 쓴다는 평은 이 기능 밀도와 맞물린다. 계정 연결, 워크트리 설정, GitHub 연동을 한 번 끝내고 나면 다른 도구로 옮기는 순간 이 설정을 처음부터 다시 해야 한다. 다만 공짜는 아니어서, 병렬로 여러 에이전트를 돌릴 때 계정별·등급별 요청 한도가 따로 걸리는데 전체 사용량을 한눈에 보여주는 화면은 아직 없다. 워크트리로 파일 충돌은 막아도, 두 에이전트가 같은 코드를 서로 다른 방향으로 리팩터링하면 리뷰 단계에서야 충돌이 드러나는 문제도 남아 있다.</p>
+<p>방에서 공유된 폰트를 바꾸면 한글 입력 밀림이 해결된다는 팁은 실제 버그와 맞닿아 있다. 오르카 모바일 터미널에서 한글 조합 중인 자모가 통째로 사라지는 회귀 버그가 보고됐고, 스페이스나 엔터를 눌러야 겨우 글자가 들어가는 증상이었다. 프로젝트 쪽은 이후 배포에서 한글 음절을 조합 종료 시점에 정확히 흘려보내도록 고쳤고, macOS에서의 조합 유지도 함께 손봤다. 방에서 도는 폰트 교체 팁은 정식 수정이 배포되기 전에 사용자들이 찾아낸 임시 우회로였을 가능성이 크다. 지금은 최신 버전으로 올리는 쪽이 근본 해결에 가깝다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/orca-paseo-cmux-compare.png" alt="" loading="lazy"><h2>파세오, 리쥼 불만과 공식 기능 사이의 간극</h2>
+<p>파세오(Paseo)는 AGPL-3.0 오픈소스로, 자체 서버에 데몬을 띄우고 데스크톱·웹·모바일·CLI 어디서든 같은 에이전트 세션에 접속하는 구조를 택했다. 원격 측정이나 강제 로그인이 없는 프라이버시 우선 방침을 내세우고, 클로드 코드·코덱스·코파일럿·OpenCode·Pi를 한 인터페이스에서 다룬다. 오르카가 데스크톱 워크트리 IDE에 가깝다면, 파세오는 여러 화면을 오가며 같은 작업을 이어가는 데 무게를 둔 도구다.</p>
+<p>방에서 나온 리쥼이 안 돼서 방치했다는 불만은 공식 기능 설명과 부분적으로 어긋난다. 파세오는 paseo import 명령으로 터미널에서 시작한 클로드·코덱스·OpenCode 세션을 앱으로 불러와 전체 대화 흐름을 이어가는 기능을 갖췄고, 이 기능은 2026년 5월 업데이트로 추가됐다. 다만 실제로는 세션을 불러올 때 원래 쓰던 모델이나 사고 수준 같은 설정이 그대로 넘어오지 않는 버그가 프로젝트 이슈 트래커에 보고돼 있다. 방에서 겪은 불편이 기능 자체의 부재라기보다, 불러온 다음 설정이 어긋나는 데서 온 실망일 가능성이 있다.</p>
+<h2>cmux, 심플함을 무기로 내세운다</h2>
+<p>cmux는 Ghostty 기반 macOS 전용 터미널로, GPL-3.0 오픈소스이며 3월 이후 스타 수가 네 배 넘게 뛰어 2만 5000개를 넘겼다. 스스로를 완결된 해결책이 아니라 기본 요소라고 규정하는 게 다른 두 도구와 결이 다른 지점이다. 워크스페이스·분할 화면·알림·내장 브라우저·CLI를 제공하되, 이걸 어떻게 조합해 쓸지는 사용자에게 맡긴다. 에이전트가 서브에이전트를 띄우면 이걸 숨겨진 백그라운드 프로세스가 아니라 눈에 보이는 탭과 분할 화면으로 바로 띄워주는 방식도 특징이다.</p>
+<p>방에서 나온 심플해서 바꾸기 어렵다는 평가는 역설적으로 들리지만, 오르카·파세오처럼 계정 연동이나 워크트리 자동화 같은 무거운 설정이 없어서 나온 말에 가깝다. 배울 것도 되돌릴 것도 적으니 굳이 다른 도구로 옮길 이유를 찾기 어렵다는 뜻이다. 다만 macOS에서만 쓸 수 있고, 워크트리 자동 생성이나 계정 여러 개 관리 같은 편의 기능은 스스로 스크립트로 채워야 한다는 점은 오르카·파세오 대비 분명한 제약이다.</p>
+<h2>개인 개발자와 소규모 팀은 무엇부터 봐야 하나</h2>
+<p>세 도구 모두 무료로 시작할 수 있어서, 선택 기준은 가격보다 작업 환경에 가깝다. 윈도우나 리눅스에서 작업한다면 cmux는 처음부터 후보에서 빠지고, macOS를 쓰더라도 계정을 여러 개 돌리거나 GitHub·Linear 연동이 필요하면 오르카 쪽 설정값이 더 맞아떨어진다. 이동 중에 스마트폰으로 진행 상황만 확인하고 싶은 1인 개발자라면, 자체 서버에 데몬을 올릴 여건이 되는지가 파세오를 고를지 가르는 기준이 된다. 셋 다 지금 쓰는 에이전트 CLI를 그대로 감싸는 도구이므로, 클로드 코드나 코덱스 자체를 새로 배울 필요는 없고 도구를 바꿔도 기존 구독은 그대로 쓴다.</p>
+<p>정작 방에서 반복된 이야기는 어느 도구가 더 낫냐가 아니라, 한 번 골라서 설정을 끝내면 다시 그 설정을 반복하고 싶지 않다는 쪽이었다. 오르카의 계정·워크트리·연동 설정, 파세오의 자체 호스팅 서버, cmux의 스크립트로 짜맞춘 워크플로 모두 처음 한 번의 투자가 크고, 그 투자가 갈아타기를 막는 실제 원인이다. 세 도구를 동시에 써보고 고르는 사치를 부릴 여유가 없다면, 지금 관리하는 에이전트 계정 개수와 운영체제부터 확인하는 편이 첫 번째 갈림길이 된다.</p></div>
+<div class="chips"><span class="chip">오르카</span><span class="chip">파세오</span><span class="chip">cmux</span><span class="chip">AI 코딩 에이전트</span><span class="chip">git worktree</span><span class="chip">클로드 코드</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/stablyai/orca" rel="nofollow noopener">https://github.com/stablyai/orca</a></li><li><a href="https://github.com/getpaseo/paseo" rel="nofollow noopener">https://github.com/getpaseo/paseo</a></li><li><a href="https://github.com/manaflow-ai/cmux" rel="nofollow noopener">https://github.com/manaflow-ai/cmux</a></li><li><a href="https://www.onorca.dev/docs/terminal" rel="nofollow noopener">https://www.onorca.dev/docs/terminal</a></li><li><a href="https://github.com/stablyai/orca/issues/7183" rel="nofollow noopener">https://github.com/stablyai/orca/issues/7183</a></li><li><a href="https://github.com/getpaseo/paseo/issues/1440" rel="nofollow noopener">https://github.com/getpaseo/paseo/issues/1440</a></li><li><a href="https://paseo.sh/changelog" rel="nofollow noopener">https://paseo.sh/changelog</a></li><li><a href="https://paseo.sh/" rel="nofollow noopener">https://paseo.sh/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>오르카 한글 입력 밀림 문제는 어떻게 고치나</h2><p class="sum">오르카 모바일 터미널에서 한글 조합 자모가 사라지는 회귀 버그가 실제로 보고됐고, 이후 배포에서 조합 종료 시점 처리와 macOS 조합 유지를 고쳤다. 폰트를 바꾸는 방법도 방에서 돌지만, 최신 버전으로 업데이트하는 쪽이 근본적인 해결책이다.</p></article><article class="dcard"><div class="t">Q</div><h2>파세오는 기존 클로드 코드 세션을 이어서 쓸 수 있나</h2><p class="sum">paseo import 명령으로 터미널에서 시작한 클로드 코드·코덱스·OpenCode 세션을 앱에서 불러와 이어갈 수 있다. 다만 모델이나 사고 수준 같은 세부 설정이 그대로 넘어오지 않는 버그가 보고돼 있어 완전하지는 않다.</p></article><article class="dcard"><div class="t">Q</div><h2>오르카·파세오·cmux 중 무엇을 먼저 써봐야 하나</h2><p class="sum">운영체제와 계정 개수가 갈림길이다. macOS 외 환경이면 cmux는 제외되고, 여러 계정과 GitHub·Linear 연동이 필요하면 오르카, 자체 서버를 운영하며 모바일로도 확인하고 싶으면 파세오가 맞다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-07-0900.html">2026-08-07 08-06 23:36~08-07 08:38</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
