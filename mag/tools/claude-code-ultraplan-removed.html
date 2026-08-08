@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code ultraplan 삭제와 씽킹 토글 버그 수정이 바꾼 것들 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code 2.1.221~2.1.222 업데이트에서 씽킹 토글·MCP 버그가 고쳐지고 ultraplan이 제거됐다. 무엇으로 대체해야 하는지 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/claude-code-ultraplan-removed.html">
+<meta property="og:title" content="Claude Code ultraplan 삭제와 씽킹 토글 버그 수정이 바꾼 것들">
+<meta property="og:description" content="Claude Code 2.1.221~2.1.222 업데이트에서 씽킹 토글·MCP 버그가 고쳐지고 ultraplan이 제거됐다. 무엇으로 대체해야 하는지 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/claude-code-ultraplan-removed.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code ultraplan 삭제와 씽킹 토글 버그 수정이 바꾼 것들", "description": "Claude Code 2.1.221~2.1.222 업데이트에서 씽킹 토글·MCP 버그가 고쳐지고 ultraplan이 제거됐다. 무엇으로 대체해야 하는지 정리했다.", "datePublished": "2026-08-08", "dateModified": "2026-08-08", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-code-ultraplan-removed.html"}, "articleSection": "도구·라이브러리", "keywords": "Claude Code, ultraplan, plan 모드, 확장 사고, MCP, 적응형 사고"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code ultraplan은 왜 없어졌나요?", "acceptedAnswer": {"@type": "Answer", "text": "Anthropic이 2026년 8월 4일 배포된 2.1.222 버전에서 연구 프리뷰 기능이었던 ultraplan을 제거했다. 공식 문서는 로컬 plan 모드와 Claude Code on the web을 대체 경로로 안내한다."}}, {"@type": "Question", "name": "ultraplan 대신 무엇을 쓰나요?", "acceptedAnswer": {"@type": "Answer", "text": "작업 규모가 작으면 Shift+Tab 두 번으로 켜는 로컬 plan 모드를, 여러 파일을 건드리는 큰 작업이나 터미널을 비워두고 싶을 때는 Claude Code on the web을 쓰면 된다."}}, {"@type": "Question", "name": "Claude Code 씽킹 토글이 안 먹히던 버그는 고쳐졌나요?", "acceptedAnswer": {"@type": "Answer", "text": "2.1.221 버전에서 씽킹을 끄고 시작한 세션에서 토글이 이후 반영되지 않던 문제가 수정됐다. 같은 버전에서 MCP 서버를 꺼도 연결 중 조용히 되살아나던 버그도 함께 고쳐졌다."}}, {"@type": "Question", "name": "Claude Code에서 리즈닝을 꺼도 성능에 문제 없나요?", "acceptedAnswer": {"@type": "Answer", "text": "과제 유형에 따라 다르며 일괄적으로 답하기 어렵다. 적응형 사고가 답을 얕게 낸다고 느껴지면 CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING 환경변수로 고정 사고 예산 방식으로 바꿔볼 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-ultraplan-removed.png" alt="Claude Code ultraplan 삭제와 씽킹 토글 버그 수정이 바꾼 것들" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>Claude Code ultraplan 삭제와 씽킹 토글 버그 수정이 바꾼 것들</h1>
+  <p class="sub">ultraplan이 사라지고 씽킹·MCP 버그가 고쳐진 8월 업데이트, 계획은 이제 어디서 세워야 하나</p>
+  <div class="meta"><span>2026-08-08</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>씽킹 토글과 MCP 연결 버그, 왜 성가셨나</h2>
+<p>클로드 코드 2.1.221~2.1.222 업데이트에서 씽킹 토글과 MCP 서버 연결에 얽힌 버그 두 개가 고쳐지고, 계획 전용 기능 ultraplan이 통째로 빠졌다. 클코단에서는 두 버그 수정은 반겼지만 ultraplan 삭제에는 아쉬움을 표했다. 계획을 세우는 방식이 통째로 바뀐 지금, 무엇으로 그 자리를 메워야 하는지가 이번 업데이트의 핵심 질문이다.</p>
+<p>2.1.221 버전은 씽킹을 끄고 시작한 세션에서 이후 토글을 다시 켜도 반영되지 않던 문제를 고쳤다. 세션 중간에 사고 모드를 바꿔가며 응답 속도와 추론 깊이를 조절하던 사용자에게는 토글 자체가 죽어버리는 셈이라 불편이 컸다. 같은 버전에서 MCP 서버 연결이 끊어졌다가 다시 붙는 과정에 설정을 꺼도 조용히 원래 상태로 되돌아가던 버그도 함께 잡혔다. 사용자가 명시적으로 꺼둔 서버가 세션 도중 저절로 되살아나면 원치 않는 도구가 컨텍스트에 섞이거나 권한 경계가 흐트러질 수 있어, 두 버그 모두 조용히 넘어갈 문제는 아니었다.</p>
+<p>같은 날 배포된 2.1.222에서는 워크트리 격리 세션이 메인 체크아웃에 파괴적인 git 명령을 실행할 수 있던 보안 결함과, 백그라운드 작업에서 도구 제한을 우회하던 결함도 함께 고쳐졌다. 버그 수정 자체는 클코단 안팎에서 이견 없이 환영받았다.</p>
+<h2>사라진 ultraplan, 원래 뭘 하던 기능인가</h2>
+<p>ultraplan은 로컬 plan 모드와 달리 계획 수립 자체를 클라우드로 넘기는 연구 프리뷰 기능이었다. 터미널에서 작업을 지시하면 Anthropic 인프라에서 Opus 계열 모델이 최대 30분간 코드베이스를 조사해 계획을 짜고, 결과를 브라우저에서 구글독스처럼 댓글을 달며 검토할 수 있었다. 계획이 진행되는 동안 터미널은 다른 작업에 쓸 수 있어 여러 건을 동시에 굴리기 좋다는 평가를 받았다. Anthropic은 8월 4일 2.1.222 버전에서 이 기능을 제거했다고 공식 changelog에 밝혔고, 문서 페이지는 로컬 plan 모드와 Claude Code on the web을 대체 경로로 안내한다.</p>
+<p>써본 사람들 사이에서는 ultraplan이 내놓는 계획의 품질이 들쭉날쭉하다는 평가도 있었다. 같은 저장소에 비슷한 요청을 던져도 위험 분석까지 곁들인 두툼한 계획이 나올 때가 있고, 로컬 plan 모드와 별 차이 없는 얇은 개요만 나올 때도 있었다. 클코단에서 나온, 이게 없으면 산출물이 사방으로 흩어진다는 아쉬움은 이 품질 편차와 맞닿아 있다. 편차가 있더라도 잘 나온 결과물의 상한선이 로컬 plan 모드보다 높았다는 뜻이기 때문이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-ultraplan-removed.png" alt="" loading="lazy"><h2>계획 세우는 자리, 무엇으로 메우나</h2>
+<p>로컬 plan 모드는 Shift+Tab을 두 번 눌러 들어간다. 읽기 전용으로 코드베이스를 살피고 파일을 고치기 전에 단계별 계획을 먼저 보여주는 방식은 ultraplan과 같지만, 모델은 클라우드의 별도 세션이 아니라 지금 켜둔 CLI 세션을 그대로 쓴다. 파일 서너 개 이상을 건드리거나 스키마를 바꾸거나 보안에 민감한 코드를 다룰 때 plan 모드부터 켜라는 조언이 흔하다.</p>
+<p>Claude Code on the web은 ultraplan이 갖고 있던, 터미널을 비워둔 채 클라우드에서 돌린다는 특징을 계획 단계를 넘어 실행까지 확장한 기능이다. 저장소를 격리된 가상머신에 복제해 여러 작업을 동시에 돌리고, 세션은 브라우저를 닫아도 유지되며 모바일 앱으로 진행 상황을 확인할 수 있다. GitHub 저장소와 연동해 diff를 보고 CI 실패나 리뷰 코멘트를 자동으로 고치는 것까지 처리한다. ultraplan이 하던 계획만 클라우드에서보다 범위는 넓어졌지만, 계획과 검토를 한 화면에 나란히 놓고 보던 방식은 사라졌다.</p>
+<h2>리즈닝을 꺼도 괜찮은지 실험이 늘어난 이유</h2>
+<p>클코단 일부는 사고 기능을 꺼둔 채로도 결과물 수준이 유지되는지 자체적으로 실험해보고 있다고 전했다. 이 실험은 이번 버그 수정과 별개의 흐름이지만 맥락은 통한다. 확장 사고는 도구를 호출한 뒤 그 결과를 놓고 다시 생각하는 생각-행동-생각-행동 루프로, 다단계 작업에서 오류 전파를 줄이는 역할을 한다.</p>
+<p>동시에 사고를 무조건 오래 시킨다고 결과가 좋아지지는 않는다는 조사도 있다. 사람이 직관적인 일을 지나치게 고민하면 오히려 못하듯, 특정 과제 유형에서는 사고 시간을 늘렸을 때 성능이 최대 36%까지 떨어졌다는 결과가 나왔다. Claude Code가 상황에 맞춰 사고 시간을 스스로 조절하는 적응형 사고 방식을 쓰면서 답이 얕아지고, 존재하지 않는 커밋 해시나 패키지 이름을 지어내는 사례가 보고되기도 했다. CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING 환경변수를 1로 설정하면 적응형 사고 대신 고정된 사고 토큰 예산으로 돌아가는데, 이렇게 바꾼 뒤 응답이 더 즉각적으로 느껴졌다는 후기도 있다.</p>
+<h2>독자에게 실제로 바뀌는 것</h2>
+<p>1인 개발자나 소규모 팀이라면 이번 업데이트로 바뀌는 지점이 세 가지다. 씽킹 토글이 다시 정상 작동하니 세션 중간에 켜고 끄며 비용과 속도를 조절하던 습관을 되살려도 된다. MCP 서버를 일부러 꺼둔 상태가 이제는 유지되므로, 민감한 도구를 세션 도중 의도적으로 차단해 둔 설정이 저절로 풀리는지 다시 걱정할 필요는 없다. ultraplan을 쓰던 워크플로가 있었다면 Shift+Tab 두 번으로 들어가는 로컬 plan 모드나 Claude Code on the web 둘 중 하나로 옮겨야 한다.</p>
+<p>큰 리팩터링이나 스키마 변경처럼 계획 자체가 복잡한 작업은 Claude Code on the web으로 넘겨 터미널을 비워두는 쪽이 ultraplan의 대체재에 가깝다. 파일 서너 개 안팎의 작업은 로컬 plan 모드로도 충분하다는 평가가 많다. 적응형 사고가 얕은 답을 낸다고 느껴진다면 환경변수 하나로 고정 예산 방식으로 돌려볼 수 있다는 점도 기억해 둘 만하다.</p>
+<p>ultraplan이 비운 자리를 무엇으로 채울지는 작업 규모가 정한다. 계획을 통째로 클라우드에 맡기던 습관을 버리고, 언제 로컬에서 끝내고 언제 클라우드로 넘길지 매번 다시 가늠해야 하는 시점이다.</p></div>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">ultraplan</span><span class="chip">plan 모드</span><span class="chip">확장 사고</span><span class="chip">MCP</span><span class="chip">적응형 사고</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/changelog" rel="nofollow noopener">https://code.claude.com/docs/en/changelog</a></li><li><a href="https://code.claude.com/docs/en/ultraplan" rel="nofollow noopener">https://code.claude.com/docs/en/ultraplan</a></li><li><a href="https://code.claude.com/docs/en/claude-code-on-the-web" rel="nofollow noopener">https://code.claude.com/docs/en/claude-code-on-the-web</a></li><li><a href="https://docs.bswen.com/blog/2026-04-09-claude-code-adaptive-reasoning-settings/" rel="nofollow noopener">https://docs.bswen.com/blog/2026-04-09-claude-code-adaptive-reasoning-settings/</a></li><li><a href="https://docs.claude.com/en/docs/build-with-claude/extended-thinking" rel="nofollow noopener">https://docs.claude.com/en/docs/build-with-claude/extended-thinking</a></li><li><a href="https://www.havoptic.com/tools/claude-code" rel="nofollow noopener">https://www.havoptic.com/tools/claude-code</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code ultraplan은 왜 없어졌나요?</h2><p class="sum">Anthropic이 2026년 8월 4일 배포된 2.1.222 버전에서 연구 프리뷰 기능이었던 ultraplan을 제거했다. 공식 문서는 로컬 plan 모드와 Claude Code on the web을 대체 경로로 안내한다.</p></article><article class="dcard"><div class="t">Q</div><h2>ultraplan 대신 무엇을 쓰나요?</h2><p class="sum">작업 규모가 작으면 Shift+Tab 두 번으로 켜는 로컬 plan 모드를, 여러 파일을 건드리는 큰 작업이나 터미널을 비워두고 싶을 때는 Claude Code on the web을 쓰면 된다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code 씽킹 토글이 안 먹히던 버그는 고쳐졌나요?</h2><p class="sum">2.1.221 버전에서 씽킹을 끄고 시작한 세션에서 토글이 이후 반영되지 않던 문제가 수정됐다. 같은 버전에서 MCP 서버를 꺼도 연결 중 조용히 되살아나던 버그도 함께 고쳐졌다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 리즈닝을 꺼도 성능에 문제 없나요?</h2><p class="sum">과제 유형에 따라 다르며 일괄적으로 답하기 어렵다. 적응형 사고가 답을 얕게 낸다고 느껴지면 CLAUDE_CODE_DISABLE_ADAPTIVE_THINKING 환경변수로 고정 사고 예산 방식으로 바꿔볼 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-05-1141-s.html">2026-08-05 08-05 10:48~11:41</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

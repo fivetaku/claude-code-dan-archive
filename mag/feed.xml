@@ -13,6 +13,22 @@
     <description>오르카·파세오·cmux 세 도구의 실사용 불만을 공식 문서·이슈 트래커와 대조했다. 갈아타기 어려운 이유는 기능이 아니라 설정 투자였다.</description>
   </item>
   <item>
+    <title>클로드 코드 AI 글 윤문 플러그인, 좁게 고칠까 넓게 고칠까</title>
+    <link>https://chat.axwith.com/mag/tools/claude-code-yunmun-plugin-compare.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-yunmun-plugin-compare.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드용 AI 글 윤문 플러그인 두 종을 실측 비교한 결과와 관련 배경 연구, 실무 활용법을 정리했다. 좁게 고치는 방식과 넓게 고치는 방식의 장단점을 함께 살펴본다</description>
+  </item>
+  <item>
+    <title>Claude Code ultraplan 삭제와 씽킹 토글 버그 수정이 바꾼 것들</title>
+    <link>https://chat.axwith.com/mag/tools/claude-code-ultraplan-removed.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-ultraplan-removed.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code 2.1.221~2.1.222 업데이트에서 씽킹 토글·MCP 버그가 고쳐지고 ultraplan이 제거됐다. 무엇으로 대체해야 하는지 정리했다.</description>
+  </item>
+  <item>
     <title>클로드코드, 텔레그램·디스코드로 옮겨 쓰는 세 갈래 길</title>
     <link>https://chat.axwith.com/mag/tools/claude-code-channels-remote.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-channels-remote.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드로 전자세금계산서를 자동 발행하려는 1인 사업자·프리랜서를 위해 볼타와 팝빌의 차이, CLI·API 방식의 실체, 사업자 등록 전 유의점을 정리했다.</description>
-  </item>
-  <item>
-    <title>AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</title>
-    <link>https://chat.axwith.com/mag/tools/ai-slop-style-cloning-tools.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/ai-slop-style-cloning-tools.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드 커뮤니티 &#x27;클코단&#x27;에서 공유된 문체 복제 플러그인 clone-n-write와 tmux 통합 도구 chatmux를 계기로, AI 글쓰기가 획일화되는 &#x27;슬롭체&#x27; 현상과 스타일로메트리 기반 대응 시도를 조사했다.</description>
-  </item>
-  <item>
-    <title>AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</title>
-    <link>https://chat.axwith.com/mag/workflow/ai-agent-memory-collapse.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-memory-collapse.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드처럼 파일에 장기 기억을 쌓는 에이전트가 늘면서 메모리 붕괴 사례가 늘고 있다. 최신 arXiv 연구와 클코단 실사용 경험으로 원인과 대안을 짚었다.</description>
   </item>
 </channel></rss>
