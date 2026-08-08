@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드 코드 사용자들이 페이블 대신 오푸스5를 선택하는 이유를 벤치마크와 가격, 요금제 변화로 확인한다. 정적 검사에서 걸린 코드와 바깥의 엇갈린 반응까지 짚었다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html">
+<meta property="og:title" content="클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까">
+<meta property="og:description" content="클로드 코드 사용자들이 페이블 대신 오푸스5를 선택하는 이유를 벤치마크와 가격, 요금제 변화로 확인한다. 정적 검사에서 걸린 코드와 바깥의 엇갈린 반응까지 짚었다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까", "description": "클로드 코드 사용자들이 페이블 대신 오푸스5를 선택하는 이유를 벤치마크와 가격, 요금제 변화로 확인한다. 정적 검사에서 걸린 코드와 바깥의 엇갈린 반응까지 짚었다.", "datePublished": "2026-08-09", "dateModified": "2026-08-09", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "클로드 코드, 오푸스5, 페이블5, Claude Opus 5, Claude Fable 5, 클로드 요금제"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드 코드에서 오푸스5와 페이블5 중 코딩엔 뭐가 더 나은가요?", "acceptedAnswer": {"@type": "Answer", "text": "벤치마크상 오푸스5가 프런티어벤치, OS월드 등 다수 코딩·에이전트 지표에서 페이블5를 앞서고 가격도 절반이다. 다만 툴콜링 정확도와 가장 어려운 장기 과제에서는 페이블5가 여전히 우위를 보여 작업 난이도에 따라 선택이 갈린다."}}, {"@type": "Question", "name": "페이블5 요금은 오푸스5보다 얼마나 비싼가요?", "acceptedAnswer": {"@type": "Answer", "text": "페이블5는 입력 100만 토큰당 10달러, 출력 50달러로 오푸스5(입력 5달러, 출력 25달러)의 정확히 두 배다. 같은 작업량이라도 오푸스로 옮기면 소비 토큰 비용이 줄어드는 이유다."}}, {"@type": "Question", "name": "클로드 코드 맥스 요금제는 어떻게 나뉘나요?", "acceptedAnswer": {"@type": "Answer", "text": "프로가 월 20달러, 맥스5가 월 100달러, 맥스20이 월 200달러다. 사용량이 줄면 맥스20에서 맥스5로 내려 월 100달러를 절감할 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/opus-vs-fable-claude-code.png" alt="클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까" loading="eager">
+<header>
+  <div class="eyebrow">AI 모델·프롬프트</div>
+  <h1>클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</h1>
+  <p class="sub">페이블에서 오푸스로 갈아탄 후기가 늘고 있다. 정적 검사 오류, 벤치마크 차이, 요금제 다운그레이드까지 이어진 이유를 짚었다.</p>
+  <div class="meta"><span>2026-08-09</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>페이블로 처음부터 완벽하게 짜려다 정적 검사에서 걸린 이유</h2>
+<p>클로드 코드 사용자 사이에서 &quot;오푸스냐 페이블이냐&quot;라는 질문이 반복해서 올라온다. 페이블에게 처음부터 완벽한 코드를 요구했다가 정적 검사 단계에서 오류를 만난 사용자가 나오면서, 최근 페이블 폼이 떨어졌다는 의견과 오푸스로 갈아탄 후기가 잇따랐다. 두 모델의 실제 성능·가격 차이를 짚고, 모델을 바꾸는 결정이 왜 요금제 변경으로까지 이어지는지 확인했다.</p>
+<p>방에서 나온 사례는 페이블에게 코드를 통으로 맡기고 처음부터 완성형을 기대했다가 정적 검사(static analysis) 단계에서 오류가 난 경우였다. 이 경험은 우연이 아니다. 보안 업체 소나소스가 페이블 5로 자바 모듈을 짜게 했더니 13분 만에 1222줄짜리 코드를 만들어냈지만, SonarQube Cloud로 스캔하자 HIGH 등급 보안 취약점과 부족한 테스트 커버리지가 걸려 품질 게이트를 통과하지 못했다.</p>
+<p>모델이 그럴듯하게 동작하는 코드를 빠르게 뽑아내는 능력과, 그 코드가 정적 분석과 보안 기준을 통과하는 능력은 다른 문제라는 뜻이다. 실행하지 않고 정적 검사만 믿고 넘어가면 이런 격차가 그대로 버그로 남는다는 지적도 나온다. 보안과 직결된 코드, 이를테면 암호화나 세션, 인증 토큰을 다루는 코드에서는 안전 분류기가 경고를 띄우고 모델이 스스로 오푸스로 돌아가는 경우도 보고됐다. 클로드 고객센터도 대화 중 모델이 자동으로 전환되는 상황을 별도 문서로 안내하고 있다.</p>
+<h2>페이블 폼이 떨어졌다는 체감, 어디까지 사실인가</h2>
+<p>페이블 성능이 최근 떨어졌다는 방의 의견은 부분적으로 설명 가능하다. 프런티어급 개발 관련 요청에서 조용한 성능 저하가 있다는 지적이 나온 적이 있고, 보안 민감 코드에서 안전 분류기가 더 자주 개입해 작업 흐름이 끊기는 경우도 있다. 다만 이는 모델 자체의 코딩 실력이 낮아졌다는 뜻이라기보다, 특정 상황에서 안전장치가 더 엄격하게 작동한다는 쪽에 가깝다.</p>
+<p>써본 사람들 사이에서는 페이블로 답을 받는 속도는 조금 빨라졌는데 그만큼 토큰을 더 많이 쓰게 됐다는 반응도 있었다. 체감 성능과 실제 벤치마크 성적이 꼭 같은 방향을 가리키지는 않는다. 페이블은 여전히 가장 어려운 추론과 긴 호흡의 에이전트 작업에서 앤트로픽이 공개한 모델 중 최고 성능이라는 평가를 유지하고 있다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/opus-vs-fable-claude-code.png" alt="" loading="lazy"><h2>오푸스5는 벤치마크에서 앞섰지만 바깥 반응은 엇갈렸다</h2>
+<p>앤트로픽은 오푸스5를 &quot;페이블의 프런티어 지능에 근접하면서 가격은 절반&quot;이라는 설명과 함께 내놓았다. 가격은 입력 100만 토큰당 5달러, 출력 25달러로 오푸스4.8과 같고, 페이블은 입력 10달러·출력 50달러로 정확히 두 배다. 프런티어벤치 점수는 오푸스5가 43.3%로 페이블의 33.7%를 앞섰고, 컴퓨터 사용 능력을 보는 OS월드2.0에서도 오푸스5가 더 높은 점수를 냈다.</p>
+<p>다만 툴콜링 벤치마크에서는 페이블이 23개 시나리오 중 21개를 통과해 오푸스5의 20개보다 나았고, 토큰과 호출 횟수도 더 적게 썼다. 벤치마크만 놓고 보면 오푸스5가 코딩과 반복적인 에이전트 작업의 기본값으로 앞서지만, 가장 어려운 장기 과제에서는 여전히 페이블에 자리가 있다는 뜻이다.</p>
+<p>바깥 반응은 방의 분위기만큼 일방적이지 않았다. 오푸스5가 나온 직후 일주일간 여러 워크플로에 적용해본 개발자들 사이에서는 기존 스킬·플러그인과 잘 맞물리지 않는다는 불만이 나왔고, 지시에 반박하거나 작업을 끝내기 전에 멈춘다는 불만도 이어졌다. 반대로 짧은 PR을 빨리 처리할 때는 오푸스5 중간 강도를 기본으로 쓰고, 크고 오래 걸리는 프로젝트에는 여전히 페이블을 쓴다는 의견도 있었다. 모델이 자동으로 오푸스로 되돌아가는 것을 불편해하며 매번 페이블로 다시 바꾼다는 볼멘소리도 있었다.</p>
+<h2>페이블 계획 + GPT 구현보다 오푸스 단독이 낫다는 후기의 배경</h2>
+<p>방에서는 페이블로 계획을 짜고 GPT로 구현하는 조합보다, 오푸스에게 처음부터 끝까지 맡기는 쪽이 체감상 낫다는 의견이 나왔다. 클로드 코드에는 계획 단계엔 오푸스, 실행 단계엔 소네트를 자동으로 바꿔 쓰는 opusplan이라는 별칭이 있다. 하지만 페이블을 계획에, 다른 모델을 실행에 자동으로 엮어주는 별칭은 없다.</p>
+<p>계획과 구현을 서로 다른 서비스로 쪼개면 클로드 코드가 쌓아둔 코드베이스 맥락과 도구 연동이 그 경계에서 끊긴다. 계획을 세운 모델이 실행 모델에 무엇을 왜 그렇게 짰는지 직접 전달할 방법이 마땅치 않다. 오푸스 한 모델에 처음부터 끝까지 맡기면 이 손실이 없어, 방에서 나온 &quot;오푸스 단독이 낫다&quot;는 체감과 맞아떨어진다.</p>
+<h2>모델을 바꾸면 요금제까지 바뀐다 — 독자에게 남는 계산</h2>
+<p>이 논의에서는 방에서 오푸스로 바꾼 뒤 맥스20 요금제에서 맥스5로 내렸다는 사례가 눈에 띈다. 클로드 코드 구독은 프로(월 20달러), 맥스5(월 100달러), 맥스20(월 200달러) 세 단계로 나뉘고, 맥스5로 내리면 월 100달러가 그대로 절감된다. 페이블이 오푸스보다 토큰당 두 배 비싸다는 가격 구조를 생각하면, 같은 작업량이라도 오푸스로 옮기는 순간 소비 토큰이 줄어들 여지가 생긴다.</p>
+<p>오푸스5는 로우부터 맥스까지 다섯 단계의 강도(effort) 조절도 지원한다. 간단한 작업엔 로우나 미디엄을, 까다로운 리팩토링에만 엑스하이나 맥스를 골라 쓰면 같은 구독 한도 안에서 쓸 수 있는 작업량이 늘어난다. 1인 개발자나 소규모 팀처럼 매달 정해진 구독료 안에서 작업량을 최대한 뽑아내야 하는 독자라면, 모델을 오푸스로 바꾸는 결정과 강도를 낮추는 습관을 같이 검토할 만하다.</p>
+<p>다만 이 계산은 작업 성격에 따라 달라진다. 짧은 PR과 반복적인 수정이 대부분이라면 오푸스 전환과 요금제 다운그레이드가 그대로 맞아떨어지지만, 긴 리팩토링이나 처음부터 설계가 복잡한 프로젝트가 잦다면 페이블의 자리가 남는다. 방에서는 비용 계산이 실제 결정을 갈랐지만, 오푸스가 페이블의 자리를 완전히 대신할 수 있는지는 작업이 얼마나 길고 복잡해지느냐에 따라 매번 다시 확인해야 하는 문제로 남는다.</p></div>
+<div class="chips"><span class="chip">클로드 코드</span><span class="chip">오푸스5</span><span class="chip">페이블5</span><span class="chip">Claude Opus 5</span><span class="chip">Claude Fable 5</span><span class="chip">클로드 요금제</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://composio.dev/content/opus-vs-fable" rel="nofollow noopener">https://composio.dev/content/opus-vs-fable</a></li><li><a href="https://www.datacamp.com/blog/claude-opus-5-vs-claude-fable-5" rel="nofollow noopener">https://www.datacamp.com/blog/claude-opus-5-vs-claude-fable-5</a></li><li><a href="https://www.anthropic.com/news/claude-opus-5" rel="nofollow noopener">https://www.anthropic.com/news/claude-opus-5</a></li><li><a href="https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5" rel="nofollow noopener">https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable</a></li><li><a href="https://www.sonarsource.com/blog/claude-fable-5-built-a-java-module-in-13-minutes/" rel="nofollow noopener">https://www.sonarsource.com/blog/claude-fable-5-built-a-java-module-in-13-minute</a></li><li><a href="https://code.claude.com/docs/en/model-config" rel="nofollow noopener">https://code.claude.com/docs/en/model-config</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/effort" rel="nofollow noopener">https://platform.claude.com/docs/en/build-with-claude/effort</a></li><li><a href="https://support.claude.com/en/articles/11049741-what-is-the-max-plan" rel="nofollow noopener">https://support.claude.com/en/articles/11049741-what-is-the-max-plan</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드에서 오푸스5와 페이블5 중 코딩엔 뭐가 더 나은가요?</h2><p class="sum">벤치마크상 오푸스5가 프런티어벤치, OS월드 등 다수 코딩·에이전트 지표에서 페이블5를 앞서고 가격도 절반이다. 다만 툴콜링 정확도와 가장 어려운 장기 과제에서는 페이블5가 여전히 우위를 보여 작업 난이도에 따라 선택이 갈린다.</p></article><article class="dcard"><div class="t">Q</div><h2>페이블5 요금은 오푸스5보다 얼마나 비싼가요?</h2><p class="sum">페이블5는 입력 100만 토큰당 10달러, 출력 50달러로 오푸스5(입력 5달러, 출력 25달러)의 정확히 두 배다. 같은 작업량이라도 오푸스로 옮기면 소비 토큰 비용이 줄어드는 이유다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코드 맥스 요금제는 어떻게 나뉘나요?</h2><p class="sum">프로가 월 20달러, 맥스5가 월 100달러, 맥스20이 월 200달러다. 사용량이 줄면 맥스20에서 맥스5로 내려 월 100달러를 절감할 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-08-2200.html">2026-08-08 08-08 17:50~21:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

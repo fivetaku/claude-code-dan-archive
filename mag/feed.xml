@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>바이브코딩 기술부채, 리뷰 반복 대신 리팩토링해야 하는 이유</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/vibe-coding-tech-debt-refactor.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/vibe-coding-tech-debt-refactor.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
+    <description>서버 데몬이 데이터 변환 중 계속 실패하는데 적대적 리뷰를 반복해도 못 잡는다면, 리뷰가 아니라 설계 문제일 수 있다. 언제 리팩토링·재설계로 넘어가야 하는지 조사와 실제 경험을 엮어 짚는다.</description>
+  </item>
+  <item>
+    <title>클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</title>
+    <link>https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드 사용자들이 페이블 대신 오푸스5를 선택하는 이유를 벤치마크와 가격, 요금제 변화로 확인한다. 정적 검사에서 걸린 코드와 바깥의 엇갈린 반응까지 짚었다.</description>
+  </item>
+  <item>
     <title>오르카·파세오·cmux, 갈아타기 힘든 이유는 따로 있다</title>
     <link>https://chat.axwith.com/mag/tools/orca-paseo-cmux-compare.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/orca-paseo-cmux-compare.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드코드가 지침 없이 파일을 지운 사고 사례와 Replit·Gemini CLI 등 업계 사례를 조사하고, 커뮤니티가 찾은 &#x27;삭제 대신 격리&#x27; 대응법, 권한 설정·훅·샌드박스 방어책까지 정리한 기사</description>
-  </item>
-  <item>
-    <title>클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</title>
-    <link>https://chat.axwith.com/mag/tools/claude-code-account-switch-tools.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-account-switch-tools.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드 한도 소진 시 로그아웃 없이 다음 계정으로 세션을 넘기는 teamclaude·orca 등 멀티 계정 스위치 도구의 작동 방식과 약관 리스크를 웹 조사와 실사용 경험으로 정리했다.</description>
-  </item>
-  <item>
-    <title>세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</title>
-    <link>https://chat.axwith.com/mag/tools/ai-tax-invoice-automation-bolta-popbill.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/ai-tax-invoice-automation-bolta-popbill.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드로 전자세금계산서를 자동 발행하려는 1인 사업자·프리랜서를 위해 볼타와 팝빌의 차이, CLI·API 방식의 실체, 사업자 등록 전 유의점을 정리했다.</description>
   </item>
 </channel></rss>
