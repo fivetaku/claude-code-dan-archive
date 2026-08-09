@@ -13,12 +13,28 @@
     <description>서버 데몬이 데이터 변환 중 계속 실패하는데 적대적 리뷰를 반복해도 못 잡는다면, 리뷰가 아니라 설계 문제일 수 있다. 언제 리팩토링·재설계로 넘어가야 하는지 조사와 실제 경험을 엮어 짚는다.</description>
   </item>
   <item>
+    <title>Orca·Paseo·herdr 비교, 여러 코딩 에이전트 동시에 돌리는 법</title>
+    <link>https://chat.axwith.com/mag/tools/orca-paseo-herdr-comparison.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/orca-paseo-herdr-comparison.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Orca, Paseo, herdr 세 AI 코딩 에이전트 오케스트레이션 도구의 차이와 클로드 코드 자체 기능이 이미 커버하는 지점을 실사용 반응과 함께 정리했다.</description>
+  </item>
+  <item>
     <title>클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</title>
     <link>https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</guid>
     <category>AI 모델·프롬프트</category>
     <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드 사용자들이 페이블 대신 오푸스5를 선택하는 이유를 벤치마크와 가격, 요금제 변화로 확인한다. 정적 검사에서 걸린 코드와 바깥의 엇갈린 반응까지 짚었다.</description>
+  </item>
+  <item>
+    <title>클로드 개인 계정에 낯선 대화가 끼어들었다는 신고, 원인은 무엇인가</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-cross-user-context-bug.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-cross-user-context-bug.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 개인 계정에 낯선 대화가 끼어든 사례를 계기로, 올 6월 불거진 계정 간 데이터 혼입 의혹과 앤스로픽의 대응, 메모리 기능의 구조를 조사했다.</description>
   </item>
   <item>
     <title>오르카·파세오·cmux, 갈아타기 힘든 이유는 따로 있다</title>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
     <description>AWS 에이전틱 IDE 키로의 스펙 기반 개발, 크레딧 요금제, 오토파일럿 끊김 문제를 클로드·코덱스 병행 사용기와 함께 정리했다.</description>
-  </item>
-  <item>
-    <title>카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</title>
-    <link>https://chat.axwith.com/mag/workflow/kakaotalk-bot-loco-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/kakaotalk-bot-loco-guide.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>카카오톡은 슬랙·디스코드와 달리 개인용 봇 API가 없다. LOCO 프로토콜, DB 관찰, 알림 감지 등 비공식 카카오톡 챗봇 제작법과 계정 정지 리스크, 공식 대안을 조사해 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-delete-quarantine.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-delete-quarantine.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드가 지침 없이 파일을 지운 사고 사례와 Replit·Gemini CLI 등 업계 사례를 조사하고, 커뮤니티가 찾은 &#x27;삭제 대신 격리&#x27; 대응법, 권한 설정·훅·샌드박스 방어책까지 정리한 기사</description>
   </item>
 </channel></rss>
