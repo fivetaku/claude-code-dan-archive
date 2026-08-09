@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>오픈채팅 대화 AI 자동 아카이브·매거진, 어디까지 믿을 수 있나</title>
+    <link>https://chat.axwith.com/mag/resources/openchat-ai-archive-magazine.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/openchat-ai-archive-magazine.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클코단 오픈채팅방이 대화를 AI로 자동 아카이브·매거진화하는 실험을 벌이고 있다. 로봇저널리즘의 역사, 멀티모델 라우팅, AI 환각과 개인정보 익명화 이슈까지 짚어 이 자동화가 얼마나 믿을 만한지 살펴본다.</description>
+  </item>
+  <item>
+    <title>코덱스 울트라 멀티세션, 맥북 메모리와 SSD 수명을 갉아먹는 이유</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/codex-ultra-multisession-memory-ssd.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-ultra-multisession-memory-ssd.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
+    <description>코덱스 울트라 멀티세션에서 맥북이 버벅인 사례를 계기로 서브에이전트 구조의 메모리 폭증, SSD 로깅 버그, 클로드 코드와의 안정성 차이를 실제 이슈 트래커 기록으로 확인했다.</description>
+  </item>
+  <item>
     <title>바이브코딩 기술부채, 리뷰 반복 대신 리팩토링해야 하는 이유</title>
     <link>https://chat.axwith.com/mag/troubleshooting/vibe-coding-tech-debt-refactor.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/vibe-coding-tech-debt-refactor.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
     <description>오퍼스5 전환 후 클로드코드가 멍청해졌다는 불만과 맥스 요금제 4배 광고 논란의 배경을 웹 조사와 커뮤니티 경험으로 짚었다.</description>
-  </item>
-  <item>
-    <title>매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/mcp-vs-api-internal-data.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/mcp-vs-api-internal-data.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>사내 매출 데이터에 MCP 서버를 붙이는 사례가 늘면서 오버엔지니어링 논란과 Read 전용 권한, OAuth 인증, 보안 취약점 이슈가 함께 불거지고 있다. MCP와 API의 경계를 실제 사례와 최신 보안 동향으로 짚었다.</description>
-  </item>
-  <item>
-    <title>키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</title>
-    <link>https://chat.axwith.com/mag/tools/kiro-claude-codex-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/kiro-claude-codex-workflow.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>AWS 에이전틱 IDE 키로의 스펙 기반 개발, 크레딧 요금제, 오토파일럿 끊김 문제를 클로드·코덱스 병행 사용기와 함께 정리했다.</description>
   </item>
 </channel></rss>
