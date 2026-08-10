@@ -21,6 +21,22 @@
     <description>코덱스 울트라 멀티세션에서 맥북이 버벅인 사례를 계기로 서브에이전트 구조의 메모리 폭증, SSD 로깅 버그, 클로드 코드와의 안정성 차이를 실제 이슈 트래커 기록으로 확인했다.</description>
   </item>
   <item>
+    <title>클로드 코드 SDK로 만든 챗봇, 구독 계정 인증 이대로 괜찮을까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-oauth-usage-limit.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-oauth-usage-limit.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드 SDK로 만든 커뮤니티 챗봇의 OAuth 인증이 이용약관을 위반하는지, Pro 플랜 사용량 한도는 왜 이렇게 빨리 소진되는지를 최신 정책 변경과 함께 짚었다.</description>
+  </item>
+  <item>
+    <title>AI 전환이 막히는 진짜 이유, 기술 아닌 권한 문제</title>
+    <link>https://chat.axwith.com/mag/resources/ai-adoption-authority-bottleneck.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/ai-adoption-authority-bottleneck.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
+    <description>인포시스·슬랙·갤럽·EY의 최신 조사로 AI 도입이 회사마다 정체되는 진짜 원인을 짚고, 살아남을 직업과 요즘 사주 앱이 유독 뜨는 이유까지 함께 자세히 살펴본다</description>
+  </item>
+  <item>
     <title>바이브코딩 기술부채, 리뷰 반복 대신 리팩토링해야 하는 이유</title>
     <link>https://chat.axwith.com/mag/troubleshooting/vibe-coding-tech-debt-refactor.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/vibe-coding-tech-debt-refactor.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드 오케스트레이터가 지시 이상으로 작업을 확장하는 스코프 크리프 문제와, 멀티턴 프롬프팅 대신 &#x27;골&#x27; 설계가 각광받는 이유를 사실과 실전 경험으로 짚는다.</description>
-  </item>
-  <item>
-    <title>바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</title>
-    <link>https://chat.axwith.com/mag/workflow/vibe-coding-terms-bug-fix-routine.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/vibe-coding-terms-bug-fix-routine.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>바이브코딩 확산 속 코드 품질 저하 데이터와, 클코단에서 공유된 용어 학습·버그 수정 루틴·유닛테스트·디자인패턴 활용법을 함께 짚었다.</description>
-  </item>
-  <item>
-    <title>오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</title>
-    <link>https://chat.axwith.com/mag/models/opus-5-claude-code-limits.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/opus-5-claude-code-limits.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Tue, 04 Aug 2026 12:00:00 +0900</pubDate>
-    <description>오퍼스5 전환 후 클로드코드가 멍청해졌다는 불만과 맥스 요금제 4배 광고 논란의 배경을 웹 조사와 커뮤니티 경험으로 짚었다.</description>
   </item>
 </channel></rss>
