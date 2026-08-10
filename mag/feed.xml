@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>클로드 코드 오푸스 계획·소넷 실행 조합, 언제 이득인가</title>
+    <link>https://chat.axwith.com/mag/workflow/opusplan-sonnet-model-mix.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/opusplan-sonnet-model-mix.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Tue, 11 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드의 오푸스 계획·소넷 실행 모델 조합을 공식 opusplan 기능, 서브에이전트 모델 상속 문제, CLAUDE_CODE_SUBAGENT_MODEL 환경변수까지 조사해 정리했다.</description>
+  </item>
+  <item>
+    <title>채용·SAP·반도체·법무, 직무별로 본 AI 자동화 현주소</title>
+    <link>https://chat.axwith.com/mag/workflow/job-function-ai-automation-cases.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/job-function-ai-automation-cases.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Tue, 11 Aug 2026 12:00:00 +0900</pubDate>
+    <description>채용 공고 자동화부터 ATS-MCP 백테스트, SAP 리포트 셀프서비스, 반도체 설계 AI, 법무·세무 AX까지 직무별 AI 도입 현황과 실사용 반응을 국내외 자료로 정리했다.</description>
+  </item>
+  <item>
     <title>오픈채팅 대화 AI 자동 아카이브·매거진, 어디까지 믿을 수 있나</title>
     <link>https://chat.axwith.com/mag/resources/openchat-ai-archive-magazine.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/openchat-ai-archive-magazine.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
     <description>터미널에서 로컬 파일을 직접 다루는 클로드코드는 대화형 클로드와 다르다. 요금제, 핵심 기능, 실제 업무 자동화 사례와 시작 방법을 웹 조사와 커뮤니티 경험으로 정리했다</description>
-  </item>
-  <item>
-    <title>카드뉴스 이미지 자동화, 크롤링 대신 AI 생성 쓰는 이유</title>
-    <link>https://chat.axwith.com/mag/tools/card-news-image-generation-cost.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/card-news-image-generation-cost.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>미국 속보를 카드뉴스로 자동 발행하려는 이들이 크롤링 대신 AI 이미지 생성을 택한 이유와, GPT 이미지 API의 실제 장당 비용, 영상 생성과의 비용 격차를 정리했다.</description>
-  </item>
-  <item>
-    <title>AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</title>
-    <link>https://chat.axwith.com/mag/workflow/ai-agent-orchestrator-goal-design.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-orchestrator-goal-design.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드 오케스트레이터가 지시 이상으로 작업을 확장하는 스코프 크리프 문제와, 멀티턴 프롬프팅 대신 &#x27;골&#x27; 설계가 각광받는 이유를 사실과 실전 경험으로 짚는다.</description>
   </item>
 </channel></rss>
