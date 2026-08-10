@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 8월 11일 09:00 — Fable 한도 시 Opus 자동전환</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 11일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-10 22:00~08-11 08:50</b></span>
+    <span>발화 <b>270</b></span>
+    <span>참여 <b>49</b>명</span>
+    <span>주제 <b>12</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone" style="height:884px;min-width:1470px"><div class="spine"></div><div class="bar" style="left:2.0%;height:24px"></div><div class="bar" style="left:3.1%;height:6px"></div><div class="bar" style="left:4.2%;height:14px"></div><div class="bar peak" style="left:5.3%;height:48px"></div><div class="bar" style="left:6.4%;height:6px"></div><div class="bar" style="left:7.5%;height:6px"></div><div class="bar" style="left:8.6%;height:24px"></div><div class="bar" style="left:9.7%;height:10px"></div><div class="bar peak" style="left:10.8%;height:44px"></div><div class="bar" style="left:12.0%;height:10px"></div><div class="bar" style="left:13.1%;height:6px"></div><div class="bar" style="left:14.2%;height:10px"></div><div class="bar" style="left:15.3%;height:6px"></div><div class="bar" style="left:16.4%;height:6px"></div><div class="bar" style="left:17.5%;height:6px"></div><div class="bar" style="left:18.6%;height:14px"></div><div class="bar" style="left:19.7%;height:14px"></div><div class="bar" style="left:20.8%;height:6px"></div><div class="bar" style="left:21.9%;height:10px"></div><div class="bar" style="left:23.0%;height:14px"></div><div class="bar" style="left:24.1%;height:6px"></div><div class="bar" style="left:25.2%;height:24px"></div><div class="bar" style="left:26.3%;height:14px"></div><div class="bar" style="left:27.4%;height:10px"></div><div class="bar" style="left:28.5%;height:10px"></div><div class="bar" style="left:29.6%;height:10px"></div><div class="bar" style="left:30.8%;height:6px"></div><div class="bar" style="left:31.9%;height:6px"></div><div class="bar" style="left:33.0%;height:10px"></div><div class="bar" style="left:34.1%;height:34px"></div><div class="bar" style="left:35.2%;height:10px"></div><div class="bar" style="left:36.3%;height:19px"></div><div class="bar" style="left:37.4%;height:14px"></div><div class="bar" style="left:38.5%;height:34px"></div><div class="bar" style="left:39.6%;height:10px"></div><div class="bar" style="left:40.7%;height:29px"></div><div class="bar" style="left:41.8%;height:29px"></div><div class="bar" style="left:42.9%;height:34px"></div><div class="bar" style="left:44.0%;height:14px"></div><div class="bar" style="left:45.1%;height:34px"></div><div class="bar" style="left:46.2%;height:10px"></div><div class="bar" style="left:47.3%;height:14px"></div><div class="bar" style="left:48.4%;height:14px"></div><div class="bar" style="left:49.6%;height:19px"></div><div class="bar" style="left:50.7%;height:6px"></div><div class="bar" style="left:51.8%;height:6px"></div><div class="bar" style="left:52.9%;height:6px"></div><div class="bar" style="left:54.0%;height:14px"></div><div class="bar" style="left:55.1%;height:14px"></div><div class="bar" style="left:56.2%;height:19px"></div><div class="bar" style="left:57.3%;height:24px"></div><div class="bar" style="left:58.4%;height:6px"></div><div class="bar" style="left:59.5%;height:24px"></div><div class="bar peak" style="left:60.6%;height:44px"></div><div class="bar" style="left:61.7%;height:14px"></div><div class="bar" style="left:62.8%;height:19px"></div><div class="bar" style="left:63.9%;height:6px"></div><div class="bar" style="left:65.0%;height:14px"></div><div class="bar peak" style="left:66.1%;height:44px"></div><div class="bar peak" style="left:67.2%;height:58px"></div><div class="bar" style="left:68.4%;height:10px"></div><div class="bar peak" style="left:69.5%;height:48px"></div><div class="bar" style="left:70.6%;height:24px"></div><div class="bar" style="left:71.7%;height:6px"></div><div class="bar" style="left:72.8%;height:6px"></div><div class="bar" style="left:73.9%;height:24px"></div><div class="bar" style="left:75.0%;height:6px"></div><div class="bar" style="left:76.1%;height:10px"></div><div class="bar" style="left:77.2%;height:6px"></div><div class="bar" style="left:78.3%;height:6px"></div><div class="bar" style="left:79.4%;height:6px"></div><div class="bar" style="left:80.5%;height:6px"></div><div class="bar" style="left:81.6%;height:6px"></div><div class="bar" style="left:82.7%;height:6px"></div><div class="bar" style="left:83.8%;height:10px"></div><div class="bar" style="left:84.9%;height:6px"></div><div class="bar" style="left:86.0%;height:10px"></div><div class="bar" style="left:87.2%;height:10px"></div><div class="bar" style="left:88.3%;height:10px"></div><div class="bar" style="left:89.4%;height:14px"></div><div class="bar" style="left:90.5%;height:19px"></div><div class="bar" style="left:91.6%;height:6px"></div><div class="bar" style="left:92.7%;height:39px"></div><div class="bar" style="left:93.8%;height:6px"></div><div class="bar" style="left:94.9%;height:10px"></div><div class="bar" style="left:96.0%;height:10px"></div><div class="lbl" style="left:2.0%">00:01</div><div class="peaktag" style="left:5.3%;bottom:56px">00:08 · 10건</div><div class="lbl" style="left:17.5%">02:54</div><div class="lbl" style="left:33.0%">07:54</div><div class="lbl" style="left:48.4%">08:30</div><div class="peaktag" style="left:60.6%;bottom:52px">08:43 · 9건</div><div class="lbl" style="left:63.9%">08:46</div><div class="peaktag" style="left:69.5%;bottom:56px">22:00 · 10건</div><div class="lbl" style="left:79.4%">22:50</div><div class="lbl" style="left:94.9%">23:38</div><div class="lbl" style="left:96.0%">23:51</div><div class="rib up" style="left:6.4%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">00:11-00:12</div><h3>코덱스 API 자동화로 수익화</h3></div></div><div class="rib dn" style="left:8.6%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">00:27-00:35</div><h3>탁구봇 관련 드립과 놀이</h3></div></div><div class="rib up" style="left:18.6%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">06:11-07:24</div><h3>코덱스 리셋 시점 예측 잡담</h3></div></div><div class="rib up" style="left:23.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">07:39-08:50</div><h3>누룽지봇 출석체크 기능 등장</h3></div></div><div class="rib dn" style="left:37.4%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">08:11-08:36</div><h3>금융권 AWS Bedrock 도입 논의</h3></div></div><div class="rib dn" style="left:69.5%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">22:00-22:02</div><h3>M1 vs 최신모델 성능비교</h3></div></div><div class="rib up" style="left:70.6%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">22:02-22:02</div><h3>비쫀쿠 은어 뜻풀이</h3></div></div><div class="rib dn flip" style="left:72.7%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">23:30-23:38</div><h3>API 전용 프로 추론모델 체험기</h3></div></div><div class="rib up" style="left:72.8%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">22:28-22:38</div><h3>Fable 한도 시 Opus 자동전환</h3></div></div><div class="rib dn" style="left:77.2%"><div class="stem" style="height:230px"></div><div class="ribcard" style="margin-top:230px"><div class="t">22:40-23:25</div><h3>AI가 예스맨처럼 동조하는 문제</h3></div></div><div class="rib up flip" style="left:78.3%"><div class="stem" style="height:230px"></div><div class="ribcard" style="margin-bottom:230px"><div class="t">23:36-23:38</div><h3>음성인식 기술 발전 잡담</h3></div></div><div class="rib dn flip" style="left:81.6%"><div class="stem" style="height:322px"></div><div class="ribcard" style="margin-top:322px"><div class="t">23:51-00:08</div><h3>claude mem 프로젝트 통합 관리 고민</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">22:28-22:38</div><h2>Fable 한도 시 Opus 자동전환</h2><p class="sum">Fable 사용 중 주간 한도 소진 시 자동으로 Opus로 전환하고 싶다는 질문이 나왔다. 방 참여자가 세션 한도 메시지를 감지해 시간이 지나면 자동 재개해주는 자체 제작 프로젝트 autolimit을 공유했다. 이 코드를 참고해 Fable 한도 메시지를 감지하도록 응용하면 모델 스위칭이 가능할 것이라는 조언이 있었다.</p><ul><li>Fable 주간 한도 소진 시 Opus 자동 전환 니즈 제기</li><li>autolimit 프로젝트: 세션 한도 메시지 감지 후 시간 경과 시 자동 재개</li><li>동일 로직을 Fable 한도 감지+모델 스위칭에 응용 가능하다는 조언</li><li>질문자와 다른 참여자 모두 감사 인사</li><li><a href="https://github.com/betive37/autolimit" rel="nofollow ugc noopener noreferrer" target="_blank">https://github.com/betive37/autolimit</a></li></ul></article><article class="dcard"><div class="t">22:40-23:25</div><h2>AI가 예스맨처럼 동조하는 문제</h2><p class="sum">코덱스로 만든 프로그램이 마음에 안 들어 클로드로 옮기면 나아질지 질문이 올라왔다. 원인은 모델 자체보다 기획 부족으로, 불확실한 정보를 AI가 임의로 정해버리는 데 있다는 지적이 나왔다. 기획 단계에서 불확실한 부분을 충분히 정의하고 시작하라는 조언과, &#x27;왜?&#x27;를 계속 물어보라는 팁이 제시됐다.</p><ul><li>초보 개발자가 AI의 동조(예스맨) 성향 때문에 방향이 흐트러진다고 호소</li><li>원인은 모델 문제가 아니라 기획 부족이라는 진단</li><li>불확실한 정보를 사전에 충분히 정의하고 시작할 것을 권장</li><li>AI에게 &#x27;why&#x27;를 계속 물어보라는 실용 팁 제시</li></ul></article><article class="dcard"><div class="t">08:11-08:36</div><h2>금융권 AWS Bedrock 도입 논의</h2><p class="sum">금융 SI업계 종사자가 망분리로 AWS 도입이 지지부진하지만 Bedrock 등 관심이 높아지는 상황을 공유하며 의견을 물었다. 보안·감사 편의성 때문에 API 직접 호출보다 Bedrock이 유리하다는 주장이 나왔으나, 다른 참여자는 물량이 충분히 크지 않으면(연 100억 이상) 직접 서빙보다 그냥 구독제가 더 저렴하다고 반박했다. post-training은 기업이 직접 하기보다 AI 프로바이더가 담당하는 구조라는 설명도 있었고, 전통 금융권은 구조적으로 보수적이라 상위 정책 없이는 큰 변화가 어렵다는 의견으로 마무리됐다.</p><ul><li>망분리 완화 흐름 속 금융권의 AWS Bedrock 관심 증가 공유</li><li>Bedrock의 장점으로 보안·감사 편의성, 개인정보 보안 솔루션 일괄 제공 언급</li><li>대규모 물량(연 100억+) 아니면 직접 서빙보다 구독제가 저렴하다는 반박</li><li>post-training은 기업이 아닌 AI 프로바이더가 주로 수행한다는 정보 공유</li><li>전통 금융권은 보수적 구조라 상위 정책 없이 자발적 혁신은 어렵다는 결론</li></ul></article><article class="dcard"><div class="t">23:30-23:38</div><h2>API 전용 프로 추론모델 체험기</h2><p class="sum">API에만 별도로 존재하는 프로(추론 강화) 모델이 있다는 걸 발견해 화제가 됐다. Codex에서 써보려 했으나 ChatGPT 계정으로는 지원되지 않는다는 에러가 떴다. 실제 사용해보니 토큰 생성속도는 빠른데 추론 때문에 답변 속도는 오히려 두 배 느리고 토큰도 열 배 가까이 소모됐다는 후기가 공유됐다.</p><ul><li>API 전용 프로(추론 강화) 모델 존재 확인, GPT나 Codex 인터페이스에서는 미지원</li><li>Codex에서 시도 시 ChatGPT 계정 미지원 에러 발생</li><li>실사용 결과 토큰 소모 10배, 응답속도는 오히려 2배 느림</li><li>결론적으로 비추천이라는 반응</li></ul></article><article class="dcard"><div class="t">23:51-00:08</div><h2>claude mem 프로젝트 통합 관리 고민</h2><p class="sum">claude mem을 쓸 때 프로젝트별로 나뉘어 관리가 복잡하다는 고민이 나왔다. 하나하나 확인·체크하기 번거롭고, 여러 프로젝트를 한눈에 볼 수 있는 상단 허브 같은 게 없다는 아쉬움을 토로했다. 다른 참여자가 폴더별이 아닌 전체 접근 개념을 원하는 것 같다고 정리했지만 뾰족한 해법은 나오지 않았다.</p><ul><li>claude mem 프로젝트별 관리가 번거롭다는 문제 제기</li><li>여러 프로젝트를 통합 조망할 상단 허브 기능 부재</li><li>폴더별 접근이 아닌 전체 접근 개념을 원한다는 취지로 정리됨</li><li>명확한 해결책은 못 찾고 마무리</li></ul></article><article class="dcard"><div class="t">07:39-08:50</div><h2>누룽지봇 출석체크 기능 등장</h2><p class="sum">방 봇 &#x27;누룽지(룽지)&#x27;에 출석체크(ㅊㅊ) 기능이 새로 생겨 아침 시간대 많은 참여자가 몰려 출석했다. 순위별로 다른 멘트가 붙고 중복 출석 시 별도 안내가 나오는 등 완성도가 화제였다. 반응 속도가 빠르다는 감탄이 이어졌고, 사용된 모델이 뭔지 궁금해하자 봇은 &#x27;비밀 레시피&#x27;라며 밝히지 않았다. 다만 출석자 수를 물으면 정확히 집계하지 못하는 한계도 드러났고, 참여자 수가 너무 많아지자 도배 우려로 삭제 가능성도 언급됐다.</p><ul><li>누룽지봇에 순위별 멘트가 붙는 출석체크(ㅊㅊ) 기능 신설</li><li>중복 출석 시 &#x27;오늘은 이미 출석했어&#x27; 안내</li><li>빠른 응답속도에 다수가 감탄, 사용 모델은 비공개(&#x27;비밀 레시피&#x27;)</li><li>출석자 수 집계 질문에는 정확한 답을 못 내는 한계 노출</li><li>참여자 급증으로 도배 시 삭제 가능성 언급</li></ul></article><article class="dcard"><div class="t">22:00-22:02</div><h2>M1 vs 최신모델 성능비교</h2><p class="sum">구형 M1 기기와 최신 모델 간 속도 차이가 화제로 올랐다. 한 참여자는 클로드·코덱스 동시 개발, 80기가 가상악기 작곡, 딥러닝 모델 학습 등 무거운 작업도 M1으로 문제없이 돌린다고 밝혔다. 아직 교체 필요성을 못 느낀다는 의견.</p><ul><li>M1으로 클로드·코덱스 동시 작업 및 대용량 작곡 작업 소화</li><li>가벼운 딥러닝 모델 학습도 함께 돌린다는 사례 공유</li><li>속도 면에서 아직 불만 없다는 의견</li></ul></article><article class="dcard"><div class="t">00:11-00:12</div><h2>코덱스 API 자동화로 수익화</h2><p class="sum">코덱스로 돈을 벌기 시작했다는 짧은 근황 공유가 있었다. 다른 참여자가 API 자동화로 이룬 성과인지 물었으나 이어지는 상세 답변은 없었다.</p><ul><li>코덱스 활용 수익화 근황 공유</li><li>API 자동화 여부에 대한 질문이 이어짐</li></ul></article><article class="dcard"><div class="t">22:02-22:02</div><h2>비쫀쿠 은어 뜻풀이</h2><p class="sum">방에서 쓰이는 &#x27;비쫀쿠&#x27;라는 은어가 뭔지 질문이 나왔다. 만든 사람이 직접 &#x27;비루하고 쫀재감없어서 쿠사리먹음&#x27;의 줄임말이라고 설명했다. 진지한 제품명이 아니라 방 내 유행어였다.</p><ul><li>비쫀쿠는 실제 서비스명이 아니라 방 내부 유행어</li><li>만든 당사자가 직접 뜻을 설명</li></ul></article><article class="dcard"><div class="t">23:36-23:38</div><h2>음성인식 기술 발전 잡담</h2><p class="sum">새로 나온 음성인식 기능을 써본 후기로 발전 속도에 놀랐다는 대화가 오갔다. 아이폰 4s 시리 시절 영어만 되던 걸 회상하며 격세지감을 느꼈다는 반응. 다른 참여자는 최근 음성 대화가 자연스러워졌지만 특정 서비스는 아직 기계적이라는 의견을 냈다.</p><ul><li>새 음성인식 기능 체험 후기 공유</li><li>아이폰 시리 초기 대비 발전 체감</li><li>특정 서비스는 아직 기계적이라는 평가</li></ul></article><article class="dcard"><div class="t">00:27-00:35</div><h2>탁구봇 관련 드립과 놀이</h2><p class="sum">탁구(봇)에게 &#x27;너가 다섯명이면?&#x27; 같은 말장난을 던지며 오탁구·육타쿠 같은 드립이 이어졌다. 키쫀쿠라는 구독서비스가 실제로 있는지 사실검증을 요청했으나 확인 불가로 판정됐다. 봇이 헷갈려하자 참여자들이 놀리며 웃는 분위기로 마무리, 이후 닉네임이 &#x27;클코는 단단하다&#x27;로 변경됐다.</p><ul><li>봇을 대상으로 한 말장난과 놀이성 대화</li><li>키쫀쿠 실존 여부 확인 요청 결과 확인 불가로 처리</li><li>닉네임을 &#x27;클코는 단단하다&#x27;로 변경했다는 언급</li></ul></article><article class="dcard"><div class="t">06:11-07:24</div><h2>코덱스 리셋 시점 예측 잡담</h2><p class="sum">코덱스 사용량 리셋이 언제 될지 예측하는 잡담이 새벽 시간대에 오갔다. 한 참여자는 자기 나름의 확률 예측(30~40%)을 내놓았고, 봇에게 물어봐도 정확한 시점은 알 수 없다는 답만 돌아왔다. 사용량 한도나 요금제 기준에 따라 달라질 수 있다는 원론적 답변이 이어졌다.</p><ul><li>코덱스 리셋 시점을 두고 근거 없는 확률 예측 잡담</li><li>봇에게 물어도 정확한 답은 얻지 못함</li><li>사용량·요금제 기준에 따라 가변적이라는 원론적 설명</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-11-0900</span>
+</footer>
+</div>
+</body>
+</html>
