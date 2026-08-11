@@ -21,6 +21,22 @@
     <description>채용 공고 자동화부터 ATS-MCP 백테스트, SAP 리포트 셀프서비스, 반도체 설계 AI, 법무·세무 AX까지 직무별 AI 도입 현황과 실사용 반응을 국내외 자료로 정리했다.</description>
   </item>
   <item>
+    <title>제미나이 CLI 안 죽었다? 안티그래비티 전환의 실제 상황</title>
+    <link>https://chat.axwith.com/mag/models/gemini-cli-antigravity-transition.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-cli-antigravity-transition.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Tue, 11 Aug 2026 12:00:00 +0900</pubDate>
+    <description>제미나이 CLI가 죽지 않았다는 커뮤니티 관찰을 검증했다. 오픈소스 저장소는 계속 유지보수되지만 개인 사용자 요청 처리는 6월 18일 중단됐고, 안티그래비티 CLI로 대체된 배경과 커뮤니티 반발을 정리했다.</description>
+  </item>
+  <item>
+    <title>클로드코드 Fable 한도 소진 시 Opus 자동전환, 공식 지원 없는 이유</title>
+    <link>https://chat.axwith.com/mag/tools/fable-limit-opus-auto-switch.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/fable-limit-opus-auto-switch.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Tue, 11 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드 Fable 5 주간 한도를 다 쓰면 Opus로 자동 전환되지 않는다. 공식 정책과 캐시 비용, 그리고 한도 메시지를 감지해 전환을 자동화하는 우회 도구까지 정리했다.</description>
+  </item>
+  <item>
     <title>오픈채팅 대화 AI 자동 아카이브·매거진, 어디까지 믿을 수 있나</title>
     <link>https://chat.axwith.com/mag/resources/openchat-ai-archive-magazine.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/openchat-ai-archive-magazine.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
     <description>문서 RAG 워크플로우의 파서·청킹·벡터DB 선택 기준을 정리했다. docling과 PaddleOCR 비교부터, 벡터DB 없이 YAML과 grep만으로 검색하는 대안까지 최신 조사와 클코단 실전 경험을 엮었다.</description>
-  </item>
-  <item>
-    <title>클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-cache-bug-usage.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-cache-bug-usage.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드 사용량이 평소보다 빨리 닳는다는 불만의 배경에는 프롬프트 캐싱 TTL 변경과 캐시를 무효화하는 버그가 겹쳐 있었다. 앤트로픽의 공식 대응과 지금 상태를 확인하는 방법을 정리했다.</description>
-  </item>
-  <item>
-    <title>챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-beginner-automation-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-beginner-automation-guide.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>터미널에서 로컬 파일을 직접 다루는 클로드코드는 대화형 클로드와 다르다. 요금제, 핵심 기능, 실제 업무 자동화 사례와 시작 방법을 웹 조사와 커뮤니티 경험으로 정리했다</description>
   </item>
 </channel></rss>

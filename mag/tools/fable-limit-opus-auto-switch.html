@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드코드 Fable 한도 소진 시 Opus 자동전환, 공식 지원 없는 이유 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드코드 Fable 5 주간 한도를 다 쓰면 Opus로 자동 전환되지 않는다. 공식 정책과 캐시 비용, 그리고 한도 메시지를 감지해 전환을 자동화하는 우회 도구까지 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/fable-limit-opus-auto-switch.html">
+<meta property="og:title" content="클로드코드 Fable 한도 소진 시 Opus 자동전환, 공식 지원 없는 이유">
+<meta property="og:description" content="클로드코드 Fable 5 주간 한도를 다 쓰면 Opus로 자동 전환되지 않는다. 공식 정책과 캐시 비용, 그리고 한도 메시지를 감지해 전환을 자동화하는 우회 도구까지 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/fable-limit-opus-auto-switch.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드코드 Fable 한도 소진 시 Opus 자동전환, 공식 지원 없는 이유", "description": "클로드코드 Fable 5 주간 한도를 다 쓰면 Opus로 자동 전환되지 않는다. 공식 정책과 캐시 비용, 그리고 한도 메시지를 감지해 전환을 자동화하는 우회 도구까지 정리했다.", "datePublished": "2026-08-11", "dateModified": "2026-08-11", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/fable-limit-opus-auto-switch.html"}, "articleSection": "도구·라이브러리", "keywords": "클로드코드, Fable 5, Opus, 주간 사용 한도, 모델 자동 전환, autolimit"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드코드에서 Fable 한도를 다 쓰면 자동으로 Opus로 전환되나요?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 공식적으로는 한도 소진 시 사용 크레딧을 추가 결제해 Fable을 계속 쓰거나, 사용자가 `/model` 명령으로 직접 다른 모델로 바꾸는 두 가지 선택지뿐이며 자동 폴백은 제공되지 않는다."}}, {"@type": "Question", "name": "Claude Code에서 세션 도중 모델을 바꾸면 비용이 더 드나요?", "acceptedAnswer": {"@type": "Answer", "text": "모델을 바꾸면 그 시점까지 쌓인 프롬프트 캐시가 무효화되어, 전환 직후 턴은 전체 맥락을 캐시 없이 재처리하면서 비용이 크게 늘어날 수 있다. 자동 전환 스크립트를 짤 때도 이 비용을 감안해야 한다."}}, {"@type": "Question", "name": "한도 소진 자동 재개 도구인 autolimit은 어떻게 작동하나요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code 같은 CLI를 PTY로 감싸 실행하면서 세션 한도 메시지의 리셋 시각을 다양한 형식으로 파싱하고, 그 시각이 되면 미리 설정한 메시지나 명령을 자동으로 세션에 보내는 터미널 래퍼 도구다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/fable-limit-opus-auto-switch.png" alt="클로드코드 Fable 한도 소진 시 Opus 자동전환, 공식 지원 없는 이유" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>클로드코드 Fable 한도 소진 시 Opus 자동전환, 공식 지원 없는 이유</h1>
+  <p class="sub">Fable 주간 한도를 다 쓰면 Opus로 자동 넘어가게 할 수 있을까 — 공식 정책과 커뮤니티 우회법을 짚어봤다</p>
+  <div class="meta"><span>2026-08-11</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클로드코드 사용자 커뮤니티 &#x27;클코단&#x27;에서 최근 나온 질문 하나가 의외로 많은 사람이 부딪히는 지점을 건드렸다. Fable 5의 주간 사용 한도를 다 쓰면 자동으로 Opus로 넘어가게 만들 수 있느냐는 것이다. 결론부터 말하면 Claude Code에는 그런 기능이 아직 없다. 다만 방에서 나온 우회 방법과 실제로 이 문제를 먼저 겪은 사람들의 대응을 따라가 보면, 왜 자동 전환이 막혀 있는지와 그 빈틈을 메우려는 시도들이 지금 어디까지 와 있는지가 드러난다.</p>
+<h2>프로모션 마감이 8일 남은 시점에 나온 질문</h2>
+<p>이 질문이 지금 나온 데는 시점이 있다. Anthropic은 Claude Code 주간 한도를 평소보다 50% 높게 운영하는 프로모션을 8월 19일까지 유지하기로 했다. 동시에 Fable 5를 Max·Team Premium 요금제에 주간 한도의 50%까지 추가 비용 없이 쓸 수 있는 상시 기능으로 편입시키는 절차도 밟고 있다. 문제는 Fable 5가 이 한도를 다른 모델보다 훨씬 빨리 소모한다는 점이다. 공식 고객센터 문서는 Fable 5가 다른 Claude 모델과 동일한 사용 한도 풀을 공유하면서도 더 빠르게 소모된다고 명시한다. 이를 풀어서 설명하는 외부 분석들은 Fable 세션 하나가 대략 Opus 세션의 두 배 무게로 한도를 깎아 먹는다고 본다.</p>
+<p>긴 리팩토링이나 다일간 자율 작업에 강하다는 평가를 받는 모델이라서 한 번 물면 길게 쓰게 된다. 그만큼 한도도 빨리 바닥난다.</p>
+<h2>공식 답은 수동 전환뿐, 자동 폴백은 없다</h2>
+<p>Fable 5의 요금제별 정책을 보면 한도 소진 시 선택지는 두 가지뿐이다. 사용 크레딧을 추가로 결제해 Fable 5를 계속 쓰거나, 사용자가 직접 다른 모델로 바꾸는 것이다. 자동으로 하위 모델로 떨어지는 폴백은 없다.</p>
+<p>Claude Code에서 모델을 바꾸는 방법 자체는 간단하다. 세션 도중에도 `/model` 명령으로 대화 맥락을 유지한 채 모델을 전환할 수 있다.</p>
+<p>다만 이 전환에는 숨은 비용이 있다. 모델을 바꾸면 그 시점까지 쌓아둔 프롬프트 캐시가 무효화된다. 전환 직후 턴은 캐시 없이 전체 맥락을 다시 처리하면서 비용이 많게는 10배까지 튄다는 게 여러 사용 가이드가 공통으로 짚는 부분이다. 그래서 &quot;한도 닿으면 자동으로 Opus로&quot; 같은 자동화를 짜더라도, 그 전환 자체가 공짜는 아니라는 점을 감안해야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/fable-limit-opus-auto-switch.png" alt="" loading="lazy"><h2>방에서 나온 우회: 한도 메시지를 감지하는 터미널 래퍼</h2>
+<p>방에서 공유된 autolimit은 이 틈을 메우려는 개인 프로젝트다. Claude Code나 OpenAI Codex 같은 CLI 도구를 PTY로 감싸서 실행하는 방식으로 작동한다. 세션 한도에 걸렸을 때 뜨는 메시지를 패턴으로 인식한다. &quot;resets 7:40pm&quot; 같은 절대 시각 표기, &quot;resets Jul 8 at 10:59am&quot; 같은 날짜 표기, &quot;try again in 4 days 23 hours&quot; 같은 상대 시간 표기까지 여러 형식을 구분해 리셋 시점을 계산한다. 그 시각이 오면 미리 정해둔 메시지나 명령을 세션에 자동으로 흘려보낸다. `autolimit --cc` 한 줄로 감싸 쓰는 구조라 진입장벽도 낮다.</p>
+<p>방에서 나온 조언은 이 로직을 그대로 가져다 Fable 전용 한도 메시지를 인식하도록 바꾸자는 것이었다. 그렇게 하면 리셋을 기다리는 대신 감지 즉시 `/model opus` 같은 전환 명령을 흘려보내 사실상 원하는 자동 전환을 만들 수 있다. 질문을 올린 사람과 다른 참여자 모두 이 방향에 동의하며 고마움을 표했다.</p>
+<h2>공식 기능으로는 왜 아직 안 만들어졌나</h2>
+<p>이런 자동화 요구는 방 밖에서도 이미 기능 요청으로 올라가 있다. Claude Code 저장소에는 한도에 걸렸을 때 뜨는 대화형 프롬프트(대기할지, 모델을 바꿀지 선택하는 창)를 훅으로 감지하거나 자동 처리할 수 있게 해달라는 요청이 열려 있다. 핵심 문제는 지금 존재하는 Notification 훅이 이 한도 프롬프트에는 반응하지 않는다는 데 있다.</p>
+<p>즉 감지할 공식 통로 자체가 없다. 지금은 autolimit류 도구처럼 터미널에 찍히는 텍스트를 외부에서 읽어 파싱하는 방법 말고는 쓸 수가 없다.</p>
+<p>공식 자동 전환이 아예 없는 것도 아니다. 사이버보안이나 생물·화학처럼 민감한 주제를 물으면 Fable 5가 안전장치로 인해 Opus 4.8로 자동 전환되어 답하는 경우가 있다. 다만 이건 한도와 무관하게 주제 판단으로 걸리는 전환이다. 방에서 원하는 &quot;한도 소진 → 모델 전환&quot;과는 트리거가 다르다.</p>
+<p>실제로 원치 않는 시점에 모델이 임의로 바뀐다는 버그 신고도 별도로 올라와 있다. 자동 전환 자체를 신뢰하기엔 아직 이르다는 시각도 있다.</p>
+<h2>써본 사람들의 온도차와 지금 해볼 만한 선택</h2>
+<p>Fable 5를 써본 사람들 사이에서는 평가가 갈린다. 코드베이스를 스스로 뒤지고 고치고 테스트까지 돌리는 자율성을 높이 사는 의견이 있다. 반면 안전장치 때문에 의도치 않게 Opus로 넘어가 버리면 &quot;Fable 값을 내고 Opus를 받는다&quot;는 불만도 나온다. 판단이 필요한 설계나 까다로운 디버깅만 Fable에 맡기고 반복적인 코드 수정은 Sonnet이나 Opus로 돌리는 식으로 역할을 나눠 쓰는 것이 한도를 아끼는 방법으로 자주 언급된다.</p>
+<p>지금 시점에서 개인 개발자나 소규모 팀이 택할 수 있는 선택지는 셋 중 하나다. 한도를 넘기면 크레딧을 추가 결제해 계속 밀어붙이거나, `/model`로 직접 끊어 전환하거나, autolimit처럼 터미널 출력을 감시하는 도구를 직접 손봐 전환 명령까지 자동으로 흘려보내는 스크립트를 만드는 것이다. 세 번째 방법은 방에서 확인됐듯 지금 당장 작동한다. 다만 공식 훅이 아니라 화면에 찍히는 문자열에 의존하는 만큼 Anthropic이 메시지 문구를 바꾸는 순간 조용히 멈출 수 있다는 위험을 안고 간다.</p></div>
+<div class="chips"><span class="chip">클로드코드</span><span class="chip">Fable 5</span><span class="chip">Opus</span><span class="chip">주간 사용 한도</span><span class="chip">모델 자동 전환</span><span class="chip">autolimit</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://support.claude.com/en/articles/15424964-claude-fable-5-on-your-plan" rel="nofollow noopener">https://support.claude.com/en/articles/15424964-claude-fable-5-on-your-plan</a></li><li><a href="https://www.digitalapplied.com/blog/claude-code-limits-raised-fable-5-max-team-premium-2026" rel="nofollow noopener">https://www.digitalapplied.com/blog/claude-code-limits-raised-fable-5-max-team-p</a></li><li><a href="https://github.com/betive37/autolimit" rel="nofollow noopener">https://github.com/betive37/autolimit</a></li><li><a href="https://github.com/anthropics/claude-code/issues/34817" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/34817</a></li><li><a href="https://github.com/anthropics/claude-code/issues/79034" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/79034</a></li><li><a href="https://code.claude.com/docs/en/hooks" rel="nofollow noopener">https://code.claude.com/docs/en/hooks</a></li><li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" rel="nofollow noopener">https://www.anthropic.com/news/claude-fable-5-mythos-5</a></li><li><a href="https://support.claude.com/en/articles/11940350-claude-code-model-configuration" rel="nofollow noopener">https://support.claude.com/en/articles/11940350-claude-code-model-configuration</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드코드에서 Fable 한도를 다 쓰면 자동으로 Opus로 전환되나요?</h2><p class="sum">아니다. 공식적으로는 한도 소진 시 사용 크레딧을 추가 결제해 Fable을 계속 쓰거나, 사용자가 `/model` 명령으로 직접 다른 모델로 바꾸는 두 가지 선택지뿐이며 자동 폴백은 제공되지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 세션 도중 모델을 바꾸면 비용이 더 드나요?</h2><p class="sum">모델을 바꾸면 그 시점까지 쌓인 프롬프트 캐시가 무효화되어, 전환 직후 턴은 전체 맥락을 캐시 없이 재처리하면서 비용이 크게 늘어날 수 있다. 자동 전환 스크립트를 짤 때도 이 비용을 감안해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>한도 소진 자동 재개 도구인 autolimit은 어떻게 작동하나요?</h2><p class="sum">Claude Code 같은 CLI를 PTY로 감싸 실행하면서 세션 한도 메시지의 리셋 시각을 다양한 형식으로 파싱하고, 그 시각이 되면 미리 설정한 메시지나 명령을 자동으로 세션에 보내는 터미널 래퍼 도구다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-11-0900.html">2026-08-11 08-10 22:00~08-11 08:50</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
