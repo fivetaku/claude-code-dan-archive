@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Seedance 2.5 무제한 이용처, 어디까지 진짜인가</title>
+    <link>https://chat.axwith.com/mag/resources/seedance-25-unlimited-access.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/seedance-25-unlimited-access.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Wed, 12 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Seedance 2.5의 비싼 과금 구조 때문에 무제한 이용처를 찾는 수요가 커졌다. Higgsfield, TapNow, Newtake의 실제 조건과 업계 전반의 &#x27;무제한&#x27; 표시 실태를 짚었다.</description>
+  </item>
+  <item>
+    <title>AI로 만든 UI, 닮으면 표절인가 회의록 앱 논쟁이 던진 질문</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/ai-ui-design-plagiarism-debate.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/ai-ui-design-plagiarism-debate.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Wed, 12 Aug 2026 12:00:00 +0900</pubDate>
+    <description>회의록 앱 UI 표절 논쟁을 계기로 AI 생성 디자인의 유사성과 저작권·디자인권 보호의 법적 한계를 짚었다. 바이브 코딩 확산이 만든 복제 속도 문제까지 살펴본다.</description>
+  </item>
+  <item>
     <title>클로드 코드 오푸스 계획·소넷 실행 조합, 언제 이득인가</title>
     <link>https://chat.axwith.com/mag/workflow/opusplan-sonnet-model-mix.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/opusplan-sonnet-model-mix.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
     <description>쿠팡과 네이버 스마트스토어가 크롤링을 막는 기술적 원리, patchright와 컴퓨터유즈로 우회를 시도한 클코단의 경험, 잡코리아·여기어때 판례로 확인한 크롤링의 법적 리스크까지 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드코드 플러그인 마켓플레이스, 스타 100개가 신뢰 기준 됐다</title>
-    <link>https://chat.axwith.com/mag/tools/claude-plugin-marketplace-stars.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-plugin-marketplace-stars.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드 플러그인 마켓플레이스의 구조와 최근 커진 레몬스퀴즈-폴라 결제 대안 논의, 깃허브 스타 품앗이와 가짜 스타 조작 문제까지 웹 조사와 커뮤니티 경험을 함께 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-rag-without-vectordb.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-rag-without-vectordb.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>문서 RAG 워크플로우의 파서·청킹·벡터DB 선택 기준을 정리했다. docling과 PaddleOCR 비교부터, 벡터DB 없이 YAML과 grep만으로 검색하는 대안까지 최신 조사와 클코단 실전 경험을 엮었다.</description>
   </item>
 </channel></rss>
