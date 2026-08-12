@@ -13,6 +13,22 @@
     <description>Seedance 2.5의 비싼 과금 구조 때문에 무제한 이용처를 찾는 수요가 커졌다. Higgsfield, TapNow, Newtake의 실제 조건과 업계 전반의 &#x27;무제한&#x27; 표시 실태를 짚었다.</description>
   </item>
   <item>
+    <title>비영리 사회복지 조직의 구글 워크스페이스 무료 전환, 관건은 서류보다 습관이다</title>
+    <link>https://chat.axwith.com/mag/workflow/google-workspace-nonprofit-transition.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/google-workspace-nonprofit-transition.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Wed, 12 Aug 2026 12:00:00 +0900</pubDate>
+    <description>슬랙을 쓰던 비영리 사회복지 조직이 구글 워크스페이스 비영리판을 무료로 신청하는 절차와 기관 유형별 필요 서류, 자주 걸리는 함정과 실제 정착까지 걸리는 시간을 정리했다.</description>
+  </item>
+  <item>
+    <title>클로드 코드엔 이미 하네스가 있다, 가재코드·OMO는 왜 필요한가</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-harness-gajae-omo.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-harness-gajae-omo.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Wed, 12 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code에 내장된 하네스 구조와 가재코드·OMO 같은 외부 루프 도구의 차이를 짚고, 1인 개발자와 소규모 팀이 어디서부터 커스터마이징을 시작해야 하는지 정리했다.</description>
+  </item>
+  <item>
     <title>AI로 만든 UI, 닮으면 표절인가 회의록 앱 논쟁이 던진 질문</title>
     <link>https://chat.axwith.com/mag/troubleshooting/ai-ui-design-plagiarism-debate.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/ai-ui-design-plagiarism-debate.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
     <description>GPT-5.6 루나 API 가격이 80% 내려 클로드 하이쿠보다 싸졌다. 딥시크 V4 플래시와 벤치마크·가격을 비교하고, 오픈코드 고 요금제 실사용 워크플로우를 정리했다.</description>
-  </item>
-  <item>
-    <title>모션 이펙트 214종을 코드로 가져오는 법, Remotion과 HyperFrames</title>
-    <link>https://chat.axwith.com/mag/resources/dexa-vfx-remotion-hyperframes.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/dexa-vfx-remotion-hyperframes.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>214가지 모션 이펙트를 브라우저에서 비교해 Remotion TSX나 HyperFrames HTML로 내보내는 카탈로그 도구와, 그 배경이 되는 두 코드형 영상 생태계를 정리했다.</description>
-  </item>
-  <item>
-    <title>쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-crawl-block.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/coupang-smartstore-crawl-block.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>쿠팡과 네이버 스마트스토어가 크롤링을 막는 기술적 원리, patchright와 컴퓨터유즈로 우회를 시도한 클코단의 경험, 잡코리아·여기어때 판례로 확인한 크롤링의 법적 리스크까지 정리했다.</description>
   </item>
 </channel></rss>

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드 코드엔 이미 하네스가 있다, 가재코드·OMO는 왜 필요한가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code에 내장된 하네스 구조와 가재코드·OMO 같은 외부 루프 도구의 차이를 짚고, 1인 개발자와 소규모 팀이 어디서부터 커스터마이징을 시작해야 하는지 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-harness-gajae-omo.html">
+<meta property="og:title" content="클로드 코드엔 이미 하네스가 있다, 가재코드·OMO는 왜 필요한가">
+<meta property="og:description" content="Claude Code에 내장된 하네스 구조와 가재코드·OMO 같은 외부 루프 도구의 차이를 짚고, 1인 개발자와 소규모 팀이 어디서부터 커스터마이징을 시작해야 하는지 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/claude-code-harness-gajae-omo.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드 코드엔 이미 하네스가 있다, 가재코드·OMO는 왜 필요한가", "description": "Claude Code에 내장된 하네스 구조와 가재코드·OMO 같은 외부 루프 도구의 차이를 짚고, 1인 개발자와 소규모 팀이 어디서부터 커스터마이징을 시작해야 하는지 정리했다.", "datePublished": "2026-08-12", "dateModified": "2026-08-12", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/claude-code-harness-gajae-omo.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, 하네스 엔지니어링, 가재코드, Oh My OpenCode, 에이전트 루프, 서브에이전트"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code에는 하네스가 이미 내장돼 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code는 맥락 수집·실행·검증으로 이어지는 gather-act-verify 루프와 도구 실행, 권한 승인, 컨텍스트 관리를 기본 제공한다. 앤트로픽은 이 구조를 모델(브레인)과 실행 장치(손)로 나눠 설명하는데, 이 전체가 하네스에 해당한다."}}, {"@type": "Question", "name": "가재코드와 Oh My OpenCode(OMO)는 어떻게 다른가요?", "acceptedAnswer": {"@type": "Answer", "text": "가재코드는 Claude·Codex·Gemini 등 여러 벤더 모델을 역할별로 오케스트레이션하는 외부 하네스이고, OMO는 리드 에이전트가 서브에이전트를 이끄는 팀 모드로 병렬 작업을 지원하는 오픈소스 플러그인이다. 둘 다 Claude Code 내장 루프와 별개로 루프 구조 자체를 새로 짠다는 공통점이 있다."}}, {"@type": "Question", "name": "1인 개발자는 어떤 도구부터 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "대부분의 경우 Claude Code가 기본 제공하는 스킬·훅·서브에이전트로 팀 규칙을 CLAUDE.md에 적어두는 방식으로 시작하는 편이 낫다. 여러 벤더를 동시에 운용해야 하거나 완전히 다른 팀 구조가 필요할 때만 가재코드나 OMO 같은 외부 루프 도구를 검토하면 된다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-harness-gajae-omo.png" alt="클로드 코드엔 이미 하네스가 있다, 가재코드·OMO는 왜 필요한가" loading="eager">
+<header>
+  <div class="eyebrow">워크플로우·방법론</div>
+  <h1>클로드 코드엔 이미 하네스가 있다, 가재코드·OMO는 왜 필요한가</h1>
+  <p class="sub">이미 gather-act-verify 루프를 갖춘 Claude Code 위에서 가재코드와 OMO는 왜 루프 자체를 다시 짜는지 따져봤다</p>
+  <div class="meta"><span>2026-08-12</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클코단에서 나온 질문은 단순했다. Claude Code에 하네스가 이미 탑재돼 있는가, 아니면 하네스는 따로 얹어야 하는 별개의 층인가. 가재코드나 Oh My OpenCode(OMO) 같은 도구가 커뮤니티에서 화제가 되면서 이미 있는 걸 다시 만드는 건 아닌지 헷갈린다는 반응이 나왔다. 답을 찾으려면 하네스가 정확히 무엇을 가리키는지, 그리고 그 위에 얹히는 도구들이 어느 층에서 움직이는지부터 갈라봐야 한다.</p>
+<h2>&quot;하네스&quot;라는 말이 가리키는 실체</h2>
+<p>하네스 엔지니어링을 다루는 국내 강의 자료들은 공통으로 &quot;Agent = Model + Harness&quot; 공식을 쓴다. 모델이 아닌 나머지 전부가 하네스라는 뜻이다. 말에 씌우는 마구에서 따온 이름 그대로, 모델의 힘을 억누르지 않고 원하는 방향으로 이끄는 장치를 가리킨다.</p>
+<p>앤트로픽은 이 구조를 &quot;브레인과 손&quot;으로 나눠 설명한다. Claude와 하네스가 합쳐져 브레인을 이룬다. 샌드박스와 도구는 손을 맡는다는 설명이다. Claude Code 공식 문서는 실제 작업 방식을 맥락 수집(gather context), 실행(take action), 검증(verify)이라는 세 단계 루프로 규정해 놓았다. 코드 몇 줄을 고치는 간단한 질문은 맥락 수집만으로 끝난다. 리팩터링처럼 복잡한 작업은 이 루프를 수십 번 돌면서 스스로 방향을 고쳐 잡는다.</p>
+<p>정리하면 도구 등록, 컨텍스트 관리, 권한 승인, 실행 결과 검증까지 묶은 하네스는 Claude Code 안에 이미 내장돼 있다. 이 논의에서 나온 &quot;Claude Code 자체를 하네스로 보는 견해&quot;는 이 지점에서 사실관계와 맞아떨어진다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-harness-gajae-omo.png" alt="" loading="lazy"><h2>가재코드와 OMO는 그 위에서 무엇을 다시 짜는가</h2>
+<p>Claude Code에 내장된 루프가 있는데도 별도 도구가 나오는 이유는, 이 도구들이 루프의 운용 방식이 아니라 루프 자체를 새로 정의하기 때문이다. 가재코드(Gajae Code)는 개발자 허예찬이 만든 오픈소스 프로젝트로, 어떤 저장소에든 얹을 수 있는 외부 코딩 에이전트 하네스를 표방한다. GitHub 저장소 설명에 따르면 Claude Opus를 오케스트레이터로 두고 플래너·아키텍트·크리틱 등 역할별로 다른 모델을 배치한다. Claude·Codex·Gemini 등 여러 벤더를 한 워크플로 안에 묶는 식이다.</p>
+<p>OMO(Oh My OpenCode)는 방향이 조금 다르다. 오픈소스 플러그인으로 시작해 최신 버전에서 리드 에이전트가 전문 서브에이전트들을 이끌고 병렬로 작업하는 &quot;팀 모드&quot;를 얹었다. 코드베이스 탐색은 한 에이전트가, 문서 조사는 다른 에이전트가, 아키텍처 판단은 또 다른 에이전트가 맡는 식이다. 무한 루프를 막기 위한 서킷 브레이커도 버전이 올라가며 추가됐다.</p>
+<p>둘 다 미리 떠 있는 에이전트 풀을 쓰는 대신 필요할 때 즉석에서 에이전트를 만들고 작업이 끝나면 소멸시키는 방식을 택했다는 공통점이 있다.</p>
+<p>가재코드를 써본 사람들 사이에서는 같은 작업을 시켰는데도 체감 컨텍스트 처리량이 크게 늘어난 것 같다는 반응이 있었다. 예전에 만들어 둔 소규모 프로젝트를 다시 돌렸더니 결과물 품질이 눈에 띄게 좋아졌다는 의견도 나왔다. 다만 두 프로젝트 모두 아직 초기 단계라 결과를 그대로 믿기보다 검증하며 쓰라는 조언이 따라붙는다는 점도 함께 확인됐다.</p>
+<h2>방에서 나온 구분, 실제 커스터마이징 계층과 일치</h2>
+<p>가재와 omo를 &quot;루프 자체를 재구성하는 도구&quot;로, 하네스를 &quot;기존 루프의 운용 방식을 커스텀하는 것&quot;으로 나눈 방의 구분은 Claude Code가 공식으로 제공하는 커스터마이징 계층과 실제로 겹친다. Claude Code는 스킬(반복 작업을 위한 재사용 가능한 절차), 훅(생명주기 이벤트에 걸리는 결정론적 스크립트), 서브에이전트(독립된 컨텍스트와 도구를 가진 별도 인스턴스)라는 세 겹의 확장 장치를 기본 제공한다. 국내 하네스 엔지니어링 강의들이 강조하는 지점도 같다. CLAUDE.md나 AGENTS.md에 역할, 작업 범위, 금지 사항, 검증 기준을 적어 두면 에이전트가 임의로 방향을 틀지 않게 된다는 설명이다.</p>
+<p>이 계층은 내장 루프를 바꾸지 않는다. 대신 그 루프 안에서 어떤 서브에이전트를 언제 부를지, 어떤 도구는 사람 승인을 받게 할지를 팀 사정에 맞게 정하는 역할을 한다. 가재코드나 OMO가 루프 구조 자체를 다시 짜는 것과는 다른 층의 작업이다.</p>
+<p>방에서 이 지점을 두고 나온 표현을 빌리면, 결국 팀마다 필요한 건 루프 위에 얹는 작업 OS라는 말로 요약된다. 루프는 Claude Code가 이미 깔아 놓았다. 그 위에서 누가 무엇을 언제 하는지를 정하는 운영체제 층을 팀 스스로 짜야 한다는 뜻이다.</p>
+<h2>1인 개발자·소규모 팀은 어디서 시작해야 하나</h2>
+<p>혼자 일하는 개발자가 기획부터 배포, 문서화까지 역할을 나눠 진행한 사례들을 보면 공통적으로 공식 서브에이전트 기능만으로 출발한다. 코드 스타일 가이드, 보안 규칙, 리뷰 기준을 서브에이전트 프롬프트에 미리 적어 두고 버전 관리에 포함시키는 방식이다. 팀원이 새로 들어와도 같은 기준으로 바로 일할 수 있다는 게 이 접근의 강점으로 꼽힌다.</p>
+<p>이 단계에서는 굳이 루프 자체를 갈아 끼울 필요가 없다.</p>
+<p>문제가 생기는 지점은 대개 다른 데 있다. 여러 벤더의 모델을 동시에 굴려야 하거나, 서브에이전트 몇 개로는 감당 안 되는 규모의 병렬 작업이 필요해질 때다.</p>
+<p>OMO처럼 외부 루프를 쓰기로 했다면 계정 인증 방식은 챙겨야 한다. API 콘솔에서 발급한 ANTHROPIC_API_KEY 연결은 문제가 없다. 다만 Claude 구독 계정을 OAuth로 직접 연결하는 방식은 계정 정지 위험이 있다는 경고가 여러 사용 후기에서 반복해서 나온다. 익숙해지기 전까지는 Plan 모드로 먼저 접근 방식을 확인하고 방향이 맞을 때 실행으로 넘어가라는 팁도 함께 따라붙는다.</p>
+<p>Claude Code의 gather-act-verify 루프 자체는 이미 검증된 인프라다. 새로 팀을 꾸리는 입장이라면 그 위에서 스킬·훅·서브에이전트로 먼저 팀 방식을 얹어 본다. 여러 벤더를 동시에 굴리거나 완전히 다른 팀 구조가 필요하다는 게 분명해졌을 때 가재코드나 OMO 같은 외부 루프로 옮겨가는 순서가 시행착오를 줄인다.</p></div>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">하네스 엔지니어링</span><span class="chip">가재코드</span><span class="chip">Oh My OpenCode</span><span class="chip">에이전트 루프</span><span class="chip">서브에이전트</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/how-claude-code-works" rel="nofollow noopener">https://code.claude.com/docs/en/how-claude-code-works</a></li><li><a href="https://www.anthropic.com/engineering/managed-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/managed-agents</a></li><li><a href="https://wikidocs.net/340862" rel="nofollow noopener">https://wikidocs.net/340862</a></li><li><a href="https://github.com/Yeachan-Heo/gajae-code" rel="nofollow noopener">https://github.com/Yeachan-Heo/gajae-code</a></li><li><a href="https://toms-blog.co.kr/posts/2026-05-11-oh-my-opencode-v4-team-mode" rel="nofollow noopener">https://toms-blog.co.kr/posts/2026-05-11-oh-my-opencode-v4-team-mode</a></li><li><a href="https://www.tembo.io/blog/claude-code-subagents" rel="nofollow noopener">https://www.tembo.io/blog/claude-code-subagents</a></li><li><a href="https://ofox.ai/blog/claude-code-hooks-subagents-skills-complete-guide-2026/" rel="nofollow noopener">https://ofox.ai/blog/claude-code-hooks-subagents-skills-complete-guide-2026/</a></li><li><a href="https://www.jiniai.biz/2025/11/13/%ED%98%BC%EC%9E%90%EC%84%9C%EB%8F%84-10%EB%AA%85-%ED%8C%80%EC%B2%98%EB%9F%BC-%EA%B0%9C%EB%B0%9C%ED%95%98%EA%B8%B0-claude-code-%EC%84%9C%EB%B8%8C%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8-%ED%99%9C%EC%9A%A9/" rel="nofollow noopener">https://www.jiniai.biz/2025/11/13/%ED%98%BC%EC%9E%90%EC%84%9C%EB%8F%84-10%EB%AA%</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에는 하네스가 이미 내장돼 있나요?</h2><p class="sum">Claude Code는 맥락 수집·실행·검증으로 이어지는 gather-act-verify 루프와 도구 실행, 권한 승인, 컨텍스트 관리를 기본 제공한다. 앤트로픽은 이 구조를 모델(브레인)과 실행 장치(손)로 나눠 설명하는데, 이 전체가 하네스에 해당한다.</p></article><article class="dcard"><div class="t">Q</div><h2>가재코드와 Oh My OpenCode(OMO)는 어떻게 다른가요?</h2><p class="sum">가재코드는 Claude·Codex·Gemini 등 여러 벤더 모델을 역할별로 오케스트레이션하는 외부 하네스이고, OMO는 리드 에이전트가 서브에이전트를 이끄는 팀 모드로 병렬 작업을 지원하는 오픈소스 플러그인이다. 둘 다 Claude Code 내장 루프와 별개로 루프 구조 자체를 새로 짠다는 공통점이 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>1인 개발자는 어떤 도구부터 써야 하나요?</h2><p class="sum">대부분의 경우 Claude Code가 기본 제공하는 스킬·훅·서브에이전트로 팀 규칙을 CLAUDE.md에 적어두는 방식으로 시작하는 편이 낫다. 여러 벤더를 동시에 운용해야 하거나 완전히 다른 팀 구조가 필요할 때만 가재코드나 OMO 같은 외부 루프 도구를 검토하면 된다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-12-1330.html">2026-08-12 08-12 11:30~13:19</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
