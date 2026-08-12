@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>클로드 코드 세션마다 기억이 사라지는 문제, 메모리 허브가 답일까</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-session-memory-hub.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-session-memory-hub.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 13 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드로 여러 세션을 동시에 켜두면 맥락을 잃는 문제를 다룬다. 공식 자동 메모리 기능의 작동 범위와 한계, 커뮤니티가 만든 메모리 허브 도구들을 실사용 경험과 함께 정리했다.</description>
+  </item>
+  <item>
+    <title>클로드 코드 오토 모드 시대, AX 규칙 설계는 어떻게 달라지나</title>
+    <link>https://chat.axwith.com/mag/workflow/ax-rules-flexibility-auto-mode.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ax-rules-flexibility-auto-mode.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 13 Aug 2026 12:00:00 +0900</pubDate>
+    <description>AI 에이전트용 AX 솔루션을 짤 때 규칙과 권한을 얼마나 촘촘히 설계해야 하는지, 최신 연구와 클로드 코드 오토 모드 전환 사례로 짚어본다.</description>
+  </item>
+  <item>
     <title>Seedance 2.5 무제한 이용처, 어디까지 진짜인가</title>
     <link>https://chat.axwith.com/mag/resources/seedance-25-unlimited-access.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/seedance-25-unlimited-access.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
     <description>오픈채팅 봇을 노린 프롬프트 인젝션 시도와 3회 감지 자동 블랙리스트 가드레일 사례를 OWASP 최신 동향, 국내외 유출 사고와 함께 분석한다.</description>
-  </item>
-  <item>
-    <title>중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</title>
-    <link>https://chat.axwith.com/mag/models/kimi-glm-hermes-open-models.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/kimi-glm-hermes-open-models.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드 커뮤니티에서 화제가 된 중국산 오픈웨이트 모델 Kimi K3, GLM-5.2, Hermes 조합 활용법을 벤치마크·요금제·증류 논란까지 웹 조사로 검증한 실전 비교 기사.</description>
-  </item>
-  <item>
-    <title>GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</title>
-    <link>https://chat.axwith.com/mag/models/gpt-luna-terra-price-cut.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-luna-terra-price-cut.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Wed, 05 Aug 2026 12:00:00 +0900</pubDate>
-    <description>GPT-5.6 루나 API 가격이 80% 내려 클로드 하이쿠보다 싸졌다. 딥시크 V4 플래시와 벤치마크·가격을 비교하고, 오픈코드 고 요금제 실사용 워크플로우를 정리했다.</description>
   </item>
 </channel></rss>

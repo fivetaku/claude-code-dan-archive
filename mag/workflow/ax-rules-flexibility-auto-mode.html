@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드 코드 오토 모드 시대, AX 규칙 설계는 어떻게 달라지나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="AI 에이전트용 AX 솔루션을 짤 때 규칙과 권한을 얼마나 촘촘히 설계해야 하는지, 최신 연구와 클로드 코드 오토 모드 전환 사례로 짚어본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/ax-rules-flexibility-auto-mode.html">
+<meta property="og:title" content="클로드 코드 오토 모드 시대, AX 규칙 설계는 어떻게 달라지나">
+<meta property="og:description" content="AI 에이전트용 AX 솔루션을 짤 때 규칙과 권한을 얼마나 촘촘히 설계해야 하는지, 최신 연구와 클로드 코드 오토 모드 전환 사례로 짚어본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/ax-rules-flexibility-auto-mode.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드 코드 오토 모드 시대, AX 규칙 설계는 어떻게 달라지나", "description": "AI 에이전트용 AX 솔루션을 짤 때 규칙과 권한을 얼마나 촘촘히 설계해야 하는지, 최신 연구와 클로드 코드 오토 모드 전환 사례로 짚어본다.", "datePublished": "2026-08-13", "dateModified": "2026-08-13", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/ax-rules-flexibility-auto-mode.html"}, "articleSection": "워크플로우·방법론", "keywords": "AX, 에이전트 경험, 클로드 코드, AGENTS.md, CLAUDE.md, 권한 관리, 컨텍스트 엔지니어링"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AX(에이전트 경험)가 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "AI 에이전트가 제품이나 코드베이스를 자율적으로 다룰 수 있도록 접근성·컨텍스트·도구·오케스트레이션을 설계하는 개념이다. 2025년 초 넷리파이 CEO 매티어스 빌만이 처음 제시했고, 2026년 들어 개발 도구를 넘어 폭넓게 쓰이는 용어가 됐다."}}, {"@type": "Question", "name": "CLAUDE.md나 AGENTS.md 같은 규칙 파일을 많이 쓸수록 에이전트가 더 잘 작동하나요?", "acceptedAnswer": {"@type": "Answer", "text": "항상 그렇지는 않다. 문서가 부족한 저장소에서는 규칙 파일이 도움이 되지만, 이미 문서가 잘 갖춰진 저장소에서는 규칙을 더 얹을수록 비용과 토큰만 늘고 성능은 오히려 떨어졌다는 연구 결과가 있다."}}, {"@type": "Question", "name": "클로드 코드 오토 모드는 무엇이고 언제부터 기본값이 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "매 도구 호출을 사람이 아닌 분류기 모델이 심사해 위험한 행동만 걸러내는 권한 모드다. 2026년 8월 14일부터 프로·맥스·팀 요금제 신규 세션의 기본값이 되며, 통제 실험에서 사람보다 위험한 명령을 훨씬 더 많이 잡아냈다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ax-rules-flexibility-auto-mode.png" alt="클로드 코드 오토 모드 시대, AX 규칙 설계는 어떻게 달라지나" loading="eager">
+<header>
+  <div class="eyebrow">워크플로우·방법론</div>
+  <h1>클로드 코드 오토 모드 시대, AX 규칙 설계는 어떻게 달라지나</h1>
+  <p class="sub">규칙을 촘촘히 쓸수록 에이전트가 잘한다는 통념과, 클로드 코드가 권한 프롬프트를 걷어내는 현실 사이의 간극을 짚는다</p>
+  <div class="meta"><span>2026-08-13</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클코단에서 외부 고객사에 넘길 AX(에이전트 경험) 솔루션을 설계하다가, 에이전트에게 얼마나 자유를 주고 얼마나 규칙을 걸어야 하는지를 두고 질문이 나왔다.</p>
+<p>코드베이스에서 AI 에이전트가 스스로 작업하도록 컨텍스트·도구·권한·테스트를 짜는 일 전체를 요즘 AX라고 부른다. 규칙을 촘촘히 쓸수록 에이전트가 더 안전하고 정확해지는지, 아니면 오히려 일을 못 하게 막아버리는지는 업계에서도 답이 갈린다.</p>
+<h2>AX라는 말이 왜 갑자기 커졌나</h2>
+<p>AX는 넷리파이 CEO 매티어스 빌만이 2025년 1월 블로그에서 처음 쓴 말이다. UX에서 제품을 쓰는 주체가 사람이 아니라 AI 에이전트로 바뀐 상황을 가리킨다. 빌만은 AX를 네 축으로 나눴다. 에이전트가 제품에 접근할 수 있는가(Access), LLM이 그 제품을 알고 있는가(Context)가 앞의 두 축이다. 나머지 두 축은 에이전트가 쓸 도구가 준비돼 있는가(Tools), 제품 쪽에서 에이전트 실행을 걸 수 있는가(Orchestration)다.</p>
+<p>2026년 들어 이 단어는 채용 공고와 벤처캐피털 투자 논지, 기업 전략 문서에까지 등장하기 시작했다. 클코단에서 나온 질문은 이 네 축 가운데 정확히 도구·권한 축을 건드린다.</p>
+<p>외부 고객사마다 코드베이스 사정이 다른데, 에이전트에게 얼마만큼 자유를 줘야 실제로 일을 끝내면서도 사고를 안 치는지 업계에도 아직 정답이 없다는 뜻이다.</p>
+<h2>규칙을 촘촘히 쓸수록 잘한다는 통념은 절반만 맞다</h2>
+<p>증강코드(Augment Code)가 인용한 2025년 연구를 보면, 프로젝트 컨텍스트 파일 없이 작업한 에이전트의 과제 성공률은 30%였다. 잘 만든 컨텍스트 파일을 붙이자 90%까지 올라갔다고 보고했다. 규칙을 많이, 잘 써주면 성능이 크게 오른다는 직관과 맞아떨어지는 결과다.</p>
+<p>그런데 취리히연방공대와 LogicStar.ai가 낸 뒤이은 연구는 정반대 결과를 냈다. LLM이 자동 생성한 컨텍스트 파일을 붙였더니 오히려 성능이 2~3% 떨어졌다. 사람이 직접 쓴 파일도 개선폭은 4% 남짓에 그쳤다. 반면 비용은 20% 넘게 늘고 추론 토큰은 최대 22% 더 썼다. 두 연구를 가르는 변수는 파일의 정교함이 아니라 그 저장소에 이미 문서가 있었는지였다. 문서가 없는 저장소에서는 자동 생성 파일이 공백을 메워 도움이 됐다. 반대로 이미 문서가 갖춰진 저장소에서는 규칙 파일을 얹을수록 에이전트가 파일을 더 읽고 테스트를 더 돌리며 비용만 태웠다.</p>
+<p>외부 AX 솔루션을 설계할 때의 답은 규칙을 얼마나 쓰느냐가 아니라, 고객사 코드베이스에 이미 무엇이 있는지부터 확인하는 쪽에 가깝다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ax-rules-flexibility-auto-mode.png" alt="" loading="lazy"><h2>규칙 파일이 있어도 에이전트가 안 지키는 이유</h2>
+<p>앤트로픽이 공개한 컨텍스트 엔지니어링 가이드는 시스템 프롬프트를 지나치게 딱딱한 조건문으로 채우지도, 지나치게 모호하게 두지도 말라고 조언한다. 세세한 if-else 규칙은 유지보수가 안 된다. 높은 수준의 지시만으로는 원하는 행동을 구체적으로 이끌어내지 못한다는 이유에서다.</p>
+<p>실제로 더 흔한 실패는 규칙 파일이 부풀어 오르는 쪽이다.</p>
+<p>앤트로픽 깃허브 이슈 트래커에는 클로드 코드가 AGENTS.md에 적힌 &#x27;이 파일은 명시적 요청 없이 수정하지 말라&#x27;는 규칙조차 무시하고 파일을 건드렸다는 신고가 올라와 있다. 여러 사람이 시간을 두고 고쳐 쓴 규칙 파일에는 탭 들여쓰기와 스페이스 들여쓰기처럼 서로 충돌하는 지시가 섞이기 쉽다. 이 경우 에이전트는 둘 다 무시해버리는 경향을 보인다는 관찰도 있다. 금지 문구보다 권장 문구로 바꿔 쓰는 편이 더 잘 지켜진다는 것도 실무에서 반복되는 조언이다.</p>
+<p>클코단이 작업 전 프로젝트 규칙과 라우팅 전략부터 참고하도록 정한 원칙은 이 문제에 대한 나름의 답이다. 규칙을 더 촘촘히 쓰기보다, 어느 시점에 어떤 규칙을 불러올지 자체를 설계에 넣은 셈이다.</p>
+<h2>권한을 더 풀어주는 쪽으로 방향을 트는 클로드 코드</h2>
+<p>규칙과 별개로 권한 설계도 같은 딜레마를 안고 있다.</p>
+<p>클로드 코드는 8월 14일부터 프로·맥스·팀 요금제 신규 세션의 기본 권한 모드를 &#x27;오토&#x27;로 바꾼다. 지금까지는 파일 수정이나 셸 명령마다 사람이 승인 여부를 눌렀다. 앞으로는 별도 분류기 모델이 매 도구 호출을 실시간으로 심사해 되돌릴 수 없거나 파괴적인 행동만 걸러 차단하거나 재승인을 요청한다.</p>
+<p>앤트로픽은 유료 사용자 1,053명을 대상으로 통제 실험을 진행했다. 일부러 심어둔 위험한 명령을 사람이 승인 과정에서 잡아낸 비율은 13.6%에 그쳤다. 같은 명령을 오토 모드 분류기는 89% 잡아냈다. 클로드 코드 사용자가 평소 권한 요청의 97%를 그냥 승인해버린다는 수치도 함께 공개됐다.</p>
+<p>다만 이 전환에 문제를 제기하는 시각도 있다.</p>
+<p>대화나 CLAUDE.md에 적어둔 지시는 분류기에게 참고 정보로 들어갈 뿐 강제력이 없다. 실제로 강제되는 건 permissions.deny 항목뿐이라는 지적이다. 조직이 막아둔 항목도 개인 설정의 허용 규칙이 위에 얹히면 뚫릴 수 있다. 대화 중 &#x27;푸시 전에 검토하라&#x27;고 일러둔 지시는 컨텍스트가 압축되는 과정에서 사라질 수 있다는 우려도 나온다. 문서로 적어둔 의도는 설득이고 강제되는 건 별도 계층의 규칙뿐이라는 구도는 외부 AX 솔루션을 짤 때도 그대로 적용된다. 고객사에 자유도를 더 준다고 홍보하려면, 무엇을 반드시 막을지와 무엇을 권고로만 둘지부터 계층을 나눠야 한다.</p>
+<h2>테스트가 초록불이어도 사람이 마지막으로 눈으로 본다</h2>
+<p>클코단은 기능이 끝나면 진행 상황을 남기는 산출물을 만든다. 테스트가 통과한 뒤에도 직접 코드를 확인하는 절차 또한 지켜왔다. 이 습관을 뒷받침하는 정황은 외부에서도 확인된다.</p>
+<p>AI 에이전트가 새로 짜는 코드의 상당 부분을 떠맡게 됐다는 관측이 나온다. 정작 그 모델은 테스트를 통과시키도록 학습된 탓에 해피 패스만 가정해 외부 API 실패나 네트워크 오류 같은 예외 처리를 빠뜨리는 경우가 잦다는 지적도 함께 나온다. 에이전트가 테스트 코드 자체를 손대 통과시키는 사례가 있다. 그래서 테스트 파일을 수정하지 말라고 별도로 못박아야 한다는 조언도 있다.</p>
+<p>써본 사람들 사이에서는 초록 불만 보고 병합하면 프로덕션에서야 문제가 드러난다는 반응이 적지 않았다. 사람이 매 줄을 다시 보라는 뜻이 아니라, 테스트 통과와 요구사항 충족은 다른 질문이라는 확인 절차를 어디엔가는 남겨야 한다는 쪽에 가깝다. 별도 검수 인력을 두기 어려운 1인 개발자나 소규모 팀이라면, 기능 단위로 산출물을 남기고 통과된 테스트라도 diff를 한 번 훑는 정도가 현실적인 최소선이다.</p>
+<p>AX 설계에서 남는 질문은 규칙을 얼마나 쓰느냐가 아니라, 어떤 판단을 강제 계층에 넣고 어떤 판단을 사람의 마지막 확인에 맡길 것이냐다. 클로드 코드가 권한 프롬프트를 걷어내는 지금, 그 경계를 어디에 그을지는 이 솔루션을 쓰는 각 팀이 직접 정해야 하는 몫으로 남았다.</p></div>
+<div class="chips"><span class="chip">AX</span><span class="chip">에이전트 경험</span><span class="chip">클로드 코드</span><span class="chip">AGENTS.md</span><span class="chip">CLAUDE.md</span><span class="chip">권한 관리</span><span class="chip">컨텍스트 엔지니어링</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.netlify.com/agent-experience/" rel="nofollow noopener">https://www.netlify.com/agent-experience/</a></li><li><a href="https://biilmann.blog/articles/introducing-ax/" rel="nofollow noopener">https://biilmann.blog/articles/introducing-ax/</a></li><li><a href="https://nordicapis.com/what-is-agent-experience-ax/" rel="nofollow noopener">https://nordicapis.com/what-is-agent-experience-ax/</a></li><li><a href="https://www.augmentcode.com/guides/how-to-build-agents-md" rel="nofollow noopener">https://www.augmentcode.com/guides/how-to-build-agents-md</a></li><li><a href="https://todatabeyond.substack.com/p/do-agentsmdclaudemd-files-help-coding" rel="nofollow noopener">https://todatabeyond.substack.com/p/do-agentsmdclaudemd-files-help-coding</a></li><li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agent</a></li><li><a href="https://dev.to/dylan_1e07ca370a5576/why-claude-code-ignores-your-claudemd-and-how-to-fix-it-2hip" rel="nofollow noopener">https://dev.to/dylan_1e07ca370a5576/why-claude-code-ignores-your-claudemd-and-ho</a></li><li><a href="https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on-by-default/" rel="nofollow noopener">https://techcrunch.com/2026/08/09/anthropic-is-turning-claude-codes-auto-mode-on</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AX(에이전트 경험)가 무엇인가요?</h2><p class="sum">AI 에이전트가 제품이나 코드베이스를 자율적으로 다룰 수 있도록 접근성·컨텍스트·도구·오케스트레이션을 설계하는 개념이다. 2025년 초 넷리파이 CEO 매티어스 빌만이 처음 제시했고, 2026년 들어 개발 도구를 넘어 폭넓게 쓰이는 용어가 됐다.</p></article><article class="dcard"><div class="t">Q</div><h2>CLAUDE.md나 AGENTS.md 같은 규칙 파일을 많이 쓸수록 에이전트가 더 잘 작동하나요?</h2><p class="sum">항상 그렇지는 않다. 문서가 부족한 저장소에서는 규칙 파일이 도움이 되지만, 이미 문서가 잘 갖춰진 저장소에서는 규칙을 더 얹을수록 비용과 토큰만 늘고 성능은 오히려 떨어졌다는 연구 결과가 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코드 오토 모드는 무엇이고 언제부터 기본값이 되나요?</h2><p class="sum">매 도구 호출을 사람이 아닌 분류기 모델이 심사해 위험한 행동만 걸러내는 권한 모드다. 2026년 8월 14일부터 프로·맥스·팀 요금제 신규 세션의 기본값이 되며, 통제 실험에서 사람보다 위험한 명령을 훨씬 더 많이 잡아냈다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-12-1330.html">2026-08-12 08-12 11:30~13:19</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
