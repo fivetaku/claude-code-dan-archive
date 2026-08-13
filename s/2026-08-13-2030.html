@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 8월 13일 20:30 — AI 영상 제작 자동화</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 13일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-13 17:53~20:16</b></span>
+    <span>발화 <b>109</b></span>
+    <span>참여 <b>23</b>명</span>
+    <span>주제 <b>14</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone" style="height:516px;min-width:1680px"><div class="spine"></div><div class="bar" style="left:2.0%;height:11px"></div><div class="bar" style="left:4.5%;height:6px"></div><div class="bar" style="left:6.9%;height:6px"></div><div class="bar" style="left:9.4%;height:6px"></div><div class="bar" style="left:11.9%;height:11px"></div><div class="bar" style="left:14.4%;height:16px"></div><div class="bar peak" style="left:16.8%;height:47px"></div><div class="bar" style="left:19.3%;height:42px"></div><div class="bar peak" style="left:21.8%;height:58px"></div><div class="bar" style="left:24.3%;height:32px"></div><div class="bar" style="left:26.7%;height:32px"></div><div class="bar" style="left:29.2%;height:32px"></div><div class="bar" style="left:31.7%;height:21px"></div><div class="bar" style="left:34.2%;height:11px"></div><div class="bar" style="left:36.6%;height:16px"></div><div class="bar" style="left:39.1%;height:11px"></div><div class="bar" style="left:41.6%;height:26px"></div><div class="bar" style="left:44.1%;height:11px"></div><div class="bar" style="left:46.5%;height:6px"></div><div class="bar" style="left:49.0%;height:21px"></div><div class="bar" style="left:51.5%;height:6px"></div><div class="bar" style="left:53.9%;height:32px"></div><div class="bar" style="left:56.4%;height:16px"></div><div class="bar" style="left:58.9%;height:11px"></div><div class="bar" style="left:61.4%;height:6px"></div><div class="bar" style="left:63.8%;height:6px"></div><div class="bar" style="left:66.3%;height:6px"></div><div class="bar" style="left:68.8%;height:11px"></div><div class="bar" style="left:71.3%;height:6px"></div><div class="bar" style="left:73.7%;height:6px"></div><div class="bar" style="left:76.2%;height:6px"></div><div class="bar" style="left:78.7%;height:6px"></div><div class="bar" style="left:81.2%;height:6px"></div><div class="bar" style="left:83.6%;height:6px"></div><div class="bar" style="left:86.1%;height:6px"></div><div class="bar" style="left:88.6%;height:6px"></div><div class="bar" style="left:91.1%;height:11px"></div><div class="bar" style="left:93.5%;height:11px"></div><div class="bar" style="left:96.0%;height:6px"></div><div class="lbl" style="left:2.0%">17:53</div><div class="peaktag" style="left:16.8%;bottom:55px">18:06 · 9건</div><div class="lbl" style="left:16.8%">18:06</div><div class="lbl" style="left:31.7%">18:16</div><div class="lbl" style="left:46.5%">18:26</div><div class="lbl" style="left:61.4%">19:04</div><div class="lbl" style="left:76.2%">19:33</div><div class="lbl" style="left:91.1%">20:05</div><div class="lbl" style="left:96.0%">20:16</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">17:53-17:56</div><h3>루나 모델 오선택</h3></div></div><div class="rib dn" style="left:9.4%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">17:57-17:57</div><h3>비개발자 파이썬 자동화</h3></div></div><div class="rib up" style="left:14.4%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">18:05-18:06</div><h3>참치 김치찌개</h3></div></div><div class="rib up" style="left:16.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">18:06-18:10</div><h3>SRT 취소표 찾기</h3></div></div><div class="rib dn" style="left:19.3%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">18:07-18:27</div><h3>다이어트와 연애 농담</h3></div></div><div class="rib dn" style="left:34.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">18:17-18:19</div><h3>채팅 토큰 절감</h3></div></div><div class="rib up" style="left:49.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">18:27-18:51</div><h3>무료 챗봇 토큰 한계</h3></div></div><div class="rib dn" style="left:53.9%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">18:44-18:45</div><h3>Fable의 Kimi 표시</h3></div></div><div class="rib up" style="left:66.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">19:23-19:23</div><h3>AI 아바타 도구 비교</h3></div></div><div class="rib dn" style="left:68.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">19:26-19:26</div><h3>딥시크 벤치마크 요청</h3></div></div><div class="rib up" style="left:71.3%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">19:30-19:35</div><h3>AI 영상 제작 자동화</h3></div></div><div class="rib up flip" style="left:80.7%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">20:14-20:14</div><h3>봇 경고 횟수 문의</h3></div></div><div class="rib dn" style="left:83.6%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">19:53-19:53</div><h3>xAI 신규 에이전트</h3></div></div><div class="rib dn" style="left:86.1%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">20:03-20:05</div><h3>카카오톡 봇 파이프라인</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">19:30-19:35</div><h2>AI 영상 제작 자동화</h2><p class="sum">유튜브용 AI 영상 제작에 편한 프로그램을 무료·유료로 나누고, 유료 영상당 비용도 알고 싶다는 질문이 나왔다. CapCut 무료 버전을 AI가 사용하는 방식과 AI가 자체 제작하는 방식의 토큰 소모 차이, 하네스와 자동화 흐름 설계도 함께 논의 대상으로 제기됐다. 재료 수집·영상 템플릿·마지막 검수로 역할을 분리하면 처음부터 끝까지 AI가 처리하는 것보다 토큰 사용을 줄일 수 있는지 질문하며, AI의 사고 부담을 줄이는 방향을 탐색했다.</p><ul><li>유튜브용 AI 영상 제작 도구의 무료·유료 비교가 요청됐다.</li><li>유료 도구의 영상당 비용 추정 수요가 있었다.</li><li>CapCut 활용 여부에 따른 토큰 소모 차이가 질문됐다.</li><li>자동화 하네스와 작업 흐름 설계 방법이 화두였다.</li><li>재료 수집·템플릿 적용·검수 분업으로 AI 추론량을 줄이는 방안을 검토했다.</li></ul></article><article class="dcard"><div class="t">17:57-17:57</div><h2>비개발자 파이썬 자동화</h2><p class="sum">장부 매출전표 입력·출력용 파이썬 스크립트를 바이브코딩으로 만들다가 단계별 진행과 무한 루프 해결에 막힌 비개발자의 고민이 제기됐다. 웹이 아닌 환경에서 작업해야 하며, PAD나 파이썬 기반으로 쓸 만한 스킬·도구 추천을 요청했다. PAD는 코드 수정 전 pad.md 계획 문서를 작성·유지해 계획 우선 개발을 강제하는 Claude Code용 서드파티 스킬로 언급됐다.</p><ul><li>매출전표 입력과 출력 자동화가 목표다.</li><li>바이브코딩 중 진행이 막히거나 무한 루프가 발생한다.</li><li>웹 사용이 어려운 환경이라 PAD 또는 파이썬 스크립트 중심 접근이 필요하다.</li><li>비개발자에게 적합한 GitHub 스킬·도구 추천이 요청됐다.</li></ul></article><article class="dcard"><div class="t">18:44-18:45</div><h2>Fable의 Kimi 표시</h2><p class="sum">Fable을 실행 중인데 Kimi가 표시되는 현상이 공유됐다. 비슷한 현상이 가끔 발생하며 한 번 나타나면 계속 뜨는 편이라는 경험담이 나왔고, 새 세션을 여는 방식이 대응책으로 언급됐다. Fable은 Anthropic의 Claude Fable 5를 가리키며, Kimi는 Moonshot AI의 오픈소스 모델 계열로 확인됐다.</p><ul><li>Fable 사용 중 예상치 못하게 Kimi 표기가 나타났다.</li><li>내부적으로 Kimi를 쓰는 것인지 의문이 제기됐다.</li><li>같은 현상을 겪은 사람이 있었고 지속적으로 표시될 수 있다고 했다.</li><li>새 세션을 열어 해결해 보려는 방향이 나왔다.</li></ul></article><article class="dcard"><div class="t">20:03-20:05</div><h2>카카오톡 봇 파이프라인</h2><p class="sum">카카오톡에서 봇이 답장하는 방식과 파이프라인을 알려 달라는 질문이 나왔다. 이에 보안이 철저해 보인다는 반응과 신기하다는 감상이 이어졌다. 구체적인 내부 구현 정보는 대화에 공유되지 않았다.</p><ul><li>카카오톡 챗봇의 응답 구조와 파이프라인이 질문됐다.</li><li>챗봇을 활용한 리서치 사용 사례가 언급됐다.</li><li>보안 설계에 대한 긍정적 반응이 있었다.</li><li>구체적인 구현 내용은 공개되지 않았다.</li></ul></article><article class="dcard"><div class="t">18:17-18:19</div><h2>채팅 토큰 절감</h2><p class="sum">채팅 내용을 압축하면 토큰을 얼마나 줄일 수 있는지와 채팅 시 토큰을 절약하는 방법이 질문됐다. 영어로 작성하는 방법이 가볍게 제안됐지만, 구체적인 절감 전략에 대한 답변은 대화에 나오지 않았다.</p><ul><li>대화 압축의 토큰 절감 효과가 질문됐다.</li><li>채팅 입력 비용을 줄이는 실용적 방법이 화두였다.</li><li>영어 사용이 한 가지 가능성으로 언급됐다.</li><li>명확한 최적화 가이드는 제시되지 않았다.</li></ul></article><article class="dcard"><div class="t">18:27-18:51</div><h2>무료 챗봇 토큰 한계</h2><p class="sum">무료 Gemini 기반의 재능기부용 수다·자료 챗봇이 무료 토큰 한계에 도달하고 있다는 고민이 나왔다. 이어 전화번호 하나로 챗봇을 하나만 운영할 수 있는지도 질문됐고, 보통 번호 하나에 봇 하나가 묶이는 편이라는 응답이 나왔다.</p><ul><li>무료 Gemini 버전의 사용량 한계가 문제로 제기됐다.</li><li>챗봇은 수다와 자료 제공 용도로 운영 중이다.</li><li>효율적인 모델·운영 방식에 대한 조언이 요청됐다.</li><li>전화번호와 챗봇 계정의 연결 방식도 질문됐다.</li></ul></article><article class="dcard"><div class="t">19:23-19:23</div><h2>AI 아바타 도구 비교</h2><p class="sum">AI 아바타 제작에 현재 HeyGen이 가장 좋은 도구인지, 대안은 무엇인지 질문이 나왔다. HeyGen은 AI 아바타와 음성으로 스크립트를 실사풍 영상으로 만드는 플랫폼으로 확인됐으나, 대화 안에서는 비교 답변이 이어지지 않았다.</p><ul><li>AI 아바타 제작 도구의 최적 선택이 질문됐다.</li><li>HeyGen을 기준으로 다른 대안 도구를 찾고 있었다.</li><li>영상 생성 플랫폼 비교 수요가 드러났다.</li></ul></article><article class="dcard"><div class="t">19:53-19:53</div><h2>xAI 신규 에이전트</h2><p class="sum">xAI에서 새로 나온 에이전트를 사용해 본 사람이 있는지 경험을 물었다. 구체적인 제품명이나 사용 후기는 대화에 나오지 않았다.</p><ul><li>xAI의 신규 에이전트가 언급됐다.</li><li>실사용 경험과 평가를 찾는 질문이었다.</li><li>구체적인 기능이나 제품명은 확인되지 않았다.</li></ul></article><article class="dcard"><div class="t">17:53-17:56</div><h2>루나 모델 오선택</h2><p class="sum">Claude Code 작업이 유난히 부정확했던 이유가 코덱스 루나 모델을 잘못 선택한 탓이었다는 경험담이 나왔다. 모델 설정을 제대로 확인하지 않은 본인의 실수라고 정정했다.</p><ul><li>작업 품질 저하를 모델 성능 문제로 인식했다.</li><li>실제로는 의도하지 않은 루나 모델이 선택돼 있었다.</li><li>AI 도구 사용 전 선택 모델 확인 필요성이 드러났다.</li></ul></article><article class="dcard"><div class="t">18:06-18:10</div><h2>SRT 취소표 찾기</h2><p class="sum">대전에서 수서로 가는 SRT 취소표를 한 시간 넘게 찾지 못한 상황이 공유됐다. 당일 귀가가 필요했고, 새벽 시간대에는 표가 조금 나올 수 있다는 경험적 조언이 나왔다. AI와 함께 조회 중이지만 취소표가 잘 나오지 않는다는 반응도 있었다.</p><ul><li>대전발 수서행 SRT 취소표를 찾는 상황이었다.</li><li>17시 10분 차부터 순차적으로 시도했지만 실패했다.</li><li>새벽에 취소표가 나올 가능성이 있다는 조언이 공유됐다.</li><li>당일 급한 이동 수요라 어려움이 컸다.</li></ul></article><article class="dcard"><div class="t">19:26-19:26</div><h2>딥시크 벤치마크 요청</h2><p class="sum">딥시크 v4 pro 0813의 벤치마크 점수를 검색해 달라는 요청이 있었다. 실제 수치나 출처는 대화에 공유되지 않았다.</p><ul><li>특정 딥시크 모델 버전의 성능 점수가 요청됐다.</li><li>벤치마크 수치와 출처는 제공되지 않았다.</li><li>모델 성능 비교를 위한 정보 탐색 요청이었다.</li></ul></article><article class="dcard"><div class="t">18:05-18:06</div><h2>참치 김치찌개</h2><p class="sum">김치찌개에 돼지고기 대신 참치를 넣어도 되는지 묻는 대화가 나왔다. 들기름에 참치를 볶은 뒤 김치찌개를 끓이는 조합이 맛있다는 추천이 공유됐다.</p><ul><li>참치로 돼지고기를 대체할 수 있는지 질문이 나왔다.</li><li>들기름에 참치를 먼저 볶는 조리법이 제안됐다.</li><li>간단한 저녁 메뉴 대화로 이어졌다.</li></ul></article><article class="dcard"><div class="t">18:07-18:27</div><h2>다이어트와 연애 농담</h2><p class="sum">다이어트를 어떻게 시작할지 묻는 대화에서 저녁부터 함께 줄여 보자는 가벼운 제안이 나왔다. 이어 외모 준비 없이 여자친구를 만드는 법을 묻는 농담과 AI가 연애를 글로 배운다는 반응이 이어졌다.</p><ul><li>다이어트 방법을 반복해서 묻는 잡담이 있었다.</li><li>저녁 식사량부터 줄이자는 제안이 나왔다.</li><li>연애 방법과 AI의 연애 조언 능력을 소재로 농담이 이어졌다.</li></ul></article><article class="dcard"><div class="t">20:14-20:14</div><h2>봇 경고 횟수 문의</h2><p class="sum">봇에게 개인 경고 횟수를 묻는 요청이 있었다. 관련 정보는 대화에서 확인되지 않았다.</p><ul><li>개인 경고 상태를 확인하려는 요청이 있었다.</li><li>구체적인 운영 정보는 공유되지 않았다.</li><li>별도 해결이나 답변은 이어지지 않았다.</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-13-2030</span>
+</footer>
+</div>
+</body>
+</html>
