@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>여러 AI 모델의 사고 과정을 섞어 증류하면 더 똑똑해질까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="모델 증류로 여러 AI의 thinking trace를 뽑아 합치면 더 나은 결과를 낼 수 있는지 웹 조사와 실험 경험으로 짚었다. 추출 한계와 최근 업계 분쟁, 오케스트레이션 대안까지 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/model-distillation-thinking-trace-limits.html">
+<meta property="og:title" content="여러 AI 모델의 사고 과정을 섞어 증류하면 더 똑똑해질까">
+<meta property="og:description" content="모델 증류로 여러 AI의 thinking trace를 뽑아 합치면 더 나은 결과를 낼 수 있는지 웹 조사와 실험 경험으로 짚었다. 추출 한계와 최근 업계 분쟁, 오케스트레이션 대안까지 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/model-distillation-thinking-trace-limits.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "여러 AI 모델의 사고 과정을 섞어 증류하면 더 똑똑해질까", "description": "모델 증류로 여러 AI의 thinking trace를 뽑아 합치면 더 나은 결과를 낼 수 있는지 웹 조사와 실험 경험으로 짚었다. 추출 한계와 최근 업계 분쟁, 오케스트레이션 대안까지 정리했다.", "datePublished": "2026-08-13", "dateModified": "2026-08-13", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/model-distillation-thinking-trace-limits.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "모델 증류, thinking trace, DeepSeek R1, AI 오케스트레이션, Anthropic OpenAI 분쟁, 시스템 프롬프트"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI 모델 증류(distillation)란 무엇인가", "acceptedAnswer": {"@type": "Answer", "text": "성능이 큰 교사 모델의 출력이나 사고 과정을 학생 모델이 학습해 능력을 옮겨받는 기법이다. 원래는 로짓(확률 분포)까지 넘겨받는 방식이지만, API로만 접근 가능한 상용 모델에서는 출력 텍스트만으로 지도학습하는 방식이 주로 쓰인다."}}, {"@type": "Question", "name": "Claude나 GPT의 thinking trace를 그대로 뽑아 학습에 쓸 수 있나", "acceptedAnswer": {"@type": "Answer", "text": "OpenAI는 o1부터 원본 사고 사슬 대신 요약만 보여주고, Claude는 문제로 판단된 사고 블록을 암호화해 반환한다. 서명된 블록을 재사용해 우회하는 기법이 보안 연구로 보고됐지만 정공법으로는 막혀 있고 약관상으로도 금지된다."}}, {"@type": "Question", "name": "Anthropic은 왜 OpenAI와 중국 AI 랩들을 문제 삼았나", "acceptedAnswer": {"@type": "Answer", "text": "2025년 8월 Anthropic은 OpenAI가 GPT-5 벤치마킹에 Claude Code를 썼다며 API 접근을 끊었고, 2026년 2월에는 DeepSeek·Moonshot·MiniMax가 가짜 계정 약 2만 4,000개로 1,600만 건 넘는 대화를 생성해 Claude 능력을 조직적으로 추출했다고 발표했다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/model-distillation-thinking-trace-limits.png" alt="여러 AI 모델의 사고 과정을 섞어 증류하면 더 똑똑해질까" loading="eager">
+<header>
+  <div class="eyebrow">AI 모델·프롬프트</div>
+  <h1>여러 AI 모델의 사고 과정을 섞어 증류하면 더 똑똑해질까</h1>
+  <p class="sub">다른 모델의 사고 과정을 뽑아 하나로 합치면 더 나은 AI가 만들어질까 — 기술적 한계와 최근 업계 분쟁이 답하는 이유</p>
+  <div class="meta"><span>2026-08-13</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클코단 방에서 최근 이런 질문이 나왔다. 여러 모델의 사고 과정을 뽑아 하나로 합치면 지금보다 똑똑한 모델을 만들 수 있지 않을까. 실험해본 사람의 답은 회의적이었다. 찾아보니 이 질문은 지금 Anthropic과 OpenAI, 그리고 중국 AI 랩들이 정면으로 부딪히고 있는 업계 최대 분쟁과 정확히 같은 지점을 건드리고 있었다.</p>
+<h2>사고 과정을 뽑아 학습시킨다는 것의 실체</h2>
+<p>원래 지식 증류(distillation)는 교사 모델의 로짓(확률 분포)까지 넘겨받아 학생 모델을 학습시키는 기법이다. 하지만 API로만 접근하는 상용 모델에는 로짓이 없다. 실제로 벌어지는 일은 교사 모델의 응답과 사고 과정을 텍스트로 많이 뽑아낸 뒤, 그 텍스트로 작은 모델을 지도학습(SFT)시키는 것에 가깝다.</p>
+<p>DeepSeek이 R1을 공개하며 보여준 방식이 이 구조를 잘 드러낸다. R1이 만든 80만 건의 추론 과정을 Qwen·Llama 계열 모델에 지도학습만으로 입혀, 강화학습 없이도 AIME·MATH 벤치마크에서 더 큰 비추론 모델을 앞질렀다. 스탠퍼드의 s1 연구는 반대 극단을 보여줬다. Gemini 2.0에서 뽑은 단 1,000개의 정제된 추론 예시만으로도 비슷한 효과를 냈다. 두 사례를 겹쳐 보면 뚜렷해진다. 추론 능력을 옮기는 데는 사고 과정의 세부 내용보다 긴 사고 흐름의 구조 자체가 더 크게 작용한다.</p>
+<p>방에서 공유된 실험도 이 결을 벗어나지 않았다. 개발자 커뮤니티에서 Claude의 대화 로그로 1B급 소형 모델을 파인튜닝한 사례가 최근 보고됐다. 결과물은 형식과 문체는 흉내 냈지만 교사 모델의 근본적인 추론 능력까지는 옮겨오지 못했다는 평가를 받았다. 로짓 없이 텍스트만으로는 흉내 내기이지 이식은 아니라는 얘기다.</p>
+<h2>어떤 모델은 사고 과정을 내주고 어떤 모델은 막아서는 이유</h2>
+<p>OpenAI는 o1을 내놓을 때부터 원본 사고 사슬을 사용자에게 보여주지 않았다. 모델이 요약한 버전만 노출한다. 경쟁사가 자사가 투자한 추론 능력을 그대로 학습해 가져가는 것을 막겠다는 목적을 이유로 들었다. Claude 역시 세이프티 시스템이 사고 블록을 문제로 판단하면 이를 암호화한 redacted thinking 블록으로 감싸 반환한다. 서명된 내용은 모델 자신만 다시 읽을 수 있고 사람은 읽을 수 없다.</p>
+<p>방 논의에서 나온 &quot;특정 모델은 추출되고 다른 모델은 우회적 방법만 가능했다&quot;는 경험은 실제 보안 연구와 겹친다. 서명된 thinking 블록을 다른 요청에 재사용해 더 약한 모델이 이를 그대로 받아쓰게 유도하는 방식이 보고된 바 있다. Claude는 서명된 블록을 Haiku 같은 하위 모델에 넘겨 전사를 유도하는 방식이, GPT 계열은 암호화된 콘텐츠를 여러 조각으로 쪼개 삽입하는 방식이 쓰였다. 이런 보호 장치가 상태 비저장 프로토콜 수준의 방어일 뿐 완전한 기밀 보장은 아니라는 평가가 나온다. 논문에 나온 정공법 그대로는 안 되고 우회로만 뚫린다는 방 안의 체감과 방향이 같다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/model-distillation-thinking-trace-limits.png" alt="" loading="lazy"><h2>모델 여러 개를 한꺼번에 증류하면 더 나은 조합이 나올까</h2>
+<p>다중 교사 증류(multi-teacher distillation) 연구는 이 지점에서 방의 결론에 힘을 싣는다. 서로 다른 교사 모델의 출력이 충돌할 때 학생 모델이 이를 단순 평균하면 오히려 전달되는 지식이 얕아진다. 일부 실험에서는 지식을 합치는 시도가 충돌을 줄이기는커녕 악화시키는 부정적 전이(negative transfer)로 이어졌다. 교사별 신뢰도에 따라 가중치를 다르게 주거나 잘 맞는 교사를 골라 라우팅해야 개선 효과가 났다.</p>
+<p>한 모델이 특정 방향의 데이터·정책에 맞춰 최적화된 상태에서, 서로 다른 방향으로 최적화된 모델들을 그대로 섞으면 상쇄가 일어나기 쉽다는 게 방에서 나온 설명이었다. 모델이 만든 데이터를 다시 학습에 쓰면 분포의 꼬리, 즉 드문 패턴이 지워지고 다수 패턴만 남는 모델 붕괴(model collapse) 현상이 보고된 것도 같은 맥락이다. 다만 증류가 완전히 무의미하지는 않다. 특정 방향으로 모델의 응답 분포를 옮기는 용도로는 여전히 유효하다는 게 방과 연구 양쪽에서 공통으로 확인되는 지점이다.</p>
+<h2>왜 이 실험적 질문이 지금 업계 최대 분쟁이 됐나</h2>
+<p>2025년 8월, Anthropic은 OpenAI의 Claude API 접근을 차단하며 서비스 약관 위반을 이유로 들었다. OpenAI 기술 인력이 GPT-5 출시를 앞두고 Claude Code를 벤치마킹에 썼다는 게 표면적 사유였다.</p>
+<p>2026년 2월에는 Anthropic이 훨씬 큰 규모의 보고서를 냈다. DeepSeek·Moonshot·MiniMax 세 곳이 약 2만 4,000개의 가짜 계정으로 1,600만 건 넘는 대화를 생성해 Claude의 에이전트 추론·툴 사용·코딩 능력을 조직적으로 빼냈다는 내용이었다. Moonshot의 Kimi 계열 모델이 이 과정에서 이름이 오르내렸다. 이는 중국에 Claude를 상업적으로 제공하지 않는 Anthropic의 지역 접근 제한을 우회한 사례로 지목됐다.</p>
+<p>OpenAI·Anthropic·Mistral·xAI는 모두 약관에 &quot;자사 출력물로 경쟁 모델을 학습시키는 행위&quot;를 금지하는 조항을 넣어 뒀다. 워싱턴에서는 이 문제가 미중 AI 경쟁 구도의 정책 의제로까지 올라갔다는 보도가 이어졌다. 방에서 순수하게 기술적 호기심으로 오간 &quot;증류로 더 나은 모델을 만들 수 있나&quot;라는 질문이 지금은 소송과 무역 정책의 언어로 다뤄지고 있는 셈이다.</p>
+<h2>개인 개발자에게 남는 실익은 증류가 아니라 오케스트레이션</h2>
+<p>프런티어 모델의 사고 과정을 그대로 복제해 오려는 시도는 기술적으로도 로짓 없이는 흉내 내기에 그친다. 약관과 암호화된 서명 때문에 막혀 있고, 뚫는다 해도 법적 위험을 진다. 1인 개발자나 소규모 팀이 실제로 쓸 수 있는 선택지는 다르다. 2026년 현재 업계에서 자리 잡은 방식은 쉬운 작업은 저렴한 모델로, 어려운 작업만 상위 모델로 올려보내는 단계적 라우팅이나, 여러 모델이 동시에 답을 내고 판정 모델이 종합하는 병렬 검증 구조다.</p>
+<p>방에서 증류 논의 끝에 다다른 결론도 같은 방향이었다. 모델마다 최적화된 방향이 다르니 하나로 섞기보다 모델별로 시스템 프롬프트를 따로 두고, 작업 성격에 맞춰 어떤 모델에 무엇을 맡길지 오케스트레이션을 설계하는 쪽이 실제로 작동한다는 것이다. 서명된 thinking 블록을 복제해 우회하는 기법까지 나온 지금, 남의 모델 사고를 옮겨 오려는 시도보다 모델마다 다른 결을 인정하고 그 위에 라우팅을 쌓는 쪽이 더 실용적인 선택지다.</p></div>
+<div class="chips"><span class="chip">모델 증류</span><span class="chip">thinking trace</span><span class="chip">DeepSeek R1</span><span class="chip">AI 오케스트레이션</span><span class="chip">Anthropic OpenAI 분쟁</span><span class="chip">시스템 프롬프트</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://arxiv.org/abs/2501.19393" rel="nofollow noopener">https://arxiv.org/abs/2501.19393</a></li><li><a href="https://simplescaling.github.io/" rel="nofollow noopener">https://simplescaling.github.io/</a></li><li><a href="https://www.marktechpost.com/2026/07/19/someone-fine-tuned-openbmbs-minicpm5-1b-on-claude-fable-5-traces-to-ship-a-657mb-local-thinking-model/" rel="nofollow noopener">https://www.marktechpost.com/2026/07/19/someone-fine-tuned-openbmbs-minicpm5-1b-</a></li><li><a href="https://simonwillison.net/2024/Sep/12/openai-o1/" rel="nofollow noopener">https://simonwillison.net/2024/Sep/12/openai-o1/</a></li><li><a href="https://openai.com/index/learning-to-reason-with-llms/" rel="nofollow noopener">https://openai.com/index/learning-to-reason-with-llms/</a></li><li><a href="https://docs.claude.com/en/docs/build-with-claude/extended-thinking" rel="nofollow noopener">https://docs.claude.com/en/docs/build-with-claude/extended-thinking</a></li><li><a href="https://www.latent.space/p/ainews-how-to-steal-a-reasoning-trace" rel="nofollow noopener">https://www.latent.space/p/ainews-how-to-steal-a-reasoning-trace</a></li><li><a href="https://sanjeevareddydodlapati.substack.com/p/multi-teacher-knowledge-distillation" rel="nofollow noopener">https://sanjeevareddydodlapati.substack.com/p/multi-teacher-knowledge-distillati</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI 모델 증류(distillation)란 무엇인가</h2><p class="sum">성능이 큰 교사 모델의 출력이나 사고 과정을 학생 모델이 학습해 능력을 옮겨받는 기법이다. 원래는 로짓(확률 분포)까지 넘겨받는 방식이지만, API로만 접근 가능한 상용 모델에서는 출력 텍스트만으로 지도학습하는 방식이 주로 쓰인다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude나 GPT의 thinking trace를 그대로 뽑아 학습에 쓸 수 있나</h2><p class="sum">OpenAI는 o1부터 원본 사고 사슬 대신 요약만 보여주고, Claude는 문제로 판단된 사고 블록을 암호화해 반환한다. 서명된 블록을 재사용해 우회하는 기법이 보안 연구로 보고됐지만 정공법으로는 막혀 있고 약관상으로도 금지된다.</p></article><article class="dcard"><div class="t">Q</div><h2>Anthropic은 왜 OpenAI와 중국 AI 랩들을 문제 삼았나</h2><p class="sum">2025년 8월 Anthropic은 OpenAI가 GPT-5 벤치마킹에 Claude Code를 썼다며 API 접근을 끊었고, 2026년 2월에는 DeepSeek·Moonshot·MiniMax가 가짜 계정 약 2만 4,000개로 1,600만 건 넘는 대화를 생성해 Claude 능력을 조직적으로 추출했다고 발표했다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-13-0900.html">2026-08-13 08-12 23:43~08-13 08:46</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
