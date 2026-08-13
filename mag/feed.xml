@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>클로드 코드 Fable·Advisor 과부하 오류, 앤트로픽 장애와 맞물렸다</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/fable-advisor-overload-outage.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/fable-advisor-overload-outage.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Fri, 14 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클코단에서 나온 Fable·Advisor 과부하·외국어 출력 신고를 8월12일 앤트로픽 공식 장애 기록, Fable 수출통제 이력, 언어 혼선 버그 사례와 대조해 원인과 대응법을 짚었다.</description>
+  </item>
+  <item>
+    <title>CapCut부터 Sora까지, AI 유튜브 영상 한 편 만드는 데 드는 진짜 비용</title>
+    <link>https://chat.axwith.com/mag/workflow/capcut-sora-ai-video-cost.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/capcut-sora-ai-video-cost.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Fri, 14 Aug 2026 12:00:00 +0900</pubDate>
+    <description>AI로 유튜브 영상을 만들 때 CapCut과 생성형 AI 모델의 비용 차이, 영상 한 편당 실제 원가, 재료 수집·템플릿·검수 분업이 토큰을 줄이는지를 요금표와 실사용 경험으로 짚었다.</description>
+  </item>
+  <item>
     <title>여러 AI 모델의 사고 과정을 섞어 증류하면 더 똑똑해질까</title>
     <link>https://chat.axwith.com/mag/models/model-distillation-thinking-trace-limits.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/model-distillation-thinking-trace-limits.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Fri, 07 Aug 2026 12:00:00 +0900</pubDate>
     <description>Claude Code에서 TDD 대신 SDD로 전환하려는 흐름 속에 superpowers와 우로보로스(Ouroboros) 프레임워크의 정체와 차이, 함께 쓰면 워크플로우가 충돌하는 이유를 실사용 경험과 함께 짚었다.</description>
-  </item>
-  <item>
-    <title>클로드코드 팀 하네스 만들기: 다직무 협업 스킬·메모리 설계</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-team-harness-skills.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-team-harness-skills.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Fri, 07 Aug 2026 12:00:00 +0900</pubDate>
-    <description>개발·기획·아트가 한 프로젝트를 같이 쓰는 클로드 코드 팀 하네스를 어떻게 짜야 할지, 스킬 공유 구조와 프로필별 on/off, 메모리 계층, 구독 비용까지 실사용 경험을 엮어 정리했다.</description>
-  </item>
-  <item>
-    <title>AX 전환이 조직에서 멈추는 진짜 이유, 직원은 왜 협조를 꺼리나</title>
-    <link>https://chat.axwith.com/mag/workflow/ax-adoption-employee-resistance.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ax-adoption-employee-resistance.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Thu, 06 Aug 2026 12:00:00 +0900</pubDate>
-    <description>AI 전환(AX) 도입 과정에서 실무자가 협조를 꺼리는 이유와 조직문화, API 비용 산정, 할루시네이션 불안까지 국내외 데이터로 짚은 기사.</description>
   </item>
 </channel></rss>
