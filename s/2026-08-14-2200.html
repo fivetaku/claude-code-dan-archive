@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 8월 14일 22:00 — 모델 지시 이해도</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 14일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-14 18:15~21:49</b></span>
+    <span>발화 <b>268</b></span>
+    <span>참여 <b>21</b>명</span>
+    <span>주제 <b>14</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone" style="height:700px;min-width:1680px"><div class="spine"></div><div class="bar" style="left:2.0%;height:6px"></div><div class="bar" style="left:3.4%;height:6px"></div><div class="bar" style="left:4.9%;height:9px"></div><div class="bar" style="left:6.3%;height:27px"></div><div class="bar" style="left:7.8%;height:27px"></div><div class="bar peak" style="left:9.2%;height:58px"></div><div class="bar peak" style="left:10.7%;height:49px"></div><div class="bar" style="left:12.1%;height:27px"></div><div class="bar" style="left:13.6%;height:27px"></div><div class="bar" style="left:15.0%;height:37px"></div><div class="bar" style="left:16.5%;height:31px"></div><div class="bar" style="left:17.9%;height:21px"></div><div class="bar peak" style="left:19.4%;height:46px"></div><div class="bar peak" style="left:20.8%;height:52px"></div><div class="bar" style="left:22.2%;height:6px"></div><div class="bar" style="left:23.7%;height:9px"></div><div class="bar" style="left:25.1%;height:6px"></div><div class="bar" style="left:26.6%;height:15px"></div><div class="bar" style="left:28.0%;height:6px"></div><div class="bar" style="left:29.5%;height:9px"></div><div class="bar" style="left:30.9%;height:6px"></div><div class="bar" style="left:32.4%;height:6px"></div><div class="bar" style="left:33.8%;height:24px"></div><div class="bar" style="left:35.3%;height:9px"></div><div class="bar" style="left:36.7%;height:9px"></div><div class="bar" style="left:38.2%;height:6px"></div><div class="bar" style="left:39.6%;height:6px"></div><div class="bar" style="left:41.0%;height:6px"></div><div class="bar" style="left:42.5%;height:9px"></div><div class="bar" style="left:43.9%;height:9px"></div><div class="bar" style="left:45.4%;height:9px"></div><div class="bar" style="left:46.8%;height:6px"></div><div class="bar" style="left:48.3%;height:6px"></div><div class="bar" style="left:49.7%;height:6px"></div><div class="bar" style="left:51.2%;height:6px"></div><div class="bar" style="left:52.6%;height:6px"></div><div class="bar" style="left:54.1%;height:6px"></div><div class="bar" style="left:55.5%;height:6px"></div><div class="bar" style="left:57.0%;height:6px"></div><div class="bar" style="left:58.4%;height:6px"></div><div class="bar" style="left:59.8%;height:6px"></div><div class="bar" style="left:61.3%;height:9px"></div><div class="bar" style="left:62.7%;height:6px"></div><div class="bar" style="left:64.2%;height:6px"></div><div class="bar" style="left:65.6%;height:12px"></div><div class="bar" style="left:67.1%;height:6px"></div><div class="bar" style="left:68.5%;height:6px"></div><div class="bar" style="left:70.0%;height:15px"></div><div class="bar" style="left:71.4%;height:6px"></div><div class="bar" style="left:72.9%;height:9px"></div><div class="bar" style="left:74.3%;height:9px"></div><div class="bar" style="left:75.8%;height:6px"></div><div class="bar" style="left:77.2%;height:6px"></div><div class="bar" style="left:78.6%;height:6px"></div><div class="bar" style="left:80.1%;height:9px"></div><div class="bar" style="left:81.5%;height:34px"></div><div class="bar" style="left:83.0%;height:9px"></div><div class="bar" style="left:84.4%;height:9px"></div><div class="bar" style="left:85.9%;height:6px"></div><div class="bar" style="left:87.3%;height:15px"></div><div class="bar" style="left:88.8%;height:24px"></div><div class="bar" style="left:90.2%;height:9px"></div><div class="bar" style="left:91.7%;height:6px"></div><div class="bar" style="left:93.1%;height:6px"></div><div class="bar" style="left:94.6%;height:6px"></div><div class="bar" style="left:96.0%;height:6px"></div><div class="lbl" style="left:2.0%">18:15</div><div class="peaktag" style="left:9.2%;bottom:66px">18:21 · 19건</div><div class="lbl" style="left:17.9%">18:27</div><div class="peaktag" style="left:19.4%;bottom:54px">18:28 · 15건</div><div class="lbl" style="left:33.8%">18:44</div><div class="lbl" style="left:49.7%">19:11</div><div class="lbl" style="left:65.6%">20:33</div><div class="lbl" style="left:81.5%">21:23</div><div class="lbl" style="left:96.0%">21:49</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">18:15-18:16</div><h3>AI 리팩터링 기준</h3></div></div><div class="rib dn" style="left:6.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">18:19-18:22</div><h3>모델 지시 이해도</h3></div></div><div class="rib up" style="left:9.2%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">18:21-20:25</div><h3>Spark·Hermes 활용</h3></div></div><div class="rib dn" style="left:10.7%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">18:22-18:23</div><h3>Qwen 출시 대기</h3></div></div><div class="rib up" style="left:12.1%"><div class="stem" style="height:230px"></div><div class="ribcard" style="margin-bottom:230px"><div class="t">18:23-18:29</div><h3>연휴 교통과 특실</h3></div></div><div class="rib dn" style="left:13.6%"><div class="stem" style="height:230px"></div><div class="ribcard" style="margin-top:230px"><div class="t">18:24-18:27</div><h3>푸라닭 메뉴 잡담</h3></div></div><div class="rib up" style="left:20.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">18:29-18:33</div><h3>주거 계약과 이사</h3></div></div><div class="rib dn" style="left:42.5%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">18:54-18:58</div><h3>이미지 형식 오류</h3></div></div><div class="rib up" style="left:57.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">20:03-20:03</div><h3>교차 검증 조합</h3></div></div><div class="rib dn" style="left:58.4%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">20:08-21:34</div><h3>OMO와 가재코드</h3></div></div><div class="rib up" style="left:65.6%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">20:33-21:24</div><h3>매거진 주제 기준</h3></div></div><div class="rib dn" style="left:71.4%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">21:07-21:10</div><h3>Claude Max 결제</h3></div></div><div class="rib up" style="left:77.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">21:14-21:15</div><h3>세금·입금 API 문의</h3></div></div><div class="rib dn flip" style="left:81.7%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">21:48-21:49</div><h3>Unsloth Studio 사용</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">18:19-18:22</div><h2>모델 지시 이해도</h2><p class="sum">Haiku를 기본 모델로 쓰자 응답이 답답하고 의도를 잘 이해하지 못한다는 경험이 공유됨. 참여자들은 모델 성능 차이는 있지만, 사용자가 목적·맥락·작업을 명확히 전달해야 한다는 데 공감함. 더 좋은 모델은 다소 불완전한 지시도 보완하지만 한계는 있다는 의견이 나옴.</p><ul><li>Haiku 사용 시 의도 파악이 부족하다는 체감이 언급됨.</li><li>명령을 구체적으로 내려야 모델의 결과가 안정적이라는 의견이 나옴.</li><li>좋은 모델은 불확실성을 스스로 판단해 목적 달성을 보완하기도 한다고 언급됨.</li><li>목적만 던지는 방식과 작업 지시를 던지는 방식의 차이가 논의됨.</li></ul></article><article class="dcard"><div class="t">18:21-20:25</div><h2>Spark·Hermes 활용</h2><p class="sum">Nimotron으로 속도를 내고 Spark를 개인용으로 사용한다는 대화가 오감. 약 45~50 토큰 수준이면 Hermes 용도로 쓸 만하다는 평가가 언급됨. 이후 Spark에서 어떤 모델로 서빙하는지 질문이 나왔지만 답은 기록되지 않음.</p><ul><li>Spark를 개인용으로 사용한다는 언급이 있음.</li><li>GitHub Spark는 자연어 설명으로 풀스택 웹앱을 만드는 AI 앱 빌더로 확인됨.</li><li>Hermes Agent는 도구 실행·메모리·MCP 기반 Claude Code 연동을 지원하는 오픈소스 에이전트 플랫폼으로 확인됨.</li><li>속도 지표가 약 45~50이면 Hermes 활용에 만족할 만하다는 의견이 나옴.</li><li>Spark의 서빙 모델에 대한 질문이 제기됨.</li></ul></article><article class="dcard"><div class="t">21:07-21:10</div><h2>Claude Max 결제</h2><p class="sum">Claude Max x5 요금에 부가세가 붙는지 질문했고, 사업자가 아니면 부가세를 낸다는 답이 나옴. 안드로이드 앱에 표시된 원화 가격과 웹 결제를 비교한 뒤, 앱 대신 웹에서 결제하라는 권고가 제시됨. 결론적으로 웹 결제가 더 유리하다는 확인으로 마무리됨.</p><ul><li>Claude Max x5의 기본 요금과 부가세 여부를 질문함.</li><li>사업자가 아닌 경우 부가세 부담이 있다는 답변이 나옴.</li><li>안드로이드 앱 표시 가격과 웹 결제를 비교함.</li><li>앱 내 결제보다 웹 결제를 권장함.</li></ul></article><article class="dcard"><div class="t">18:15-18:16</div><h2>AI 리팩터링 기준</h2><p class="sum">개발 중인 프로젝트를 굳이 리팩터링해야 하는지와 기준·방법을 질문함. 리팩터링은 사람이 코드를 모두 뜯어보는 방식만이 아니라 AI에게도 시킬 수 있는지 관심을 보임. 구체적인 답변 내용은 대화에 남아 있지 않음.</p><ul><li>개발 중인 프로젝트의 리팩터링 필요성을 질문함.</li><li>리팩터링 판단 기준과 실행 방법을 요청함.</li><li>Claude 같은 AI에 리팩터링을 맡기는 방법을 궁금해함.</li></ul></article><article class="dcard"><div class="t">18:54-18:58</div><h2>이미지 형식 오류</h2><p class="sum">래피드에서 PNG일 때 문제가 있었는데 JPG로 바꾸자 수정됐다는 사례가 공유됨. PNG와 JPG 처리 차이의 원인이 무엇인지 질문했지만 진단은 이어지지 않음. 이후 결과물이 쓸 만하다는 짧은 반응이 나옴.</p><ul><li>래피드 작업에서 PNG 사용 시 문제가 발생했다고 언급됨.</li><li>JPG로 변경하자 문제가 해결됐다고 보고됨.</li><li>이미지 포맷별 처리 차이에 대한 원인 질문이 제기됨.</li><li>구체적인 원인 분석이나 해결 절차는 기록되지 않음.</li></ul></article><article class="dcard"><div class="t">20:03-20:03</div><h2>교차 검증 조합</h2><p class="sum">교차 검증 조합이 대세라는 말을 들었다며 어떻게 구성하는 것이 좋은지 질문함. 답변이나 구체적인 조합 방식은 대화에 기록되지 않음.</p><ul><li>교차 검증 조합의 권장 방식을 질문함.</li><li>대세라는 평가의 배경은 설명되지 않음.</li><li>구체적인 모델·도구·절차는 공유되지 않음.</li></ul></article><article class="dcard"><div class="t">20:08-21:34</div><h2>OMO와 가재코드</h2><p class="sum">OMO native와 가재코드의 차이, Claude 사용 시 무엇을 쓰는지 묻는 질문이 반복됨. 일부는 Claude를 사용한다고 답했지만 도구 간 차이를 설명하는 정확한 답변은 없음. 이후 가재코드와 오모코드의 의미를 다시 질문하는 흐름이 이어짐.</p><ul><li>OMO native와 가재코드의 차이를 묻는 질문이 나옴.</li><li>Claude 사용자는 Claude를 쓴다는 짧은 답이 있었음.</li><li>가재코드와 오모코드의 개념을 추가로 질문함.</li><li>한 응답은 가재를 가짜 데이터라고 설명했으나 코드 도구 의미와의 연결은 불명확함.</li></ul></article><article class="dcard"><div class="t">21:14-21:15</div><h2>세금·입금 API 문의</h2><p class="sum">세금계산서 발행 API와 입금 확인 API를 어떤 서비스로 선택해야 하는지 질문이 나옴. 답변이나 서비스 추천은 기록되지 않음.</p><ul><li>세금계산서 발행 API 선택을 질문함.</li><li>입금 확인 API 선택을 질문함.</li><li>서비스별 비교나 구현 조언은 대화에 없음.</li></ul></article><article class="dcard"><div class="t">21:48-21:49</div><h2>Unsloth Studio 사용</h2><p class="sum">계속 설정을 바꾸는 일이 번거로워 Unsloth Studio를 사용한다는 경험이 공유됨. 장점으로 편리함이 짧게 언급됐고, 다른 참여자가 새로운 도구를 알게 됐다는 반응을 보임.</p><ul><li>Unsloth Studio를 사용 중이라는 사례가 공유됨.</li><li>도구 선택 이유는 반복적인 설정 변경의 번거로움임.</li><li>편리하다는 간단한 평가가 나옴.</li><li>다른 참여자가 도구 존재를 새롭게 알게 됐다고 반응함.</li></ul></article><article class="dcard"><div class="t">18:22-18:23</div><h2>Qwen 출시 대기</h2><p class="sum">Qwen이 언제 제공되는지 기다리는 분위기가 짧게 언급됨. 별도 출시 방식에 대한 아쉬움도 나옴. 구체적인 출시 정보는 공유되지 않음.</p><ul><li>Qwen 제공 시점을 기다린다는 반응이 나옴.</li><li>별도 출시 방식에 대한 불만이 언급됨.</li><li>확정된 출시 일정은 대화에 없음.</li></ul></article><article class="dcard"><div class="t">20:33-21:24</div><h2>매거진 주제 기준</h2><p class="sum">연휴 동안 방 대화량이 줄면 매거진 주제가 부족할 수 있다는 이야기가 나옴. 누적된 후보 주제에서 가져다 쓸 수 있다는 운영 방향이 공유됨. 가십성 주제는 매거진에서 다루지 않고 아카이빙과 구분한다는 기준도 언급됨.</p><ul><li>연휴로 방이 조용해질 수 있다는 전망이 나옴.</li><li>매거진 주제는 누적된 후보군에서 보완할 수 있다고 함.</li><li>가십성 내용은 매거진 대상이 아니라는 기준이 제시됨.</li><li>아카이빙과 매거진의 성격을 구분함.</li></ul></article><article class="dcard"><div class="t">18:23-18:29</div><h2>연휴 교통과 특실</h2><p class="sum">KTX 특실의 좌석과 간격이 편하고 프리미엄 이코노미급이라는 후기가 공유됨. 연휴와 금요일이 겹쳐 KTX·SRT 표가 매진이며 SRT 예매가 어렵다는 이야기도 이어짐. 이동 편의와 연휴 교통 혼잡에 관한 잡담으로 마무리됨.</p><ul><li>KTX 특실의 좌석과 공간이 편하다는 후기가 나옴.</li><li>특실을 비행기 프리미엄 이코노미급으로 평가함.</li><li>연휴 기간 SRT 티켓 확보가 어렵다는 경험이 공유됨.</li><li>금요일과 연휴가 겹쳐 교통편이 혼잡하다는 의견이 나옴.</li></ul></article><article class="dcard"><div class="t">18:24-18:27</div><h2>푸라닭 메뉴 잡담</h2><p class="sum">연휴 먹거리로 빵, 복숭아, 치킨 이야기가 오감. 푸라닭 메뉴 추천 요청에 고추마요가 추천됨. 쿼터레그와 광고 문구에 관한 잡담도 이어짐.</p><ul><li>연휴 동안 먹을 빵과 치킨 이야기가 나옴.</li><li>푸라닭 메뉴로 고추마요가 추천됨.</li><li>푸라닭 쿼터레그가 언급됨.</li><li>광고 문구를 소재로 가벼운 대화가 이어짐.</li></ul></article><article class="dcard"><div class="t">18:29-18:33</div><h2>주거 계약과 이사</h2><p class="sum">한 참여자가 가계약을 했다는 소식에 축하가 이어짐. 최근 집 구하기가 어렵고 이번 선택의 결과를 지켜봐야 한다는 소감이 공유됨. 다른 참여자는 맥미니에서 맥스튜디오로 옮길 계획을 언급함.</p><ul><li>가계약 소식에 축하 반응이 이어짐.</li><li>주거지를 구하는 일이 어렵다는 체감이 언급됨.</li><li>계약 선택의 결과를 걱정하면서도 기대하는 분위기임.</li><li>맥미니에서 맥스튜디오로의 기기 변경 계획이 언급됨.</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-14-2200</span>
+</footer>
+</div>
+</body>
+</html>
