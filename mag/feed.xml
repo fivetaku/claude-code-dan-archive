@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Qwen3.8-27B, 로컬 GPU로 돌리는 에이전틱 코딩 모델의 실체</title>
+    <link>https://chat.axwith.com/mag/models/qwen-3-8-27b-local-coding.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-3-8-27b-local-coding.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sat, 15 Aug 2026 12:00:00 +0900</pubDate>
+    <description>알리바바 Qwen팀이 아파치 2.0 라이선스로 공개한 27B 오픈모델 Qwen3.8-27B의 벤치마크, 로컬 구동 GPU 요구 사양, 클로드 코드와의 성능 격차를 정리했다.</description>
+  </item>
+  <item>
+    <title>코덱스 Sol과 Work 조합, 문서 작업에서 통하는 이유</title>
+    <link>https://chat.axwith.com/mag/tools/codex-sol-work-document-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/codex-sol-work-document-workflow.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sat, 15 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클코단에서 나온 코덱스 Sol·Work 조합 후기를 씨앗으로, GPT-5.6 등급 체계와 플러그인 생태계를 오픈AI 공식 정보로 확인하고 오퍼스 4.8·클로드 코워크와 실제로 무엇이 다른지 비교했다</description>
+  </item>
+  <item>
     <title>클로드 코드 Fable·Advisor 과부하 오류, 앤트로픽 장애와 맞물렸다</title>
     <link>https://chat.axwith.com/mag/troubleshooting/fable-advisor-overload-outage.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/fable-advisor-overload-outage.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드코드를 텔레그램·디스코드에 연결하는 공식 Channels 기능과, 슬랙 같은 미지원 채널을 직접 만드는 SDK·headless 방식의 차이, 코덱스와의 구조 비교까지 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드 코드 입문 가이드: 구독부터 토큰 절약 팁까지</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-beginner-guide-tokens.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-beginner-guide-tokens.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드를 처음 쓰는 사람이 꼭 알아야 할 구독 요건, CS 지식 유무에 따른 체감 차이, 토큰과 대화 턴을 아끼는 실전 팁을 웹 조사와 실사용 경험을 엮어 정리했다.</description>
-  </item>
-  <item>
-    <title>세금계산서 발행 넘어, 볼타가 입출금까지 자동으로 맞춘다</title>
-    <link>https://chat.axwith.com/mag/tools/bolta-tax-invoice-auto-match.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/bolta-tax-invoice-auto-match.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
-    <description>세금계산서 발행 서비스로만 알려졌던 볼타가 실제로는 입출금 내역을 계산서와 자동으로 매칭해주는 기능을 갖춘 배경과 원리, 요금제, 경쟁 서비스와의 차이를 함께 정리했다.</description>
   </item>
 </channel></rss>

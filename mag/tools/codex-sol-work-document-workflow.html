@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>코덱스 Sol과 Work 조합, 문서 작업에서 통하는 이유 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클코단에서 나온 코덱스 Sol·Work 조합 후기를 씨앗으로, GPT-5.6 등급 체계와 플러그인 생태계를 오픈AI 공식 정보로 확인하고 오퍼스 4.8·클로드 코워크와 실제로 무엇이 다른지 비교했다">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/codex-sol-work-document-workflow.html">
+<meta property="og:title" content="코덱스 Sol과 Work 조합, 문서 작업에서 통하는 이유">
+<meta property="og:description" content="클코단에서 나온 코덱스 Sol·Work 조합 후기를 씨앗으로, GPT-5.6 등급 체계와 플러그인 생태계를 오픈AI 공식 정보로 확인하고 오퍼스 4.8·클로드 코워크와 실제로 무엇이 다른지 비교했다">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/codex-sol-work-document-workflow.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "코덱스 Sol과 Work 조합, 문서 작업에서 통하는 이유", "description": "클코단에서 나온 코덱스 Sol·Work 조합 후기를 씨앗으로, GPT-5.6 등급 체계와 플러그인 생태계를 오픈AI 공식 정보로 확인하고 오퍼스 4.8·클로드 코워크와 실제로 무엇이 다른지 비교했다", "datePublished": "2026-08-15", "dateModified": "2026-08-15", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/codex-sol-work-document-workflow.html"}, "articleSection": "도구·라이브러리", "keywords": "코덱스, GPT-5.6 Sol, 챗GPT 워크, 클로드 코워크, 오퍼스 4.8, MCP 플러그인"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "코덱스의 Sol과 Work는 각각 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "Sol은 GPT-5.6 세 등급(Sol·Terra·Luna) 가운데 최상위 모델이고, Work는 챗GPT 데스크톱 앱의 Chat·Work·Codex 세 모드 중 문서·스프레드시트·리포트 생성을 맡는 작업 모드다. 코덱스 안에서 Sol 모델을 선택해 쓸 수 있고, Work는 이와 별개의 모드로 실행한다."}}, {"@type": "Question", "name": "코덱스 Work의 요금과 사용 한도는 어떻게 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "Work는 코덱스, 챗GPT 포 엑셀 등과 같은 사용량 풀을 공유한다. 플러스 요금제(월 20달러) 기준 Sol은 5시간마다 10~100회 쓸 수 있고, API는 입력 100만 토큰당 5달러, 출력 100만 토큰당 30달러다."}}, {"@type": "Question", "name": "클로드 코워크와 코덱스 Work 중 무엇이 더 나은가요?", "acceptedAnswer": {"@type": "Answer", "text": "코워크는 프로 요금제(월 20달러) 이상에 이미 포함돼 있어 추가 결제 없이 문서 자동화를 쓸 수 있다. 코딩 정밀도는 오퍼스 계열이, 응답 속도와 문서 작성 만족도는 Sol 쪽이 앞선다는 반응이 갈려서 용도에 따라 판단이 다르다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/codex-sol-work-document-workflow.png" alt="코덱스 Sol과 Work 조합, 문서 작업에서 통하는 이유" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>코덱스 Sol과 Work 조합, 문서 작업에서 통하는 이유</h1>
+  <p class="sub">코덱스 Sol과 Work 모드 조합이 문서 작업에서 호평받는 이유와 오퍼스 4.8·코워크와의 실제 차이를 짚었다</p>
+  <div class="meta"><span>2026-08-15</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클코단에서 코덱스를 유료로 결제해본 사람이 &quot;오퍼스 4.8급&quot;이라는 후기를 냈다. 특히 Sol 모델과 Work 모드를 함께 쓰면 문서 작업이 눈에 띄게 좋아진다는 평가가 나왔고, 필요한 도구를 붙이면 결과물 완성도가 올라간다는 경험도 공유됐다. 코덱스만 쓰던 사람도 Work를 써보겠다고 했을 정도인데, 이 조합이 실제로 무엇을 가리키는지, 클로드 코드와 코워크를 쓰는 독자에게는 무엇이 다른지 짚어본다.</p>
+<h2>Sol과 Work는 각각 무엇을 가리키나</h2>
+<p>오픈AI는 지난 7월 9일 GPT-5.6 계열을 일반 공개했다. 미국 상무부 검토를 거쳐 약 20개 기관에만 열려 있던 2주간의 제한 공개가 끝난 뒤였다. 이 세대부터 오픈AI는 숫자 대신 등급 이름을 붙였는데, Sol은 복잡한 추론과 에이전트 작업을 맡는 최상위 모델이고 Terra는 GPT-5.5급 성능을 절반 비용에 내는 균형형, Luna는 반복 작업용 경량 모델이다. 코덱스 안에서도 이 세 모델을 고를 수 있어 &quot;Sol&quot;이라는 표현이 나온다. 모델 이름을 등급제로 바꾼 개편 속도가 너무 빠르다는 불만도 일부 나왔다.</p>
+<p>Work는 모델이 아니라 작업 모드다. 오픈AI는 챗GPT 데스크톱 앱을 Chat·Work·Codex 세 모드로 통합했고, Work는 문서·스프레드시트·프레젠테이션·리포트·웹사이트처럼 완성된 결과물을 만드는 데 맞춰져 있다. 복잡한 프로젝트를 여러 단계로 쪼개 몇 시간씩 독립적으로 이어가는 방식이라 코딩 전용인 Codex 모드와는 쓰임이 갈린다. 방에서 나온 &quot;Sol과 Work 조합&quot;은 결국 최상위 모델을 문서 작업 모드에 물려 쓴 경험을 말한 셈이다.</p>
+<h2>문서 작업에서 강점이 나오는 지점</h2>
+<p>세 등급 중 글쓰기 벤치마크에서 가장 높은 점수를 받은 쪽이 Sol이다. 문장을 짧게 끊고 문단을 압축해 쓰는 경향이 있고, 글쓰기 스타일 지시에 다른 등급보다 민감하게 반응한다는 평가를 받았다. 다만 특정 벤치마크에서는 기성 글과의 유사도가 가장 낮게 나오기도 해서, 어떤 기준으로 보느냐에 따라 순위가 갈리는 편이다.</p>
+<p>리포트형 작업에서는 지저분하게 얽힌 자료를 정리하고 긴 체크리스트를 끝까지 챙기는 데 강하다는 평가가 나온다. 프로덕션 환경에 가까운 조건에서 돌렸을 때 검토해야 할 이슈를 더 많이 찾아내는 경향도 보고됐다. 방에서 나온 &quot;필요한 도구를 플러그인하면 문서를 잘 만들어준다&quot;는 경험은 이런 특성과 맞물린다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/codex-sol-work-document-workflow.png" alt="" loading="lazy"><h2>플러그인을 붙인다는 것의 실체</h2>
+<p>오픈AI가 말하는 플러그인은 스킬·앱·커넥터 세 요소를 묶은 패키지다. 스킬은 반복 작업에 쓸 지시문과 워크플로 패턴이고, 앱은 외부 시스템과 데이터에 연결하는 통로이며, 커넥터는 MCP 서버를 기반으로 붙는 확장이다. 지난 6월에는 영업·데이터 분석·크리에이티브 제작·제품 디자인·상장주식 투자·투자은행 업무를 겨냥한 업무용 플러그인 여섯 종이 함께 나왔다. 방에서 말한 &quot;필요한 도구를 플러그인&quot;이라는 표현은 이 마켓플레이스에서 작업에 맞는 스킬과 커넥터를 골라 붙이는 과정을 가리키는 것으로 볼 수 있다.</p>
+<p>Codex, Work, 챗GPT 포 엑셀, 워크스페이스 에이전트는 같은 사용량 풀을 공유한다. 플러스 요금제(월 20달러)에서 Sol은 5시간마다 10회에서 100회 사이로 쓸 수 있고, API로는 입력 100만 토큰당 5달러, 출력 100만 토큰당 30달러가 매겨진다. 무료·고·플러스·프로·비즈니스로 요금제가 나뉘어 있어, 문서 작업 위주라면 굳이 프로 요금제까지 가지 않아도 체감할 수 있는 구간이 있다. 다만 출력 토큰 단가가 이전 세대보다 크게 오른 점을 두고는 불만도 적지 않게 나온다.</p>
+<h2>오퍼스 4.8과 비교했을 때 갈리는 지점</h2>
+<p>앤트로픽의 오퍼스 4.8은 지난 5월 28일 나왔다. 전작 대비 &quot;크지 않지만 확실한&quot; 개선이라는 게 앤트로픽의 설명인데, 자기 코드의 결함을 놓치지 않고 지적하는 비율이 4.7보다 네 배 가까이 높아졌고, 큰 작업을 수백 개의 서브에이전트로 나눠 처리한 뒤 검증해 하나로 합치는 다이내믹 워크플로 기능도 붙었다. 출력 속도를 2.5배까지 끌어올리는 패스트 모드도 같은 모델 위에 얹혀 있다.</p>
+<p>써본 사람들 사이에서는 같은 작업을 시켰을 때 Sol 쪽 응답 속도가 오퍼스 4.8이나 이전 GPT 세대보다 눈에 띄게 빠르다는 반응이 많다. 코드 품질도 만족스럽다는 의견이 나오는 한편, 오퍼스 쪽이 오류를 더 적게 낸다는 반대 의견도 같이 나온다. 개발자 500명 이상을 대상으로 한 조사에서는 실제 업무에는 코덱스를 더 많이 쓴다는 응답이 65%로 나왔지만, 결과물만 블라인드로 비교했을 때는 클로드 코드가 만든 코드가 더 깔끔하다는 평가가 67%로 나온 조사도 있다. 코딩 벤치마크인 SWE-bench Verified에서는 오퍼스 계열이 여전히 상위권을 지키고 있다는 점도 함께 봐야 한다. 방에서 나온 &quot;오퍼스 4.8 같은 느낌&quot;이라는 평가는 속도와 만족도 쪽 체감에 가깝고, 정밀도를 따지는 벤치마크와는 결이 다르다.</p>
+<h2>클로드 코드·코워크 쓰는 사람에게는 뭐가 다른가</h2>
+<p>Work가 겨냥하는 자리, 그러니까 문서·스프레드시트·리포트를 자율적으로 만들어주는 역할은 앤트로픽 쪽에도 이미 있다. 코워크는 지난 1월 프리뷰로 나와 4월에 정식 출시됐고, 프로 요금제(월 20달러) 이상 유료 플랜에는 기본으로 포함돼 있다. 데스크톱 앱에서 로컬 폴더에 권한을 받아 접근하고, 라이브 아티팩트와 루틴, 플러그인 마켓플레이스까지 갖춘 구조라 겉모습은 Work와 상당히 닮았다.</p>
+<p>그래서 방에서 나온 추천을 그대로 옮기면, 코덱스와 Work 조합을 새로 결제하기 전에 이미 쓰고 있는 플랜에 코워크가 포함돼 있는지부터 확인하는 편이 순서에 맞는다. 실제로 여러 개발자가 클로드 코드로 기능을 만들고 코덱스로 결과물을 검토하는 식으로 두 도구를 같이 쓰는 흐름을 택하고 있다는 조사도 있다. 문서 작업 하나만 놓고 어느 쪽이 낫다고 단정하기보다, 이미 결제하고 있는 요금제 안에서 뭘 놓치고 있는지부터 짚어보는 편이 이 조합을 둘러싼 후기들 사이에서 더 남는 질문이다.</p></div>
+<div class="chips"><span class="chip">코덱스</span><span class="chip">GPT-5.6 Sol</span><span class="chip">챗GPT 워크</span><span class="chip">클로드 코워크</span><span class="chip">오퍼스 4.8</span><span class="chip">MCP 플러그인</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://openai.com/index/gpt-5-6/" rel="nofollow noopener">https://openai.com/index/gpt-5-6/</a></li><li><a href="https://openai.com/index/previewing-gpt-5-6-sol/" rel="nofollow noopener">https://openai.com/index/previewing-gpt-5-6-sol/</a></li><li><a href="https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex" rel="nofollow noopener">https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex</a></li><li><a href="https://openai.com/index/chatgpt-for-your-most-ambitious-work/" rel="nofollow noopener">https://openai.com/index/chatgpt-for-your-most-ambitious-work/</a></li><li><a href="https://help.openai.com/en/articles/20001256-plugins-in-chatgpt-and-codex" rel="nofollow noopener">https://help.openai.com/en/articles/20001256-plugins-in-chatgpt-and-codex</a></li><li><a href="https://help.openai.com/en/articles/20001106-codex-rate-card" rel="nofollow noopener">https://help.openai.com/en/articles/20001106-codex-rate-card</a></li><li><a href="https://www.neowin.net/news/openai-to-release-gpt-56-sol-terra-and-luna-on-july-9/" rel="nofollow noopener">https://www.neowin.net/news/openai-to-release-gpt-56-sol-terra-and-luna-on-july-</a></li><li><a href="https://techcrunch.com/2026/05/28/anthropic-releases-opus-4-8-with-new-dynamic-workflow-tool/" rel="nofollow noopener">https://techcrunch.com/2026/05/28/anthropic-releases-opus-4-8-with-new-dynamic-w</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>코덱스의 Sol과 Work는 각각 무엇인가요?</h2><p class="sum">Sol은 GPT-5.6 세 등급(Sol·Terra·Luna) 가운데 최상위 모델이고, Work는 챗GPT 데스크톱 앱의 Chat·Work·Codex 세 모드 중 문서·스프레드시트·리포트 생성을 맡는 작업 모드다. 코덱스 안에서 Sol 모델을 선택해 쓸 수 있고, Work는 이와 별개의 모드로 실행한다.</p></article><article class="dcard"><div class="t">Q</div><h2>코덱스 Work의 요금과 사용 한도는 어떻게 되나요?</h2><p class="sum">Work는 코덱스, 챗GPT 포 엑셀 등과 같은 사용량 풀을 공유한다. 플러스 요금제(월 20달러) 기준 Sol은 5시간마다 10~100회 쓸 수 있고, API는 입력 100만 토큰당 5달러, 출력 100만 토큰당 30달러다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코워크와 코덱스 Work 중 무엇이 더 나은가요?</h2><p class="sum">코워크는 프로 요금제(월 20달러) 이상에 이미 포함돼 있어 추가 결제 없이 문서 자동화를 쓸 수 있다. 코딩 정밀도는 오퍼스 계열이, 응답 속도와 문서 작성 만족도는 Sol 쪽이 앞선다는 반응이 갈려서 용도에 따라 판단이 다르다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-14-1330.html">2026-08-14 08-14 10:02~13:16</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
