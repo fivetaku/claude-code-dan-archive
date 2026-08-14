@@ -13,6 +13,22 @@
     <description>클코단에서 나온 Fable·Advisor 과부하·외국어 출력 신고를 8월12일 앤트로픽 공식 장애 기록, Fable 수출통제 이력, 언어 혼선 버그 사례와 대조해 원인과 대응법을 짚었다.</description>
   </item>
   <item>
+    <title>클로드 코드 529 오류, 장애일까 일시 과부하일까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-529-error-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-529-error-guide.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Fri, 14 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드에서 529 과부하 오류가 뜰 때 이것이 전사 장애인지 일시적 현상인지 구분하는 법과 CLI 자동 재시도 원리, 8월 12일 실제 장애 사례를 정리했다.</description>
+  </item>
+  <item>
+    <title>여러 AI 코딩 에이전트를 한 화면에, chatmux는 왜 나왔나</title>
+    <link>https://chat.axwith.com/mag/tools/chatmux-tmux-coding-agent-manager.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/chatmux-tmux-coding-agent-manager.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Fri, 14 Aug 2026 12:00:00 +0900</pubDate>
+    <description>chatmux는 tmux에서 돌아가는 여러 코딩 에이전트 세션을 브라우저 하나로 모아 보여주는 초기 오픈소스 도구다. Rust 코어를 쓴 이유와 비슷한 도구들, 실제 사용 반응까지 짚어봤다.</description>
+  </item>
+  <item>
     <title>CapCut부터 Sora까지, AI 유튜브 영상 한 편 만드는 데 드는 진짜 비용</title>
     <link>https://chat.axwith.com/mag/workflow/capcut-sora-ai-video-cost.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/capcut-sora-ai-video-cost.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
     <description>세금계산서 발행 서비스로만 알려졌던 볼타가 실제로는 입출금 내역을 계산서와 자동으로 매칭해주는 기능을 갖춘 배경과 원리, 요금제, 경쟁 서비스와의 차이를 함께 정리했다.</description>
-  </item>
-  <item>
-    <title>AX(AI 전환)란 무엇인가, 자동화와는 뭐가 다른가</title>
-    <link>https://chat.axwith.com/mag/workflow/ax-ai-transformation-vs-automation.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ax-ai-transformation-vs-automation.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
-    <description>중국 도매 발주를 위챗에서 API로 바꾼 사례를 두고 AX인지 아닌지 의견이 갈렸다. AX와 DX, 자동화의 정의 차이와 정부 지원 조건, 실무 체감도까지 확인했다.</description>
-  </item>
-  <item>
-    <title>클로드코드 SDD 전환기, superpowers·우로보로스 병행이 어려운 이유</title>
-    <link>https://chat.axwith.com/mag/workflow/superpowers-ouroboros-sdd-conflict.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/superpowers-ouroboros-sdd-conflict.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Fri, 07 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code에서 TDD 대신 SDD로 전환하려는 흐름 속에 superpowers와 우로보로스(Ouroboros) 프레임워크의 정체와 차이, 함께 쓰면 워크플로우가 충돌하는 이유를 실사용 경험과 함께 짚었다.</description>
   </item>
 </channel></rss>
