@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Modal 무료 크레딧으로 L40S GPU 코딩 모델 돌려보니</title>
+    <link>https://chat.axwith.com/mag/ops/modal-l40s-gpu-free-credit.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/modal-l40s-gpu-free-credit.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Sun, 16 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Modal의 L40S 무료 크레딧으로 코딩 모델을 돌리면 실제 몇 시간 쓸 수 있는지, MTP 속도 개선과 클로드코드 연동 방법, 콜드스타트 비용까지 확인했다.</description>
+  </item>
+  <item>
+    <title>구독 요금 그대로 쓰는 클로드코드 플러그인, 면접까지 통했다</title>
+    <link>https://chat.axwith.com/mag/tools/claude-code-zero-api-plugins.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-zero-api-plugins.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sun, 16 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드 플러그인 인세인리뷰와 인세인서치를 실제로 써본 클코단 후기를 바탕으로, repomix와 ChatGPT Pro를 엮은 무료 코드 리뷰 구조와 차단된 웹페이지를 뚫는 4단계 스케줄러 작동 방식을 취재했다.</description>
+  </item>
+  <item>
     <title>Qwen3.8-27B, 로컬 GPU로 돌리는 에이전틱 코딩 모델의 실체</title>
     <link>https://chat.axwith.com/mag/models/qwen-3-8-27b-local-coding.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-3-8-27b-local-coding.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드 개인 계정에 낯선 대화가 끼어든 사례를 계기로, 올 6월 불거진 계정 간 데이터 혼입 의혹과 앤스로픽의 대응, 메모리 기능의 구조를 조사했다.</description>
-  </item>
-  <item>
-    <title>오르카·파세오·cmux, 갈아타기 힘든 이유는 따로 있다</title>
-    <link>https://chat.axwith.com/mag/tools/orca-paseo-cmux-compare.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/orca-paseo-cmux-compare.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
-    <description>오르카·파세오·cmux 세 도구의 실사용 불만을 공식 문서·이슈 트래커와 대조했다. 갈아타기 어려운 이유는 기능이 아니라 설정 투자였다.</description>
-  </item>
-  <item>
-    <title>클로드 코드 AI 글 윤문 플러그인, 좁게 고칠까 넓게 고칠까</title>
-    <link>https://chat.axwith.com/mag/tools/claude-code-yunmun-plugin-compare.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-yunmun-plugin-compare.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sat, 08 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드용 AI 글 윤문 플러그인 두 종을 실측 비교한 결과와 관련 배경 연구, 실무 활용법을 정리했다. 좁게 고치는 방식과 넓게 고치는 방식의 장단점을 함께 살펴본다</description>
   </item>
 </channel></rss>
