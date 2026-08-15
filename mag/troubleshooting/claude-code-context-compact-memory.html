@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드코드 컨텍스트 관리법, compact 타이밍과 auto memory — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드코드 긴 세션에서 compact와 clear가 무엇을 남기고 버리는지, 임계치 설정과 auto memory, CLAUDE.md 재주입 구조를 실사용 경험과 함께 짚었다. 기능 하나를 한 세션에 끝내야 한다는 습관도 다시 따져봤다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/claude-code-context-compact-memory.html">
+<meta property="og:title" content="클로드코드 컨텍스트 관리법, compact 타이밍과 auto memory">
+<meta property="og:description" content="클로드코드 긴 세션에서 compact와 clear가 무엇을 남기고 버리는지, 임계치 설정과 auto memory, CLAUDE.md 재주입 구조를 실사용 경험과 함께 짚었다. 기능 하나를 한 세션에 끝내야 한다는 습관도 다시 따져봤다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/claude-code-context-compact-memory.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드코드 컨텍스트 관리법, compact 타이밍과 auto memory", "description": "클로드코드 긴 세션에서 compact와 clear가 무엇을 남기고 버리는지, 임계치 설정과 auto memory, CLAUDE.md 재주입 구조를 실사용 경험과 함께 짚었다. 기능 하나를 한 세션에 끝내야 한다는 습관도 다시 따져봤다.", "datePublished": "2026-08-15", "dateModified": "2026-08-15", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/claude-code-context-compact-memory.html"}, "articleSection": "질문·트러블슈팅", "keywords": "클로드코드, Claude Code, compact, CLAUDE.md, auto memory, 컨텍스트 관리, 세션 핸드오프"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드코드 compact는 언제 눌러야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "기본 설정으로는 컨텍스트의 약 95%가 찼을 때 자동으로 걸리지만, 그 시점에서는 요약 과정에서 필요한 정보까지 함께 잘려나갈 수 있다. 설정 파일에서 임계치를 낮춰 60~75% 구간에서 걸리게 하는 방법이 많이 권장된다."}}, {"@type": "Question", "name": "compact 후에도 CLAUDE.md 내용이 남아있나요?", "acceptedAnswer": {"@type": "Answer", "text": "프로젝트 루트의 CLAUDE.md는 compact가 끝나면 디스크에서 다시 읽혀 세션에 재주입된다. 다만 하위 디렉터리의 CLAUDE.md나 특정 경로에만 걸리는 규칙 파일은 자동으로 다시 불러오지 않고, Claude가 해당 파일을 다시 읽을 때에야 컨텍스트로 돌아온다."}}, {"@type": "Question", "name": "클로드코드 auto memory란 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude가 작업 중 스스로 판단해 빌드 명령, 디버깅 요령, 코드 스타일 같은 정보를 프로젝트별 메모리 폴더에 적어두는 기능으로 기본값으로 켜져 있다. 사용자가 시점을 강제할 수는 없지만 `/memory` 명령으로 저장된 내용을 언제든 열어보고 고칠 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-context-compact-memory.png" alt="클로드코드 컨텍스트 관리법, compact 타이밍과 auto memory" loading="eager">
+<header>
+  <div class="eyebrow">질문·트러블슈팅</div>
+  <h1>클로드코드 컨텍스트 관리법, compact 타이밍과 auto memory</h1>
+  <p class="sub">긴 세션에서 compact를 늦게 누르면 맥락이 통째로 사라진다. 임계치 설정과 auto memory, CLAUDE.md 재주입 구조까지 뜯어봤다.</p>
+  <div class="meta"><span>2026-08-15</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>컬코단에서 최근 나온 질문은 단순했다. 대규모 솔루션을 바이브 코딩으로 짜던 한 참가자는 세션이 길어질수록 앞서 정한 아키텍처 결정과 CLAUDE.md 내용이 흐려지는 경험을 전했다. 마스터맵 문서를 만들어 매번 참고시키는 방법도 컨텍스트 윈도우를 더 빨리 소모시킨다는 문제로 이어졌다. compact와 clear가 실제로 무엇을 남기고 무엇을 버리는지, 그리고 &quot;기능 하나는 한 세션에 끝내야 한다&quot;는 전제를 얼마나 지켜야 하는지가 이 기사가 답하려는 질문이다.</p>
+<h2>compact를 늦게 누를수록 요약이 아니라 손실이 된다</h2>
+<p>컨텍스트가 길어질수록 모델 성능이 떨어지는 현상을 벡터DB 업체 Chroma는 &quot;context rot&quot;이라 부르며 실측했다. 입력 토큰이 늘어날수록 추론 정확도는 떨어진다. 복잡한 작업일수록 더 적은 토큰에서부터 성능이 무너지기 시작한다는 결과다. Claude Code의 compact 명령은 이 문제를 겨냥해 만들어졌지만, 커뮤니티에서 자주 나오는 지적은 타이밍이다.</p>
+<p>컨텍스트가 거의 꽉 찬 뒤에야 compact를 누르면, 요약이 아니라 필요한 정보까지 함께 잘려나간다.</p>
+<p>올해 들어 Sonnet 5와 Opus 4.8 계열은 컨텍스트 창을 최대 100만 토큰까지 표준 요금으로 쓸 수 있게 됐지만, 창이 커졌다고 로트 문제가 사라지지는 않는다. 모델마다 그 큰 창을 실제로 얼마나 잘 활용하는지는 편차가 크다는 벤치마크 결과도 있다. 창 크기만 믿고 관리를 늦추는 것은 위험하다는 지적이 나온다.</p>
+<p>실제로 써본 사람들 사이에서는 방금 내린 아키텍처 결정을 compact 직후 CLAUDE.md에 옮겨 적어두지 않으면 요약 과정에서 빠져버린다는 경험담이 자주 나온다. 기능 단위로 작업을 끊고 구현이 끝날 때마다 compact를 걸어 품질을 유지한다는 패턴도 공유된다. 방에서 나온 &quot;컨텍스트 50%마다 compact하는 방식은 좋은 해결책이 아니다&quot;라는 문제의식도 이 지점과 맞닿아 있다. 시점을 얼마나 앞당기느냐보다, 압축될 때 무엇이 버려지는지를 더 신경 써야 한다는 뜻이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-context-compact-memory.png" alt="" loading="lazy"><h2>임계치 설정과 자동 메모리는 이미 있는 기능이다</h2>
+<p>Claude Code는 compact가 자동으로 걸리는 시점을 환경변수로 조정할 수 있게 해준다. 기본값은 컨텍스트의 약 95% 지점이다. 설정 파일에 값을 낮게 넣으면 그보다 훨씬 일찍 압축이 시작된다. 커뮤니티에서는 60~75% 구간을 절충점으로 많이 권한다. 방에서 나온 &quot;90%를 상한으로 두고 85%에서 세션 정리를 강제한다&quot;는 제안은 이보다 늦게 걸리지만, 방향 자체는 같다.</p>
+<p>메모리를 강제로 기록해두자는 아이디어에 해당하는 기능도 이미 존재한다. Claude Code는 기본적으로 auto memory를 켜둔 상태로 동작한다. 작업 중에는 스스로 판단해 빌드 명령이나 디버깅 요령, 코드 스타일 같은 것을 프로젝트별 메모리 폴더에 적어둔다. 다만 이 기록은 방에서 제안한 것처럼 토큰 사용률 몇 퍼센트를 기준으로 강제되지 않는다. Claude가 유용하다고 판단할 때, 또는 세션이 잠시 멈춘 시점에 알아서 쓰는 방식이라 사용자가 시점을 통제하기는 어렵다.</p>
+<p>저장된 내용은 `/memory` 명령으로 언제든 열어 직접 고칠 수 있다.</p>
+<h2>CLAUDE.md는 압축에서 살아남지만 하위 문서는 아니다</h2>
+<p>공식 문서에 따르면 프로젝트 루트에 있는 CLAUDE.md는 compact가 끝난 뒤 디스크에서 다시 읽혀 세션에 재주입된다. 반면 하위 디렉터리의 CLAUDE.md나 특정 경로에만 걸리는 규칙 파일은 자동으로 다시 불러오지 않는다. Claude가 해당 경로의 파일을 다시 읽을 때에야 그 내용이 컨텍스트로 돌아온다.</p>
+<p>이 구조와 맞물리는 게 바로 방에서 겪은 &quot;마스터맵 문서를 참고시켰는데 상시 읽기는 컨텍스트를 크게 소모한다&quot;는 문제다. 마스터맵을 별도 문서로 빼두면 compact 이후 다시 불러오는 비용이 계속 쌓인다. 반대로 핵심 요약을 프로젝트 루트 CLAUDE.md 안에 짧게 박아두면, 그 부분만큼은 자동으로 복원된다.</p>
+<p>CLAUDE.md 자체도 200줄을 넘기면 컨텍스트를 더 먹고 지시 이행률도 떨어진다는 것이 공식 가이드의 설명이다. 큰 문서를 그대로 상시 읽기보다는 파일 경로별로만 걸리는 규칙으로 쪼개는 편이 낫다. 필요할 때만 불러오도록 스킬로 옮기라는 조언과도 맞물린다.</p>
+<h2>기능 하나를 한 세션에 끝내야 한다는 전제, 정말 필요한가</h2>
+<p>방에서 나온 마지막 질문, 즉 한 기능을 반드시 하나의 세션에서 끝내야 하느냐는 이미 여러 갈래로 답이 나와 있는 문제다. Anthropic은 작업을 단계별로 쪼개고 각 경계마다 git 체크포인트를 남기라고 권한다. 서브에이전트나 별도 git worktree로 작업을 격리해 메인 세션의 컨텍스트를 아끼는 방식도 공식적으로 안내하는 패턴이다.</p>
+<p>세션이 끝나기 전에 진행 상황과 다음 할 일을 별도 문서로 남긴다. 다음 세션이 그 문서를 읽고 이어받는 &quot;핸드오프&quot; 방식은 커뮤니티에서 이미 커스텀 명령어와 스킬로 여러 벌 나와 있다. 완료한 일과 다음 할 일, 핵심 결정을 마크다운 파일 한 장으로 정리해 두면 다음 세션을 시작할 때 그 파일부터 읽혀 처음부터 다시 설명할 필요가 없어진다.</p>
+<p>이 기능은 Claude Code에 기본 내장돼 있지는 않다. 세션 종료 시 자동으로 인수인계 문서를 쓰고 다음 세션이 그걸 자동으로 읽게 해달라는 기능 요청은 2025년 11월 GitHub 이슈로 올라왔다. 아직 열린 채로 공식 답변 없이 남아 있다. 인접한 기능은 최근 들어왔다. 올해 6월 업데이트부터 `/clear`로 컨텍스트를 지운 뒤에도 `/rewind`를 눌러 지우기 이전 상태로 되돌아갈 수 있게 됐다. 실수로 지운 맥락을 되살릴 여지는 생겼지만, 이것도 세션이 살아있는 동안에만 통하는 임시방편이다.</p>
+<p>방에서 나온 &quot;토큰 90% 상한, 85%에서 정리와 기록 강제&quot; 제안은 사실 새 기능이 아니다. 이미 있는 compact 임계치 설정과 auto memory를, 사용자 스스로 더 타이트하게 규율화하려는 시도에 가깝다. 네이티브 핸드오프 기능이 없는 지금은, 작업 단위를 세션 하나에 욱여넣기보다 단계마다 문서를 남기고 다음 세션에 넘기는 습관 쪽이 먼저 검증된 해법으로 남아 있다.</p></div>
+<div class="chips"><span class="chip">클로드코드</span><span class="chip">Claude Code</span><span class="chip">compact</span><span class="chip">CLAUDE.md</span><span class="chip">auto memory</span><span class="chip">컨텍스트 관리</span><span class="chip">세션 핸드오프</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agent</a></li><li><a href="https://www.trychroma.com/research/context-rot" rel="nofollow noopener">https://www.trychroma.com/research/context-rot</a></li><li><a href="https://code.claude.com/docs/en/memory" rel="nofollow noopener">https://code.claude.com/docs/en/memory</a></li><li><a href="https://code.claude.com/docs/en/best-practices" rel="nofollow noopener">https://code.claude.com/docs/en/best-practices</a></li><li><a href="https://github.com/anthropics/claude-code/issues/11455" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/11455</a></li><li><a href="https://www.turboai.dev/blog/claude-autocompact-pct-override-guide" rel="nofollow noopener">https://www.turboai.dev/blog/claude-autocompact-pct-override-guide</a></li><li><a href="https://www.morphllm.com/claude-context-window" rel="nofollow noopener">https://www.morphllm.com/claude-context-window</a></li><li><a href="https://www.mindstudio.ai/blog/claude-code-rewind-command-rollback" rel="nofollow noopener">https://www.mindstudio.ai/blog/claude-code-rewind-command-rollback</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드코드 compact는 언제 눌러야 하나요?</h2><p class="sum">기본 설정으로는 컨텍스트의 약 95%가 찼을 때 자동으로 걸리지만, 그 시점에서는 요약 과정에서 필요한 정보까지 함께 잘려나갈 수 있다. 설정 파일에서 임계치를 낮춰 60~75% 구간에서 걸리게 하는 방법이 많이 권장된다.</p></article><article class="dcard"><div class="t">Q</div><h2>compact 후에도 CLAUDE.md 내용이 남아있나요?</h2><p class="sum">프로젝트 루트의 CLAUDE.md는 compact가 끝나면 디스크에서 다시 읽혀 세션에 재주입된다. 다만 하위 디렉터리의 CLAUDE.md나 특정 경로에만 걸리는 규칙 파일은 자동으로 다시 불러오지 않고, Claude가 해당 파일을 다시 읽을 때에야 컨텍스트로 돌아온다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드코드 auto memory란 무엇인가요?</h2><p class="sum">Claude가 작업 중 스스로 판단해 빌드 명령, 디버깅 요령, 코드 스타일 같은 정보를 프로젝트별 메모리 폴더에 적어두는 기능으로 기본값으로 켜져 있다. 사용자가 시점을 강제할 수는 없지만 `/memory` 명령으로 저장된 내용을 언제든 열어보고 고칠 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-15-1351-s.html">2026-08-15 08-15 10:22~13:47</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

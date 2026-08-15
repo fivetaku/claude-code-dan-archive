@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드 코드 마스터-워커 라우팅, 컨텍스트 붕괴를 막을 실제 해법인가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드 코드에서 마스터 오케스트레이터와 디렉터리별 워커 에이전트로 작업을 나누는 룰 기반 라우팅이 컨텍스트 붕괴 문제를 실제로 해결할 수 있는지, 서브에이전트·CLAUDE.md·오토 메모리 공식 문서와 비용 구조를 근거로 따져본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-master-worker-routing.html">
+<meta property="og:title" content="클로드 코드 마스터-워커 라우팅, 컨텍스트 붕괴를 막을 실제 해법인가">
+<meta property="og:description" content="클로드 코드에서 마스터 오케스트레이터와 디렉터리별 워커 에이전트로 작업을 나누는 룰 기반 라우팅이 컨텍스트 붕괴 문제를 실제로 해결할 수 있는지, 서브에이전트·CLAUDE.md·오토 메모리 공식 문서와 비용 구조를 근거로 따져본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/claude-code-master-worker-routing.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드 코드 마스터-워커 라우팅, 컨텍스트 붕괴를 막을 실제 해법인가", "description": "클로드 코드에서 마스터 오케스트레이터와 디렉터리별 워커 에이전트로 작업을 나누는 룰 기반 라우팅이 컨텍스트 붕괴 문제를 실제로 해결할 수 있는지, 서브에이전트·CLAUDE.md·오토 메모리 공식 문서와 비용 구조를 근거로 따져본다.", "datePublished": "2026-08-15", "dateModified": "2026-08-15", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/claude-code-master-worker-routing.html"}, "articleSection": "워크플로우·방법론", "keywords": "클로드 코드, 서브에이전트, 오케스트레이터, 컨텍스트 관리, CLAUDE.md, 멀티 에이전트, 메모리 관리"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드 코드 서브에이전트는 메인 세션의 오토 메모리를 자동으로 물려받나요?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 포크로 만든 서브에이전트가 아니라면 메인 세션의 오토 메모리는 자동으로 넘어가지 않는다. 서브에이전트가 자기 기록을 남기려면 별도의 memory 필드를 켜서 독립적인 메모리 디렉터리를 써야 한다."}}, {"@type": "Question", "name": "멀티 에이전트 구조로 작업을 나누면 토큰이 얼마나 더 드나요?", "acceptedAnswer": {"@type": "Answer", "text": "앤트로픽에 따르면 같은 작업을 멀티 에이전트로 처리하면 단일 에이전트보다 토큰을 3~10배 더 쓴다. 자사 리서치 기능 기준으로는 최대 15배까지 늘어난 사례도 공개했다."}}, {"@type": "Question", "name": "CLAUDE.md와 오토 메모리는 어떻게 다른가요?", "acceptedAnswer": {"@type": "Answer", "text": "CLAUDE.md는 사람이 직접 쓰는 규칙 파일로 매 세션 시작 시 전체가 로드된다. 오토 메모리는 클로드가 스스로 남기는 학습 노트로, MEMORY.md 색인을 통해 필요한 부분만 불러온다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-master-worker-routing.png" alt="클로드 코드 마스터-워커 라우팅, 컨텍스트 붕괴를 막을 실제 해법인가" loading="eager">
+<header>
+  <div class="eyebrow">워크플로우·방법론</div>
+  <h1>클로드 코드 마스터-워커 라우팅, 컨텍스트 붕괴를 막을 실제 해법인가</h1>
+  <p class="sub">메인 세션에 작업을 몰아넣던 바이브 코딩이 한계를 드러내자, 오케스트레이터와 워커로 쪼개는 라우팅 구조가 대안으로 떠올랐다</p>
+  <div class="meta"><span>2026-08-15</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>대규모 바이브 코딩을 하다 보면 메인 세션 하나가 설계부터 구현, 테스트까지 다 떠안다가 어느 순간 맥락을 잃는 경험을 하게 된다. 클코단에서는 이 문제를 풀기 위해 마스터 오케스트레이터가 작업을 쪼개고 디렉터리별 워커 에이전트가 나눠 맡는 룰 기반 라우팅 구조가 논의됐다. 이 구조가 클로드 코드가 실제로 지원하는 기능과 얼마나 맞아떨어지는지, 개인 개발자에게도 쓸 만한지 확인했다.</p>
+<h2>컨텍스트가 무너지는 지점은 어디인가</h2>
+<p>컨텍스트 저하는 대체로 창의 70~75% 지점부터 시작된다는 게 관련 가이드들의 공통된 설명이다. 완벽한 검색이 이뤄지고 방해 요소가 전혀 없어도, 여러 정보를 동시에 붙들고 추론하는 성능은 표기된 창 크기 안에서부터 이미 떨어지기 시작한다.</p>
+<p>증상은 뚜렷하다. 이미 읽은 파일을 다시 읽거나, 여러 메시지 전에 합의한 아키텍처 결정을 스스로 뒤집거나, 답이 짧아지는 대신 헤징과 재진술로 길어지는 식이다. 클코단에서 제기된 &quot;메인 세션에 작업을 몰면 긴 작업에서 컨텍스트 품질이 저하된다&quot;는 문제의식은 이 현상과 정확히 겹친다.</p>
+<p>원인은 단순히 토큰이 많아서가 아니다. 앤트로픽은 컨텍스트 오염을 이렇게 설명한다. 대형 파일을 분석하거나 여러 테이블을 조회할 때 관련성과 무관한 중간 결과가 계속 쌓이면서 토큰 예산을 잡아먹는 현상이라는 것이다. 도구를 20개 넘게 붙인 에이전트는 적합한 도구를 고르는 정확도부터 떨어진다는 관찰도 함께 나온다.</p>
+<h2>클로드 코드에 이미 있는 오케스트레이터-워커 구조</h2>
+<p>클코단에서 나온 마스터-워커 분리는 사실 새 아이디어가 아니라 클로드 코드의 서브에이전트 구조 그 자체다. 서브에이전트는 독립된 컨텍스트 창과 전용 시스템 프롬프트를 가진 별도의 클로드 인스턴스다. 이를 호출하는 세션이 오케스트레이터가 되어 작업을 배분하고 결과를 조합한다. 서브에이전트가 수십 개 파일을 읽고 방대한 검색을 돌려도 메인 대화창에는 요약만 돌아온다.</p>
+<p>앤트로픽이 자사 리서치 기능에 적용한 구조도 같은 뼈대를 쓴다. 리드 에이전트가 질의를 분석해 전략을 세우고 서너 개의 전문 서브에이전트를 병렬로 띄운다. 이후 결과를 종합하고 별도의 인용 에이전트로 출처를 검증한다. 2025년 6월 공개된 앤트로픽 엔지니어링 블로그에 따르면 이 구조는 내부 평가에서 단일 에이전트 오퍼스 4보다 90.2% 높은 성능을 냈지만, 토큰은 일반 대화의 약 15배를 썼다.</p>
+<p>클로드 코드 쪽에는 여기서 한 단계 더 나아간 다이내믹 워크플로 기능도 있다. 작업을 설명하면 클로드가 서브에이전트들을 오케스트레이션하는 자바스크립트 스크립트를 직접 짠다. 런타임은 이를 백그라운드에서 실행한다. 클코단이 그린 &quot;마스터가 PRD를 배분하고 워커가 결과를 보고하는&quot; 그림은 이 워크플로 도구가 이미 코드로 구현해 둔 패턴에 가깝다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-master-worker-routing.png" alt="" loading="lazy"><h2>PRD와 메모리를 어떻게 넘기는가</h2>
+<p>룰 기반 라우팅에서 가장 까다로운 지점은 워커가 필요한 맥락만 골라 받는 부분이다. 클로드 코드 공식 문서는 이 역할을 CLAUDE.md와 오토 메모리 두 계층으로 나눠 맡긴다. CLAUDE.md는 사람이 직접 쓰는 규칙이다. 프로젝트·사용자·조직 단위로 범위를 나눌 수 있고, 세션이 시작될 때마다 전체가 로드된다.</p>
+<p>오토 메모리는 클로드가 스스로 남기는 학습 노트다. 저장소별로 MEMORY.md라는 색인 파일이 생긴다. 세션을 시작할 때는 이 색인의 첫 200줄 또는 25킬로바이트만 불러오고, 상세 내용은 별도 주제 파일로 분리해 필요할 때만 읽는다. 클코단에서 나온 &quot;지침 전체를 상시 로드하지 않고 참조 주소만 관리한다&quot;는 아이디어와 사실상 같은 설계다.</p>
+<p>다만 어긋나는 지점도 있다.</p>
+<p>메인 세션의 오토 메모리는 서브에이전트에 자동으로 넘어가지 않는다. 부모 대화를 통째로 이어받는 &quot;포크&quot; 방식이 아닌 이상, 서브에이전트는 자기 몫의 memory 필드를 따로 켜서 독립적으로 기록을 쌓아야 한다. 클코단이 그린 &quot;워커가 작업 시점에 필요한 메모리를 요청한다&quot;는 그림보다는, 워커마다 자기 메모리를 갖고 마스터가 그 결과를 다시 취합하는 쪽에 가깝다.</p>
+<p>새 작업이 들어올 때 메모리를 갱신하는 훅 아이디어도 실체가 있다. PreToolUse·PostToolUse 같은 훅은 클로드의 판단과 무관하게 정해진 시점마다 셸 명령을 실행한다. InstructionsLoaded 훅은 어떤 지침 파일이 언제 왜 로드됐는지 기록으로 남긴다. 방에서 나온 설계는 결국 이 훅 체계를 프로젝트 규모에 맞게 세밀하게 짜 맞추는 작업이다.</p>
+<h2>나눈다고 공짜가 아니다</h2>
+<p>앤트로픽은 정작 자사 블로그에서 멀티 에이전트 확장에 신중하라고 말한다. 다중 에이전트가 단일 에이전트보다 확실히 나은 경우를, 앤트로픽은 세 가지로 좁혀 제시했다. 컨텍스트 오염이 성능을 갉아먹을 때, 작업을 병렬로 쪼갤 수 있을 때, 전문화가 도구 선택이나 집중도를 높일 때다. 이 조건을 벗어나면 조율 비용이 이득을 앞지른다고도 밝혔다.</p>
+<p>비용 차이는 작지 않다.</p>
+<p>동일한 작업을 멀티 에이전트로 처리하면 단일 에이전트 대비 토큰을 3~10배 더 쓴다는 게 앤트로픽의 설명이다. 앤트로픽 내부에서도 정교한 멀티 에이전트 구조를 몇 달 걸려 만들었다가, 단일 에이전트 프롬프트를 다듬는 쪽이 동등한 결과를 냈다는 사례가 나왔다고 한다.</p>
+<p>실사용 쪽 반응도 신중론에 가깝다. 멀티 에이전트 오케스트레이션은 작업 대부분에는 과한 처방이라는 의견이 많다. 단일 세션으로 기능 하나를 개발하는 편이 여전히 대다수 개인 개발자·소규모 팀에는 맞는다는 것이다. 병렬로 작업량을 늘렸다가 하루 사용량 한도를 예상보다 빨리 써버렸다는 사용기도 심심찮게 나온다. 반대로 서브에이전트를 저가 모델로 돌려 오히려 비용을 줄였다는 사례도 있다. 구조를 어떻게 짜느냐에 따라 결과가 갈린다는 쪽이 더 정확하다.</p>
+<h2>쪼갤지 말지를 가르는 세 가지 조건</h2>
+<p>클코단 논의를 이 기준에 대보면 답이 갈린다. 저장소가 이미 디렉터리별로 독립된 서브시스템이고 워커들이 서로 파일을 거의 건드리지 않는다면, 병렬성과 전문화 조건을 동시에 채운다. 반대로 한 사람이 하나의 기능을 처음부터 끝까지 짜는 구조라면, 마스터-워커를 나누는 순간 PRD 작성·핸드오프·메모리 동기화라는 새로운 조율 비용만 얹힌다.</p>
+<p>클로드 코드는 서브에이전트·CLAUDE.md·오토 메모리·훅·다이내믹 워크플로까지, 이 설계에 필요한 조각을 이미 대부분 갖고 있다. 방에서 나온 룰 기반 라우팅은 없는 기능을 요구하는 제안이라기보다, 있는 조각을 프로젝트 규모에 맞게 조립하는 설계에 가깝다. 그 조립이 필요한지는 지금 겪는 컨텍스트 붕괴가 정말 병렬화·전문화로 풀리는 문제인지, 아니면 CLAUDE.md 한 줄과 이른 /compact 습관으로도 충분한 문제인지에 달려 있다.</p></div>
+<div class="chips"><span class="chip">클로드 코드</span><span class="chip">서브에이전트</span><span class="chip">오케스트레이터</span><span class="chip">컨텍스트 관리</span><span class="chip">CLAUDE.md</span><span class="chip">멀티 에이전트</span><span class="chip">메모리 관리</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/memory" rel="nofollow noopener">https://code.claude.com/docs/en/memory</a></li><li><a href="https://code.claude.com/docs/ko/memory" rel="nofollow noopener">https://code.claude.com/docs/ko/memory</a></li><li><a href="https://code.claude.com/docs/en/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/en/sub-agents</a></li><li><a href="https://code.claude.com/docs/en/workflows" rel="nofollow noopener">https://code.claude.com/docs/en/workflows</a></li><li><a href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" rel="nofollow noopener">https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them</a></li><li><a href="https://www.anthropic.com/engineering/built-multi-agent-research-system" rel="nofollow noopener">https://www.anthropic.com/engineering/built-multi-agent-research-system</a></li><li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agent</a></li><li><a href="https://dev.to/amitba/claude-code-context-window-rot-why-sessions-get-dumber-and-how-to-fix-it-50ni" rel="nofollow noopener">https://dev.to/amitba/claude-code-context-window-rot-why-sessions-get-dumber-and</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드 서브에이전트는 메인 세션의 오토 메모리를 자동으로 물려받나요?</h2><p class="sum">아니다. 포크로 만든 서브에이전트가 아니라면 메인 세션의 오토 메모리는 자동으로 넘어가지 않는다. 서브에이전트가 자기 기록을 남기려면 별도의 memory 필드를 켜서 독립적인 메모리 디렉터리를 써야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>멀티 에이전트 구조로 작업을 나누면 토큰이 얼마나 더 드나요?</h2><p class="sum">앤트로픽에 따르면 같은 작업을 멀티 에이전트로 처리하면 단일 에이전트보다 토큰을 3~10배 더 쓴다. 자사 리서치 기능 기준으로는 최대 15배까지 늘어난 사례도 공개했다.</p></article><article class="dcard"><div class="t">Q</div><h2>CLAUDE.md와 오토 메모리는 어떻게 다른가요?</h2><p class="sum">CLAUDE.md는 사람이 직접 쓰는 규칙 파일로 매 세션 시작 시 전체가 로드된다. 오토 메모리는 클로드가 스스로 남기는 학습 노트로, MEMORY.md 색인을 통해 필요한 부분만 불러온다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-15-1351-s.html">2026-08-15 08-15 10:22~13:47</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
