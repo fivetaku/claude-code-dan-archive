@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>헤드룸 프록시로 클로드코드 컨텍스트 아끼기, 지금 써도 안전한가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드코드용 컨텍스트 압축 프록시 헤드룸의 원리와 절감 효과, 커스텀 베이스 URL이 만드는 부작용, 캐시가 이전 응답의 전송 프레이밍을 재생해 응답이 깨지는 RFC 9112 버그의 수정 현황까지 정리했다">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/headroom-proxy-claude-code-context.html">
+<meta property="og:title" content="헤드룸 프록시로 클로드코드 컨텍스트 아끼기, 지금 써도 안전한가">
+<meta property="og:description" content="클로드코드용 컨텍스트 압축 프록시 헤드룸의 원리와 절감 효과, 커스텀 베이스 URL이 만드는 부작용, 캐시가 이전 응답의 전송 프레이밍을 재생해 응답이 깨지는 RFC 9112 버그의 수정 현황까지 정리했다">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/headroom-proxy-claude-code-context.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "헤드룸 프록시로 클로드코드 컨텍스트 아끼기, 지금 써도 안전한가", "description": "클로드코드용 컨텍스트 압축 프록시 헤드룸의 원리와 절감 효과, 커스텀 베이스 URL이 만드는 부작용, 캐시가 이전 응답의 전송 프레이밍을 재생해 응답이 깨지는 RFC 9112 버그의 수정 현황까지 정리했다", "datePublished": "2026-08-16", "dateModified": "2026-08-16", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/headroom-proxy-claude-code-context.html"}, "articleSection": "질문·트러블슈팅", "keywords": "헤드룸 프록시, Headroom, 클로드코드 컨텍스트, 토큰 압축, MCP 프록시, 클로드코드 1M 컨텍스트"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "헤드룸(Headroom) 프록시란 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "클로드코드 같은 코딩 에이전트와 모델 API 사이에 끼어드는 로컬 프록시이자 MCP 서버로, 도구 출력·로그·코드를 모델에 도달하기 전에 압축한다. JSON은 60~95%, 일반 코딩 대화는 15~20% 안팎으로 토큰을 줄인다고 안내되며 원본은 가역 압축(CCR)으로 캐시해 뒀다가 필요할 때 복원한다."}}, {"@type": "Question", "name": "헤드룸을 쓰면 클로드코드 응답이 깨진다는데 사실인가?", "acceptedAnswer": {"@type": "Answer", "text": "헤드룸 저장소 이슈 #3019에 보고된 버그로, 스트리밍 요청을 비스트리밍으로 바꿔 캐시하는 과정에서 전송 프레이밍 헤더까지 저장돼 RFC 9112 규정과 충돌하며 빈 HTTP 200 응답이 발생한다. 수정 PR(#3024)이 올라와 있으나 이 기사 작성 시점 기준 아직 병합 전이다."}}, {"@type": "Question", "name": "헤드룸을 쓰면 클로드코드의 1M 컨텍스트나 리모트 컨트롤을 못 쓰나?", "acceptedAnswer": {"@type": "Answer", "text": "ANTHROPIC_BASE_URL을 헤드룸 프록시로 바꾸면 클로드코드가 1M 컨텍스트 베타 헤더를 보내지 않아 20만 토큰으로 제한되고, v2.1.196부터는 리모트 컨트롤 기능도 비활성화된다. 압축으로 아낀 토큰을 이 우회로의 부작용이 상쇄할 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/headroom-proxy-claude-code-context.png" alt="헤드룸 프록시로 클로드코드 컨텍스트 아끼기, 지금 써도 안전한가" loading="eager">
+<header>
+  <div class="eyebrow">질문·트러블슈팅</div>
+  <h1>헤드룸 프록시로 클로드코드 컨텍스트 아끼기, 지금 써도 안전한가</h1>
+  <p class="sub">헤드룸 프록시를 쓰면 클로드코드 컨텍스트가 오래 간다는 체감과, 최근 발견된 캐시 응답 손상 버그의 수정 현황을 함께 확인했다</p>
+  <div class="meta"><span>2026-08-16</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클코단 방에서는 헤드룸(Headroom)이라는 프록시를 쓰는지 여부에 따라 클로드코드 컨텍스트가 차는 속도 체감이 크게 갈린다는 이야기가 나왔다. 동시에 헤드룸 프록시가 HTTP 응답 프레이밍 규칙과 충돌하는 헤더를 캐싱해 본문을 읽을 수 없는 HTTP 200 응답을 돌려주는 문제도 있다. 개발자가 이를 고치는 중이라는 현황도 함께 공유됐다. 압축 프록시 하나 끼워 넣는 걸로 컨텍스트가 정말 오래 가는지, 지금 붙여 써도 안전한지를 확인해본다.</p>
+<h2>헤드룸이 컨텍스트 창에서 하는 일</h2>
+<p>헤드룸은 클로드코드나 코덱스 같은 코딩 에이전트와 모델 API 사이에 끼어드는 로컬 프록시이자 MCP 서버다. 깃허브 저장소 설명에 따르면 도구 실행 결과, 로그, RAG 청크, 파일 내용이 모델에 도달하기 전에 압축을 거친다. JSON 구조화 데이터는 SmartCrusher로, 코드는 트리시터 기반 AST 압축기인 CodeCompressor로 줄인다. 원본은 버리지 않고 CCR이라는 가역 압축 방식으로 캐시해 뒀다가 모델이 필요할 때 다시 꺼내 쓰게 하는 구조다. 클로드코드 외에도 코덱스, 그록 CLI, 커서, 에이더, 코파일럿 CLI 등 여러 코딩 도구를 같은 방식으로 감싸는 걸 목표로 하는 오픈소스 프로젝트로, 라이선스는 아파치 2.0이다.</p>
+<p>압축률은 트래픽 성격에 따라 크게 갈린다. 프로젝트 쪽이 제시한 사례 중에는 SRE 디버깅 로그를 65,694토큰에서 5,118토큰으로 줄인 경우도 있었다. 다만 일반적인 코딩 에이전트 대화에서는 이 정도 폭은 아니고 15~20% 절감 수준이라고 안내한다. 클로드코드 CLI와 IDE 확장에서는 동작하지만 클로드 데스크톱 앱은 대상이 아니다.</p>
+<h2>컨텍스트가 오래 간다는 체감, 어디까지 맞나</h2>
+<p>방에서 나온 &quot;헤드룸을 쓰면 컨텍스트 소모 속도가 확 달라진다&quot;는 체감은 바깥 사용기와도 방향이 겹친다. 써본 사람들 사이에서는 같은 200K 창 안에서 세션이 30분 만에 끝나던 게 3시간 넘게 이어졌다는 반응도 있었다.</p>
+<p>설치가 5분이면 끝나고 별다른 설정 손질이 필요 없다는 평도 나왔다.</p>
+<p>다만 이 절감은 대화 구성에 따라 비대칭적이다. 프로젝트 문서는 도구 출력이나 로그 입력 비중이 높을 때 효과가 크다고 말한다. 짧은 잡담형 대화에서는 체감할 만한 절감이 나오지 않는다고도 못 박아 둔다. 방의 체감이 사실이라면 그 팀의 작업이 도구 호출과 로그가 많은 유형이었을 가능성이 크다. 압축기는 만능이 아니라 편식한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/headroom-proxy-claude-code-context.png" alt="" loading="lazy"><h2>압축기가 거꾸로 컨텍스트를 깎아먹는 경우도 있다</h2>
+<p>문제는 헤드룸을 쓰려면 클로드코드의 ANTHROPIC_BASE_URL을 헤드룸 프록시 주소로 바꿔야 한다는 점이다. 이 우회로 자체가 부작용을 만든다. 깃허브 이슈에 보고된 사례로는, 클로드코드가 평소 도구 이름만 보내고 전체 스키마는 서버에서 필요할 때 불러오는 방식(디퍼드 툴/툴서치)을 쓴다. 다만 베이스 URL만 수동으로 커스텀 호스트로 바꾸면 이 기능이 빠지면서 모든 시스템·MCP 도구 정의를 한꺼번에 컨텍스트에 욱여넣어 약 2만 4700토큰이 늘어날 수 있다.</p>
+<p>별도 1M 설정이 없으면 1M 컨텍스트 창을 쓸 수 있는 계정도 커스텀 베이스 URL 뒤에서는 관련 베타 헤더가 전송되지 않아 20만 토큰으로 제한될 수 있다. 클로드코드 v2.1.196부터는 리모트 컨트롤 기능도 api.anthropic.com이 아닌 주소에서는 비활성화된다. 압축으로 아낀 토큰을, 우회로 자체가 만드는 오버헤드가 갉아먹는 구도다. 방에서 느낀 절감 체감과 이 부작용이 동시에 사실일 수 있다는 점이 헤드룸을 평가하기 까다롭게 만드는 지점이다.</p>
+<h2>캐시가 이전 턴의 통신 프레임을 그대로 재생하는 버그</h2>
+<p>방에서 언급된 응답 문제는 헤드룸 저장소의 이슈 #3019, 수정 PR #3024로 추적되는 버그와 맞아떨어진다. 헤드룸이 스트리밍 요청을 비스트리밍으로 바꿔 상류 서버에 보낸 뒤 그 응답을 캐시에 저장하는데, 이때 상류가 붙인 transfer-encoding: chunked 같은 전송 프레이밍 헤더까지 그대로 저장해 버린다. RFC 9112 6.1절은 Transfer-Encoding이 있으면 Content-Length를 무시하도록 정하고 있다. 나중에 이 캐시를 그대로 재생하면 클라이언트가 JSON 본문을 청크 프레임으로 잘못 해석해 파싱에 실패한다.</p>
+<p>증상은 HTTP 200이 찍히는데 본문이 비어 있거나 깨져서 클로드코드가 &quot;빈 응답 또는 손상된 응답&quot;이라는 오류를 내는 식이다. 프록시 쪽 로그에는 에러가 남지 않아 원인 추적이 까다롭다는 게 이슈에 적힌 특징이다. 도구 목록에 헤드룸의 검색 도구가 포함되고 메시지 수가 일정 수준을 넘는 대화에서만 재현된다는 보고도 있다. 작은 대화에서는 아예 나타나지 않는다는 점도 특이하다. 이 글을 쓰는 시점 기준 수정 PR은 다른 메인테이너 두 명의 리뷰를 기다리는 중으로, 아직 main에 병합되지 않았다.</p>
+<h2>지금 붙여 써도 되나</h2>
+<p>당장 급한 사용자에게는 헤드룸 쪽 대응이 스트리밍 요청에서 나온 응답은 캐시에 저장하지 않고 전송 프레이밍 헤더를 벗겨내는 방향으로 잡혀 있다는 점이 위안이 될 만하다. 병합 전까지는 이슈 스레드에서 제보자가 임시방편으로 제시한 --lossless 옵션을 켜서 문제가 발생하는 CCR 경로를 우회하는 정도가 현실적인 대안이다. 프록시를 완전히 끄고 원래 API로 잠깐 되돌리는 것도 방법이다.</p>
+<p>개인 개발자나 소규모 팀이라면 판단 기준은 단순하다. 로그 분석이나 대량 도구 출력을 반복해서 모델에 밀어 넣는 작업이면 압축 효과가 청구액과 세션 길이 양쪽에서 체감될 가능성이 높다. 반대로 짧은 대화 위주라면 절감은 미미한데 별도 설정 없이 1M 컨텍스트를 잃거나 리모트 컨트롤이 비활성화되는 손실이 더 크게 다가올 수 있다. 리모트 컨트롤까지 동시에 만족시키는 설정은 없다. 지금은 어느 쪽 트래픽을 프록시에 태울지부터 정하는 게 먼저다.</p></div>
+<div class="chips"><span class="chip">헤드룸 프록시</span><span class="chip">Headroom</span><span class="chip">클로드코드 컨텍스트</span><span class="chip">토큰 압축</span><span class="chip">MCP 프록시</span><span class="chip">클로드코드 1M 컨텍스트</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/headroomlabs-ai/headroom" rel="nofollow noopener">https://github.com/headroomlabs-ai/headroom</a></li><li><a href="https://github.com/headroomlabs-ai/headroom/issues/3019" rel="nofollow noopener">https://github.com/headroomlabs-ai/headroom/issues/3019</a></li><li><a href="https://github.com/headroomlabs-ai/headroom/pull/3024" rel="nofollow noopener">https://github.com/headroomlabs-ai/headroom/pull/3024</a></li><li><a href="https://github.com/headroomlabs-ai/headroom/issues/1158" rel="nofollow noopener">https://github.com/headroomlabs-ai/headroom/issues/1158</a></li><li><a href="https://github.com/headroomlabs-ai/headroom/issues/1779" rel="nofollow noopener">https://github.com/headroomlabs-ai/headroom/issues/1779</a></li><li><a href="https://extraheadroom.com/faq" rel="nofollow noopener">https://extraheadroom.com/faq</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>헤드룸(Headroom) 프록시란 무엇인가?</h2><p class="sum">클로드코드 같은 코딩 에이전트와 모델 API 사이에 끼어드는 로컬 프록시이자 MCP 서버로, 도구 출력·로그·코드를 모델에 도달하기 전에 압축한다. JSON은 60~95%, 일반 코딩 대화는 15~20% 안팎으로 토큰을 줄인다고 안내되며 원본은 가역 압축(CCR)으로 캐시해 뒀다가 필요할 때 복원한다.</p></article><article class="dcard"><div class="t">Q</div><h2>헤드룸을 쓰면 클로드코드 응답이 깨진다는데 사실인가?</h2><p class="sum">헤드룸 저장소 이슈 #3019에 보고된 버그로, 스트리밍 요청을 비스트리밍으로 바꿔 캐시하는 과정에서 전송 프레이밍 헤더까지 저장돼 RFC 9112 규정과 충돌하며 빈 HTTP 200 응답이 발생한다. 수정 PR(#3024)이 올라와 있으나 이 기사 작성 시점 기준 아직 병합 전이다.</p></article><article class="dcard"><div class="t">Q</div><h2>헤드룸을 쓰면 클로드코드의 1M 컨텍스트나 리모트 컨트롤을 못 쓰나?</h2><p class="sum">ANTHROPIC_BASE_URL을 헤드룸 프록시로 바꾸면 클로드코드가 1M 컨텍스트 베타 헤더를 보내지 않아 20만 토큰으로 제한되고, v2.1.196부터는 리모트 컨트롤 기능도 비활성화된다. 압축으로 아낀 토큰을 이 우회로의 부작용이 상쇄할 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-16-1200.html">2026-08-16 08-16 09:00~11:46</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

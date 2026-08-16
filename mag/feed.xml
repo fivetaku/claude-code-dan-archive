@@ -13,6 +13,22 @@
     <description>Modal의 L40S 무료 크레딧으로 코딩 모델을 돌리면 실제 몇 시간 쓸 수 있는지, MTP 속도 개선과 클로드코드 연동 방법, 콜드스타트 비용까지 확인했다.</description>
   </item>
   <item>
+    <title>헤드룸 프록시로 클로드코드 컨텍스트 아끼기, 지금 써도 안전한가</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/headroom-proxy-claude-code-context.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/headroom-proxy-claude-code-context.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 16 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드용 컨텍스트 압축 프록시 헤드룸의 원리와 절감 효과, 커스텀 베이스 URL이 만드는 부작용, 캐시가 이전 응답의 전송 프레이밍을 재생해 응답이 깨지는 RFC 9112 버그의 수정 현황까지 정리했다</description>
+  </item>
+  <item>
+    <title>H200 두 장 2500TPS, 실제 대화 26TPS 차이의 정체</title>
+    <link>https://chat.axwith.com/mag/tools/h200-gemma4-tps-gap.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/h200-gemma4-tps-gap.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sun, 16 Aug 2026 12:00:00 +0900</pubDate>
+    <description>H200 두 장에 Gemma4를 TP=2로 올려 뽑은 2500TPS와 실제 대화 체감 26TPS 사이 100배 차이를, 합산 처리량과 개인 체감 속도라는 서로 다른 개념으로 풀어 설명한다.</description>
+  </item>
+  <item>
     <title>구독 요금 그대로 쓰는 클로드코드 플러그인, 면접까지 통했다</title>
     <link>https://chat.axwith.com/mag/tools/claude-code-zero-api-plugins.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-zero-api-plugins.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
     <description>Orca, Paseo, herdr 세 AI 코딩 에이전트 오케스트레이션 도구의 차이와 클로드 코드 자체 기능이 이미 커버하는 지점을 실사용 반응과 함께 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</title>
-    <link>https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드 사용자들이 페이블 대신 오푸스5를 선택하는 이유를 벤치마크와 가격, 요금제 변화로 확인한다. 정적 검사에서 걸린 코드와 바깥의 엇갈린 반응까지 짚었다.</description>
-  </item>
-  <item>
-    <title>클로드 개인 계정에 낯선 대화가 끼어들었다는 신고, 원인은 무엇인가</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-cross-user-context-bug.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-cross-user-context-bug.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 개인 계정에 낯선 대화가 끼어든 사례를 계기로, 올 6월 불거진 계정 간 데이터 혼입 의혹과 앤스로픽의 대응, 메모리 기능의 구조를 조사했다.</description>
   </item>
 </channel></rss>
