@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>위임형 코덱스, 협업형 클로드코드 - 실전에서 갈리는 지점 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="코덱스와 클로드코드는 왜 거절 빈도와 스킬 재로딩 비용, 리서치 도구 궁합까지 다르게 움직이는가. 아키텍처 차이부터 키미·딥식 조합이 통하는 근거까지 웹 조사로 확인했다">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/codex-claude-code-refusal-gap.html">
+<meta property="og:title" content="위임형 코덱스, 협업형 클로드코드 - 실전에서 갈리는 지점">
+<meta property="og:description" content="코덱스와 클로드코드는 왜 거절 빈도와 스킬 재로딩 비용, 리서치 도구 궁합까지 다르게 움직이는가. 아키텍처 차이부터 키미·딥식 조합이 통하는 근거까지 웹 조사로 확인했다">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/codex-claude-code-refusal-gap.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "위임형 코덱스, 협업형 클로드코드 - 실전에서 갈리는 지점", "description": "코덱스와 클로드코드는 왜 거절 빈도와 스킬 재로딩 비용, 리서치 도구 궁합까지 다르게 움직이는가. 아키텍처 차이부터 키미·딥식 조합이 통하는 근거까지 웹 조사로 확인했다", "datePublished": "2026-08-17", "dateModified": "2026-08-17", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/codex-claude-code-refusal-gap.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "코덱스, 클로드코드, AI 코딩 에이전트, 딥리서치 MCP, 키미 K2, 딥식 V4"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "코덱스와 클로드코드 중 어떤 걸 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "작업을 통째로 맡기고 결과만 검토하고 싶다면 코덱스가, 계획부터 함께 세우고 중간에 방향을 바꾸고 싶다면 클로드코드가 더 맞는다. 실사용자 상당수는 두 도구를 작업 성격에 따라 나눠 쓴다."}}, {"@type": "Question", "name": "코덱스가 코딩 요청을 자주 거절하는 이유는 뭔가요?", "acceptedAnswer": {"@type": "Answer", "text": "코덱스 시스템 프롬프트가 안전하고 도움이 되는 범위를 좁게 규정해둬서, 취약점 분석과 공격 코드 작성처럼 경계가 애매한 요청에서 거절로 넘어가는 경우가 잦다. 한 벤치마크에서는 백엔드 모델에 따라 안전 거절률이 11~14%로 측정됐다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <div class="eyebrow">AI 모델·프롬프트</div>
+  <h1>위임형 코덱스, 협업형 클로드코드 - 실전에서 갈리는 지점</h1>
+  <p class="sub">정책 거절률과 스킬 재로딩 비용, 리서치 도구 궁합까지 두 코딩 에이전트가 실전에서 갈리는 지점을 사실 확인으로 짚는다</p>
+  <div class="meta"><span>2026-08-17</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>코딩 에이전트를 고를 때 이제는 어느 모델이 똑똑한지보다 어떤 방식으로 일을 맡기는지가 더 크게 갈린다. 클코단에서는 코덱스와 클로드코드가 왜 거절 빈도와 리서치 도구 궁합까지 다르게 움직이는지를 놓고 이야기가 오갔다. 두 도구의 설계 차이를 웹에서 확인된 사실과 맞춰 짚어본다.</p>
+<h2>위임형 코덱스, 협업형 클로드코드 - 설계부터 다르다</h2>
+<p>OpenAI가 코덱스에 넣은 /goal 명령은 목표만 던지면 에이전트가 스스로 계획을 세우고 실행하고 결과를 점검하는 자율 루프다. 막힐 때까지 몇 시간이고 혼자 돌아간다. 실행 환경도 다르다. 코덱스 클라우드 작업은 격리된 컨테이너에서 실행된다. 사람이 지켜보지 않아도 되는 가상의 신입 개발자에 가까운 방식이다.</p>
+<p>클로드코드는 반대편에 서 있다. 로컬 터미널에서 실제 파일시스템에 접근해 실행된다. 계획 모드로 작업 범위를 먼저 합의한 뒤 진행하는 페어프로그래밍 구조를 택했다. 코덱스가 TOML로 에이전트를 명시적으로 정의하고 동시 실행 수를 사람이 못박는 쪽이라면, 클로드코드는 에이전트끼리 판단해서 작업을 나눠 갖는 쪽에 가깝다는 게 여러 비교 분석의 공통된 설명이다.</p>
+<p>방에서 나온 정리도 이 구도와 겹친다. 코덱스는 골(작업지시)만 던지면 알아서 처리하는 아키텍처, 클로드는 동료처럼 함께 일하는 방향이라는 구분이다. 한 개발자 설문에서는 여러 AI 도구를 병행하는 흐름이 나타났다. 한 도구로 통일하기보다 작업 성격에 맞춰 골라 쓰는 사람이 이미 적지 않다는 뜻이다.</p>
+<h2>코덱스가 유독 자주 거절하는 이유</h2>
+<p>코덱스가 정책상 거절을 자주 한다는 방의 인상에는 근거가 있다. 코딩 에이전트 안전성을 다룬 한 벤치마크 연구에서는 o3-high를 백엔드로 쓴 코덱스 CLI의 안전 거절률이 14.1%, o4-mini 백엔드일 때는 11.2%로 측정됐다.  해당 연구에서는 사이버공격 과제에서 코덱스의 안전 거절이 관찰됐다.</p>
+<p>이 수치는 지금 코덱스 기본 모델인 GPT-5.6 이전 세대 기준이라 최신 체감 거절률과 정확히 겹치지는 않는다.</p>
+<p>그래도 방향성은 방에서 나온 경험과 맞아떨어진다. 애매한 요청 앞에서 코덱스가 유독 자주 멈춘다는 방의 인상은 앞선 벤치마크에서 관찰된 거절 사례와 맞닿아 있다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/codex-claude-code-refusal-gap.png" alt="" loading="lazy"><h2>스킬 맥락을 통째로 다시 읽는 비용</h2>
+<p>거절만큼 자주 나오는 불만이 맥락 관리 비용이다. 코덱스는 설치된 스킬의 메타데이터에 컨텍스트 윈도우의 2%만 예산으로 고정 배정해뒀다. 스킬을 여러 개 깔면 이 한도를 넘겨 설명이 잘려나가는 경고가 뜬다는 이슈가 코덱스 깃허브에 여러 건 올라와 있다. GPT-5.6 전환 과정에서는 기본 컨텍스트 윈도우 자체도 37만2000토큰에서 27만2000토큰으로 줄었는데, 정보월드 보도에 따르면 개발자들 사이에서 세션이 작업보다 압축(컴팩션)에 더 많은 시간을 쓴다는 불만이 나왔다.</p>
+<p>스킬 관련 맥락이 나올 때마다 전문을 다시 읽어서 비효율적이라는 방의 지적도 이 구조와 무관하지 않다. 추가하거나 수정한 스킬을 앱에서 다시 읽히려면 재시작이 필요하다는 이슈도 코덱스 깃허브에 올라와 있어, 스킬 갱신이 매끄럽지 않다는 지적이 있다.</p>
+<p>클로드코드도 이 문제에서 완전히 자유롭지는 않다. 서브에이전트는 부모 세션이 이미 읽어둔 파일이나 대화를 물려받지 못한다. 위임받은 작업을 처음부터 다시 탐색하는 경우가 흔하다는 지적이 나온다. 다만 이쪽은 스킬 전체를 되풀이해서 읽는 구조라기보다 서브에이전트 단위의 맥락 단절에 더 가깝다.</p>
+<h2>리서치 도구가 모델을 가려 타는 이유</h2>
+<p>방에서 쓰는 리서치 도구가 클로드에 최적화돼 있어 코덱스에 얹으면 품질이 보장되지 않는다는 이야기도 나왔다. 이 현상 자체는 딥리서치형 MCP 도구 전반에서 낯설지 않다. 이 딥리서치 명령은 여러 서브에이전트를 동시에 띄워 각자 조사하고 서로 결과를 대조한 뒤 하나의 보고서로 합치는 구조인데, 검색을 언제 끝낼지와 어떤 결과를 신뢰할지 판단하는 몫을 에이전트 자신에게 맡긴다.</p>
+<p>이런 판단은 모델마다 도구 호출 습관과 지시 해석 방식이 다르다. 한 모델에 맞춰 짠 오케스트레이션과 프롬프트가 다른 모델로 옮겨가면 그대로 재현되지 않는 일이 흔하다. 특정 벤더 최적화 도구를 다른 모델 위에 얹었을 때 성능이 흔들리는 문제는 리서치 도구만의 이야기가 아니다. 다만 여러 단계를 스스로 판단해서 이어가야 하는 작업일수록 이 격차가 크게 드러난다.</p>
+<h2>키미·딥식 조합이 통한다는 경험, 근거는 있나</h2>
+<p>반대로 키미·딥식 최신 모델에 리서치 도구를 얹으면 검색 결과를 잘 긁어온다는 방의 경험담은 두 모델의 최근 스펙과 방향이 맞아떨어진다. 문샷AI가 4월에 낸 키미 K2.6은 1조 파라미터 MoE 모델로, 토큰당 320억 파라미터를 활성화하고 최대 300개 서브에이전트를 4000단계까지 조율하는 에이전트 스웜 구조를 갖췄다. 6월에 나온 코딩 특화 버전 K2.7 Code는 컨텍스트 윈도우를 25만6000토큰까지 늘리면서 사고 토큰 사용량은 K2.6보다 30%가량 줄였다.</p>
+<p>딥식도 8월 13일 정식 출시한 V4-Pro에서 100만 토큰 컨텍스트 윈도우와 토큰 단위 압축·희소 어텐션 기술을 적용했다. V4-Pro의 출력 가격도 100만 토큰당 1.98~3.96달러로 클로드 오퍼스 4.8의 25달러보다 낮다. 긴 컨텍스트와 낮은 비용이 맞물리면 검색 결과를 많이 끌어와도 부담이 작다는 뜻이다. 리서치처럼 여러 차례 검색하고 종합하는 작업에서 체감 품질이 올라갈 만한 조건은 갖춰져 있는 셈이다.</p>
+<p>2026년 코딩 에이전트 생태계에서는 도구 하나로 다 해결하기보다 여러 모델을 조합해 쓰는 흐름이 나타난다. 개인 개발자나 소규모 팀 입장에서는 코덱스 플러스 20달러와 클로드 프로 20달러를 합쳐 쓰는 조합이 클로드 맥스 100달러 하나보다 낫다는 계산도 커뮤니티에서 돈다.</p>
+<p>클로드에는 리서치 도구를 얹고 키미·딥식에는 검색 위주 작업을 맡기는 방의 역할 분담은 이런 흐름과 같은 방향을 가리킨다. 다음 관전 포인트는 코덱스가 스킬 재로딩과 컨텍스트 예산 문제를 얼마나 고치느냐다. 그 격차가 좁혀지지 않는 한, 위임이냐 협업이냐는 선택은 당분간 어떤 작업에 어떤 도구를 붙이느냐는 조합 문제로 남을 것이다.</p></div>
+<div class="chips"><span class="chip">코덱스</span><span class="chip">클로드코드</span><span class="chip">AI 코딩 에이전트</span><span class="chip">딥리서치 MCP</span><span class="chip">키미 K2</span><span class="chip">딥식 V4</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://dev.to/shehzan/claude-code-vs-openai-codex-architecture-guide-2026-l9c" rel="nofollow noopener">https://dev.to/shehzan/claude-code-vs-openai-codex-architecture-guide-2026-l9c</a></li><li><a href="https://www.mindstudio.ai/blog/openai-codex-goal-command-autonomous-tasks" rel="nofollow noopener">https://www.mindstudio.ai/blog/openai-codex-goal-command-autonomous-tasks</a></li><li><a href="https://smartscope.blog/en/blog/codex-vs-claude-code-subagent-architecture-2026/" rel="nofollow noopener">https://smartscope.blog/en/blog/codex-vs-claude-code-subagent-architecture-2026/</a></li><li><a href="https://www.wikitree.co.kr/articles/1152353" rel="nofollow noopener">https://www.wikitree.co.kr/articles/1152353</a></li><li><a href="https://arxiv.org/pdf/2606.01317" rel="nofollow noopener">https://arxiv.org/pdf/2606.01317</a></li><li><a href="https://www.infoworld.com/article/4198811/openais-codex-context-reduction-for-gpt-5-6-sparks-dissatisfaction-among-developers.html" rel="nofollow noopener">https://www.infoworld.com/article/4198811/openais-codex-context-reduction-for-gp</a></li><li><a href="https://github.com/openai/codex/issues/19679" rel="nofollow noopener">https://github.com/openai/codex/issues/19679</a></li><li><a href="https://github.com/openai/codex/issues/16653" rel="nofollow noopener">https://github.com/openai/codex/issues/16653</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>코덱스와 클로드코드 중 어떤 걸 써야 하나요?</h2><p class="sum">작업을 통째로 맡기고 결과만 검토하고 싶다면 코덱스가, 계획부터 함께 세우고 중간에 방향을 바꾸고 싶다면 클로드코드가 더 맞는다. 실사용자 상당수는 두 도구를 작업 성격에 따라 나눠 쓴다.</p></article><article class="dcard"><div class="t">Q</div><h2>코덱스가 코딩 요청을 자주 거절하는 이유는 뭔가요?</h2><p class="sum">코덱스 시스템 프롬프트가 안전하고 도움이 되는 범위를 좁게 규정해둬서, 취약점 분석과 공격 코드 작성처럼 경계가 애매한 요청에서 거절로 넘어가는 경우가 잦다. 한 벤치마크에서는 백엔드 모델에 따라 안전 거절률이 11~14%로 측정됐다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-08-1800.html">2026-08-08 08-08 14:19~17:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

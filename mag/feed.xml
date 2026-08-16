@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>위임형 코덱스, 협업형 클로드코드 - 실전에서 갈리는 지점</title>
+    <link>https://chat.axwith.com/mag/models/codex-claude-code-refusal-gap.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/codex-claude-code-refusal-gap.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 17 Aug 2026 12:00:00 +0900</pubDate>
+    <description>코덱스와 클로드코드는 왜 거절 빈도와 스킬 재로딩 비용, 리서치 도구 궁합까지 다르게 움직이는가. 아키텍처 차이부터 키미·딥식 조합이 통하는 근거까지 웹 조사로 확인했다</description>
+  </item>
+  <item>
+    <title>클로드 리셀 서비스 환불 러시로 본 AI 구독 할인의 함정</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-account-reseller-refund.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-account-reseller-refund.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Mon, 17 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 계정을 싸게 파는 리셀 서비스가 프로모션 종료 후 가격을 올리면서 환불 요청이 잇따랐다. 리셀 시장의 구조와 클로드 코드 요금 논란, 환불 요령을 정리했다.</description>
+  </item>
+  <item>
     <title>헤드룸 프록시로 클로드코드 컨텍스트 아끼기, 지금 써도 안전한가</title>
     <link>https://chat.axwith.com/mag/troubleshooting/headroom-proxy-claude-code-context.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/headroom-proxy-claude-code-context.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
     <description>서버 데몬이 데이터 변환 중 계속 실패하는데 적대적 리뷰를 반복해도 못 잡는다면, 리뷰가 아니라 설계 문제일 수 있다. 언제 리팩토링·재설계로 넘어가야 하는지 조사와 실제 경험을 엮어 짚는다.</description>
-  </item>
-  <item>
-    <title>Orca·Paseo·herdr 비교, 여러 코딩 에이전트 동시에 돌리는 법</title>
-    <link>https://chat.axwith.com/mag/tools/orca-paseo-herdr-comparison.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/orca-paseo-herdr-comparison.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Orca, Paseo, herdr 세 AI 코딩 에이전트 오케스트레이션 도구의 차이와 클로드 코드 자체 기능이 이미 커버하는 지점을 실사용 반응과 함께 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</title>
-    <link>https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드 사용자들이 페이블 대신 오푸스5를 선택하는 이유를 벤치마크와 가격, 요금제 변화로 확인한다. 정적 검사에서 걸린 코드와 바깥의 엇갈린 반응까지 짚었다.</description>
   </item>
 </channel></rss>
