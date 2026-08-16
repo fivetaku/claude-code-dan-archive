@@ -5,14 +5,6 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
-    <title>Modal 무료 크레딧으로 L40S GPU 코딩 모델 돌려보니</title>
-    <link>https://chat.axwith.com/mag/ops/modal-l40s-gpu-free-credit.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/modal-l40s-gpu-free-credit.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Sun, 16 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Modal의 L40S 무료 크레딧으로 코딩 모델을 돌리면 실제 몇 시간 쓸 수 있는지, MTP 속도 개선과 클로드코드 연동 방법, 콜드스타트 비용까지 확인했다.</description>
-  </item>
-  <item>
     <title>헤드룸 프록시로 클로드코드 컨텍스트 아끼기, 지금 써도 안전한가</title>
     <link>https://chat.axwith.com/mag/troubleshooting/headroom-proxy-claude-code-context.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/headroom-proxy-claude-code-context.html</guid>
@@ -243,5 +235,13 @@
     <category>도구·라이브러리</category>
     <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
     <description>Orca, Paseo, herdr 세 AI 코딩 에이전트 오케스트레이션 도구의 차이와 클로드 코드 자체 기능이 이미 커버하는 지점을 실사용 반응과 함께 정리했다.</description>
+  </item>
+  <item>
+    <title>클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</title>
+    <link>https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/opus-vs-fable-claude-code.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드 사용자들이 페이블 대신 오푸스5를 선택하는 이유를 벤치마크와 가격, 요금제 변화로 확인한다. 정적 검사에서 걸린 코드와 바깥의 엇갈린 반응까지 짚었다.</description>
   </item>
 </channel></rss>
