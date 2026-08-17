@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>클로드 오퍼스 4.6 넘었다는 로컬 27B 모델, 벤치마크 실체 검증</title>
+    <link>https://chat.axwith.com/mag/models/qwen-27b-opus-benchmark-doubts.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-27b-opus-benchmark-doubts.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 17 Aug 2026 12:00:00 +0900</pubDate>
+    <description>27B 오픈웨이트 모델이 클로드 오퍼스 4.6을 이겼다는 벤치마크가 화제였지만, 수치 대부분은 알리바바 자체 발표이고 27B와 2.4T 플래그십 모델의 성적이 뒤섞여 퍼졌다는 사실이 드러났다</description>
+  </item>
+  <item>
+    <title>에이전트끼리 대화시키는 멀티에이전트 코딩, 효과는 어디까지 진짜인가</title>
+    <link>https://chat.axwith.com/mag/workflow/multi-agent-coding-debate-effect.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/multi-agent-coding-debate-effect.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Mon, 17 Aug 2026 12:00:00 +0900</pubDate>
+    <description>멀티에이전트 코딩이 토큰만 태우는지 실제로 효과가 있는지, 앤트로픽 연구·학계 논문·클로드 코드 다이나믹 워크플로우와 에이전트 팀을 근거로 정리했다.</description>
+  </item>
+  <item>
     <title>위임형 코덱스, 협업형 클로드코드 - 실전에서 갈리는 지점</title>
     <link>https://chat.axwith.com/mag/models/codex-claude-code-refusal-gap.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/codex-claude-code-refusal-gap.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드 SDK로 만든 커뮤니티 챗봇의 OAuth 인증이 이용약관을 위반하는지, Pro 플랜 사용량 한도는 왜 이렇게 빨리 소진되는지를 최신 정책 변경과 함께 짚었다.</description>
-  </item>
-  <item>
-    <title>AI 전환이 막히는 진짜 이유, 기술 아닌 권한 문제</title>
-    <link>https://chat.axwith.com/mag/resources/ai-adoption-authority-bottleneck.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/ai-adoption-authority-bottleneck.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
-    <description>인포시스·슬랙·갤럽·EY의 최신 조사로 AI 도입이 회사마다 정체되는 진짜 원인을 짚고, 살아남을 직업과 요즘 사주 앱이 유독 뜨는 이유까지 함께 자세히 살펴본다</description>
-  </item>
-  <item>
-    <title>바이브코딩 기술부채, 리뷰 반복 대신 리팩토링해야 하는 이유</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/vibe-coding-tech-debt-refactor.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/vibe-coding-tech-debt-refactor.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sun, 09 Aug 2026 12:00:00 +0900</pubDate>
-    <description>서버 데몬이 데이터 변환 중 계속 실패하는데 적대적 리뷰를 반복해도 못 잡는다면, 리뷰가 아니라 설계 문제일 수 있다. 언제 리팩토링·재설계로 넘어가야 하는지 조사와 실제 경험을 엮어 짚는다.</description>
   </item>
 </channel></rss>
