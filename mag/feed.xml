@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>그록 4.6은 정말 오퍼스급인가, 클로드 페이블·GPT 테라 비교</title>
+    <link>https://chat.axwith.com/mag/models/grok-fable-terra-model-compare.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/grok-fable-terra-model-compare.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Tue, 18 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 페이블과 오퍼스, GPT 테라와 솔, 그록 4.6의 컨텍스트·속도·요금을 비교했다. 그록이 오퍼스급이라는 기대와 벤치마크 실측, 체감 속도와 공개 지표가 어긋나는 지점을 짚는다.</description>
+  </item>
+  <item>
+    <title>그록 SuperGrok 연간 구독 할인, 대상은 왜 갈렸나</title>
+    <link>https://chat.axwith.com/mag/resources/grok-annual-discount-eligibility.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/grok-annual-discount-eligibility.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Tue, 18 Aug 2026 12:00:00 +0900</pubDate>
+    <description>그록 SuperGrok 연간 구독 할인이 반나절 만에 닫혔다. 실제로는 두 가지 프로모션이었고, 대상이 갈린 이유와 코딩 도구로서의 값어치를 xAI 공식 정보와 리뷰로 확인했다.</description>
+  </item>
+  <item>
     <title>클로드 오퍼스 4.6 넘었다는 로컬 27B 모델, 벤치마크 실체 검증</title>
     <link>https://chat.axwith.com/mag/models/qwen-27b-opus-benchmark-doubts.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-27b-opus-benchmark-doubts.html</guid>
@@ -227,21 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
     <description>클코단 오픈채팅방이 대화를 AI로 자동 아카이브·매거진화하는 실험을 벌이고 있다. 로봇저널리즘의 역사, 멀티모델 라우팅, AI 환각과 개인정보 익명화 이슈까지 짚어 이 자동화가 얼마나 믿을 만한지 살펴본다.</description>
-  </item>
-  <item>
-    <title>코덱스 울트라 멀티세션, 맥북 메모리와 SSD 수명을 갉아먹는 이유</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/codex-ultra-multisession-memory-ssd.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-ultra-multisession-memory-ssd.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
-    <description>코덱스 울트라 멀티세션에서 맥북이 버벅인 사례를 계기로 서브에이전트 구조의 메모리 폭증, SSD 로깅 버그, 클로드 코드와의 안정성 차이를 실제 이슈 트래커 기록으로 확인했다.</description>
-  </item>
-  <item>
-    <title>클로드 코드 SDK로 만든 챗봇, 구독 계정 인증 이대로 괜찮을까</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-oauth-usage-limit.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-oauth-usage-limit.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드 SDK로 만든 커뮤니티 챗봇의 OAuth 인증이 이용약관을 위반하는지, Pro 플랜 사용량 한도는 왜 이렇게 빨리 소진되는지를 최신 정책 변경과 함께 짚었다.</description>
   </item>
 </channel></rss>

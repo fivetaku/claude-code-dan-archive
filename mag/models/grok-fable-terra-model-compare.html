@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>그록 4.6은 정말 오퍼스급인가, 클로드 페이블·GPT 테라 비교 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드 페이블과 오퍼스, GPT 테라와 솔, 그록 4.6의 컨텍스트·속도·요금을 비교했다. 그록이 오퍼스급이라는 기대와 벤치마크 실측, 체감 속도와 공개 지표가 어긋나는 지점을 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/grok-fable-terra-model-compare.html">
+<meta property="og:title" content="그록 4.6은 정말 오퍼스급인가, 클로드 페이블·GPT 테라 비교">
+<meta property="og:description" content="클로드 페이블과 오퍼스, GPT 테라와 솔, 그록 4.6의 컨텍스트·속도·요금을 비교했다. 그록이 오퍼스급이라는 기대와 벤치마크 실측, 체감 속도와 공개 지표가 어긋나는 지점을 짚는다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/grok-fable-terra-model-compare.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "그록 4.6은 정말 오퍼스급인가, 클로드 페이블·GPT 테라 비교", "description": "클로드 페이블과 오퍼스, GPT 테라와 솔, 그록 4.6의 컨텍스트·속도·요금을 비교했다. 그록이 오퍼스급이라는 기대와 벤치마크 실측, 체감 속도와 공개 지표가 어긋나는 지점을 짚는다.", "datePublished": "2026-08-18", "dateModified": "2026-08-18", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/grok-fable-terra-model-compare.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "클로드 페이블, 그록 4.6, GPT-5.6 테라, 클로드 오퍼스 5, AI 코딩 모델 비교, 클로드 코드"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드 페이블 5와 오퍼스 5 중 뭘 써야 하나?", "acceptedAnswer": {"@type": "Answer", "text": "일상적인 코딩과 반복 작업은 오퍼스 5가 가격도 절반이고 일부 벤치마크에서 더 낫다. 아키텍처 판단이나 대규모 마이그레이션처럼 실수 비용이 큰 장시간 자율 작업일 때만 페이블 5로 올리는 편이 효율적이다."}}, {"@type": "Question", "name": "그록 4.6은 클로드 오퍼스급인가?", "acceptedAnswer": {"@type": "Answer", "text": "종합 지능 지표에서는 오퍼스 5에 2점, 페이블 5에 1점 뒤처지는 정도로 근접했다. 다만 코딩 벤치마크에서는 격차가 더 크고, 그록의 실질적 강점은 지능보다 가격 대비 효율에 있다."}}, {"@type": "Question", "name": "GPT-5.6 테라와 솔의 차이는 뭔가?", "acceptedAnswer": {"@type": "Answer", "text": "테라는 105만 토큰 컨텍스트를 갖춘 중간급 모델로 챗GPT 플러스·프로·비즈니스에 기본 포함된다. 솔은 가장 어려운 작업에 배정되는 최상위 등급으로 코딩 벤치마크 점수가 더 높다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/grok-fable-terra-model-compare.png" alt="그록 4.6은 정말 오퍼스급인가, 클로드 페이블·GPT 테라 비교" loading="eager">
+<header>
+  <div class="eyebrow">AI 모델·프롬프트</div>
+  <h1>그록 4.6은 정말 오퍼스급인가, 클로드 페이블·GPT 테라 비교</h1>
+  <p class="sub">클로드 페이블·오퍼스, GPT 테라·솔, 그록 4.6까지 — 코딩 모델 네 개를 벤치마크와 요금으로 나란히 짚었다</p>
+  <div class="meta"><span>2026-08-18</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클코단에서는 최근 클로드 페이블과 GPT 프로, 그록, GPT 테라를 한자리에 놓고 실제 체감을 견줘봤다. 넷 다 코딩과 에이전트 작업에 쓸 수 있다는 공통점은 있지만 컨텍스트 길이와 자율성, 속도, 요금 구조가 저마다 달라 &quot;지금 뭘 켜야 하나&quot;라는 질문에 답이 갈렸다. 특히 논쟁의 중심에는 두 가지가 있었다. 그록 4.6이 클로드 오퍼스급일 거라는 기대와 실제 벤치마크 사이의 간극, 그록이 더 빠르다는 체감과 공개 지표가 어긋나는 지점이다.</p>
+<h2>페이블, 장시간 자율 코딩엔 강하지만 일주일 치가 하루 만에 준다</h2>
+<p>앤트로픽이 6월 9일 공개한 클로드 페이블 5는 100만 토큰 컨텍스트와 12만8천 토큰 출력을 갖춘 최상위 모델이다. 클로드 코드나 관리형 에이전트 환경에 올리면 며칠에 걸쳐 단계별 계획을 짜고 하위 작업을 위임하며 스스로 검증하는 방식으로 돌아간다. 실사용 후기에서는 모호한 요구만 던져도 완성된 앱을 내놓는다거나, 몇 시간 전 결정을 기억하고 그 맥락 위에서 다음 작업을 이어간다는 평가가 많았다.</p>
+<p>페이블은 사이버보안이나 생물학처럼 위험도가 높은 질의에서는 답을 막고 오퍼스 4.8로 자동 전환되는 안전장치도 갖췄다.</p>
+<p>문제는 비용과 한도다. 페이블 5는 입력 100만 토큰당 10달러, 출력 100만 토큰당 50달러로 오퍼스의 정확히 두 배다. 맥스 요금제에서는 7월 7일까지 페이블이 주간 사용량의 최대 50%까지 포함됐고, 이후에는 사용량 크레딧이 필요해졌다. 방에서 나온 &quot;하루 만에 주간 사용량 상당 부분을 썼다&quot;는 경험은 이 구조와 맞아떨어진다. 개인 개발자는 월 20달러 프로 요금제를 선택할 수 있지만, 페이블 사용에는 별도 사용량 크레딧이 필요할 수 있다. 맥스 20x는 월 200달러지만, 페이블 사용은 별도 사용량 크레딧 정책의 적용을 받는다.</p>
+<p>일부 리뷰 매체들은 오히려 오퍼스 5를 기본값으로 권한다. 오퍼스 5는 페이블 절반 가격이면서 일부 에이전트 벤치마크에서 앞서고 지연 시간이 짧은 패스트 모드도 갖췄다. 정말 어려운 아키텍처 판단이나 대규모 마이그레이션에만 페이블로 올리라는 조언도 있다. 상위 모델만 쓰고 손넷·오퍼스 이하는 잘 안 쓴다는 방 안의 일부 의견과는 결이 다르다. 일부 개발 가이드는 오히려 손넷 5를 기본값으로 놓고 최상위 두 모델은 어려운 작업에 사용하라고 안내한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/grok-fable-terra-model-compare.png" alt="" loading="lazy"><h2>&quot;그록 4.6=오퍼스급&quot;이라는 기대, 벤치마크에서는 다르게 갈린다</h2>
+<p>그록 4.6은 8월 12일 스페이스XAI(옛 xAI, 올해 2월 스페이스X와 합병)가 내놨다. 아티피셜 애널리시스 인텔리전스 인덱스에서 61점을 받아 GPT-5.6 솔과 동점을 이뤘지만 페이블 5(62점)에 1점, 오퍼스 5(63점)에는 2점 뒤처진다. 방에서 나온 &quot;오퍼스급일 거라는 기대엔 부정적&quot;이라는 반응은 숫자로도 대체로 확인된다. 다만 그 격차가 크지는 않다.</p>
+<p>코딩만 떼어 보면 간극이 더 벌어진다. 대표적인 코딩 벤치마크 딥SWE에서 그록 4.6은 65.9%로 전 세대보다 11.9점 올랐지만 GPT-5.6 솔의 73%에는 못 미친다. 그록이 실제로 앞서는 영역은 지식노동형 업무 평가인 GDP발과 법률 추론 벤치마크 하비 벤치 쪽이다. 바깥 반응을 보면 이번 출시는 댓글 수는 많은데 실제 결과를 공유한 후기는 손에 꼽을 정도로 적었다. 벤치마크 점수만큼 사실을 확신에 차서 지어내는 빈도가 높다는 지적도 나왔다.</p>
+<p>그록의 진짜 강점은 지능이 아니라 가격 대비 효율이다. 입력 100만 토큰당 2달러, 출력 6달러로, 입력 가격은 오퍼스 5의 40%와 페이블 5의 20%, 출력 가격은 각각 24%와 12% 수준이다. 작업 하나를 끝내는 데 드는 비용이 오퍼스보다 2.4배 저렴하다. 대화 턴 수도 절반이면 끝난다는 분석도 있었다. 반복적인 자동화나 배치 작업을 소규모 팀이 저렴하게 돌리려 한다면, 최상위 두뇌보다 이 가격 구조가 더 눈여겨볼 대목이다. 다만 20만 토큰을 넘는 순간 요금이 통째로 재산정되는 구간이 있다. 초저가라는 인상만 믿고 긴 프롬프트를 그대로 밀어붙이면 곤란해질 수 있다.</p>
+<h2>그록이 더 빠르다는 체감, 공개 벤치마크와는 반대로 나온다</h2>
+<p>방에서는 그록이 GPT 테라보다 조금 빠르다는 인상을 전했다. 하지만 공개된 속도 지표는 정반대를 가리킨다. 아티피셜 애널리시스의 공개 속도 지표에서는 GPT-5.6 테라가 그록 4.6보다 높은 출력 속도를 기록했다. 첫 토큰이 나오기까지 걸리는 시간은 추론 설정에 따라 달라진다. 그록은 사고 과정을 거치는 설정에서 40초를 넘기기도 한다.</p>
+<p>이 차이는 그록이 답을 내놓기 전에 얼마나 오래 추론 단계를 밟느냐에 따라 크게 갈리는 것으로 알려져 있다. 체감 속도는 프롬프트 길이나 사고 모드 설정, 서비스단 라우팅에 따라 실제 벤치마크와 다르게 느껴질 여지가 있다.</p>
+<p>GPT-5.6은 루나·테라·솔 세 등급으로 나뉜다. 7월 9일 한꺼번에 공개됐다. 테라는 컨텍스트 105만 토큰짜리 중간급으로, 7월 30일 인하 뒤 입력 2달러, 출력 12달러다. 테라는 챗GPT 워크와 코덱스, API에서 이용할 수 있으며 일반 챗GPT 대화에서는 선택할 수 없다. 복잡한 작업에는 상위 등급인 솔(입력 5달러, 출력 30달러)을 사용할 수 있다. 무료·고 사용자에게는 테라가 제공되며, 루나는 유료 이용자가 챗GPT 워크와 코덱스에서 선택할 수 있다. 대량 반복 작업엔 이쪽이 더 맞는다는 평가도 있다.</p>
+<h2>실시간 대응과 이미지·영상 생성, 그록만의 자리</h2>
+<p>방에서는 이미지·영상 생성과 실시간 이슈 대응을 그록의 차별화 지점으로 꼽았다. 그록 이매진은 최대 2K 정지 이미지와 오디오가 포함된 최대 15초 영상을 만들어낸다. 그록 이매진 비디오 1.5 패스트는 6초 720p 클립을 약 25초에 생성한다. 실시간 검색은 X에 올라오는 게시물을 그대로 훑기 때문에, 속보나 여론 흐름처럼 다른 어시스턴트가 정적인 지식으로 얼버무리는 영역에서 강점을 보인다는 평가가 많다.</p>
+<p>다만 정확도는 별개 문제다. 니치한 주제에서는 환각이 발생할 수 있다는 지적이 있다. 검증되지 않은 소문과 사실을 섞어 전달하는 사례도 보고됐다. 정확도가 중요한 조사에는 인용 출처를 붙여주는 딥서치 모드를 따로 켜라는 조언이 따라붙는다.</p>
+<p>이미지·영상과 실시간 이슈 대응은 그록에 맡기고 장시간 자율 코딩은 페이블이나 오퍼스로 돌리는 라우팅이 세 모델을 각각 최고치로 쓰는 방법에 가깝다. 다음 질문은 이 라우팅을 요금 구조 안에서 얼마나 자동화할 수 있느냐다.</p></div>
+<div class="chips"><span class="chip">클로드 페이블</span><span class="chip">그록 4.6</span><span class="chip">GPT-5.6 테라</span><span class="chip">클로드 오퍼스 5</span><span class="chip">AI 코딩 모델 비교</span><span class="chip">클로드 코드</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" rel="nofollow noopener">https://www.anthropic.com/news/claude-fable-5-mythos-5</a></li><li><a href="https://support.claude.com/en/articles/15424964-claude-fable-5-on-your-plan" rel="nofollow noopener">https://support.claude.com/en/articles/15424964-claude-fable-5-on-your-plan</a></li><li><a href="https://www.digitalapplied.com/blog/claude-code-limits-raised-fable-5-max-team-premium-2026" rel="nofollow noopener">https://www.digitalapplied.com/blog/claude-code-limits-raised-fable-5-max-team-p</a></li><li><a href="https://www.datacamp.com/blog/claude-opus-5-vs-claude-fable-5" rel="nofollow noopener">https://www.datacamp.com/blog/claude-opus-5-vs-claude-fable-5</a></li><li><a href="https://officechai.com/ai/grok-4-6-benchmarks/" rel="nofollow noopener">https://officechai.com/ai/grok-4-6-benchmarks/</a></li><li><a href="https://www.marktechpost.com/2026/08/12/spacexai-releases-grok-4-6/" rel="nofollow noopener">https://www.marktechpost.com/2026/08/12/spacexai-releases-grok-4-6/</a></li><li><a href="https://www.orcarouter.ai/blog/grok-4-6-vs-claude-opus-5" rel="nofollow noopener">https://www.orcarouter.ai/blog/grok-4-6-vs-claude-opus-5</a></li><li><a href="https://artificialanalysis.ai/models/comparisons/grok-4-6-vs-gpt-5-6-terra-medium" rel="nofollow noopener">https://artificialanalysis.ai/models/comparisons/grok-4-6-vs-gpt-5-6-terra-mediu</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 페이블 5와 오퍼스 5 중 뭘 써야 하나?</h2><p class="sum">일상적인 코딩과 반복 작업은 오퍼스 5가 가격도 절반이고 일부 벤치마크에서 더 낫다. 아키텍처 판단이나 대규모 마이그레이션처럼 실수 비용이 큰 장시간 자율 작업일 때만 페이블 5로 올리는 편이 효율적이다.</p></article><article class="dcard"><div class="t">Q</div><h2>그록 4.6은 클로드 오퍼스급인가?</h2><p class="sum">종합 지능 지표에서는 오퍼스 5에 2점, 페이블 5에 1점 뒤처지는 정도로 근접했다. 다만 코딩 벤치마크에서는 격차가 더 크고, 그록의 실질적 강점은 지능보다 가격 대비 효율에 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPT-5.6 테라와 솔의 차이는 뭔가?</h2><p class="sum">테라는 105만 토큰 컨텍스트를 갖춘 중간급 모델로 챗GPT 플러스·프로·비즈니스에 기본 포함된다. 솔은 가장 어려운 작업에 배정되는 최상위 등급으로 코딩 벤치마크 점수가 더 높다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-17-2200.html">2026-08-17 08-17 17:24~21:48</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
