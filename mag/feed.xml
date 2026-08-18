@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>금융권 AWS Bedrock 도입, 망분리 풀려도 왜 더딘가</title>
+    <link>https://chat.axwith.com/mag/workflow/aws-bedrock-financial-sector-korea.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/aws-bedrock-financial-sector-korea.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Wed, 19 Aug 2026 12:00:00 +0900</pubDate>
+    <description>금융권 망분리 완화와 AWS Bedrock 관심 증가를 4월 규제 개정, 비용 손익분기점, post-training 구조, 책임소재 문제로 짚었다.</description>
+  </item>
+  <item>
+    <title>AI로 만든 부동산 상품, 전환율이 안 오르는 진짜 이유</title>
+    <link>https://chat.axwith.com/mag/ops/ai-product-real-estate-conversion-rate.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/ai-product-real-estate-conversion-rate.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Wed, 19 Aug 2026 12:00:00 +0900</pubDate>
+    <description>AI로 부동산 에이전트 상품을 만들어 판매하며 낮은 전환율의 원인을 GA4 데이터와 웹 조사로 함께 짚어봤다. 만드는 능력보다 파는 능력이 병목이라는 진단이 나온다.</description>
+  </item>
+  <item>
     <title>그록 4.6은 정말 오퍼스급인가, 클로드 페이블·GPT 테라 비교</title>
     <link>https://chat.axwith.com/mag/models/grok-fable-terra-model-compare.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/grok-fable-terra-model-compare.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 11 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드의 오푸스 계획·소넷 실행 모델 조합을 공식 opusplan 기능, 서브에이전트 모델 상속 문제, CLAUDE_CODE_SUBAGENT_MODEL 환경변수까지 조사해 정리했다.</description>
-  </item>
-  <item>
-    <title>채용·SAP·반도체·법무, 직무별로 본 AI 자동화 현주소</title>
-    <link>https://chat.axwith.com/mag/workflow/job-function-ai-automation-cases.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/job-function-ai-automation-cases.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 11 Aug 2026 12:00:00 +0900</pubDate>
-    <description>채용 공고 자동화부터 ATS-MCP 백테스트, SAP 리포트 셀프서비스, 반도체 설계 AI, 법무·세무 AX까지 직무별 AI 도입 현황과 실사용 반응을 국내외 자료로 정리했다.</description>
-  </item>
-  <item>
-    <title>제미나이 CLI 안 죽었다? 안티그래비티 전환의 실제 상황</title>
-    <link>https://chat.axwith.com/mag/models/gemini-cli-antigravity-transition.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-cli-antigravity-transition.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Tue, 11 Aug 2026 12:00:00 +0900</pubDate>
-    <description>제미나이 CLI가 죽지 않았다는 커뮤니티 관찰을 검증했다. 오픈소스 저장소는 계속 유지보수되지만 개인 사용자 요청 처리는 6월 18일 중단됐고, 안티그래비티 CLI로 대체된 배경과 커뮤니티 반발을 정리했다.</description>
   </item>
 </channel></rss>

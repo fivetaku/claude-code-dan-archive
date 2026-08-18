@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>금융권 AWS Bedrock 도입, 망분리 풀려도 왜 더딘가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="금융권 망분리 완화와 AWS Bedrock 관심 증가를 4월 규제 개정, 비용 손익분기점, post-training 구조, 책임소재 문제로 짚었다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/aws-bedrock-financial-sector-korea.html">
+<meta property="og:title" content="금융권 AWS Bedrock 도입, 망분리 풀려도 왜 더딘가">
+<meta property="og:description" content="금융권 망분리 완화와 AWS Bedrock 관심 증가를 4월 규제 개정, 비용 손익분기점, post-training 구조, 책임소재 문제로 짚었다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/aws-bedrock-financial-sector-korea.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "금융권 AWS Bedrock 도입, 망분리 풀려도 왜 더딘가", "description": "금융권 망분리 완화와 AWS Bedrock 관심 증가를 4월 규제 개정, 비용 손익분기점, post-training 구조, 책임소재 문제로 짚었다.", "datePublished": "2026-08-19", "dateModified": "2026-08-19", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/aws-bedrock-financial-sector-korea.html"}, "articleSection": "워크플로우·방법론", "keywords": "AWS Bedrock, 망분리 규제, 금융권 AI 도입, 클라우드 컴플라이언스, post-training, 전자금융감독규정"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "금융권 망분리 규제는 언제부터 완화됐나?", "acceptedAnswer": {"@type": "Answer", "text": "2026년 4월 20일 전자금융감독규정 시행세칙 개정안이 시행되면서 금융보안원 평가를 통과한 SaaS에 한해 금융회사 내부 업무망에서 쓸 수 있게 됐다. 2024년 8월 발표된 망분리 개선 로드맵의 단계적 후속 조치다."}}, {"@type": "Question", "name": "AWS Bedrock과 API 직접 호출의 차이는 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "Bedrock은 AWS IAM·CloudTrail·모델 호출 로깅 등 기존 보안·감사 체계 안에서 여러 AI 모델을 하나의 API로 쓸 수 있게 해준다. 반면 API 직접 호출은 벤더별로 계정과 키를 따로 관리해야 하지만 관리형 서비스의 부가 비용이 붙지 않는다."}}, {"@type": "Question", "name": "Bedrock 같은 관리형 서비스가 항상 더 유리한가?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 요청량이 크지 않은 조직은 벡터 스토어나 예약 처리량 같은 부가 비용 때문에 관리형 서비스가 상용 API 구독보다 비쌀 수 있다. 업계에서는 연간 물량이 일정 규모를 넘어야 자체 서빙이나 관리형 구축이 구독제보다 유리해진다고 본다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/aws-bedrock-financial-sector-korea.png" alt="금융권 AWS Bedrock 도입, 망분리 풀려도 왜 더딘가" loading="eager">
+<header>
+  <div class="eyebrow">워크플로우·방법론</div>
+  <h1>금융권 AWS Bedrock 도입, 망분리 풀려도 왜 더딘가</h1>
+  <p class="sub">4월 시행세칙 개정으로 금융보안원 평가 통과 SaaS만 내부망 진입 허용, 관건은 물량과 책임소재다</p>
+  <div class="meta"><span>2026-08-19</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>금융 시스템통합(SI) 업계에서 최근 부쩍 자주 나오는 질문이 있다. 망분리가 조금씩 풀리는 지금, 은행이나 보험사가 생성형 AI를 쓰려면 API를 직접 호출하는 게 나을까, 아니면 AWS Bedrock 같은 관리형 서비스를 거치는 게 나을까. 보안과 감사 편의성만 보면 답은 뻔해 보이지만, 물량과 비용을 따지기 시작하면 얘기가 달라진다. 이 질문에 답하려면 먼저 무엇이 실제로 풀렸고 무엇이 여전히 막혀 있는지부터 짚어야 한다.</p>
+<h2>4월 20일, 무엇이 풀렸나</h2>
+<p>금융위원회는 2024년 8월 &#x27;금융분야 망분리 개선 로드맵&#x27;을 내놓은 뒤 단계적으로 규제를 완화해왔고, 2026년 4월 20일 전자금융감독규정 시행세칙 개정안이 시행되면서 침해사고 대응기관의 평가를 통과한 SaaS에 한해 내부 업무망 사용이 공식 허용됐다. 그전까지는 외부 인터넷과 단절된 망 안에서 메신저나 화상회의 같은 기본 협업 도구조차 쓰기 어려웠던 게 현실이다.</p>
+<p>다만 평가를 통과한 서비스만 쓸 수 있다는 전제가 붙는다. 금융보안원은 AWS·구글클라우드·KT클라우드·마이크로소프트·네이버클라우드·NHN클라우드·오라클·삼성SDS·카카오엔터프라이즈 9개 클라우드 사업자와 함께 보안 관리 참고서를 마련했고, 2026년 취약점 분석·평가 기준에는 &#x27;클라우드 관리체계&#x27; 항목 73개를 신설해 평가 항목을 869개로 늘렸다. 규제가 풀렸다기보다 보안 평가와 사후 통제를 전제로 예외가 허용됐다고 보는 편이 정확하다. 은행권은 클라우드 도입률이 상대적으로 낮은 축에 속해, 이번 개정의 체감 효과가 가장 크게 나타날 업권으로 꼽힌다.</p>
+<h2>Bedrock이 유리하다는 근거는 실재한다</h2>
+<p>방 논의에서 나온 &quot;Bedrock이 API 직접 호출보다 보안·감사 편의성에서 유리하다&quot;는 주장은 근거가 있다. Bedrock은 AWS IAM 권한 체계로 접근을 통제하고 CloudTrail로 API 호출 이력을, 모델 호출 로깅으로 입출력 데이터와 토큰 수까지 별도로 남긴다. API 키를 여러 벤더별로 따로 관리할 필요가 없고, 이미 AWS 인프라와 빌링 체계를 쓰는 조직이라면 새 계약이 아니라 기존 구조의 연장으로 AI를 붙일 수 있다.</p>
+<p>컴플라이언스 쪽 무게도 가볍지 않다. Bedrock 계열 서비스는 PCI DSS·PCI 3DS 인증 범위에 포함돼 있고 SOC 2, ISO 27001 등 국제 인증도 갖췄다. AWS Audit Manager는 생성형 AI 구현을 권장 모범 사례와 대조해 살펴볼 수 있는 사전 구축 프레임워크까지 제공한다. 감사 대응 인력이 따로 크지 않은 조직 입장에서는 이런 기성 체계를 그대로 가져다 쓸 수 있다는 게 실질적인 이점이다. 개인신용정보처럼 유출 시 파급력이 큰 데이터를 다루는 금융권에서 이 부분이 갖는 무게는 다른 산업과 다르다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/aws-bedrock-financial-sector-korea.png" alt="" loading="lazy"><h2>&quot;물량이 안 되면 구독제가 더 싸다&quot;는 반박</h2>
+<p>방에서 나온 반박도 무시하기 어렵다. 자체 서빙이든 관리형 서비스 기반 구축이든 초기 인프라 투자가 크고, 이후에는 모델 유지·데이터 갱신·보안 관리 비용이 계속 들어간다. 반면 상용 API 구독은 초기 투자가 거의 없는 대신 사용량에 비례해 비용이 늘어난다. 어느 쪽이 유리한지는 결국 요청량이 갈라놓는데, 방에서 언급된 손익분기 감각은 물량이 중요하다는 점을 보여준다.</p>
+<p>Bedrock 요금 구조를 실제로 뜯어본 쪽에서는 온디맨드 요금 자체보다 부가 비용이 변수라는 지적이 많다. 소규모 트래픽에서는 벡터 스토어나 예약 처리량 같은 부가 요소가 기본 API 비용의 상당 부분을 더 얹는다는 분석도 나온다. 캐싱을 붙이지 않은 프롬프트, 트래픽 예측 없이 예약해둔 처리량이 비용을 불필요하게 키우는 전형적인 패턴으로 꼽힌다. 물량이 작은 조직이라면 관리형 서비스의 편의 대가로 붙는 이런 비용이 구독제보다 오히려 비싸질 수 있다는 뜻이다. 이 계산은 금융권만의 이야기가 아니다. 소규모 팀이 어떤 AI 서비스를 쓸지 고를 때도 똑같은 잣대가 적용된다 — 트래픽이 작을 때는 관리형 인프라의 부가 비용이 상용 구독보다 부담스러울 수 있다.</p>
+<p>여러 회사 모델을 하나의 API로 갈아탈 수 있다는 벤더 종속 회피 논리도 완전하지는 않다. Bedrock 안에서 모델을 바꾸는 건 쉽지만, Bedrock의 에이전트·지식베이스·가드레일·IAM·VPC 통합까지 엮이고 나면 AWS 생태계 자체에 대한 의존은 오히려 깊어진다는 지적도 있다. 이미 특정 모델에 맞춰 프롬프트와 운영 흐름을 정교하게 다듬어온 팀 사이에서는, 모델을 바꾸는 순간 그 튜닝을 다시 해야 한다는 불만도 나온다. 편의를 사는 대신 다른 종류의 종속을 사는 셈이라는 얘기다.</p>
+<h2>post-training은 누가 맡는가</h2>
+<p>방 논의에서 나온 &quot;post-training은 기업이 아니라 AI 프로바이더가 담당하는 구조&quot;라는 설명도 대체로 맞다. 파인튜닝과 post-training은 다른 작업이다. 파인튜닝은 모델의 지식이나 행동을 특정 목적에 맞게 조정하는 기법이며, post-training은 지도학습·선호학습·강화학습 등을 포괄하는 더 넓은 개념이다. 구글과 앤트로픽의 일부 모델은 클라우드 플랫폼을 통해 파인튜닝할 수 있고, OpenAI는 2026년 5월 8일 신규 사용자에 대한 파인튜닝 플랫폼 접근을 중단한다고 밝혔다.</p>
+<p>기업이 직접 손대는 영역에는 소규모 모델에 LoRA 같은 경량 기법을 얹는 방식이 있다.  이 구조를 받아들이면 &quot;기업은 무엇을 살지 고르고, 모델 자체를 빚는 일은 프로바이더 몫&quot;이라는 역할 분담이 자연스럽게 따라온다.</p>
+<h2>규제가 풀려도 못 움직이는 이유</h2>
+<p>망분리가 완화됐다고 금융권이 곧바로 움직이는 것도 아니다. 금융연구원 쪽 분석에 따르면 해외에서는 비자·마스터카드·스트라이프 같은 회사들이 AI 에이전트 관련 파일럿을 활발히 돌리는 반면, 국내 금융사는 규제 안에서 공격적으로 움직이기 어려운 처지다. 결제를 자동으로 수행하는 AI가 오류를 내면 책임 소재 분쟁으로 번질 수 있는데, 지금 구조에서는 책임 배분 기준이 불분명하다. 여기에 개인신용정보 국내 보관 의무, 낡은 결제 인프라, 백오피스 자동화가 인력 재배치로 이어지기 어려운 조직 경직성까지 겹친다.</p>
+<p>전통 금융권이 구조적으로 보수적이어서 상위 정책 없이는 자발적 변화가 어렵다는 방 논의의 결론은, 규제 완화 로드맵과 평가 체계 확장이라는 실제 정책 흐름과도 맞아떨어진다. 다만 그 정책이 만들어내는 건 전면 개방이 아니라 &quot;승인받은 서비스만, 승인받은 방식으로&quot; 쓰는 좁은 통로다. Bedrock이든 직접 API든, 그 통로 안에서 물량과 책임 구조를 감당할 수 있는 회사부터 먼저 움직이게 될 것이다.</p></div>
+<div class="chips"><span class="chip">AWS Bedrock</span><span class="chip">망분리 규제</span><span class="chip">금융권 AI 도입</span><span class="chip">클라우드 컴플라이언스</span><span class="chip">post-training</span><span class="chip">전자금융감독규정</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://zdnet.co.kr/view/?no=20260420161504" rel="nofollow noopener">https://zdnet.co.kr/view/?no=20260420161504</a></li><li><a href="https://www.fsc.go.kr/no010101/86745" rel="nofollow noopener">https://www.fsc.go.kr/no010101/86745</a></li><li><a href="https://www.fsc.go.kr/no010101/77672" rel="nofollow noopener">https://www.fsc.go.kr/no010101/77672</a></li><li><a href="https://aws.amazon.com/ko/blogs/tech/amazon-bedrock-and-aws-config-using-regulation-requirements-automatic-mapping-helper-part1/" rel="nofollow noopener">https://aws.amazon.com/ko/blogs/tech/amazon-bedrock-and-aws-config-using-regulat</a></li><li><a href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/compliance-validation.html" rel="nofollow noopener">https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/compliance-validat</a></li><li><a href="https://aws.amazon.com/blogs/security/spring-2026-pci-dss-and-pci-3ds-compliance-packages-for-aws-now-available/" rel="nofollow noopener">https://aws.amazon.com/blogs/security/spring-2026-pci-dss-and-pci-3ds-compliance</a></li><li><a href="https://www.cloudzero.com/blog/amazon-bedrock-pricing/" rel="nofollow noopener">https://www.cloudzero.com/blog/amazon-bedrock-pricing/</a></li><li><a href="https://www.fsec.or.kr/bbs/detail?menuNo=69&amp;bbsNo=11797" rel="nofollow noopener">https://www.fsec.or.kr/bbs/detail?menuNo=69&amp;bbsNo=11797</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>금융권 망분리 규제는 언제부터 완화됐나?</h2><p class="sum">2026년 4월 20일 전자금융감독규정 시행세칙 개정안이 시행되면서 금융보안원 평가를 통과한 SaaS에 한해 금융회사 내부 업무망에서 쓸 수 있게 됐다. 2024년 8월 발표된 망분리 개선 로드맵의 단계적 후속 조치다.</p></article><article class="dcard"><div class="t">Q</div><h2>AWS Bedrock과 API 직접 호출의 차이는 무엇인가?</h2><p class="sum">Bedrock은 AWS IAM·CloudTrail·모델 호출 로깅 등 기존 보안·감사 체계 안에서 여러 AI 모델을 하나의 API로 쓸 수 있게 해준다. 반면 API 직접 호출은 벤더별로 계정과 키를 따로 관리해야 하지만 관리형 서비스의 부가 비용이 붙지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>Bedrock 같은 관리형 서비스가 항상 더 유리한가?</h2><p class="sum">아니다. 요청량이 크지 않은 조직은 벡터 스토어나 예약 처리량 같은 부가 비용 때문에 관리형 서비스가 상용 API 구독보다 비쌀 수 있다. 업계에서는 연간 물량이 일정 규모를 넘어야 자체 서빙이나 관리형 구축이 구독제보다 유리해진다고 본다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-11-0900.html">2026-08-11 08-10 22:00~08-11 08:50</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
