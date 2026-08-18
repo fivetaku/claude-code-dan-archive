@@ -21,6 +21,22 @@
     <description>그록 SuperGrok 연간 구독 할인이 반나절 만에 닫혔다. 실제로는 두 가지 프로모션이었고, 대상이 갈린 이유와 코딩 도구로서의 값어치를 xAI 공식 정보와 리뷰로 확인했다.</description>
   </item>
   <item>
+    <title>AI 챗봇 응답이 느려지고 메시지 순서가 꼬이는 이유</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/chatbot-latency-reasoning-queue.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/chatbot-latency-reasoning-queue.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Tue, 18 Aug 2026 12:00:00 +0900</pubDate>
+    <description>챗봇 응답 지연과 메시지 순서 꼬임의 원인을 리즈닝 모델의 구조적 지연, 메시지 큐잉 방식, API 요청 상한선 세 갈래로 나눠 웹 조사 사실로 짚어봤다.</description>
+  </item>
+  <item>
+    <title>애플 아이폰, 중국에서만 제미나이 대신 콴·바이두를 쓰는 이유</title>
+    <link>https://chat.axwith.com/mag/models/apple-china-qwen-baidu.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/apple-china-qwen-baidu.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Tue, 18 Aug 2026 12:00:00 +0900</pubDate>
+    <description>애플은 글로벌 시리를 구글 제미나이로, 중국 아이폰은 알리바바 콴과 바이두로 나눠 쓴다. 그 배경과 서버·데이터 처리 방식 차이, 독자가 실제로 알아둘 만한 내용을 정리했다</description>
+  </item>
+  <item>
     <title>클로드 오퍼스 4.6 넘었다는 로컬 27B 모델, 벤치마크 실체 검증</title>
     <link>https://chat.axwith.com/mag/models/qwen-27b-opus-benchmark-doubts.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-27b-opus-benchmark-doubts.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Tue, 11 Aug 2026 12:00:00 +0900</pubDate>
     <description>제미나이 CLI가 죽지 않았다는 커뮤니티 관찰을 검증했다. 오픈소스 저장소는 계속 유지보수되지만 개인 사용자 요청 처리는 6월 18일 중단됐고, 안티그래비티 CLI로 대체된 배경과 커뮤니티 반발을 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드코드 Fable 한도 소진 시 Opus 자동전환, 공식 지원 없는 이유</title>
-    <link>https://chat.axwith.com/mag/tools/fable-limit-opus-auto-switch.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/fable-limit-opus-auto-switch.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Tue, 11 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드 Fable 5 주간 한도를 다 쓰면 Opus로 자동 전환되지 않는다. 공식 정책과 캐시 비용, 그리고 한도 메시지를 감지해 전환을 자동화하는 우회 도구까지 정리했다.</description>
-  </item>
-  <item>
-    <title>오픈채팅 대화 AI 자동 아카이브·매거진, 어디까지 믿을 수 있나</title>
-    <link>https://chat.axwith.com/mag/resources/openchat-ai-archive-magazine.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/openchat-ai-archive-magazine.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Mon, 10 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클코단 오픈채팅방이 대화를 AI로 자동 아카이브·매거진화하는 실험을 벌이고 있다. 로봇저널리즘의 역사, 멀티모델 라우팅, AI 환각과 개인정보 익명화 이슈까지 짚어 이 자동화가 얼마나 믿을 만한지 살펴본다.</description>
   </item>
 </channel></rss>
