@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>딥식이냐 GLM이냐, 저가형 중국 AI 모델 진짜 가성비 비교 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="딥식·GLM·미니맥스·Kimi·텐센트 hy3까지 저가형 AI 모델의 실제 가격과 벤치마크를 조사해 방에서 나온 가성비 평가를 사실과 대조한 기사.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/cheap-china-ai-models-compared.html">
+<meta property="og:title" content="딥식이냐 GLM이냐, 저가형 중국 AI 모델 진짜 가성비 비교">
+<meta property="og:description" content="딥식·GLM·미니맥스·Kimi·텐센트 hy3까지 저가형 AI 모델의 실제 가격과 벤치마크를 조사해 방에서 나온 가성비 평가를 사실과 대조한 기사.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/cheap-china-ai-models-compared.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "딥식이냐 GLM이냐, 저가형 중국 AI 모델 진짜 가성비 비교", "description": "딥식·GLM·미니맥스·Kimi·텐센트 hy3까지 저가형 AI 모델의 실제 가격과 벤치마크를 조사해 방에서 나온 가성비 평가를 사실과 대조한 기사.", "datePublished": "2026-08-20", "dateModified": "2026-08-20", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/cheap-china-ai-models-compared.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "딥식, GLM, 미니맥스, Kimi, 텐센트 hy3, 오픈라우터, 저가형 AI 모델"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "텐센트 hy3는 지금도 무료로 쓸 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 오픈라우터의 hy3 무료 라우트는 2026년 7월 21일 종료됐고, 현재는 100만 토큰당 입력 0.14달러, 출력 0.58달러의 유료 가격으로 제공된다."}}, {"@type": "Question", "name": "딥식과 GLM 중 어느 쪽이 더 저렴한가?", "acceptedAnswer": {"@type": "Answer", "text": "딥식 V4-Pro가 100만 토큰당 입력 0.435달러, 출력 0.87달러의 영구 가격을 유지해 오픈라우터 기준 GLM-4.6(0.43달러/1.75달러)보다 출력 단가가 낮다."}}, {"@type": "Question", "name": "GLM이 오픈라우터에서 90% 할인된다는 말이 사실인가?", "acceptedAnswer": {"@type": "Answer", "text": "확인되지 않는다. 오픈라우터 GLM-4.6 가격은 Z.ai 공식가 대비 25~35% 낮은 수준이며, Z.ai 자체 쿠폰도 최대 60% 할인이 상한선이다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/cheap-china-ai-models-compared.png" alt="딥식이냐 GLM이냐, 저가형 중국 AI 모델 진짜 가성비 비교" loading="eager">
+<header>
+  <div class="eyebrow">AI 모델·프롬프트</div>
+  <h1>딥식이냐 GLM이냐, 저가형 중국 AI 모델 진짜 가성비 비교</h1>
+  <p class="sub">텐센트 hy3 무료 개방부터 딥식 영구 할인, GLM 오픈라우터 리셀링까지 가격표를 실측으로 대조했다</p>
+  <div class="meta"><span>2026-08-20</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>텐센트가 hy3를 공짜로 풀자 벌어진 일</h2>
+<p>클코단에서 가장 놀라움을 산 소식은 텐센트의 참전이었다. 텐센트 훈위안(Hunyuan)은 7월 6일 2,950억 파라미터급 MoE 모델 hy3를 아파치 2.0 라이선스로 공개했다. 실제 활성 파라미터는 210억 규모다. 192개 전문가 중 8개만 골라 쓰는 구조라 덩치에 비해 가볍다.</p>
+<p>공식 API 가격은 100만 토큰당 입력 0.14달러, 출력 0.58달러다. 여기에 오픈라우터가 2주간 무료 라우트를 열면서 판이 커졌다. 이 기간 hy3는 6조 1300억 토큰을 처리했다. 오픈라우터 주간 사용량 1위를 기록했다. 기존 코딩 툴의 베이스 URL 하나만 바꾸면 2,950억 파라미터 모델을 공짜로 돌릴 수 있다는 사실이 퍼지면서 개별 개발자들이 몰려든 결과다. 그 화제성을 생각하면 방에서 나온 놀라움도 이해가 간다. 다만 무료 구간은 7월 21일 종료됐다. 지금은 유료 가격으로 전환된 상태다.</p>
+<h2>딥식이 가성비 최고라는 평가, 숫자로 뜯어보면</h2>
+<p>딥식 V4-Pro는 100만 토큰당 비피크 입력 0.66달러·출력 1.98달러, 피크 입력 1.32달러·출력 3.96달러로 운영된다. 캐시 히트 시 입력은 비피크 0.022달러, 피크 0.044달러다. 경쟁 모델 중에서도 낮은 축이다. 방에서 딥식을 빠르고 저렴한 가성비 최고로 꼽은 평가가 괜한 말은 아니었던 셈이다.</p>
+<p>성능도 가격만큼 밀리지 않는다. 오픈웨이트 지능 지수 비교에서 딥식 V4-Pro는 52점으로 Kimi K2.6의 54점 바로 아래, GLM-5.1의 51점보다는 위에 자리했다. 이 비교에서는 딥식이 Kimi K2.6과 GLM-5.1 사이에 자리한다는 뜻이다. 코딩과 수학 성능을 앞세운 추론 API 설계도 실사용 평가에서 꾸준히 언급되는 강점이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/cheap-china-ai-models-compared.png" alt="" loading="lazy"><h2>GLM &quot;90% 할인&quot; 소문, 실제 가격표는 다르다</h2>
+<p>방에서는 GLM이 오픈라우터에서 90%대 할인 중이라는 이야기가 돌았다. 실제 가격을 대조하면 이 수치는 과장에 가깝다. 오픈라우터의 GLM-4.6 라우트는 입력 0.43달러, 출력 1.75달러다. Z.ai 공식가 0.60달러·2.20달러와 비교하면 20~30% 낮은 수준이다. 가격표상 오픈라우터 쪽이 싼 것은 맞다. 다만 90% 할인이라 부를 정도는 아니다.</p>
+<p>Z.ai가 직접 운영하는 코딩 플랜에도 할인 상품이 확인된다. 8월 현재는 비피크 시간대 쿼터 소모율을 2배에서 1배로 낮춰주는 프로모션이 9월까지 진행 중이다. 방에서 나온 90%라는 숫자는 짧은 프로모션 구간이나 특정 라우팅 조합을 가리켰을 가능성이 있다. 다만 지금 공개된 가격표로는 확인되지 않는다. 그래도 GLM이 오픈라우터를 거치면 공식가보다 확실히 싸진다는 방향성 자체는 사실이다.</p>
+<h2>미니맥스 혹평, 방 밖 평가는 갈린다</h2>
+<p>방의 미니맥스 평가는 발암 수준이라는 표현이 나올 만큼 박했다. 그런데 웹에서 확인되는 최신 미니맥스 계열 반응은 결이 다르다. M2.5는 SWE-bench Verified에서 80.2%를 기록했다. 후속 M2.7 실사용 후기에서는 복잡한 태스크 처리와 버그 추적 능력이 인상적이었다는 평가가 나온다. 미니맥스 측은 M2 출시 당시 클로드 소네트 대비 가격은 8% 수준, 속도는 2배라고 자체 발표했다.</p>
+<p>물론 벤치마크 점수가 실전 안정성을 보장하지는 않는다는 지적도 함께 나온다. 방의 혹평은 특정 버전이나 특정 작업 흐름에서 겪은 경험에서 비롯됐을 가능성이 있다. 밖의 우호적 평가는 최신 버전을 기준으로 한 것일 수 있다. 두 평가가 정확히 같은 대상을 가리키는지부터 불확실하다. 미니맥스는 현재 M2.7을 지나 M3까지 나온 상태다. 방에서 쓰던 버전과 지금 버전이 다를 가능성도 염두에 둘 만하다.</p>
+<h2>무엇을 조합해 쓸 것인가</h2>
+<p>방에서는 딥식, GLM, meta 계열 조합이 실속 있다는 의견이 나왔다. 가격표로 보면 이 조합은 근거가 있다. 딥식 V4-Pro가 비교적 낮은 API 가격으로 기본기를 받친다. GLM은 오픈라우터를 경유하면 공식가보다 확실히 낮은 값에 쓸 수 있다. 여기에 Qwen3.7 Flash는 100만 토큰당 입력 0.03달러, 출력 0.13달러로 더 낮다. 단순 반복 작업에는 이쪽이 더 유리할 수 있다.</p>
+<p>1인 개발자나 소규모 팀 입장에서는 작업 난이도별로 모델을 나눠 쓰는 편이 비용을 아낄 수 있다. 복잡한 에이전틱 코딩이나 장문 추론에는 딥식이나 Kimi K2.6처럼 벤치마크 상위권 모델을, 반복적인 단순 작업에는 Qwen3.7 Flash나 hy3의 유료 전환 이후 가격대를 붙이는 식이다. hy3의 무료 구간은 이미 끝났다. 텐센트가 다음 프로모션을 언제 다시 꺼낼지, 딥식이 지금의 피크·비피크 가격 정책을 얼마나 유지할지가 이 시장의 다음 관전 포인트로 남는다.</p></div>
+<div class="chips"><span class="chip">딥식</span><span class="chip">GLM</span><span class="chip">미니맥스</span><span class="chip">Kimi</span><span class="chip">텐센트 hy3</span><span class="chip">오픈라우터</span><span class="chip">저가형 AI 모델</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.techtimes.com/articles/320292/20260713/tencent-hy3-tops-openrouter-charts-base-url-swap-runs-it-free-codex-cli.htm" rel="nofollow noopener">https://www.techtimes.com/articles/320292/20260713/tencent-hy3-tops-openrouter-c</a></li><li><a href="https://kie.ai/blog/what-is-hy3" rel="nofollow noopener">https://kie.ai/blog/what-is-hy3</a></li><li><a href="https://openrouter.ai/tencent/hy3:free" rel="nofollow noopener">https://openrouter.ai/tencent/hy3:free</a></li><li><a href="https://codersera.com/blog/kimi-k2-6-vs-deepseek-v4-vs-glm-5-1-2026/" rel="nofollow noopener">https://codersera.com/blog/kimi-k2-6-vs-deepseek-v4-vs-glm-5-1-2026/</a></li><li><a href="https://openrouter.ai/z-ai/glm-4.6" rel="nofollow noopener">https://openrouter.ai/z-ai/glm-4.6</a></li><li><a href="https://codingplan.org/en/plans/glm" rel="nofollow noopener">https://codingplan.org/en/plans/glm</a></li><li><a href="https://tilnote.io/en/pages/698e41fc74e523a2afd56612" rel="nofollow noopener">https://tilnote.io/en/pages/698e41fc74e523a2afd56612</a></li><li><a href="https://ai-paper-delta.vercel.app/ko/papers/reddit_MachineLearning_1rxnfc5" rel="nofollow noopener">https://ai-paper-delta.vercel.app/ko/papers/reddit_MachineLearning_1rxnfc5</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>텐센트 hy3는 지금도 무료로 쓸 수 있나?</h2><p class="sum">아니다. 오픈라우터의 hy3 무료 라우트는 2026년 7월 21일 종료됐고, 현재는 100만 토큰당 입력 0.14달러, 출력 0.58달러의 유료 가격으로 제공된다.</p></article><article class="dcard"><div class="t">Q</div><h2>딥식과 GLM 중 어느 쪽이 더 저렴한가?</h2><p class="sum">딥식 V4-Pro가 100만 토큰당 입력 0.435달러, 출력 0.87달러의 영구 가격을 유지해 오픈라우터 기준 GLM-4.6(0.43달러/1.75달러)보다 출력 단가가 낮다.</p></article><article class="dcard"><div class="t">Q</div><h2>GLM이 오픈라우터에서 90% 할인된다는 말이 사실인가?</h2><p class="sum">확인되지 않는다. 오픈라우터 GLM-4.6 가격은 Z.ai 공식가 대비 25~35% 낮은 수준이며, Z.ai 자체 쿠폰도 최대 60% 할인이 상한선이다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-10-2030.html">2026-08-10 08-10 18:29~20:15</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

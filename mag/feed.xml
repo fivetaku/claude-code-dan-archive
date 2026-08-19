@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>클로드 코드 스킬로 인스타 카드뉴스·릴스 직접 만들기</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-skill-cardnews-reels.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-skill-cardnews-reels.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 20 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드 플러그인과 오픈소스를 조합해 인스타 카드뉴스·릴스 제작 스킬을 완성한 사례를 통해 상용 AI 도구 대비 차이와 한계를 짚는다.</description>
+  </item>
+  <item>
+    <title>딥식이냐 GLM이냐, 저가형 중국 AI 모델 진짜 가성비 비교</title>
+    <link>https://chat.axwith.com/mag/models/cheap-china-ai-models-compared.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/cheap-china-ai-models-compared.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Thu, 20 Aug 2026 12:00:00 +0900</pubDate>
+    <description>딥식·GLM·미니맥스·Kimi·텐센트 hy3까지 저가형 AI 모델의 실제 가격과 벤치마크를 조사해 방에서 나온 가성비 평가를 사실과 대조한 기사.</description>
+  </item>
+  <item>
     <title>클로드 프로 20달러, Fable 5 한 방에 다 쓴다는 말 사실일까</title>
     <link>https://chat.axwith.com/mag/models/fable-5-pro-plan-cost.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/fable-5-pro-plan-cost.html</guid>
@@ -227,21 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Wed, 12 Aug 2026 12:00:00 +0900</pubDate>
     <description>Seedance 2.5의 비싼 과금 구조 때문에 무제한 이용처를 찾는 수요가 커졌다. Higgsfield, TapNow, Newtake의 실제 조건과 업계 전반의 &#x27;무제한&#x27; 표시 실태를 짚었다.</description>
-  </item>
-  <item>
-    <title>비영리 사회복지 조직의 구글 워크스페이스 무료 전환, 관건은 서류보다 습관이다</title>
-    <link>https://chat.axwith.com/mag/workflow/google-workspace-nonprofit-transition.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/google-workspace-nonprofit-transition.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 12 Aug 2026 12:00:00 +0900</pubDate>
-    <description>슬랙을 쓰던 비영리 사회복지 조직이 구글 워크스페이스 비영리판을 무료로 신청하는 절차와 기관 유형별 필요 서류, 자주 걸리는 함정과 실제 정착까지 걸리는 시간을 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드 코드엔 이미 하네스가 있다, 가재코드·OMO는 왜 필요한가</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-harness-gajae-omo.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-harness-gajae-omo.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 12 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code에 내장된 하네스 구조와 가재코드·OMO 같은 외부 루프 도구의 차이를 짚고, 1인 개발자와 소규모 팀이 어디서부터 커스터마이징을 시작해야 하는지 정리했다.</description>
   </item>
 </channel></rss>
