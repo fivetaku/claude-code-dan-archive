@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 이력서 스킬, 마켓 대신 직접 만드는 사람들이 늘고 있다 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드 코드로 이력서·자소서를 쓰는 사람이 늘면서, 마켓에서 받은 스킬 대신 직접 만든 개인용 스킬을 쓰는 이유와 AI로 썼을 때 국내 기업이 실제로 보는 판단 기준을 취재했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/ai-resume-skill-diy-claude.html">
+<meta property="og:title" content="AI 이력서 스킬, 마켓 대신 직접 만드는 사람들이 늘고 있다">
+<meta property="og:description" content="클로드 코드로 이력서·자소서를 쓰는 사람이 늘면서, 마켓에서 받은 스킬 대신 직접 만든 개인용 스킬을 쓰는 이유와 AI로 썼을 때 국내 기업이 실제로 보는 판단 기준을 취재했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/ai-resume-skill-diy-claude.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI 이력서 스킬, 마켓 대신 직접 만드는 사람들이 늘고 있다", "description": "클로드 코드로 이력서·자소서를 쓰는 사람이 늘면서, 마켓에서 받은 스킬 대신 직접 만든 개인용 스킬을 쓰는 이유와 AI로 썼을 때 국내 기업이 실제로 보는 판단 기준을 취재했다.", "datePublished": "2026-08-19", "dateModified": "2026-08-19", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/ai-resume-skill-diy-claude.html"}, "articleSection": "워크플로우·방법론", "keywords": "AI 이력서, Claude Code 스킬, 자소서 첨삭, SKILL.md, ATS, 개발자 포트폴리오, AI 자소서 탐지"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI로 이력서를 쓰면 채용에서 불리한가요?", "acceptedAnswer": {"@type": "Answer", "text": "챗GPT나 클로드로 이력서를 다듬으면 78% 정도가 면접까지는 이어진다는 조사가 있지만, 국내 기업의 65.4%는 AI 작성 사실이 확인되면 감점이나 불합격 같은 불이익을 준다고 답했다. 다만 내용을 직접 수정하고 성과를 구체적인 숫자로 채우면 AI 사용 여부보다 문장의 구체성이 평가를 더 크게 좌우한다."}}, {"@type": "Question", "name": "Claude Code 스킬을 직접 만드는 방법은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "개인 폴더(~/.claude/skills/)에 SKILL.md 파일 하나를 두고 YAML 프런트매터에 이름과 description을 적으면 된다. description은 언제 이 스킬을 불러올지 결정하는 핵심 필드로, 구체적으로 적을수록 원하는 상황에서만 작동한다."}}, {"@type": "Question", "name": "이력서 관련 마켓플레이스 스킬을 써도 안전한가요?", "acceptedAnswer": {"@type": "Answer", "text": "보안 업체 Snyk의 2026년 2월 감사에서 서드파티 마켓플레이스에 올라온 스킬 3,984개 중 36%에서 보안 결함이, 13.4%에서 심각한 취약점이 발견됐다. 경력·연락처가 담긴 이력서 데이터를 다루는 스킬일수록 출처가 불분명한 것은 피하는 편이 안전하다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-resume-skill-diy-claude.png" alt="AI 이력서 스킬, 마켓 대신 직접 만드는 사람들이 늘고 있다" loading="eager">
+<header>
+  <div class="eyebrow">워크플로우·방법론</div>
+  <h1>AI 이력서 스킬, 마켓 대신 직접 만드는 사람들이 늘고 있다</h1>
+  <p class="sub">합격 자소서 구조를 분석해 이력서 스킬을 직접 짜는 흐름과, 마켓 스킬을 받아 쓸 때의 보안 위험을 함께 취재했다</p>
+  <div class="meta"><span>2026-08-19</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>이력서·자소서·기술경력서를 AI로 다듬는 일이 널리 퍼졌다. 무하유의 2026 AI 채용 트렌드 리포트에 따르면 2025년 제출된 자기소개서의 약 64.4%가 생성형 AI로 작성된 것으로 추정된다. 문제는 그다음이다 — 남이 만든 이력서 스킬을 설치해 쓸 것인가, 내 합격 사례와 내 프로젝트 성과를 넣어 직접 짤 것인가. 이 선택 하나가 서류 통과율뿐 아니라 개인정보 노출 범위까지 가른다.</p>
+<h2>합격 자소서를 표본 삼아 통과율을 설계하는 법</h2>
+<p>이력서 작성을 도와줄 스킬이나 플러그인을 찾던 논의는 결국 &quot;외부 도구보다 내 자료로 만든 개인용 스킬이 낫다&quot;는 결론으로 모였다. 제시된 순서는 합격 자소서 수집, 구조 분석, 개인 이력 분석을 통한 항목 도출, 그 구조에 맞춘 초안 작성이었다.</p>
+<p>이런 접근은 취업 컨설팅 업계가 권하는 방식과 실제로 거의 겹친다. 자소서 작성 조언에는 STAR 기법으로 경험을 구조화하고 AI 점검과 현직자 피드백을 거치라는 방식도 있다. 실제 합격자 자소서를 분석할 때 문단을 짧게 구성하는 경향도 지적된다.</p>
+<p>AI가 정리해준 문장을 그대로 붙여넣지 않는 게 우선이다. 필요한 내용만 뽑아 직접 쓰고 지원처의 일반적인 포맷과 성과 중심 서술을 우선하자는 조언이 나온 것도 같은 맥락이다. 개발자 포트폴리오도 다르지 않아서, 프로젝트 개요와 문제 해결 과정을 나열하는 데 그치지 않고 &quot;AWS 비용을 33% 절감했다&quot;처럼 측정 가능한 성과를 붙여야 한다는 게 채용 컨설팅 업계의 공통된 조언이다. 형식보다 지원자가 실제로 무엇을 했는지가 명확히 드러나는 내용이 더 중요하다는 지적도 이 지점과 맞닿는다.</p>
+<p>1인 사업자나 소규모 팀 개발자라면 회사 타이틀 대신 직접 맡은 프로젝트의 지표를 이력서 항목으로 뽑아내는 작업이 이 단계에서 가장 오래 걸린다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-resume-skill-diy-claude.png" alt="" loading="lazy"><h2>마켓에서 받은 스킬 대신 내 스킬을 짜야 하는 이유</h2>
+<p>Claude Code의 스킬은 SKILL.md 파일 하나를 개인 폴더에 두는 구조로 만들어진다. description 필드에 무엇을, 언제 쓸지 적어 두면 그 조건에 맞는 상황에서만 불러온다.</p>
+<p>이 구조 자체가 내 경력·내 문체에 맞춘 개인용 스킬을 손쉽게 짤 수 있도록 설계돼 있다. 범용 마켓플레이스 스킬 대신 직접 만들 수도 있는 이유다.</p>
+<p>보안 조사 결과를 보면 이 선택은 편의의 문제만은 아니다.</p>
+<p>보안 업체 Snyk가 2026년 2월 서드파티 마켓플레이스 ClawHub·skills.sh에 올라온 스킬 3,984개를 감사한 ToxicSkills 보고서에 따르면, 전체의 36%에서 보안 결함이 발견됐고 13.4%(534개)는 심각한 수준의 취약점을 안고 있었다. 자격증명 탈취·백도어 설치·데이터 유출로 이어지는 확인된 악성 페이로드도 76건 나왔다.</p>
+<p>이력서에는 경력·연락처·학력 같은 민감 정보가 그대로 들어간다. 고용노동부가 발간한 AI 활용 가이드북도 공개형 AI 도구에 이력서 같은 민감한 문서를 그대로 입력하는 행위를 주의하라고 명시한다. 출처가 불분명한 서드파티 스킬에 경력 전체를 통째로 맡기는 것보다, 출처와 동작을 직접 확인할 수 있는 개인용 스킬을 짜는 편이 위험을 줄이기 쉽다는 결론은 그래서 자연스럽다.</p>
+<h2>번역투 잡는 스킬이 이력서 작업으로 흘러온 사정</h2>
+<p>논의에서 함께 언급된 링크 하나는 사실 이력서 전용 도구가 아니었다. AI가 쓴 한국어 문장의 번역투와 기계적인 어투를 사람 글처럼 다듬는 범용 윤문 스킬로, 번역투 표현·&quot;첫째·둘째·셋째&quot; 식 기계적 병렬·&quot;결론적으로&quot; 같은 상투어 등을 감지해 고쳐 쓴다. 글 품질에 따라 처리 경로를 나누고, 의미가 달라지면 재작성을 거부하는 안전장치도 갖췄다.</p>
+<p>이 패턴 목록을 보면 해외 채용 업계가 정리한 AI 자소서 레드플래그와 상당 부분 닮아 있다. 채용 컨설팅 업체들은 범용 버즈워드, 문장 전체에 균일하게 깔리는 톤, 어느 회사에 붙여도 말이 되는 두루뭉술한 표현을 AI 티가 나는 자소서의 대표 특징으로 꼽는다. AI로 초안을 뽑은 뒤 이런 윤문 스킬로 후처리하는 시도는, 내용을 지어내지 않으면서 표현만 자연스럽게 만들려는 절충안으로 읽힌다.</p>
+<h2>AI로 썼다고 걸러지나, 국내 기업의 실제 기준</h2>
+<p>국내 기업의 태도는 생각보다 강경하다. ZDNet Korea가 인용한 조사에서 기업 65.4%는 챗GPT로 자소서를 썼다는 사실이 확인되면 감점(42.2%)이나 불합격(23.2%) 등 불이익을 주겠다고 답했다. 아시아경제 보도를 보면 채용담당자의 76%는 &quot;AI 때문에 지원자의 참모습을 평가하기 어려워졌다&quot;고, 58%는 &quot;지원자의 AI 도구 사용이 걱정된다&quot;고 답했다.</p>
+<p>다만 같은 조사에서, 2026년 채용에서 가장 중요하게 볼 요소로는 &#x27;조직적합성 검증&#x27;이 67%로 3년 연속 1위를 지켰고 &#x27;AI로 포장된 지원자의 진정성 검증&#x27;은 41%에 그쳤다. AI 사용 여부 자체보다 사람 됨됨이를 더 무겁게 본다는 뜻이다. 해외 조사도 비슷한 결을 보인다 — 채용담당자 다수가 스스로 AI 문장을 가려낼 수 있다고 믿지만, &#x27;AI를 썼다&#x27;는 사실보다 어디에 붙여도 말이 되는 두루뭉술한 문장이 문제라는 지적이 반복됐다.</p>
+<p>써본 사람들 사이에서는 엇갈린 후기가 함께 돈다. 챗GPT로 다듬은 이력서와 커버레터가 인터뷰 응답률을 높였다는 경험담이 있는가 하면, 정작 서류를 검토한 쪽에서 &quot;어디서 본 것 같은 문장&quot;이라는 피드백을 돌려받았다는 사례도 심심찮게 공유된다. 성과를 수치로 드러낸 이력서를 선호하는 채용담당자가 많다는 점이, 개인 자료로 직접 만든 스킬을 택한 이유와 겹친다. 남이 짠 이력서 스킬을 설치하느냐, 내 합격 사례와 내 프로젝트 성과를 넣어 스스로 짜느냐 — 그 선택은 다음 서류의 구체성에 영향을 줄 수 있다.</p></div>
+<div class="chips"><span class="chip">AI 이력서</span><span class="chip">Claude Code 스킬</span><span class="chip">자소서 첨삭</span><span class="chip">SKILL.md</span><span class="chip">ATS</span><span class="chip">개발자 포트폴리오</span><span class="chip">AI 자소서 탐지</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://aimatters.co.kr/news-report/ai-report/36065/" rel="nofollow noopener">https://aimatters.co.kr/news-report/ai-report/36065/</a></li><li><a href="https://zdnet.co.kr/view/?no=20250225142739" rel="nofollow noopener">https://zdnet.co.kr/view/?no=20250225142739</a></li><li><a href="https://www.asiae.co.kr/article/2025040709582853266" rel="nofollow noopener">https://www.asiae.co.kr/article/2025040709582853266</a></li><li><a href="https://community.linkareer.com/employment_data/6002548" rel="nofollow noopener">https://community.linkareer.com/employment_data/6002548</a></li><li><a href="https://f-lab.kr/insight/how-to-write-portfolio-20260225" rel="nofollow noopener">https://f-lab.kr/insight/how-to-write-portfolio-20260225</a></li><li><a href="https://support.claude.com/en/articles/12512198-how-to-create-custom-skills" rel="nofollow noopener">https://support.claude.com/en/articles/12512198-how-to-create-custom-skills</a></li><li><a href="https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/" rel="nofollow noopener">https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/</a></li><li><a href="https://m.joseilbo.com/news/view.htm?newsid=566898" rel="nofollow noopener">https://m.joseilbo.com/news/view.htm?newsid=566898</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI로 이력서를 쓰면 채용에서 불리한가요?</h2><p class="sum">챗GPT나 클로드로 이력서를 다듬으면 78% 정도가 면접까지는 이어진다는 조사가 있지만, 국내 기업의 65.4%는 AI 작성 사실이 확인되면 감점이나 불합격 같은 불이익을 준다고 답했다. 다만 내용을 직접 수정하고 성과를 구체적인 숫자로 채우면 AI 사용 여부보다 문장의 구체성이 평가를 더 크게 좌우한다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code 스킬을 직접 만드는 방법은 무엇인가요?</h2><p class="sum">개인 폴더(~/.claude/skills/)에 SKILL.md 파일 하나를 두고 YAML 프런트매터에 이름과 description을 적으면 된다. description은 언제 이 스킬을 불러올지 결정하는 핵심 필드로, 구체적으로 적을수록 원하는 상황에서만 작동한다.</p></article><article class="dcard"><div class="t">Q</div><h2>이력서 관련 마켓플레이스 스킬을 써도 안전한가요?</h2><p class="sum">보안 업체 Snyk의 2026년 2월 감사에서 서드파티 마켓플레이스에 올라온 스킬 3,984개 중 36%에서 보안 결함이, 13.4%에서 심각한 취약점이 발견됐다. 경력·연락처가 담긴 이력서 데이터를 다루는 스킬일수록 출처가 불분명한 것은 피하는 편이 안전하다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-19-1137-s.html">2026-08-19 08-19 08:06~11:36</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
