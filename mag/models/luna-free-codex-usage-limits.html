@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>챗GPT 루나 무제한 무료, 코덱스 사용량엔 왜 안 통했나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="오픈AI가 GPT-5.6 루나를 무료 이용자에게 무제한 공개했지만 코딩 에이전트 코덱스 사용량은 왜 그대로인지 설명한다. 코덱스 요금 구조, 무료 요금제 배정량, 최근 도입된 리셋권 제도의 조건을 정리했다">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/luna-free-codex-usage-limits.html">
+<meta property="og:title" content="챗GPT 루나 무제한 무료, 코덱스 사용량엔 왜 안 통했나">
+<meta property="og:description" content="오픈AI가 GPT-5.6 루나를 무료 이용자에게 무제한 공개했지만 코딩 에이전트 코덱스 사용량은 왜 그대로인지 설명한다. 코덱스 요금 구조, 무료 요금제 배정량, 최근 도입된 리셋권 제도의 조건을 정리했다">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/luna-free-codex-usage-limits.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "챗GPT 루나 무제한 무료, 코덱스 사용량엔 왜 안 통했나", "description": "오픈AI가 GPT-5.6 루나를 무료 이용자에게 무제한 공개했지만 코딩 에이전트 코덱스 사용량은 왜 그대로인지 설명한다. 코덱스 요금 구조, 무료 요금제 배정량, 최근 도입된 리셋권 제도의 조건을 정리했다", "datePublished": "2026-08-21", "dateModified": "2026-08-21", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/luna-free-codex-usage-limits.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "GPT-5.6 루나, 코덱스, Codex, 챗GPT 무료, 리셋권, 클로드 코드"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "챗GPT 루나 모델은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "GPT-5.6 라인업 중 가장 빠르고 저렴한 모델로 요약·초안 등 일상 작업에 맞춰졌다. 2026년 8월 6일 무료·고(Go) 이용자에게 기본 모델로 텍스트 대화 무제한 제공이 발표됐고 8월 10일 주부터 실제 적용됐다."}}, {"@type": "Question", "name": "코덱스도 무료로 쓸 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "챗GPT 무료 요금제에도 코덱스가 포함되지만 배정량이 가장 작고 로컬 작업만 지원한다. 클라우드 작업이나 넉넉한 사용량을 원하면 월 8달러 고(Go) 요금제 이상이 필요하다."}}, {"@type": "Question", "name": "코덱스 리셋권은 어떻게 쓰나요?", "acceptedAnswer": {"@type": "Answer", "text": "저장형 리셋은 5시간 사용량 한도를 원하는 시점에 즉시 비워주는 기능으로 고·플러스·프로·비즈니스 이용자에게 지급된다. 지급일로부터 30일 안에 쓰지 않으면 소멸하므로 만료일을 확인해두는 게 좋다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/luna-free-codex-usage-limits.png" alt="챗GPT 루나 무제한 무료, 코덱스 사용량엔 왜 안 통했나" loading="eager">
+<header>
+  <div class="eyebrow">AI 모델·프롬프트</div>
+  <h1>챗GPT 루나 무제한 무료, 코덱스 사용량엔 왜 안 통했나</h1>
+  <p class="sub">GPT-5.6 루나가 무료·무제한으로 풀렸지만 코덱스 사용량은 그대로다. 두 상품의 요금 구조와 새로 생긴 리셋권 제도를 짚는다</p>
+  <div class="meta"><span>2026-08-21</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>지난주 오픈AI가 챗GPT 무료 이용자에게 최신 모델 &#x27;루나&#x27;를 무제한으로 풀었다는 소식이 클코단에도 전해졌다. 곧바로 나온 질문은 &quot;그럼 코딩 에이전트 코덱스 사용량도 늘어나는가&quot;였다. 답은 두 제품의 요금 구조가 완전히 갈라져 있다는 데서 갈린다. 루나가 어떤 모델이고 코덱스는 왜 별도 계산인지, 최근 코덱스에 생긴 리셋권 제도까지 순서대로 짚는다.</p>
+<h2>루나는 챗GPT의 막내 모델이다</h2>
+<p>오픈AI는 지난 8월 6일 GPT-5.6 라인업 중 가장 가볍고 값싼 모델 루나를 무료·고(Go) 이용자에게 기본 모델로 제공한다고 발표했다. GPT-5.6은 어려운 코딩·보안 문제에 특화한 솔, 생산 업무·보고·문서 분석용 테라, 라우팅·분류·추출·지원·자동화 등 고빈도 작업용 루나 세 갈래로 나뉜다. 세 모델을 나눈 건 모든 요청에 가장 비싼 모델을 돌릴 필요가 없다는 판단에서다. 맏이 격인 솔은 코딩 에이전트 평가 지표인 아티피셜 애널리시스 코딩 에이전트 인덱스에서 80점을 받아 클로드 페이블 5보다 2.8점 앞섰다는 벤치마크도 공개됐다.</p>
+<p>8월 10일 주부터 무료 이용자는 텍스트 대화를 횟수 제한 없이 쓸 수 있게 됐다. 어려운 질문에 시간을 더 쓰게 하는 생각하기 버튼도 함께 열렸다. 파일 업로드나 이미지 생성은 여전히 별도 한도가 걸린다. 오픈AI는 내부 평가에서 루나의 사실 오류 포함 응답이 GPT-5.5 인스턴트보다 약 62% 적었다고 밝혔다. 오픈AI는 이번 개방을 &quot;범용인공지능이 인류 전체에 이익이 되도록 하는 게 사명&quot;이라는 원론적 설명으로 소개했다.</p>
+<p>이 개방에 앞서 7월 30일 가격 인하가 단행됐다. 루나 API 가격을 80% 낮추면서 입력 100만 토큰당 0.2달러, 출력 100만 토큰당 1.2달러까지 내려갔다.  값이 이 정도로 떨어지자 다른 회사도 루나를 가져다 쓰기 시작했다. 코딩 플랫폼 리플릿이 8월 19일 내놓은 &#x27;프리 모드&#x27;가 그 사례다. 리플릿은 20달러 코어 이상 구독자에게 루나 기반 대화·아이디어 작업에서 크레딧을 차감하지 않되, 정작 복잡한 빌드 작업에는 구독자의 유료 토큰 예산을 쓰게 했다. 값싼 모델로 가벼운 작업을 흡수하고 비싼 예산은 진짜 어려운 일에 아껴두는 그림이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/luna-free-codex-usage-limits.png" alt="" loading="lazy"><h2>코덱스는 애초에 다른 요금 서랍에 있다</h2>
+<p>방에서 나온 &quot;코덱스는 유료 사용자만&quot;이라는 답은 절반만 맞는 얘기다. 코덱스는 챗GPT 무료 요금제에도 포함돼 있지만 배정량이 가장 작고 로컬 코딩 작업만 지원한다. 깃허브 코드 리뷰나 슬랙 연동, 클라우드에서 돌리는 작업 같은 기능은 월 20달러 플러스 요금제부터 열린다. 무료 이용자도 코덱스 자체는 켤 수 있다. 다만 반복 작업을 맡기기엔 5시간 창 안에서 금방 한도에 닿는 구조다.</p>
+<p>실제 배정량 차이도 크다. 플러스 요금제는 5시간마다 GPT-5.4 기준 20~100회의 로컬 메시지를 쓸 수 있다. 월 200달러짜리 프로 20배 요금제는 GPT-5.4 기준 400~2000회까지 늘어난다. 무료 요금제는 이 표에 아예 들어가지 않을 만큼 작은 값이 배정된다.</p>
+<p>루나가 챗GPT 대화창의 기본 모델 자리를 무료로 넘겨받은 것과 코덱스는 사정이 다르다. 챗GPT 계정으로 쓰는 코덱스는 챗GPT 구독 등급별 사용량을 따른다. 모델 하나를 공짜로 푼다고 같이 열리는 구조가 아니다. 코드 작업을 꾸준히 맡기려는 1인 개발자라면 최소 월 8달러짜리 고(Go) 요금제부터 따져봐야 한다.</p>
+<h2>리셋권은 프리티어가 아니라 플러스·프로 대상이었다</h2>
+<p>방에서 언급된 &#x27;리셋권&#x27;은 오픈AI가 6월 11일 도입한 저장형 리셋 기능을 가리킨다. 5시간과 주간 사용량 창을 원하는 시점에 함께 초기화할 수 있게 해주는 토큰 같은 개념이다. 대상은 자격을 갖춘 플러스·프로 이용자였고 처음엔 1회씩 무료로 지급됐다. 도입 초기 두 주 동안은 지인을 코덱스에 초대해 첫 메시지를 보내게 하면 초대한 쪽과 초대받은 쪽 모두에게 리셋권을 하나씩 더 얹어주기도 했다.</p>
+<p>이 기능은 지난 4월 코덱스가 사용량 계산 방식을 토큰 기준으로 개편한 뒤 나왔다. 당시 오픈AI는 한 차례 한도를 통째로 초기화했다. 언제 리셋되는지 예측이 안 되고 남은 사용량도 잘 안 보인다는 불만은 계속됐다.</p>
+<p>문제는 하나 더 있다.</p>
+<p>리셋권이 지급된 지 30일이 지나면 그냥 사라진다는 점이다. 8월 들어 이 만료 시점을 놓쳐 리셋권을 날렸다는 불만이 오픈AI 개발자 커뮤니티에도 여럿 올라왔다. 방 논의처럼 &quot;프리티어로도 리셋권이 있다&quot;고 알고 있다면 정정이 필요하다. 무료 요금제 자체에는 이 저장 기능이 적용되지 않는다. 리셋권을 챙기려면 자격을 갖춘 플러스나 프로 요금제에 가입돼 있어야 한다. 지급일로부터 30일을 달력에 표시해두는 편이 안전하다.</p>
+<h2>값싼 모델은 잡무에, 비싼 도구는 어려운 일에 쓴다</h2>
+<p>이런 요금 구조 차이는 실사용자들의 도구 배분 전략과도 맞물린다. 저비용 모델을 가벼운 작업에 무제한으로 깔아둔다. 진짜 어려운 작업은 별도로 계산되는 값비싼 도구에 맡기는 방식이다. 방에서도 클로드와 코덱스를 용도별로 나눠 쓴다는 사례가 나왔다. 바깥 반응도 이와 비슷하다.</p>
+<p>두 도구를 나란히 몇십 시간씩 굴려본 개발자들의 후기를 모아 보면, 누가 일방적으로 낫다는 결론은 잘 나오지 않는다. 다만 성향 차이는 뚜렷하다. 어려운 문제일수록 코덱스가 낫다는 평이 자주 보이는 반면, 개발자가 답을 확인해가며 계속 개입하는 협업 방식은 클로드 코드 쪽이 편하다는 의견도 있다. 가성비를 따지는 이들 사이에선 월 20달러 코덱스 구독으로 그보다 다섯 배 비싼 구독과 비슷한 작업량을 처리했다는 후기도 심심찮게 나온다.</p>
+<p>두 도구를 함께 쓰는 사람들이 공통으로 하는 얘기는 하나다. 어떤 작업을 어느 도구에 맡길지부터 정해두고 시작한다는 것이다. 방 논의도 다르지 않았다 — 무료로 풀린 루나로 가벼운 대화를 처리한다. 정작 코드를 다루는 코덱스 사용량은 여전히 아껴 쓸 대상으로 남아 있다.</p></div>
+<div class="chips"><span class="chip">GPT-5.6 루나</span><span class="chip">코덱스</span><span class="chip">Codex</span><span class="chip">챗GPT 무료</span><span class="chip">리셋권</span><span class="chip">클로드 코드</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.khan.co.kr/article/202608080726001" rel="nofollow noopener">https://www.khan.co.kr/article/202608080726001</a></li><li><a href="https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/" rel="nofollow noopener">https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt/</a></li><li><a href="https://openai.com/index/gpt-5-6/" rel="nofollow noopener">https://openai.com/index/gpt-5-6/</a></li><li><a href="https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/" rel="nofollow noopener">https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/</a></li><li><a href="https://venturebeat.com/technology/ai-price-wars-openai-cuts-gpt-5-6-luna-prices-by-80-as-model-competition-shifts-toward-cost" rel="nofollow noopener">https://venturebeat.com/technology/ai-price-wars-openai-cuts-gpt-5-6-luna-prices</a></li><li><a href="https://fortune.com/2026/08/19/exclusive-replit-taps-openais-low-cost-luna-model-for-new-free-mode-subscription-tier/" rel="nofollow noopener">https://fortune.com/2026/08/19/exclusive-replit-taps-openais-low-cost-luna-model</a></li><li><a href="https://openai.com/index/replit/" rel="nofollow noopener">https://openai.com/index/replit/</a></li><li><a href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan" rel="nofollow noopener">https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>챗GPT 루나 모델은 무엇인가요?</h2><p class="sum">GPT-5.6 라인업 중 가장 빠르고 저렴한 모델로 요약·초안 등 일상 작업에 맞춰졌다. 2026년 8월 6일 무료·고(Go) 이용자에게 기본 모델로 텍스트 대화 무제한 제공이 발표됐고 8월 10일 주부터 실제 적용됐다.</p></article><article class="dcard"><div class="t">Q</div><h2>코덱스도 무료로 쓸 수 있나요?</h2><p class="sum">챗GPT 무료 요금제에도 코덱스가 포함되지만 배정량이 가장 작고 로컬 작업만 지원한다. 클라우드 작업이나 넉넉한 사용량을 원하면 월 8달러 고(Go) 요금제 이상이 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>코덱스 리셋권은 어떻게 쓰나요?</h2><p class="sum">저장형 리셋은 5시간 사용량 한도를 원하는 시점에 즉시 비워주는 기능으로 고·플러스·프로·비즈니스 이용자에게 지급된다. 지급일로부터 30일 안에 쓰지 않으면 소멸하므로 만료일을 확인해두는 게 좋다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-07-2200.html">2026-08-07 08-07 17:50~21:51</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
