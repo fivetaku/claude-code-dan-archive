@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fable을 코딩 도구에 붙이려면 브릿지 대신 API 키를 써라 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클코단에서 나온 Fable 브릿지 구상을 계기로, 수출통제로 끊겼던 이력과 구독 개편, Codex·Cursor 연동 방법까지 Fable 5 접근 경로를 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/fable-5-bridge-vs-api-key.html">
+<meta property="og:title" content="Fable을 코딩 도구에 붙이려면 브릿지 대신 API 키를 써라">
+<meta property="og:description" content="클코단에서 나온 Fable 브릿지 구상을 계기로, 수출통제로 끊겼던 이력과 구독 개편, Codex·Cursor 연동 방법까지 Fable 5 접근 경로를 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/fable-5-bridge-vs-api-key.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Fable을 코딩 도구에 붙이려면 브릿지 대신 API 키를 써라", "description": "클코단에서 나온 Fable 브릿지 구상을 계기로, 수출통제로 끊겼던 이력과 구독 개편, Codex·Cursor 연동 방법까지 Fable 5 접근 경로를 정리했다.", "datePublished": "2026-08-22", "dateModified": "2026-08-22", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/fable-5-bridge-vs-api-key.html"}, "articleSection": "도구·라이브러리", "keywords": "Fable 5, Claude Code, Cursor, Codex, MCP, Anthropic 구독"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Fable 5는 Claude Code에서 어떻게 켜나요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code 2.1.170 이상 버전에서 /model fable 또는 /model claude-fable-5를 입력하면 된다. API 요금제나 맥스·팀 프리미엄·엔터프라이즈 종량제 계정이면 바로 선택할 수 있다."}}, {"@type": "Question", "name": "Fable 5를 OpenAI Codex에서 쓸 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "공식 통합은 아니지만 fable-mcp 같은 MCP 서버를 앤트로픽 API 키로 연결하면 Codex가 구현을, Fable이 설계·검토를 맡는 구조로 쓸 수 있다. 구독 계정 인증을 다른 도구에 재사용하는 방식은 앤트로픽 약관 위반이다."}}, {"@type": "Question", "name": "Fable 5가 한동안 왜 사라졌었나요?", "acceptedAnswer": {"@type": "Answer", "text": "2026년 6월 12일 미국 상무부가 수출관리규정을 근거로 접근을 전면 중단시켰다가, 6월 30일 통제를 풀어 7월 1일 Claude Code에 복귀했다. 복귀한 모델에는 문제가 된 탈옥 기법을 차단하는 새 안전장치가 추가됐다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/fable-5-bridge-vs-api-key.png" alt="Fable을 코딩 도구에 붙이려면 브릿지 대신 API 키를 써라" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>Fable을 코딩 도구에 붙이려면 브릿지 대신 API 키를 써라</h1>
+  <p class="sub">석 달 새 수출통제로 끊기고 구독에서도 빠진 Fable, 클코단이 구상한 브릿지 대신 실제로 통하는 연결법을 짚었다</p>
+  <div class="meta"><span>2026-08-22</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클코단에서는 Fable을 Claude Code에 붙이는 브릿지를 직접 만들어보자는 이야기가 나왔다. 지금은 웹에서만 편하게 쓸 수 있으니 연결 통로를 뚫어보자는 계획이었다. 그런데 막상 만들면 사용성이 나빠져 차라리 웹을 그대로 쓰는 게 낫다는 의견도 나왔다. Fable은 지난 석 달 동안 접근 경로 자체가 여러 번 바뀐 모델이다. 방에서 나온 질문에 답하려면 그 석 달의 사정부터 봐야 한다.</p>
+<h2>석 달 새 한 번 중단되고 요금제가 바뀐 모델</h2>
+<p>Fable 5는 앤트로픽이 6월 9일 공개한 &#x27;미토스급&#x27; 최상위 모델이다. 오퍼스보다 위 등급으로 분류되고 토큰 100만 개 컨텍스트와 출력 12만8000토큰을 지원한다. 가격은 입력 100만 토큰당 10달러, 출력 100만 토큰당 50달러다. 앤트로픽 모델 중 가장 비싸다.</p>
+<p>공개 사흘 만인 6월 12일, 미국 정부가 외국인의 접근 제한을 요구했고 앤트로픽은 접근을 전면 중단했다. 포브스와 CNN, CNBC 보도에 따르면 Fable이 알려지지 않은 소프트웨어 취약점을 스스로 찾아내고 공격 코드까지 만들어낼 수 있다는 점이 근거였다. 상용 AI 모델에 수출통제 권한이 발동된 첫 사례였다고 이들 매체는 전했다. Claude Code를 포함해 전 세계 접근이 한꺼번에 막혔다.</p>
+<p>상무장관 하워드 러트닉이 6월 30일 통제를 풀었고 Fable은 7월 1일 Claude Code에 복귀했다. 더해커뉴스 보도로는 복귀한 모델에 해당 탈옥 기법을 99% 이상 차단하는 새 사이버보안 분류기가 붙었다. 차단된 요청은 자동으로 오퍼스 4.8로 넘어간다.</p>
+<p>18일 동안 Fable은 사실상 존재하지 않는 모델이었다.</p>
+<h2>구독 포함 여부가 세 번 밀렸다</h2>
+<p>복귀 이후에도 접근은 안정되지 않았다. 앤트로픽 코드 저장소에는 6월 중순 &quot;모델을 찾을 수 없다&quot;거나 &quot;맥스 요금제인데도 회색으로 비활성화돼 있다&quot;는 버그 신고가 잇따라 올라왔다. Claude Code에서 Fable을 쓰려면 2.1.170 이상 버전에서 /model fable을 입력하면 된다. 다만 계정마다 접근 여부가 들쭉날쭉했다. 방에서 웹을 더 믿음직하게 느낀 배경도 여기 있다.</p>
+<p>구독 요금제 포함 여부는 날짜가 세 번 밀렸다. 더디코더 집계에 따르면 앤트로픽은 프로 요금제의 Fable 무료 포함을 7월 7일 끝내려다 반발에 부딪혀 7월 12일로, 다시 7월 19일로 미뤘다. 실제로는 7월 20일 프로·팀 스탠더드의 구독 한도에서 Fable이 빠졌다. 대신 100달러 상당 1회성 크레딧을 지급했고 이후에는 입력 10달러·출력 50달러의 API 요금을 그대로 물렸다. 맥스·팀 프리미엄·엔터프라이즈는 남았다. 다만 Fable은 주간 한도의 절반까지만 포함된다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/fable-5-bridge-vs-api-key.png" alt="" loading="lazy"><h2>브릿지를 지금 만들면 안 되는 이유</h2>
+<p>방에서 나온 계획은 웹 채팅 세션 인증을 그대로 Claude Code나 다른 도구로 흘려보내는 방식이었을 가능성이 크다. 이런 시도는 사용성부터 걸린다. 브라우저 세션을 코드 실행 환경으로 옮기는 과정에서 파일 접근이나 도구 호출 같은 에이전트 기능이 그대로 재현되지 않는 경우가 많다.</p>
+<p>더 큰 문제는 약관이다. 앤트로픽은 지난 2월 19일 Claude Code 법률·컴플라이언스 문서에 &#x27;인증과 자격 증명 사용&#x27; 안내를 명시했다. 프리·프로·맥스 요금제의 OAuth 토큰을 Claude Code와 claude.ai 밖의 다른 제품·도구·서비스에서 쓰면 약관 위반이라는 내용이다.  다만 올해 서버 쪽 제한이 강화되면서 일부 서드파티 도구에서 접속 거부가 보고됐다.</p>
+<p>Claude Code 안에서 구독 계정으로 Fable을 쓰는 것 자체는 문제가 없다. 같은 계정 인증을 다른 도구로 몰래 흘려보내는 시도가 약관 위반이다. 방에서 &#x27;사용성이 불편하다&#x27;고 표현한 그 브릿지는, 만들었다면 계정이 막힐 위험까지 함께 안았을 셈이다.</p>
+<h2>Codex에 Fable을 실제로 끼워 넣는 법</h2>
+<p>Codex에서 Fable을 작업용으로 쓰고 싶다는 수요에는 이미 답이 나와 있다.</p>
+<p>설치 순서는 이렇다.    비용은 요청 규모와 API 사용량에 따라 달라진다.</p>
+<p>오픈AI도 최근 Codex CLI·앱·SDK 전반에 걸쳐 model_provider 설정 블록을 공식 문서화했다. base_url과 env_key 등을 설정하면 OpenAI 호환 Responses API를 제공하는 모델 서버를 Codex에 등록할 수 있다. 호환 어댑터가 있다면 설정 파일로 연결할 수 있다.</p>
+<h2>커서는 고민이 없고, 값은 두 배다</h2>
+<p>커서에서는 이런 고민 자체가 없다. 프라이버시 모드를 끄고 쓰는 개인·팀 계정이라면 Fable이 기본으로 켜져 있고 별도 신청 없이 모든 에이전트 도구에 접근한다. 가격은 앤트로픽 API와 같은 입력 10달러·출력 50달러로, 커서 자체 사용량에서 그만큼 빠르게 깎여나간다. 커서 측은 CursorBench 기준으로 Fable이 모든 모델 중 1위지만 작업당 비용도 가장 비싸다고 밝혔다. 방에서 커서 구독 가치를 Fable 접근성과 연결 지은 배경이 여기 있다.</p>
+<p>다만 성능 비교에서는 반대 결과도 나온다. 앤트로픽이 공개한 Frontier-Bench v0.1 결과에 따르면 오퍼스 5는 에이전트형 터미널 코딩 벤치마크에서 43.3%로 Fable의 33.7%를 앞선다. 가격은 입력 5달러·출력 25달러로 절반이다. 실사용자 사이에서도 후기는 엇갈린다. Fable을 계속 쓰다 오퍼스로 돌아갔는데 차이를 거의 못 느꼈다는 이야기가 있는가 하면, 매 단계를 직접 지시하던 방식에서 통째로 맡기는 방식으로 작업이 바뀌었다는 정반대 후기도 나왔다. 짧게 주어지는 무료 포함 기간은 설계나 어려운 문제에만 쓰고 나머지 구현은 값싼 모델에 맡기라는 조언이 나오는 이유다.</p>
+<p>방에서 나온 질문은 브릿지를 만들 것인가였다. Claude Code는 이미 공식으로 Fable을 지원한다. Codex에서 Fable을 쓰려면 API 키와 호환 어댑터나 MCP 연동이 필요하다. 커서는 처음부터 켜져 있다. 손수 브릿지를 짜는 대신 어떤 작업에 어떤 모델의 비용을 쓸지 고르는 쪽이 남은 선택지다.</p></div>
+<div class="chips"><span class="chip">Fable 5</span><span class="chip">Claude Code</span><span class="chip">Cursor</span><span class="chip">Codex</span><span class="chip">MCP</span><span class="chip">Anthropic 구독</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5" rel="nofollow noopener">https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable</a></li><li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" rel="nofollow noopener">https://www.anthropic.com/news/claude-fable-5-mythos-5</a></li><li><a href="https://www.forbes.com/sites/anishasircar/2026/06/16/anthropic-disabled-fable-5-and-mythos-5-after-a-us-export-control-order-heres-what-happened/" rel="nofollow noopener">https://www.forbes.com/sites/anishasircar/2026/06/16/anthropic-disabled-fable-5-</a></li><li><a href="https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-controls-on-claude-fable-5-and-mythos-5.html" rel="nofollow noopener">https://www.cnbc.com/2026/06/30/anthropic-says-trump-admin-has-lifted-export-con</a></li><li><a href="https://thehackernews.com/2026/07/anthropic-restores-claude-fable-5-after.html" rel="nofollow noopener">https://thehackernews.com/2026/07/anthropic-restores-claude-fable-5-after.html</a></li><li><a href="https://the-decoder.com/anthropic-slashes-claude-fable-5-limits-in-max-and-team-premium-and-pushes-pro-users-toward-api-pricing/" rel="nofollow noopener">https://the-decoder.com/anthropic-slashes-claude-fable-5-limits-in-max-and-team-</a></li><li><a href="https://alternativeto.net/news/2026/2/anthropic-officially-bans-using-subscription-authentication-for-third-party-claude-use" rel="nofollow noopener">https://alternativeto.net/news/2026/2/anthropic-officially-bans-using-subscripti</a></li><li><a href="https://github.com/taiyuhiga/fable-mcp" rel="nofollow noopener">https://github.com/taiyuhiga/fable-mcp</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Fable 5는 Claude Code에서 어떻게 켜나요?</h2><p class="sum">Claude Code 2.1.170 이상 버전에서 /model fable 또는 /model claude-fable-5를 입력하면 된다. API 요금제나 맥스·팀 프리미엄·엔터프라이즈 종량제 계정이면 바로 선택할 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>Fable 5를 OpenAI Codex에서 쓸 수 있나요?</h2><p class="sum">공식 통합은 아니지만 fable-mcp 같은 MCP 서버를 앤트로픽 API 키로 연결하면 Codex가 구현을, Fable이 설계·검토를 맡는 구조로 쓸 수 있다. 구독 계정 인증을 다른 도구에 재사용하는 방식은 앤트로픽 약관 위반이다.</p></article><article class="dcard"><div class="t">Q</div><h2>Fable 5가 한동안 왜 사라졌었나요?</h2><p class="sum">2026년 6월 12일 미국 상무부가 수출관리규정을 근거로 접근을 전면 중단시켰다가, 6월 30일 통제를 풀어 7월 1일 Claude Code에 복귀했다. 복귀한 모델에는 문제가 된 탈옥 기법을 차단하는 새 안전장치가 추가됐다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-17-2200.html">2026-08-17 08-17 17:24~21:48</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
