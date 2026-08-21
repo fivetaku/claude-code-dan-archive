@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 8월 21일 22:00 — 텔레그램 업무자동화</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 21일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-21 17:52~21:26</b></span>
+    <span>발화 <b>266</b></span>
+    <span>참여 <b>20</b>명</span>
+    <span>주제 <b>13</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone" style="height:516px;min-width:1680px"><div class="spine"></div><div class="bar" style="left:2.0%;height:6px"></div><div class="bar peak" style="left:3.3%;height:58px"></div><div class="bar" style="left:4.7%;height:35px"></div><div class="bar" style="left:6.0%;height:19px"></div><div class="bar" style="left:7.4%;height:39px"></div><div class="bar" style="left:8.7%;height:31px"></div><div class="bar peak" style="left:10.1%;height:50px"></div><div class="bar peak" style="left:11.4%;height:50px"></div><div class="bar" style="left:12.7%;height:31px"></div><div class="bar peak" style="left:14.1%;height:54px"></div><div class="bar peak" style="left:15.4%;height:50px"></div><div class="bar" style="left:16.8%;height:15px"></div><div class="bar peak" style="left:18.1%;height:46px"></div><div class="bar peak" style="left:19.5%;height:58px"></div><div class="bar" style="left:20.8%;height:35px"></div><div class="bar" style="left:22.1%;height:23px"></div><div class="bar" style="left:23.5%;height:15px"></div><div class="bar" style="left:24.8%;height:15px"></div><div class="bar" style="left:26.2%;height:6px"></div><div class="bar" style="left:27.5%;height:19px"></div><div class="bar" style="left:28.9%;height:23px"></div><div class="bar" style="left:30.2%;height:6px"></div><div class="bar" style="left:31.5%;height:6px"></div><div class="bar" style="left:32.9%;height:8px"></div><div class="bar" style="left:34.2%;height:6px"></div><div class="bar" style="left:35.6%;height:8px"></div><div class="bar" style="left:36.9%;height:12px"></div><div class="bar" style="left:38.3%;height:12px"></div><div class="bar" style="left:39.6%;height:6px"></div><div class="bar" style="left:40.9%;height:6px"></div><div class="bar" style="left:42.3%;height:6px"></div><div class="bar" style="left:43.6%;height:8px"></div><div class="bar" style="left:45.0%;height:12px"></div><div class="bar" style="left:46.3%;height:27px"></div><div class="bar" style="left:47.7%;height:8px"></div><div class="bar" style="left:49.0%;height:6px"></div><div class="bar" style="left:50.3%;height:19px"></div><div class="bar" style="left:51.7%;height:6px"></div><div class="bar" style="left:53.0%;height:8px"></div><div class="bar" style="left:54.4%;height:6px"></div><div class="bar" style="left:55.7%;height:6px"></div><div class="bar" style="left:57.1%;height:8px"></div><div class="bar" style="left:58.4%;height:6px"></div><div class="bar" style="left:59.7%;height:8px"></div><div class="bar" style="left:61.1%;height:8px"></div><div class="bar" style="left:62.4%;height:15px"></div><div class="bar" style="left:63.8%;height:8px"></div><div class="bar" style="left:65.1%;height:6px"></div><div class="bar" style="left:66.5%;height:8px"></div><div class="bar" style="left:67.8%;height:8px"></div><div class="bar" style="left:69.1%;height:6px"></div><div class="bar" style="left:70.5%;height:8px"></div><div class="bar" style="left:71.8%;height:6px"></div><div class="bar" style="left:73.2%;height:8px"></div><div class="bar" style="left:74.5%;height:6px"></div><div class="bar" style="left:75.9%;height:6px"></div><div class="bar" style="left:77.2%;height:15px"></div><div class="bar" style="left:78.5%;height:8px"></div><div class="bar" style="left:79.9%;height:6px"></div><div class="bar" style="left:81.2%;height:6px"></div><div class="bar" style="left:82.6%;height:12px"></div><div class="bar" style="left:83.9%;height:8px"></div><div class="bar" style="left:85.3%;height:6px"></div><div class="bar" style="left:86.6%;height:6px"></div><div class="bar" style="left:87.9%;height:6px"></div><div class="bar" style="left:89.3%;height:6px"></div><div class="bar" style="left:90.6%;height:6px"></div><div class="bar" style="left:92.0%;height:8px"></div><div class="bar" style="left:93.3%;height:6px"></div><div class="bar" style="left:94.7%;height:8px"></div><div class="bar" style="left:96.0%;height:6px"></div><div class="lbl" style="left:2.0%">17:52</div><div class="peaktag" style="left:3.3%;bottom:66px">17:53 · 15건</div><div class="peaktag" style="left:11.4%;bottom:58px">17:59 · 13건</div><div class="lbl" style="left:16.8%">18:03</div><div class="peaktag" style="left:19.5%;bottom:66px">18:05 · 15건</div><div class="lbl" style="left:31.5%">18:15</div><div class="lbl" style="left:46.3%">18:35</div><div class="lbl" style="left:61.1%">19:43</div><div class="lbl" style="left:75.9%">20:51</div><div class="lbl" style="left:90.6%">21:13</div><div class="lbl" style="left:96.0%">21:26</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">17:52-18:01</div><h3>말투·고양이 역할극</h3></div></div><div class="rib dn" style="left:10.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">17:58-17:59</div><h3>운동 방식 농담</h3></div></div><div class="rib up" style="left:14.1%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">18:01-19:43</div><h3>RTX Pro 6000 견적</h3></div></div><div class="rib up" style="left:19.5%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">18:05-18:07</div><h3>AI 병렬·라우팅 한계</h3></div></div><div class="rib dn" style="left:23.5%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">18:08-18:19</div><h3>반려로봇과 AI 기억</h3></div></div><div class="rib dn" style="left:39.6%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">18:23-18:46</div><h3>정션 해커톤</h3></div></div><div class="rib up" style="left:42.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">18:32-18:57</div><h3>텔레그램 업무자동화</h3></div></div><div class="rib dn" style="left:63.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">20:16-21:19</div><h3>음식 밈과 혈당</h3></div></div><div class="rib up" style="left:70.5%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">20:45-20:51</div><h3>컨텍스트 오염 처리</h3></div></div><div class="rib dn" style="left:79.9%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">20:55-20:55</div><h3>거위 식용 여부</h3></div></div><div class="rib up flip" style="left:80.5%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">21:20-21:21</div><h3>Codex·ChatGPT Work 소식</h3></div></div><div class="rib dn flip" style="left:83.2%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">21:26-21:26</div><h3>모델 검증 기록</h3></div></div><div class="rib up" style="left:83.9%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">21:03-21:03</div><h3>오픈코드 무료 모델</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">18:32-18:57</div><h2>텔레그램 업무자동화</h2><p class="sum">외부 출장 중에도 텔레그램 지시로 업무를 수행하고 결과를 보고하는 자동화 시스템을 운영한다는 사례가 공유됐다. Claude API 비용이 예상보다 많이 든 상황에서 VPS와 미니PC 중 어떤 방식이 경제적인지 질문했다. 서버는 지속 비용과 관리 편의성, 미니PC는 높은 초기비용·낮은 지속비용·상대적으로 어려운 관리라는 비교가 제시됐다.</p><ul><li>텔레그램 지시→업무 진행→텔레그램 보고 형태의 원격 자동화 시스템이 소개됐다.</li><li>AI API 비용 절감과 운영 방식 선택이 핵심 고민으로 제시됐다.</li><li>VPS 월 비용과 미니PC 구매비를 비교해 결정해야 한다는 의견이 나왔다.</li><li>서버는 관리 편의성이, 미니PC는 장기 고정비 절감 가능성이 장점으로 언급됐다.</li><li>트렌드 조사·콘텐츠 기획·이미지 생성·SNS 게시·광고 관리·팀장 역할로 구성된 에이전트 체계가 공유됐다.</li></ul></article><article class="dcard"><div class="t">18:08-18:19</div><h2>반려로봇과 AI 기억</h2><p class="sum">고양이 페르소나를 작은 반려로봇에 이식하는 아이디어에서 AI 기억 설계 논의로 확장됐다. 모든 기억을 보존하기보다 중요도에 따라 압축·동결하고, 맥락이나 감각 단서가 맞을 때 회수하는 방식이 제안됐다. 기억 저장량보다 회수 조건과 망각 규칙이 중요하다는 결론이 나왔다.</p><ul><li>작은 데스크톱 반려로봇과 AI 탑재 가능성이 언급됐다.</li><li>기억을 모두 유지하면 잡음과 혼란이 쌓일 수 있다는 견해가 나왔다.</li><li>중요 기억은 남기되 불필요한 정보는 버리는 규칙이 필요하다고 정리됐다.</li><li>감각 단서와 맥락을 이용해 관련 기억만 불러오는 라우팅 방식이 제안됐다.</li><li>후각과 기억의 연결을 AI 메모리 설계에 적용한 논문을 찾고 싶다는 요청이 나왔다.</li></ul></article><article class="dcard"><div class="t">20:45-20:51</div><h2>컨텍스트 오염 처리</h2><p class="sum">아무리 정제해도 접촉하는 순간 컨텍스트를 오염시키는 정보가 있다면, 가치 있는 정보라도 버려야 하는지 고민이 제기됐다. 읽고 정리한 뒤 폐기하거나 격리·분석·접합 검토를 해도 오염이 사라지지 않는 상황이 언급됐다. 명확한 답변은 이어지지 않았지만, 격리와 요약 폐기만으로 해결되지 않는 컨텍스트 오염 문제가 핵심으로 남았다.</p><ul><li>오염 정보가 정제 후에도 컨텍스트를 훼손하는 상황이 제기됐다.</li><li>프로젝트 루트 격리와 별도 처리에도 같은 문제가 지속된다고 했다.</li><li>읽기·분석·정리 후 폐기 절차가 언급됐다.</li><li>정보 가치와 컨텍스트 안전성 사이에서 폐기 여부를 고민했다.</li></ul></article><article class="dcard"><div class="t">21:03-21:03</div><h2>오픈코드 무료 모델</h2><p class="sum">오픈코드에 무료 모델 하나가 풀렸고 직접 사용해 보니 쓸 만하다는 짧은 사용 후기가 공유됐다. 오픈코드는 터미널에서 여러 AI 모델과 프로바이더를 연결해 코드를 작성·편집하는 오픈소스 AI 코딩 에이전트다.</p><ul><li>오픈코드에서 무료 모델을 사용할 수 있게 됐다는 소식이 공유됐다.</li><li>직접 써 본 참여자가 성능이 쓸 만하다고 평가했다.</li><li>구체적인 모델명·설정·벤치마크는 언급되지 않았다.</li></ul></article><article class="dcard"><div class="t">21:20-21:21</div><h2>Codex·ChatGPT Work 소식</h2><p class="sum">Codex 사용량과 ChatGPT Work 관련 소식이 공유됐다. Codex의 BANKED 리셋이 적용됐고 Codex 및 ChatGPT Work 사용자 전체가 대상이라는 내용이 언급됐다. 사용량이 빨리 닳는 현상은 조사 중이며 추가 소식이 예정됐다고 전해졌다.</p><ul><li>Codex 사용량 관련 BANKED 리셋 소식이 공유됐다.</li><li>대상이 Codex와 ChatGPT Work 사용자 전체라고 언급됐다.</li><li>사용량 소진이 빠른 문제는 조사 중이라는 내용이 포함됐다.</li><li>ChatGPT Work은 앱을 넘나들며 결과물을 만드는 내장 에이전트로 소개된 바 있다.</li></ul></article><article class="dcard"><div class="t">21:26-21:26</div><h2>모델 검증 기록</h2><p class="sum">GPT를 제공해 실제로 동일한 검증을 수행하고, 실패하거나 무너지는 양상을 그대로 기록하겠다는 계획이 공유됐다. 단순한 개선 시도보다 실패 정도를 측정·관측한 뒤 대책을 마련하는 접근이다.</p><ul><li>GPT를 대상으로 기존과 동일한 검증을 적용할 계획이 제시됐다.</li><li>모델이 무너지는 현상을 개입 없이 기록하려는 방향이다.</li><li>실패 정도를 측정·관측하는 것을 우선 목표로 삼았다.</li><li>관측 결과를 바탕으로 이후 대응책을 마련하려 한다.</li></ul></article><article class="dcard"><div class="t">18:01-19:43</div><h2>RTX Pro 6000 견적</h2><p class="sum">RTX Pro 6000 가격 검색 요청을 계기로 고사양 GPU·서버 구성과 가격 이야기가 나왔다. 듀얼 GPU와 Xeon Gold 구성의 고가 견적이 언급됐고, 병렬 처리 가능 여부 및 NVLink 부재 가능성이 논의됐다. 추론은 가능하나 해당 GPU 연결로 병렬 처리가 어렵다는 의견이 나왔다.</p><ul><li>RTX Pro 6000의 가격과 고사양 데스크톱 견적이 화제가 됐다.</li><li>무거운 추론·코딩 작업의 병렬 수는 품질을 보며 늘려야 한다는 일반론이 제시됐다.</li><li>RTX Pro 연결 기반 병렬 처리의 제약 가능성이 언급됐다.</li><li>NVLink가 없는 것 아니냐는 추측과 함께 추론 자체는 가능하다는 의견이 나왔다.</li></ul></article><article class="dcard"><div class="t">18:05-18:07</div><h2>AI 병렬·라우팅 한계</h2><p class="sum">여러 작업을 계속 붙였을 때 성능이 유지되는지, 이후 라우팅 문제가 생기지 않는지 질문이 나왔다. 응답이 맥락을 잘못 잡아 실질적인 답변으로 이어지지 못했고, AI가 간헐적으로 엇나간다는 반응이 나왔다.</p><ul><li>작업을 추가할수록 성능 저하와 라우팅 문제가 발생할 수 있는지 질문했다.</li><li>가벼운 작업과 무거운 추론·코딩 작업의 적정 병렬 수는 다르다는 답이 앞서 나왔다.</li><li>후속 질문에서는 모델이 맥락을 잘못 해석해 답변 품질 문제가 드러났다.</li><li>사설 채팅방에 대화형 에이전트를 두고 싶다는 반응이 나왔다.</li></ul></article><article class="dcard"><div class="t">18:23-18:46</div><h2>정션 해커톤</h2><p class="sum">정션 행사에 참여한 사람이 있는지 묻고 행사 규모에 대한 반응이 이어졌다. 이후 정선 해커톤 검색 결과가 현재 맥락과 다른 오래된 내용이라는 지적이 나왔고, 모델이 흐름을 잘못 짚었다고 인정했다.</p><ul><li>정션 행사·해커톤 관련 대화가 시작됐다.</li><li>행사 규모가 크고 재미있어 보인다는 반응이 나왔다.</li><li>정선 해커톤 검색 결과가 현재 말한 정션과 맞지 않는다는 지적이 나왔다.</li><li>검색·맥락 연결의 최신성 및 정확성 문제가 드러났다.</li></ul></article><article class="dcard"><div class="t">20:55-20:55</div><h2>거위 식용 여부</h2><p class="sum">오리는 흔히 먹지만 거위는 먹거나 파는 곳을 보기 어려운 이유와 실제 식용 가능 여부를 알아봐 달라는 질문이 나왔다. 답변은 이어지지 않았다.</p><ul><li>거위의 식용 가능 여부를 질문했다.</li><li>거위 요리를 판매하는 곳을 보기 어려운 이유를 궁금해했다.</li><li>후속 조사 또는 답변은 대화에 나오지 않았다.</li></ul></article><article class="dcard"><div class="t">17:52-18:01</div><h2>말투·고양이 역할극</h2><p class="sum">존댓말·반존대와 아저씨톤을 소재로 가벼운 농담이 이어졌다. 참여자들은 고양이 페르소나를 대상으로 캣치, 탄소·C++·Rust 등의 개발 언어 말장난을 주고받았다. 영어와 아랍어 자기소개 및 번역도 시도됐다.</p><ul><li>존댓말과 반존대의 어색함을 두고 대화가 시작됐다.</li><li>성별·아바타톤을 코드 문법으로 표현하는 농담이 나왔다.</li><li>고양이와 catch를 결합한 말장난이 이어졌다.</li><li>영어 및 아랍어 자기소개 응답과 한국어 번역이 공유됐다.</li></ul></article><article class="dcard"><div class="t">17:58-17:59</div><h2>운동 방식 농담</h2><p class="sum">유산소와 무산소 운동 중 무엇이 나은지 물었고, 목적에 따라 다르되 근육·체형에는 무산소 중심에 유산소를 곁들이는 답이 나왔다. 이후 산소·탄소·고양이를 엮은 농담으로 이어졌다.</p><ul><li>근육과 체형 목적에는 무산소 운동을 우선한다는 답변이 나왔다.</li><li>심폐 기능과 체지방 관리를 위해 유산소도 필요하다고 언급됐다.</li><li>이후 원소와 프로그래밍 언어를 소재로 한 말장난으로 전환됐다.</li></ul></article><article class="dcard"><div class="t">20:16-21:19</div><h2>음식 밈과 혈당</h2><p class="sum">영국 음식과 독일 음식 중 어느 쪽이 더 맛없다는 밈이 더 적절한지 두고 농담이 오갔다. 이후 혈당 스파이크 뒤 졸림을 혈스라고 부르며 인슐린과 혈당 급상승·급하강을 두고 가볍게 이야기했다. 빵·쌀밥·쌀빵이 맛있다는 반응이 이어졌다.</p><ul><li>영국 음식과 독일 음식 관련 밈성 논쟁이 있었다.</li><li>응답이 늦거나 누락된 것에 대한 반응이 나왔다.</li><li>혈당 스파이크 이후 졸리는 이유를 질문했다.</li><li>당뇨와 인슐린 분비, 혈당 변화의 관계를 두고 질문이 이어졌다.</li><li>빵과 쌀밥 등의 음식 취향 대화로 마무리됐다.</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-21-2200</span>
+</footer>
+</div>
+</body>
+</html>
