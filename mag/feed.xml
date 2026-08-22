@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>그록 빌드 기획력 논란, 클로드 코드 워커로 쓰는 이유</title>
+    <link>https://chat.axwith.com/mag/models/grok-build-claude-code-worker.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/grok-build-claude-code-worker.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sat, 22 Aug 2026 12:00:00 +0900</pubDate>
+    <description>그록 빌드는 데스크톱 앱 없이 터미널로만 도는 xAI 코딩 에이전트다. 방에서 나온 기획력 논란을 벤치마크·가격·외부 리뷰로 검증하고, 클로드 코드 워커로 쓰는 조합이 실제로 성립하는지 짚는다.</description>
+  </item>
+  <item>
     <title>Fable을 코딩 도구에 붙이려면 브릿지 대신 API 키를 써라</title>
     <link>https://chat.axwith.com/mag/tools/fable-5-bridge-vs-api-key.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/fable-5-bridge-vs-api-key.html</guid>
@@ -19,6 +27,14 @@
     <category>도구·라이브러리</category>
     <pubDate>Sat, 22 Aug 2026 12:00:00 +0900</pubDate>
     <description>엔비디아 DGX Spark로 Nemotron 계열 모델을 서빙해 오픈소스 에이전트 Hermes Agent를 돌리는 개인 개발자들 사이에서 초당 45~50토큰이 실사용 기준선으로 떠올랐다. 설치 절차와 대역폭 병목, 실사용 반응을 짚었다.</description>
+  </item>
+  <item>
+    <title>AI 코딩 에이전트의 탈선을 막는 설계서·훅·캘리브레이션</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-agent-spec-hooks-calibration.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-spec-hooks-calibration.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 22 Aug 2026 12:00:00 +0900</pubDate>
+    <description>AI 코딩 에이전트가 궤도를 벗어나지 않게 하는 법을 다뤘다. 스펙 주도 개발과 클로드 코드 플랜 모드, 아첨·반발 사이 균형을 맞춘 최신 모델 조정, 완료 선언을 검증하는 스톱 훅과 하네스 스코어까지 정리했다.</description>
   </item>
   <item>
     <title>챗GPT 루나 무제한 무료, 코덱스 사용량엔 왜 안 통했나</title>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Sat, 15 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드에서 마스터 오케스트레이터와 디렉터리별 워커 에이전트로 작업을 나누는 룰 기반 라우팅이 컨텍스트 붕괴 문제를 실제로 해결할 수 있는지, 서브에이전트·CLAUDE.md·오토 메모리 공식 문서와 비용 구조를 근거로 따져본다.</description>
-  </item>
-  <item>
-    <title>클로드코드 컨텍스트 관리법, compact 타이밍과 auto memory</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-context-compact-memory.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-context-compact-memory.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sat, 15 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드 긴 세션에서 compact와 clear가 무엇을 남기고 버리는지, 임계치 설정과 auto memory, CLAUDE.md 재주입 구조를 실사용 경험과 함께 짚었다. 기능 하나를 한 세션에 끝내야 한다는 습관도 다시 따져봤다.</description>
-  </item>
-  <item>
-    <title>클로드 코드 Fable·Advisor 과부하 오류, 앤트로픽 장애와 맞물렸다</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/fable-advisor-overload-outage.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/fable-advisor-overload-outage.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Fri, 14 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클코단에서 나온 Fable·Advisor 과부하·외국어 출력 신고를 8월12일 앤트로픽 공식 장애 기록, Fable 수출통제 이력, 언어 혼선 버그 사례와 대조해 원인과 대응법을 짚었다.</description>
   </item>
 </channel></rss>
