@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Qwen3.8-27B 로컬 구동, 맥 128GB냐 연구실 서버냐</title>
+    <link>https://chat.axwith.com/mag/tools/qwen-27b-mac-vs-lab-server.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/qwen-27b-mac-vs-lab-server.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
+    <description>알리바바 Qwen3.8-27B 로컬 구동에 필요한 실제 사양과 맥 스튜디오·연구실 GPU 서버 비교, 2026년 램 품귀로 128GB 맥 구성이 막힌 배경까지 정리했다.</description>
+  </item>
+  <item>
+    <title>딥시크·큐원으로 논문 쓴다는 것, 실제로 뭘 뜻하나</title>
+    <link>https://chat.axwith.com/mag/models/chinese-llm-academic-writing.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/chinese-llm-academic-writing.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
+    <description>딥시크·큐원 등 중국계 모델의 논문 작성 활용을 다룬 비교 연구, 가짜 참고문헌 사고, 검열 문제, 데이터 보안 이슈까지 실제 근거로 짚는다.</description>
+  </item>
+  <item>
     <title>그록 빌드 기획력 논란, 클로드 코드 워커로 쓰는 이유</title>
     <link>https://chat.axwith.com/mag/models/grok-build-claude-code-worker.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/grok-build-claude-code-worker.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Sat, 15 Aug 2026 12:00:00 +0900</pubDate>
     <description>알리바바 Qwen팀이 아파치 2.0 라이선스로 공개한 27B 오픈모델 Qwen3.8-27B의 벤치마크, 로컬 구동 GPU 요구 사양, 클로드 코드와의 성능 격차를 정리했다.</description>
-  </item>
-  <item>
-    <title>코덱스 Sol과 Work 조합, 문서 작업에서 통하는 이유</title>
-    <link>https://chat.axwith.com/mag/tools/codex-sol-work-document-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/codex-sol-work-document-workflow.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sat, 15 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클코단에서 나온 코덱스 Sol·Work 조합 후기를 씨앗으로, GPT-5.6 등급 체계와 플러그인 생태계를 오픈AI 공식 정보로 확인하고 오퍼스 4.8·클로드 코워크와 실제로 무엇이 다른지 비교했다</description>
-  </item>
-  <item>
-    <title>클로드 코드 마스터-워커 라우팅, 컨텍스트 붕괴를 막을 실제 해법인가</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-master-worker-routing.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-master-worker-routing.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sat, 15 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드에서 마스터 오케스트레이터와 디렉터리별 워커 에이전트로 작업을 나누는 룰 기반 라우팅이 컨텍스트 붕괴 문제를 실제로 해결할 수 있는지, 서브에이전트·CLAUDE.md·오토 메모리 공식 문서와 비용 구조를 근거로 따져본다.</description>
   </item>
 </channel></rss>
