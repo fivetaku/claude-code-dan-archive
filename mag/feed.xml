@@ -93,12 +93,12 @@
     <description>MCP 서버 허용만으로는 못 막는 프롬프트 유출 경로와, 클로드 코드 설정·오픈소스 게이트웨이로 개인 개발자와 소규모 팀이 오늘 적용할 수 있는 입력 단계 보안 방법을 국내외 사례로 짚었다.</description>
   </item>
   <item>
-    <title>클로드 코드 스킬로 인스타 카드뉴스·릴스 직접 만들기</title>
+    <title>클로드 코드로 카드뉴스·릴스 자동화하는 스킬, 오픈소스로 만드는 법</title>
     <link>https://chat.axwith.com/mag/workflow/claude-code-skill-cardnews-reels.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-skill-cardnews-reels.html</guid>
     <category>워크플로우·방법론</category>
     <pubDate>Thu, 20 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드 플러그인과 오픈소스를 조합해 인스타 카드뉴스·릴스 제작 스킬을 완성한 사례를 통해 상용 AI 도구 대비 차이와 한계를 짚는다.</description>
+    <description>클로드 코드 스킬로 카드뉴스와 릴스를 자동 제작하는 법을 오픈소스 사례와 나노바나나 이미지 엔진 비교로 정리했다. HTML과 API 엔진의 시간·비용·한글 정확도 차이도 다뤘다.</description>
   </item>
   <item>
     <title>딥식이냐 GLM이냐, 저가형 중국 AI 모델 진짜 가성비 비교</title>
