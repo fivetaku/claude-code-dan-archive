@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드 맥스 200달러도 순식간에 바닥나는 이유, 페이블 5 범인설 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드 코드 세션·주간 한도가 맥스 요금제로 올려도 왜 순식간에 바닥나는지, 페이블 5의 소진 속도와 요금제별 배정 방식, 한도를 아끼는 실전 요령까지 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/claude-max-fable-5-usage-limit.html">
+<meta property="og:title" content="클로드 맥스 200달러도 순식간에 바닥나는 이유, 페이블 5 범인설">
+<meta property="og:description" content="클로드 코드 세션·주간 한도가 맥스 요금제로 올려도 왜 순식간에 바닥나는지, 페이블 5의 소진 속도와 요금제별 배정 방식, 한도를 아끼는 실전 요령까지 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/claude-max-fable-5-usage-limit.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드 맥스 200달러도 순식간에 바닥나는 이유, 페이블 5 범인설", "description": "클로드 코드 세션·주간 한도가 맥스 요금제로 올려도 왜 순식간에 바닥나는지, 페이블 5의 소진 속도와 요금제별 배정 방식, 한도를 아끼는 실전 요령까지 정리했다.", "datePublished": "2026-08-24", "dateModified": "2026-08-24", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/claude-max-fable-5-usage-limit.html"}, "articleSection": "질문·트러블슈팅", "keywords": "클로드 코드, 클로드 맥스, 페이블 5, 사용량 한도, 앤스로픽, 소넷 5"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드 코드 세션 한도는 언제 리셋되나요?", "acceptedAnswer": {"@type": "Answer", "text": "5시간 롤링 창으로, 첫 메시지를 보낸 시점부터 300분 뒤 자동으로 풀린다. 이와 별도로 계정마다 정해진 시각에 리셋되는 주간 한도가 함께 걸려 있어서, 세션 여유가 남아도 주간 한도를 넘기면 막힌다."}}, {"@type": "Question", "name": "페이블 5는 무엇이고 왜 한도를 빨리 쓰나요?", "acceptedAnswer": {"@type": "Answer", "text": "앤스로픽이 2026년 6월 공개한 최상위 모델로, 입력 100만 토큰당 10달러·출력 50달러로 오퍼스 4.8보다 비싸다. 장시간 자율 작업에 맞춰 토큰을 많이 소비하도록 설계돼 5시간 세션 한도를 순식간에 태운다는 사례가 나온다."}}, {"@type": "Question", "name": "맥스 요금제로 바꾸면 페이블 5를 무제한 쓸 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 맥스·팀 프리미엄은 페이블 5를 주간 사용 한도의 최대 50%까지만 무료로 포함하고, 이 몫은 소넷·오퍼스와 같은 주간 풀을 나눠 쓴다. 프로·팀 스탠다드는 별도 크레딧을 소진한 뒤 API 요금으로 결제해야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <div class="eyebrow">질문·트러블슈팅</div>
+  <h1>클로드 맥스 200달러도 순식간에 바닥나는 이유, 페이블 5 범인설</h1>
+  <p class="sub">맥스 200달러 요금제로 옮겨도 페이블 5를 쓰면 주간 한도가 순식간에 바닥난다. 문제는 등급이 아니라 모델 선택이었다.</p>
+  <div class="meta"><span>2026-08-24</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클코단에서 최근 나온 질문은 단순했다. 클로드 코드 프로 요금제의 세션 한도가 너무 빨리 차서 맥스로 갈아탄 사람이 있었다. 그런데 월 200달러짜리 요금제에서도 며칠 만에 페이블 크레딧 주간 한도를 다 써버렸다는 경험담이 나왔다. 세션 사용량이 다시 70%까지 순식간에 치솟았다는 후속 보고도 이어졌다. 요금제를 올려도 한도 문제가 풀리지 않는다면 어떤 모델을 얼마나 쓰느냐도 변수라는 뜻이다.</p>
+<h2>세션 한도와 주간 한도는 서로 다른 시계로 돈다</h2>
+<p>클로드 코드는 두 개의 계량기를 동시에 돌린다. 하나는 5시간 세션 한도, 다른 하나는 계정마다 정해진 시각에 리셋되는 주간 한도다.   두 한도는 별개로 작동한다. 5시간 세션 안에 여유가 남아 있어도 주간 한도를 넘기면 그대로 막힌다.</p>
+<p>앤스로픽은 2026년 5월 6일 프로·맥스·팀·시트 기반 엔터프라이즈 전 요금제의 5시간 한도를 영구적으로 두 배로 늘리고 피크 시간대 감축 정책을 없앴다. 이어 5월 13일부터는 주간 한도를 공식 수치보다 50% 높여 운영해왔다. 이 조치는 원래 임시였다가 세 차례 연장을 거쳐 8월 19일 발표로 8월 31일까지 다시 늘어났다. 방에서 나온 &quot;5시간 쓰고 리셋 전까지 쉰다&quot;는 요령은 이 구조를 정확히 짚은 셈이다. 앤스로픽도 큰 작업을 시작하기 전 `/usage`로 잔여량을 먼저 확인하라고 권한다.</p>
+<h2>맥스로 옮겨도 페이블 5가 할당량을 순식간에 태운다</h2>
+<p>방에서 겪은 소진 속도는 요금제보다 모델 쪽 문제일 가능성이 크다. 페이블 5는 앤스로픽이 6월 9일 공개한 최상위 &#x27;미소스급&#x27; 모델로, 며칠씩 이어지는 자율 에이전트 작업과 대규모 마이그레이션 같은 고난도 코딩을 목표로 만들어졌다. 출시 사흘 만인 6월 12일 미국 정부의 수출 통제로 접근이 중단됐다가 규제가 풀린 7월 1일 다시 열린 이력도 있다.</p>
+<p>가격표부터 다르다. 페이블 5는 입력 토큰 100만 개당 10달러, 출력 토큰 100만 개당 50달러로, 오퍼스 4.8(5달러/25달러)보다 두 배 비싼 최상위 구간에 있다. 써본 사람들 사이에서는 페이블 5로 계속 작업을 돌리면 5시간 세션 한도가 8분 만에 바닥났다는 반응이 나왔다. 100달러짜리 맥스 요금제에서 오퍼스로는 여러 번 문제없이 돌리던 것과 똑같은 작업을 페이블로 한 번 돌렸다가 토큰 비용만 100달러 가까이 나갔다는 사례도 있었다. 맥스 200달러에서도 페이블 주간 한도가 금세 바닥나고 세션 사용량이 70%까지 급하게 오르는 경험은 이 소진 속도와 그대로 맞물린다.</p>
+<h2>요금제마다 페이블 5를 채워 넣는 방식이 다르다</h2>
+<p>맥스와 팀 프리미엄은 7월 20일부터 페이블 5를 별도 과금 없이 정식 포함했다. 다만 조건이 붙는다. 주간 사용 한도의 최대 50%까지만 페이블에 쓸 수 있다. 이 몫은 소넷·오퍼스와 같은 주간 풀을 나눠 쓰는 구조다. 20배 확장된 맥스 200달러 풀이라도 절반을 페이블에 몰아넣으면 나머지 절반, 즉 소넷·오퍼스로 쓸 수 있는 몫까지 같이 조여든다. 프로와 팀 스탠다드는 아예 다르다. 페이블 5가 플랜 한도에 포함되지 않는다. 앤스로픽이 지급한 100달러 일회성 크레딧을 다 쓰고 나면 API 요금(100만 토큰당 10달러/50달러)으로 직접 결제해야 한다.</p>
+<h2>한도를 아끼려면 요금제보다 모델을 나눠 쓰는 편이 낫다</h2>
+<p>1인 개발자나 소규모 팀에게는 모델을 역할별로 나누는 것이 한도를 아끼는 방법이 될 수 있다. 실무에서 쓰는 방식은 페이블 5를 설계·검토 단계의 오케스트레이터로만 두고, 실제 코드 생성과 도구 실행은 6월 30일 공개된 소넷 5에 맡기는 구조다. 소넷 5가 테스트를 통과하지 못하거나 결과 확신도가 낮을 때만 페이블로 에스컬레이션하면 페이블 몫을 절반이 아니라 훨씬 적은 비율로 눌러둘 수 있다. 소넷 5 쪽 토큰 단가(입력 2달러/출력 10달러)가 낮아도 새 토크나이저가 같은 텍스트를 약 30% 더 많은 토큰으로 쪼갠다는 점은 감안해야 한다.</p>
+<p>한도 자체를 들여다보는 습관도 도움이 된다. 클로드 코드 내장 `/usage` 외에 로컬 로그를 읽어 세션·기간별 소비량을 집계하는 ccusage(`npx ccusage@latest`), 실시간 소비 속도로 한도 도달 시점을 예측하는 claude-monitor 같은 커뮤니티 도구가 쓰인다. 두 도구 모두 로컬 사용 데이터를 바탕으로 작동한다. 앤스로픽 자체 가이드도 한 대화를 하나의 결과물에 묶어 쓰고, 반복되는 컨텍스트는 프로젝트 기능에 저장해 캐시로 처리하라고 권한다.</p>
+<h2>8월 말이 지나면 한도는 다시 좁아진다</h2>
+<p>주간 한도를 50% 올려주는 조치는 8월 31일 종료를 앞두고 있다. 오늘이 8월 24일이니 일주일 남았다. 앤스로픽은 이 확장분을 영구화하는 방안을 검토 중이라고만 밝혔을 뿐 확정하지 않았다. 만약 그대로 끝나면 5월부터 누려온 주간 여유분이 3분의 1가량 줄어든다. 페이블 5에 배정된 몫도 전체 주간 풀의 50%라는 비율은 그대로여도 그 풀 자체가 작아진다. 페이블을 즐겨 쓰는 쪽도 영향을 받을 것이다. 지난 4월 4일 앤스로픽이 서드파티 코딩 하네스가 구독 한도를 끌어다 쓰던 경로를 막고 API 종량제로 돌려세운 전례도 있다. 방에서 나온 &quot;맥스로 가면 해결되나&quot;라는 질문에는 등급뿐 아니라 페이블 5를 언제 켜고 언제 끌지도 한도에 영향을 준다는 답이 우선 나와 있다. 남은 것은 8월 31일 이후 앤스로픽이 이 폭을 지킬지, 예전 폭으로 되돌릴지다.</p></div>
+<div class="chips"><span class="chip">클로드 코드</span><span class="chip">클로드 맥스</span><span class="chip">페이블 5</span><span class="chip">사용량 한도</span><span class="chip">앤스로픽</span><span class="chip">소넷 5</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.morphllm.com/claude-code-usage-limits" rel="nofollow noopener">https://www.morphllm.com/claude-code-usage-limits</a></li><li><a href="https://www.truefoundry.com/blog/claude-code-limits-explained" rel="nofollow noopener">https://www.truefoundry.com/blog/claude-code-limits-explained</a></li><li><a href="https://support.claude.com/en/articles/15424964-claude-fable-5-on-your-plan" rel="nofollow noopener">https://support.claude.com/en/articles/15424964-claude-fable-5-on-your-plan</a></li><li><a href="https://www.techtimes.com/articles/320905/20260718/claude-fable-5-ends-subscription-limbo-permanent-max-credits-only-pro.htm" rel="nofollow noopener">https://www.techtimes.com/articles/320905/20260718/claude-fable-5-ends-subscript</a></li><li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" rel="nofollow noopener">https://www.anthropic.com/news/claude-fable-5-mythos-5</a></li><li><a href="https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5" rel="nofollow noopener">https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable</a></li><li><a href="https://www.developersdigest.tech/blog/claude-usage-limits-fable-5-explained" rel="nofollow noopener">https://www.developersdigest.tech/blog/claude-usage-limits-fable-5-explained</a></li><li><a href="https://mer.vin/news/claude-codes-50-usage-boost-extended-again-not-yet-permanent/" rel="nofollow noopener">https://mer.vin/news/claude-codes-50-usage-boost-extended-again-not-yet-permanen</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드 세션 한도는 언제 리셋되나요?</h2><p class="sum">5시간 롤링 창으로, 첫 메시지를 보낸 시점부터 300분 뒤 자동으로 풀린다. 이와 별도로 계정마다 정해진 시각에 리셋되는 주간 한도가 함께 걸려 있어서, 세션 여유가 남아도 주간 한도를 넘기면 막힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>페이블 5는 무엇이고 왜 한도를 빨리 쓰나요?</h2><p class="sum">앤스로픽이 2026년 6월 공개한 최상위 모델로, 입력 100만 토큰당 10달러·출력 50달러로 오퍼스 4.8보다 비싸다. 장시간 자율 작업에 맞춰 토큰을 많이 소비하도록 설계돼 5시간 세션 한도를 순식간에 태운다는 사례가 나온다.</p></article><article class="dcard"><div class="t">Q</div><h2>맥스 요금제로 바꾸면 페이블 5를 무제한 쓸 수 있나요?</h2><p class="sum">아니다. 맥스·팀 프리미엄은 페이블 5를 주간 사용 한도의 최대 50%까지만 무료로 포함하고, 이 몫은 소넷·오퍼스와 같은 주간 풀을 나눠 쓴다. 프로·팀 스탠다드는 별도 크레딧을 소진한 뒤 API 요금으로 결제해야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-23-2200.html">2026-08-23 08-23 13:25~21:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

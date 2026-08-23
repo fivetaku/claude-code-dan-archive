@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>바이브 코딩엔 랙서버보다 램 32GB, NVLink 없는 추론의 실체 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="랙서버로 개인 AI 장비를 꾸리는 상상과 달리 NVLink 없는 텐서 병렬은 한계가 뚜렷하다. 바이브 코딩엔 고사양보다 32GB 램과 맥북이 현실적인 이유를 짚었다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/vibe-coding-ram-nvlink-myth.html">
+<meta property="og:title" content="바이브 코딩엔 랙서버보다 램 32GB, NVLink 없는 추론의 실체">
+<meta property="og:description" content="랙서버로 개인 AI 장비를 꾸리는 상상과 달리 NVLink 없는 텐서 병렬은 한계가 뚜렷하다. 바이브 코딩엔 고사양보다 32GB 램과 맥북이 현실적인 이유를 짚었다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/vibe-coding-ram-nvlink-myth.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "바이브 코딩엔 랙서버보다 램 32GB, NVLink 없는 추론의 실체", "description": "랙서버로 개인 AI 장비를 꾸리는 상상과 달리 NVLink 없는 텐서 병렬은 한계가 뚜렷하다. 바이브 코딩엔 고사양보다 32GB 램과 맥북이 현실적인 이유를 짚었다.", "datePublished": "2026-08-24", "dateModified": "2026-08-24", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/vibe-coding-ram-nvlink-myth.html"}, "articleSection": "질문·트러블슈팅", "keywords": "바이브 코딩, Claude Code, NVLink, 텐서 병렬, 로컬 LLM, 램 요구사양, 맥북"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "NVLink 없이도 여러 GPU로 AI 모델 추론이 가능한가?", "acceptedAnswer": {"@type": "Answer", "text": "가능하지만 조건부다. 텐서 병렬은 GPU 사이 all-reduce 통신이 많아 PCIe만으로는 병목이 커지고, 70B급 이상 모델은 NVLink급 인터커넥트가 사실상 필요하다는 분석이 있다. NVLink가 없다면 통신량이 적은 파이프라인 병렬이 대안으로 꼽힌다."}}, {"@type": "Question", "name": "Claude Code를 쓰려면 RAM이 얼마나 필요한가?", "acceptedAnswer": {"@type": "Answer", "text": "공식 문서 기준 최소 4GB, 큰 프로젝트에는 8GB 이상이 권장된다. 서브에이전트를 병렬로 여러 개 띄우거나 워크트리를 나눠 쓰는 모노레포 작업이라면 32GB가 권장치다."}}, {"@type": "Question", "name": "바이브 코딩용 PC는 맥북과 GPU 데스크톱 중 뭐가 나은가?", "acceptedAnswer": {"@type": "Answer", "text": "바이브 코딩은 실제 연산을 클라우드에 맡기는 방식이라 로컬 GPU 성능보다 메모리 여유와 발열·소음이 더 중요하다는 평가가 많다. 실험이나 파인튜닝까지 하려면 CUDA 생태계가 넓은 PC가, 조용히 코딩 어시스턴트만 쓰려면 맥이 유리하다는 분석이 나온다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <div class="eyebrow">질문·트러블슈팅</div>
+  <h1>바이브 코딩엔 랙서버보다 램 32GB, NVLink 없는 추론의 실체</h1>
+  <p class="sub">NVLink 없는 개인 GPU 서버로 추론이 가능한지, 바이브 코딩용 PC와 맥북엔 램이 얼마나 필요한지 확인했다</p>
+  <div class="meta"><span>2026-08-24</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>NVLink 없는 텐서 병렬, 조건부로만 맞다.</p>
+<p>클코단 방에 랙 사진 한 장이 올라오면서 대화가 시작됐다. 스토리지 서버인지 보안 장비인지 정체를 두고 추측이 오갔고, 화제는 자연스레 개인이 집에 AI 연산 장비를 놓을 수 있는지로 번졌다. NVLink가 없어도 추론은 돌아간다는 의견이 나왔다. 정작 바이브 코딩에 쓸 노트북 이야기로 넘어가자 결론은 32GB 램 하나로 좁혀졌다. 랙서버를 향한 호기심과 실제로 필요한 사양 사이, 그 간극이 어디서 갈리는지 짚어봤다.</p>
+<h2>NVLink 없는 텐서 병렬, 조건부로만 맞다</h2>
+<p>NVLink가 없는 상태에서도 텐서 병렬 방식을 프레임워크가 받쳐주면 추론 자체는 돌아간다는 게 방에서 나온 입장이었다. 방향은 맞지만 조건이 빠졌다. A100·H100의 NVLink는 GPU당 양방향 600~900GB/s를 제공하는 반면, PCIe 4.0 x16은 양방향 약 64GB/s다. 텐서 병렬은 레이어마다 GPU끼리 계산 결과를 맞춰보는 all-reduce 연산을 거친다. 통로가 좁으면 계산보다 통신에 더 많은 시간이 든다.</p>
+<p>  시스아트 컨설팅의 온프레미스 추론 분석 역시 70B급 모델의 텐서 병렬은 PCIe에서 통신 오버헤드가 커질 수 있다고 짚는다. NVLink 없는 환경에 vLLM 문서가 권하는 대안은 파이프라인 병렬이다. GPU마다 레이어를 통째로 나눠 맡기고 순서대로 넘기는 방식이라 통신량이 훨씬 적다.</p>
+<p>개인용 하드웨어 사정도 걸린다. 엔비디아는 RTX 40 시리즈부터 소비자용 플래그십에서 NVLink를 뺐다. 엔비디아 공식 사양에 따르면 RTX 4090은 NVLink를 지원하지 않는다. 젠슨 황은 그 자리를 AI 연산용 실리콘에 내줬다고 밝혔다. 카드를 여러 장 묶는 비용을 걱정했던 방 의견에는 근거가 있다. 카드값을 감당해도 통신 구조 자체가 발목을 잡을 수 있어서다.</p>
+<h2>사무실이냐 집이냐, 전기료와 소음의 계산</h2>
+<p>전기 요금과 소음을 고려하면 개인용 연산 장비는 집보다 사무공간에 두는 편이 낫다는 의견이 방에서 오갔다. 추정치도 같은 방향을 가리킨다. 전력 소비 추정치에서는 RTX 5090 데스크톱이 맥 스튜디오나 맥북 프로 M4 맥스보다 전기료가 더 많이 드는 것으로 계산된다. 여름철 냉방 부담까지 더하면 가정용 전기료가 더 늘어날 수 있다. 사무실의 냉방 여건에 따라 그 부담을 줄일 수 있다.</p>
+<p>소음도 무시하기 어렵다. 맥미니는 추론 중에도 거의 무음이지만, GPU 여러 장을 채운 타워형 PC는 다르다.</p>
+<p>클라우드 API 지출이 큰 헤비 유저라면 계산이 달라진다. AI슈페리어는 중간에서 높은 수준의 사용량이면 로컬 장비가 6~12개월 안에 손익분기점에 이를 수 있다고 분석한다. 방에서 오간 랙서버 로망은 사무실에 여유 공간과 냉방이 있고 클라우드 비용이 실제로 부담되는 사람에게만 계산이 선다.</p>
+<h2>바이브 코딩엔 32GB 램, 근거는 따로 있다</h2>
+<p>정작 방의 결론은 개인 서버가 아니라 노트북 사양이었다. Claude Code 공식 문서는 최소 사양을 4GB로 잡는다. 큰 프로젝트에서는 메모리 사용량이 커질 수 있다. 다만 서브에이전트를 여러 개 병렬로 띄우고 워크트리를 나눠 쓰는 모노레포 작업이라면 메모리 여유가 필요하다. 여러 도구를 동시에 돌리면 16GB로는 한계에 부딪힐 수 있으니 32GB 이상이 필요하다는 진단도 방에서 나왔다.</p>
+<p>CPU 이야기도 근거가 있다. Claude Code의 CPU 사용량은 작업 내용과 실행 환경에 따라 달라진다. 서브에이전트가 테스트나 개발 서버 실행 같은 작업을 맡으면 로컬 자원을 더 사용할 수 있어서다. 앤트로픽 깃허브 이슈 트래커에는 세션이 30분 정도 길어지면 CPU와 메모리 사용량이 누적돼 느려진다는 보고가 있다. 같은 대화를 새 세션으로 다시 열면 바로 정상 속도로 돌아온다. 해당 제보자는 컨텍스트 크기보다 실행 중인 프로세스의 문제를 의심했다. CPU와 메모리 사용량이 도구 호출 체감 속도에 영향을 줄 수 있다는 방 얘기와 맞닿는다.</p>
+<p>노트북 선택은 실제로 맥북 쪽 의견이 많았다. 윈도우는 백그라운드 서비스까지 겹치면 16GB 환경에서 여유 메모리가 빠르게 줄 수 있다는 후기가 있다. 반면 맥은 통합 메모리 구조 덕에 같은 용량에서 체감 여유가 더 크다는 평이 자주 보인다. 바이브 코딩 자체가 실제 연산을 클라우드에 위탁하는 작업이라 로컬 GPU 성능은 크게 중요하지 않다는 지적도 있다. 로컬에서는 IDE와 브라우저, WSL, 여러 에이전트 프로세스를 동시에 띄운 운영체제 쪽의 부담도 커진다.</p>
+<h2>램 용량은 사양표가 아니라 서브에이전트 개수가 정한다</h2>
+<p>맥 스튜디오와 커스텀 GPU PC를 비교한 2026년 가이드들은 용도를 갈라서 답한다. 7B~34B급 모델을 자주 돌리며 실험하고 파인튜닝까지 하려면 CUDA 생태계가 넓은 PC가 유리하다. 혼자 쓰는 코딩 어시스턴트나 70B급 모델을 가끔 돌리는 정도면 조용하고 메모리 큰 맥이 낫다. RTX 5090 한 장의 메모리 대역폭은 초당 1792GB로 맥 미니 M4 프로의 6.6배, 최상위 맥 스튜디오 M4 맥스 구성의 3.3배에 달한다. 다만 그 속도 차이는 바이브 코딩처럼 클라우드 API를 호출하는 작업에서는 크게 체감되지 않는다.</p>
+<p>방에서 랙서버 사진을 보고 개인 AI 설비 이야기로 번진 건 자연스러운 호기심이었다. 실제로 사양을 정할 때 기준이 되는 건 텐서 병렬이 되느냐 안 되느냐가 아니다. 서브에이전트를 몇 개나 동시에 띄울지도 램 용량을 정할 때 고려할 요소다.</p>
+<p>랙을 채울지, 32GB 노트북 한 대로 끝낼지 판단할 때도 그 질문을 고려할 수 있다.</p></div>
+<div class="chips"><span class="chip">바이브 코딩</span><span class="chip">Claude Code</span><span class="chip">NVLink</span><span class="chip">텐서 병렬</span><span class="chip">로컬 LLM</span><span class="chip">램 요구사양</span><span class="chip">맥북</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://docs.anthropic.com/en/docs/claude-code/getting-started" rel="nofollow noopener">https://docs.anthropic.com/en/docs/claude-code/getting-started</a></li><li><a href="https://houtini.com/articles/claude-code-system-requirements/" rel="nofollow noopener">https://houtini.com/articles/claude-code-system-requirements/</a></li><li><a href="https://www.databasemart.com/blog/vllm-distributed-inference-optimization-guide" rel="nofollow noopener">https://www.databasemart.com/blog/vllm-distributed-inference-optimization-guide</a></li><li><a href="https://sysart.consulting/insights/multi-gpu-inference-parallelism-on-premises/" rel="nofollow noopener">https://sysart.consulting/insights/multi-gpu-inference-parallelism-on-premises/</a></li><li><a href="https://docs.vllm.ai/en/stable/serving/parallelism_scaling/" rel="nofollow noopener">https://docs.vllm.ai/en/stable/serving/parallelism_scaling/</a></li><li><a href="https://www.spheron.network/blog/what-is-nvlink-gpu-interconnect-bandwidth-explained/" rel="nofollow noopener">https://www.spheron.network/blog/what-is-nvlink-gpu-interconnect-bandwidth-expla</a></li><li><a href="https://www.tweaktown.com/news/88605/nvidia-kills-nvlink-support-for-ada-lovelace-silent-death-sli/index.html" rel="nofollow noopener">https://www.tweaktown.com/news/88605/nvidia-kills-nvlink-support-for-ada-lovelac</a></li><li><a href="https://aisuperior.com/cost-of-running-local-llm/" rel="nofollow noopener">https://aisuperior.com/cost-of-running-local-llm/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>NVLink 없이도 여러 GPU로 AI 모델 추론이 가능한가?</h2><p class="sum">가능하지만 조건부다. 텐서 병렬은 GPU 사이 all-reduce 통신이 많아 PCIe만으로는 병목이 커지고, 70B급 이상 모델은 NVLink급 인터커넥트가 사실상 필요하다는 분석이 있다. NVLink가 없다면 통신량이 적은 파이프라인 병렬이 대안으로 꼽힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code를 쓰려면 RAM이 얼마나 필요한가?</h2><p class="sum">공식 문서 기준 최소 4GB, 큰 프로젝트에는 8GB 이상이 권장된다. 서브에이전트를 병렬로 여러 개 띄우거나 워크트리를 나눠 쓰는 모노레포 작업이라면 32GB가 권장치다.</p></article><article class="dcard"><div class="t">Q</div><h2>바이브 코딩용 PC는 맥북과 GPU 데스크톱 중 뭐가 나은가?</h2><p class="sum">바이브 코딩은 실제 연산을 클라우드에 맡기는 방식이라 로컬 GPU 성능보다 메모리 여유와 발열·소음이 더 중요하다는 평가가 많다. 실험이나 파인튜닝까지 하려면 CUDA 생태계가 넓은 PC가, 조용히 코딩 어시스턴트만 쓰려면 맥이 유리하다는 분석이 나온다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-23-0900.html">2026-08-23 08-22 13:35~08-23 08:41</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
