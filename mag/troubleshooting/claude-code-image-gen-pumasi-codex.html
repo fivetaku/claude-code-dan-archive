@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드 코드에서 이미지 생성하기, 품앗이와 코덱스 브릿지 실전 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드 코드가 이미지를 생성 못 하는 이유와, 품앗이·코덱스 CLI 브릿지로 gpt-image-2를 호출해 우회하는 실제 설치·사용법을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/claude-code-image-gen-pumasi-codex.html">
+<meta property="og:title" content="클로드 코드에서 이미지 생성하기, 품앗이와 코덱스 브릿지 실전">
+<meta property="og:description" content="클로드 코드가 이미지를 생성 못 하는 이유와, 품앗이·코덱스 CLI 브릿지로 gpt-image-2를 호출해 우회하는 실제 설치·사용법을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/claude-code-image-gen-pumasi-codex.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드 코드에서 이미지 생성하기, 품앗이와 코덱스 브릿지 실전", "description": "클로드 코드가 이미지를 생성 못 하는 이유와, 품앗이·코덱스 CLI 브릿지로 gpt-image-2를 호출해 우회하는 실제 설치·사용법을 정리했다.", "datePublished": "2026-08-23", "dateModified": "2026-08-23", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/claude-code-image-gen-pumasi-codex.html"}, "articleSection": "질문·트러블슈팅", "keywords": "클로드 코드, 품앗이, Codex CLI, gpt-image-2, 이미지 생성, MCP"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드 코드에서 이미지를 생성하려면 어떻게 해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "클로드 자체엔 이미지 생성 모델이 없어 MCP 서버나 코덱스 CLI 브릿지 같은 외부 도구를 연결해야 한다. 품앗이(pumasi) 플러그인은 코덱스 CLI를 통해 OpenAI의 gpt-image-2 모델을 호출하는 방식을 쓴다."}}, {"@type": "Question", "name": "품앗이(pumasi)는 원래 무엇을 위한 도구인가요?", "acceptedAnswer": {"@type": "Answer", "text": "클로드를 프로젝트 매니저로, 코덱스 CLI를 병렬로 일하는 외주 개발자로 삼아 대규모 코딩 작업을 나눠 처리하는 플러그인이다. 이미지 생성은 코덱스 CLI에 내장된 image_gen 툴을 함께 쓰면서 부가적으로 가능해진 기능이다."}}, {"@type": "Question", "name": "이미지 생성에 별도 비용이 드나요?", "acceptedAnswer": {"@type": "Answer", "text": "OpenAI API 키 없이 ChatGPT 계정 로그인만으로 작동하며, 이미 갖고 있는 ChatGPT Free·Plus·Pro 구독 한도 안에서 처리된다. 다만 무료 플랜은 토큰 한도가 좁아 실용성이 떨어진다는 평가가 많다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <div class="eyebrow">질문·트러블슈팅</div>
+  <h1>클로드 코드에서 이미지 생성하기, 품앗이와 코덱스 브릿지 실전</h1>
+  <p class="sub">클로드는 이미지를 못 그린다는 한계를, 코덱스 CLI를 빌려 넘는 방법이 이미 여러 갈래로 퍼져 있다</p>
+  <div class="meta"><span>2026-08-23</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클코단에서 나온 질문은 단순했다. 클로드가 그림을 그리게 만들 수 있느냐는 것이었다. 클로드 자체엔 이미지 생성 모델이 없다는 사실은 이미 알려져 있다. 하지만 채팅창 안에서 명령 한 줄로 이미지를 뽑아내는 방법이 있다는 답이 돌아왔다. 방에서 나온 이름은 품앗이(pumasi) — 원래 병렬 코딩을 위해 만들어진 플러그인이다. 이게 어떻게 이미지 생성과 연결되는지, 실제로 뭘 설치하고 뭘 입력해야 하는지를 이번 조사로 확인했다.</p>
+<h2>클로드는 왜 이미지를 못 그리나</h2>
+<p>Anthropic은 Claude에 네이티브 이미지 생성 기능을 넣지 않았다. 2026년 현재도 마찬가지다. 도표나 SVG, 슬라이드 프로토타입까지는 Claude Design류 기능으로 만들 수 있다. 하지만 사진이나 일러스트 수준의 픽셀 이미지는 클로드 혼자 만들지 못한다. ChatGPT의 GPT Image, Gemini의 Nano Banana와 자주 비교되는 지점이다. 그래서 나온 우회로가 MCP(Model Context Protocol)로 외부 이미지 생성 서버를 붙이는 방식이다. 구글 Gemini 이미지 모델인 Nano Banana를 MCP로 연결하는 스킬이 이미 여러 개 나와 있다. DALL-E를 붙이는 MCP 서버도 있다. 방에서 나온 품앗이 활용법은 이 계열 우회로 중 하나이면서 조금 다른 경로를 탄다. API 키 대신 이미 갖고 있는 ChatGPT 구독을 그대로 쓴다는 점이다.</p>
+<h2>품앗이는 원래 이미지 생성 도구가 아니다</h2>
+<p>품앗이는 fivetaku가 만든 gptaku_plugins 마켓플레이스 소속 플러그인이다. 원래 목적은 이미지 생성이 아니라 병렬 코딩이다. 소개 문구를 그대로 옮기면 &quot;클로드는 PM, 코덱스 CLI는 병렬로 일하는 외주 개발자&quot;다. 요구사항 분석과 함수 시그니처 설계는 클로드가 맡는다. 실제 구현은 OpenAI의 코딩 에이전트인 코덱스 CLI가 여러 개 동시에 붙어 나눠 처리한다. 서로 독립적인 작업이 3개 이상 있을 때 쓰라고 문서는 권한다. 버그 수정이나 파일 하나짜리 작업엔 오히려 안 맞는다는 안내도 함께 붙어 있다.</p>
+<p>이미지 생성이 여기 끼어드는 이유는 코덱스 CLI 자체에 있다. 코덱스 CLI에는 image_gen이라는 내장 툴이 있다. 이 툴은 ChatGPT 계정 OAuth 인증만으로 OpenAI의 이미지 모델을 호출한다. 별도 API 키도, 별도 결제도 필요 없다. 이미 로그인된 ChatGPT 구독 한도 안에서 돌아간다. 품앗이의 이미지 기능은 병렬 코딩 흐름과 분리된 `/pumasi:image` 서브커맨드로 코덱스의 이미지 생성 기능을 호출한다. 클로드 코드 입장에서는 자기가 못 하는 일을 외주로 돌리는 셈이다. 마침 그 외주처가 이미지도 그릴 줄 아는 것이다.</p>
+<h2>설치부터 프롬프트까지, 실제 작동 순서</h2>
+<p>실제로 쓰려면 순서가 있다. 먼저 마켓플레이스를 등록한다. `/plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git`. 이어서 `/plugin install pumasi`로 품앗이를 설치한다. 코덱스 CLI가 없다면 `npm install -g @openai/codex`로 깐다. `codex login`으로 ChatGPT 계정을 연결해야 한다. 이 로그인 정보는 `~/.codex/auth.json` 또는 운영체제의 자격 증명 저장소에 저장된다. 이후 호출마다 자동으로 읽힌다.</p>
+<p>설치가 끝나면 클로드 코드 안에서 `/pumasi:image` 뒤에 자연어 요청을 붙이면 된다. &quot;시바견이 선글라스 쓴 이미지 만들어서 ./images/shiba.png로 저장해줘&quot; 같은 문장을 쓰면 클로드가 프롬프트를 정리해 코덱스 CLI에 넘긴다. 코덱스가 image_gen 툴로 이미지 모델을 호출해 결과를 지정한 경로에 png로 떨어뜨린다. 품앗이 쪽에서는 이미지 생성 기능을 `/pumasi:image` 명령으로 기존 `/pumasi`와 분리해 안내한다. 클로드가 결과 이미지를 다시 확인하고 마음에 안 들면 재생성을 요청하는 흐름까지 포함된다. 사람이 중간에 다운로드하거나 파일을 옮기는 과정이 없다.</p>
+<h2>gpt-image-2와 비슷한 브릿지들</h2>
+<p>코덱스가 호출하는 이미지 모델은 gpt-image-2다. OpenAI가 2026년 4월 21일 내놓았다.  LMArena 이미지 리더보드 집계에 따르면 출시 12시간 만에 1위에 올랐다. 그전까지 앞서 있던 구글 Nano Banana Pro(Gemini 3 Pro Image, 2025년 11월 출시)를 큰 격차로 따돌렸다. 텍스트가 들어간 이미지나 편집 작업에서는 gpt-image-2 쪽이, 4K 해상도나 구도 제어가 필요한 슬라이드용 이미지에서는 Nano Banana Pro가 낫다는 비교가 흔하다.</p>
+<p>코덱스 CLI의 image_gen을 클로드 코드로 끌어오는 브릿지 프로젝트는 품앗이 하나가 아니다. codex-image, gpt-image-bridge, codex-imagegen-cli, codex-bridge 같은 이름으로 비슷한 시기에 여러 개발자가 독립적으로 같은 아이디어를 구현해 올렸다. 전부 &quot;API 키 없이 이미 있는 ChatGPT 로그인만 쓴다&quot;는 문구를 내세운다. 접근 방식이 겹치는 도구가 비슷한 시기에 여러 개 나왔다.</p>
+<h2>요금제 조건과 실제로 써본 반응</h2>
+<p>비용 구조는 단순하다. 코덱스 CLI는 ChatGPT Plus(월 20달러), Pro(월 100달러부터), Business·Enterprise 요금제에서 쓸 수 있고, 이미지 생성은 포함 한도나 크레딧을 사용한다. 다만 무료 플랜에서는 코덱스 이미지 생성을 쓸 수 없다. 사용량은 5시간 단위 창과 주간 한도로 관리된다. 이미 ChatGPT 유료 구독이 있는 사람에게는 이 조합이 사실상 추가 비용 없이 이미지 생성 창구를 여는 셈이다. 하지만 ChatGPT를 안 쓰는 사람에게는 새 구독을 만들어야 하는 진입장벽이기도 하다.</p>
+<p>클로드 코드와 코덱스 CLI를 함께 쓰는 조합 자체에 대한 반응은 나쁘지 않다. 대규모 리팩토링이나 설계는 클로드에, 실행하고 눈으로 바로 확인해야 하는 작업은 코덱스에 맡기는 식으로 역할을 나누는 게 자리를 잡았다는 의견이 개발자 커뮤니티에서 여럿 확인된다. 이미지나 랜딩페이지처럼 결과물을 파일로 뽑아 바로 검수해야 하는 작업에서 특히 코덱스 쪽 실행-확인 루프가 편하다는 평가가 나온다. 한쪽 모델에만 의존하면 같은 편향이 반복된다는 이유로, 서로 다른 모델에게 서로의 작업을 점검하게 하는 조합을 선호하는 목소리도 있다.</p>
+<p>방에서는 질문이 나온 지 얼마 지나지 않아 저장소 링크와 함께 쓰는 법이 공유됐다. 질문을 던진 사람은 그걸로 문제를 풀었다고 답했다. 클로드가 이미지를 못 그린다는 사실 자체는 바뀌지 않는다. 다만 이미 쓰고 있는 다른 구독이 있다면, 새 API 키를 발급받지 않고도 그 한계를 넘는 경로가 여러 갈래로 나 있다는 사실이 이번에 확인됐다.</p></div>
+<div class="chips"><span class="chip">클로드 코드</span><span class="chip">품앗이</span><span class="chip">Codex CLI</span><span class="chip">gpt-image-2</span><span class="chip">이미지 생성</span><span class="chip">MCP</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/fivetaku/pumasi" rel="nofollow noopener">https://github.com/fivetaku/pumasi</a></li><li><a href="https://github.com/fivetaku/gptaku_plugins" rel="nofollow noopener">https://github.com/fivetaku/gptaku_plugins</a></li><li><a href="https://github.com/wjb127/codex-image" rel="nofollow noopener">https://github.com/wjb127/codex-image</a></li><li><a href="https://github.com/oakplank/gpt-image-bridge" rel="nofollow noopener">https://github.com/oakplank/gpt-image-bridge</a></li><li><a href="https://github.com/jdmnk/codex-imagegen-cli" rel="nofollow noopener">https://github.com/jdmnk/codex-imagegen-cli</a></li><li><a href="https://github.com/Sateezg/codex-bridge" rel="nofollow noopener">https://github.com/Sateezg/codex-bridge</a></li><li><a href="https://paulkuo.tw/en/articles/claude-code-codex-imagegen/" rel="nofollow noopener">https://paulkuo.tw/en/articles/claude-code-codex-imagegen/</a></li><li><a href="https://help.apiyi.com/en/gpt-image-2-vs-nano-banana-pro-comparison-en.html" rel="nofollow noopener">https://help.apiyi.com/en/gpt-image-2-vs-nano-banana-pro-comparison-en.html</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드에서 이미지를 생성하려면 어떻게 해야 하나요?</h2><p class="sum">클로드 자체엔 이미지 생성 모델이 없어 MCP 서버나 코덱스 CLI 브릿지 같은 외부 도구를 연결해야 한다. 품앗이(pumasi) 플러그인은 코덱스 CLI를 통해 OpenAI의 gpt-image-2 모델을 호출하는 방식을 쓴다.</p></article><article class="dcard"><div class="t">Q</div><h2>품앗이(pumasi)는 원래 무엇을 위한 도구인가요?</h2><p class="sum">클로드를 프로젝트 매니저로, 코덱스 CLI를 병렬로 일하는 외주 개발자로 삼아 대규모 코딩 작업을 나눠 처리하는 플러그인이다. 이미지 생성은 코덱스 CLI에 내장된 image_gen 툴을 함께 쓰면서 부가적으로 가능해진 기능이다.</p></article><article class="dcard"><div class="t">Q</div><h2>이미지 생성에 별도 비용이 드나요?</h2><p class="sum">OpenAI API 키 없이 ChatGPT 계정 로그인만으로 작동하며, 이미 갖고 있는 ChatGPT Free·Plus·Pro 구독 한도 안에서 처리된다. 다만 무료 플랜은 토큰 한도가 좁아 실용성이 떨어진다는 평가가 많다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-18-2200.html">2026-08-18 08-18 17:15~21:48</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

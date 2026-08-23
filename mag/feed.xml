@@ -13,6 +13,22 @@
     <description>알리바바 Qwen3.8-27B 로컬 구동에 필요한 실제 사양과 맥 스튜디오·연구실 GPU 서버 비교, 2026년 램 품귀로 128GB 맥 구성이 막힌 배경까지 정리했다.</description>
   </item>
   <item>
+    <title>클로드코드 자료조사, insane-search·insane-research로 채우는 법</title>
+    <link>https://chat.axwith.com/mag/tools/insane-search-insane-research-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/insane-search-insane-research-guide.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드용 자료조사 플러그인 insane-search와 insane-research를 실제로 엮어 쓴 사례를 통해, 두 도구의 작동 원리와 국내 기관 자료를 우선하도록 손본 방법을 정리했다.</description>
+  </item>
+  <item>
+    <title>클로드 코드에서 이미지 생성하기, 품앗이와 코덱스 브릿지 실전</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-image-gen-pumasi-codex.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-image-gen-pumasi-codex.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드가 이미지를 생성 못 하는 이유와, 품앗이·코덱스 CLI 브릿지로 gpt-image-2를 호출해 우회하는 실제 설치·사용법을 정리했다.</description>
+  </item>
+  <item>
     <title>딥시크·큐원으로 논문 쓴다는 것, 실제로 뭘 뜻하나</title>
     <link>https://chat.axwith.com/mag/models/chinese-llm-academic-writing.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/chinese-llm-academic-writing.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sun, 16 Aug 2026 12:00:00 +0900</pubDate>
     <description>H200 두 장에 Gemma4를 TP=2로 올려 뽑은 2500TPS와 실제 대화 체감 26TPS 사이 100배 차이를, 합산 처리량과 개인 체감 속도라는 서로 다른 개념으로 풀어 설명한다.</description>
-  </item>
-  <item>
-    <title>구독 요금 그대로 쓰는 클로드코드 플러그인, 면접까지 통했다</title>
-    <link>https://chat.axwith.com/mag/tools/claude-code-zero-api-plugins.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-zero-api-plugins.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sun, 16 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드 플러그인 인세인리뷰와 인세인서치를 실제로 써본 클코단 후기를 바탕으로, repomix와 ChatGPT Pro를 엮은 무료 코드 리뷰 구조와 차단된 웹페이지를 뚫는 4단계 스케줄러 작동 방식을 취재했다.</description>
-  </item>
-  <item>
-    <title>Qwen3.8-27B, 로컬 GPU로 돌리는 에이전틱 코딩 모델의 실체</title>
-    <link>https://chat.axwith.com/mag/models/qwen-3-8-27b-local-coding.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-3-8-27b-local-coding.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sat, 15 Aug 2026 12:00:00 +0900</pubDate>
-    <description>알리바바 Qwen팀이 아파치 2.0 라이선스로 공개한 27B 오픈모델 Qwen3.8-27B의 벤치마크, 로컬 구동 GPU 요구 사양, 클로드 코드와의 성능 격차를 정리했다.</description>
   </item>
 </channel></rss>
