@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>디스코드 MCP·StyleGallery, 스타 100개가 신뢰 기준이 될까</title>
+    <link>https://chat.axwith.com/mag/resources/mcp-repo-trust-github-stars.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/mcp-repo-trust-github-stars.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Tue, 25 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클코단 채팅방에 공유된 디스코드-MCP, StyleGallery 등 개인 레포를 실제로 조사하고, 스타 수를 신뢰 기준으로 쓰는 방식이 왜 위험한지, MCP 서버 설치 전 무엇을 확인해야 하는지 짚었다.</description>
+  </item>
+  <item>
+    <title>클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법</title>
+    <link>https://chat.axwith.com/mag/ops/claude-github-outage-529-status-page.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/claude-github-outage-529-status-page.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Tue, 25 Aug 2026 12:00:00 +0900</pubDate>
+    <description>8월 클로드·깃허브 동시 장애를 계기로 529 오류의 뜻, status.claude.com 읽는 법, 상용·정부용 가동률 격차, fallbackModel 설정법을 정리했다.</description>
+  </item>
+  <item>
     <title>VPS에서 클로드코드 24시간 돌리기, 맥미니와 뭐가 다른가</title>
     <link>https://chat.axwith.com/mag/ops/vps-claude-code-always-on.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/vps-claude-code-always-on.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Tue, 18 Aug 2026 12:00:00 +0900</pubDate>
     <description>애플은 글로벌 시리를 구글 제미나이로, 중국 아이폰은 알리바바 콴과 바이두로 나눠 쓴다. 그 배경과 서버·데이터 처리 방식 차이, 독자가 실제로 알아둘 만한 내용을 정리했다</description>
-  </item>
-  <item>
-    <title>클로드 오퍼스 4.6 넘었다는 로컬 27B 모델, 벤치마크 실체 검증</title>
-    <link>https://chat.axwith.com/mag/models/qwen-27b-opus-benchmark-doubts.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-27b-opus-benchmark-doubts.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 17 Aug 2026 12:00:00 +0900</pubDate>
-    <description>27B 오픈웨이트 모델이 클로드 오퍼스 4.6을 이겼다는 벤치마크가 화제였지만, 수치 대부분은 알리바바 자체 발표이고 27B와 2.4T 플래그십 모델의 성적이 뒤섞여 퍼졌다는 사실이 드러났다</description>
-  </item>
-  <item>
-    <title>에이전트끼리 대화시키는 멀티에이전트 코딩, 효과는 어디까지 진짜인가</title>
-    <link>https://chat.axwith.com/mag/workflow/multi-agent-coding-debate-effect.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/multi-agent-coding-debate-effect.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Mon, 17 Aug 2026 12:00:00 +0900</pubDate>
-    <description>멀티에이전트 코딩이 토큰만 태우는지 실제로 효과가 있는지, 앤트로픽 연구·학계 논문·클로드 코드 다이나믹 워크플로우와 에이전트 팀을 근거로 정리했다.</description>
   </item>
 </channel></rss>

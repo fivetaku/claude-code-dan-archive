@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="8월 클로드·깃허브 동시 장애를 계기로 529 오류의 뜻, status.claude.com 읽는 법, 상용·정부용 가동률 격차, fallbackModel 설정법을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/ops/claude-github-outage-529-status-page.html">
+<meta property="og:title" content="클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법">
+<meta property="og:description" content="8월 클로드·깃허브 동시 장애를 계기로 529 오류의 뜻, status.claude.com 읽는 법, 상용·정부용 가동률 격차, fallbackModel 설정법을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/ops/claude-github-outage-529-status-page.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법", "description": "8월 클로드·깃허브 동시 장애를 계기로 529 오류의 뜻, status.claude.com 읽는 법, 상용·정부용 가동률 격차, fallbackModel 설정법을 정리했다.", "datePublished": "2026-08-25", "dateModified": "2026-08-25", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/ops/claude-github-outage-529-status-page.html"}, "articleSection": "배포·운영", "keywords": "Claude 장애, status.claude.com, 529 오류, Claude Code, Claude Opus 5, GitHub 장애, fallbackModel"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드 529 오류는 무슨 뜻인가요?", "acceptedAnswer": {"@type": "Answer", "text": "529는 overloaded_error로, 앤트로픽 서버 전체가 트래픽을 감당 못해 요청을 일시 거절한다는 뜻이다. 계정 한도 초과인 429와 달리 사용자 쪽에서 고칠 방법이 없고, 재시도하거나 대기하는 수밖에 없다."}}, {"@type": "Question", "name": "클로드 장애는 status.claude.com에서 어떻게 확인하나요?", "acceptedAnswer": {"@type": "Answer", "text": "claude.ai, API, 클로드 코드, 클로드 코워크 등 구성요소별 상태와 90일 가동률, 진행 중인 인시던트가 표시된다. 웹훅과 RSS·Atom 피드를 구독하면 새로고침 없이 알림으로 받을 수 있다."}}, {"@type": "Question", "name": "클로드 코드 장애 중에 쓸 수 있는 대안이 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "2.1.166 버전부터 settings.json에 fallbackModel을 최대 세 개까지 지정해 두면 기본 모델이 서버 과부하로 실패할 때 자동으로 다음 모델을 시도한다. 이 외에 코덱스 CLI나 키로 같은 다른 도구로 수동 전환하는 경우도 있다."}}, {"@type": "Question", "name": "클로드 정부용 서비스도 같은 장애를 겪나요?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 팔란티어 연방 클라우드에서 격리 운영되는 클로드 포 거번먼트는 최근 90일 가동률 100%를 기록한 반면, 상용 클로드는 같은 기간 30일 중 28차례 장애를 겪었다. 별도 인프라와 전용 용량 풀 차이 때문이다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-github-outage-529-status-page.png" alt="클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법" loading="eager">
+<header>
+  <div class="eyebrow">배포·운영</div>
+  <h1>클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법</h1>
+  <p class="sub">깃허브와 클로드가 같은 주에 나란히 흔들렸다, 529 오류의 정체와 걸어둘 수 있는 대비를 정리한다</p>
+  <div class="meta"><span>2026-08-25</span><span>논의 <b>2</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>깃허브 장애 제보 뒤 클로드 CLI가 529를 뱉었다</h2>
+<p>8월 24일, 방에서는 배포 작업 중 깃허브 서버가 말썽이라는 제보가 먼저 올라왔다. 곧이어 클로드 CLI에서 529 오류가 난다는 질문이 이어졌다. 누군가 상태 페이지 링크를 공유하면서 확인이 이어졌다.  깃허브는 8월 한 달에만 6일과 10일, 11일, 17일, 24일 등 여러 날에 크고 작은 장애를 냈다. 그중 17일은 이슈·PR·API·액션·코파일럿까지 7시간 47분 동안 오류율이 최고 20%(아카이브 다운로드는 50%)까지 치솟은 대형 장애였다. 앤트로픽 쪽은 같은 시기 8월 24일 05시06분 UTC에 미토스5·페이블5·오퍼스5·오퍼스4.8에 걸친 오류 증가를 인지했다고 상태 페이지에 올렸다. 원인 파악까지 21분, 완전 정상화까지는 그보다 훨씬 오래 걸렸다.</p>
+<p>두 회사가 같은 주에 흔들린 셈이다. 배포 파이프라인이 깃허브와 클로드 코드 양쪽에 걸쳐 있는 팀이라면 이번 주 체감 장애가 유독 잦았을 만하다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-github-outage-529-status-page.png" alt="" loading="lazy"><h2>529는 어떤 오류이고 상태 페이지는 무엇을 보여주나</h2>
+<p>클로드 API 문서는 529를 overloaded_error로 정의한다. 계정별 요청 한도를 넘겨 나는 429 rate_limit_error와 달리, 529는 앤트로픽 추론 서버 전체가 트래픽을 감당하지 못해 새 요청을 일시적으로 거절한다는 뜻이다. 방금 전까지 잘 돌던 코드가 아무것도 바꾸지 않았는데 갑자기 529를 뱉을 수 있는 이유가 여기 있다. 문제는 사용자 쪽 코드가 아니라 서버 용량이다. 지수 백오프로 재시도하거나 잠시 기다리는 것 말고는 사용자가 할 수 있는 일이 많지 않다.</p>
+<p>status.claude.com은 클로드닷ai, 클로드 콘솔, API(api.anthropic.com), 클로드 코드, 클로드 코워크, 클로드 포 거번먼트를 따로따로 추적한다. 챗 앱과 API는 별도 구성요소로 추적되며, 챗은 멀쩡한데 API만 장애를 겪거나 그 반대인 경우가 있다. 인시던트 상태는 조사 중·원인 파악·모니터링·해결·포스트모템 순으로 갱신된다. 영향도는 없음·경미·주요·심각 네 단계로 나뉜다. 방에서 공유된 상태 페이지 링크는 웹훅과 RSS·Atom 피드도 지원한다. 매번 페이지를 새로고침하는 대신 구독해 두면 장애 시작과 해결을 알림으로 받을 수 있다.</p>
+<h2>8월 한 달 동안 반복된 패턴</h2>
+<p>8월 24일 장애는 고립된 사건이 아니다. 앤트로픽은 5일, 12일, 13일, 16일, 18일, 20일, 24일 등 여러 날에 걸쳐 장애를 냈다. StatusGator 집계로는 올해 1월 이후 클로드 관련 인시던트가 잇따랐다. 테크타임스는 8월 5일 장애를 &quot;164번째&quot;로 세면서, 공교롭게도 360억 달러 규모의 추가 칩 파이낸싱 논의가 보도된 다음 날 벌어졌다고 짚었다. 다리오 아모데이 CEO는 회사가 컴퓨트 제약 상태라고 여러 차례 밝혀왔다. 투자 약정과 실제 배치된 서버 용량 사이에 시차가 있다. 클로드 수요가 빠르게 늘면서 인프라가 압박받고 있다는 설명이다.</p>
+<p>같은 주 안에서도 지역과 계정에 따라 체감이 갈렸다는 방의 보고는 이 구조와 맞아떨어진다. 한국·일본·베트남 사용자가 서로 다른 정도로 영향을 받았다는 이야기가 나왔다. 상태 페이지가 구성요소를 세분화해 추적하는 이유와 같은 맥락이다. 상태 페이지가 구성요소별 상태를 따로 표시하므로, 같은 시각에도 서비스별 상태가 다를 수 있다.</p>
+<p>이 격차는 상용과 정부용 사이에서 더 극단적으로 드러난다. 테크타임스 8월 24일 보도에 따르면 상용 클로드는 최근 30일 동안 28차례 장애를 겪은 반면, 팔란티어의 연방 클라우드에서 FedRAMP High 인증을 받아 운영되는 클로드 포 거번먼트는 최근 90일 구간 가동률 100%를 기록했다. 별도의 FedRAMP High 승인 환경에서 운영된다는 차이가 있다.</p>
+<h2>장애 중 방에서 나온 대응, 그리고 실제로 걸어둘 수 있는 안전장치</h2>
+<p>장애가 길어지자 방에서는 코덱스 실행, 다른 작업으로 전환, 키로 같은 대체 도구 사용이 언급됐다. 실사용자들 사이에서도 비슷한 흐름이 자주 보인다. 클로드 코드 하나에만 파이프라인을 걸어둔 팀일수록 장애 때마다 작업이 통째로 멈춘다. 그 경험이 반복되면 커서·코덱스 CLI·클라인처럼 다른 모델로도 돌릴 수 있는 도구를 병행하자는 의견으로 이어지는 편이다. 다만 앤트로픽 모델에만 있는 워크플로를 옮기는 데 드는 비용과, 완전히 새 도구로 갈아타는 번거로움 사이에서 다들 결정을 미루고 있다는 반응도 함께 나온다.</p>
+<p>수동으로 도구를 바꾸는 것보다 먼저 걸어둘 수 있는 장치가 클로드 코드 자체에 있다. 2.1.166 버전부터 정식 지원되는 fallbackModel 설정은 settings.json에 다음처럼 최대 세 개까지 백업 모델을 순서대로 지정해 둘 수 있다.</p>
+<p>{&quot;fallbackModel&quot;: [&quot;claude-sonnet-5&quot;, &quot;claude-haiku-4-5&quot;]}</p>
+<p>기본 모델이 과부하·사용 불가 상태이거나 다른 비재시도성 서버 오류를 반환하면 클로드 코드가 지정된 순서대로 다음 모델을 시도한다. 전환이 일어났다는 알림도 띄운다. 단 이 전환은 해당 턴 한 번에만 적용된다. 다음 메시지부터는 다시 기본 모델을 먼저 시도하며, 인증·결제·요청 한도·요청 크기·전송 오류에는 작동하지 않는다. 헤드리스 세션에서만 되던 --fallback-model 플래그도 2.1.166부터 대화형 세션에 적용됐다. 1인 개발자나 소규모 팀 입장에서는 게이트웨이 단에서 여러 공급사를 라우팅하는 구성까지 가지 않아도, 이 설정과 상태 페이지 구독으로 장애에 대비할 수 있다.</p>
+<p>컴퓨트 투자와 실제 배치 용량 사이의 시차가 좁혀지기 전까지는 이런 장애가 8월처럼 며칠 간격으로 반복될 가능성이 높다. fallbackModel 하나로 모든 장애를 피할 수는 없지만, 529가 뜬 순간 코드를 의심하는 대신 상태 페이지부터 열어보는 습관과 백업 모델 체인 정도는 지금 걸어둘 수 있는 최소한의 대비다.</p></div>
+<div class="chips"><span class="chip">Claude 장애</span><span class="chip">status.claude.com</span><span class="chip">529 오류</span><span class="chip">Claude Code</span><span class="chip">Claude Opus 5</span><span class="chip">GitHub 장애</span><span class="chip">fallbackModel</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://status.claude.com/" rel="nofollow noopener">https://status.claude.com/</a></li><li><a href="https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms-claude-is-down-in-major-outage-affecting-multiple-services/" rel="nofollow noopener">https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-confirms</a></li><li><a href="https://statusgator.com/services/claude/outage-history" rel="nofollow noopener">https://statusgator.com/services/claude/outage-history</a></li><li><a href="https://platform.claude.com/docs/en/api/errors" rel="nofollow noopener">https://platform.claude.com/docs/en/api/errors</a></li><li><a href="https://github.com/anthropics/claude-code/issues/35704" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/35704</a></li><li><a href="https://www.githubstatus.com/" rel="nofollow noopener">https://www.githubstatus.com/</a></li><li><a href="https://dev.to/jamilxt/github-is-down-the-august-17-2026-outage-in-detail-1e36" rel="nofollow noopener">https://dev.to/jamilxt/github-is-down-the-august-17-2026-outage-in-detail-1e36</a></li><li><a href="https://www.techtimes.com/articles/323171/20260805/claude-goes-down-again-71b-compute-deal-cannot-prevent-anthropics-164th-outage.htm" rel="nofollow noopener">https://www.techtimes.com/articles/323171/20260805/claude-goes-down-again-71b-co</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 529 오류는 무슨 뜻인가요?</h2><p class="sum">529는 overloaded_error로, 앤트로픽 서버 전체가 트래픽을 감당 못해 요청을 일시 거절한다는 뜻이다. 계정 한도 초과인 429와 달리 사용자 쪽에서 고칠 방법이 없고, 재시도하거나 대기하는 수밖에 없다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 장애는 status.claude.com에서 어떻게 확인하나요?</h2><p class="sum">claude.ai, API, 클로드 코드, 클로드 코워크 등 구성요소별 상태와 90일 가동률, 진행 중인 인시던트가 표시된다. 웹훅과 RSS·Atom 피드를 구독하면 새로고침 없이 알림으로 받을 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코드 장애 중에 쓸 수 있는 대안이 있나요?</h2><p class="sum">2.1.166 버전부터 settings.json에 fallbackModel을 최대 세 개까지 지정해 두면 기본 모델이 서버 과부하로 실패할 때 자동으로 다음 모델을 시도한다. 이 외에 코덱스 CLI나 키로 같은 다른 도구로 수동 전환하는 경우도 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 정부용 서비스도 같은 장애를 겪나요?</h2><p class="sum">아니다. 팔란티어 연방 클라우드에서 격리 운영되는 클로드 포 거번먼트는 최근 90일 가동률 100%를 기록한 반면, 상용 클로드는 같은 기간 30일 중 28차례 장애를 겪었다. 별도 인프라와 전용 용량 풀 차이 때문이다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="ai-product-real-estate-conversion-rate.html">AI로 만든 부동산 상품, 전환율이 안 오르는 진짜 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="vps-claude-code-always-on.html">VPS에서 클로드코드 24시간 돌리기, 맥미니와 뭐가 다른가</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-18-0900.html">2026-08-18 08-17 21:51~08-18 08:49</a> · <a href="../../s/2026-08-24-1709-s.html">2026-08-24 08-24 15:40~17:07</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
