@@ -159,7 +159,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <body>
 <div class="wrap">
 <nav><a href="../">&larr; 클코단 매거진</a></nav>
-
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-image-gen-pumasi-codex.png" alt="클로드 코드에서 이미지 생성하기, 품앗이와 코덱스 브릿지 실전" loading="eager">
 <header>
   <div class="eyebrow">질문·트러블슈팅</div>
   <h1>클로드 코드에서 이미지 생성하기, 품앗이와 코덱스 브릿지 실전</h1>
@@ -172,7 +172,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>품앗이는 원래 이미지 생성 도구가 아니다</h2>
 <p>품앗이는 fivetaku가 만든 gptaku_plugins 마켓플레이스 소속 플러그인이다. 원래 목적은 이미지 생성이 아니라 병렬 코딩이다. 소개 문구를 그대로 옮기면 &quot;클로드는 PM, 코덱스 CLI는 병렬로 일하는 외주 개발자&quot;다. 요구사항 분석과 함수 시그니처 설계는 클로드가 맡는다. 실제 구현은 OpenAI의 코딩 에이전트인 코덱스 CLI가 여러 개 동시에 붙어 나눠 처리한다. 서로 독립적인 작업이 3개 이상 있을 때 쓰라고 문서는 권한다. 버그 수정이나 파일 하나짜리 작업엔 오히려 안 맞는다는 안내도 함께 붙어 있다.</p>
 <p>이미지 생성이 여기 끼어드는 이유는 코덱스 CLI 자체에 있다. 코덱스 CLI에는 image_gen이라는 내장 툴이 있다. 이 툴은 ChatGPT 계정 OAuth 인증만으로 OpenAI의 이미지 모델을 호출한다. 별도 API 키도, 별도 결제도 필요 없다. 이미 로그인된 ChatGPT 구독 한도 안에서 돌아간다. 품앗이의 이미지 기능은 병렬 코딩 흐름과 분리된 `/pumasi:image` 서브커맨드로 코덱스의 이미지 생성 기능을 호출한다. 클로드 코드 입장에서는 자기가 못 하는 일을 외주로 돌리는 셈이다. 마침 그 외주처가 이미지도 그릴 줄 아는 것이다.</p>
-<h2>설치부터 프롬프트까지, 실제 작동 순서</h2>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-image-gen-pumasi-codex.png" alt="" loading="lazy"><h2>설치부터 프롬프트까지, 실제 작동 순서</h2>
 <p>실제로 쓰려면 순서가 있다. 먼저 마켓플레이스를 등록한다. `/plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git`. 이어서 `/plugin install pumasi`로 품앗이를 설치한다. 코덱스 CLI가 없다면 `npm install -g @openai/codex`로 깐다. `codex login`으로 ChatGPT 계정을 연결해야 한다. 이 로그인 정보는 `~/.codex/auth.json` 또는 운영체제의 자격 증명 저장소에 저장된다. 이후 호출마다 자동으로 읽힌다.</p>
 <p>설치가 끝나면 클로드 코드 안에서 `/pumasi:image` 뒤에 자연어 요청을 붙이면 된다. &quot;시바견이 선글라스 쓴 이미지 만들어서 ./images/shiba.png로 저장해줘&quot; 같은 문장을 쓰면 클로드가 프롬프트를 정리해 코덱스 CLI에 넘긴다. 코덱스가 image_gen 툴로 이미지 모델을 호출해 결과를 지정한 경로에 png로 떨어뜨린다. 품앗이 쪽에서는 이미지 생성 기능을 `/pumasi:image` 명령으로 기존 `/pumasi`와 분리해 안내한다. 클로드가 결과 이미지를 다시 확인하고 마음에 안 들면 재생성을 요청하는 흐름까지 포함된다. 사람이 중간에 다운로드하거나 파일을 옮기는 과정이 없다.</p>
 <h2>gpt-image-2와 비슷한 브릿지들</h2>
