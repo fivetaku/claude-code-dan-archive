@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>아카이브 CSS 깨짐 사고로 드러난 스타일가이드 부재의 대가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="정적 사이트 아카이브의 세 경로에서 CSS가 통째로 빠진 사고를 계기로, 스타일 누락이 반복되는 구조적 이유와 DESIGN.md·자동 검사 같은 재발 방지책을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/css-drift-no-style-guide-fix.html">
+<meta property="og:title" content="아카이브 CSS 깨짐 사고로 드러난 스타일가이드 부재의 대가">
+<meta property="og:description" content="정적 사이트 아카이브의 세 경로에서 CSS가 통째로 빠진 사고를 계기로, 스타일 누락이 반복되는 구조적 이유와 DESIGN.md·자동 검사 같은 재발 방지책을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/css-drift-no-style-guide-fix.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "아카이브 CSS 깨짐 사고로 드러난 스타일가이드 부재의 대가", "description": "정적 사이트 아카이브의 세 경로에서 CSS가 통째로 빠진 사고를 계기로, 스타일 누락이 반복되는 구조적 이유와 DESIGN.md·자동 검사 같은 재발 방지책을 정리했다.", "datePublished": "2026-08-25", "dateModified": "2026-08-25", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/css-drift-no-style-guide-fix.html"}, "articleSection": "도구·라이브러리", "keywords": "CSS 버그, 스타일가이드, DESIGN.md, Claude Code, 디자인 시스템, 바이브 코딩, 시각 회귀 테스트"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "DESIGN.md는 어떤 파일이고 어떻게 쓰나?", "acceptedAnswer": {"@type": "Answer", "text": "구글 랩스가 공개한 규격으로, 저장소 루트에 두면 색상·타이포그래피·간격 같은 디자인 토큰을 YAML 프런트매터로, 사용 맥락은 마크다운 본문으로 담아 Claude Code 같은 코딩 에이전트가 새 페이지를 만들 때 자동으로 참조하게 만든다."}}, {"@type": "Question", "name": "정적 사이트에서 특정 경로만 CSS가 깨지는 이유는 뭔가?", "acceptedAnswer": {"@type": "Answer", "text": "페이지마다 스타일시트를 개별적으로 연결하는 구조에서 새 섹션 추가 시 그 연결을 빠뜨리거나, 요청한 CSS가 404로 응답할 때 그 응답을 스타일로 잘못 해석하는 경우가 흔한 원인으로 꼽힌다."}}, {"@type": "Question", "name": "소규모 팀도 정식 디자인 시스템이 필요한가?", "acceptedAnswer": {"@type": "Answer", "text": "초기 단계이고 만드는 사람이 한둘이라면 색상·타이포그래피·간격을 정리한 간단한 스타일가이드로 충분하며, 여러 사람이 독립적으로 화면을 만들면서 불일치가 생기기 시작할 때 정식 디자인 시스템으로 넘어가면 된다는 게 닐슨노먼그룹의 분석이다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/css-drift-no-style-guide-fix.png" alt="아카이브 CSS 깨짐 사고로 드러난 스타일가이드 부재의 대가" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>아카이브 CSS 깨짐 사고로 드러난 스타일가이드 부재의 대가</h1>
+  <p class="sub">mag·w·repos 세 경로에서만 CSS가 사라진 이유와, 스타일가이드 없이 기능만 쌓아온 개발이 남긴 대가를 웹 조사로 짚는다</p>
+  <div class="meta"><span>2026-08-25</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>한 멤버가 아카이브 페이지의 뒤로가기 버튼과 내비게이션 바가 무너져 보인다며 스크린샷을 올렸다. 확인해보니 아카이브 하위의 mag/, w/, repos/ 세 경로에서만 CSS가 통째로 빠져 있었다. 운영자는 스타일가이드 없이 기능을 하나씩 붙여온 탓에 놓친 부분이라고 인정했다. 왜 하필 이 세 경로만 스타일이 사라졌을까. 같은 사고가 네 번째 경로에서 반복되지 않으려면 무엇이 필요한지도 짚어본다.</p>
+<h2>특정 경로에서만 스타일이 사라지는 흔한 이유</h2>
+<p>정적 사이트에서 페이지마다 스타일시트를 따로 연결하는 구조라면 새 섹션을 추가할 때 그 연결 코드를 빠뜨리는 실수가 반복적으로 나온다. 스타일시트 경로가 페이지 위치에 따라 상대 경로로 걸려 있으면 디렉터리 구조가 하나만 어긋나도 링크가 깨진다.</p>
+<p>더 흔한 함정은 따로 있다. 요청한 CSS 파일이 404로 응답할 때 일부 렌더링 경로가 상태 코드를 확인하지 않고 그 404 응답 본문을 CSS로 잘못 해석해 버린다. 그래서 화면이 깨지는 경우가 있다. 오픈소스 프로젝트 pagedjs의 이슈 트래커에도 이런 사례가 올라와 있다.</p>
+<p>Next.js 저장소의 공식 디스커션 게시판에는 이런 사례도 보고돼 있다. 전역 CSS를 여러 컴포넌트가 나눠 쓰면 임포트 순서가 페이지 이동 경로에 따라 달라지면서 첫 진입과 뒤로가기 후 스타일이 서로 달라지기도 한다. 서버 렌더링 구조라도 사정은 비슷하다. 새 페이지 템플릿을 만들 때마다 공용 스타일시트를 불러오는 코드를 손으로 다시 넣어야 한다면, 그 한 줄을 빠뜨리는 실수는 언젠가 나온다.</p>
+<p>아카이브의 세 경로만 깨졌다는 건, 그 경로들이 공용 레이아웃이 아니라 각자 만들어질 때 스타일 연결을 개별적으로 넣어야 하는 구조였을 가능성을 가리킨다.</p>
+<h2>기능부터 붙이고 스타일은 나중이라는 습관</h2>
+<p>이번 사고의 원인으로 운영자가 지목한 건 코드 실수가 아니라 순서였다. 스타일가이드를 먼저 정하지 않고 기능을 계속 얹어온 개발 방식 자체가 문제였다는 진단이다.</p>
+<p>소프트웨어 개발 뉴스레터들 중에는 이른바 바이브 코딩, 곧 AI 코딩 도구로 기능을 빠르게 찍어내는 방식을 다루는 곳들이 있다. 이들은 만드는 비용이 거의 0에 가까워지면 예전 같으면 자연스럽게 걸러졌을 기능까지 다 만들어버리는 경향이 생긴다고 짚는다. 디자인 쪽에서도 비슷한 경고가 나온다. 빠르고 반복적인 해법을 우선하면 디자이너가 그때그때 땜질식 처방을 내놓게 된다. 그 처방이 쌓여 제품 확장을 어렵게 만드는 디자인 부채가 된다는 지적이다.</p>
+<p>스타일가이드는 이런 부채를 막는 최소 장치다. 다만 정작 애플리케이션 유지보수에 밀려 뒷전으로 처지다가 코드와 어긋나 버리면 존재 의미 자체가 사라진다. 스타일가이드 운용 사례를 정리한 론리플래닛(Lonely Planet) 엔지니어링팀 기록의 결론이었다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/css-drift-no-style-guide-fix.png" alt="" loading="lazy"><h2>AI가 만든 화면일수록 스타일이 먼저 어긋난다</h2>
+<p>AI 코딩 도구가 만든 화면에서 페이지마다 스타일이 미묘하게 달라지는 문제는 이번 사고와 결이 같다. 같은 앱 안에서 사이드바가 한 페이지에서는 클릭되는데 다른 페이지에서는 안 되거나, 메뉴 항목이 빠지거나, 카드 하나만 다른 카드보다 여백이 4픽셀 좁은 식의 불일치가 반복해서 보고된다.</p>
+<p>원인으로 지목되는 건 AI 코딩 도구가 실제 디자인 토큰 값을 참조하지 못할 때 학습 데이터에서 본 값을 바탕으로 근사해 써넣는다는 점이다. 참조할 구조화된 문서가 없으면 이런 불일치가 커질 수 있다는 분석이다.</p>
+<p>이번 방에 올라온 스크린샷 제보도 같은 종류의 결핍이었다. 세 경로가 참조할 공통 스타일 기준이 어디에도 정리돼 있지 않았다.</p>
+<h2>재발을 막는 구체적 방법</h2>
+<p>2026년 들어 이 문제를 겨냥해 나온 규격이 DESIGN.md다. 구글 랩스가 공개한 이 포맷은 DESIGN.md 파일 하나에 디자인 시스템을 담는다. 앞부분 YAML 프런트매터에는 색상·타이포그래피·간격 같은 디자인 토큰을 기계가 읽을 수 있는 값으로 적는다. 그 아래 마크다운 본문에는 사람이 읽을 설명을 붙이는 구조다. 코딩 에이전트는 이 파일을 디자인 기준으로 참조할 수 있다. 새 페이지를 만들 때 그 안의 색상·여백 값을 참고할 수 있다. 앤트로픽의 공식 skills 저장소에도 프런트엔드 디자인 스킬이 이 구글 오픈 규격을 받아들일지 논의하는 이슈가 올라와 있다. 에이전트 기반 개발 생태계에서 채택 여부가 논의되는 단계다.</p>
+<p>다만 한계도 분명하다. 파일이 너무 길어지면 에이전트가 핵심 규칙을 놓치거나 일부 값을 여전히 잘못 짚어내는 사례가 보고돼 있다. 그래서 만능 해결책은 아니다.</p>
+<p>코드 수준에서는 Stylelint를 Husky·lint-staged와 묶어 커밋 전에 깨진 CSS 문법을 걸러내는 방법이 있다. Playwright에 내장된 toHaveScreenshot으로 페이지별 스크린샷을 기준 이미지와 비교하는 방식도 있다. 이 방식은 별도 유료 서비스 없이 소규모 사이트에서도 운영할 수 있다. 여러 브라우저를 함께 검증해야 하는 규모라면, 매달 스크린샷 5000장까지 무료로 제공하는 Percy 같은 클라우드 서비스로 넘어갈 만하다.</p>
+<h2>규모에 맞는 선택이 먼저다</h2>
+<p>이 모든 걸 한꺼번에 갖출 필요는 없다. 초기 단계 제품이고 만드는 사람이 한둘이라면, 색상과 타이포그래피, 간격값 몇 개만 문서 하나에 정리해두는 스타일가이드부터 시작할 수 있다. 닐슨노먼그룹(NN/g)의 분석은 디자인 시스템 도입 때 프로젝트의 규모와 반복 가능성, 가용 자원과 시간을 따져야 한다고 짚는다.</p>
+<p>이번 사고는 그 경계선 이전 단계에서 흔히 나오는 종류였다. 세 경로의 CSS 링크를 다시 거는 작업 자체는 몇 분이면 끝난다. 그보다 앞서 답해야 할 질문은 따로 있다. 다음에 새 경로를 추가할 때 그 스타일 값을 어디서 가져올지, 그 기준을 한 곳에 모아두는 절차를 지금 갖추느냐다.</p></div>
+<div class="chips"><span class="chip">CSS 버그</span><span class="chip">스타일가이드</span><span class="chip">DESIGN.md</span><span class="chip">Claude Code</span><span class="chip">디자인 시스템</span><span class="chip">바이브 코딩</span><span class="chip">시각 회귀 테스트</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/pagedjs/pagedjs/issues/267" rel="nofollow noopener">https://github.com/pagedjs/pagedjs/issues/267</a></li><li><a href="https://github.com/vercel/next.js/discussions/70168" rel="nofollow noopener">https://github.com/vercel/next.js/discussions/70168</a></li><li><a href="https://engineering.lonelyplanet.com/2014/05/18/a-maintainable-styleguide.html" rel="nofollow noopener">https://engineering.lonelyplanet.com/2014/05/18/a-maintainable-styleguide.html</a></li><li><a href="https://sparkengine.substack.com/p/vibe-coding-is-resurrecting-the-feature" rel="nofollow noopener">https://sparkengine.substack.com/p/vibe-coding-is-resurrecting-the-feature</a></li><li><a href="https://pinastro.medium.com/about-design-debt-30bed0492d36" rel="nofollow noopener">https://pinastro.medium.com/about-design-debt-30bed0492d36</a></li><li><a href="https://slicer.dev/blog/why-ai-generated-ui-looks-the-same" rel="nofollow noopener">https://slicer.dev/blog/why-ai-generated-ui-looks-the-same</a></li><li><a href="https://github.com/google-labs-code/design.md" rel="nofollow noopener">https://github.com/google-labs-code/design.md</a></li><li><a href="https://github.com/anthropics/skills/issues/1008" rel="nofollow noopener">https://github.com/anthropics/skills/issues/1008</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>DESIGN.md는 어떤 파일이고 어떻게 쓰나?</h2><p class="sum">구글 랩스가 공개한 규격으로, 저장소 루트에 두면 색상·타이포그래피·간격 같은 디자인 토큰을 YAML 프런트매터로, 사용 맥락은 마크다운 본문으로 담아 Claude Code 같은 코딩 에이전트가 새 페이지를 만들 때 자동으로 참조하게 만든다.</p></article><article class="dcard"><div class="t">Q</div><h2>정적 사이트에서 특정 경로만 CSS가 깨지는 이유는 뭔가?</h2><p class="sum">페이지마다 스타일시트를 개별적으로 연결하는 구조에서 새 섹션 추가 시 그 연결을 빠뜨리거나, 요청한 CSS가 404로 응답할 때 그 응답을 스타일로 잘못 해석하는 경우가 흔한 원인으로 꼽힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>소규모 팀도 정식 디자인 시스템이 필요한가?</h2><p class="sum">초기 단계이고 만드는 사람이 한둘이라면 색상·타이포그래피·간격을 정리한 간단한 스타일가이드로 충분하며, 여러 사람이 독립적으로 화면을 만들면서 불일치가 생기기 시작할 때 정식 디자인 시스템으로 넘어가면 된다는 게 닐슨노먼그룹의 분석이다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-06-1330.html">2026-08-06 08-06 12:01~13:18</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
