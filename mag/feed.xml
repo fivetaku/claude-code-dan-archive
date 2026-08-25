@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>회사 밖에서 로컬 LLM 돌리려면 맥스튜디오가 정답일까</title>
+    <link>https://chat.axwith.com/mag/tools/mac-studio-local-llm-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/mac-studio-local-llm-guide.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Wed, 26 Aug 2026 12:00:00 +0900</pubDate>
+    <description>사내 보안 정책으로 로컬 개발이 막힌 개발자가 집에 로컬 LLM·여러 에이전트를 상시 구동하려 할 때, 갓 나온 M5 맥스튜디오와 맥미니 중 무엇을 사야 하는지 실사용 성능과 전기료까지 따져봤다.</description>
+  </item>
+  <item>
+    <title>클로드 채팅, 오래 쓸수록 성향이 변한다는 계정 잠금 우려의 진실</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-persona-drift-long-chat.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-persona-drift-long-chat.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Wed, 26 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클로드 채팅이 오래 쓸수록 딴판이 되고 마크다운 규칙도 안 지켜진다는 불만, 계정 잠금까지 걱정된다는 목소리를 앤스로픽의 페르소나 벡터 연구와 안전 정책 자료로 검증한 기사.</description>
+  </item>
+  <item>
     <title>디스코드 MCP·StyleGallery, 스타 100개가 신뢰 기준이 될까</title>
     <link>https://chat.axwith.com/mag/resources/mcp-repo-trust-github-stars.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/mcp-repo-trust-github-stars.html</guid>
@@ -227,21 +243,5 @@
     <category>배포·운영</category>
     <pubDate>Wed, 19 Aug 2026 12:00:00 +0900</pubDate>
     <description>AI로 부동산 에이전트 상품을 만들어 판매하며 낮은 전환율의 원인을 GA4 데이터와 웹 조사로 함께 짚어봤다. 만드는 능력보다 파는 능력이 병목이라는 진단이 나온다.</description>
-  </item>
-  <item>
-    <title>그록 4.6은 정말 오퍼스급인가, 클로드 페이블·GPT 테라 비교</title>
-    <link>https://chat.axwith.com/mag/models/grok-fable-terra-model-compare.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/grok-fable-terra-model-compare.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Tue, 18 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 페이블과 오퍼스, GPT 테라와 솔, 그록 4.6의 컨텍스트·속도·요금을 비교했다. 그록이 오퍼스급이라는 기대와 벤치마크 실측, 체감 속도와 공개 지표가 어긋나는 지점을 짚는다.</description>
-  </item>
-  <item>
-    <title>그록 SuperGrok 연간 구독 할인, 대상은 왜 갈렸나</title>
-    <link>https://chat.axwith.com/mag/resources/grok-annual-discount-eligibility.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/grok-annual-discount-eligibility.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Tue, 18 Aug 2026 12:00:00 +0900</pubDate>
-    <description>그록 SuperGrok 연간 구독 할인이 반나절 만에 닫혔다. 실제로는 두 가지 프로모션이었고, 대상이 갈린 이유와 코딩 도구로서의 값어치를 xAI 공식 정보와 리뷰로 확인했다.</description>
   </item>
 </channel></rss>
