@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>카카오톡 봇 탁구는 왜 사진을 못 보도록 만들었을까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/kakaotalk-bot-image-recognition.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/kakaotalk-bot-image-recognition.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클코단 봇 탁구가 이미지 URL 요청에 멈춘 소동을 계기로, 카카오톡 봇이 사진을 인식하지 못하는 진짜 이유와 URL 우회 사고의 전말을 짚었다.</description>
+  </item>
+  <item>
+    <title>볼타 세금계산서, 슬랙에서 승인만 누르면 끝나는 이유</title>
+    <link>https://chat.axwith.com/mag/resources/bolta-tax-invoice-slack-approval.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/bolta-tax-invoice-slack-approval.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
+    <description>볼타 슬랙 연동에서 승인 버튼만으로 세금계산서가 발행되는 역발행 구조와 무료 요금제 조건, 하나금융티아이 제휴·스트롱벤처스 투자 등 협업 관계를 실제 자료로 확인해 정리했다.</description>
+  </item>
+  <item>
     <title>맥 스튜디오 품절 대란이 바꿔놓은 중고 맥 시세와 구매법</title>
     <link>https://chat.axwith.com/mag/resources/mac-studio-shortage-used-price.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/mac-studio-shortage-used-price.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Thu, 20 Aug 2026 12:00:00 +0900</pubDate>
     <description>클코단에서 나온 윤문 explainable 피드백 가설을 형태소 분석 도구, GEC 연구, 자동 에세이 평가 사례로 검증한다. 왜 편집보다 재생성이, 통계보다 사람 평가가 필요한지 짚는다.</description>
-  </item>
-  <item>
-    <title>클로드 프로 20달러, Fable 5 한 방에 다 쓴다는 말 사실일까</title>
-    <link>https://chat.axwith.com/mag/models/fable-5-pro-plan-cost.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/fable-5-pro-plan-cost.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Wed, 19 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 프로 요금제에서 Fable 5는 완전 종량제로 바뀌었다. 실제 소진 속도와 오퍼스·소넷 성능 차이, 크레딧을 아껴 쓰는 법을 정리했다.</description>
-  </item>
-  <item>
-    <title>금융권 AWS Bedrock 도입, 망분리 풀려도 왜 더딘가</title>
-    <link>https://chat.axwith.com/mag/workflow/aws-bedrock-financial-sector-korea.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/aws-bedrock-financial-sector-korea.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 19 Aug 2026 12:00:00 +0900</pubDate>
-    <description>금융권 망분리 완화와 AWS Bedrock 관심 증가를 4월 규제 개정, 비용 손익분기점, post-training 구조, 책임소재 문제로 짚었다.</description>
   </item>
 </channel></rss>
