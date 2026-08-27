@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code용 맥 스튜디오, M5 Max와 Ultra 선택법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="M5 Max 128GB와 M5 Ultra 96GB 중 무엇이 Claude Code와 로컬 LLM에 맞는지, 공식 사양과 원격 실행 구조로 실전 판단 기준을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/claude-code-mac-studio-choice.html">
+<meta property="og:title" content="Claude Code용 맥 스튜디오, M5 Max와 Ultra 선택법">
+<meta property="og:description" content="M5 Max 128GB와 M5 Ultra 96GB 중 무엇이 Claude Code와 로컬 LLM에 맞는지, 공식 사양과 원격 실행 구조로 실전 판단 기준을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/claude-code-mac-studio-choice.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code용 맥 스튜디오, M5 Max와 Ultra 선택법", "description": "M5 Max 128GB와 M5 Ultra 96GB 중 무엇이 Claude Code와 로컬 LLM에 맞는지, 공식 사양과 원격 실행 구조로 실전 판단 기준을 정리했다.", "datePublished": "2026-08-28", "dateModified": "2026-08-28", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/claude-code-mac-studio-choice.html"}, "articleSection": "질문·트러블슈팅", "keywords": "Claude Code, Mac Studio, M5 Max, M5 Ultra, 로컬 LLM, MLX, VPS"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code를 쓰려면 Mac Studio가 필요한가?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. Anthropic 공식 요구 사양은 RAM 4GB 이상과 인터넷 연결이다. Mac Studio는 대규모 빌드·테스트나 로컬 LLM을 함께 실행할 때 의미가 커진다."}}, {"@type": "Question", "name": "로컬 LLM에는 M5 Max 128GB와 M5 Ultra 96GB 중 무엇이 좋은가?", "acceptedAnswer": {"@type": "Answer", "text": "모델 가중치와 문맥 캐시가 96GB를 넘으면 M5 Max 128GB가 필요하다. 96GB 안에 충분히 들어가면 M5 Ultra의 1.2TB/s 대역폭과 더 많은 GPU 코어가 속도에 유리할 가능성이 있다."}}, {"@type": "Question", "name": "Claude Code 여러 세션을 VPS에서 돌릴 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "가능하다. 지원되는 Linux VPS에 Claude Code를 설치하고 VS Code Remote-SSH, Git worktree, tmux를 조합할 수 있다. Claude Code 웹의 독립 cloud 세션도 대안이다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-mac-studio-choice.png" alt="Claude Code용 맥 스튜디오, M5 Max와 Ultra 선택법" loading="eager">
+<header>
+  <div class="eyebrow">질문·트러블슈팅</div>
+  <h1>Claude Code용 맥 스튜디오, M5 Max와 Ultra 선택법</h1>
+  <p class="sub">다중 에이전트와 로컬 LLM을 분리해 보면 128GB 메모리와 1.2TB/s 대역폭의 진짜 우선순위가 달라진다</p>
+  <div class="meta"><span>2026-08-28</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>애플이 M5 Max와 M5 Ultra를 넣은 Mac Studio를 공개하면서 오래된 질문이 다시 커졌다. Claude Code 세션을 여러 개 돌릴 사람에게 128GB 메모리가 필요한가, 아니면 Ultra의 두 배 가까운 대역폭이 더 중요한가. 답은 Claude Code와 로컬 LLM을 같은 작업으로 보지 않는 데서 시작한다.</p>
+<h2>M5 Max 128GB와 M5 Ultra 96GB는 속도와 용량의 교환이다</h2>
+<p>두 구성은 실제 판매 옵션이다. 애플은 8월 25일 신형 Mac Studio를 발표했다. 9월 22일부터 배송한다. 지금은 사전 주문 단계라 두 모델을 직접 겨룬 독립 벤치마크는 아직 없다. 애플의 최대 성능 수치는 이전 세대와 특정 작업을 비교한 자사 결과다.</p>
+<p>M5 Max 128GB 구성은 18코어 CPU와 40코어 GPU, 614GB/s 메모리 대역폭을 갖춘다. M5 Ultra 기본형은 메모리가 96GB로 작지만 30코어 CPU와 64코어 GPU, 1.2TB/s 대역폭을 제공한다. Max는 32GB를 더 담는다. Ultra는 약 1.95배 빠른 메모리 통로와 더 많은 연산 코어를 얻는다.</p>
+<p>독립 실측 전에는 Ultra가 모든 작업에서 두 배 빠르다고 말할 수 없다.</p>
+<p>미국 시작가는 각각 2,499달러와 5,499달러다. 다만 128GB Max는 기본형이 아니어서 시작가만 비교하면 실제 구매 차액을 알 수 없다. 한국에서는 Max 429만원, Ultra 949만원부터 시작한다. 법인 구매라면 애플 구성기에서 같은 SSD와 보증 조건으로 견적을 맞춰야 한다.</p>
+<h2>Claude Code의 답변 속도는 Mac GPU로 빨라지지 않는다</h2>
+<p>Anthropic의 현재 요구 사양은 RAM 4GB 이상과 인터넷 연결이다. Claude Code는 로컬에서 파일을 읽고 명령을 실행하지만 언어 모델 응답은 Claude 서비스가 생성한다. GPU 코어를 늘려도 모델이 생각하고 문장을 내놓는 속도나 계정 사용 한도가 늘지는 않는다.</p>
+<p>로컬 하드웨어가 맡는 일은 따로 있다. 저장소 검색, 패키지 설치, 빌드, 테스트, Docker, 브라우저 자동화가 그 대상이다. 큰 모노레포를 여러 갈래로 컴파일하거나 테스트 서버를 동시에 띄우면 CPU와 RAM, SSD가 체감 차이를 만든다. 텍스트 수정과 가벼운 웹 작업이 대부분이면 Mac Studio의 GPU 상당 부분은 쉬게 된다.</p>
+<p>이번 커뮤니티 논의에서는 비개발자가 여러 세션을 오래 쓸 때 상위 데스크톱이 마음을 편하게 한다는 의견이 많았다. 구매 뒤 아쉬움을 줄이는 기준으로는 이해할 수 있다. 그러나 Claude Code만 놓고 보면 고사양 GPU는 응답 품질을 사는 비용이 아니다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-mac-studio-choice.png" alt="" loading="lazy"><h2>로컬 LLM을 함께 돌리는 순간 선택 기준이 뒤집힌다</h2>
+<p>MLX LM은 Apple Silicon에서 모델 생성과 미세조정을 지원한다. MLX는 CPU와 GPU가 같은 물리 메모리에 접근하도록 설계됐다. 설치는 `pip install mlx-lm`, 첫 확인은 `mlx_lm.chat`로 시작한다. `--model`에 Hugging Face의 MLX 호환 모델을 넣으면 모델 파일을 받아 로컬에서 대화할 수 있다.</p>
+<p>여기서는 메모리 용량이 입장권이다. MLX Community의 Llama 3.3 70B 4비트 파일은 39.7GB, Qwen3.5 122B-A10B 4비트는 69.6GB다. 파일 크기는 가중치 규모일 뿐 실제 실행 메모리와 같지 않다.</p>
+<p>양자화한 가중치와 KV 캐시, macOS가 쓸 공간까지 96GB 안에 들어오지 않으면 Ultra의 빠른 대역폭도 쓸 수 없다. MLX LM 문서도 RAM에 비해 큰 모델은 느려질 수 있고 긴 문맥의 캐시는 더 많은 메모리를 쓴다고 설명한다.</p>
+<p>반대로 원하는 모델과 문맥이 96GB에 넉넉히 들어가면 Ultra의 1.2TB/s 대역폭과 64코어 GPU가 유리할 가능성이 크다. 써본 사람들 사이에서는 큰 모델을 위해 128GB를 고르겠다는 반응과, 이미 들어가는 모델을 더 빠르게 돌리려고 Ultra를 택하겠다는 반응이 갈렸다. 출하 전 제품인 만큼 이 판단은 사양에 근거한 예상이며 실측 결론은 아니다.</p>
+<h2>다중 세션은 GPU보다 작업 디렉터리와 사용 한도가 먼저 막힌다</h2>
+<p>Anthropic은 병렬 세션마다 별도 Git worktree를 쓰는 방식을 안내한다. 예를 들어 기능 개발, 테스트 수정, 문서 작업을 각 브랜치와 디렉터리에 나누면 같은 파일을 덮어쓰는 충돌을 줄일 수 있다. 각 세션이 빌드와 테스트를 함께 돌릴 때만 로컬 CPU와 메모리 요구가 빠르게 커진다.</p>
+<p>세션 수가 늘면 구독 한도도 함께 소모한다. Anthropic 도움말에 따르면 웹, Claude Code, IDE의 활동은 같은 계정 사용량에 합산된다. Mac Studio를 사도 이 병목은 바뀌지 않는다. 새 하드웨어보다 worktree 분리와 테스트 자원 배분이 먼저인 이유다.</p>
+<h2>VPS와 Claude Code 웹은 고정 자산 없이 병렬 작업을 늘린다</h2>
+<p>VPS에서는 Ubuntu 20.04 이상과 4GB 이상 RAM을 준비한다. 저장소를 복제한 뒤 Claude Code를 설치하면 된다. VS Code Remote-SSH로 원격 폴더를 열면 명령과 확장 기능도 서버에서 실행된다. 세션별 worktree와 `tmux`를 나누면 노트북을 닫아도 빌드와 에이전트 작업을 이어갈 수 있다.</p>
+<p>직접 서버를 관리하기 싫다면 `claude --cloud`로 Anthropic 관리 VM에 독립 작업을 보낼 수 있다. 공식 문서는 여러 cloud 세션을 동시에 만들 수 있다고 안내한다. 다만 비밀키와 저장소 권한, 월 사용료, 네트워크 장애를 관리해야 한다. Apple Silicon 전용 빌드와 MLX 로컬 추론도 일반 VPS가 대신하지 못한다.</p>
+<p>그래서 M5 Max 128GB와 M5 Ultra 96GB의 승자는 하나가 아니다. 96GB를 넘는 로컬 모델이 목표면 Max의 용량이 우선이다. 모델이 96GB 안에 들면서 처리 속도와 빌드 병렬성이 중요하면 Ultra가 맞다. Claude Code만 여러 개 띄우려면 Mac Studio는 AI 구독을 빠르게 만들지 않는다. 그 에이전트가 실행할 로컬 작업을 빠르게 만드는 장비다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">Mac Studio</span><span class="chip">M5 Max</span><span class="chip">M5 Ultra</span><span class="chip">로컬 LLM</span><span class="chip">MLX</span><span class="chip">VPS</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://images.apple.com/kr/newsroom/2026/08/apple-introduces-new-mac-studio-with-m5-max-and-m5-ultra/" rel="nofollow noopener">https://images.apple.com/kr/newsroom/2026/08/apple-introduces-new-mac-studio-wit</a></li><li><a href="https://images.apple.com/mac-studio/specs/" rel="nofollow noopener">https://images.apple.com/mac-studio/specs/</a></li><li><a href="https://code.claude.com/docs/en/getting-started" rel="nofollow noopener">https://code.claude.com/docs/en/getting-started</a></li><li><a href="https://code.claude.com/docs/en/how-claude-code-works" rel="nofollow noopener">https://code.claude.com/docs/en/how-claude-code-works</a></li><li><a href="https://code.claude.com/docs/en/data-usage" rel="nofollow noopener">https://code.claude.com/docs/en/data-usage</a></li><li><a href="https://code.claude.com/docs/en/claude-code-on-the-web" rel="nofollow noopener">https://code.claude.com/docs/en/claude-code-on-the-web</a></li><li><a href="https://support.claude.com/en/articles/14554000-claude-code-power-user-tips" rel="nofollow noopener">https://support.claude.com/en/articles/14554000-claude-code-power-user-tips</a></li><li><a href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work" rel="nofollow noopener">https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-w</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code를 쓰려면 Mac Studio가 필요한가?</h2><p class="sum">아니다. Anthropic 공식 요구 사양은 RAM 4GB 이상과 인터넷 연결이다. Mac Studio는 대규모 빌드·테스트나 로컬 LLM을 함께 실행할 때 의미가 커진다.</p></article><article class="dcard"><div class="t">Q</div><h2>로컬 LLM에는 M5 Max 128GB와 M5 Ultra 96GB 중 무엇이 좋은가?</h2><p class="sum">모델 가중치와 문맥 캐시가 96GB를 넘으면 M5 Max 128GB가 필요하다. 96GB 안에 충분히 들어가면 M5 Ultra의 1.2TB/s 대역폭과 더 많은 GPU 코어가 속도에 유리할 가능성이 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code 여러 세션을 VPS에서 돌릴 수 있나?</h2><p class="sum">가능하다. 지원되는 Linux VPS에 Claude Code를 설치하고 VS Code Remote-SSH, Git worktree, tmux를 조합할 수 있다. Claude Code 웹의 독립 cloud 세션도 대안이다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-27-1800.html">2026-08-27 08-27 15:38~17:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
