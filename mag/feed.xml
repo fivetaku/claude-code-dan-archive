@@ -13,6 +13,22 @@
     <description>클코단 봇 탁구가 이미지 URL 요청에 멈춘 소동을 계기로, 카카오톡 봇이 사진을 인식하지 못하는 진짜 이유와 URL 우회 사고의 전말을 짚었다.</description>
   </item>
   <item>
+    <title>Grok Bot 소스맵 노출 사고, 재구성 프로젝트로 이어진 전말</title>
+    <link>https://chat.axwith.com/mag/tools/grok-bot-source-map-reconstruction.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/grok-bot-source-map-reconstruction.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
+    <description>xAI Grok Bot 0.18.0이 소스맵을 켠 채 배포되며 프롬프트와 라우팅 로직이 재구성된 사건, 라우터를 Codex·OpenRouter로 바꾸는 방법, 클로드코드가 겪은 유사 사고까지 정리했다.</description>
+  </item>
+  <item>
+    <title>DGX 스파크로 Qwen3.8 로컬 구동, 128GB로 충분한가</title>
+    <link>https://chat.axwith.com/mag/models/dgx-spark-qwen38-local-run.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/dgx-spark-qwen38-local-run.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
+    <description>클코단에서 나온 스파크 로컬 구동 계획을 계기로 Qwen3.8-27B와 Flash-Next의 메모리 요구량, DGX 스파크와 맥 스튜디오의 실제 속도 차이를 조사했다.</description>
+  </item>
+  <item>
     <title>볼타 세금계산서, 슬랙에서 승인만 누르면 끝나는 이유</title>
     <link>https://chat.axwith.com/mag/resources/bolta-tax-invoice-slack-approval.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/bolta-tax-invoice-slack-approval.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Thu, 20 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드 스킬로 카드뉴스와 릴스를 자동 제작하는 법을 오픈소스 사례와 나노바나나 이미지 엔진 비교로 정리했다. HTML과 API 엔진의 시간·비용·한글 정확도 차이도 다뤘다.</description>
-  </item>
-  <item>
-    <title>딥식이냐 GLM이냐, 저가형 중국 AI 모델 진짜 가성비 비교</title>
-    <link>https://chat.axwith.com/mag/models/cheap-china-ai-models-compared.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/cheap-china-ai-models-compared.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Thu, 20 Aug 2026 12:00:00 +0900</pubDate>
-    <description>딥식·GLM·미니맥스·Kimi·텐센트 hy3까지 저가형 AI 모델의 실제 가격과 벤치마크를 조사해 방에서 나온 가성비 평가를 사실과 대조한 기사.</description>
-  </item>
-  <item>
-    <title>형태소 분석으로 짚어주는 AI 윤문, 통계적으로 가능한가</title>
-    <link>https://chat.axwith.com/mag/models/ai-proofreading-explainable-feedback.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/ai-proofreading-explainable-feedback.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Thu, 20 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클코단에서 나온 윤문 explainable 피드백 가설을 형태소 분석 도구, GEC 연구, 자동 에세이 평가 사례로 검증한다. 왜 편집보다 재생성이, 통계보다 사람 평가가 필요한지 짚는다.</description>
   </item>
 </channel></rss>
