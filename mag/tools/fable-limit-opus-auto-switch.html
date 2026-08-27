@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/fable-limit-opus-auto-switch.png" alt="클로드코드 Fable 한도 소진 시 Opus 자동전환, 공식 지원 없는 이유" loading="eager">
 <header>
   <div class="eyebrow">도구·라이브러리</div>
@@ -186,6 +190,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>써본 사람들의 온도차와 지금 해볼 만한 선택</h2>
 <p>Fable 5를 써본 사람들 사이에서는 평가가 갈린다. 코드베이스를 스스로 뒤지고 고치고 테스트까지 돌리는 자율성을 높이 사는 의견이 있다. 반면 안전장치 때문에 의도치 않게 Opus로 넘어가 버리면 &quot;Fable 값을 내고 Opus를 받는다&quot;는 불만도 나온다. 판단이 필요한 설계나 까다로운 디버깅만 Fable에 맡기고 반복적인 코드 수정은 Sonnet이나 Opus로 돌리는 식으로 역할을 나눠 쓰는 것이 한도를 아끼는 방법으로 자주 언급된다.</p>
 <p>지금 시점에서 개인 개발자나 소규모 팀이 택할 수 있는 선택지는 셋 중 하나다. 한도를 넘기면 크레딧을 추가 결제해 계속 밀어붙이거나, `/model`로 직접 끊어 전환하거나, autolimit처럼 터미널 출력을 감시하는 도구를 직접 손봐 전환 명령까지 자동으로 흘려보내는 스크립트를 만드는 것이다. 세 번째 방법은 방에서 확인됐듯 지금 당장 작동한다. 다만 공식 훅이 아니라 화면에 찍히는 문자열에 의존하는 만큼 Anthropic이 메시지 문구를 바꾸는 순간 조용히 멈출 수 있다는 위험을 안고 간다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드코드</span><span class="chip">Fable 5</span><span class="chip">Opus</span><span class="chip">주간 사용 한도</span><span class="chip">모델 자동 전환</span><span class="chip">autolimit</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://support.claude.com/en/articles/15424964-claude-fable-5-on-your-plan" rel="nofollow noopener">https://support.claude.com/en/articles/15424964-claude-fable-5-on-your-plan</a></li><li><a href="https://www.digitalapplied.com/blog/claude-code-limits-raised-fable-5-max-team-premium-2026" rel="nofollow noopener">https://www.digitalapplied.com/blog/claude-code-limits-raised-fable-5-max-team-p</a></li><li><a href="https://github.com/betive37/autolimit" rel="nofollow noopener">https://github.com/betive37/autolimit</a></li><li><a href="https://github.com/anthropics/claude-code/issues/34817" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/34817</a></li><li><a href="https://github.com/anthropics/claude-code/issues/79034" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/79034</a></li><li><a href="https://code.claude.com/docs/en/hooks" rel="nofollow noopener">https://code.claude.com/docs/en/hooks</a></li><li><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" rel="nofollow noopener">https://www.anthropic.com/news/claude-fable-5-mythos-5</a></li><li><a href="https://support.claude.com/en/articles/11940350-claude-code-model-configuration" rel="nofollow noopener">https://support.claude.com/en/articles/11940350-claude-code-model-configuration</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드코드에서 Fable 한도를 다 쓰면 자동으로 Opus로 전환되나요?</h2><p class="sum">아니다. 공식적으로는 한도 소진 시 사용 크레딧을 추가 결제해 Fable을 계속 쓰거나, 사용자가 `/model` 명령으로 직접 다른 모델로 바꾸는 두 가지 선택지뿐이며 자동 폴백은 제공되지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 세션 도중 모델을 바꾸면 비용이 더 드나요?</h2><p class="sum">모델을 바꾸면 그 시점까지 쌓인 프롬프트 캐시가 무효화되어, 전환 직후 턴은 전체 맥락을 캐시 없이 재처리하면서 비용이 크게 늘어날 수 있다. 자동 전환 스크립트를 짤 때도 이 비용을 감안해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>한도 소진 자동 재개 도구인 autolimit은 어떻게 작동하나요?</h2><p class="sum">Claude Code 같은 CLI를 PTY로 감싸 실행하면서 세션 한도 메시지의 리셋 시각을 다양한 형식으로 파싱하고, 그 시각이 되면 미리 설정한 메시지나 명령을 자동으로 세션에 보내는 터미널 래퍼 도구다.</p></article></div>

@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/opus-vs-fable-claude-code.png" alt="클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까" loading="eager">
 <header>
   <div class="eyebrow">AI 모델·프롬프트</div>
@@ -185,6 +189,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>이 논의에서는 방에서 오푸스로 바꾼 뒤 맥스20 요금제에서 맥스5로 내렸다는 사례가 눈에 띈다. 클로드 코드 구독은 프로(월 20달러), 맥스5(월 100달러), 맥스20(월 200달러) 세 단계로 나뉘고, 맥스5로 내리면 월 100달러가 그대로 절감된다. 페이블이 오푸스보다 토큰당 두 배 비싸다는 가격 구조를 생각하면, 같은 작업량이라도 오푸스로 옮기는 순간 소비 토큰이 줄어들 여지가 생긴다.</p>
 <p>오푸스5는 로우부터 맥스까지 다섯 단계의 강도(effort) 조절도 지원한다. 간단한 작업엔 로우나 미디엄을, 까다로운 리팩토링에만 엑스하이나 맥스를 골라 쓰면 같은 구독 한도 안에서 쓸 수 있는 작업량이 늘어난다. 1인 개발자나 소규모 팀처럼 매달 정해진 구독료 안에서 작업량을 최대한 뽑아내야 하는 독자라면, 모델을 오푸스로 바꾸는 결정과 강도를 낮추는 습관을 같이 검토할 만하다.</p>
 <p>다만 이 계산은 작업 성격에 따라 달라진다. 짧은 PR과 반복적인 수정이 대부분이라면 오푸스 전환과 요금제 다운그레이드가 그대로 맞아떨어지지만, 긴 리팩토링이나 처음부터 설계가 복잡한 프로젝트가 잦다면 페이블의 자리가 남는다. 방에서는 비용 계산이 실제 결정을 갈랐지만, 오푸스가 페이블의 자리를 완전히 대신할 수 있는지는 작업이 얼마나 길고 복잡해지느냐에 따라 매번 다시 확인해야 하는 문제로 남는다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드 코드</span><span class="chip">오푸스5</span><span class="chip">페이블5</span><span class="chip">Claude Opus 5</span><span class="chip">Claude Fable 5</span><span class="chip">클로드 요금제</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://composio.dev/content/opus-vs-fable" rel="nofollow noopener">https://composio.dev/content/opus-vs-fable</a></li><li><a href="https://www.datacamp.com/blog/claude-opus-5-vs-claude-fable-5" rel="nofollow noopener">https://www.datacamp.com/blog/claude-opus-5-vs-claude-fable-5</a></li><li><a href="https://www.anthropic.com/news/claude-opus-5" rel="nofollow noopener">https://www.anthropic.com/news/claude-opus-5</a></li><li><a href="https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable-5-and-claude-mythos-5" rel="nofollow noopener">https://platform.claude.com/docs/en/about-claude/models/introducing-claude-fable</a></li><li><a href="https://www.sonarsource.com/blog/claude-fable-5-built-a-java-module-in-13-minutes/" rel="nofollow noopener">https://www.sonarsource.com/blog/claude-fable-5-built-a-java-module-in-13-minute</a></li><li><a href="https://code.claude.com/docs/en/model-config" rel="nofollow noopener">https://code.claude.com/docs/en/model-config</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/effort" rel="nofollow noopener">https://platform.claude.com/docs/en/build-with-claude/effort</a></li><li><a href="https://support.claude.com/en/articles/11049741-what-is-the-max-plan" rel="nofollow noopener">https://support.claude.com/en/articles/11049741-what-is-the-max-plan</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드에서 오푸스5와 페이블5 중 코딩엔 뭐가 더 나은가요?</h2><p class="sum">벤치마크상 오푸스5가 프런티어벤치, OS월드 등 다수 코딩·에이전트 지표에서 페이블5를 앞서고 가격도 절반이다. 다만 툴콜링 정확도와 가장 어려운 장기 과제에서는 페이블5가 여전히 우위를 보여 작업 난이도에 따라 선택이 갈린다.</p></article><article class="dcard"><div class="t">Q</div><h2>페이블5 요금은 오푸스5보다 얼마나 비싼가요?</h2><p class="sum">페이블5는 입력 100만 토큰당 10달러, 출력 50달러로 오푸스5(입력 5달러, 출력 25달러)의 정확히 두 배다. 같은 작업량이라도 오푸스로 옮기면 소비 토큰 비용이 줄어드는 이유다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코드 맥스 요금제는 어떻게 나뉘나요?</h2><p class="sum">프로가 월 20달러, 맥스5가 월 100달러, 맥스20이 월 200달러다. 사용량이 줄면 맥스20에서 맥스5로 내려 월 100달러를 절감할 수 있다.</p></article></div>

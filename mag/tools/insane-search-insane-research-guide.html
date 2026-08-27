@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/insane-search-insane-research-guide.png" alt="클로드코드 자료조사, insane-search·insane-research로 채우는 법" loading="eager">
 <header>
   <div class="eyebrow">도구·라이브러리</div>
@@ -186,6 +190,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>insane-research를 만든 이는 이 도구를 Claude Code에서 직접 되지 않는 자료조사 작업을 딥리서치 방식에서 차용해 짰다고 밝혔다. 너무 느린 도구보다는 적당한 속도와 품질의 균형을 우선했다는 설명이다.</p>
 <p>딥리서치류 도구를 다뤄본 사람들 사이에서는 답 하나 받는 데 5분 넘게 걸리는 걸 감수해야 한다는 불만이 꾸준히 나온다. 그 대신 출처를 여러 곳에서 긁어모아 답을 만들다 보니 개별 검색보다 결과가 두텁고, 노골적인 환각은 상대적으로 적다는 평가도 함께 따라붙는다.</p>
 <p>다만 딥리서치 도구 전반이 안고 있는 한계도 있다. 참고 출처 수에 한계가 있어 박사급 문헌 리뷰를 대체하지는 못한다는 지적이 꾸준하다. insane-research의 소스 등급 체계와 교차검증도 이 한계를 없애기보다는 어떤 출처가 약한지 드러내 사람이 판단할 지점을 줄여주는 역할에 가깝다. 결과물을 그대로 믿기보다, 등급이 낮게 매겨진 구간을 사람이 다시 확인하는 절차는 여전히 남는다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">insane-search</span><span class="chip">insane-research</span><span class="chip">Claude Code 플러그인</span><span class="chip">딥리서치</span><span class="chip">academic-research-skills</span><span class="chip">한국 자료조사</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/fivetaku/insane-search" rel="nofollow noopener">https://github.com/fivetaku/insane-search</a></li><li><a href="https://github.com/fivetaku/insane-search/blob/main/README.ko.md" rel="nofollow noopener">https://github.com/fivetaku/insane-search/blob/main/README.ko.md</a></li><li><a href="https://github.com/fivetaku/insane-research" rel="nofollow noopener">https://github.com/fivetaku/insane-research</a></li><li><a href="https://github.com/fivetaku/insane-research/blob/main/README.ko.md" rel="nofollow noopener">https://github.com/fivetaku/insane-research/blob/main/README.ko.md</a></li><li><a href="https://github.com/fivetaku/gptaku_plugins/blob/main/README.ko.md" rel="nofollow noopener">https://github.com/fivetaku/gptaku_plugins/blob/main/README.ko.md</a></li><li><a href="https://github.com/imbad0202/academic-research-skills" rel="nofollow noopener">https://github.com/imbad0202/academic-research-skills</a></li><li><a href="https://www.ngjoo.com/en/trending/projects/insane-search/" rel="nofollow noopener">https://www.ngjoo.com/en/trending/projects/insane-search/</a></li><li><a href="https://sarahconstantin.substack.com/p/ai-deep-research-tools-reviewed" rel="nofollow noopener">https://sarahconstantin.substack.com/p/ai-deep-research-tools-reviewed</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>insane-search와 insane-research는 무엇이 다른가요?</h2><p class="sum">insane-search는 API 키 없이 차단된 공개 웹페이지를 우회해서 읽어오는 리더 플러그인이고, insane-research는 그렇게 모은 자료를 여러 에이전트가 검증하며 인용까지 붙여 보고서로 만드는 딥리서치 플러그인이다. 두 플러그인은 함께 쓰도록 설계돼 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>insane-research의 claim ledger, abstention은 공식 기능 이름인가요?</h2><p class="sum">공식 문서에 그 명칭이 그대로 쓰이지는 않는다. 실제로는 핵심 주장을 최소 두 개의 독립 출처로 교차검증하고 소스 품질을 등급으로 매기는 절차, 그리고 확인 안 되는 주장 앞에서 답을 보류하는 품질보증 단계를 이용자들이 그렇게 부른 것에 가깝다.</p></article><article class="dcard"><div class="t">Q</div><h2>insane-search와 insane-research는 어떻게 설치하나요?</h2><p class="sum">Claude Code에서 /plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git 로 마켓플레이스를 추가한 뒤, /plugin install insane-search@gptaku-plugins 와 /plugin install insane-research@gptaku-plugins 로 각각 설치하면 된다.</p></article></div>

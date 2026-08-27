@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/kiro-claude-codex-workflow.png" alt="키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?" loading="eager">
 <header>
   <div class="eyebrow">도구·라이브러리</div>
@@ -182,6 +186,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>클코단이 찾은 실전 조합</h2>
 <p>이런 배경에서 방 안에서 제안된 조합은 코덱스 플러스(월 20달러) + 키로 Pro+(월 40달러) + 클로드 맥스 100(월 100달러), 합계 월 160달러 선이었다. 마케팅 카피 작업에서는 클로드·키로·코덱스 순으로 결과물이 만족스러웠다는 의견도 나왔는데, 이는 클로드가 자연어 품질과 문맥 이해에서, 키로가 구조화된 산출물에서 각각 강점을 보인다는 해외 평가와도 방향이 겹친다. 실제로 이 조합을 서비스 카피 2건, 음성·효과음·음악 생성 SaaS, 에이전트 컴퍼니 같은 무거운 작업에 투입해봤다는 사용 후기도 공유됐다.</p>
 <p>다만 셋을 동시에 굴리는 조합이 누구에게나 정답은 아니라는 의견도 있었다. 동시 작업 제한과 승인 프롬프트 반복 같은 키로의 미성숙한 부분은 아직 진행형 이슈로 남아 있고, 요금제도 지난달 개편 이후 완전히 자리 잡지 않은 상태다. 여러 도구를 병행해 비용과 결과물 품질을 저울질하는 흐름은 당분간 이어질 것으로 보인다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Kiro</span><span class="chip">AWS Kiro</span><span class="chip">클로드 코드</span><span class="chip">코덱스</span><span class="chip">AI IDE</span><span class="chip">스펙 기반 개발</span><span class="chip">구독 요금제</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>키로(Kiro)는 무엇이고 아마존Q 개발자와 어떻게 다른가?</h2><p class="sum">키로는 AWS의 에이전틱 IDE로 스펙 기반 개발을 핵심으로 내세우며, Amazon Q Developer의 사실상 후속작으로 자리매김하고 있다. Q Developer는 2027년 4월 지원 종료가 예고돼 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>키로 요금제는 얼마이고 크레딧은 어떻게 소모되나?</h2><p class="sum">무료(월 50크레딧)부터 Pro(19~20달러), Pro+(39~40달러), Pro Max/Power(100~200달러)까지 있고 초과분은 크레딧당 0.04달러다. 최근 &#x27;오토&#x27; 에이전트 도입으로 크레딧이 프롬프트 복잡도에 따라 0.01 단위로 세분화 과금되도록 바뀌었다.</p></article><article class="dcard"><div class="t">Q</div><h2>키로 오토파일럿 모드가 자동으로 진행되지 않는다는 문제는 무엇인가?</h2><p class="sum">오토파일럿(자동 실행) 모드로 설정해도 파일 저장이나 셸 명령마다 승인 창이 반복적으로 뜨거나 작업이 멈추는 사례가 공식 이슈 트래커에 다수 보고돼 있다.</p></article></div>

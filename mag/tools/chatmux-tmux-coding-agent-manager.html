@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/chatmux-tmux-coding-agent-manager.png" alt="여러 AI 코딩 에이전트를 한 화면에, chatmux는 왜 나왔나" loading="eager">
 <header>
   <div class="eyebrow">도구·라이브러리</div>
@@ -185,6 +189,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>여러 에이전트를 한 화면에 모으는 목적은 어디서든 확인하고 개입하려는 데 있다. chatmux는 Tailscale 로그인이나 LAN 비밀번호로 휴대폰에서도 접속하도록 설계됐다. 백엔드는 루프백에만 열어두고 HttpOnly·SameSite=Strict 쿠키로 접근을 관리하며, tmux 프로세스 계층을 확인해 세션을 검증하는 절차도 뒀다.</p>
 <p>편의가 늘어난 만큼 대가도 따른다는 반응은 이 카테고리 전반에서 공통적으로 나온다. 보스턴컨설팅그룹(BCG) 컨설턴트들은 AI 도구를 감독하는 데 쓰는 시간이 늘면서 생기는 탈진 상태를 &#x27;AI 브레인 프라이&#x27;라 부른다. 침대에서도 세션을 열어보고 알림이 오면 바로 확인하게 되면서 업무와 일상의 경계가 흐려졌다는 경험담도 적지 않다. 에이전트 서너 개를 동시에 굴리다 보면 어느 터미널이 무슨 브랜치를 작업 중인지 놓치기 시작한다는 의견도 있다.</p>
 <p>방에서 나온 &#x27;유즈케이스가 더 쌓여야 한다&#x27;는 말은 겸손한 인사치레가 아니라 이 도구들이 공통으로 처한 상황이기도 하다. 세션을 한 화면에 모으는 기술은 이미 여럿 나와 있지만, 그렇게 모아놓은 다음 무엇을 어떻게 위임해야 할지 답은 도구 쪽에도 쓰는 사람 쪽에도 아직 없다. chatmux가 그 답을 먼저 찾아낼지는 제보로 쌓일 다음 몇 달의 사용 사례에 달려 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">chatmux</span><span class="chip">tmux</span><span class="chip">Claude Code</span><span class="chip">Agent Teams</span><span class="chip">코딩 에이전트</span><span class="chip">MCP</span><span class="chip">멀티 에이전트</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/devswha/chatmux" rel="nofollow noopener">https://github.com/devswha/chatmux</a></li><li><a href="https://code.claude.com/docs/en/agent-teams" rel="nofollow noopener">https://code.claude.com/docs/en/agent-teams</a></li><li><a href="https://github.com/anthropics/claude-code/issues/23615" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/23615</a></li><li><a href="https://github.com/epilande/ccmux" rel="nofollow noopener">https://github.com/epilande/ccmux</a></li><li><a href="https://github.com/bjornjee/agent-dashboard" rel="nofollow noopener">https://github.com/bjornjee/agent-dashboard</a></li><li><a href="https://www.fsf.org/bulletin/2021/fall/the-fundamentals-of-the-agplv3" rel="nofollow noopener">https://www.fsf.org/bulletin/2021/fall/the-fundamentals-of-the-agplv3</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>chatmux는 무엇을 하는 도구인가?</h2><p class="sum">tmux에서 이미 실행 중인 Claude Code, Codex, Cursor CLI 등 코딩 에이전트 세션을 자동으로 찾아내 브라우저 하나에 모아 보여주는 로컬 우선 도구다. 인식된 세션은 구조화된 대화로, 나머지는 원시 터미널로 표시하며 모바일 PWA로도 접속할 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code의 Agent Teams와 chatmux는 어떻게 다른가?</h2><p class="sum">Agent Teams는 Anthropic이 2026년 2월 Claude Code에 내장한 기능으로, tmux나 iTerm2로 화면을 나눠 여러 에이전트를 보여준다. chatmux는 이런 여러 도구의 에이전트 세션을 제3자 입장에서 하나의 웹 대시보드로 통합하는 별도의 오픈소스 프로젝트다.</p></article><article class="dcard"><div class="t">Q</div><h2>chatmux 외에 비슷한 도구는 무엇이 있나?</h2><p class="sum">ccmux, Claude Squad, Conductor, agent-dashboard 등이 tmux를 기반으로 여러 코딩 에이전트를 관리하는 유사한 오픈소스 도구로 꼽힌다. 각각 세션 전환, 워크트리 연동, 병렬 검토 등 강조점이 다르다.</p></article></div>

@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/dexa-vfx-remotion-hyperframes.png" alt="모션 이펙트 214종을 코드로 가져오는 법, Remotion과 HyperFrames" loading="eager">
 <header>
   <div class="eyebrow">자료·링크 공유</div>
@@ -183,6 +187,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>방 안에서는 214가지 효과를 하나하나 코드로 옮겨 적을 필요 없이, 브라우저에서 눈으로 비교하고 바로 붙여넣기만 하면 된다는 점이 실용적이라는 의견이 많았다. 특히 Remotion용 TSX와 HyperFrames용 HTML을 동시에 지원한다는 점을 두고, 두 생태계 중 어느 쪽을 메인으로 쓰든 같은 카탈로그를 재사용할 수 있다는 점을 긍정적으로 보는 반응이 이어졌다. 다만 카탈로그 사이트 자체의 지속 운영 여부나 향후 이펙트 추가 계획 등은 아직 불확실하다는 신중한 시각도 있었다.</p>
 <h2>정리</h2>
 <p>코드형 영상 제작은 더 이상 얼리어답터만의 실험이 아니다. Remotion은 흑자 스타트업으로 자리 잡았고, HeyGen의 HyperFrames는 공개 반년 만에 깃허브 스타 3만 개를 넘기며 AI 에이전트 시대의 영상 제작 표준 후보로 떠올랐다. DEXA VFX LAB 같은 카탈로그형 도구는 이 두 생태계 사이에서 &#x27;눈으로 고르고 코드로 가져간다&#x27;는 마지막 마찰을 줄이는 시도로 볼 수 있다. 다만 이 카탈로그 자체는 아직 검증할 외부 정보가 많지 않은 신생 프로젝트라는 점은 감안할 필요가 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Remotion</span><span class="chip">HyperFrames</span><span class="chip">DEXA VFX LAB</span><span class="chip">모션그래픽</span><span class="chip">클로드코드</span><span class="chip">바이브코딩</span><span class="chip">코드형 영상</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>DEXA VFX LAB은 무료로 쓸 수 있나요?</h2><p class="sum">사이트 자체는 브라우저에서 이펙트를 미리 보고 코드로 내보내는 카탈로그로 소개됐지만, 가격 정책이나 운영 주체에 대한 공식 정보는 외부에서 확인되지 않았다. 실제 사용 전 사이트에서 직접 확인이 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>Remotion과 HyperFrames 중 뭘 먼저 배워야 하나요?</h2><p class="sum">React·TypeScript에 익숙하고 기존 컴포넌트를 재사용하려면 Remotion이, HTML·CSS 기반이거나 AI 에이전트가 코드 대부분을 작성하게 하려면 HyperFrames가 더 적합하다는 평가가 많다. 다만 HyperFrames는 2026년 4월 공개된 만큼 생태계가 아직 상대적으로 얕다.</p></article><article class="dcard"><div class="t">Q</div><h2>HyperFrames는 누가 만들었고 무료인가요?</h2><p class="sum">영상 합성 스타트업 HeyGen이 2026년 4월 17일 아파치 2.0 라이선스로 공개한 오픈소스 프로젝트로, 무료로 쓸 수 있다. 공개 직후 며칠 만에 깃허브 스타 6600개를 넘겼고 현재 3만 3000개를 넘어섰다.</p></article></div>

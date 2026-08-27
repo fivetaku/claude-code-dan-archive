@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/vibe-coding-ram-nvlink-myth.png" alt="바이브 코딩엔 랙서버보다 램 32GB, NVLink 없는 추론의 실체" loading="eager">
 <header>
   <div class="eyebrow">질문·트러블슈팅</div>
@@ -185,6 +189,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>맥 스튜디오와 커스텀 GPU PC를 비교한 2026년 가이드들은 용도를 갈라서 답한다. 7B~34B급 모델을 자주 돌리며 실험하고 파인튜닝까지 하려면 CUDA 생태계가 넓은 PC가 유리하다. 혼자 쓰는 코딩 어시스턴트나 70B급 모델을 가끔 돌리는 정도면 조용하고 메모리 큰 맥이 낫다. RTX 5090 한 장의 메모리 대역폭은 초당 1792GB로 맥 미니 M4 프로의 6.6배, 최상위 맥 스튜디오 M4 맥스 구성의 3.3배에 달한다. 다만 그 속도 차이는 바이브 코딩처럼 클라우드 API를 호출하는 작업에서는 크게 체감되지 않는다.</p>
 <p>방에서 랙서버 사진을 보고 개인 AI 설비 이야기로 번진 건 자연스러운 호기심이었다. 실제로 사양을 정할 때 기준이 되는 건 텐서 병렬이 되느냐 안 되느냐가 아니다. 서브에이전트를 몇 개나 동시에 띄울지도 램 용량을 정할 때 고려할 요소다.</p>
 <p>랙을 채울지, 32GB 노트북 한 대로 끝낼지 판단할 때도 그 질문을 고려할 수 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">바이브 코딩</span><span class="chip">Claude Code</span><span class="chip">NVLink</span><span class="chip">텐서 병렬</span><span class="chip">로컬 LLM</span><span class="chip">램 요구사양</span><span class="chip">맥북</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://docs.anthropic.com/en/docs/claude-code/getting-started" rel="nofollow noopener">https://docs.anthropic.com/en/docs/claude-code/getting-started</a></li><li><a href="https://houtini.com/articles/claude-code-system-requirements/" rel="nofollow noopener">https://houtini.com/articles/claude-code-system-requirements/</a></li><li><a href="https://www.databasemart.com/blog/vllm-distributed-inference-optimization-guide" rel="nofollow noopener">https://www.databasemart.com/blog/vllm-distributed-inference-optimization-guide</a></li><li><a href="https://sysart.consulting/insights/multi-gpu-inference-parallelism-on-premises/" rel="nofollow noopener">https://sysart.consulting/insights/multi-gpu-inference-parallelism-on-premises/</a></li><li><a href="https://docs.vllm.ai/en/stable/serving/parallelism_scaling/" rel="nofollow noopener">https://docs.vllm.ai/en/stable/serving/parallelism_scaling/</a></li><li><a href="https://www.spheron.network/blog/what-is-nvlink-gpu-interconnect-bandwidth-explained/" rel="nofollow noopener">https://www.spheron.network/blog/what-is-nvlink-gpu-interconnect-bandwidth-expla</a></li><li><a href="https://www.tweaktown.com/news/88605/nvidia-kills-nvlink-support-for-ada-lovelace-silent-death-sli/index.html" rel="nofollow noopener">https://www.tweaktown.com/news/88605/nvidia-kills-nvlink-support-for-ada-lovelac</a></li><li><a href="https://aisuperior.com/cost-of-running-local-llm/" rel="nofollow noopener">https://aisuperior.com/cost-of-running-local-llm/</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>NVLink 없이도 여러 GPU로 AI 모델 추론이 가능한가?</h2><p class="sum">가능하지만 조건부다. 텐서 병렬은 GPU 사이 all-reduce 통신이 많아 PCIe만으로는 병목이 커지고, 70B급 이상 모델은 NVLink급 인터커넥트가 사실상 필요하다는 분석이 있다. NVLink가 없다면 통신량이 적은 파이프라인 병렬이 대안으로 꼽힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code를 쓰려면 RAM이 얼마나 필요한가?</h2><p class="sum">공식 문서 기준 최소 4GB, 큰 프로젝트에는 8GB 이상이 권장된다. 서브에이전트를 병렬로 여러 개 띄우거나 워크트리를 나눠 쓰는 모노레포 작업이라면 32GB가 권장치다.</p></article><article class="dcard"><div class="t">Q</div><h2>바이브 코딩용 PC는 맥북과 GPU 데스크톱 중 뭐가 나은가?</h2><p class="sum">바이브 코딩은 실제 연산을 클라우드에 맡기는 방식이라 로컬 GPU 성능보다 메모리 여유와 발열·소음이 더 중요하다는 평가가 많다. 실험이나 파인튜닝까지 하려면 CUDA 생태계가 넓은 PC가, 조용히 코딩 어시스턴트만 쓰려면 맥이 유리하다는 분석이 나온다.</p></article></div>

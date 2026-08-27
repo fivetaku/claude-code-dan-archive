@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/qwen-27b-opus-benchmark-doubts.png" alt="클로드 오퍼스 4.6 넘었다는 로컬 27B 모델, 벤치마크 실체 검증" loading="eager">
 <header>
   <div class="eyebrow">AI 모델·프롬프트</div>
@@ -185,6 +189,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>맥북부터 지르기 전에 API로 먼저 찔러보라는 제안이 맞다</h2>
 <p>로컬로 27B를 4비트 양자화로 돌릴 때 필요한 메모리는 양자화 형식과 컨텍스트 설정에 따라 달라진다. 96GB 구성 맥 스튜디오는 5299달러부터다. 2026년 D램 공급 부족이 이어지는 가운데 애플은 메모리 업그레이드 가격을 올렸고, 512GB 구성은 판매에서 빠졌다. 방에서 오간 대용량 메모리 맥북 구매 고민도 결국 이 가격표 앞에서 다시 계산기를 두드릴 수밖에 없는 문제다.</p>
 <p>Qwen3.5-Plus의 API 요금은 입력 기준 오퍼스 4.6의 약 13분의 1 수준이다. 오퍼스 4.6이 100만 토큰당 입력 5달러·출력 25달러인 반면 Qwen3.5-Plus는 25만6000토큰 이하 요청에서 0.4달러·2.4달러다. &quot;하드웨어 사기 전에 API로 먼저 써보자&quot;는 방의 제안은 이 가격 차이만 봐도 합리적인 순서다. 개인 개발자나 소규모 팀 입장에서는 벤치마크 표 한 장으로 고가 장비를 정당화하기보다, 자기 코드베이스를 API로 먼저 물려 응답 속도와 과잉 사고 여부를 확인하는 쪽이 손해가 적다. 27B와 Max 중 어느 쪽 수치를 보고 있는지부터 다시 확인할 필요도 있다. 독립 재현이 나오기 전까지 이 수치가 로컬 구매를 정당화할 근거인지는, 결국 각자 자기 작업으로 직접 시험해보는 수밖에 없다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Qwen3.8-27B</span><span class="chip">클로드 오퍼스 4.6</span><span class="chip">로컬 LLM</span><span class="chip">벤치마크 신뢰성</span><span class="chip">오픈웨이트 모델</span><span class="chip">SWE-bench Pro</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://local-ai-zone.github.io/blog/qwen3-8-27b-comprehensive-analysis.html" rel="nofollow noopener">https://local-ai-zone.github.io/blog/qwen3-8-27b-comprehensive-analysis.html</a></li><li><a href="https://kingy.ai/blog/qwen3-8-27b-specs-benchmarks-local-hardware/" rel="nofollow noopener">https://kingy.ai/blog/qwen3-8-27b-specs-benchmarks-local-hardware/</a></li><li><a href="https://simonwillison.net/2026/Aug/16/qwen-38-27b/" rel="nofollow noopener">https://simonwillison.net/2026/Aug/16/qwen-38-27b/</a></li><li><a href="https://news.ycombinator.com/item?id=49324985" rel="nofollow noopener">https://news.ycombinator.com/item?id=49324985</a></li><li><a href="https://www.orcarouter.ai/blog/qwen-3-8-27b-artificial-analysis" rel="nofollow noopener">https://www.orcarouter.ai/blog/qwen-3-8-27b-artificial-analysis</a></li><li><a href="https://www.orcarouter.ai/blog/qwen-3-8-27b-vram-requirements" rel="nofollow noopener">https://www.orcarouter.ai/blog/qwen-3-8-27b-vram-requirements</a></li><li><a href="https://www.yottalabs.ai/post/qwen-3-8-vs-qwen-3-8-max-differences-which-to-use-2026" rel="nofollow noopener">https://www.yottalabs.ai/post/qwen-3-8-vs-qwen-3-8-max-differences-which-to-use-</a></li><li><a href="https://scale.com/blog/swe-bench-pro" rel="nofollow noopener">https://scale.com/blog/swe-bench-pro</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Qwen3.8-27B는 정말 클로드 오퍼스 4.6보다 뛰어난가?</h2><p class="sum">알리바바가 자체 공개한 19개 벤치마크 중 15개에서 앞섰다고 발표했지만 독립 재현 결과는 아직 없다. &#x27;오퍼스급&#x27;이라는 소문의 상당수는 27B가 아니라 같은 이름의 2.4T 파라미터 API 전용 모델 Qwen3.8-Max 이야기였다.</p></article><article class="dcard"><div class="t">Q</div><h2>Qwen3.8-27B를 로컬로 돌리려면 어떤 사양이 필요한가?</h2><p class="sum">4비트 양자화 기준 최소 24GB 통합 메모리나 VRAM이 필요하고, 여유 있게 쓰려면 32GB, 컨텍스트를 자유롭게 쓰려면 48~64GB가 권장된다. 128GB 맥 스튜디오는 약 3999달러로, 2026년 D램 가격 상승으로 메모리 구성 비용이 오른 상태다.</p></article><article class="dcard"><div class="t">Q</div><h2>Qwen3.8-27B와 Qwen3.8-Max는 어떻게 다른가?</h2><p class="sum">27B는 278억 파라미터 오픈웨이트 모델로 아파치 2.0 라이선스로 공개돼 로컬 실행이 가능하다. Qwen3.8-Max는 2조4000억 파라미터 API 전용 플래그십으로, 벤치마크 표 없이 내부 평가 기준으로만 성능을 언급했다.</p></article></div>

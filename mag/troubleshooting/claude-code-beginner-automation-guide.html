@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-beginner-automation-guide.png" alt="챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법" loading="eager">
 <header>
   <div class="eyebrow">질문·트러블슈팅</div>
@@ -179,6 +183,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>왜 지금 개발자 툴에 비개발자가 몰리나</h2>
 <p>오픈AI가 챗GPT 안에 코딩 기능(Codex)을 얹어 하나의 앱에서 검색·문서작성·코딩을 모두 처리하는 전략을 택한 것과 달리, 앤스로픽은 클로드코드를 터미널 깊숙이 파고드는 개발자 툴로 키워왔다. 로컬 파일 시스템에 직접 접근하고 깃을 관리하며 테스트를 실행하는 방식은 원래 개발자를 겨냥한 설계였다. 하지만 넓은 컨텍스트 윈도우 덕분에 코드베이스 전체를 기억하며 작업하는 능력이 비개발자의 문서·데이터 자동화에도 그대로 통했다. 2026년 1월 기준 개발자의 18퍼센트가 업무에 클로드코드를 쓴다는 집계는, 이 도구가 이미 코딩 전용을 넘어섰다는 방증이기도 하다.</p>
 <p>결국 클로드코드 입문의 핵심은 새로운 언어를 배우는 게 아니라, 대화형 AI에게 하듯 자연어로 목표를 말하고 결과를 확인하며 다음 지시를 이어가는 습관을 들이는 데 있다. 클코단에서 나온 조언대로 목적을 먼저 정하고, 작은 기능부터 하나씩 완성해가며 감을 익히는 것이 가장 현실적인 출발점으로 보인다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드코드</span><span class="chip">Claude Code</span><span class="chip">CLAUDE.md</span><span class="chip">MCP</span><span class="chip">바이브코딩</span><span class="chip">업무자동화</span><span class="chip">비개발자</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드코드와 대화형 클로드(claude.ai)는 뭐가 다른가요?</h2><p class="sum">대화형 클로드는 텍스트만 주고받는 챗봇이지만, 클로드코드는 터미널에서 실행되며 사용자의 컴퓨터 폴더에 직접 접근해 파일을 읽고 쓰고 명령을 실행하는 AI 에이전트다. 무료 계정으로는 쓸 수 없고 Pro 이상 유료 요금제가 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>코딩을 전혀 몰라도 클로드코드를 쓸 수 있나요?</h2><p class="sum">가능하다. 자연어로 &quot;이런 기능 만들어줘&quot;라고 요청하면 AI가 코드를 대신 작성하는 방식으로 작동하며, 실제로 코딩 경험이 없는 마케터나 비개발 직군이 업무 자동화에 활용한 사례가 다수 보고돼 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드코드로 웹사이트를 만들려면 어떻게 시작하나요?</h2><p class="sum">기획 문서(.md 파일)를 먼저 만들고 메인 페이지 완성 후 확인, 소개 페이지 추가 후 확인 하는 식으로 작업을 작게 쪼개 단계별로 진행하는 방식이 권장된다. 배포는 Vercel 같은 서비스가 초보자에게 비교적 간단하다고 알려져 있다.</p></article></div>

@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/grok-build-claude-code-worker.png" alt="그록 빌드 기획력 논란, 클로드 코드 워커로 쓰는 이유" loading="eager">
 <header>
   <div class="eyebrow">AI 모델·프롬프트</div>
@@ -183,6 +187,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>다만 두 도구의 멀티 에이전트 철학은 다르다. Grok Build는 기본값 자체가 최대 8개 에이전트를 동시에 띄우는 구조다. 클로드 코드의 서브에이전트는 오케스트레이터가 작업을 맡기고 결과를 받아 종합하는, 보내고 잊는(fire-and-forget) 방식에 가깝다. 방의 접근처럼 클로드 코드를 지휘자로 두고 Grok Build를 실행 담당으로 붙이는 조합은, 계획은 잘 짜지만 비싼 도구와 실행은 되지만 계획이 얕고 값이 싼 도구를 역할별로 나눠 쓰는 셈이다.</p>
 <p>이런 조합에 신중해야 할 이유도 있다. 스탠퍼드대 연구에서는 두 코딩 에이전트가 같은 작업을 함께 처리했을 때, 각자 따로 작업할 때보다 결과가 나빠지는 사례가 확인됐다. 여러 에이전트를 엮어 쓰는 개발자들 사이에서는 에디터용 에이전트 하나와 터미널용 에이전트 하나를 역할이 겹치지 않게 짝짓는다. 결제 전에 한 달씩 따로 써보라는 조언도 흔하다. Grok Build를 워커로 쓰는 접근이 통하려면, 클로드 코드가 계획을 완전히 확정한 뒤 Grok Build에는 이미 정해진 작업만 좁게 맡기는 경계가 필요하다는 뜻이다.</p>
 <p>남는 질문은 그 경계를 얼마나 좁게 그을 수 있느냐다. Grok Build에 무엇을 할지까지 맡기면 방에서 나온 얕은 기획력이 그대로 결과물에 묻어난다. 이미 정해진 작업을 어떻게 처리할지만 맡기면, 저렴한 값에 병렬 실행력을 붙이는 조합이 된다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">그록 빌드</span><span class="chip">Grok Build</span><span class="chip">클로드 코드</span><span class="chip">AI 코딩 에이전트</span><span class="chip">xAI</span><span class="chip">멀티 에이전트</span><span class="chip">SKILL.md</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://en.wikipedia.org/wiki/Grok_Build" rel="nofollow noopener">https://en.wikipedia.org/wiki/Grok_Build</a></li><li><a href="https://codersera.com/blog/xai-grok-build-skills-connectors-guide-2026/" rel="nofollow noopener">https://codersera.com/blog/xai-grok-build-skills-connectors-guide-2026/</a></li><li><a href="https://releasebot.io/updates/xai/grok-build" rel="nofollow noopener">https://releasebot.io/updates/xai/grok-build</a></li><li><a href="https://www.eigent.ai/blog/grok-build-cli" rel="nofollow noopener">https://www.eigent.ai/blog/grok-build-cli</a></li><li><a href="https://pub.towardsai.net/grok-build-vs-claude-code-the-compatibility-bet-the-buzz-and-what-you-can-actually-bring-over-406447d668be" rel="nofollow noopener">https://pub.towardsai.net/grok-build-vs-claude-code-the-compatibility-bet-the-bu</a></li><li><a href="https://www.agensi.io/learn/grok-build-skills-how-to-install-skill-md" rel="nofollow noopener">https://www.agensi.io/learn/grok-build-skills-how-to-install-skill-md</a></li><li><a href="https://www.codeagentswarm.com/en/guides/grok-build-pricing" rel="nofollow noopener">https://www.codeagentswarm.com/en/guides/grok-build-pricing</a></li><li><a href="https://appwrite.io/blog/post/grok-build-open-source" rel="nofollow noopener">https://appwrite.io/blog/post/grok-build-open-source</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>그록 빌드는 무료로 쓸 수 있나?</h2><p class="sum">별도 무료 요금제는 없다. SuperGrok(월 30달러) 이상 xAI 구독에 포함돼 있고, API로 직접 붙이면 입력 100만 토큰당 0.2달러의 종량제로도 쓸 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>그록에는 공식 데스크톱 앱이 있나?</h2><p class="sum">없다. 공식 창구는 grok.com 웹과 X 앱 안의 챗봇뿐이며, 개발자용으로는 터미널 CLI인 그록 빌드가 유일한 로컬 실행 수단이다.</p></article><article class="dcard"><div class="t">Q</div><h2>그록 빌드와 클로드 코드를 같이 쓸 수 있나?</h2><p class="sum">가능하다. 둘 다 SKILL.md 포맷을 공유해 스킬 파일을 그대로 옮길 수 있지만, 멀티 에이전트 구조가 달라 계획은 한쪽에, 실행은 다른 쪽에 맡기는 식으로 역할을 나누는 편이 안전하다.</p></article></div>

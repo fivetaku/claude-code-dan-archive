@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-cache-bug-usage.png" alt="클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말" loading="eager">
 <header>
   <div class="eyebrow">질문·트러블슈팅</div>
@@ -176,6 +180,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>방에서는 &#x27;인세인리서치&#x27;처럼 강도 높은 리서치 작업이 토큰을 유독 많이 먹는다는 이야기와 더불어, 실제로는 리서치보다 다른 작업이 더 많은 토큰을 소모했다는 후기도 공유됐다. 이는 근거 없는 이야기가 아니다. 웹 검색 기반 심층 리서치 기능은 &#x27;리서치&#x27;, &#x27;종합 분석&#x27;, &#x27;상세 보고서&#x27; 같은 표현이 포함되면 트리거되기 쉽고, 한 번 실행되면 일일 한도를 순식간에 소진시킬 수 있다는 사례가 보고돼 있다. 다만 어떤 작업이 실제로 얼마나 소모했는지는 개별 세션마다 달라, 리서치를 의심하기 전에 세션 자체를 들여다보는 편이 정확하다는 게 방의 중론이었다. 오퍼스 대신 소넷으로 리서치성 작업을 돌리는 편이 낫다는 의견도 나왔는데, 이는 커뮤니티에서 공유된 경험칙이지 공식 권고는 아니다.</p>
 <h2>지금 확인할 수 있는 것들</h2>
 <p>방에서 공유된 &quot;대화 세션 자체를 검토시켜 토큰 사용 내역을 물어보면 잘 알려준다&quot;는 팁 대신, 클로드코드에는 이를 위한 공식 명령이 이미 있다. `/cost`는 세션 누적 비용과 모델별 입력·출력·캐시 읽기/쓰기 토큰 내역을, `/usage`는 플랜 한도 대비 사용량을, `/context`는 컨텍스트 창을 구성하는 요소별 토큰 비중을 보여준다. 세션을 오래 열어둘수록 클로드코드가 매 요청마다 대화 전체를 다시 보내고 캐시된 요율로라도 재처리하는 만큼, 주제가 바뀌면 새 세션을 여는 편이 소모를 줄이는 데 도움이 된다는 것이 공통된 조언이다. 사용량 한도 자체도 완화됐다. 앤트로픽은 5월 6일 컴퓨팅 자원을 추가 확보하며 5시간 한도를 두 배로 늘렸고, 8월 19일까지 예정된 주간 한도 상향도 겹쳐 있어 예전보다는 여유가 생긴 상태다. 다만 캐싱 구조 자체가 사용량을 크게 좌우하는 만큼, 체감 소모가 크다면 캐시 미스를 의심하고 `/context`로 직접 확인해보는 습관이 필요하다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드코드</span><span class="chip">프롬프트 캐싱</span><span class="chip">토큰 사용량</span><span class="chip">Claude Code</span><span class="chip">사용량 한도</span><span class="chip">캐싱 버그</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>프롬프트 캐싱이란 무엇인가요?</h2><p class="sum">시스템 프롬프트, 도구 정의, CLAUDE.md, 이전 대화 같은 반복 컨텍스트를 매번 다시 청구하지 않고 재사용하는 기능이다. 캐시가 유지되는 동안 입력 토큰 비용과 응답 시간이 줄어든다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드코드 사용량이 갑자기 빨리 줄어든 이유는?</h2><p class="sum">2026년 3월 캐시 유지 시간이 1시간에서 5분으로 단축된 데 이어 캐시를 깨뜨리는 버그 두 건이 겹치며 토큰 소비가 최대 10~20배까지 뛰었다. 앤트로픽은 이를 인정하고 4월 20일(v2.1.116)까지 순차적으로 수정했다.</p></article><article class="dcard"><div class="t">Q</div><h2>지금은 문제가 해결됐나요?</h2><p class="sum">앤트로픽은 4월 23일 전 구독자의 사용량 한도를 초기화했고 5월 6일에는 5시간 한도를 두 배로 늘렸다. 8월 19일까지 예정된 주간 한도 상향도 함께 적용 중이라 예전보다 여유가 있는 편이다.</p></article><article class="dcard"><div class="t">Q</div><h2>토큰 사용량을 직접 확인하는 방법은?</h2><p class="sum">클로드코드 안에서 /cost, /usage, /context 명령으로 세션별 토큰·비용·컨텍스트 구성을 바로 확인할 수 있다.</p></article></div>

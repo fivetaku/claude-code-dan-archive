@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-zero-api-plugins.png" alt="구독 요금 그대로 쓰는 클로드코드 플러그인, 면접까지 통했다" loading="eager">
 <header>
   <div class="eyebrow">도구·라이브러리</div>
@@ -182,6 +186,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>공식 공개 API나 피드를 먼저 시도한다. 실패하면 모바일 URL 같은 경량 프로브로 넘어간다. 그래도 막히면 TLS 임퍼소네이션으로 브라우저 정체성을 구성한다. 마지막에야 실제 헤드리스 브라우저를 띄운다. 각 단계는 앞 단계가 실패했을 때만 실행된다. 로그인이나 페이월을 만나면 거기서 멈춘다. API 키나 프록시 설정 없이 X, 레딧, 유튜브, 해커뉴스 같은 플랫폼에서 접근이 막힌 공개 콘텐츠에 닿도록 만들었다는 설명이다.</p>
 <p>이 지점은 최근 AI 크롤러를 둘러싼 논란과 비교하면 차이가 도드라진다. 클라우드플레어는 지난해 퍼플렉시티가 크롤링을 차단한 사이트에서 브라우저 정체성을 위장해 접근했다고 지적했다. 이후 뉴욕타임스는 퍼플렉시티를 상대로 저작권 소송을 제기했다. 인세인서치가 내세우는 설계 원칙은 정반대다. 공개된 무인증 경로만 쓰고 로그인·페이월 앞에서는 우회를 시도하지 않고 인증이 필요하다는 사실만 보고한다. 막힌 걸 뚫는다는 인상과 별개로 뚫는 범위를 공개된 영역으로 스스로 제한해뒀다는 점이 이 도구를 둘러싼 논쟁의 여지를 줄인다.</p>
 <p>두 플러그인은 접근 방식이 다르지만 뼈대는 같다. 새 요금제를 요구하는 대신 이미 있는 구독이나 공개 경로의 기능 범위를 클로드 코드 안으로 끌어왔다. 설치도 마켓플레이스를 등록한 뒤 명령어 두 줄이면 끝난다. 1인 개발자나 소규모 팀에게는 API 키 발급과 과금 체계를 새로 익히지 않아도 되는 진입장벽 차이로 남는다. 다음으로 남는 질문은 이런 재사용형 플러그인이 마켓플레이스 14개를 넘어 앞으로 얼마나 늘어날 것인가다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드 코드</span><span class="chip">인세인리뷰</span><span class="chip">인세인서치</span><span class="chip">GPT-5.5 Pro</span><span class="chip">repomix</span><span class="chip">압박면접</span><span class="chip">클로드 코드 플러그인</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/fivetaku/insane-search" rel="nofollow noopener">https://github.com/fivetaku/insane-search</a></li><li><a href="https://github.com/fivetaku/insane-search/blob/main/README.ko.md" rel="nofollow noopener">https://github.com/fivetaku/insane-search/blob/main/README.ko.md</a></li><li><a href="https://github.com/fivetaku/gptaku_plugins" rel="nofollow noopener">https://github.com/fivetaku/gptaku_plugins</a></li><li><a href="https://github.com/fivetaku/gptaku_plugins/blob/main/README.ko.md" rel="nofollow noopener">https://github.com/fivetaku/gptaku_plugins/blob/main/README.ko.md</a></li><li><a href="https://discuss.pytorch.kr/t/openai-gpt-5-5-gpt-5-5-pro/9919" rel="nofollow noopener">https://discuss.pytorch.kr/t/openai-gpt-5-5-gpt-5-5-pro/9919</a></li><li><a href="https://www.thelec.kr/news/articleView.html?idxno=55613" rel="nofollow noopener">https://www.thelec.kr/news/articleView.html?idxno=55613</a></li><li><a href="https://chatgpt.com/plans/pro/" rel="nofollow noopener">https://chatgpt.com/plans/pro/</a></li><li><a href="https://community.linkareer.com/employment_data/3166457" rel="nofollow noopener">https://community.linkareer.com/employment_data/3166457</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>인세인리뷰는 어떤 도구인가요?</h2><p class="sum">클로드 코드 안에서 repomix로 관련 코드를 패킹한 뒤 로그인된 ChatGPT Pro 웹 세션으로 보내 GPT-5.5 Pro의 라인 단위 코드 리뷰를 받는 플러그인이다. GPT-5.5 Pro는 별도 API가 없는 모델이라 API 과금 없이 이미 내는 구독료만으로 리뷰를 받을 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>인세인서치는 어떻게 막힌 웹페이지에 접근하나요?</h2><p class="sum">공식 공개 API·피드, 모바일 URL 경량 프로브, TLS 임퍼소네이션, 헤드리스 브라우저 순으로 시도하는 4단계 적응형 스케줄러로 작동한다. 로그인이나 페이월을 만나면 우회하지 않고 인증이 필요하다는 사실만 보고한다.</p></article><article class="dcard"><div class="t">Q</div><h2>압박면접은 정말 회피 신호인가요?</h2><p class="sum">해외 채용 관련 보도와 커뮤니티 논의를 보면 의견이 갈린다. 일부는 과로 문화를 감추는 위험 신호로 보지만, 구글처럼 공식적으로 압박면접을 부인하는 기업도 있어 업계 안에서도 정답이 하나로 모이지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>인세인리뷰와 인세인서치는 어떻게 설치하나요?</h2><p class="sum">클로드 코드에서 fivetaku가 운영하는 gptaku_plugins 마켓플레이스를 등록한 뒤 각각 /plugin install insane-review@gptaku-plugins, /plugin install insane-search@gptaku-plugins 명령으로 설치할 수 있다.</p></article></div>

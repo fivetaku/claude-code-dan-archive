@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/bolta-tax-invoice-auto-match.png" alt="세금계산서 발행 넘어, 볼타가 입출금까지 자동으로 맞춘다" loading="eager">
 <header>
   <div class="eyebrow">도구·라이브러리</div>
@@ -181,6 +185,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>실제로 써보면 어떨까</h2>
 <p>세금계산서 발행 속도는 홈택스로 5~10분 걸리던 작업이 15초 안팎으로 줄었다는 후기가 여러 차례 소개됐고, &quot;볼타 없이는 업무가 안 될 정도&quot;라는 평가도 나온 바 있다. 클코단에서도 실제로 매입계산서와 입금 내역을 불러와 자동 매칭을 돌려보고 있다는 후기와 함께, 다른 참가자들도 한 번 써보겠다는 반응이 이어졌다. 다만 자동 매칭이라 해도 완전히 손을 떼도 되는 수준은 아니어서, 적요나 입금자명이 다르게 찍히는 예외 건은 결국 사람이 확인해야 한다는 게 기능 자체의 구조이기도 하다. 회계·정산 자동화 툴을 여럿 써본 사람들 사이에서는 초기 계좌 연동 설정과 매칭 규칙을 다듬는 데 어느 정도 손이 간다는 의견도 있어, 완전 자동화라기보다는 반복 작업을 크게 줄여주는 보조 도구로 접근하는 편이 현실적이라는 평가가 나온다.</p>
 <p>세금계산서 발행 자체는 이제 여러 서비스가 비슷한 수준으로 처리한다. 관건은 그다음 단계, 즉 발행한 계산서와 실제 입출금이 맞는지 확인하는 반복 작업을 얼마나 덜어주느냐다. 볼타는 이 지점을 규칙 기반 매칭과 AI 추천으로 채우며 고객사를 빠르게 늘려왔고, 클코단 참가자들의 반응도 이런 흐름과 맞닿아 있다. 다만 계좌 연동을 전제로 하는 서비스인 만큼, 연동 범위와 보안 정책을 확인하고 자신의 거래 구조에 맞는지 따져본 뒤 도입하는 게 순서다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">볼타</span><span class="chip">Bolta</span><span class="chip">세금계산서</span><span class="chip">입출금 자동매칭</span><span class="chip">미수금 관리</span><span class="chip">전자세금계산서 SaaS</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://ko.wikipedia.org/wiki/%EB%B3%BC%ED%83%80_(%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4)" rel="nofollow noopener">https://ko.wikipedia.org/wiki/%EB%B3%BC%ED%83%80_(%EC%86%8C%ED%94%84%ED%8A%B8%EC</a></li><li><a href="https://bolta.io/insight/%EC%9E%85%EC%B6%9C%EA%B8%88-%EC%9E%90%EB%8F%99-%EC%97%B0%EA%B2%B0" rel="nofollow noopener">https://bolta.io/insight/%EC%9E%85%EC%B6%9C%EA%B8%88-%EC%9E%90%EB%8F%99-%EC%97%B</a></li><li><a href="https://bolta.io/pricing" rel="nofollow noopener">https://bolta.io/pricing</a></li><li><a href="https://zdnet.co.kr/view/?no=20250826093614" rel="nofollow noopener">https://zdnet.co.kr/view/?no=20250826093614</a></li><li><a href="https://www.dt.co.kr/article/12071755" rel="nofollow noopener">https://www.dt.co.kr/article/12071755</a></li><li><a href="https://bolta.io/insight/disquiet" rel="nofollow noopener">https://bolta.io/insight/disquiet</a></li><li><a href="https://saaskr.com/saas/bolta-%EB%B3%BC%ED%83%80" rel="nofollow noopener">https://saaskr.com/saas/bolta-%EB%B3%BC%ED%83%80</a></li><li><a href="https://www.lido.app/kr/hoegye-program-bigyo" rel="nofollow noopener">https://www.lido.app/kr/hoegye-program-bigyo</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>볼타(Bolta)는 어떤 서비스인가요?</h2><p class="sum">볼타코퍼레이션이 2023년 선보인 전자세금계산서 발행·관리 SaaS로, 국세청 홈택스와 연동해 발행 업무를 자동화하고 은행 계좌를 연동해 입출금 내역까지 관리한다. 2025년 기준 고객사가 수천 곳 규모로 늘었고 CJ ENM 등 상장사도 도입 사례로 소개됐다.</p></article><article class="dcard"><div class="t">Q</div><h2>볼타의 입출금 자동매칭은 어떻게 작동하나요?</h2><p class="sum">은행 계좌를 연동하면 거래처명, 금액, 날짜, 적요 정보를 기준으로 입출금 내역을 세금계산서·미수금 데이터와 자동으로 연결한다. 2025년 8월부터는 AI가 여러 정보를 종합해 가장 가능성 높은 입금 건을 추천해주는 기능도 추가됐다.</p></article><article class="dcard"><div class="t">Q</div><h2>볼타 요금제는 얼마인가요?</h2><p class="sum">월 3건까지는 무료로 세금계산서를 발행할 수 있고, 3건 이상 20건 미만은 월 1만2,100원, 무제한 발행은 월 16만5천원 수준의 요금제가 있다. 경리나라(월 9,900원대), 자비스(월 2만9천원대) 등 경쟁 서비스와 함께 비교해볼 만하다.</p></article></div>

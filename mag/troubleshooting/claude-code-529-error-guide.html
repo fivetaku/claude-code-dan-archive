@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-529-error-guide.png" alt="클로드 코드 529 오류, 장애일까 일시 과부하일까" loading="eager">
 <header>
   <div class="eyebrow">질문·트러블슈팅</div>
@@ -184,6 +188,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>529가 뜨면 가장 먼저 할 일은 재시도 카운터를 지켜보는 것이다. CLI가 알아서 최대 10번 재시도하는 동안은 계정도 청구도 영향받지 않는다. 콜론 형태의 최종 오류로 넘어가거나 상태 페이지에 인시던트가 뜬 뒤라면, 그때부터는 기다림 대신 확인으로 넘어갈 시점이다.</p>
 <p>정말 마감이 걸린 작업이라면 선택지가 하나 더 있다. Claude Code는 직접 API 말고도 Amazon Bedrock이나 Google Vertex AI 경로로 붙을 수 있다. 두 클라우드는 자체 서빙 인프라를 쓰기 때문에 api.anthropic.com 장애와 별개로 살아있는 경우가 많다. 다만 별도 계정과 설정이 필요해서 개인 개발자 대부분에게는 여전히 비현실적이다.</p>
 <p>그날 방에서 오간 대응—상태 페이지 확인, 몇 분 대기, 재시도—은 Anthropic이 설계해 둔 절차와 다르지 않았다. 다만 그 절차를 꺼내야 하는 순간이 올해 들어 눈에 띄게 잦아졌다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">529 오류</span><span class="chip">Claude 상태페이지</span><span class="chip">Anthropic 장애</span><span class="chip">overloaded_error</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://platform.claude.com/docs/en/api/errors" rel="nofollow noopener">https://platform.claude.com/docs/en/api/errors</a></li><li><a href="https://status.claude.com/" rel="nofollow noopener">https://status.claude.com/</a></li><li><a href="https://www.macrumors.com/2026/08/12/claude-outage-affecting-multiple-models/" rel="nofollow noopener">https://www.macrumors.com/2026/08/12/claude-outage-affecting-multiple-models/</a></li><li><a href="https://www.cloudflarestatus.com/history" rel="nofollow noopener">https://www.cloudflarestatus.com/history</a></li><li><a href="https://www.anthropic.com/news/anthropic-amazon-compute" rel="nofollow noopener">https://www.anthropic.com/news/anthropic-amazon-compute</a></li><li><a href="https://www.cnbc.com/2025/11/12/anthropic-ai-data-centers-texas-new-york.html" rel="nofollow noopener">https://www.cnbc.com/2025/11/12/anthropic-ai-data-centers-texas-new-york.html</a></li><li><a href="https://github.com/anthropics/claude-code/issues/60577" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/60577</a></li><li><a href="https://www.techtimes.com/articles/318514/20260616/claude-outage-tenth-disruption-12-days-exposes-anthropic-infrastructure-strain.htm" rel="nofollow noopener">https://www.techtimes.com/articles/318514/20260616/claude-outage-tenth-disruptio</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드 529 오류가 뜨면 어떻게 해야 하나요?</h2><p class="sum">대부분은 CLI가 자동으로 최대 10회까지 재시도하므로 잠시 기다리면 해결된다. 콜론 형태의 최종 오류로 바뀌거나 반복된다면 status.claude.com에서 인시던트 여부를 확인하면 된다.</p></article><article class="dcard"><div class="t">Q</div><h2>529 오류와 429 오류는 어떻게 다른가요?</h2><p class="sum">429는 내 계정이나 조직의 요청 한도를 넘었을 때 뜨는 오류다. 529는 계정과 무관하게 Anthropic 서버 전체가 과부하 상태일 때 나오는 응답이며, 실패한 529 요청은 과금되지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 장애는 얼마나 자주 발생하나요?</h2><p class="sum">2026년 들어 여러 차례 반복됐고, 직전 분기 90일 가동률은 서비스별로 99.3~99.4% 수준으로 집계됐다. 통상적인 엔터프라이즈 SLA인 99.9%에는 못 미치는 수준이다.</p></article></div>

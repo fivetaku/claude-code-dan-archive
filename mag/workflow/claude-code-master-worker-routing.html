@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-master-worker-routing.png" alt="클로드 코드 마스터-워커 라우팅, 컨텍스트 붕괴를 막을 실제 해법인가" loading="eager">
 <header>
   <div class="eyebrow">워크플로우·방법론</div>
@@ -190,6 +194,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>쪼갤지 말지를 가르는 세 가지 조건</h2>
 <p>클코단 논의를 이 기준에 대보면 답이 갈린다. 저장소가 이미 디렉터리별로 독립된 서브시스템이고 워커들이 서로 파일을 거의 건드리지 않는다면, 병렬성과 전문화 조건을 동시에 채운다. 반대로 한 사람이 하나의 기능을 처음부터 끝까지 짜는 구조라면, 마스터-워커를 나누는 순간 PRD 작성·핸드오프·메모리 동기화라는 새로운 조율 비용만 얹힌다.</p>
 <p>클로드 코드는 서브에이전트·CLAUDE.md·오토 메모리·훅·다이내믹 워크플로까지, 이 설계에 필요한 조각을 이미 대부분 갖고 있다. 방에서 나온 룰 기반 라우팅은 없는 기능을 요구하는 제안이라기보다, 있는 조각을 프로젝트 규모에 맞게 조립하는 설계에 가깝다. 그 조립이 필요한지는 지금 겪는 컨텍스트 붕괴가 정말 병렬화·전문화로 풀리는 문제인지, 아니면 CLAUDE.md 한 줄과 이른 /compact 습관으로도 충분한 문제인지에 달려 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드 코드</span><span class="chip">서브에이전트</span><span class="chip">오케스트레이터</span><span class="chip">컨텍스트 관리</span><span class="chip">CLAUDE.md</span><span class="chip">멀티 에이전트</span><span class="chip">메모리 관리</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/memory" rel="nofollow noopener">https://code.claude.com/docs/en/memory</a></li><li><a href="https://code.claude.com/docs/ko/memory" rel="nofollow noopener">https://code.claude.com/docs/ko/memory</a></li><li><a href="https://code.claude.com/docs/en/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/en/sub-agents</a></li><li><a href="https://code.claude.com/docs/en/workflows" rel="nofollow noopener">https://code.claude.com/docs/en/workflows</a></li><li><a href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" rel="nofollow noopener">https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them</a></li><li><a href="https://www.anthropic.com/engineering/built-multi-agent-research-system" rel="nofollow noopener">https://www.anthropic.com/engineering/built-multi-agent-research-system</a></li><li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agent</a></li><li><a href="https://dev.to/amitba/claude-code-context-window-rot-why-sessions-get-dumber-and-how-to-fix-it-50ni" rel="nofollow noopener">https://dev.to/amitba/claude-code-context-window-rot-why-sessions-get-dumber-and</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드 서브에이전트는 메인 세션의 오토 메모리를 자동으로 물려받나요?</h2><p class="sum">아니다. 포크로 만든 서브에이전트가 아니라면 메인 세션의 오토 메모리는 자동으로 넘어가지 않는다. 서브에이전트가 자기 기록을 남기려면 별도의 memory 필드를 켜서 독립적인 메모리 디렉터리를 써야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>멀티 에이전트 구조로 작업을 나누면 토큰이 얼마나 더 드나요?</h2><p class="sum">앤트로픽에 따르면 같은 작업을 멀티 에이전트로 처리하면 단일 에이전트보다 토큰을 3~10배 더 쓴다. 자사 리서치 기능 기준으로는 최대 15배까지 늘어난 사례도 공개했다.</p></article><article class="dcard"><div class="t">Q</div><h2>CLAUDE.md와 오토 메모리는 어떻게 다른가요?</h2><p class="sum">CLAUDE.md는 사람이 직접 쓰는 규칙 파일로 매 세션 시작 시 전체가 로드된다. 오토 메모리는 클로드가 스스로 남기는 학습 노트로, MEMORY.md 색인을 통해 필요한 부분만 불러온다.</p></article></div>

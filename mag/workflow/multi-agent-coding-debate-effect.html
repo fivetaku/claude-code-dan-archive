@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/multi-agent-coding-debate-effect.png" alt="에이전트끼리 대화시키는 멀티에이전트 코딩, 효과는 어디까지 진짜인가" loading="eager">
 <header>
   <div class="eyebrow">워크플로우·방법론</div>
@@ -184,6 +188,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>서브에이전트를 붙이면 청구되는 토큰도 그만큼 는다. 개발자 커뮤니티에 공유된 사용량 분석에 따르면 서브에이전트 세션이 전체 토큰 사용량의 85%를 차지한 사례가 보고됐다. 서브에이전트 세 개를 띄우면 단일 세션 대비 토큰 소모가 네 배 가까이 뛴다는 관찰도 있다. 주간 한도가 있는 요금제에서 서브에이전트를 남발해 15분 만에 한도를 소진했다는 보고도 나왔다. 같은 작업을 순차 처리했다면 30분은 버텼을 것이라는 계산이다.</p>
 <p>1인 개발자와 소규모 팀 사이에서 반복되는 조언은 비교적 일관적이다. 프로젝트 문서(CLAUDE.md), 플랜 모드, 스택에 맞는 슬래시 명령 몇 개를 갖추는 쪽이 멀티에이전트 구성보다 실익이 크다. 독립적으로 쪼갤 수 있는 작업이 실제로 쌓여 있을 때, 그리고 위임이나 교차검증처럼 토론이 아닌 방식으로 여러 모델을 쓸 때만 여러 에이전트를 굴리는 비용이 회수된다. 방의 논쟁은 에이전트끼리 말을 섞게 할 것이냐, 코드가 짠 계획대로 각자 맡은 일만 하게 할 것이냐는 질문으로 요약됐다.</p>
 <p>지금까지 쌓인 증거는 후자 쪽에 좀 더 무게를 싣는다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드 코드</span><span class="chip">멀티에이전트</span><span class="chip">AI 코딩 에이전트</span><span class="chip">에이전트 팀</span><span class="chip">다이나믹 워크플로우</span><span class="chip">Codex 교차검증</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them" rel="nofollow noopener">https://claude.com/blog/building-multi-agent-systems-when-and-how-to-use-them</a></li><li><a href="https://www.anthropic.com/research/multiagent-systems" rel="nofollow noopener">https://www.anthropic.com/research/multiagent-systems</a></li><li><a href="https://arxiv.org/pdf/2511.07784" rel="nofollow noopener">https://arxiv.org/pdf/2511.07784</a></li><li><a href="https://arxiv.org/html/2604.02460v1" rel="nofollow noopener">https://arxiv.org/html/2604.02460v1</a></li><li><a href="https://code.claude.com/docs/en/agent-teams" rel="nofollow noopener">https://code.claude.com/docs/en/agent-teams</a></li><li><a href="https://www.infoq.com/news/2026/06/dynamic-workflows-claude-code/" rel="nofollow noopener">https://www.infoq.com/news/2026/06/dynamic-workflows-claude-code/</a></li><li><a href="https://arxiv.org/html/2607.21656" rel="nofollow noopener">https://arxiv.org/html/2607.21656</a></li><li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agent</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드 에이전트 팀(Agent Teams)이란 무엇인가?</h2><p class="sum">팀 리드 세션이 작업을 나누면 팀원 에이전트들이 공유 작업 목록을 두고 서로 직접 메시지를 주고받는 피어투피어 협업 기능이다. 여전히 실험적 플래그로 제공되며 병렬 리서치나 리뷰 용도로 권장된다.</p></article><article class="dcard"><div class="t">Q</div><h2>멀티에이전트 코딩은 토큰을 얼마나 더 쓰나?</h2><p class="sum">앤트로픽 자체 연구에 따르면 멀티에이전트 구성은 일반 채팅 대비 토큰을 약 15배 쓴다. 실사용 사례에서는 서브에이전트 세 개를 붙이면 단일 세션 대비 토큰 소모가 네 배 가까이 뛴다는 관찰도 나온다.</p></article><article class="dcard"><div class="t">Q</div><h2>1인 개발자도 멀티에이전트를 써야 하나?</h2><p class="sum">독립적으로 쪼갤 수 있는 작업이 실제로 쌓여 있거나 다른 모델로 위임·교차검증할 때만 실익이 있다. 대부분의 솔로 개발자에게는 프로젝트 문서와 플랜 모드, 슬래시 명령을 갖추는 쪽이 먼저다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코드 다이나믹 워크플로우와 에이전트 팀의 차이는?</h2><p class="sum">다이나믹 워크플로우는 클로드가 짠 코드가 작업을 쪼개고 병렬 실행해 조정에 모델 토큰이 들지 않는다. 에이전트 팀은 에이전트들이 채팅으로 직접 메시지를 주고받으며 협업하는 방식이라 토큰 비용이 더 든다.</p></article></div>

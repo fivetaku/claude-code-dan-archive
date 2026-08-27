@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/ai-proofreading-explainable-feedback.png" alt="형태소 분석으로 짚어주는 AI 윤문, 통계적으로 가능한가" loading="eager">
 <header>
   <div class="eyebrow">AI 모델·프롬프트</div>
@@ -184,6 +188,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>사람 평가자도 완전히 공정하진 않다. 관련 연구에 따르면 사람 평가자도 답변의 자신감 같은 비의미적 요소에 영향을 받을 수 있다. 그래서 LLM 판정으로 범위를 넓히고 사람 검수로 최종 신뢰를 얹는 하이브리드 구조가 활용된다.</p>
 <p>개인 개발자나 소규모 팀이 오늘 시도해볼 수 있는 조합은 이 지점에서 갈린다. 맞춤법·띄어쓰기처럼 정답이 하나인 오류는 Kiwi나 바른AI 같은 형태소 분석 기반 도구로 기계적으로 잡아내면 된다. 문장력·톤처럼 정답이 갈리는 영역은 LLM에게 먼저 평가 기준을 주고, 그 기준에 맞춘 편집 계획을 세우게 한 다음 그 계획대로 다시 쓰는 2단계를 적용할 수 있다. 그 결과를 사람이 눈으로 승인하는 마지막 단계는 빼면 안 된다.</p>
 <p>그렇다면 남는 질문은 하나다. 통계와 형태소 분석은 왜 틀렸는지까지는 설명해줄 수 있다. 왜 이 문장이 저 문장보다 나은지까지 통계로 설명하는 일은 여전히 연구 과제로 남아 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">윤문 AI</span><span class="chip">형태소 분석</span><span class="chip">문법 교정</span><span class="chip">GECToR</span><span class="chip">LLM 평가</span><span class="chip">explainable AI</span><span class="chip">자동 첨삭</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://bareun.ai/correct" rel="nofollow noopener">https://bareun.ai/correct</a></li><li><a href="http://speller.cs.pusan.ac.kr/" rel="nofollow noopener">http://speller.cs.pusan.ac.kr/</a></li><li><a href="https://namu.wiki/w/%EB%B6%80%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%ED%95%9C%EA%B5%AD%EC%96%B4%20%EB%A7%9E%EC%B6%A4%EB%B2%95%20%EA%B2%80%EC%82%AC%EA%B8%B0" rel="nofollow noopener">https://namu.wiki/w/%EB%B6%80%EC%82%B0%EB%8C%80%ED%95%99%EA%B5%90%20%ED%95%9C%EA</a></li><li><a href="https://news.sbs.co.kr/news/endPage.do?news_id=N1007258583" rel="nofollow noopener">https://news.sbs.co.kr/news/endPage.do?news_id=N1007258583</a></li><li><a href="https://github.com/bab2min/kiwi" rel="nofollow noopener">https://github.com/bab2min/kiwi</a></li><li><a href="https://github.com/grammarly/gector" rel="nofollow noopener">https://github.com/grammarly/gector</a></li><li><a href="https://aclanthology.org/2020.bea-1.16/" rel="nofollow noopener">https://aclanthology.org/2020.bea-1.16/</a></li><li><a href="https://arxiv.org/abs/2311.09517" rel="nofollow noopener">https://arxiv.org/abs/2311.09517</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>형태소 분석 기반 AI로 문장 윤문까지 설명 가능하게 만들 수 있나요?</h2><p class="sum">맞춤법·띄어쓰기처럼 정답이 하나인 오류는 형태소 분석 근거로 설명이 가능하다. 하지만 문장력·톤처럼 정답이 여러 개인 윤문 영역은 규칙 기반 설명만으로는 한계가 있다는 게 GECToR, e-rater 같은 기존 연구의 공통된 결과다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI 문법 교정에서 편집과 재생성 중 어느 쪽이 더 나은 방식인가요?</h2><p class="sum">GPT-4 같은 LLM은 최소 편집보다 문장을 통째로 다시 쓰는 쪽으로 편향된다는 연구 결과가 있다. 판단 기준을 먼저 제시하고 그 기준에 맞춰 재생성시키는 방식이 단순 편집 지시보다 더 안정적인 결과를 낸다.</p></article><article class="dcard"><div class="t">Q</div><h2>LLM이 만든 글쓰기 피드백을 사람 검수 없이 그대로 써도 되나요?</h2><p class="sum">권장되지 않는다. LLM-as-judge 평가는 응답 순서나 길이에 따라 판정이 흔들리는 편향이 보고돼 있고, 사람 평가자 역시 완전히 공정하지 않다. 업계는 LLM 판정과 사람 검수를 함께 쓰는 하이브리드 구조로 수렴하는 중이다.</p></article></div>

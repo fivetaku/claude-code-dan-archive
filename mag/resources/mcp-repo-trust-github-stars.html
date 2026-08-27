@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/mcp-repo-trust-github-stars.png" alt="디스코드 MCP·StyleGallery, 스타 100개가 신뢰 기준이 될까" loading="eager">
 <header>
   <div class="eyebrow">자료·링크 공유</div>
@@ -181,6 +185,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>권한이 큰 도구일수록 별점보다 봐야 할 것</h2>
 <p>StyleGallery처럼 읽기 전용으로 동작하는 도구와, discord-mcp처럼 멤버를 밴하고 웹훅을 만들 수 있는 도구는 위험의 크기가 다르다. Discord 봇 토큰 하나가 유출되면 그 토큰에 부여된 권한 전체가 그대로 공격자 손에 넘어간다. MCP 생태계 전반에서도 이미 사고가 보고됐다. 보안 업체 미티가랩스는 악성 npm 패키지가 설치 후 스크립트로 `~/.claude.json` 파일을 고쳐써서 Claude Code의 MCP 트래픽을 공격자 서버로 우회시키는 공격 사슬을 확인했다. 2026년 초에는 Claude Code·Cursor·Windsurf를 노린 타이포스쿼팅 캠페인도 발견됐다. 정상적인 유틸리티로 위장한 패키지가 AI 코딩 도구 설정에 악성 MCP 서버를 주입해 비밀정보 탈취를 지시했다는 점이 특히 문제로 지적됐다.</p>
 <p>이런 배경에서 보면 방의 스타 100개 규칙은 허술해 보이지만 방향은 틀리지 않았다. 다만 스타 수보다 먼저 봐야 할 건 그 도구가 어떤 권한을 요구하는지, 토큰이나 환경변수를 어디까지 넘겨야 하는지, 그리고 깃허브 조직이나 배포자가 실제로 검증 가능한 계정인지다. discord-mcp처럼 강한 권한을 쓰는 도구일수록 별점보다 소스 코드를 한 번 열어보는 쪽이 빠르다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">MCP 서버</span><span class="chip">Claude Code</span><span class="chip">GitHub 스타</span><span class="chip">디스코드 MCP</span><span class="chip">플러그인 마켓플레이스</span><span class="chip">오픈소스 보안</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/PaSympa/discord-mcp" rel="nofollow noopener">https://github.com/PaSympa/discord-mcp</a></li><li><a href="https://github.com/changeroa/StyleGallery" rel="nofollow noopener">https://github.com/changeroa/StyleGallery</a></li><li><a href="https://github.com/baekenough/oh-my-customcode" rel="nofollow noopener">https://github.com/baekenough/oh-my-customcode</a></li><li><a href="https://arxiv.org/html/2412.13459v1" rel="nofollow noopener">https://arxiv.org/html/2412.13459v1</a></li><li><a href="https://www.the4thpath.com/2026/04/githubs-fake-star-economy-is-turning.html" rel="nofollow noopener">https://www.the4thpath.com/2026/04/githubs-fake-star-economy-is-turning.html</a></li><li><a href="https://github.com/anthropics/claude-plugins-official" rel="nofollow noopener">https://github.com/anthropics/claude-plugins-official</a></li><li><a href="https://code.claude.com/docs/ko/discover-plugins" rel="nofollow noopener">https://code.claude.com/docs/ko/discover-plugins</a></li><li><a href="https://github.com/hesreallyhim/awesome-claude-code" rel="nofollow noopener">https://github.com/hesreallyhim/awesome-claude-code</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>GitHub 스타 수는 오픈소스 도구의 신뢰도를 판단하는 좋은 기준인가요?</h2><p class="sum">완벽하지 않다. 카네기멜런대 연구진은 18,617개 저장소에서 약 450만 개의 가짜 스타를 발견했고, 스타를 사고파는 업체도 다수 존재한다. awesome-claude-code 같은 실제 큐레이션 목록은 스타 수 대신 직접 사용해본 결과로 등재 여부를 정한다.</p></article><article class="dcard"><div class="t">Q</div><h2>MCP 서버를 설치하기 전에 무엇을 확인해야 하나요?</h2><p class="sum">요구하는 권한 범위, 넘겨야 하는 토큰이나 환경변수, 배포자의 깃허브 계정이 실제로 검증 가능한지를 먼저 본다. discord-mcp처럼 멤버 밴·킥 같은 강한 권한을 쓰는 도구는 소스 코드를 직접 열어보는 편이 안전하다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code 공식 플러그인 마켓플레이스의 Anthropic Verified 배지는 무엇인가요?</h2><p class="sum">모든 제출작은 자동 보안 스캔을 거치고, 그중 더 엄격한 추가 심사를 통과한 플러그인에만 이 배지가 붙는다. 배지가 없다고 위험한 것은 아니지만 검증 수준이 다르다는 뜻이다.</p></article></div>

@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/qwen-27b-mac-vs-lab-server.png" alt="Qwen3.8-27B 로컬 구동, 맥 128GB냐 연구실 서버냐" loading="eager">
 <header>
   <div class="eyebrow">도구·라이브러리</div>
@@ -184,6 +188,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>MLX는 애플이 자사 실리콘 전용으로 만든 오픈소스 배열·머신러닝 프레임워크다. CPU와 GPU가 물리 메모리를 그대로 공유하는 통합 메모리 구조를 살려 데이터 복사 없이 추론을 돌린다. mlx-community 저장소에는 4비트·8비트로 미리 양자화된 Qwen 계열 모델이 다수 올라와 있고, LM Studio 같은 그래픽 도구를 쓰면 명령줄 없이도 바로 내려받아 실행할 수 있다.</p>
 <p>실제로 맥에서 MLX로 이런 모델을 돌려본 사람들 사이에서는 프론티어급에 가까운 모델을 계정 없이 오프라인으로 굴릴 수 있다는 데 신기해하는 반응이 많았다. 동시에 클라우드 API의 응답 속도에는 못 미친다는 불만도 꾸준히 나왔다. 가끔 켜서 프로토타입을 시험하는 용도로는 충분하지만, 에이전트를 붙여 반복 호출하는 워크로드에서는 대기 시간이 거슬린다는 의견이 흔했다.</p>
 <p>연구실에 이미 GPU 서버가 있다면 새 장비부터 알아볼 이유가 크지 않다는 그림이 이번 조사로 드러났다. 맥은 대역폭에서 여전히 전용 GPU 서버에 못 미친다. 128GB 맥북 프로는 지금도 주문할 수 있지만, 맥 스튜디오의 128GB 구성은 빠져 있다. 없는 것을 무리해서 구하기보다, 손에 쥔 서버로 4비트 양자화 모델을 먼저 돌려보는 쪽이 지금 상황에 맞는 판단이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Qwen3.8-27B</span><span class="chip">로컬 LLM</span><span class="chip">MLX</span><span class="chip">맥 스튜디오</span><span class="chip">메모리 품귀</span><span class="chip">온디바이스 AI</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.tomshardware.com/desktops/apple-quietly-axes-128gb-mac-studio-amid-supply-constraints-and-local-ai-frenzy-highest-memory-capacity-reduced-to-96gb-two-months-after-discontinuation-of-512gb-model" rel="nofollow noopener">https://www.tomshardware.com/desktops/apple-quietly-axes-128gb-mac-studio-amid-s</a></li><li><a href="https://www.macrumors.com/2026/03/05/mac-studio-no-512gb-ram-upgrade/" rel="nofollow noopener">https://www.macrumors.com/2026/03/05/mac-studio-no-512gb-ram-upgrade/</a></li><li><a href="https://9to5mac.com/2026/05/05/apples-most-powerful-mac-studio-loses-its-last-remaining-ram-upgrade-option/" rel="nofollow noopener">https://9to5mac.com/2026/05/05/apples-most-powerful-mac-studio-loses-its-last-re</a></li><li><a href="https://techcrunch.com/2026/03/03/apple-new-macbook-pro-laptop-price-more-expensive-than-previous-models-ram-memory-shortage/" rel="nofollow noopener">https://techcrunch.com/2026/03/03/apple-new-macbook-pro-laptop-price-more-expens</a></li><li><a href="https://www.yottalabs.ai/post/qwen-3-8-27b-specs-hardware-requirements-how-to-run-2026" rel="nofollow noopener">https://www.yottalabs.ai/post/qwen-3-8-27b-specs-hardware-requirements-how-to-ru</a></li><li><a href="https://kingy.ai/blog/qwen3-8-27b-specs-benchmarks-local-hardware/" rel="nofollow noopener">https://kingy.ai/blog/qwen3-8-27b-specs-benchmarks-local-hardware/</a></li><li><a href="https://ofox.ai/blog/qwen-3-8-27b-run-locally-vram-gguf-2026/" rel="nofollow noopener">https://ofox.ai/blog/qwen-3-8-27b-run-locally-vram-gguf-2026/</a></li><li><a href="https://bizon-tech.com/blog/mac-studio-mac-mini-vs-nvidia-gpus-llm" rel="nofollow noopener">https://bizon-tech.com/blog/mac-studio-mac-mini-vs-nvidia-gpus-llm</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Qwen3.8-27B를 돌리려면 메모리가 얼마나 필요한가?</h2><p class="sum">4비트 양자화 기준으로 가중치가 14~16GB, KV 캐시를 더한 실사용 총량은 17GB 안팎이다. 24GB 통합 메모리 맥이나 그래픽카드에서도 기본 채팅 용도는 돌아가지만, 긴 컨텍스트나 에이전트 다중 세션을 쓰면 요구량이 크게 늘어난다.</p></article><article class="dcard"><div class="t">Q</div><h2>맥 스튜디오와 연구실 GPU 서버 중 로컬 LLM에 뭐가 더 유리한가?</h2><p class="sum">순수 처리 속도는 메모리 대역폭이 훨씬 높은 RTX 계열 GPU 서버가 앞선다. 맥은 통합 메모리로 큰 모델을 적은 전력으로 띄울 수 있다는 장점이 있지만, 27B급에서도 칩 등급에 따라 초당 토큰 수가 열 배 가까이 갈린다.</p></article><article class="dcard"><div class="t">Q</div><h2>128GB 맥 스튜디오는 왜 지금 사기 어려운가?</h2><p class="sum">2026년 들어 데이터센터용 메모리 수요가 D램 공급을 흡수하면서 애플이 맥 스튜디오의 512GB, 256GB에 이어 128GB 옵션까지 순차적으로 뺐다. 일부 칩 구성표에는 남아 있어도 실제 재고 확보가 불확실하다.</p></article></div>

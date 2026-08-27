@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-session-memory-hub.png" alt="클로드 코드 세션마다 기억이 사라지는 문제, 메모리 허브가 답일까" loading="eager">
 <header>
   <div class="eyebrow">워크플로우·방법론</div>
@@ -186,6 +190,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>자동 메모리를 얼마나 믿어야 하나</h2>
 <p>&quot;프롬프트 기술보다 실제 사용 경험이 중요하다&quot;는 의견은 방에서도 나왔는데, 자동 메모리를 실제로 굴려본 사람들의 반응과 맞닿아 있다. 자동 메모리는 강제 설정이 아니라 맥락으로 취급되기 때문에, &quot;이런 상황이면 항상 이렇게 하라&quot;는 식의 규칙을 적어둬도 매번 지켜진다는 보장은 없다는 게 공식 설명이다. 실사용자 사이에서는 CLAUDE.md는 직접 검토해 확정해두고, 자동 메모리는 보조 수단 정도로만 켜둔다는 방식이 종종 눈에 띈다. MEMORY.md가 200줄이나 25KB를 넘기면 그 뒤 내용은 다음 세션에 아예 읽히지 않는다는 제약도 실사용에서 자주 걸리는 지점으로 꼽힌다.</p>
 <p>경쟁 도구들과 비교하면 방향은 비슷하다. 윈드서프의 메모리 기능도 사용자가 지정한 메모와 자동으로 쌓이는 메모를 나눠 다음 대화에 반영하는 식으로 작동한다. 다만 클로드 코드 쪽은 파일이 그대로 마크다운으로 남아 눈으로 확인하고 고칠 수 있다는 점이 실무에서는 강점으로 꼽힌다. 세션 하나를 이어가는 문제는 껐다 켜는 것만으로 풀리지만 세션 여러 개를 나란히 굴리며 같은 사실을 공유하는 문제는 여전히 사람이 파일이나 커밋 메시지로 직접 이어붙여야 하는 영역으로 남아 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드코드</span><span class="chip">자동 메모리</span><span class="chip">MEMORY.md</span><span class="chip">CLAUDE.md</span><span class="chip">메모리 허브</span><span class="chip">MCP 서버</span><span class="chip">세션 관리</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/memory" rel="nofollow noopener">https://code.claude.com/docs/en/memory</a></li><li><a href="https://code.claude.com/docs/en/sessions" rel="nofollow noopener">https://code.claude.com/docs/en/sessions</a></li><li><a href="https://github.com/anthropics/claude-code/issues/24798" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/24798</a></li><li><a href="https://github.com/anthropics/claude-code/issues/45880" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/45880</a></li><li><a href="https://hindsight.vectorize.io/blog/2026/05/06/claude-code-subagents-shared-memory" rel="nofollow noopener">https://hindsight.vectorize.io/blog/2026/05/06/claude-code-subagents-shared-memo</a></li><li><a href="https://github.com/Stig-Johnny/claude-memory-mcp" rel="nofollow noopener">https://github.com/Stig-Johnny/claude-memory-mcp</a></li><li><a href="https://github.com/alfredoizdev/contextforge-mcp" rel="nofollow noopener">https://github.com/alfredoizdev/contextforge-mcp</a></li><li><a href="https://github.com/hatawong/claude-recap" rel="nofollow noopener">https://github.com/hatawong/claude-recap</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드 자동 메모리는 어떻게 켜나요?</h2><p class="sum">기본값이 켜짐 상태다. 세션 안에서 `/memory`를 실행하면 켜고 끄는 토글과 저장된 파일 목록을 볼 수 있고, 특정 프로젝트만 끄려면 설정 파일에 autoMemoryEnabled를 false로 지정하면 된다.</p></article><article class="dcard"><div class="t">Q</div><h2>CLAUDE.md와 MEMORY.md는 뭐가 다른가요?</h2><p class="sum">CLAUDE.md는 사람이 직접 써서 매 세션 그대로 불러오는 지침 파일이고, MEMORY.md는 Claude가 스스로 판단해 기록하는 메모다. MEMORY.md는 첫 200줄 또는 25KB까지만 자동으로 로드된다.</p></article><article class="dcard"><div class="t">Q</div><h2>여러 세션이 서로 정보를 공유하게 만들 수 있나요?</h2><p class="sum">공식 기능으로는 아직 세션 간 실시간 메시지 전달이나 공유 스크래치패드가 없다. 커뮤니티가 만든 MCP 기반 메모리 서버나 파일 기반 핸드오프 문서로 대신하는 경우가 많다.</p></article></div>

@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/openchat-bot-prompt-injection-defense.png" alt="오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다" loading="eager">
 <header>
   <div class="eyebrow">AI 모델·프롬프트</div>
@@ -177,6 +181,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>레드팀 테스트, 사용자 적을 때가 기회다</h2>
 <p>클코단에서는 사용자가 적을 때 미리 레드팀 테스트를 해볼 수 있어 유용했다는 평가가 많았다. 과거 한 사내 sLLM 레드팀 테스트에서 인젝션으로 안전장치를 뚫어 부적절한 콘텐츠가 생성된 사례가 공유되기도 했는데, 이는 국내외 레드팀 사례와도 맥이 닿는다. 마이크로소프트, 앤트로픽 등 주요 사업자들도 탈옥 시뮬레이션과 적대적 테스트를 상시 운영 절차로 권고한다. 다만 완벽한 방어는 없다는 것이 업계 공통된 결론이다. 실사용자가 몰리기 전 소규모 커뮤니티에서 공격을 유도해보고 가드레일을 검증하는 방식은, 정식 방어책이 갖춰지지 않은 초기 서비스 단계에서 특히 비용 대비 효과가 크다는 평가를 받는다.</p>
 <p>프롬프트 인젝션은 모델 자체를 아무리 정교하게 만들어도 완전히 없앨 수 없는 위협으로 남아 있다. 클코단의 3진아웃 블랙리스트와 내부 키값 기반 차단은 업계가 권고하는 &#x27;입력 감지 + 지속적 식별자 추적&#x27;이라는 심층 방어 원칙을 소규모 커뮤니티 단위에서 실제로 구현한 사례로 볼 수 있다. 서비스 규모가 커질수록 이런 자체 레드팀 경험이 갖는 값어치는 더 커질 것으로 보인다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">프롬프트 인젝션</span><span class="chip">챗봇 보안</span><span class="chip">OWASP LLM</span><span class="chip">레드팀 테스트</span><span class="chip">블랙리스트 차단</span><span class="chip">오픈채팅 봇</span><span class="chip">가드레일</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>프롬프트 인젝션이란 무엇인가요?</h2><p class="sum">사용자가 입력하는 문장으로 AI 모델에게 내려진 원래 지시를 무력화하거나 우회시켜, 개발자가 의도하지 않은 답변이나 내부 정보를 끌어내는 공격 기법이다. OWASP는 이를 2025년 LLM 애플리케이션 최대 위험(LLM01)으로 3년 연속 지목했다.</p></article><article class="dcard"><div class="t">Q</div><h2>챗봇이 세션ID나 GPS 같은 내부 정보를 유출할 수 있나요?</h2><p class="sum">설계에 따라 가능하다. 올바른 프롬프트로 고객 서비스 챗봇에서 계정 정보를 끌어낸 사례, 소스코드 주석에 숨긴 악성 프롬프트로 API 키 등 민감정보를 외부로 유출시킨 시연 사례가 보고된 바 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>닉네임을 바꾸면 챗봇 차단을 피할 수 있나요?</h2><p class="sum">서비스가 닉네임이 아니라 내부 식별 키값이나 계정 ID를 기준으로 차단한다면 닉네임 변경만으로는 우회되지 않는다. 어뷰징 방지 시스템에서 흔히 쓰이는 방식이다.</p></article></div>

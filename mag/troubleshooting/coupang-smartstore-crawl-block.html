@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/coupang-smartstore-crawl-block.png" alt="쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나" loading="eager">
 <header>
   <div class="eyebrow">질문·트러블슈팅</div>
@@ -182,6 +186,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>즉 크롤링 자체가 형사처벌 대상은 아니더라도, 경쟁사 데이터를 대량·반복적으로 가져다 쓰면 민사상 부정경쟁행위나 데이터베이스권 침해로 책임질 수 있다는 게 국내 판례의 흐름이다. 정보통신망법상으로도 크롤링은 상황에 따라 정보통신망 침입, 컴퓨터등장애업무방해죄 등을 구성할 수 있어, 법적 평가는 접근 방식과 피해 발생 여부에 따라 사안마다 달라진다는 게 법조계의 공통된 설명이다.</p>
 <h2>정리</h2>
 <p>방 논의에서는 쿠팡 판매자 페이지의 상품·별점 정보를 수집하는 크롤러를 오픈소스로 공개할 예정이라는 이야기도 나왔다. 다만 도구가 공개되더라도 앞서 살펴본 기술적 한계와 법적 리스크는 그대로 남는다. patchright 기반 우회는 상대 플랫폼의 업데이트 한 번으로 무력화될 수 있고 컴퓨터유즈는 비용 때문에 대량 수집에는 맞지 않으며, 반복적·체계적인 수집은 민사상 손해배상 책임으로 이어질 수 있다. 에이전트로 쇼핑몰 데이터를 다루려는 이들에게는 우회 기술 자체보다, 언제 막히고 언제 책임질 수 있는지를 함께 아는 게 더 실질적인 대비라는 의견이 방 안에서 많았다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">쿠팡 크롤링</span><span class="chip">스마트스토어 크롤링</span><span class="chip">patchright</span><span class="chip">봇 탐지 우회</span><span class="chip">컴퓨터유즈</span><span class="chip">크롤링 법적 책임</span><span class="chip">insane search</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>쿠팡이나 네이버 스마트스토어 크롤링이 왜 막히나요?</h2><p class="sum">쿠팡은 Akamai Bot Manager로 자바스크립트 실행 여부와 마우스·키보드 행동 패턴을 분석해 자동화 도구를 걸러내고, robots.txt로도 구글봇 외 크롤러 접근을 기본 차단한다. 네이버도 2024년 3월부터 스마트스토어센터에 자체 봇 차단 시스템을 도입해 비정상적 기계 접근을 막고 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>patchright는 무엇이고 왜 다시 막힐 수 있나요?</h2><p class="sum">patchright는 Playwright의 자동화 흔적을 패치해 Cloudflare·Akamai·Datadome 등 봇 탐지를 우회하는 오픈소스 라이브러리다. 다만 탐지 측이 로직을 업데이트하면 우회도 다시 막히는 창과 방패 싸움이 반복된다.</p></article><article class="dcard"><div class="t">Q</div><h2>크롤링은 한국에서 불법인가요?</h2><p class="sum">크롤링 자체가 곧바로 형사처벌되는 것은 아니지만, 잡코리아·야놀자 사례처럼 경쟁사 데이터를 대량·반복 수집하면 데이터베이스권 침해나 부정경쟁방지법 위반으로 민사상 손해배상 책임을 질 수 있다.</p></article></div>

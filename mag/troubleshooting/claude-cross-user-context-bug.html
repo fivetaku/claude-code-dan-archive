@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-cross-user-context-bug.png" alt="클로드 개인 계정에 낯선 대화가 끼어들었다는 신고, 원인은 무엇인가" loading="eager">
 <header>
   <div class="eyebrow">질문·트러블슈팅</div>
@@ -185,6 +189,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>의심스러운 화면을 만났다면 가장 먼저 할 일은 스크린샷이다. 세션을 새로고침하거나 다시 열면 문제의 텍스트가 사라져 정황조차 남지 않는 경우가 많다. 설정 메뉴의 개인정보 항목에서 메모리를 일시 중지하거나 초기화할 수 있다. 대화 기록에서 메모리를 자동 생성하는 옵션도 따로 꺼둘 수 있다.</p>
 <p>실제로 데이터가 섞였다고 의심되면 privacy@anthropic.com으로 개인정보 관련 신고를, 안전 문제로 보이면 usersafety@anthropic.com으로 신고를 넣을 수 있다. 보안 취약점을 재현 가능한 형태로 확인했다면 HackerOne을 통한 정식 신고 채널도 열려 있다. 6월 사고 때 앤스로픽이 반복해서 요구한 것도 결국 재현 가능한 증거였다.</p>
 <p>개인 개발자나 소규모 팀 계정이라고 해서 이런 사고에서 더 안전하다는 근거는 없다. 방의 사례가 6월 사고와 같은 뿌리인지, 아니면 아직 이름 붙지 않은 별개의 버그인지는 앤스로픽이 실제 로그를 들여다봐야 가려질 문제로 남아 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드 코드</span><span class="chip">Claude 메모리</span><span class="chip">앤스로픽 인프라 장애</span><span class="chip">데이터 프라이버시</span><span class="chip">Claude Code 버그</span><span class="chip">AI 개인정보 유출</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://cybernews.com/ai-news/claude-outage-resolved-anthropic-opus-model-errors/" rel="nofollow noopener">https://cybernews.com/ai-news/claude-outage-resolved-anthropic-opus-model-errors</a></li><li><a href="https://x.com/kimmonismus/status/2062997809067139468" rel="nofollow noopener">https://x.com/kimmonismus/status/2062997809067139468</a></li><li><a href="https://cybersecuritynews.com/anthropics-claude-services-down/" rel="nofollow noopener">https://cybersecuritynews.com/anthropics-claude-services-down/</a></li><li><a href="https://www.bloomberg.com/news/articles/2026-03-03/anthropic-tries-to-win-users-from-chatgpt-with-memory-feature" rel="nofollow noopener">https://www.bloomberg.com/news/articles/2026-03-03/anthropic-tries-to-win-users-</a></li><li><a href="https://winbuzzer.com/2026/07/16/researcher-says-claude-memory-attack-leaked-personal-data-xcxwbn/" rel="nofollow noopener">https://winbuzzer.com/2026/07/16/researcher-says-claude-memory-attack-leaked-per</a></li><li><a href="https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-memory-to-build-on-previous-context" rel="nofollow noopener">https://support.claude.com/en/articles/11817273-use-claude-s-chat-search-and-mem</a></li><li><a href="https://www.techtimes.com/articles/318514/20260616/claude-outage-tenth-disruption-12-days-exposes-anthropic-infrastructure-strain.htm" rel="nofollow noopener">https://www.techtimes.com/articles/318514/20260616/claude-outage-tenth-disruptio</a></li><li><a href="https://dev.to/whoffagents/anthropic-silently-dropped-prompt-cache-ttl-from-1-hour-to-5-minutes-16ao" rel="nofollow noopener">https://dev.to/whoffagents/anthropic-silently-dropped-prompt-cache-ttl-from-1-ho</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 개인 계정에 다른 사람의 대화가 섞여 나오는 게 실제로 확인된 버그인가요?</h2><p class="sum">앤스로픽이 계정 간 데이터 혼입을 공식적으로 확인한 사례는 아직 없다. 2026년 6월 5일 인프라 장애 때 비슷한 의혹이 X에서 널리 퍼졌지만, 앤스로픽은 인프라 장애로 인한 오류였다고 답했을 뿐 교차 유출은 인정하지 않았다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 메모리 기능이 다른 사용자 정보를 불러올 수 있나요?</h2><p class="sum">앤스로픽은 메모리가 계정 단위로 격리돼 다른 사용자와 공유되지 않는다고 밝히고 있다. 다만 2026년 7월 조작된 링크로 사용자 본인의 정보를 외부로 빼내는 공격이 실제로 시연됐고, 앤스로픽이 이를 막는 패치를 내놓은 적은 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>이런 화면을 보면 어떻게 신고해야 하나요?</h2><p class="sum">먼저 스크린샷으로 증거를 남긴 뒤, 개인정보 관련이면 privacy@anthropic.com, 안전 문제로 보이면 usersafety@anthropic.com으로 신고하면 된다. 재현 가능한 보안 취약점이라면 HackerOne을 통한 정식 채널도 이용할 수 있다.</p></article></div>

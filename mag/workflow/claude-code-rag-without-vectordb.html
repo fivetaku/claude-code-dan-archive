@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-rag-without-vectordb.png" alt="클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유" loading="eager">
 <header>
   <div class="eyebrow">워크플로우·방법론</div>
@@ -183,6 +187,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>이 방식이 통하는 이유는 마크다운 프런트매터가 검색의 &#x27;의미적 고리&#x27; 역할을 하기 때문이다. RAG 실패의 상당수가 답변 생성이 아니라 관련 문서를 찾지 못하는 검색 단계에서 발생한다는 점을 감안하면, 파일 경로·태그·요약을 YAML로 명시해두고 grep이나 파일 시스템 탐색만으로 찾아내는 방식이 수백~수천 페이지 규모에서는 벡터DB보다 오히려 예측 가능하고 유지보수가 쉬울 수 있다는 뜻이다. 다만 문서 규모가 수만 건을 넘어가거나 응답 속도가 중요해지는 시점부터는 다시 벡터 검색이 필요해진다는 게 이 패턴을 조사한 여러 글의 공통된 경계선이었다.</p>
 <h2>정리</h2>
 <p>결국 클코단이 던진 질문, &quot;docling으로 변환한 문서를 클로드 코드가 처리하는 데 참고할 만능 레퍼런스가 있느냐&quot;의 답은 &quot;그런 단일 정답은 없고, 규모와 문서 성격에 따라 조합을 짜야 한다&quot;는 쪽으로 수렴한다. 문서가 born-digital이면 파서 자체가 필요 없고, 스캔본 위주면 docling과 paddle 중 정확도와 비용을 저울질해야 한다. 컬렉션이 수백~수천 페이지 규모라면 벡터DB 없이 YAML 프런트매터와 grep만으로도 충분할 수 있고, 그 이상으로 커지면 벡터·SQL·그래프DB를 섞은 하이브리드 구조와 리랭킹 단계가 필요해진다. 어느 쪽이든 &quot;문서 전체가 아니라 요약과 메타데이터를 임베딩하고 실제 처리는 클로드 코드에 맡긴다&quot;는 원칙은 규모와 무관하게 유효한 절충안이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">docling</span><span class="chip">RAG</span><span class="chip">클로드 코드</span><span class="chip">PaddleOCR</span><span class="chip">벡터DB</span><span class="chip">GraphRAG</span><span class="chip">YAML 프런트매터</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>docling과 PaddleOCR 중 어떤 걸 써야 하나요?</h2><p class="sum">문서 성격에 따라 다르다. born-digital 문서는 OCR 자체가 필요 없고, 가벼운 처리 위주면 docling이 가성비 좋은 선택이다. 손글씨나 복잡한 표가 많은 스캔본은 PaddleOCR/PP-StructureV3의 인식 정확도가 더 높지만 GPU 자원이 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>RAG를 만들 때 벡터DB가 꼭 필요한가요?</h2><p class="sum">문서 규모에 달렸다. 수백~수천 페이지 규모의 큐레이션된 지식베이스는 YAML 프런트매터와 grep만으로도 충분하다는 &#x27;LLM 위키&#x27; 패턴 사례가 있다. 문서가 수만 건을 넘거나 빠른 응답이 필요해지면 벡터 검색이 다시 필요해진다.</p></article><article class="dcard"><div class="t">Q</div><h2>RAG에서 top-k는 몇으로 설정해야 하나요?</h2><p class="sum">고정된 정답은 없다. 업계에서는 top-50~100개를 넉넉히 가져온 뒤 리랭커로 재정렬해 최종 top-5~10개만 생성 단계에 넘기는 2단계 구조를 권장한다. k를 너무 작게 잡으면 정답 구간이 잘리고, 너무 크게 잡으면 잡음이 늘어 리랭커 성능이 떨어진다.</p></article><article class="dcard"><div class="t">Q</div><h2>카패시의 &#x27;LLM 위키&#x27; 패턴은 무엇인가요?</h2><p class="sum">임베딩과 벡터DB 없이 구조화된 마크다운 파일을 LLM 컨텍스트에 직접 읽혀 처리하는 지식베이스 패턴이다. 세션 시작 시 요약 캐시와 마스터 인덱스를 읽고, 필요한 페이지만 찾아 읽는 방식으로 grep을 보조 검색 수단으로 쓴다.</p></article></div>

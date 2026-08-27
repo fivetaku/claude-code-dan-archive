@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/ai-tax-invoice-automation-bolta-popbill.png" alt="세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌" loading="eager">
 <header>
   <div class="eyebrow">도구·라이브러리</div>
@@ -182,6 +186,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>반면 사업자 등록을 하면 세금계산서 발행이 가능해지고 장부 신뢰도가 높아져 각종 공제·감면 제도를 활용할 여지가 커지지만, 그 대가로 부가가치세 신고(연 2회)와 종합소득세 신고(연 1회)를 모두 챙겨야 한다. 방 논의에서 현직 회계사라고 밝힌 참여자는 매입세액 공제만을 목적으로 사업자 등록을 하는 것은 권하지 않는다고 조언했는데, 이는 사업자 등록이 세금계산서 발행 권한과 함께 부가세·종합소득세 신고 의무까지 통째로 딸려 오는 구조이기 때문이라는 설명이었다. 즉 &quot;세금계산서를 발행받아 비용 처리를 하고 싶다&quot;는 이유만으로 등록을 서두르기보다는, 예상 매출 규모와 신고 부담을 함께 따져본 뒤 결정하라는 것이 세무 실무에서 공통적으로 나오는 조언이다.</p>
 <h2>정리</h2>
 <p>클로드 코드로 세금계산서 자동화를 하고 싶다면, 지금 웹에서 확인되는 범위에서는 볼타의 CLI+AI 연동이 비개발자에게 가장 진입장벽이 낮은 경로다. 팝빌은 API가 성숙했지만 개발 리소스가 전제된다. 그리고 두 서비스 모두 사업자 등록이 된 사업자만 이용할 수 있다는 점에서, 자동화 도구를 고르는 문제와 사업자 등록 여부를 결정하는 문제는 서로 다른 층위의 판단이라는 점을 구분해야 한다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">볼타</span><span class="chip">팝빌</span><span class="chip">전자세금계산서</span><span class="chip">클로드 코드</span><span class="chip">사업자등록</span><span class="chip">세무 자동화</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드로 전자세금계산서를 자동 발행할 수 있나요?</h2><p class="sum">볼타가 제공하는 CLI를 통해 API 키를 한 번 등록하면, 클로드 등 AI 에이전트에 자연어로 요청해 발행·조회·수정을 처리할 수 있다. 팝빌은 REST API 형태라 별도 개발 없이 AI가 직접 명령을 실행하는 구조는 확인되지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>볼타와 팝빌 중 비개발자에게 더 쉬운 서비스는?</h2><p class="sum">볼타는 웹 화면·엑셀 업로드에 더해 AI 연동 CLI까지 제공해 코드를 몰라도 접근할 수 있다. 팝빌은 개발자용 API·SDK 중심으로 설계돼 있어 연동을 위해서는 개발 리소스나 팝빌 연동 프로그램이 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>사업자 등록 없이도 세금계산서를 받을 수 있나요?</h2><p class="sum">사업자 등록이 안 된 프리랜서는 세금계산서를 발행할 수 없고, 거래처가 용역비의 3.3%를 원천징수한다. 세금계산서를 발행하려면 사업자 등록을 먼저 마쳐야 하며, 이후 부가세·종합소득세 신고 의무가 함께 발생한다.</p></article></div>

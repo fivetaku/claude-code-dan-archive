@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/css-drift-no-style-guide-fix.png" alt="아카이브 CSS 깨짐 사고로 드러난 스타일가이드 부재의 대가" loading="eager">
 <header>
   <div class="eyebrow">도구·라이브러리</div>
@@ -188,6 +192,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>규모에 맞는 선택이 먼저다</h2>
 <p>이 모든 걸 한꺼번에 갖출 필요는 없다. 초기 단계 제품이고 만드는 사람이 한둘이라면, 색상과 타이포그래피, 간격값 몇 개만 문서 하나에 정리해두는 스타일가이드부터 시작할 수 있다. 닐슨노먼그룹(NN/g)의 분석은 디자인 시스템 도입 때 프로젝트의 규모와 반복 가능성, 가용 자원과 시간을 따져야 한다고 짚는다.</p>
 <p>이번 사고는 그 경계선 이전 단계에서 흔히 나오는 종류였다. 세 경로의 CSS 링크를 다시 거는 작업 자체는 몇 분이면 끝난다. 그보다 앞서 답해야 할 질문은 따로 있다. 다음에 새 경로를 추가할 때 그 스타일 값을 어디서 가져올지, 그 기준을 한 곳에 모아두는 절차를 지금 갖추느냐다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">CSS 버그</span><span class="chip">스타일가이드</span><span class="chip">DESIGN.md</span><span class="chip">Claude Code</span><span class="chip">디자인 시스템</span><span class="chip">바이브 코딩</span><span class="chip">시각 회귀 테스트</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/pagedjs/pagedjs/issues/267" rel="nofollow noopener">https://github.com/pagedjs/pagedjs/issues/267</a></li><li><a href="https://github.com/vercel/next.js/discussions/70168" rel="nofollow noopener">https://github.com/vercel/next.js/discussions/70168</a></li><li><a href="https://engineering.lonelyplanet.com/2014/05/18/a-maintainable-styleguide.html" rel="nofollow noopener">https://engineering.lonelyplanet.com/2014/05/18/a-maintainable-styleguide.html</a></li><li><a href="https://sparkengine.substack.com/p/vibe-coding-is-resurrecting-the-feature" rel="nofollow noopener">https://sparkengine.substack.com/p/vibe-coding-is-resurrecting-the-feature</a></li><li><a href="https://pinastro.medium.com/about-design-debt-30bed0492d36" rel="nofollow noopener">https://pinastro.medium.com/about-design-debt-30bed0492d36</a></li><li><a href="https://slicer.dev/blog/why-ai-generated-ui-looks-the-same" rel="nofollow noopener">https://slicer.dev/blog/why-ai-generated-ui-looks-the-same</a></li><li><a href="https://github.com/google-labs-code/design.md" rel="nofollow noopener">https://github.com/google-labs-code/design.md</a></li><li><a href="https://github.com/anthropics/skills/issues/1008" rel="nofollow noopener">https://github.com/anthropics/skills/issues/1008</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>DESIGN.md는 어떤 파일이고 어떻게 쓰나?</h2><p class="sum">구글 랩스가 공개한 규격으로, 저장소 루트에 두면 색상·타이포그래피·간격 같은 디자인 토큰을 YAML 프런트매터로, 사용 맥락은 마크다운 본문으로 담아 Claude Code 같은 코딩 에이전트가 새 페이지를 만들 때 자동으로 참조하게 만든다.</p></article><article class="dcard"><div class="t">Q</div><h2>정적 사이트에서 특정 경로만 CSS가 깨지는 이유는 뭔가?</h2><p class="sum">페이지마다 스타일시트를 개별적으로 연결하는 구조에서 새 섹션 추가 시 그 연결을 빠뜨리거나, 요청한 CSS가 404로 응답할 때 그 응답을 스타일로 잘못 해석하는 경우가 흔한 원인으로 꼽힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>소규모 팀도 정식 디자인 시스템이 필요한가?</h2><p class="sum">초기 단계이고 만드는 사람이 한둘이라면 색상·타이포그래피·간격을 정리한 간단한 스타일가이드로 충분하며, 여러 사람이 독립적으로 화면을 만들면서 불일치가 생기기 시작할 때 정식 디자인 시스템으로 넘어가면 된다는 게 닐슨노먼그룹의 분석이다.</p></article></div>

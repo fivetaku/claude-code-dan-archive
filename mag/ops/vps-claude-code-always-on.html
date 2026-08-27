@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/vps-claude-code-always-on.png" alt="VPS에서 클로드코드 24시간 돌리기, 맥미니와 뭐가 다른가" loading="eager">
 <header>
   <div class="eyebrow">배포·운영</div>
@@ -184,6 +188,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>상시 켜둔 서버가 만드는 위험, 어디까지 열어둘 것인가</h2>
 <p>VPS에 개발 환경과 에이전트를 통째로 올려두는 구성은 그 자체로 공격 표면이 커진다는 뜻이다. 체크포인트 리서치는 클로드코드의 훅(Hooks), MCP 연동, 환경변수를 악용해 임의 명령 실행과 API 키 탈취로 이어질 수 있었던 취약점을 확인했으며, 공개 전에 모두 패치됐다고 밝혔다. 패치 전에는 신뢰하지 않는 프로젝트에서 Claude Code를 실행할 때, 신뢰 여부를 확인하기 전 API 키가 빠져나갈 수 있었다는 의미다.</p>
 <p>앤트로픽은 안전한 에이전트 배포 가이드에서 자격 증명을 에이전트 실행 경계 밖에 두라고 권한다. API 키를 에이전트에 직접 쥐여주는 대신 프록시가 요청에 키를 주입하는 구조가 낫다는 것이다. 방에서는 VPS 활용의 장점 위주로 이야기가 오갔지만 실제로 이 구성을 따라 하려는 독자는 여기서 한 걸음 더 나가야 한다. SSH 키 기반 접속과 방화벽으로 포트를 좁히고 신뢰하지 않는 리포지터리는 격리된 환경에서만 열고 API 키를 VPS 안에 평문으로 두지 않는 것부터가 상시 가동 서버를 켜는 대가다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">VPS</span><span class="chip">클로드코드</span><span class="chip">Syncthing</span><span class="chip">옵시디언 동기화</span><span class="chip">홈서버</span><span class="chip">CI/CD 자동화</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.cdnetworks.com/ko/glossary/virtual-private-server/" rel="nofollow noopener">https://www.cdnetworks.com/ko/glossary/virtual-private-server/</a></li><li><a href="https://lagomstudios.co.kr/blog/45-home-server-setup-guide" rel="nofollow noopener">https://lagomstudios.co.kr/blog/45-home-server-setup-guide</a></li><li><a href="https://velog.io/@cmsong111/%ED%99%88-%EC%84%9C%EB%B2%84-%EA%B5%AC%EC%B6%95%EA%B8%B0-%EC%84%9C%EB%B2%84-%EC%84%A0%EC%A0%95-N100-vs-Mac-Mini" rel="nofollow noopener">https://velog.io/@cmsong111/%ED%99%88-%EC%84%9C%EB%B2%84-%EA%B5%AC%EC%B6%95%EA%B</a></li><li><a href="https://blog.mondrian.ai/ai-server-guide" rel="nofollow noopener">https://blog.mondrian.ai/ai-server-guide</a></li><li><a href="https://vessl.ai/ko/blog/gpu-cloud-recommendation-2026" rel="nofollow noopener">https://vessl.ai/ko/blog/gpu-cloud-recommendation-2026</a></li><li><a href="https://medium.com/@0xmega/how-to-run-claude-code-24-7-for-under-10-month-vps-setup-guide-6d8c8fd7f09e" rel="nofollow noopener">https://medium.com/@0xmega/how-to-run-claude-code-24-7-for-under-10-month-vps-se</a></li><li><a href="https://lhelge.se/blog/claude-code-tmux/" rel="nofollow noopener">https://lhelge.se/blog/claude-code-tmux/</a></li><li><a href="https://www.mindstudio.ai/blog/run-claude-code-on-vps-always-on-workflows" rel="nofollow noopener">https://www.mindstudio.ai/blog/run-claude-code-on-vps-always-on-workflows</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>VPS와 맥미니 홈서버 중 어느 쪽이 더 저렴한가요?</h2><p class="sum">국내 후기에 따르면 홈서버는 초기 장비값(예: 맥미니 107만 원)을 회수하는 데 약 9개월이 걸리고 이후 전기요금만 부담하면 된다. VPS는 초기비용 없이 월 4~10달러 선(Hetzner·Vultr 기준)으로 바로 쓸 수 있어, 당장 안정적인 환경이 필요하면 VPS, 장기 비용을 낮추려면 홈서버가 유리하다.</p></article><article class="dcard"><div class="t">Q</div><h2>VPS에서 클로드코드를 24시간 돌리려면 어떻게 인증하나요?</h2><p class="sum">브라우저가 없는 서버 환경이라 노트북에서 claude setup-token으로 발급한 토큰을 서버의 CLAUDE_CODE_OAUTH_TOKEN 환경변수에 넣거나 ANTHROPIC_API_KEY를 직접 설정한다. 여기에 tmux로 세션을 유지하면 SSH 연결이 끊겨도 작업이 이어진다.</p></article><article class="dcard"><div class="t">Q</div><h2>Syncthing으로 옵시디언 볼트를 아이폰에서도 동기화할 수 있나요?</h2><p class="sum">안 된다. iOS에는 Syncthing 앱이 지원되지 않아 아이폰에서는 이 방식으로 옵시디언 볼트를 직접 동기화할 수 없다. 안드로이드는 공식 앱이 단종되고 후속 프로젝트인 Syncthing-Fork가 유지보수를 맡고 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>VPS에서 클로드코드를 돌릴 때 API 키가 유출될 위험이 있나요?</h2><p class="sum">있다. 체크포인트 리서치는 훅·MCP 연동·환경변수를 악용해 악성 리포지터리를 여는 것만으로 API 키를 탈취할 수 있는 취약점을 확인했다고 밝혔다. 자격 증명을 에이전트 실행 경계 밖에 두고 프록시로 키를 주입하는 구조가 권장된다.</p></article></div>

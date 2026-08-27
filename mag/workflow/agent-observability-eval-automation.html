@@ -149,6 +149,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
 
 .artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
 .artbody p{margin:13px 0;line-height:1.78}
@@ -159,7 +163,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 매거진</a></nav>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/agent-observability-eval-automation.png" alt="에이전트 관측성과 이벨 자동화, 결국 남는 건 데이터다" loading="eager">
 <header>
   <div class="eyebrow">워크플로우·방법론</div>
@@ -180,6 +184,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>방장은 자신이 운영하는 카카오톡 봇 &#x27;탁구&#x27;의 뒷단에 이벨과 비용 최적화 모듈을 구성 중이며, 다음날부터 리포트를 받아볼 예정이라고 공유했다. 관측성과 비용 관리가 한 몸으로 다뤄지는 흐름 역시 업계 데이터와 맞닿아 있다. 2025년에서 2026년 사이 토큰 단가는 80% 가까이 떨어졌지만 역설적으로 기업의 AI 청구액은 오히려 늘었다는 조사가 있는데, 이는 최적화 없이 사용량만 늘어난 결과로 풀이된다. 실무에서 가장 효과가 큰 단일 조치는 프롬프트 캐싱으로, 캐시된 입력 토큰 비용을 최대 90%까지 낮춘다. 여기에 확신도 기반으로 저렴한 모델과 고성능 모델을 나눠 쓰는 라우팅을 더하면 프론티어 모델 품질의 약 95%를 유지하면서 비용은 75~85%까지 줄일 수 있다는 분석도 나온다. Claude Code 자체도 OpenTelemetry 표준을 통해 세션 수, 토큰 사용량, API 비용, PR·커밋 생성 수 같은 지표를 조직 단위로 내보낼 수 있어, 관측성 스택과 비용 추적을 같은 파이프라인에서 다루는 것이 자연스러운 방향으로 여겨진다.</p>
 <h2>결국 남는 것은 데이터</h2>
 <p>방 논의는 결국 &quot;데이터가 자산&quot;이라는 결론으로 모였다. 골든셋과 사람의 채점 이력은 한번 쌓이면 경쟁사가 쉽게 복제할 수 없는 자산이 된다는 것이 업계에서도 반복되는 주장이다. 모델 자체는 API로 누구나 접근할 수 있지만, 자기 제품의 실패 패턴과 품질 기준을 담은 데이터는 그 팀만의 것이기 때문이다. 관측성 도구를 들여놓는 일 자체보다, 초반의 관심이 식은 뒤에도 골든셋을 계속 키우고 LLM 채점자를 재보정하는 루틴을 만드는 것이 관건이라는 인식이 방 안팎에서 공통적으로 확인된다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">에이전트 관측성</span><span class="chip">Langfuse</span><span class="chip">LangSmith</span><span class="chip">LLM-as-judge</span><span class="chip">골든셋</span><span class="chip">LLM 비용 최적화</span><span class="chip">이벨 자동화</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>에이전트 관측성 도구로 Langfuse와 LangSmith 중 뭘 골라야 하나?</h2><p class="sum">랭체인·랭그래프 기반이고 빠른 셋업이 우선이면 LangSmith가, 셀프호스팅과 데이터 소유권, 멀티 프레임워크 지원이 우선이면 MIT 라이선스로 오픈소스화된 Langfuse가 유리하다는 게 업계 평가다. 다만 Langfuse 셀프호스팅은 클릭하우스 등 인프라 운영 부담이 크다.</p></article><article class="dcard"><div class="t">Q</div><h2>LLM-as-judge용 골든 데이터셋은 몇 개나 있어야 하나?</h2><p class="sum">대표 사용 사례와 엣지케이스를 아우르는 프롬프트 200개 안팎이 시작점이며, LLM 채점자를 제대로 튜닝하려면 500~1000개 규모까지 키우는 것이 권장된다. 자동화 전에 사람이 먼저 기준을 정의하는 과정이 필수로 꼽힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>LLM 비용을 줄이는 가장 효과적인 방법은?</h2><p class="sum">프롬프트 캐싱이 캐시된 입력 토큰 비용을 최대 90%까지 낮춰 가장 효과가 큰 단일 조치로 꼽힌다. 여기에 확신도 기반으로 저렴한 모델과 고성능 모델을 나눠 쓰는 라우팅을 더하면 품질 저하를 최소화하면서 비용을 75~85%까지 줄일 수 있다.</p></article></div>
