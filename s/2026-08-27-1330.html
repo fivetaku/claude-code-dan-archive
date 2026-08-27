@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 8월 27일 13:30 — Grok-bot 재구성 포크</title>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{margin:44px -24px 0;padding:8px 24px;overflow-x:auto}
+.bone{position:relative;min-width:880px;height:430px}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>8월 27일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>08-27 11:50~13:18</b></span>
+    <span>발화 <b>272</b></span>
+    <span>참여 <b>20</b>명</span>
+    <span>주제 <b>11</b>갈래</span>
+  </div>
+</header>
+
+<div class="bonebox"><div class="bone" style="height:516px;min-width:1470px"><div class="spine"></div><div class="bar" style="left:2.0%;height:31px"></div><div class="bar" style="left:3.6%;height:19px"></div><div class="bar" style="left:5.3%;height:8px"></div><div class="bar" style="left:6.9%;height:27px"></div><div class="bar" style="left:8.6%;height:31px"></div><div class="bar" style="left:10.2%;height:12px"></div><div class="bar" style="left:11.9%;height:23px"></div><div class="bar" style="left:13.5%;height:23px"></div><div class="bar" style="left:15.2%;height:43px"></div><div class="bar" style="left:16.8%;height:12px"></div><div class="bar peak" style="left:18.5%;height:58px"></div><div class="bar" style="left:20.1%;height:35px"></div><div class="bar" style="left:21.8%;height:39px"></div><div class="bar peak" style="left:23.4%;height:54px"></div><div class="bar" style="left:25.1%;height:19px"></div><div class="bar" style="left:26.7%;height:27px"></div><div class="bar" style="left:28.4%;height:19px"></div><div class="bar" style="left:30.0%;height:12px"></div><div class="bar" style="left:31.7%;height:43px"></div><div class="bar" style="left:33.3%;height:8px"></div><div class="bar" style="left:35.0%;height:6px"></div><div class="bar" style="left:36.6%;height:6px"></div><div class="bar" style="left:38.3%;height:27px"></div><div class="bar" style="left:39.9%;height:35px"></div><div class="bar" style="left:41.6%;height:8px"></div><div class="bar" style="left:43.2%;height:15px"></div><div class="bar" style="left:44.9%;height:6px"></div><div class="bar" style="left:46.5%;height:31px"></div><div class="bar" style="left:48.2%;height:23px"></div><div class="bar" style="left:49.8%;height:23px"></div><div class="bar" style="left:51.5%;height:43px"></div><div class="bar" style="left:53.1%;height:8px"></div><div class="bar" style="left:54.8%;height:8px"></div><div class="bar" style="left:56.4%;height:6px"></div><div class="bar" style="left:58.1%;height:8px"></div><div class="bar" style="left:59.7%;height:12px"></div><div class="bar" style="left:61.4%;height:12px"></div><div class="bar peak" style="left:63.0%;height:46px"></div><div class="bar" style="left:64.7%;height:6px"></div><div class="bar" style="left:66.3%;height:8px"></div><div class="bar" style="left:68.0%;height:12px"></div><div class="bar" style="left:69.6%;height:6px"></div><div class="bar" style="left:71.3%;height:6px"></div><div class="bar" style="left:72.9%;height:6px"></div><div class="bar" style="left:74.6%;height:6px"></div><div class="bar" style="left:76.2%;height:6px"></div><div class="bar" style="left:77.9%;height:6px"></div><div class="bar" style="left:79.5%;height:8px"></div><div class="bar" style="left:81.2%;height:6px"></div><div class="bar" style="left:82.8%;height:6px"></div><div class="bar" style="left:84.5%;height:8px"></div><div class="bar" style="left:86.1%;height:19px"></div><div class="bar" style="left:87.8%;height:43px"></div><div class="bar" style="left:89.4%;height:8px"></div><div class="bar" style="left:91.1%;height:35px"></div><div class="bar" style="left:92.7%;height:15px"></div><div class="bar" style="left:94.4%;height:6px"></div><div class="bar" style="left:96.0%;height:6px"></div><div class="lbl" style="left:2.0%">11:50</div><div class="lbl" style="left:16.8%">11:59</div><div class="peaktag" style="left:18.5%;bottom:66px">12:00 · 15건</div><div class="lbl" style="left:31.7%">12:09</div><div class="lbl" style="left:46.5%">12:18</div><div class="lbl" style="left:61.4%">12:29</div><div class="peaktag" style="left:63.0%;bottom:54px">12:30 · 12건</div><div class="lbl" style="left:76.2%">13:02</div><div class="lbl" style="left:91.1%">13:15</div><div class="lbl" style="left:96.0%">13:18</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">11:50-12:10</div><h3>맥 중고가·구매 고민</h3></div></div><div class="rib dn" style="left:11.9%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">11:56-12:29</div><h3>Qwen 로컬 구동</h3></div></div><div class="rib up" style="left:13.5%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">11:57-12:02</div><h3>퍼플렉시티 컴퓨터</h3></div></div><div class="rib up" style="left:20.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">12:01-12:15</div><h3>Grok-bot 재구성 포크</h3></div></div><div class="rib dn" style="left:38.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">12:13-12:23</div><h3>Wbrowser 검토</h3></div></div><div class="rib dn" style="left:58.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">12:27-12:31</div><h3>맥스튜디오 AI 활용</h3></div></div><div class="rib up" style="left:63.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">12:30-13:02</div><h3>AI 해킹 악용 보도</h3></div></div><div class="rib dn" style="left:68.0%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">12:49-12:49</div><h3>한국어 LLM 레포</h3></div></div><div class="rib dn flip" style="left:76.6%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">13:15-13:18</div><h3>환율 응답 중복 문제</h3></div></div><div class="rib up" style="left:79.5%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">13:07-13:07</div><h3>API와 MCP 차이</h3></div></div><div class="rib up" style="left:82.8%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">13:10-13:15</div><h3>맥 교육할인·일본 구매</h3></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">12:01-12:15</div><h2>Grok-bot 재구성 포크</h2><p class="sum">Grok-bot 0.18.0 재구성 프로젝트가 공개돼 여러 참여자가 포크해 두었다고 공유했다. 코드를 실제로 분석하거나 실행해 보지는 않았다는 반응도 있었고, 궁극적으로는 여러 벤더 모델을 쓸 수 있는 형태가 바람직하다는 의견이 나왔다. Grok-bot 사용량은 Cursor 사용량과 별개라는 정보도 공유됐다.</p><ul><li>Grok-bot 0.18.0 재구성 저장소가 공개됐다는 소식이 공유됐다.</li><li>여러 참여자가 저장소를 포크했으나 아직 자세히 살펴보지는 않았다고 했다.</li><li>멀티벤더 모델 지원이 향후 바람직한 구조라는 의견이 나왔다.</li><li>Grok-bot의 사용량은 Cursor 사용량과 별개라는 설명이 있었다.</li><li><a href="https://github.com/baekenough/grok-bot-0.18-reconstructed" rel="nofollow ugc noopener noreferrer" target="_blank">https://github.com/baekenough/grok-bot-0.18-reconstructed</a></li></ul></article><article class="dcard"><div class="t">12:13-12:23</div><h2>Wbrowser 검토</h2><p class="sum">Windows 사용자를 위한 Wbrowser 저장소가 공유되고, 로그인된 Chrome 세션을 AI 에이전트가 조작하는 브라우저 자동화 도구로 소개됐다. 기존 Chrome에 CDP를 연결하는 방식과 본질적으로 어떤 차이가 있는지 질문이 나왔으며, 세션 유지 등은 직접 사용해 봐야 차이를 체감할 수 있다는 의견으로 정리됐다. Hermes가 지시를 잘 이해하지 못해 Qwen 3.8 Flash로 모델을 바꿔 재시험하려는 계획도 나왔다.</p><ul><li>Wbrowser는 로그인된 브라우저 세션을 AI·CLI·MCP와 연결하는 자동화 도구로 소개됐다.</li><li>전용 Chrome 프로필과 세션을 활용해 웹 서비스 조작을 지원하는 구조가 설명됐다.</li><li>기존 CDP 연결 방식과의 차이를 사전 판단보다 실제 사용으로 검증하자는 의견이 제시됐다.</li><li>Hermes 대신 Qwen 3.8 Flash를 사용해 같은 작업을 재시험하려는 계획이 나왔다.</li><li><a href="https://github.com/w-partners/Wbrowser" rel="nofollow ugc noopener noreferrer" target="_blank">https://github.com/w-partners/Wbrowser</a></li></ul></article><article class="dcard"><div class="t">13:07-13:07</div><h2>API와 MCP 차이</h2><p class="sum">API와 MCP의 차이를 묻는 질문에 API는 정해진 서버 기능을 호출하는 인터페이스, MCP는 AI가 도구·데이터에 표준 방식으로 연결되도록 하는 프로토콜이라는 설명이 제시됐다. MCP 서버 내부에서 실제 작업은 REST API나 데이터베이스 호출로 이어질 수 있으며, 두 개념은 경쟁 관계가 아니라 계층이 다르다고 정리됐다.</p><ul><li>API는 엔드포인트와 파라미터를 통해 정해진 기능을 호출하는 방식으로 설명됐다.</li><li>MCP는 AI 클라이언트가 도구·리소스·프롬프트를 발견하고 호출하는 공통 규격으로 설명됐다.</li><li>MCP는 기존 API나 DB를 대체하기보다 AI 에이전트 연결 계층으로 활용될 수 있다.</li><li>API와 MCP의 역할 차이를 비유로 간결하게 정리했다.</li></ul></article><article class="dcard"><div class="t">11:56-12:29</div><h2>Qwen 로컬 구동</h2><p class="sum">스파크 환경에 Qwen 3.8을 올려 테스트하려는 이야기가 시작됐다. Qwen 3.8 27B 구동 가능성, Flash 계열의 51B·125B·180B 규모와 필요한 메모리 구성을 두고 의견을 나눴다. Qwen3.8 Flash Next의 GGUF와 MLX 4bit 배포 링크가 공유됐으며, 더 큰 메모리 맥에서 로컬 모델을 돌려 보고 싶다는 수요가 확인됐다.</p><ul><li>스파크에서 Qwen 3.8을 올려 직접 체험해 보겠다는 계획이 나왔다.</li><li>27B 모델의 로컬 구동 가능성이 언급됐다.</li><li>Flash 계열의 모델 크기와 256GB·512GB 메모리 구성의 비용을 비교했다.</li><li>GGUF 배포본과 MLX 4bit 배포본 링크가 각각 공유됐다.</li><li><a href="https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF" rel="nofollow ugc noopener noreferrer" target="_blank">https://huggingface.co/unsloth/Qwen3.8-Flash-Next-GGUF</a></li></ul></article><article class="dcard"><div class="t">11:57-12:02</div><h2>퍼플렉시티 컴퓨터</h2><p class="sum">Perplexity Portable Computer를 로컬에서 활용하는 방안을 논의했다. 스파크에서 Qwen 3.8 27B로 가능하다는 말이 있었지만, 서비스 이용에는 Perplexity Pro 구독이 필요하다는 경험담이 나왔다. 참가자는 Grok-bot보다 Perplexity Computer의 결과 만족도가 좋았다는 사용 소감을 공유했고, 과거 제휴 이용권 사례도 언급됐다.</p><ul><li>Perplexity Portable Computer의 로컬 활용 가능성을 이야기했다.</li><li>Perplexity Pro 구독 필요 여부와 학생 할인 가격이 논의됐다.</li><li>과거 증권사 제휴로 1년 이용권을 받은 사례가 언급됐다.</li><li>Grok-bot과 비교해 Perplexity Computer 결과 품질이 더 만족스러웠다는 의견이 나왔다.</li><li><a href="https://www.perplexity.ai/hub/products/portable-computer" rel="nofollow ugc noopener noreferrer" target="_blank">https://www.perplexity.ai/hub/products/portable-computer</a></li></ul></article><article class="dcard"><div class="t">12:27-12:31</div><h2>맥스튜디오 AI 활용</h2><p class="sum">AI 사용자가 맥스튜디오를 구매하는 이유와 로컬 모델을 어떤 방식으로 돌리는지 질문이 나왔다. 대화 흐름상 대용량 통합 메모리를 바탕으로 큰 로컬 모델을 실행하려는 수요가 중심이었다. 다만 봇의 답변은 학습과 활용 설명이 중복·불완전하게 출력돼 명확한 결론까지 이어지지 않았다.</p><ul><li>맥스튜디오가 AI 작업용으로 선택되는 이유를 묻는 질문이 나왔다.</li><li>큰 메모리 구성에서 로컬 LLM을 돌리고 싶다는 대화가 앞서 이어졌다.</li><li>구체적인 운용 방식 설명 요청도 나왔다.</li><li>자동 응답은 중복되고 일부가 잘려 실질적인 답변 품질 문제가 드러났다.</li></ul></article><article class="dcard"><div class="t">11:50-12:10</div><h2>맥 중고가·구매 고민</h2><p class="sum">맥미니·맥스튜디오의 중고 가격과 신제품 영향으로 인한 감가 가능성을 논의했다. 고사양 맥미니 가격이 높고 판매 시점이 늦어질수록 가격이 더 떨어질 수 있다는 우려가 나왔다. 맥북은 중고 구매 시 배터리 사이클을 확인해야 하지만, 맥미니와 맥스튜디오는 배터리가 없어 성능 저하 측면에서는 큰 걱정이 없다는 의견이 공유됐다.</p><ul><li>M3 256GB·2TB 모델의 중고 판매가와 향후 하락 가능성을 이야기했다.</li><li>맥미니 고메모리 구성의 가격이 500만 원을 넘는다는 반응이 나왔다.</li><li>M4 Max 맥스튜디오 중고 매물 가격도 비교 대상으로 언급됐다.</li><li>데스크톱 맥은 배터리 상태를 확인할 필요가 없어 중고 성능 저하 우려가 상대적으로 적다고 정리됐다.</li></ul></article><article class="dcard"><div class="t">12:30-13:02</div><h2>AI 해킹 악용 보도</h2><p class="sum">중국 해킹 조직이 DeepSeek, ChatGPT, Claude Code 등을 공격에 활용했다는 기사 링크가 공유됐다. 참여자들은 구독 중인 AI 서비스가 해킹에 악용된다는 보도에 놀라거나, 특정 모델이 해커들에게 선호된다는 점을 농담 섞어 언급했다. 기사 내용 자체에 대한 심층 검토는 이어지지 않았다.</p><ul><li>중국 해킹 조직의 AI 도구 악용 관련 기사 링크가 공유됐다.</li><li>DeepSeek·ChatGPT·Claude Code가 기사 제목에 포함됐다.</li><li>참여자들은 AI 구독 서비스의 악용 가능성에 반응했다.</li><li>추가적인 사실 검증이나 대응 방법 논의는 없었다.</li><li><a href="https://m.ddaily.co.kr/page/view/2026082506425374266" rel="nofollow ugc noopener noreferrer" target="_blank">https://m.ddaily.co.kr/page/view/2026082506425374266</a></li></ul></article><article class="dcard"><div class="t">12:49-12:49</div><h2>한국어 LLM 레포</h2><p class="sum">한국어 LLM 관련 GitHub 저장소를 확인해 달라는 요청과 함께 링크가 공유됐다. 대화 내에서는 저장소의 구성, 성능, 라이선스에 대한 후속 검토 내용은 제공되지 않았다.</p><ul><li>한국어 LLM 관련 GitHub 저장소 링크가 공유됐다.</li><li>저장소 검토 요청이 있었다.</li><li>대화 구간에는 실제 검토 결과나 사용 후기가 이어지지 않았다.</li><li><a href="https://github.com/seoan1024/korean-llm-v3" rel="nofollow ugc noopener noreferrer" target="_blank">https://github.com/seoan1024/korean-llm-v3</a></li></ul></article><article class="dcard"><div class="t">13:10-13:15</div><h2>맥 교육할인·일본 구매</h2><p class="sum">맥미니 학생 할인 금액과 일본 교육 할인을 한국 구매자가 이용할 수 있는지 논의했다. 해외 교육 할인을 적용한 뒤 한국 결제로 넘어가는 방식은 결제가 되지 않았다는 경험담이 공유됐다. 일본 애플 교육 스토어의 맥스튜디오 구매 페이지도 함께 공유됐으며, 가격 부담이 계속 언급됐다.</p><ul><li>맥미니 학생 할인으로 17만 원 할인이라는 정보가 언급됐다.</li><li>일본 교육 할인 적용 가능성을 질문했다.</li><li>해외 교육 할인과 한국 결제를 결합하는 방식은 결제가 어렵다는 경험담이 나왔다.</li><li>일본 애플 교육 스토어의 맥스튜디오 페이지가 공유됐다.</li><li><a href="https://www.apple.com/jp-edu/shop/buy-mac/mac-studio" rel="nofollow ugc noopener noreferrer" target="_blank">https://www.apple.com/jp-edu/shop/buy-mac/mac-studio</a></li></ul></article><article class="dcard"><div class="t">13:15-13:18</div><h2>환율 응답 중복 문제</h2><p class="sum">엔화·미화 환율 요청에 봇이 환율 정보를 중복으로 전송하고, 질문과 무관한 설명까지 덧붙이는 문제가 발생했다. 참여자들은 짧은 시간에 동일 명령이 반복되면 하나로 묶는 방식이 좋겠다고 제안했다. 출석 체크 등 일부 명령은 예외로 둘 수 있다는 의견도 나왔다.</p><ul><li>환율 조회 결과가 중복 전송됐다.</li><li>엔화·미화 환율 질문에 불필요한 부가 문장이 섞여 나왔다.</li><li>동일 명령의 짧은 시간 내 반복을 디바운싱하거나 묶는 개선안이 제안됐다.</li><li>출석 체크 명령은 중복 방지 예외로 고려할 수 있다는 의견이 나왔다.</li></ul></article></section>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-08-27-1330</span>
+</footer>
+</div>
+</body>
+</html>
