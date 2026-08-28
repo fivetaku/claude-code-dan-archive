@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Claude Code 기업 메모리, 문서 30개보다 큐레이션이 먼저다</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-curated-memory-wiki.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-curated-memory-wiki.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 29 Aug 2026 12:00:00 +0900</pubDate>
+    <description>회사 문서를 Claude Code에 전부 넣지 않고 CLAUDE.md, Auto Memory, RAG, MCP로 선별 연결하는 방법과 권한 경계 설계를 정리했다.</description>
+  </item>
+  <item>
+    <title>Orca·Paseo·cmux·Herdr, AI 코딩 환경은 무엇이 다른가</title>
+    <link>https://chat.axwith.com/mag/tools/ai-coding-agent-environments.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/ai-coding-agent-environments.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sat, 29 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Orca, Paseo, cmux, Herdr의 설치·브라우저 제어·모바일 연결·멀티에이전트 운영 방식을 공식 문서와 실사용 의견으로 비교하고 선택 기준을 짚는다.</description>
+  </item>
+  <item>
     <title>콜센터 로컬 AI는 정말 월 비용을 없애는가, GPU 뒤의 TCO</title>
     <link>https://chat.axwith.com/mag/ops/local-ai-call-center-tco.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/local-ai-call-center-tco.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Sat, 22 Aug 2026 12:00:00 +0900</pubDate>
     <description>AI 코딩 에이전트가 궤도를 벗어나지 않게 하는 법을 다뤘다. 스펙 주도 개발과 클로드 코드 플랜 모드, 아첨·반발 사이 균형을 맞춘 최신 모델 조정, 완료 선언을 검증하는 스톱 훅과 하네스 스코어까지 정리했다.</description>
-  </item>
-  <item>
-    <title>챗GPT 루나 무제한 무료, 코덱스 사용량엔 왜 안 통했나</title>
-    <link>https://chat.axwith.com/mag/models/luna-free-codex-usage-limits.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/luna-free-codex-usage-limits.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Fri, 21 Aug 2026 12:00:00 +0900</pubDate>
-    <description>오픈AI가 GPT-5.6 루나를 무료 이용자에게 무제한 공개했지만 코딩 에이전트 코덱스 사용량은 왜 그대로인지 설명한다. 코덱스 요금 구조, 무료 요금제 배정량, 최근 도입된 리셋권 제도의 조건을 정리했다</description>
-  </item>
-  <item>
-    <title>퍼플렉시티 코멧과 이고 라이트, 왜 같이 써야 할까</title>
-    <link>https://chat.axwith.com/mag/tools/comet-vs-ego-lite-ai-browser.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/comet-vs-ego-lite-ai-browser.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 21 Aug 2026 12:00:00 +0900</pubDate>
-    <description>퍼플렉시티 코멧과 오픈소스 브라우저 이고 라이트를 비교했다. 무료 전환 이후 코멧의 기능과 보안 취약점, 이고 라이트 설치 방법과 두 브라우저를 병행하는 실사용 팁까지 정리했다.</description>
   </item>
 </channel></rss>

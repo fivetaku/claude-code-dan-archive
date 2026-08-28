@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orca·Paseo·cmux·Herdr, AI 코딩 환경은 무엇이 다른가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Orca, Paseo, cmux, Herdr의 설치·브라우저 제어·모바일 연결·멀티에이전트 운영 방식을 공식 문서와 실사용 의견으로 비교하고 선택 기준을 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/ai-coding-agent-environments.html">
+<meta property="og:title" content="Orca·Paseo·cmux·Herdr, AI 코딩 환경은 무엇이 다른가">
+<meta property="og:description" content="Orca, Paseo, cmux, Herdr의 설치·브라우저 제어·모바일 연결·멀티에이전트 운영 방식을 공식 문서와 실사용 의견으로 비교하고 선택 기준을 짚는다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/ai-coding-agent-environments.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Orca·Paseo·cmux·Herdr, AI 코딩 환경은 무엇이 다른가", "description": "Orca, Paseo, cmux, Herdr의 설치·브라우저 제어·모바일 연결·멀티에이전트 운영 방식을 공식 문서와 실사용 의견으로 비교하고 선택 기준을 짚는다.", "datePublished": "2026-08-29", "dateModified": "2026-08-29", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/ai-coding-agent-environments.html"}, "articleSection": "도구·라이브러리", "keywords": "Orca, Paseo, cmux, Herdr, AI 코딩 에이전트, ADE"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Orca와 Paseo의 가장 큰 차이는 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "Orca는 worktree마다 agent terminal과 브라우저, diff를 붙인 데스크톱 IDE다. Paseo는 로컬 daemon을 모바일·데스크톱·웹·CLI에서 원격 제어하는 구조다."}}, {"@type": "Question", "name": "cmux와 Herdr 중 어떤 도구가 원격 작업에 유리한가?", "acceptedAnswer": {"@type": "Answer", "text": "macOS 네이티브 터미널과 내장 브라우저가 필요하면 cmux가 맞다. SSH 재접속과 오래 살아 있는 터미널 세션이 우선이면 Herdr의 구조가 더 직접적이다."}}, {"@type": "Question", "name": "AI 코딩 도구에서 ADE는 무슨 뜻인가?", "acceptedAnswer": {"@type": "Answer", "text": "Agentic Development Environment 또는 Agent Development Environment로 쓰인다. 아직 공식 표준이나 합의된 단일 범주는 아니므로, 제품의 실제 실행 구조를 함께 확인해야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-coding-agent-environments.png" alt="Orca·Paseo·cmux·Herdr, AI 코딩 환경은 무엇이 다른가" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>Orca·Paseo·cmux·Herdr, AI 코딩 환경은 무엇이 다른가</h1>
+  <p class="sub">브라우저 수정부터 모바일 원격 제어, 지속 터미널까지 네 실행 환경의 구조와 실제 선택 기준을 공식 문서로 비교했다</p>
+  <div class="meta"><span>2026-08-29</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI 코딩 에이전트를 여러 개 띄우는 일이 쉬워지면서 병목은 이제 모델보다 작업 환경에서 생긴다. Orca·Paseo·cmux·Herdr 가운데 무엇을 골라야 브라우저 수정, 원격 접속, 병렬 세션 관리가 덜 끊길까. 네 제품을 같은 ADE로 묶기보다 각자 없애려는 불편부터 비교했다.</p>
+<h2>ADE라는 이름보다 제품이 맡는 층을 봐야 한다</h2>
+<p>2026년 들어 일부 업체는 이런 도구를 ADE라고 부르지만 풀네임부터 Agentic Development Environment와 Agent Development Environment가 섞여 있다. Letta는 2025년 ADE를 에이전트의 기억과 추론을 살피는 개발 환경으로 소개했다. Orca 쪽 용법은 여러 코딩 에이전트로 소프트웨어를 만드는 작업 공간에 가깝다.</p>
+<p>공식 표준이나 합의된 단일 정의는 아직 확인되지 않았다. Orca는 git worktree·에이전트 터미널·브라우저를 묶은 데스크톱 IDE다. Paseo는 로컬 daemon에 모바일·데스크톱·웹·CLI가 붙는다. cmux는 터미널 중심 macOS 앱이고 Herdr는 세션을 계속 살려 두는 터미널 런타임이다.</p>
+<p>그래서 “가장 좋은 ADE”라는 질문은 너무 넓다. 웹 화면을 직접 짚어 고칠지, 밖에서 접속할지, 터미널 세션을 오래 유지할지가 먼저 갈린다.</p>
+<h2>웹 화면을 짚어 수정한다면 Orca가 가장 직접적이다</h2>
+<p>Orca의 공식 시작 흐름은 구체적이다. 저장소를 추가하고 기준 브랜치에서 작업별 worktree를 만든다. 각 worktree에서 Claude Code·Codex·Cursor CLI 같은 에이전트를 실행한 뒤 내장 브라우저로 개발 서버를 연다.</p>
+<p>Design Mode를 켜고 화면 요소를 클릭하면 DOM, 계산된 CSS, 잘린 스크린샷이 에이전트에 전달된다. source map이 있으면 원본 파일과 행도 붙는다. 수정 뒤 hot reload로 화면을 다시 확인하고 diff에 줄별 의견을 남겨 한 번에 재작업을 요청한다. 공식 문서가 제시하는 순서는 저장소 추가, worktree 생성, agent 실행, 화면 확인, diff 검토, commit이다.</p>
+<p>웹 수정에 Orca가 편하다는 사용 의견은 이 구조와 맞는다. 여러 저장소와 세션 상태를 한눈에 보기 좋다는 반응도 있었다. 반면 기능이 많아 무겁고 복잡하다는 불만도 함께 나왔다. 가벼운 단발 작업에서는 cmux를 병행한다는 사용자도 있었다.</p>
+<p>모바일 companion은 독립 편집기가 아니라 데스크톱 세션의 원격 제어기다. 상태와 terminal scrollback을 보고 대기 중인 질문에 답하고 source control과 브라우저 viewport를 확인한다. 공식 문서는 아직 beta로 표시한다. 같은 네트워크에서도 연결에 실패했다는 사례는 있었지만 원인과 재현 조건은 외부 자료로 확인되지 않았다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-coding-agent-environments.png" alt="" loading="lazy"><h2>원격 연결을 중심에 두면 Paseo의 구조가 선명하다</h2>
+<p>Paseo Desktop을 설치하면 daemon이 함께 실행된다. headless 장비에서는 `npm install -g @getpaseo/cli` 뒤 `paseo`를 실행한다. Claude Code나 Codex 같은 agent CLI와 인증은 별도로 준비해야 한다. Paseo가 모델 호출을 대신하지 않기 때문이다.</p>
+<p>휴대전화는 E2EE relay의 QR·링크로 pair하거나 Tailscale·직접 주소로 daemon에 연결한다. relay는 새 설치에서 자동으로 켜지지 않는다. 공식 보안 문서에 따르면 중계 서버는 메시지와 코드를 읽지 못하며 daemon이 agent lifecycle을 관리한다. 개인 개발자가 Mac mini나 VPS에 작업을 남겨 두고 이동할 때 설명하기 쉬운 구조다.</p>
+<p>Paseo도 실제 브라우저 탭을 agent가 읽고 클릭하며 검증할 수 있다. 다만 browser tools와 Paseo MCP tools를 host별로 켜야 한다. 현재 브라우저 host는 Desktop뿐이라 연결된 데스크톱이 없으면 daemon 요청이 실패한다. 원격 연결은 좋지만 PC 경험이 아쉽다는 의견은 제품 구조의 사실이 아니라 사용성 평가로 남겨야 한다.</p>
+<h2>cmux와 Herdr는 터미널을 버리지 않는 선택이다</h2>
+<p>cmux 네이티브 앱은 Ghostty 기반 macOS 터미널이다. Homebrew로 설치한 뒤 작업마다 workspace와 pane을 만들고 그 안에서 기존 agent CLI를 실행한다. agent가 입력을 기다리면 탭과 pane에 알림이 뜬다. 내장 브라우저는 snapshot, click, type, screenshot, console 확인을 CLI로 제어한다.</p>
+<p>macOS 14 이상이 필요한 네이티브 앱과 별도로 cmux TUI도 있다. TUI는 macOS·Linux·Windows에서 headless session과 SSH 대상을 다룬다. 두 제품을 섞어 “cmux는 모든 OS의 네이티브 GUI”라고 설명하면 틀린다.</p>
+<p>Herdr는 `herdr`를 실행하면 background server와 workspace를 열고 pane 안에서 `claude`나 `codex`를 그대로 시작한다. `Ctrl-b q`로 detach해도 shell과 agent process가 계속 돈다. 다시 `herdr`로 붙거나 원격 장비에는 `herdr --remote &lt;host&gt;`로 접속한다. 휴대전화는 별도 앱 대신 SSH client로 같은 TUI를 연다.</p>
+<p>공식 문서는 Herdr가 agent를 working·blocked·idle로 감지한다고 설명한다. prompt 모양을 규칙이 모르면 상태를 잘못 분류할 수 있다는 한계도 밝힌다. 지속 세션과 SSH에는 단단하다는 평가가 있었지만 좁은 모바일 화면의 TUI가 불편하다는 반응도 있었다.</p>
+<h2>선택 기준은 기능 수가 아니라 끊기는 지점이다</h2>
+<p>브라우저에서 요소를 짚고 diff까지 닫는 흐름은 Orca가 가장 짧다. 여러 기기에서 같은 daemon을 다루는 일이 핵심이면 Paseo가 자연스럽다. macOS 터미널과 브라우저 자동화를 함께 쓰려면 cmux, SSH와 지속 터미널이 우선이면 Herdr가 맞는다.</p>
+<p>작은 팀에는 권한 경계도 선택 기준이다. Orca는 새 agent launch에 permission bypass 인수를 기본으로 넣을 수 있다고 문서화한다. Paseo도 provider 옵션이 OS 수준 격리는 아니라고 경고한다. worktree가 분리돼도 agent가 사용자 권한으로 실행된다는 사실은 바뀌지 않는다.</p>
+<p>네 제품의 최신 배포는 2026년 8월에도 이어졌다. 기능표의 승자는 자주 바뀔 수 있다. 오래 남는 차이는 IDE, daemon-client, macOS terminal, persistent runtime이라는 네 구조다. 지금 고를 제품은 가장 많은 기능을 가진 도구가 아니라, 자신의 작업이 실제로 끊기는 층을 맡는 도구다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Orca</span><span class="chip">Paseo</span><span class="chip">cmux</span><span class="chip">Herdr</span><span class="chip">AI 코딩 에이전트</span><span class="chip">ADE</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.onorca.dev/docs" rel="nofollow noopener">https://www.onorca.dev/docs</a></li><li><a href="https://www.onorca.dev/docs/first-session" rel="nofollow noopener">https://www.onorca.dev/docs/first-session</a></li><li><a href="https://www.onorca.dev/docs/browser/design-mode" rel="nofollow noopener">https://www.onorca.dev/docs/browser/design-mode</a></li><li><a href="https://www.onorca.dev/docs/mobile" rel="nofollow noopener">https://www.onorca.dev/docs/mobile</a></li><li><a href="https://www.onorca.dev/docs/agents/supported" rel="nofollow noopener">https://www.onorca.dev/docs/agents/supported</a></li><li><a href="https://paseo.sh/docs" rel="nofollow noopener">https://paseo.sh/docs</a></li><li><a href="https://paseo.sh/docs/security" rel="nofollow noopener">https://paseo.sh/docs/security</a></li><li><a href="https://paseo.sh/docs/browser" rel="nofollow noopener">https://paseo.sh/docs/browser</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Orca와 Paseo의 가장 큰 차이는 무엇인가?</h2><p class="sum">Orca는 worktree마다 agent terminal과 브라우저, diff를 붙인 데스크톱 IDE다. Paseo는 로컬 daemon을 모바일·데스크톱·웹·CLI에서 원격 제어하는 구조다.</p></article><article class="dcard"><div class="t">Q</div><h2>cmux와 Herdr 중 어떤 도구가 원격 작업에 유리한가?</h2><p class="sum">macOS 네이티브 터미널과 내장 브라우저가 필요하면 cmux가 맞다. SSH 재접속과 오래 살아 있는 터미널 세션이 우선이면 Herdr의 구조가 더 직접적이다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI 코딩 도구에서 ADE는 무슨 뜻인가?</h2><p class="sum">Agentic Development Environment 또는 Agent Development Environment로 쓰인다. 아직 공식 표준이나 합의된 단일 범주는 아니므로, 제품의 실제 실행 구조를 함께 확인해야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-28-1800.html">2026-08-28 08-28 15:25~17:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
