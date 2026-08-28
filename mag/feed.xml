@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>콜센터 로컬 AI는 정말 월 비용을 없애는가, GPU 뒤의 TCO</title>
+    <link>https://chat.axwith.com/mag/ops/local-ai-call-center-tco.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/local-ai-call-center-tco.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Fri, 28 Aug 2026 12:00:00 +0900</pubDate>
+    <description>콜센터 로컬 AI의 실제 비용을 GPU·전력·냉각·인력·음성 처리로 분해하고, Claude API와 클라우드 방식의 TCO를 같은 SLA와 동시통화 조건에서 비교한다.</description>
+  </item>
+  <item>
+    <title>Claude Code UI 디자인 스킬, 많이 겹칠수록 좋아질까</title>
+    <link>https://chat.axwith.com/mag/tools/claude-code-ui-design-skills.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-ui-design-skills.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Fri, 28 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code용 UI 디자인 스킬과 컴포넌트 도구는 역할이 다르다. 디자인 계약부터 구현, 검수까지 충돌 없이 연결하고 AI스러운 화면을 줄이는 실제 순서를 정리했다.</description>
+  </item>
+  <item>
     <title>Claude Code용 맥 스튜디오, M5 Max와 Ultra 선택법</title>
     <link>https://chat.axwith.com/mag/troubleshooting/claude-code-mac-studio-choice.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-mac-studio-choice.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Fri, 21 Aug 2026 12:00:00 +0900</pubDate>
     <description>퍼플렉시티 코멧과 오픈소스 브라우저 이고 라이트를 비교했다. 무료 전환 이후 코멧의 기능과 보안 취약점, 이고 라이트 설치 방법과 두 브라우저를 병행하는 실사용 팁까지 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드 Pro 사용량 한도가 이렇게 빨리 바닥나는 이유</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-pro-max-usage-limits.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-pro-max-usage-limits.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Fri, 21 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 Pro 요금제로 몇 시간 만에 사용량이 바닥나 Max로 넘어가야 했던 사연을 계기로, 5시간·주간 한도 구조와 Max 요금제 실제 여유분, 최근 두 달 사이 한도 변화를 정리했다.</description>
-  </item>
-  <item>
-    <title>Aside, 로그인한 사이트에서 대신 일하는 AI 브라우저의 실체</title>
-    <link>https://chat.axwith.com/mag/tools/aside-ai-agent-browser.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/aside-ai-agent-browser.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 21 Aug 2026 12:00:00 +0900</pubDate>
-    <description>AI 에이전트 브라우저 Aside의 실제 기능, 개발자 워크플로, 벤치마크 신뢰도, 윈도우 지원 여부를 조사해 정리한다.</description>
   </item>
 </channel></rss>

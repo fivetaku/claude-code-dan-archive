@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code UI 디자인 스킬, 많이 겹칠수록 좋아질까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code용 UI 디자인 스킬과 컴포넌트 도구는 역할이 다르다. 디자인 계약부터 구현, 검수까지 충돌 없이 연결하고 AI스러운 화면을 줄이는 실제 순서를 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/claude-code-ui-design-skills.html">
+<meta property="og:title" content="Claude Code UI 디자인 스킬, 많이 겹칠수록 좋아질까">
+<meta property="og:description" content="Claude Code용 UI 디자인 스킬과 컴포넌트 도구는 역할이 다르다. 디자인 계약부터 구현, 검수까지 충돌 없이 연결하고 AI스러운 화면을 줄이는 실제 순서를 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/claude-code-ui-design-skills.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code UI 디자인 스킬, 많이 겹칠수록 좋아질까", "description": "Claude Code용 UI 디자인 스킬과 컴포넌트 도구는 역할이 다르다. 디자인 계약부터 구현, 검수까지 충돌 없이 연결하고 AI스러운 화면을 줄이는 실제 순서를 정리했다.", "datePublished": "2026-08-28", "dateModified": "2026-08-28", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-code-ui-design-skills.html"}, "articleSection": "도구·라이브러리", "keywords": "Claude Code, UI 디자인, Agent Skills, DESIGN.md, Astryx, Impeccable"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code UI 디자인 스킬은 여러 개 함께 써도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "함께 쓸 수 있지만 역할을 분리해야 한다. `DESIGN.md`를 최상위 기준으로 두고, 생성 스킬은 하나부터 적용한 뒤 Impeccable 같은 검수 도구를 마지막에 쓰는 흐름이 안정적이다."}}, {"@type": "Question", "name": "Shadcnblocks와 Astryx 중 무엇을 선택해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "기존 shadcn 프로젝트에서 블록 소스를 빠르게 가져오려면 Shadcnblocks가 맞다. React 19 기반 새 앱에서 공통 API와 테마 체계를 채택하려면 Beta 상태를 감수하고 Astryx를 검토할 수 있다."}}, {"@type": "Question", "name": "AI스러운 UI를 줄이려면 무엇을 먼저 해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "스킬 설치보다 제품의 `DESIGN.md`를 먼저 확정해야 한다. 색, 서체, 간격, 컴포넌트, 금지 패턴을 한 문서에 고정하면 여러 세션에서도 판단이 덜 흔들린다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-ui-design-skills.png" alt="Claude Code UI 디자인 스킬, 많이 겹칠수록 좋아질까" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>Claude Code UI 디자인 스킬, 많이 겹칠수록 좋아질까</h1>
+  <p class="sub">awesome-design-md부터 Astryx·Impeccable까지, AI스러운 화면을 줄이는 조합법과 한계를 짚었다</p>
+  <div class="meta"><span>2026-08-28</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Code로 화면을 만들 때 디자인 스킬을 많이 설치하면 품질도 함께 오를까. `ui-ux-pro-max-skill`, `taste-skill`, `Impeccable`이 빠르게 늘면서 선택은 오히려 어려워졌다. 답은 개수보다 역할 분리에 가깝다.</p>
+<h2>스킬과 컴포넌트는 같은 문제를 풀지 않는다</h2>
+<p>Anthropic 공식 문서에서 스킬은 `SKILL.md`와 보조 자료로 구성된 작업 지침이다. 프로젝트용 스킬은 `.claude/skills/`에 두고 Claude Code가 관련 요청에서 불러온다. 스킬은 판단 규칙을 줄 뿐, 완성된 버튼 소스를 반드시 공급하지는 않는다.</p>
+<p>`awesome-design-md`는 인기 사이트를 분석한 `DESIGN.md` 모음이다. 색 역할, 서체, 간격, 컴포넌트 상태, 반응형 규칙을 프로젝트에 가져오는 참고층에 해당한다. VoltAgent는 파일을 복사한 뒤 에이전트에게 읽히라고 안내하는데, UI 구현은 여전히 React나 CSS 코드로 해야 한다.</p>
+<p>반면 `shadcnblocks`와 `Astryx`는 실제 구현 재료에 가깝다. 전자는 shadcn 호환 레지스트리에서 React·Tailwind 소스를 프로젝트로 복사하고, 후자는 Meta 내부에서 성장한 React 19+ 디자인 시스템이다. 같은 목록에 놓고 우열을 가리면 선택 기준부터 어긋난다.</p>
+<h2>먼저 하나의 디자인 계약을 만든다</h2>
+<p>출발점은 마음에 드는 스킬이 아니라 제품의 시각 계약이다. 이미 분석된 스타일이 맞으면 `awesome-design-md`에서 `DESIGN.md` 하나를 고른다. 현재 사이트를 기준으로 삼으려면 `insane-design`에 URL을 넣는다.</p>
+<p>`insane-design` 공식 저장소가 설명하는 산출물은 CSS 토큰, `design.md`, HTML 리포트와 스크린샷이다. 설치는 Claude Code 마켓플레이스에 `gptaku_plugins`를 추가한 뒤 `insane-design` 플러그인을 고르는 순서다. URL을 실행하면 색, 타입, 간격, 반경, 그림자 규칙을 뽑는다.</p>
+<p>두 결과를 동시에 최상위 규칙으로 두지는 않는 편이 낫다. 하나를 프로젝트의 `DESIGN.md`로 확정한 뒤 브랜드 자산과 금지 패턴을 덧붙여 버전 관리한다. `awesome-design-md`도 분석 파일이 원 브랜드의 공식 가이드라고 주장하지는 않는다. 상용 제품은 특정 브랜드 복제보다 자사 규칙으로 변형해야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-ui-design-skills.png" alt="" loading="lazy"><h2>구현 재료는 Shadcnblocks와 Astryx 중 고른다</h2>
+<p>기존 shadcn 프로젝트라면 `shadcnblocks`가 빠르다. 먼저 shadcn CLI로 프로젝트를 초기화하고 `components.json`에 레지스트리를 연결한다. Claude Code에서는 `pnpm dlx shadcn@latest mcp init --client claude`로 MCP를 붙인다. 이후 로그인 폼이나 가격 섹션을 자연어로 찾아 설치한다.</p>
+<p>이 방식은 소스가 프로젝트 안으로 들어와 수정 자유도가 높다. 대신 업데이트와 품질 책임도 프로젝트가 떠안는다. 무료와 유료 블록의 사용 조건도 다르므로 배포 전 라이선스를 확인해야 한다.</p>
+<p>새 React 19 앱에서 공통 API와 테마를 오래 유지하려면 `Astryx`가 다른 선택지다. 공식 저장소는 150개 이상 컴포넌트, 테마, 템플릿과 CLI를 제공한다고 밝힌다. `@astryxdesign/core`, 테마, CLI를 설치하고 컴포넌트 목록을 조회해 조합한다. 2026년 8월 현재 공개판은 Beta다.</p>
+<p>`Astryx`에는 최신 문서를 검색하는 hosted MCP가 있다. 설치 버전과 프로젝트 테마까지 읽는 로컬 MCP는 아직 공개 RFC 단계다. MCP가 현재 프로젝트를 완전히 이해한다고 가정하면 잘못된 API를 선택할 수 있다.</p>
+<h2>생성 규칙은 하나만 좁게 쓴다</h2>
+<p>`ui-ux-pro-max-skill`은 업종과 화면 요구를 검색해 스타일, 팔레트, 서체, UX 규칙을 추천한다. `uipro init --ai claude`로 설치하고 일반 UI 요청에서 쓰거나, 검색 스크립트로 디자인 시스템을 Markdown에 저장한다. React 외 여러 스택을 다루는 폭이 장점이다.</p>
+<p>`taste-skill`은 레이아웃 변주, 모션, 정보 밀도를 조절하며 반복적인 AI 패턴을 억제한다. 공식 문서상 기본 v2는 아직 실험판이다. 안정성이 중요하면 v1을 고정한다. 제품 UI라면 모션과 변주를 낮춰 시작하는 편이 안전하다.</p>
+<p>클코단에서는 검증된 공개 리소스를 조합하는 편이 개인 철학을 새로 쓰는 것보다 낫다는 의견이 많았다. 다만 `ui-ux-pro-max-skill`이 과한 화면을 만들 수 있다는 경험도 나왔다. 써본 사람들 사이에서도 빠른 MVP에는 유용하지만 구체적 참고 화면이 없으면 전형적인 AI 랜딩페이지로 수렴한다는 반응이 엇갈린다.</p>
+<p>그래서 생성 스킬은 `ui-ux-pro-max-skill`이나 `taste-skill` 중 하나만 먼저 쓴다. 확정한 `DESIGN.md`보다 낮은 우선순위를 주고 정보 구조나 반복 패턴 억제처럼 맡을 범위를 적는다. 둘을 겹친다면 색, 서체, 모션의 최종 결정권을 문서에 명시해야 한다.</p>
+<h2>Impeccable은 마지막 화면에서 값을 한다</h2>
+<p>`Impeccable`은 새 화면 생성과 기존 UI 감사를 잇는 도구다. `npx impeccable install` 뒤 `/impeccable init`을 실행하면 `PRODUCT.md`를 만들고 `DESIGN.md` 작성을 돕는다. 공식 저장소는 23개 명령과 59개 결정적 탐지 규칙을 제공한다.</p>
+<p>실전 순서는 짧다. 디자인 계약을 하나 확정한 뒤 `Shadcnblocks`나 `Astryx` 중 한 계열로 화면을 만든다. 생성 규칙 하나를 제한적으로 적용한 뒤 `/impeccable critique`, `audit`, `polish`로 좁혀 고친다. 마지막에는 실제 브라우저에서 반응형, 키보드 이동, 긴 콘텐츠와 빈 상태를 확인한다.</p>
+<p>스킬을 더 설치하는 행동은 디자인 판단을 자동으로 만들지 않는다. 개인 개발자와 소규모 팀의 이득은 같은 기준을 매번 설명하지 않아도 된다는 데 있다. 좋은 조합은 도구 일곱 개가 아니라, 충돌하지 않는 네 단계다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">UI 디자인</span><span class="chip">Agent Skills</span><span class="chip">DESIGN.md</span><span class="chip">Astryx</span><span class="chip">Impeccable</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/slash-commands" rel="nofollow noopener">https://code.claude.com/docs/en/slash-commands</a></li><li><a href="https://github.com/VoltAgent/awesome-design-md" rel="nofollow noopener">https://github.com/VoltAgent/awesome-design-md</a></li><li><a href="https://github.com/VoltAgent/design-md" rel="nofollow noopener">https://github.com/VoltAgent/design-md</a></li><li><a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" rel="nofollow noopener">https://github.com/nextlevelbuilder/ui-ux-pro-max-skill</a></li><li><a href="https://www.tasteskill.dev/docs" rel="nofollow noopener">https://www.tasteskill.dev/docs</a></li><li><a href="https://github.com/pbakaus/impeccable" rel="nofollow noopener">https://github.com/pbakaus/impeccable</a></li><li><a href="https://ui.shadcn.com/docs/mcp" rel="nofollow noopener">https://ui.shadcn.com/docs/mcp</a></li><li><a href="https://www.shadcnblocks.com/" rel="nofollow noopener">https://www.shadcnblocks.com/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code UI 디자인 스킬은 여러 개 함께 써도 되나요?</h2><p class="sum">함께 쓸 수 있지만 역할을 분리해야 한다. `DESIGN.md`를 최상위 기준으로 두고, 생성 스킬은 하나부터 적용한 뒤 Impeccable 같은 검수 도구를 마지막에 쓰는 흐름이 안정적이다.</p></article><article class="dcard"><div class="t">Q</div><h2>Shadcnblocks와 Astryx 중 무엇을 선택해야 하나요?</h2><p class="sum">기존 shadcn 프로젝트에서 블록 소스를 빠르게 가져오려면 Shadcnblocks가 맞다. React 19 기반 새 앱에서 공통 API와 테마 체계를 채택하려면 Beta 상태를 감수하고 Astryx를 검토할 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI스러운 UI를 줄이려면 무엇을 먼저 해야 하나요?</h2><p class="sum">스킬 설치보다 제품의 `DESIGN.md`를 먼저 확정해야 한다. 색, 서체, 간격, 컴포넌트, 금지 패턴을 한 문서에 고정하면 여러 세션에서도 판단이 덜 흔들린다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-28-1518-s.html">2026-08-28 08-28 14:35~15:10</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
