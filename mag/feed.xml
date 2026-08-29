@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Claude Haiku 4.5에 RAG면 충분할까, 온톨로지의 경계</title>
+    <link>https://chat.axwith.com/mag/models/haiku-rag-ontology-boundary.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/haiku-rag-ontology-boundary.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 30 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Claude Haiku 4.5와 기본 RAG로 시작해도 되는 조건을 짚고, GraphRAG와 Palantir식 온톨로지가 필요한 질문과 운영 경계를 구체적으로 구분한다.</description>
+  </item>
+  <item>
+    <title>Cursor Ultra와 SuperGrok Heavy, 사용량은 정말 따로일까</title>
+    <link>https://chat.axwith.com/mag/tools/cursor-ultra-grok-usage-limits.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/cursor-ultra-grok-usage-limits.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sun, 30 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Cursor Ultra와 SuperGrok Heavy의 한도는 합쳐지지 않는다. Cursor 내부의 두 사용량 풀과 Fable·Grok·Composer를 비용에 맞춰 배분하는 방법을 공식 문서로 확인했다.</description>
+  </item>
+  <item>
     <title>Claude Code 모델 라우팅, 멀티 에이전트는 언제 필요한가</title>
     <link>https://chat.axwith.com/mag/tools/claude-code-model-routing.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-model-routing.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
     <description>딥시크·큐원 등 중국계 모델의 논문 작성 활용을 다룬 비교 연구, 가짜 참고문헌 사고, 검열 문제, 데이터 보안 이슈까지 실제 근거로 짚는다.</description>
-  </item>
-  <item>
-    <title>그록 빌드 기획력 논란, 클로드 코드 워커로 쓰는 이유</title>
-    <link>https://chat.axwith.com/mag/models/grok-build-claude-code-worker.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/grok-build-claude-code-worker.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sat, 22 Aug 2026 12:00:00 +0900</pubDate>
-    <description>그록 빌드는 데스크톱 앱 없이 터미널로만 도는 xAI 코딩 에이전트다. 방에서 나온 기획력 논란을 벤치마크·가격·외부 리뷰로 검증하고, 클로드 코드 워커로 쓰는 조합이 실제로 성립하는지 짚는다.</description>
-  </item>
-  <item>
-    <title>Fable을 코딩 도구에 붙이려면 브릿지 대신 API 키를 써라</title>
-    <link>https://chat.axwith.com/mag/tools/fable-5-bridge-vs-api-key.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/fable-5-bridge-vs-api-key.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sat, 22 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클코단에서 나온 Fable 브릿지 구상을 계기로, 수출통제로 끊겼던 이력과 구독 개편, Codex·Cursor 연동 방법까지 Fable 5 접근 경로를 정리했다.</description>
   </item>
 </channel></rss>

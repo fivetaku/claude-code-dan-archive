@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cursor Ultra와 SuperGrok Heavy, 사용량은 정말 따로일까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Cursor Ultra와 SuperGrok Heavy의 한도는 합쳐지지 않는다. Cursor 내부의 두 사용량 풀과 Fable·Grok·Composer를 비용에 맞춰 배분하는 방법을 공식 문서로 확인했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/cursor-ultra-grok-usage-limits.html">
+<meta property="og:title" content="Cursor Ultra와 SuperGrok Heavy, 사용량은 정말 따로일까">
+<meta property="og:description" content="Cursor Ultra와 SuperGrok Heavy의 한도는 합쳐지지 않는다. Cursor 내부의 두 사용량 풀과 Fable·Grok·Composer를 비용에 맞춰 배분하는 방법을 공식 문서로 확인했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/cursor-ultra-grok-usage-limits.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cursor Ultra와 SuperGrok Heavy, 사용량은 정말 따로일까", "description": "Cursor Ultra와 SuperGrok Heavy의 한도는 합쳐지지 않는다. Cursor 내부의 두 사용량 풀과 Fable·Grok·Composer를 비용에 맞춰 배분하는 방법을 공식 문서로 확인했다.", "datePublished": "2026-08-30", "dateModified": "2026-08-30", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/cursor-ultra-grok-usage-limits.html"}, "articleSection": "도구·라이브러리", "keywords": "Cursor Ultra, SuperGrok Heavy, Claude Fable 5, Composer 2.5, Grok 4.5, Claude Code", "image": "https://chat.axwith.com/mag/hero/cursor-ultra-grok-usage-limits.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Cursor Ultra와 SuperGrok Heavy 사용량은 공유되나요?", "acceptedAnswer": {"@type": "Answer", "text": "공유되지 않는다. Cursor는 자체 월간 사용량 풀을 관리하고, SuperGrok Heavy는 Grok 제품 전반에서 쓰는 별도 주간 풀을 제공한다."}}, {"@type": "Question", "name": "Cursor에서 Fable 5를 쓰면 Claude Code 한도가 줄어드나요?", "acceptedAnswer": {"@type": "Answer", "text": "Cursor Agent의 모델 선택기에서 Fable 5를 쓰면 Cursor의 Other Models 풀에서 차감된다. Claude Code 확장이나 터미널에 Claude 계정으로 로그인한 사용량은 Claude 구독 한도에 잡힌다."}}, {"@type": "Question", "name": "Grok과 Composer 2.5는 어떻게 나눠 쓰는 게 좋나요?", "acceptedAnswer": {"@type": "Answer", "text": "복잡한 계획과 깊은 디버깅은 Grok에, 반복 구현과 파일 편집은 Composer 2.5에 맡기는 방식이 실용적이다. 짧고 명확한 작업은 저렴한 Composer 표준 모드부터 시작하면 된다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/cursor-ultra-grok-usage-limits.png" alt="Cursor Ultra와 SuperGrok Heavy, 사용량은 정말 따로일까" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>Cursor Ultra와 SuperGrok Heavy, 사용량은 정말 따로일까</h1>
+  <p class="sub">같은 Grok 이름 아래 숨은 별도 구독과 Cursor의 두 사용량 풀, Fable·Grok·Composer 배분법을 짚었다.</p>
+  <div class="meta"><span>2026-08-30</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Cursor Ultra와 SuperGrok Heavy를 함께 구독하면 한도가 합쳐질까. Fable·Grok·Composer 가운데 무엇을 먼저 써야 오래 버틸까. 비슷한 이름이 한 화면에 모이면서 생긴 혼선을 최신 가격 체계와 실제 작업 흐름으로 풀었다.</p>
+<h2>Cursor와 SuperGrok은 서로 다른 구독이다</h2>
+<p>Cursor Ultra는 Anysphere가 판매하는 월 200달러 개인 요금제다. Cursor 가격 페이지는 Ultra에 Pro의 20배 Agent 한도와 Grok Bot 접근도 표시한다. Cursor 안의 모델 사용량은 월별 결제 주기에 맞춰 갱신된다. SuperGrok Heavy는 SpaceXAI가 운영하는 Grok 유료 요금제다. SpaceXAI FAQ에 따르면 유료 사용자는 Chat·Build·Imagine·Voice 등을 아우르는 주간 사용량 풀을 받으며, 설정의 Usage 화면에서 소진율과 다음 초기화 시점을 확인한다.</p>
+<p>두 구독은 청구 주체와 초기화 주기, 잔량 화면이 모두 다르다. Cursor는 월간 결제 주기를, Grok은 주간 사용량 주기를 따른다. 따라서 Cursor Ultra와 SuperGrok Heavy의 기본 사용량은 별개로 관리해야 한다.</p>
+<h2>Cursor Ultra 안에는 사용량 풀이 두 개 있다</h2>
+<p>Cursor 문서는 Pro·Pro+·Ultra에 월간 사용량 풀 두 개가 들어간다고 설명한다. Cursor Models에는 Cursor Grok 4.6·4.5와 Composer 2.5가 묶인다. Other Models에는 Anthropic과 OpenAI 같은 외부 모델이 들어간다.</p>
+<p>한도 계산은 여기서 한 번 더 갈린다. Grok과 Composer는 같은 Cursor Models 잔량을 나눠 쓴다. Claude Fable 5는 Other Models에서 차감된다.</p>
+<p>Ultra를 하나의 거대한 토큰 통장으로 이해하면 실제 소진 경로를 놓치기 쉽다.</p>
+<p>Cursor의 Spending 화면은 두 풀의 잔량과 요청별 비용을 보여준다. 포함량을 넘기면 사용자는 온디맨드 결제를 켜거나 상위 요금제로 바꿀 수 있다. 자동 결제를 원치 않으면 온디맨드 설정부터 확인해야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/cursor-ultra-grok-usage-limits.png" alt="" loading="lazy"><h2>Grok은 판단에, Composer는 반복 작업에 맞는다</h2>
+<p>Cursor는 Composer 2.5를 빠르고 저렴한 자체 에이전트 모델로 설명한다. 파일 편집과 터미널 작업에 맞춰 조정됐다. 표준 단가는 입력 100만 토큰당 0.5달러다. 출력은 2.5달러이며 Fast는 각각 3달러와 15달러다. Cursor Grok 4.5는 복잡하고 오래 걸리는 작업용 모델이다. 표준 단가는 입력 2달러, 출력 6달러이며 Fast는 4달러와 18달러다. 최신 문서는 지시 준수와 장기 작업에는 Grok 4.6을 우선 권한다.</p>
+<p>써본 사람들 사이에서는 평가가 한쪽으로 모이지 않았다. Composer가 예측 가능하고 막다른 길이 적다는 반응이 있었다. 반대로 깊은 디버깅과 계획에서는 Grok이 더 낫다는 의견도 나왔다.</p>
+<p>반복해서 등장한 사용법은 Grok이 계획하고 Composer가 구현하는 조합이다. 먼저 Grok에 요구사항과 실패 조건, 검증 명령을 담은 계획을 맡긴다. 이어 Composer에 계획과 대상 파일을 넘겨 수정·테스트를 시킨다. 짧은 작업은 처음부터 Composer로 끝내면 같은 풀을 더 오래 쓸 수 있다.</p>
+<p>Fast는 시간이 중요한 경우에만 켜는 편이 합리적이다. 공식 단가상 두 모델 모두 Fast 출력 비용이 크게 오른다. 기다림보다 예산이 중요하면 표준 속도가 출발점이다.</p>
+<h2>Fable은 상시 모델보다 해결사에 가깝다</h2>
+<p>Claude Fable 5는 Cursor가 최고 난도 장기 작업에 배치한 Anthropic 모델이다. 컨텍스트는 기본 30만 토큰이며 Max는 100만 토큰까지 지원한다. CursorBench에서는 Opus 5와 함께 최상위권으로 소개된다.</p>
+<p>가격 차이는 크다. Fable은 입력 100만 토큰당 10달러, 출력 50달러다. 같은 토큰 양만 비교하면 표준 Composer 2.5의 20배다. Fable을 계속 쓰면 한도가 빨리 줄었다는 사용자 경험은 단가 구조와 방향이 맞는다.</p>
+<p>사용 순서는 좁게 잡을수록 좋다. Composer로 재현 절차와 관련 파일을 모으고 Grok으로 원인 후보를 줄인다. 그래도 막힌 문제만 Fable에 실패 테스트, 변경 범위, 종료 조건과 함께 넘긴다. Fable의 긴 추론을 모든 탐색 단계에 쓰지 않는 방식이다.</p>
+<p>Fable에는 별도 개인정보 조건도 붙는다. Cursor Privacy Mode를 쓰는 계정과 조직은 Anthropic의 데이터 보존 정책을 승인해야 한다. 비용뿐 아니라 팀의 코드 처리 규칙도 선택 기준에 들어간다.</p>
+<h2>Cursor의 Claude 모델은 Claude Code가 아니다</h2>
+<p>Cursor 모델 선택기에서 Fable이나 Claude를 고르면 Cursor의 Agent가 해당 모델을 호출한다. 사용량은 Cursor의 Other Models 풀에 기록된다. 모델이 Anthropic 제품이라는 사실만으로 Claude Code 세션이 되지는 않는다. Claude Code는 Anthropic의 코딩 도구다. 터미널에서 실행하거나 지원 IDE 확장으로 설치하며 Cursor도 지원 IDE에 포함된다. Claude 계정으로 로그인한 Claude Code 사용량은 Claude Pro·Max 한도와 공유된다.</p>
+<p>같은 Cursor 창에서도 청구 경로는 달라질 수 있다. Cursor Agent 패널의 Fable은 Cursor Spending에서 확인한다. Claude Code 확장이나 터미널 세션은 `/status`로 Claude 한도를 확인한다. `ANTHROPIC_API_KEY`가 잡혀 있으면 구독 대신 API 요금이 나갈 수 있다는 경고도 공식 도움말에 있다.</p>
+<h2>세 개의 잔량판을 따로 보면 배분이 선명해진다</h2>
+<p>개인 개발자와 소규모 팀은 작업을 난도별로 나눌 수 있다. 일상 수정과 파일 탐색은 Composer 2.5, 구조 설계와 깊은 디버깅은 Cursor Grok, 막힌 장기 과제는 Fable에 맡긴다. SuperGrok Heavy는 IDE 밖의 조사와 문서 작업에 쓰며 자체 주간 풀을 관리한다.</p>
+<p>Claude Code까지 Cursor에서 쓴다면 예산판은 하나 더 생긴다. Cursor Spending의 두 풀, Grok Settings의 주간 풀, Claude Code의 `/status`를 각각 확인해야 한다. 같은 모델 이름보다 어느 제품의 에이전트와 계정으로 호출했는지가 한도를 결정한다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Cursor Ultra</span><span class="chip">SuperGrok Heavy</span><span class="chip">Claude Fable 5</span><span class="chip">Composer 2.5</span><span class="chip">Grok 4.5</span><span class="chip">Claude Code</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://cursor.com/pricing" rel="nofollow noopener">https://cursor.com/pricing</a></li><li><a href="https://prod.cursor.com/help/models-and-usage/usage-limits" rel="nofollow noopener">https://prod.cursor.com/help/models-and-usage/usage-limits</a></li><li><a href="https://prod.cursor.com/help/models-and-usage/available-models" rel="nofollow noopener">https://prod.cursor.com/help/models-and-usage/available-models</a></li><li><a href="https://prod.cursor.com/docs/models/cursor-composer-2-5" rel="nofollow noopener">https://prod.cursor.com/docs/models/cursor-composer-2-5</a></li><li><a href="https://prod.cursor.com/docs/models/grok-4-5" rel="nofollow noopener">https://prod.cursor.com/docs/models/grok-4-5</a></li><li><a href="https://prod.cursor.com/docs/models/claude-fable-5" rel="nofollow noopener">https://prod.cursor.com/docs/models/claude-fable-5</a></li><li><a href="https://docs.x.ai/grok/faq" rel="nofollow noopener">https://docs.x.ai/grok/faq</a></li><li><a href="https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-or-max-plan" rel="nofollow noopener">https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-or</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Cursor Ultra와 SuperGrok Heavy 사용량은 공유되나요?</h2><p class="sum">공유되지 않는다. Cursor는 자체 월간 사용량 풀을 관리하고, SuperGrok Heavy는 Grok 제품 전반에서 쓰는 별도 주간 풀을 제공한다.</p></article><article class="dcard"><div class="t">Q</div><h2>Cursor에서 Fable 5를 쓰면 Claude Code 한도가 줄어드나요?</h2><p class="sum">Cursor Agent의 모델 선택기에서 Fable 5를 쓰면 Cursor의 Other Models 풀에서 차감된다. Claude Code 확장이나 터미널에 Claude 계정으로 로그인한 사용량은 Claude 구독 한도에 잡힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>Grok과 Composer 2.5는 어떻게 나눠 쓰는 게 좋나요?</h2><p class="sum">복잡한 계획과 깊은 디버깅은 Grok에, 반복 구현과 파일 편집은 Composer 2.5에 맡기는 방식이 실용적이다. 짧고 명확한 작업은 저렴한 Composer 표준 모드부터 시작하면 된다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-17-0900.html">2026-08-17 08-17 00:44~08:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
