@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 모델 라우팅, 멀티 에이전트는 언제 필요한가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code subagents와 Agent Teams, OMO, RouteLLM, Sakana Fugu를 비교해 모델 라우팅과 오케스트레이션의 차이, 설치법, 실제 이득이 생기는 작업 조건을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/claude-code-model-routing.html">
+<meta property="og:title" content="Claude Code 모델 라우팅, 멀티 에이전트는 언제 필요한가">
+<meta property="og:description" content="Claude Code subagents와 Agent Teams, OMO, RouteLLM, Sakana Fugu를 비교해 모델 라우팅과 오케스트레이션의 차이, 설치법, 실제 이득이 생기는 작업 조건을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/claude-code-model-routing.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 모델 라우팅, 멀티 에이전트는 언제 필요한가", "description": "Claude Code subagents와 Agent Teams, OMO, RouteLLM, Sakana Fugu를 비교해 모델 라우팅과 오케스트레이션의 차이, 설치법, 실제 이득이 생기는 작업 조건을 정리했다.", "datePublished": "2026-08-29", "dateModified": "2026-08-29", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-code-model-routing.html"}, "articleSection": "도구·라이브러리", "keywords": "Claude Code, 모델 라우팅, 멀티 에이전트, OMO, Sakana AI, LLM 오케스트레이션"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code에서 작업별로 다른 모델을 쓰려면 어떻게 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "가장 단순한 방법은 `/model opusplan`으로 계획과 실행 모델을 나누는 것이다. 더 세밀하게 나누려면 `.claude/agents/`에 역할별 Markdown 파일을 만들고 `model`, `tools`, `description`을 지정한다."}}, {"@type": "Question", "name": "OMO for Claude Code와 OmO Native는 같은 제품인가요?", "acceptedAnswer": {"@type": "Answer", "text": "같은 OMO 계열이지만 배포 방식이 다르다. Claude Code용 Light 에디션은 `lazyclaudecode`의 `omo` 플러그인이고, OmO Native는 `omo-ai@beta`로 설치하는 독립 실행형이다."}}, {"@type": "Question", "name": "멀티 에이전트가 단일 강한 모델보다 항상 좋은가요?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 작업을 독립적으로 나눌 수 있고 결과를 테스트하기 쉬울 때 이득이 커진다. 같은 파일을 순서대로 고치거나 정답을 판정하기 어려운 작업은 조정 비용이 더 클 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-model-routing.png" alt="Claude Code 모델 라우팅, 멀티 에이전트는 언제 필요한가" loading="eager">
+<header>
+  <div class="eyebrow">도구·라이브러리</div>
+  <h1>Claude Code 모델 라우팅, 멀티 에이전트는 언제 필요한가</h1>
+  <p class="sub">OMO의 역할별 모델 배치부터 Sakana AI의 학습형 조정자까지, 모델 분업이 비용보다 이득이 되는 조건을 따져봤다.</p>
+  <div class="meta"><span>2026-08-29</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>강한 모델 하나가 모든 코딩 작업을 맡아도 될까, 아니면 Claude Code가 요청마다 모델을 골라야 할까. Agent Teams와 모델별 서브에이전트가 공식 기능으로 자리 잡은 지금, 비용 차이보다 중요한 변수는 분업의 조정 비용이다. 이 글은 OMO, Claude Code, Sakana AI 사례로 라우팅이 이득이 되는 경계를 찾는다.</p>
+<h2>모델 선택과 에이전트 분업은 같은 기술이 아니다</h2>
+<p>모델 라우팅은 요청을 보고 한 모델을 고르는 일이다. [RouteLLM](https://github.com/lm-sys/routellm)은 강한 모델과 저렴한 모델의 예상 승률을 계산해 하나를 호출한다. 2024년 논문은 MT-Bench에서 비용을 최대 75% 줄였다고 보고했다. 다만 학습 도메인과 다른 MMLU·GSM8K에서는 일부 라우터가 무작위 선택보다 못했다.</p>
+<p>캐스케이드는 싼 모델의 답을 먼저 받고 신뢰도가 낮을 때 상위 모델로 넘긴다. [FrugalGPT](https://arxiv.org/html/2305.05176)는 세 데이터셋에서 같은 정확도를 유지하며 59.2~98.3%의 비용 절감을 보고했다. 실험은 2023년 API와 분류·독해 과제에 묶여 있어 현대 코딩 에이전트의 지연시간까지 증명하지 않는다.</p>
+<p>오케스트레이션은 더 넓다. 작업 분해, 역할 배정, 반복 검증, 결과 합성을 여러 호출에 걸쳐 다룬다. Claude Code의 subagents와 Agent Teams, Sakana AI의 Trinity가 이 범주다.</p>
+<h2>Claude Code에서는 작은 서브에이전트부터 만들 수 있다</h2>
+<p>[Anthropic 공식 문서](https://code.claude.com/docs/en/sub-agents)는 서브에이전트마다 별도 컨텍스트, 시스템 프롬프트, 도구, 권한, 모델을 지정하게 한다. 프로젝트의 `.claude/agents/`에 Markdown 파일을 두고 YAML frontmatter에 `name`, `description`, `tools`, `model`을 적는다. 본문에는 역할과 반환 형식을 쓴다.</p>
+<p>예를 들어 탐색자는 `model: haiku`와 읽기 도구만 받는다. 구현자는 `model: sonnet`, 검토자는 `model: opus`와 읽기 도구를 받을 수 있다. “탐색자가 관련 파일을 찾고, 구현자가 수정하며, 검토자가 명세 누락만 보고하라”고 입력한다. 산출물은 파일 요약, 코드 변경, 검토 결과다.</p>
+<p>더 간단한 내장 선택지도 있다. [모델 설정 문서](https://code.claude.com/docs/en/model-config)의 `opusplan`은 계획 단계에 Opus, 실행 단계에 Sonnet을 쓴다. `/model opusplan`으로 켜면 된다.</p>
+<p>처음부터 팀 기능을 켤 필요는 없다. [Agent Teams 문서](https://code.claude.com/docs/en/agent-teams)는 팀을 실험 기능으로 표시한다. 토큰과 조정 비용이 크게 늘어난다고도 경고한다. 서로 메시지를 주고받는 병렬 조사에는 맞지만 같은 파일을 고치거나 순서 의존성이 크면 단일 세션이 낫다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-model-routing.png" alt="" loading="lazy"><h2>‘오몬’ 대신 정확한 OMO 제품명을 확인해야 한다</h2>
+<p>조사한 공식 자료에는 ‘OMON’이나 ‘오몬’이라는 제품명이 없다. OMO 계열의 Claude Code용 배포판은 [lazyclaudecode](https://github.com/code-yeongyu/lazyclaudecode)다. 플러그인 이름은 `omo`다. 별도 프로젝트인 Oh My ClaudeCode는 약칭이 OMC다.</p>
+<p>Claude Code 안에서 `/plugin marketplace add code-yeongyu/lazyclaudecode`를 먼저 실행한다. 이어 `/plugin install omo@sisyphuslabs`를 입력하고 일반 요청에 `ultrawork`나 `ulw`를 넣는다. 입력한 목표를 계획·실행·검토 작업으로 나눈 결과와 도구 검증 기록이 산출된다.</p>
+<p>이 Light 에디션은 역할별 고정 배치에 가깝다. 공식 README에서 reviewer·planner·momus는 Opus, explorer·librarian은 Haiku를 쓴다. 여러 공급자를 의미 기반 category로 고르는 전체 라우터는 OpenCode용 Ultimate 설명에 해당한다.</p>
+<p>[OmO Native](https://github.com/code-yeongyu/oh-my-openagent)는 또 다른 배포판이다. `npm i -g omo-ai@beta` 뒤 `omo`로 실행하는 독립형 beta다. Claude Code 플러그인은 아니다. 이름이 비슷해도 설치 대상과 모델 선택 범위가 다르다.</p>
+<h2>Sakana AI는 규칙표 대신 조정자를 학습시켰다</h2>
+<p>[Sakana AI의 Trinity](https://sakana.ai/trinity/)는 작은 언어 모델의 hidden state와 라우팅 헤드로 매 턴 모델과 역할을 고른다. 최대 다섯 턴 동안 Thinker, Worker, Verifier를 배치한다. 조정자는 진화 알고리즘으로 최적화했다. Sakana AI는 ICLR 2026 결과에서 LiveCodeBench pass@1 86.2%를 보고했다. 다만 여러 호출과 단일 호출의 비용·지연은 같지 않다.</p>
+<p>상용화 단계인 [Fugu](https://sakana.ai/fugu-release/)는 모델 선택, 위임, 검증, 합성을 하나의 API 뒤에 숨긴다. 사용자가 직접 역할표를 짜는 OMO나 Claude Code subagents보다 자동화 수준이 높다. 제품 벤치마크 일부는 공급자 공개 점수를 섞었으므로 독립된 동일 조건 비교로 읽으면 안 된다.</p>
+<p>이 접근은 증류가 아니다. [Hinton·Vinyals·Dean의 정의](https://arxiv.org/abs/1503.02531)에서 증류는 큰 교사의 출력을 작은 학생 모델에 학습시킨다. Trinity와 Fugu는 배포 중에도 여러 모델을 골라 호출한다.</p>
+<h2>모델이 평준화돼도 오케스트레이션은 완전히 사라지지 않는다</h2>
+<p>써본 사람들 사이에서는 강한 모델을 계획과 최종 검토에 두고 기계적 실행을 저렴한 모델에 맡기는 구성이 자주 거론된다. 반면 에이전트를 늘린 뒤 중복 작업과 토큰 소비만 커졌다는 반응도 있다. 구현자와 비슷한 모델이 검토하면 같은 맹점을 공유한다는 불만도 나온다.</p>
+<p>판단 기준은 작업 이름보다 검증 비용이다. 결과를 테스트로 빠르게 판정하고 작업 경계가 분리되면 저렴한 실행자와 강한 검토자의 조합이 유리하다. 아키텍처 결정처럼 정답 판정이 어렵거나 한 파일에 맥락이 몰리면 가장 강한 단일 모델이 조정 비용을 피한다.</p>
+<p>모델 성능이 평준화되면 Haiku·Sonnet·Opus를 고정 배치하는 정적 라우팅의 가치는 줄어든다. 그래도 별도 컨텍스트, 제한된 권한, 독립 가설 검증은 남는다. 사라질 가능성이 큰 것은 멀티 에이전트가 아니라, 모델 이름만 보고 역할을 정하는 단순한 분업표다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">모델 라우팅</span><span class="chip">멀티 에이전트</span><span class="chip">OMO</span><span class="chip">Sakana AI</span><span class="chip">LLM 오케스트레이션</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/en/sub-agents</a></li><li><a href="https://code.claude.com/docs/en/agent-teams" rel="nofollow noopener">https://code.claude.com/docs/en/agent-teams</a></li><li><a href="https://code.claude.com/docs/en/model-config" rel="nofollow noopener">https://code.claude.com/docs/en/model-config</a></li><li><a href="https://github.com/code-yeongyu/lazyclaudecode" rel="nofollow noopener">https://github.com/code-yeongyu/lazyclaudecode</a></li><li><a href="https://github.com/code-yeongyu/oh-my-openagent" rel="nofollow noopener">https://github.com/code-yeongyu/oh-my-openagent</a></li><li><a href="https://github.com/lm-sys/routellm" rel="nofollow noopener">https://github.com/lm-sys/routellm</a></li><li><a href="https://arxiv.org/html/2406.18665" rel="nofollow noopener">https://arxiv.org/html/2406.18665</a></li><li><a href="https://arxiv.org/html/2305.05176" rel="nofollow noopener">https://arxiv.org/html/2305.05176</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 작업별로 다른 모델을 쓰려면 어떻게 하나요?</h2><p class="sum">가장 단순한 방법은 `/model opusplan`으로 계획과 실행 모델을 나누는 것이다. 더 세밀하게 나누려면 `.claude/agents/`에 역할별 Markdown 파일을 만들고 `model`, `tools`, `description`을 지정한다.</p></article><article class="dcard"><div class="t">Q</div><h2>OMO for Claude Code와 OmO Native는 같은 제품인가요?</h2><p class="sum">같은 OMO 계열이지만 배포 방식이 다르다. Claude Code용 Light 에디션은 `lazyclaudecode`의 `omo` 플러그인이고, OmO Native는 `omo-ai@beta`로 설치하는 독립 실행형이다.</p></article><article class="dcard"><div class="t">Q</div><h2>멀티 에이전트가 단일 강한 모델보다 항상 좋은가요?</h2><p class="sum">아니다. 작업을 독립적으로 나눌 수 있고 결과를 테스트하기 쉬울 때 이득이 커진다. 같은 파일을 순서대로 고치거나 정답을 판정하기 어려운 작업은 조정 비용이 더 클 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-13-0900.html">2026-08-13 08-12 23:43~08-13 08:46</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

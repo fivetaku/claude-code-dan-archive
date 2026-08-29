@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Claude Code 모델 라우팅, 멀티 에이전트는 언제 필요한가</title>
+    <link>https://chat.axwith.com/mag/tools/claude-code-model-routing.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-model-routing.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sat, 29 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code subagents와 Agent Teams, OMO, RouteLLM, Sakana Fugu를 비교해 모델 라우팅과 오케스트레이션의 차이, 설치법, 실제 이득이 생기는 작업 조건을 정리했다.</description>
+  </item>
+  <item>
+    <title>Claude Code 개발용 맥북 에어, 24GB와 32GB 선택 기준</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-macbook-air-memory-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-macbook-air-memory-guide.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sat, 29 Aug 2026 12:00:00 +0900</pubDate>
+    <description>M5 맥북 에어의 24GB와 32GB 중 개발자에게 맞는 구성을 Claude Code, Docker, 멀티에이전트, 로컬 LLM 사용량과 냉각 성능을 기준으로 비교했다.</description>
+  </item>
+  <item>
     <title>Claude Code 기업 메모리, 문서 30개보다 큐레이션이 먼저다</title>
     <link>https://chat.axwith.com/mag/workflow/claude-code-curated-memory-wiki.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-curated-memory-wiki.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sat, 22 Aug 2026 12:00:00 +0900</pubDate>
     <description>클코단에서 나온 Fable 브릿지 구상을 계기로, 수출통제로 끊겼던 이력과 구독 개편, Codex·Cursor 연동 방법까지 Fable 5 접근 경로를 정리했다.</description>
-  </item>
-  <item>
-    <title>DGX Spark로 개인 에이전트 돌리기, 초당 45토큰의 의미</title>
-    <link>https://chat.axwith.com/mag/tools/dgx-spark-hermes-nemotron.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/dgx-spark-hermes-nemotron.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sat, 22 Aug 2026 12:00:00 +0900</pubDate>
-    <description>엔비디아 DGX Spark로 Nemotron 계열 모델을 서빙해 오픈소스 에이전트 Hermes Agent를 돌리는 개인 개발자들 사이에서 초당 45~50토큰이 실사용 기준선으로 떠올랐다. 설치 절차와 대역폭 병목, 실사용 반응을 짚었다.</description>
-  </item>
-  <item>
-    <title>AI 코딩 에이전트의 탈선을 막는 설계서·훅·캘리브레이션</title>
-    <link>https://chat.axwith.com/mag/workflow/ai-agent-spec-hooks-calibration.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-spec-hooks-calibration.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sat, 22 Aug 2026 12:00:00 +0900</pubDate>
-    <description>AI 코딩 에이전트가 궤도를 벗어나지 않게 하는 법을 다뤘다. 스펙 주도 개발과 클로드 코드 플랜 모드, 아첨·반발 사이 균형을 맞춘 최신 모델 조정, 완료 선언을 검증하는 스톱 훅과 하네스 스코어까지 정리했다.</description>
   </item>
 </channel></rss>

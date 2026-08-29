@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 개발용 맥북 에어, 24GB와 32GB 선택 기준 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="M5 맥북 에어의 24GB와 32GB 중 개발자에게 맞는 구성을 Claude Code, Docker, 멀티에이전트, 로컬 LLM 사용량과 냉각 성능을 기준으로 비교했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/claude-code-macbook-air-memory-guide.html">
+<meta property="og:title" content="Claude Code 개발용 맥북 에어, 24GB와 32GB 선택 기준">
+<meta property="og:description" content="M5 맥북 에어의 24GB와 32GB 중 개발자에게 맞는 구성을 Claude Code, Docker, 멀티에이전트, 로컬 LLM 사용량과 냉각 성능을 기준으로 비교했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/claude-code-macbook-air-memory-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 개발용 맥북 에어, 24GB와 32GB 선택 기준", "description": "M5 맥북 에어의 24GB와 32GB 중 개발자에게 맞는 구성을 Claude Code, Docker, 멀티에이전트, 로컬 LLM 사용량과 냉각 성능을 기준으로 비교했다.", "datePublished": "2026-08-29", "dateModified": "2026-08-29", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/claude-code-macbook-air-memory-guide.html"}, "articleSection": "질문·트러블슈팅", "keywords": "Claude Code, 맥북 에어, Apple Silicon, Docker, 로컬 LLM, 개발용 노트북"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code 개발에 맥북 에어 24GB면 충분한가요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code, IDE, 브라우저와 소수 컨테이너를 사용하는 웹 개발에는 24GB가 합리적이다. 여러 에이전트와 컨테이너를 상시 병렬 실행한다면 32GB가 더 안정적이다."}}, {"@type": "Question", "name": "맥북 에어 32GB로 로컬 LLM 코딩이 가능한가요?", "acceptedAnswer": {"@type": "Answer", "text": "양자화된 소형 모델과 제한된 컨텍스트는 실행할 수 있다. 긴 컨텍스트와 본격적인 에이전트 작업은 운영체제와 개발 도구까지 같은 메모리를 써서 빠르게 한계에 닿는다."}}, {"@type": "Question", "name": "중고 M1 Max와 최신 M5 맥북 에어 중 무엇이 개발에 유리한가요?", "acceptedAnswer": {"@type": "Answer", "text": "휴대성, 배터리, 짧은 작업 성능은 M5 Air가 유리하다. 로컬 LLM과 장시간 부하에는 최대 64GB 메모리와 400GB/s 대역폭, 능동 냉각을 갖춘 M1 Max가 여전히 비교할 가치가 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-macbook-air-memory-guide.png" alt="Claude Code 개발용 맥북 에어, 24GB와 32GB 선택 기준" loading="eager">
+<header>
+  <div class="eyebrow">질문·트러블슈팅</div>
+  <h1>Claude Code 개발용 맥북 에어, 24GB와 32GB 선택 기준</h1>
+  <p class="sub">Claude Code·Docker·로컬 LLM을 함께 돌릴 때, 24GB Air와 32GB Air·중고 Pro의 경계를 따졌다</p>
+  <div class="meta"><span>2026-08-29</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Code로 CRUD 서비스를 만들고 브라우저와 터미널을 여러 개 띄운다면, MacBook Air 24GB로 충분할까. 32GB가 안전하다는 조언은 절반만 맞다. 답은 Claude Code가 아니라 Docker와 로컬 LLM을 같은 기계에서 얼마나 겹쳐 돌리느냐에 달렸다.</p>
+<h2>Claude Code만 보면 24GB도 작은 사양이 아니다</h2>
+<p>Anthropic의 설치 문서는 Claude Code가 macOS에서 실행되는 CLI라고 설명한다. 기본 사용에서 모델 추론은 원격 서비스가 맡는다. Claude Code 세션을 늘린다고 거대한 모델 가중치가 Mac 메모리에 복제되지는 않는다. 문제는 세션 주변에 붙는 도구다. IDE, 언어 서버, 수십 개 브라우저 탭, MCP 서버, 테스트 프로세스가 각각 메모리를 차지한다. 여러 에이전트가 동시에 빌드와 테스트를 수행하면 순간 부하도 겹친다.</p>
+<p>Apple의 2026년 M5 MacBook Air는 16GB가 기본이며 24GB와 32GB로 구성할 수 있다. 메모리는 CPU와 GPU가 함께 쓰는 통합 풀이다. 그래서 “Mac은 24GB를 더 효율적으로 쓴다”는 말은 일부 맞다. 다만 물리 용량이 늘어나는 마법은 아니다.</p>
+<p>클라우드 Claude Code와 가벼운 CRUD 개발이 중심이라면 24GB는 합리적이다. 반면 세션 여러 개와 브라우저, 로컬 데이터베이스, 컨테이너를 늘 켜둔다면 32GB가 대기 시간을 줄이는 보험에 가깝다.</p>
+<h2>Docker를 어디서 돌리느냐가 8GB 차이를 바꾼다</h2>
+<p>Docker Desktop 공식 설정에서 Mac용 Linux VM의 기본 메모리 한도는 호스트 RAM의 50%다. 24GB Mac이라면 설정상 최대 12GB가 VM 몫이 될 수 있다. 실제 사용량은 컨테이너 구성에 따라 달라진다. 유휴 VM을 멈추는 Resource Saver는 호스트 사용량을 2GB 이상 줄인다고 Docker가 안내한다. 다만 컨테이너가 계속 도는 개발 환경에서는 절약 효과가 제한된다. 메모리 한도를 무작정 키우기보다 필요한 서비스만 올리는 편이 먼저다.</p>
+<p>방 논의에서 나온 “Docker 서버를 분리하자”는 방법도 공식 지원 경로가 있다. Linux 서버에 SSH 접근을 만든 뒤 `docker context create --docker host=ssh://user@server devbox`를 실행한다. 이어 `docker context use devbox`로 빌드와 컨테이너를 원격 엔진에 보낸다.</p>
+<p>이 구성은 가벼운 Air를 편집기와 Claude Code 단말로 남긴다.</p>
+<p>개인 개발자에게는 24GB Air와 기존 서버 조합이 32GB 업그레이드보다 실용적일 수 있다. 네트워크 지연과 서버 보안 관리가 새 비용으로 붙는다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-macbook-air-memory-guide.png" alt="" loading="lazy"><h2>로컬 LLM을 넣으면 32GB의 의미가 달라진다</h2>
+<p>Ollama는 Apple Silicon의 통합 메모리를 모델과 컨텍스트 캐시에 사용한다. 공식 문서는 24~48GiB 구간에서 기본 컨텍스트를 32K로 잡는다. 웹 검색과 코딩 에이전트에는 최소 64K 컨텍스트를 권한다. 길이를 늘리면 메모리도 더 든다. 2026년 Ollama의 MLX 미리보기에서 Qwen3.5-35B-A3B 코딩 모델은 32GB를 초과한 통합 메모리를 요구했다. 32GB Air를 샀다고 해당 구성의 권장선을 충족하는 것은 아니다. 운영체제와 개발 도구가 같은 메모리 풀을 나눠 쓰기 때문이다.</p>
+<p>직접 시험할 때는 작은 모델부터 `ollama run &lt;model&gt;`로 실행한다. `ollama ps`에서 적재 상태를 본다. Activity Monitor의 메모리 압력과 Swap Used를 함께 기록한다. 평소 프로젝트와 브라우저를 그대로 연 상태에서 저장소 탐색, 테스트 생성, 수정 작업을 차례로 시켜야 한다.</p>
+<p>써본 사람들 사이에서도 평가는 갈린다. 24GB에서는 작은 모델도 긴 에이전트 작업이 답답하다는 반응이 있는 반면, 32GB Air에서 강한 양자화와 짧은 컨텍스트로 일상 작업을 처리했다는 경험도 있다. 공통점은 클라우드 최상위 모델을 완전히 대체하기 어렵다는 점이다.</p>
+<h2>Air와 Pro의 차이는 순간 속도보다 지속 부하다</h2>
+<p>M5 Air는 팬이 없는 완전 무소음 설계다. 짧은 코드 실행과 일반 웹 개발에는 장점이 크다. 장시간 컴파일, 영상 인코딩, 로컬 추론처럼 열이 계속 나는 작업에서는 능동 냉각이 있는 Pro가 유리하다. 여러 리뷰의 멀티코어 벤치마크에서 M5 Air는 같은 M5의 14인치 Pro보다 낮은 점수를 보였다. 단일 시험이 모든 개발 작업을 대표하지는 않는다. 그래도 팬리스 Air가 지속 부하에서 전력을 낮춘다는 방향은 확인된다.</p>
+<p>중고 M1 Pro·Max가 대안으로 거론되는 이유는 최신 CPU 점수만이 아니다. Apple 사양상 M1 Pro는 최대 32GB와 200GB/s, M1 Max는 최대 64GB와 400GB/s 메모리 대역폭을 지원한다. M5 Air의 153GB/s보다 로컬 추론에 유리한 여지가 있다.</p>
+<p>대신 중고는 배터리 상태, 무게, 남은 지원 기간을 감수한다.</p>
+<p>Apple은 거래 전에 Activation Lock 해제를 확인하도록 안내한다. 판매자가 `Find My`에서 기기를 제거하지 못하면 값싼 사양도 선택지에서 제외해야 한다.</p>
+<h2>24GB와 32GB는 미래 계획이 아니라 오늘의 동시 작업으로 고른다</h2>
+<p>현재 업무가 Claude Code, IDE, 브라우저, 소수 컨테이너라면 24GB Air가 질문에 가장 곧은 답이다. Docker를 원격으로 옮길 수 있다면 여유는 더 커진다. 휴대성이 중요하면 13인치 선택도 자연스럽다.</p>
+<p>32GB Air는 컨테이너와 세션을 자주 겹치거나, 작은 로컬 모델을 실험하려는 사람에게 맞는다. 다만 본격적인 로컬 LLM이 구매 이유라면 8GB 추가만으로 해결됐다고 보면 안 된다. 48GB 이상 Pro·Max, 중고 M1 Max, 별도 추론 서버가 더 정확한 비교 대상이다.</p>
+<p>이미 Mac을 쓰고 있다면 일주일간 평소 작업을 재현해 Activity Monitor의 메모리 압력과 스왑을 기록하면 된다. 압력이 계속 노란색이나 빨간색으로 오르고 작업이 느려질 때만 다음 용량이 근거를 얻는다.</p>
+<p>개발용 Mac의 기준선은 32GB라는 구호가 아니라, 동시에 유지해야 할 작업의 합이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">맥북 에어</span><span class="chip">Apple Silicon</span><span class="chip">Docker</span><span class="chip">로컬 LLM</span><span class="chip">개발용 노트북</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.apple.com/kr/macbook-air/specs/" rel="nofollow noopener">https://www.apple.com/kr/macbook-air/specs/</a></li><li><a href="https://www.apple.com/kr/newsroom/2026/03/apple-introduces-the-new-macbook-air-with-m5/" rel="nofollow noopener">https://www.apple.com/kr/newsroom/2026/03/apple-introduces-the-new-macbook-air-w</a></li><li><a href="https://code.claude.com/docs/en/getting-started" rel="nofollow noopener">https://code.claude.com/docs/en/getting-started</a></li><li><a href="https://docs.docker.com/desktop/settings-and-maintenance/settings/" rel="nofollow noopener">https://docs.docker.com/desktop/settings-and-maintenance/settings/</a></li><li><a href="https://docs.docker.com/desktop/use-desktop/resource-saver/" rel="nofollow noopener">https://docs.docker.com/desktop/use-desktop/resource-saver/</a></li><li><a href="https://docs.docker.com/engine/security/protect-access/" rel="nofollow noopener">https://docs.docker.com/engine/security/protect-access/</a></li><li><a href="https://support.apple.com/en-nz/guide/activity-monitor/-actmntr1004/mac" rel="nofollow noopener">https://support.apple.com/en-nz/guide/activity-monitor/-actmntr1004/mac</a></li><li><a href="https://docs.ollama.com/context-length" rel="nofollow noopener">https://docs.ollama.com/context-length</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code 개발에 맥북 에어 24GB면 충분한가요?</h2><p class="sum">Claude Code, IDE, 브라우저와 소수 컨테이너를 사용하는 웹 개발에는 24GB가 합리적이다. 여러 에이전트와 컨테이너를 상시 병렬 실행한다면 32GB가 더 안정적이다.</p></article><article class="dcard"><div class="t">Q</div><h2>맥북 에어 32GB로 로컬 LLM 코딩이 가능한가요?</h2><p class="sum">양자화된 소형 모델과 제한된 컨텍스트는 실행할 수 있다. 긴 컨텍스트와 본격적인 에이전트 작업은 운영체제와 개발 도구까지 같은 메모리를 써서 빠르게 한계에 닿는다.</p></article><article class="dcard"><div class="t">Q</div><h2>중고 M1 Max와 최신 M5 맥북 에어 중 무엇이 개발에 유리한가요?</h2><p class="sum">휴대성, 배터리, 짧은 작업 성능은 M5 Air가 유리하다. 로컬 LLM과 장시간 부하에는 최대 64GB 메모리와 400GB/s 대역폭, 능동 냉각을 갖춘 M1 Max가 여전히 비교할 가치가 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-26-0900.html">2026-08-26 08-25 23:33~08-26 08:33</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
