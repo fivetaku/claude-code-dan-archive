@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>코덱스·클로드·키미는 모델과 워크플로우가 어떻게 다른가요? — 클코단 Q&amp;A</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="코덱스는 골(작업지시)만 던지면 알아서 처리하는 아키텍처인 반면 클로드는 동료처럼 함께 일하는 방향으로 설계됐다는 차이가 정리됐다. 코덱스는 정책상 거절(리퓨절)이 잦고 스킬 관련 맥락이 나올 때마다 전문을 다시 읽어 비효율적이라는 지적이 나왔다. 인">
+<link rel="canonical" href="https://chat.axwith.com/qna/q/코덱스클로드키미모델비교및워크플로우.html">
+<meta property="og:title" content="코덱스·클로드·키미는 모델과 워크플로우가 어떻게 다른가요?">
+<meta property="og:description" content="코덱스는 골(작업지시)만 던지면 알아서 처리하는 아키텍처인 반면 클로드는 동료처럼 함께 일하는 방향으로 설계됐다는 차이가 정리됐다. 코덱스는 정책상 거절(리퓨절)이 잦고 스킬 관련 맥락이 나올 때마다 전문을 다시 읽어 비효율적이라는 지적이 나왔다. 인">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/qna/q/코덱스클로드키미모델비교및워크플로우.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "코덱스·클로드·키미는 모델과 워크플로우가 어떻게 다른가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "코덱스는 골(작업지시)만 던지면 알아서 처리하는 아키텍처인 반면 클로드는 동료처럼 함께 일하는 방향으로 설계됐다는 차이가 정리됐다. 코덱스는 정책상 거절(리퓨절)이 잦고 스킬 관련 맥락이 나올 때마다 전문을 다시 읽어 비효율적이라는 지적이 나왔다. 인세인리서치 도구는 클로드에 최적화되어 있어 코덱스에서는 성능이 보장되지 않는다는 의견도 공유됐다. 키미·딥식 최신 모델에 인세인리서치를 조합하면 검색 결과를 잘 긁어온다는 경험담도 나왔다. 코덱스와 클로드는 설계 철학 자체가 다른 아키텍처 코덱스는 정책상 거절(리퓨절)이 잦은 편 인세인리서치는 클로드 최적화 도구라 다른 모델에서 성능 보장 안 됨 키미·딥식 최신 모델과 인세인리서치 조합 시 검색 결과가 우수하다는 경험"}}}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.qnalist{margin-top:22px}
+.qgrp{font-size:15px;font-weight:800;color:var(--accent-deep);margin:28px 0 4px;letter-spacing:-.01em}
+.qna{border-bottom:1px solid var(--line);padding:14px 2px}
+.qna summary{font-size:16.5px;font-weight:700;cursor:pointer;list-style:none;line-height:1.5}
+.qna summary::-webkit-details-marker{display:none}
+.qna summary::before{content:"Q  ";color:var(--accent-deep);font-family:ui-monospace,Menlo,monospace;font-weight:800}
+.qna[open] summary{color:var(--accent-deep)}
+.qna p{font-size:15px;line-height:1.7;color:var(--ink);margin:11px 0 6px;padding-left:22px}
+.qna ul{margin:6px 0 4px 22px;font-size:14px;color:var(--muted)}
+.qna li{margin:4px 0}
+.qna .chip{margin-left:8px;font-weight:600}
+.qlink{margin-left:8px;color:var(--muted);text-decoration:none;font-weight:800}
+.qlink:hover{color:var(--accent-deep)}
+
+.qbody{margin-top:18px}
+.qanswer{font-size:16.5px;line-height:1.75;font-weight:500}
+.qbody ul{margin:12px 0 4px 20px;font-size:15px;line-height:1.7}
+.qrel{margin-top:34px;border-top:1px solid var(--line);padding-top:16px}
+.qrel h2{font-size:15px;font-weight:800;color:var(--accent-deep)}
+.qrel ul{margin:8px 0 0 18px;font-size:15px;line-height:2}
+.artnav{margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="artnav"><a href="../">&larr; 클코단 Q&amp;A</a></nav>
+<header>
+  <div class="eyebrow">모델 선택</div>
+  <h1>코덱스·클로드·키미는 모델과 워크플로우가 어떻게 다른가요?</h1>
+  
+</header>
+<article class="qbody">
+  <p class="qanswer">코덱스는 골(작업지시)만 던지면 알아서 처리하는 아키텍처인 반면 클로드는 동료처럼 함께 일하는 방향으로 설계됐다는 차이가 정리됐다. 코덱스는 정책상 거절(리퓨절)이 잦고 스킬 관련 맥락이 나올 때마다 전문을 다시 읽어 비효율적이라는 지적이 나왔다. 인세인리서치 도구는 클로드에 최적화되어 있어 코덱스에서는 성능이 보장되지 않는다는 의견도 공유됐다. 키미·딥식 최신 모델에 인세인리서치를 조합하면 검색 결과를 잘 긁어온다는 경험담도 나왔다.</p>
+  <ul><li>코덱스와 클로드는 설계 철학 자체가 다른 아키텍처</li><li>코덱스는 정책상 거절(리퓨절)이 잦은 편</li><li>인세인리서치는 클로드 최적화 도구라 다른 모델에서 성능 보장 안 됨</li><li>키미·딥식 최신 모델과 인세인리서치 조합 시 검색 결과가 우수하다는 경험</li></ul>
+</article>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="ppt작성codexvsclaude.html">PPT 작성은 Codex와 Claude Code 중 뭐가 더 나을까요?</a></li></ul></section>
+<footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
+<a href="../../p/about.html">소개</a> · <a href="../../">아카이브</a></footer>
+</div>
+</body>
+</html>
