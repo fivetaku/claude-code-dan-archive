@@ -129,11 +129,28 @@ margin-right:6px;font-variant-numeric:tabular-nums}
 .repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav><a href="./">&larr; 공유된 레포</a></nav>
+<nav class="tabs"><a href="../">대화 요약</a><a class="on" href="../repos/">공유된 레포</a><a href="../weekly/">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <div class="eyebrow" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--accent-deep)">REPOSITORY</div>
   <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">holzschu/a-shell</h1>
@@ -145,6 +162,7 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 <ul><li>ios_system 기반으로 nslookup, whois, python3, lua, pdflatex 등 다양한 명령어를 지원한다</li><li>iPadOS 멀티 윈도우를 지원하며 각 윈도우가 독립된 컨텍스트·히스토리·작업 디렉터리를 가진다</li><li>pickFolder와 북마크 기능으로 다른 앱 샌드박스 디렉터리에 접근할 수 있다</li><li>Apple Shortcuts와 연동되어 Execute Command, Put File, Get File 세 가지 단축어로 자동화가 가능하다</li><li>Python, Lua, JS, C, C++, TeX 등 여러 프로그래밍 언어와 clang 컴파일(WebAssembly 산출)을 지원한다</li></ul>
 <p class="rmeta">설치: AppStore에서 설치 가능, 직접 빌드하려면 git submodule update --init --recursive 후 downloadFrameworks.sh 실행</p>
 </div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>봇이 README를 읽고 자동 분석한 요약입니다. 원문은 GitHub 레포를 확인하세요.</footer>
 </div>
 </body>

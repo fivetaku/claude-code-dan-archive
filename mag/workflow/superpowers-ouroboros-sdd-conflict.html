@@ -150,8 +150,8 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 
 .artbody{margin-top:22px}
 .artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
-.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
-.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
 .joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
@@ -184,7 +184,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>프레임워크가 무엇이든 스펙과 플랜을 최종 승인하는 주체는 여전히 사람이라는 점은 공통적이다. GitHub도 Spec Kit 문서에서 &quot;개발자의 역할은 코더가 아니라 각 체크포인트에서 검증하는 관제탑&quot;이라고 못박고 있고 superpowers 역시 스펙·플랜 리뷰를 사람이 직접 하도록 설계돼 있다. AI가 스펙 작성이나 코드 생성 속도를 아무리 끌어올려도, &quot;이 스펙이 내가 원하는 것이 맞는가&quot;를 판단하는 지점만큼은 자동화되지 않은 셈이다. 이런 맥락에서 SDD 전환은 TDD를 버리는 것이라기보다, 사람이 검증해야 할 지점을 &quot;코드 리뷰&quot;에서 &quot;스펙·플랜 리뷰&quot;로 앞당기는 작업에 가깝다.</p>
 <h2>정리</h2>
 <p>SDD가 2026년 AI 코딩의 주류로 자리 잡으면서 선택지도 늘었다. 그린필드 프로젝트에는 가이드가 촘촘한 Kiro나 Spec Kit이, 기존 코드베이스를 다루는 브라운필드 작업에는 가볍게 커스터마이즈할 수 있는 Claude Code 스킬 기반 도구가 더 맞는다는 평가가 많다. superpowers와 우로보로스처럼 둘 다 &quot;인터뷰→스펙→검증&quot; 구간을 스스로 처리하려는 프레임워크는 겹치는 순간 워크플로우 충돌로 이어지기 쉬우므로, 함께 설치하기보다 하나를 골라 프로젝트에 맞는지 먼저 검증해보는 편이 실용적이라는 게 방 논의의 결론이었다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">superpowers</span><span class="chip">Ouroboros</span><span class="chip">SDD</span><span class="chip">스펙 주도 개발</span><span class="chip">TDD</span><span class="chip">AI 코딩 에이전트</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>superpowers는 무엇인가요?</h2><p class="sum">Jesse Vincent(obra)가 만든 Claude Code용 에이전틱 스킬 프레임워크로, 브레인스토밍·TDD·git worktree·코드 리뷰 등을 자동 발동하는 스킬로 묶어 제공한다. 공식 Anthropic 플러그인 마켓플레이스에서 설치할 수 있고, 현재 가장 많은 스타를 받은 Claude Code 스킬 저장소로 꼽힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>우로보로스(Ouroboros)와 superpowers를 같이 써도 되나요?</h2><p class="sum">두 프레임워크 모두 요구사항을 스펙으로 만드는 인터뷰·검토 단계를 자체적으로 담당하기 때문에 함께 설치하면 스킬 트리거가 겹쳐 워크플로우가 충돌하기 쉽다. 커뮤니티에서는 하나만 선택해 프로젝트에 맞는지 먼저 검증해보라는 의견이 우세했다.</p></article><article class="dcard"><div class="t">Q</div><h2>SDD와 TDD는 어떻게 다른가요?</h2><p class="sum">TDD는 코드 단위의 정확성을 테스트로 보장하는 방식이고, SDD는 스펙을 원본(source of truth)으로 두고 코드를 그 표현물로 취급하는 방식이다. 2026년 GitHub Spec Kit, AWS Kiro 등 주요 AI 코딩 도구가 각자 SDD 변형을 내놓으며 주류로 떠올랐지만, TDD가 AI 에이전트의 안전장치로 여전히 유효하다는 반론도 있다.</p></article></div>

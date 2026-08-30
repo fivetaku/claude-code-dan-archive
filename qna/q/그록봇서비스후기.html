@@ -131,9 +131,33 @@ margin-right:6px;font-variant-numeric:tabular-nums}
 .repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 
 .qnalist{margin-top:22px}
 .qgrp{font-size:15px;font-weight:800;color:var(--accent-deep);margin:28px 0 4px;letter-spacing:-.01em}
+.qrow{display:flex;align-items:baseline;gap:8px;border-bottom:1px solid var(--line);
+padding:13px 2px;text-decoration:none;color:var(--ink)}
+.qrow:hover .qq{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
+.qrow .qq{font-size:16.5px;font-weight:700;line-height:1.5}
+.qrow .qq::before{content:"Q  ";color:var(--accent-deep);font-family:ui-monospace,Menlo,monospace}
+.qrow-flat{display:block}
+.qmini{margin:6px 0 0;font-size:14px;color:var(--muted);line-height:1.6}
 .qna{border-bottom:1px solid var(--line);padding:14px 2px}
 .qna summary{font-size:16.5px;font-weight:700;cursor:pointer;list-style:none;line-height:1.5}
 .qna summary::-webkit-details-marker{display:none}
@@ -153,11 +177,17 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 .qrel h2{font-size:15px;font-weight:800;color:var(--accent-deep)}
 .qrel ul{margin:8px 0 0 18px;font-size:15px;line-height:2}
 .artnav{margin-bottom:14px}
+.srccard{display:flex;justify-content:space-between;align-items:center;gap:12px;
+margin-top:26px;padding:13px 16px;border:1px solid var(--line);border-radius:10px;
+background:var(--surface);text-decoration:none}
+.srccard:hover{border-color:var(--accent)}
+.srclabel{font-weight:700;color:var(--accent-deep)}
+.srcdate{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--muted)}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav class="artnav"><a href="../">&larr; 클코단 Q&amp;A</a></nav>
+<nav class="tabs"><a href="../../">대화 요약</a><a href="../../repos/">공유된 레포</a><a href="../../weekly/">주간 정리</a><a href="../../mag/">매거진</a><a class="on" href="../../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <div class="eyebrow">요금·사용량</div>
   <h1>그록봇 서비스 써본 사람 후기 있나요?</h1>
@@ -167,7 +197,9 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
   <p class="qanswer">그록봇 사용 경험과 구독 가치에 대한 질문이 나왔다. 서비스는 컴퓨터 한 대에 Grok 4.6을 붙여 주고, 여러 에이전트가 해당 환경을 공유하는 개념으로 설명됐다. 커서나 그록 요금제까지 함께 활용하려는 경우에는 가치가 있을 수 있지만, 클로드와 클로드 코드 조합에 만족한다면 굳이 옮길 필요는 없다는 의견이 제시됐다. 이미지와 동영상 생성도 가능하다는 경험담이 덧붙었다.</p>
   <ul><li>그록봇은 컴퓨터 한 대와 Grok 4.6을 결합한 서비스로 설명됐다.</li><li>여러 에이전트를 소환하고 메시지를 주고받게 하는 구성이 언급됐다.</li><li>커서 또는 그록 요금제를 함께 쓸 사용자에게 가치가 있을 수 있다는 의견이 나왔다.</li><li>클로드 코드 중심 사용자에게는 이전 필요성이 낮다는 평가가 있었다.</li><li>이미지 및 동영상 생성 가능 경험담이 공유됐다.</li></ul>
 </article>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecode최신업데이트소식.html">Claude Code 최신 업데이트 소식 아시는 분 계신가요?</a></li><li><a href="claude구독중복결제.html">Claude 구독료가 중복으로 결제됐는데 어떻게 해결하나요?</a></li><li><a href="claude플랜한도.html">Claude 플랜별 사용 한도는 어떻게 다른가요?</a></li><li><a href="claudemd정리주기.html">CLAUDE.md는 얼마나 자주 정리해줘야 하나요?</a></li><li><a href="grok46성능논쟁.html">Grok 4.6 성능을 두고 왜 이렇게 논쟁이 벌어지고 있나요?</a></li></ul></section>
+<a class="srccard" href="../../s/2026-08-17-1630.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-17 아카이브</span></a>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecode최신업데이트소식.html">Claude Code 최신 업데이트 소식 아시는 분 계신가요?</a></li><li><a href="claude구독중복결제.html">Claude 구독료가 중복으로 결제됐는데 어떻게 해결하나요?</a></li><li><a href="claude플랜한도.html">Claude 플랜별 사용 한도는 어떻게 다른가요?</a></li><li><a href="claudemd정리주기.html">CLAUDE.md는 얼마나 자주 정리해줘야 하나요?</a></li><li><a href="fable5사용비용적합성논.html">fable5는 비용 대비 어디에 적합한 모델인가요?</a></li></ul></section>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../">아카이브</a></footer>
 </div>

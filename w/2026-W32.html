@@ -144,11 +144,28 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
 font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+<nav class="tabs"><a href="../">대화 요약</a><a href="../repos/">공유된 레포</a><a class="on" href="../weekly/">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <span class="mark">지피탁구</span>
   <h1>8월 3일 ~ 8월 9일 주간정리</h1>
@@ -165,6 +182,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </section>
 <section class="details"><article class="dcard"><div class="t">도구·라이브러리</div><h2>볼타 세금계산서 자동화</h2><p class="sum">8/3, 8/6 등 여러 슬롯에서 importance 5로 반복 등장했고, 입출금 자동매칭 기능까지 실사용 후기와 팁이 활발히 공유됐다.</p><ul><li><a href="../s/2026-08-06-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">AI 모델·프롬프트</div><h2>오푸스5 체감 성능 저하</h2><p class="sum">오퍼스5 전환 후 하네스 동작이 둔해졌다는 불만이 여러 날 반복됐고, CLAUDE.md 정리나 모델 조합 전략 등 대응 논의로 이어졌다.</p><ul><li><a href="../s/2026-08-03-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">워크플로우·방법론</div><h2>AX 도입과 조직 저항</h2><p class="sum">실무자의 자리 위협 인식, 책임 소재 문제 등 AX 확산의 근본 병목이 깊이 논의됐고 관련 매거진 공유로 화제가 이어졌다.</p><ul><li><a href="../s/2026-08-05-1141-s.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">도구·라이브러리</div><h2>오르카·파세오 도구 전쟁</h2><p class="sum">한 주 내내 오르카·파세오·cmux·허더 등 멀티에이전트 관리 도구 비교가 반복되며 importance 5로 여러 차례 다뤄졌다.</p><ul><li><a href="../s/2026-08-07-0900.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">커뮤니티·잡담</div><h2>클코단 1000명 돌파</h2><p class="sum">방 인원이 1000명에 근접하며 기대와 잡담이 이어졌고, 오너가 방 운영 목표를 직접 밝히는 계기가 됐다.</p><ul><li><a href="../s/2026-08-04-2200.html">그날 요약 보기</a></li></ul></article></section>
 <div class="months"><h2>이번 주 새 레포 14개</h2><a href="../repos/changeroa-StyleGallery.html">changeroa/StyleGallery</a><a href="../repos/obra-superpowers.html">obra/superpowers</a><a href="../repos/Q00-ouroboros.html">Q00/ouroboros</a><a href="../repos/steipete-agent-scripts.html">steipete/agent-scripts</a><a href="../repos/bojieli-ai-agent-book.html">bojieli/ai-agent-book</a><a href="../repos/breaking-brake-cc-wf-studio.html">breaking-brake/cc-wf-studio</a><a href="../repos/fivetaku-gaseo.html">fivetaku/gaseo</a><a href="../repos/TencentCloud-TencentDB-Agent-Memory.html">TencentCloud/TencentDB-Agent-Memory</a><a href="../repos/genspark-ai-genoffice.html">genspark-ai/genoffice</a><a href="../repos/thedotmack-claude-mem.html">thedotmack/claude-mem</a><a href="../repos/browser-use-video-use.html">browser-use/video-use</a><a href="../repos/tt-a1i-archify.html">tt-a1i/archify</a></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>지피탁구 봇이 그 주 요약을 모아 자동 정리했습니다.</footer>
 </div>
 </body>

@@ -131,9 +131,33 @@ margin-right:6px;font-variant-numeric:tabular-nums}
 .repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 
 .qnalist{margin-top:22px}
 .qgrp{font-size:15px;font-weight:800;color:var(--accent-deep);margin:28px 0 4px;letter-spacing:-.01em}
+.qrow{display:flex;align-items:baseline;gap:8px;border-bottom:1px solid var(--line);
+padding:13px 2px;text-decoration:none;color:var(--ink)}
+.qrow:hover .qq{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
+.qrow .qq{font-size:16.5px;font-weight:700;line-height:1.5}
+.qrow .qq::before{content:"Q  ";color:var(--accent-deep);font-family:ui-monospace,Menlo,monospace}
+.qrow-flat{display:block}
+.qmini{margin:6px 0 0;font-size:14px;color:var(--muted);line-height:1.6}
 .qna{border-bottom:1px solid var(--line);padding:14px 2px}
 .qna summary{font-size:16.5px;font-weight:700;cursor:pointer;list-style:none;line-height:1.5}
 .qna summary::-webkit-details-marker{display:none}
@@ -153,11 +177,17 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 .qrel h2{font-size:15px;font-weight:800;color:var(--accent-deep)}
 .qrel ul{margin:8px 0 0 18px;font-size:15px;line-height:2}
 .artnav{margin-bottom:14px}
+.srccard{display:flex;justify-content:space-between;align-items:center;gap:12px;
+margin-top:26px;padding:13px 16px;border:1px solid var(--line);border-radius:10px;
+background:var(--surface);text-decoration:none}
+.srccard:hover{border-color:var(--accent)}
+.srclabel{font-weight:700;color:var(--accent-deep)}
+.srcdate{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--muted)}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav class="artnav"><a href="../">&larr; 클코단 Q&amp;A</a></nav>
+<nav class="tabs"><a href="../../">대화 요약</a><a href="../../repos/">공유된 레포</a><a href="../../weekly/">주간 정리</a><a href="../../mag/">매거진</a><a class="on" href="../../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <div class="eyebrow">기타</div>
   <h1>인세인서치를 연구 목적으로 어떻게 활용할 수 있나요?</h1>
@@ -167,7 +197,9 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
   <p class="qanswer">insane-search와 insane-research가 연구·자료조사 워크플로에 유용하다는 실제 활용 경험이 공유됐다. 연구자는 기존 academic pipeline의 한국화 부족을 보완하기 위해 앞단 리서치 스킬로 연결하고, 기관 자료를 우선 사용하도록 수정했다고 설명했다. 특히 claim ledger와 abstention 같은 검증·보류 장치가 출처 품질 문제를 줄이는 데 도움이 됐다는 평가가 나왔다. 제작자는 Claude Code에서 직접 되지 않는 자료조사를 딥리서치 방식에서 차용해 만들었고, 너무 느린 도구보다 적당한 속도와 품질의 균형을 선호한다고 밝혔다.</p>
   <ul><li>insane-search는 API 키나 로그인 없이 차단된 공개 웹페이지를 여러 경로로 읽어오는 Claude Code 플러그인이다.</li><li>연구 환경에서 한국화가 부족한 조사 엔진을 보완하는 용도로 응용 사례가 공유됐다.</li><li>연구기관 자료를 우선 사용하도록 스킬을 수정한 사례가 나왔다.</li><li>claim ledger가 조사 결과의 검증 부담을 줄였다는 평가가 나왔다.</li><li>abstention 같은 보류 처리와 출처 검증 구조의 필요성이 언급됐다.</li></ul>
 </article>
+<a class="srccard" href="../../s/2026-08-19-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-19 아카이브</span></a>
 <section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="오푸스5답변품질저하.html">웹에서 오푸스 응답 품질이 나빠졌다는 얘기 사실인가요?</a></li><li><a href="클로드가파일지워버린사례.html">클로드가 파일을 지워버린 사례 있으신가요?</a></li><li><a href="인세인리서치소개.html">인세인리서치라는 게 뭔지 소개해줄 수 있나요?</a></li><li><a href="윤문플러그인과채용.html">글쓰기 윤문에 어떤 플러그인을 채용하면 좋을까요?</a></li><li><a href="ai워터마크논쟁.html">AI 생성물에 워터마크를 넣는 게 맞을까?</a></li></ul></section>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../">아카이브</a></footer>
 </div>

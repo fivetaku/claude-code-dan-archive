@@ -150,8 +150,8 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 
 .artbody{margin-top:22px}
 .artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
-.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
-.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
 .joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
@@ -182,7 +182,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>결국 디테일은 수동 제어로</h2>
 <p>방 논의는 처음엔 자동화가 편리해도 세부 사항을 다듬으려면 결국 수동 제어로 돌아가게 된다는 정리로 마무리됐다. 이는 업계에서 이야기하는 워크플로와 에이전트 사이의 절충과도 일치한다. 처음부터 모든 것을 에이전트에 맡기기보다, 반복적이고 예측 가능한 구간은 정해진 절차로 고정하고 판단이 필요한 구간에만 자율성을 열어주는 방식이 실무에서 자리를 잡아가는 모습이다.</p>
 <p>결국 오케스트레이터의 자율성은 &quot;얼마나 편한가&quot;가 아니라 &quot;어디까지 예측 가능한가&quot;의 문제로 수렴한다. 골을 명확히 정의하고, 권한 범위를 좁게 유지하고, 중요한 지점마다 사람이 개입할 여지를 남겨두는 것 — 지금 클코단에서 오가는 실전 노하우와 업계의 권고가 가리키는 지점은 크게 다르지 않다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드 코드</span><span class="chip">에이전트 오케스트레이터</span><span class="chip">스코프 크리프</span><span class="chip">골 설계</span><span class="chip">MCP</span><span class="chip">멀티턴 프롬프팅</span><span class="chip">AI 에이전트 권한</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI 에이전트의 스코프 크리프(scope creep)란 무엇인가?</h2><p class="sum">에이전트가 공격이나 오작동 없이도 스스로의 판단으로 애초 위임받은 권한 범위를 넘어서는 현상을 말한다. 도구 발견, 암묵적 권한 추론, 설득력 있는 확장 요청, 지시 주체 혼동 등이 주요 원인으로 꼽힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코드 --dangerously-skip-permissions는 왜 위험한가?</h2><p class="sum">이 옵션을 쓰면 에이전트가 별도 승인 없이 파일을 생성·수정·삭제하고 임의 명령을 실행할 수 있어, 경계를 설정하지 않으면 사용자 계정이 접근 가능한 모든 것에 에이전트도 접근할 수 있다. 컨테이너나 CI 환경에 한정해 쓰는 것이 권장된다.</p></article><article class="dcard"><div class="t">Q</div><h2>멀티턴 프롬프팅과 골(목표) 설계 중 뭐가 더 나은가?</h2><p class="sum">목표설정형 프롬프트는 에이전트에게 &#x27;성공의 모습&#x27;까지 알려주기 때문에 단순 지시형보다 낫다는 분석이 있다. 반면 멀티턴 방식은 턴이 늘수록 맥락 변수가 누적돼 결과의 불확실성이 커지는 경향이 있다.</p></article></div>

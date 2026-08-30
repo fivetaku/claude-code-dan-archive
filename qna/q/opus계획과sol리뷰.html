@@ -131,9 +131,33 @@ margin-right:6px;font-variant-numeric:tabular-nums}
 .repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 
 .qnalist{margin-top:22px}
 .qgrp{font-size:15px;font-weight:800;color:var(--accent-deep);margin:28px 0 4px;letter-spacing:-.01em}
+.qrow{display:flex;align-items:baseline;gap:8px;border-bottom:1px solid var(--line);
+padding:13px 2px;text-decoration:none;color:var(--ink)}
+.qrow:hover .qq{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
+.qrow .qq{font-size:16.5px;font-weight:700;line-height:1.5}
+.qrow .qq::before{content:"Q  ";color:var(--accent-deep);font-family:ui-monospace,Menlo,monospace}
+.qrow-flat{display:block}
+.qmini{margin:6px 0 0;font-size:14px;color:var(--muted);line-height:1.6}
 .qna{border-bottom:1px solid var(--line);padding:14px 2px}
 .qna summary{font-size:16.5px;font-weight:700;cursor:pointer;list-style:none;line-height:1.5}
 .qna summary::-webkit-details-marker{display:none}
@@ -153,11 +177,17 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 .qrel h2{font-size:15px;font-weight:800;color:var(--accent-deep)}
 .qrel ul{margin:8px 0 0 18px;font-size:15px;line-height:2}
 .artnav{margin-bottom:14px}
+.srccard{display:flex;justify-content:space-between;align-items:center;gap:12px;
+margin-top:26px;padding:13px 16px;border:1px solid var(--line);border-radius:10px;
+background:var(--surface);text-decoration:none}
+.srccard:hover{border-color:var(--accent)}
+.srclabel{font-weight:700;color:var(--accent-deep)}
+.srcdate{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--muted)}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav class="artnav"><a href="../">&larr; 클코단 Q&amp;A</a></nav>
+<nav class="tabs"><a href="../../">대화 요약</a><a href="../../repos/">공유된 레포</a><a href="../../weekly/">주간 정리</a><a href="../../mag/">매거진</a><a class="on" href="../../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <div class="eyebrow">모델 선택</div>
   <h1>Opus로 계획 세우고 Sol로 리뷰하는 방식은 어떤가요?</h1>
@@ -167,7 +197,9 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
   <p class="qanswer">Opus 5로 구현 계획을 세우고 실행한 뒤 Sol로 결과물을 리뷰하는 다중 모델 워크플로우가 공유됐다. Sol 리뷰에서 심각한 오류나 미구현 항목이 자주 발견돼 수정과 재리뷰를 반복한다고 했다. 다만 Opus가 지적된 실수를 인정하고 곧바로 수정하는 점은 긍정적으로 평가됐다.</p>
   <ul><li>Opus 5가 계획 수립과 실행을 맡는다.</li><li>Sol이 결과 검토와 오류 탐지를 맡는다.</li><li>리뷰에서 심각한 오류와 미구현 사항이 발견되는 사례가 있었다.</li><li>수정 후 재리뷰를 반복하는 품질 관리 흐름이 공유됐다.</li></ul>
 </article>
+<a class="srccard" href="../../s/2026-08-14-1630.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-14 아카이브</span></a>
 <section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="ppt작성codexvsclaude.html">PPT 작성은 Codex와 Claude Code 중 뭐가 더 나을까요?</a></li></ul></section>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../">아카이브</a></footer>
 </div>

@@ -150,8 +150,8 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 
 .artbody{margin-top:22px}
 .artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
-.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
-.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
 .joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
@@ -184,7 +184,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <h2>&quot;클로드를 증류한 느낌&quot;, 근거 있는 인상</h2>
 <p>방에서 나온 &quot;클로드를 증류한 듯한 말투가 느껴진다&quot;는 인상평은 단순한 느낌만은 아니었다. Anthropic은 2026년 초 DeepSeek·Moonshot·MiniMax 등이 약 2만 4천 개 위장 계정으로 1600만 건 이상의 Claude 대화를 수집해 학습에 썼다고 주장했고, 8월에는 알리바바를 겨냥해 2만 5천 개 계정·2880만 건 프롬프트-응답 수집 의혹도 추가로 제기했다. 모델이 다른 모델 출력을 학습하는 &#x27;증류&#x27; 자체는 업계 관행이지만, Anthropic이 문제 삼는 지점은 무단 대량 수집이라는 인가 위반 여부다. 독립 감사로 확정된 사안은 아니지만, 말투 유사성을 느낀 사용자들의 인상이 근거 없는 착각만은 아니라는 정황은 쌓이고 있다.</p>
 <p>결국 중국계 오픈웨이트 모델은 프론트엔드·대량 자동화 같은 특정 작업에서는 검증된 실력을 보이지만, 종합 추론에서는 아직 최상위권과 격차가 있다는 게 현재까지의 그림이다. 비용 절감이 급한 개발자라면 Kimi·GLM·Hermes를 작업 성격에 맞춰 병행하는 조합이 현실적인 답이 될 수 있다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Kimi K3</span><span class="chip">GLM-5.2</span><span class="chip">Hermes</span><span class="chip">오픈웨이트 LLM</span><span class="chip">클로드코드</span><span class="chip">Moonshot AI</span><span class="chip">Zhipu AI</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Kimi K3는 어떤 모델인가?</h2><p class="sum">모먼트AI(Moonshot AI)가 2026년 7월 공개한 2.8조 파라미터 오픈웨이트 모델로, 100만 토큰 컨텍스트를 지원한다. LMArena Frontend Code Arena에서 1위에 오를 만큼 프론트엔드 코딩에 강하지만, 종합 추론 지표에서는 Claude나 GPT 최상위 모델에 못 미친다.</p></article><article class="dcard"><div class="t">Q</div><h2>GLM-5.2와 Kimi K2.7 중 코딩에 뭐가 더 나은가?</h2><p class="sum">22개 실제 SaaS 자동화 작업 비교에서 GLM(0.800)이 Kimi(0.775)를 근소하게 앞섰다는 조사가 있다. GLM-5.2는 100만 토큰 컨텍스트로 대규모 저장소 작업에, Kimi는 입력 멀티모달 지원으로 UI 스크린샷 기반 작업에 강점이 있어 용도에 따라 갈린다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 Kimi나 GLM 같은 모델을 쓸 수 있나?</h2><p class="sum">가능하다. Kimi K2.7 Code는 Anthropic 호환 엔드포인트를 제공해 Claude Code CLI 설정만 바꿔 연동할 수 있고, 요금도 Claude Opus보다 저렴한 편이다.</p></article></div>

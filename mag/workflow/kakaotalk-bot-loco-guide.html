@@ -150,8 +150,8 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 
 .artbody{margin-top:22px}
 .artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
-.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
-.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
 .joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
@@ -183,7 +183,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>이런 비공식 방식들의 공통된 약점은 카카오의 운영정책과 정면으로 부딪힌다는 데 있다. 카카오톡 운영정책은 &#x27;프로토콜·API 등을 악용한 프로그램(봇, 매크로, 웹사이트 등)을 개발·제작해 유상 또는 무상으로 유포·제공하는 행위&#x27;를 명시적으로 금지하고, 위반이 확인되면 누적 정도에 따라 한시적 제한부터 영구 이용 제한까지 단계적으로, 사안이 중할 경우 즉시 영구 제한도 가능하다고 규정한다. 실제로 2021년에는 LOCO 프로토콜 기반 봇 이용자들이 모인 단체방에 카카오 관계자가 들어온 뒤 관련 계정들이 무더기로 영구정지된 사건이 있었고, 이후 카카오는 LOCO 프로토콜의 허점을 이용하는 행위 단속을 한층 강화한 것으로 알려져 있다. node-kakao 프로젝트 문서에도 &#x27;이 구현은 언제든 작동을 멈출 수 있고, 클라이언트를 악용하면 영구적인 서비스 제한을 받을 수 있다&#x27;는 경고가 달려 있다. 알림·DB 관찰 방식이 LOCO보다 상대적으로 조용하다고는 하지만, 여분 계정·여분 기기를 쓰는 이유 자체가 이런 리스크에서 본계정을 지키기 위한 최소한의 방어막이라는 점은 방 논의와도 맞아떨어진다.</p>
 <h2>정리하며</h2>
 <p>카카오톡 안에서 자연스럽게 말을 걸 수 있는 개인 챗봇에 대한 관심은 커뮤니티 안에서 꾸준히 높다. 하지만 그 구현은 결국 공식 API 부재를 비공식 기법으로 메우는 일이라 계정 정지 리스크를 스스로 떠안는 구조다. 안정성을 최우선으로 한다면 카카오 i 오픈빌더나 최근 나온 카톡 내장 챗GPT 멘션 기능처럼 공식 경로를 쓰는 편이 맞다. 커스텀 캐릭터·트리거 기반 자동응답처럼 공식 기능이 채우지 못하는 영역을 원한다면, 여분 계정과 리스크를 감수하는 비공식 방식 사이에서 선택해야 하는 상황은 당분간 이어질 것으로 보인다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">카카오톡 챗봇</span><span class="chip">LOCO 프로토콜</span><span class="chip">node-kakao</span><span class="chip">카카오 i 오픈빌더</span><span class="chip">카카오톡 챗GPT</span><span class="chip">오픈채팅 봇 만들기</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>카카오톡에도 공식 챗봇 API가 있나요?</h2><p class="sum">개인 채팅방·오픈채팅을 겨냥한 범용 봇 API는 공식적으로 없다. 기업용 상담·주문 챗봇을 위한 &#x27;카카오 i 오픈빌더&#x27;와, 2026년 상반기 출시된 채팅방 내 &#x27;@챗GPT&#x27; 멘션 기능만 공식 경로로 제공된다.</p></article><article class="dcard"><div class="t">Q</div><h2>LOCO 프로토콜이 정확히 뭔가요?</h2><p class="sum">카카오톡 클라이언트와 서버가 내부적으로 주고받는 TCP 기반 통신 규격이다. node-kakao 같은 라이브러리가 이를 분석해 정식 클라이언트인 척 로그인·통신하는 방식으로 비공식 봇을 구현하는 데 쓰인다.</p></article><article class="dcard"><div class="t">Q</div><h2>카카오톡 비공식 봇을 만들면 계정이 정지되나요?</h2><p class="sum">카카오 운영정책은 프로토콜·API를 악용한 프로그램 개발·배포를 명시적으로 금지하며, 2021년에는 LOCO 기반 봇 이용자들의 계정이 대규모로 영구정지된 사례가 있었다. 여분 계정·기기를 쓰는 것도 이런 리스크를 피하기 위한 관행으로 보인다.</p></article></div>

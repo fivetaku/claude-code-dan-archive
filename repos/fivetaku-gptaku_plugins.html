@@ -129,11 +129,28 @@ margin-right:6px;font-variant-numeric:tabular-nums}
 .repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav><a href="./">&larr; 공유된 레포</a></nav>
+<nav class="tabs"><a href="../">대화 요약</a><a class="on" href="../repos/">공유된 레포</a><a href="../weekly/">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <div class="eyebrow" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--accent-deep)">REPOSITORY</div>
   <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">fivetaku/gptaku_plugins</h1>
@@ -145,6 +162,7 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 <ul><li>insane-search는 WAF·403·CAPTCHA로 막힌 페이지를 API 리더, 신디케이션 게이트웨이, TLS 위장, 헤드리스 브라우저 순으로 시도해 접근한다.</li><li>insane-design은 웹사이트의 CSS를 읽어 색상·타이포·간격 등 디자인 토큰과 design.md, HTML 리포트를 생성한다.</li><li>insane-review는 로그인된 ChatGPT Pro 웹 세션을 통해 repomix로 코드를 패킹해 GPT-5.5 Pro 코드 리뷰를 받아온다.</li><li>insane-research는 질문을 스코핑하고 여러 리서치 에이전트를 실행해 출처를 교차검증한 뒤 인용이 달린 마크다운 보고서를 만드는 7단계 파이프라인이다.</li><li>show-me-the-prd, goaljaby, pumasi, kkirikkiri 등은 아이디어를 PRD·실행 계약·병렬 개발팀 구성으로 이어준다.</li></ul>
 <p class="rmeta">설치: Claude Code에서 /plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git 후 /plugin install &lt;plugin&gt;@gptaku-plugins, /reload-plugins</p>
 </div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>봇이 README를 읽고 자동 분석한 요약입니다. 원문은 GitHub 레포를 확인하세요.</footer>
 </div>
 </body>

@@ -144,11 +144,28 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
 font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+<nav class="tabs"><a href="../">대화 요약</a><a href="../repos/">공유된 레포</a><a class="on" href="../weekly/">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <span class="mark">지피탁구</span>
   <h1>8월 17일 ~ 8월 23일 주간정리</h1>
@@ -165,6 +182,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </section>
 <section class="details"><article class="dcard"><div class="t">워크플로우·방법론</div><h2>하네스·멀티에이전트</h2><p class="sum">그래프 엔지니어링, 오케스트레이터 승인, 서브에이전트 통제와 병렬 검증이 여러 슬롯에서 핵심 주제로 반복됐다. 과설계를 피하면서 역할 분담과 검증 체계를 설계하는 고민이 이어졌다.</p><ul><li><a href="../s/2026-08-19-1800.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">워크플로우·방법론</div><h2>외부 지식·RAG 설계</h2><p class="sum">컨텍스트 오염과 장기 기억 문제를 해결하기 위해 LLM Wiki, 메모리 계층화, RAG 조회·리랭커 평가가 논의됐다. 원본 지식의 구조화와 검증 가능한 회수 방식에 관심이 집중됐다.</p><ul><li><a href="../s/2026-08-20-1800.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">배포·운영</div><h2>VPS 원격 AI 운영</h2><p class="sum">Claude Code·Codex를 VPS에서 상시 운영하고 모바일·노트북으로 접속하는 방식이 반복 논의됐다. tmux, GitHub 동기화, Syncthing 등을 통한 다기기 작업 환경이 실용적 대안으로 제시됐다.</p><ul><li><a href="../s/2026-08-23-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">워크플로우·방법론</div><h2>에이전트 보안·통제</h2><p class="sum">AI DLP와 MCP 입력 보안, 일탈 에이전트, 파괴적 파일 삭제 방지 사례가 이어졌다. 자동화 권한을 줄 때 사전 검토·승인·휴먼 에스컬레이션이 중요하다는 점이 부각됐다.</p><ul><li><a href="../s/2026-08-20-1604-s.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">배포·운영</div><h2>AI 콜센터 운영 사례</h2><p class="sum">실시간 응대·로컬 분석·로그 분석 모델을 분리한 AI 콜센터의 운영과 비용 사례가 상세히 공유됐다. 정형 문의 비중, 예외 처리, 사람 오퍼레이터 컷인 설계가 자동화 성패를 가르는 요소로 논의됐다.</p><ul><li><a href="../s/2026-08-21-1330.html">그날 요약 보기</a></li></ul></article></section>
 <div class="months"><h2>이번 주 새 레포 6개</h2><a href="../repos/epoko77-ai-im-not-ai.html">epoko77-ai/im-not-ai</a><a href="../repos/holzschu-a-shell.html">holzschu/a-shell</a><a href="../repos/software-mansion-TypeGPU.html">software-mansion/TypeGPU</a><a href="../repos/EvanZhouDev-openai-oauth.html">EvanZhouDev/openai-oauth</a><a href="../repos/jordanrendric-claude-video-vision.html">jordanrendric/claude-video-vision</a><a href="../repos/syncthing-syncthing.html">syncthing/syncthing</a></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>지피탁구 봇이 그 주 요약을 모아 자동 정리했습니다.</footer>
 </div>
 </body>

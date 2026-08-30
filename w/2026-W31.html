@@ -144,11 +144,28 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
 font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+<nav class="tabs"><a href="../">대화 요약</a><a href="../repos/">공유된 레포</a><a class="on" href="../weekly/">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <span class="mark">지피탁구</span>
   <h1>7월 27일 ~ 8월 2일 주간정리</h1>
@@ -165,6 +182,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </section>
 <section class="details"><article class="dcard"><div class="t">질문·트러블슈팅</div><h2>클로드 파일 삭제 사고</h2><p class="sum">지침을 줬는데도 경로를 잘못 짚어 관련없는 파일까지 삭제되거나, 승인 없이 AI가 스스로 진행을 결정한 사례가 공유되며 큰 주목을 받았다 (importance 5).</p><ul><li><a href="../s/2026-07-29-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">질문·트러블슈팅</div><h2>매출DB에 MCP 필요한가</h2><p class="sum">단순 DB 연동에 MCP까지 만드는 건 오버엔지니어링이라는 지적과, 권한 없는 여러 팀 데이터 접근엔 OAuth 기반 MCP가 유효하다는 반론이 맞붙었다 (importance 5).</p><ul><li><a href="../s/2026-07-29-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t"></div><h2>인세인서치 통합·차단</h2><p class="sum">딥리서치+인세인서치가 인세인리서치로 통합된 소식과, 쇼핑몰 차단 확대로 기능 추가를 보류하기로 한 논의가 이틀 연속 슬롯에서 반복 등장했다.</p><ul><li><a href="../s/2026-07-29-1800.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">AI 모델·프롬프트</div><h2>오푸스5 토큰 소모</h2><p class="sum">오푸스5가 4.8보다 탐색 범위가 넓어 토큰을 더 쓴다는 체감과 함께, 모델보다 하네스 구성이 소모량에 더 영향을 준다는 실용적 진단이 나왔다 (importance 4).</p><ul><li><a href="../s/2026-07-29-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">자료·링크 공유</div><h2>Guru Maker 공유</h2><p class="sum">투자 에이전트가 매번 컨텍스트를 새로 쌓는 문제를 해결하는 오픈소스 도구가 최근 주식 폭락장과 맞물려 소개됐다.</p><ul><li><a href="../s/2026-07-29-2200.html">그날 요약 보기</a></li></ul></article></section>
 <div class="months"><h2>이번 주 새 레포 17개</h2><a href="../repos/fivetaku-insane-search.html">fivetaku/insane-search</a><a href="../repos/uppinote20-claude-dashboard.html">uppinote20/claude-dashboard</a><a href="../repos/siteboon-claudecodeui.html">siteboon/claudecodeui</a><a href="../repos/fivetaku-gptaku_plugins.html">fivetaku/gptaku_plugins</a><a href="../repos/fivetaku-insane-research.html">fivetaku/insane-research</a><a href="../repos/fivetaku-dd.html">fivetaku/dd</a><a href="../repos/fivetaku-docs-guide.html">fivetaku/docs-guide</a><a href="../repos/fivetaku-git-teacher.html">fivetaku/git-teacher</a><a href="../repos/fivetaku-goaljaby.html">fivetaku/goaljaby</a><a href="../repos/fivetaku-insane-design.html">fivetaku/insane-design</a><a href="../repos/fivetaku-insane-review.html">fivetaku/insane-review</a><a href="../repos/fivetaku-kkirikkiri.html">fivetaku/kkirikkiri</a></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>지피탁구 봇이 그 주 요약을 모아 자동 정리했습니다.</footer>
 </div>
 </body>

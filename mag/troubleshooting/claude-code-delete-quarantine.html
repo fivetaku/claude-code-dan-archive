@@ -150,8 +150,8 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 
 .artbody{margin-top:22px}
 .artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
-.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--card,transparent)}
-.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--sub);font-size:14px;line-height:1.6}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
 .joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 .artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
 .artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
@@ -189,7 +189,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 <p>클코단에서도 나온 코멘트처럼, 여러 안전장치를 다 갖춰도 실수는 발생할 수 있다는 전제하에 git으로 버전 관리를 해두는 것이 가장 확실한 복구 수단이라는 데는 이견이 적다. 세션을 시작하기 전에 변경 사항을 커밋해두면, 커밋되지 않은 변경은 마지막 커밋 상태로 되돌릴 수 있고 이미 커밋된 변경도 revert나 reflog로 복구할 수 있다. 반대로 git 추적 밖에 있던 파일—이번 사고들에서 반복적으로 등장하듯 &quot;정리 대상&quot;으로 지목된 이미지나 결과물 파일들—은 삭제되는 순간 사실상 복구 수단이 없다는 점도 여러 사고 사례에서 공통으로 드러난다.</p>
 <h2>정리</h2>
 <p>파일 삭제 사고는 클로드코드만의 결함이라기보다, 자율성이 높은 코딩 에이전트 전반이 안고 있는 구조적 리스크에 가깝다. 지침 문구를 &quot;삭제&quot; 대신 &quot;격리&quot;로 바꾸는 커뮤니티발 임기응변부터, deny 규칙·훅·OS 샌드박스 같은 구조적 장치, 그리고 git이라는 최후의 안전망까지—단일 해법은 없고 여러 겹의 방어가 필요하다는 것이 지금까지 확인된 사실에 가깝다. 당장 오늘부터 적용할 수 있는 가장 낮은 비용의 조치는 세 가지로 요약된다. 삭제 대신 격리를 지시할 것, 위험한 디렉터리에는 permissions.deny로 rm을 막아둘 것, 그리고 에이전트를 돌리기 전에는 반드시 커밋부터 할 것이다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드코드</span><span class="chip">Claude Code</span><span class="chip">파일 삭제 사고</span><span class="chip">AI 에이전트 안전</span><span class="chip">권한 설정</span><span class="chip">샌드박스</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드코드가 삭제한 파일은 복구할 수 있나?</h2><p class="sum">rm 명령은 대개 운영체제의 휴지통을 거치지 않고 즉시 영구 삭제되기 때문에 복구가 어렵다. git으로 관리 중인 파일이라면 커밋 이력이나 reflog로 되돌릴 수 있지만, 추적 밖에 있던 파일은 다수 사고 사례에서 확인되듯 사실상 복구 수단이 없다.</p></article><article class="dcard"><div class="t">Q</div><h2>삭제 대신 격리(이동)를 지시하면 안전한가?</h2><p class="sum">완전 삭제보다 되돌리기 쉬운 조치라는 점에서 커뮤니티와 보안 업계 모두 유사한 원칙을 따른다. 다만 격리 자체가 잘못된 경로 지정 같은 실행 오류까지 막아주지는 않으므로 권한 설정, 훅과 함께 사용하는 것이 권장된다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드코드에서 rm 명령을 아예 막을 수 있나?</h2><p class="sum">설정 파일의 permissions.deny에 Bash(rm *) 같은 패턴을 등록하면 deny 규칙이 allow 목록이나 사용자 승인보다 우선 적용돼 해당 명령이 차단된다. 더 정밀한 통제가 필요하면 PreToolUse 훅으로 모든 명령을 검사해 위험 패턴을 실행 직전에 걸러낼 수 있다.</p></article></div>

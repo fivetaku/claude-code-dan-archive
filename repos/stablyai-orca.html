@@ -129,11 +129,28 @@ margin-right:6px;font-variant-numeric:tabular-nums}
 .repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav><a href="./">&larr; 공유된 레포</a></nav>
+<nav class="tabs"><a href="../">대화 요약</a><a class="on" href="../repos/">공유된 레포</a><a href="../weekly/">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <div class="eyebrow" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--accent-deep)">REPOSITORY</div>
   <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">stablyai/orca</h1>
@@ -145,6 +162,7 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 <ul><li>Claude Code, Codex, OpenCode, Grok 등 터미널에서 동작하는 모든 CLI 에이전트를 지원한다.</li><li>하나의 프롬프트를 여러 에이전트에 분산해 각각 독립된 git worktree에서 병렬 실행하고 결과를 비교·병합할 수 있다.</li><li>iOS/Android 모바일 앱으로 에이전트 진행 상황을 모니터링하고 원격으로 지시를 보낼 수 있다.</li><li>SSH를 통해 원격 서버에서 파일 편집, git, 터미널을 포함해 에이전트를 실행할 수 있다.</li><li>GitHub와 Linear의 PR·이슈·프로젝트 보드를 앱 내에서 조회하고 작업할 수 있다.</li></ul>
 <p class="rmeta">설치: onorca.dev에서 다운로드하거나 macOS는 brew install --cask stablyai/orca/orca, Arch는 yay -S stably-orca-bin</p>
 </div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>봇이 README를 읽고 자동 분석한 요약입니다. 원문은 GitHub 레포를 확인하세요.</footer>
 </div>
 </body>

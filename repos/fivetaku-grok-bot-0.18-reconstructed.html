@@ -129,11 +129,28 @@ margin-right:6px;font-variant-numeric:tabular-nums}
 .repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav><a href="./">&larr; 공유된 레포</a></nav>
+<nav class="tabs"><a href="../">대화 요약</a><a class="on" href="../repos/">공유된 레포</a><a href="../weekly/">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <div class="eyebrow" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--accent-deep)">REPOSITORY</div>
   <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">fivetaku/grok-bot-0.18-reconstructed</h1>
@@ -145,6 +162,7 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 <ul><li>Cursor, Claude Code, Codex, OpenRouter 중 추론 백엔드를 선택하는 라우터 설정 화면 제공</li><li>Claude Code/Codex는 로컬 인증을 재사용하고 Grok Bot MCP 툴을 라우팅 지원</li><li>제공자별 로컬 요청/토큰 사용량을 기록하는 Usage &amp; Billing 화면 포함</li><li>원격 샌드박스 대신 loopback 전용 로컬 Docker VM으로 대체 가능한 토글 제공</li><li>공개 0.18.0 설치파일을 SHA-256으로 검증해 받아오고 결정론적으로 재조립하는 부트스트랩/패키징 툴체인</li></ul>
 <p class="rmeta">설치: git lfs install &amp;&amp; git lfs pull &amp;&amp; npm ci &amp;&amp; npm run bootstrap &amp;&amp; npm run package</p>
 </div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>봇이 README를 읽고 자동 분석한 요약입니다. 원문은 GitHub 레포를 확인하세요.</footer>
 </div>
 </body>

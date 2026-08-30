@@ -144,11 +144,28 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
 font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav><a href="../">&larr; 클코단 아카이브</a></nav>
+<nav class="tabs"><a href="../">대화 요약</a><a href="../repos/">공유된 레포</a><a class="on" href="../weekly/">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
 <header>
   <span class="mark">지피탁구</span>
   <h1>8월 10일 ~ 8월 16일 주간정리</h1>
@@ -165,6 +182,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </section>
 <section class="details"><article class="dcard"><div class="t">워크플로우·방법론</div><h2>하네스·세션 관리</h2><p class="sum">Claude Code의 작업 OS를 팀 방식에 맞게 설계하고, 핸드오프·메모리·규칙 라우팅으로 컨텍스트 소진을 관리하는 논의가 반복됐다. 마스터-워커 구조와 최종 직접 검수 원칙도 구체적으로 공유됐다.</p><ul><li><a href="../s/2026-08-15-1351-s.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">워크플로우·방법론</div><h2>멀티모델 역할 분담</h2><p class="sum">Claude·Codex·GPT 등 모델을 설계, 구현, 리뷰에 나눠 투입하고 교차 검증하는 워크플로우가 주요 화두였다. 모델별 강점과 한도·비용을 고려한 라우팅 설계의 중요성이 부각됐다.</p><ul><li><a href="../s/2026-08-16-2200.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">AI 모델·프롬프트</div><h2>Qwen3.8 로컬 실험</h2><p class="sum">Qwen3.8-27B 공개 후 성능 주장 검증, 양자화, 서빙 도구, 장비 선택을 둘러싼 실사용 논의가 활발했다. 최상위 클라우드 모델과의 비교는 신중해야 하며 직접 테스트하자는 의견이 모였다.</p><ul><li><a href="../s/2026-08-15-0730.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">배포·운영</div><h2>로컬 GPU 비용 현실</h2><p class="sum">로컬 모델 운영의 보안상 이점과 함께 GPU 메모리, 전기료, 발열·소음 문제가 집중 논의됐다. Modal 무료 크레딧과 서버리스 GPU를 테스트 대안으로 활용하는 방법도 공유됐다.</p><ul><li><a href="../s/2026-08-15-1351-s.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">도구·라이브러리</div><h2>토큰·컨텍스트 압축</h2><p class="sum">긴 세션과 플러그인으로 인한 컨텍스트 소진 문제가 이어졌고, Headroom을 통한 도구 출력·로그 압축 활용이 주목받았다. 세션을 작업 단위로 나누고 메모리를 남기는 방식이 함께 제안됐다.</p><ul><li><a href="../s/2026-08-16-2200.html">그날 요약 보기</a></li></ul></article></section>
 <div class="months"><h2>이번 주 새 레포 13개</h2><a href="../repos/visioncortex-vtracer.html">visioncortex/vtracer</a><a href="../repos/MatrAIx-ai-MatrAIx-Persona-8B.html">MatrAIx-ai/MatrAIx-Persona-8B</a><a href="../repos/naijun0403-DunUnlocker.html">naijun0403/DunUnlocker</a><a href="../repos/tw93-mole.html">tw93/mole</a><a href="../repos/fivetaku-llm-wiki.html">fivetaku/llm-wiki</a><a href="../repos/guillaumemeyer-watermarks-remover.html">guillaumemeyer/watermarks-remover</a><a href="../repos/chuspeeism-dashi-ppt-skill.html">chuspeeism/dashi-ppt-skill</a><a href="../repos/zarazhangrui-frontend-slides.html">zarazhangrui/frontend-slides</a><a href="../repos/cathrynlavery-diagram-design.html">cathrynlavery/diagram-design</a><a href="../repos/unslothai-unsloth.html">unslothai/unsloth</a><a href="../repos/lidge-jun-opencodex.html">lidge-jun/opencodex</a><a href="../repos/headroomlabs-ai-headroom.html">headroomlabs-ai/headroom</a></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>지피탁구 봇이 그 주 요약을 모아 자동 정리했습니다.</footer>
 </div>
 </body>
