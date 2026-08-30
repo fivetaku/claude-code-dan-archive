@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chat.axwith.com 개선 시안 6종 — 2026-08-30</title>
+<style>
+:root{
+  --ground:#F7F5EF; --surface:#FFFFFF; --line:#E3DECF; --ink:#201C13; --muted:#6B6152;
+  --accent:#F5C400; --on-accent:#201C13; --accent-deep:#7A6200; --chip-bg:#F2EBD4;
+  --shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);
+
+  /* 카테고리 팔레트 — 라이트 */
+  --cat-tool-bg:#E7EADB;  --cat-tool-fg:#4A5A38;
+  --cat-flow-bg:#F0E2D8;  --cat-flow-fg:#7A4B33;
+  --cat-model-bg:#EAE3E8; --cat-model-fg:#5E4A5C;
+  --cat-ask-bg:#F2E0DC;   --cat-ask-fg:#7E3F35;
+  --cat-res-bg:#E0E6EA;   --cat-res-fg:#3F5563;
+  --cat-etc-bg:#EAE6DC;   --cat-etc-fg:#5A5344;
+}
+.darkzone{
+  --ground:#17140F; --surface:#211C13; --line:#37301F; --ink:#EFE8D8; --muted:#ADA189;
+  --accent:#FBDA30; --on-accent:#201C13; --accent-deep:#FBDA30; --chip-bg:#2C2617;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);
+
+  --cat-tool-bg:#2A3021;  --cat-tool-fg:#C3D2AB;
+  --cat-flow-bg:#34261D;  --cat-flow-fg:#E2BFA6;
+  --cat-model-bg:#2E2730; --cat-model-fg:#D3C0D0;
+  --cat-ask-bg:#35241F;   --cat-ask-fg:#E8B4A8;
+  --cat-res-bg:#212B31;   --cat-res-fg:#B4C9D6;
+  --cat-etc-bg:#2C281E;   --cat-etc-fg:#CFC5AE;
+}
+*{box-sizing:border-box}
+html{background:#EDEAE0}
+body{
+  margin:0;background:#EDEAE0;color:var(--ink);
+  font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+  -webkit-text-size-adjust:100%;
+}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- 문서 셸 ---------- */
+.doc{max-width:1420px;margin:0 auto;padding:40px 28px 120px}
+.dochead{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:var(--shadow)}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--accent-deep)}
+.dochead h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;letter-spacing:-.03em;line-height:1.25;margin:10px 0 10px}
+.dochead p{margin:0;color:var(--muted);font-size:16px;max-width:66ch}
+.toc{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.toc a{display:inline-block;font-size:14px;font-weight:700;border:1px solid var(--line);
+  background:var(--ground);border-radius:999px;padding:6px 13px}
+
+section.plate{margin-top:44px;background:var(--surface);border:1px solid var(--line);
+  border-radius:16px;padding:26px 28px 30px;box-shadow:var(--shadow)}
+section.plate>h2{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:10px 0 6px;line-height:1.35}
+.lead{margin:0 0 4px;color:var(--muted);font-size:15.5px;max-width:74ch}
+.pline{margin:14px 0 0;font-size:14.5px;line-height:1.75}
+.pline b{display:inline-block;min-width:44px;color:var(--accent-deep);font-weight:800}
+.note{margin-top:12px;font-size:14px;color:var(--muted)}
+
+/* ---------- 디바이스 프레임 ---------- */
+.pair{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;margin-top:22px}
+.frame{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--ground);box-shadow:var(--shadow)}
+.frame>.fhead{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  background:var(--surface);border-bottom:1px solid var(--line);padding:7px 12px}
+.f390{width:390px;flex:0 0 390px}
+.f900{width:900px;flex:0 0 900px}
+.canvas{padding:20px 18px 26px;background:var(--ground);color:var(--ink);
+  font-size:16px;line-height:1.7}
+.f900 .canvas{padding:26px 24px 30px;font-size:17px}
+.blockhead{font-size:15px;font-weight:800;margin:26px 0 0;color:var(--accent-deep)}
+
+/* ---------- 사이트 관용 스타일 (프레임 내부 전용) ---------- */
+.canvas .eyebrow{font-size:11.5px}
+.canvas h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;letter-spacing:-.03em;line-height:1.3;margin:8px 0 10px}
+.f390 .canvas h1{font-size:26px}
+.f900 .canvas h1{font-size:34px}
+.canvas h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:0}
+.canvas .sub{font-size:15px;color:var(--muted);margin:0}
+
+.tabs{display:flex;flex-wrap:wrap;gap:4px 6px;margin:0 0 16px}
+.tabs a{font:600 12.5px ui-monospace,Menlo,monospace;color:var(--muted);text-decoration:none;
+  padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+
+.chip{display:inline-block;font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+  border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+.chip.count{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:700;color:var(--accent-deep)}
+.cat{display:inline-block;font-size:12.5px;font-weight:700;border-radius:4px;padding:3px 8px;line-height:1.45}
+.cat.tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.cat.flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.cat.model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.cat.ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.cat.res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.cat.etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+/* ① before: details 벽 */
+.qna{border-bottom:1px solid var(--line);padding:14px 2px}
+.qna summary{font-size:16.5px;font-weight:700;cursor:pointer;list-style:none;line-height:1.5}
+.qna summary::-webkit-details-marker{display:none}
+.qna summary::before{content:"Q  ";color:var(--accent-deep);font-family:ui-monospace,Menlo,monospace;font-weight:800}
+.qna p{font-size:15px;line-height:1.7;margin:11px 0 6px;padding-left:22px}
+.qna ul{margin:6px 0 4px 22px;font-size:14px;color:var(--muted)}
+.weightbar{margin-top:14px;font:700 12px ui-monospace,Menlo,monospace;color:var(--cat-ask-fg);
+  background:var(--cat-ask-bg);border-radius:6px;padding:6px 10px;display:inline-block}
+.weightbar.good{color:var(--cat-tool-fg);background:var(--cat-tool-bg)}
+
+/* ① after: 목록형 */
+.qlist{margin:6px 0 0;padding:0;list-style:none}
+.qlist li{border-top:1px solid var(--line);padding:13px 2px}
+.qlist li:last-child{border-bottom:1px solid var(--line)}
+.qlist .qt{font-size:16.5px;font-weight:700;line-height:1.5;color:var(--ink);display:block}
+.qlist .qt:hover{text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:3px}
+.qlist .qmeta{margin-top:6px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.f900 .qlist li{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:baseline}
+.f900 .qlist .qmeta{margin-top:0;justify-content:flex-end}
+.grouphead{font-size:14px;font-weight:800;color:var(--accent-deep);margin:22px 0 2px;letter-spacing:-.01em}
+
+/* ② 개별 페이지 */
+.qanswer{font-size:16.5px;line-height:1.75;font-weight:500;margin:14px 0 0}
+.qbody ul{margin:14px 0 4px 20px;font-size:15px;line-height:1.7;color:var(--ink);padding:0}
+.qbody li{margin:5px 0}
+.srcbox{margin:24px 0 0;display:block;padding:15px 17px;background:var(--surface);
+  border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.srcbox .sl{font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep)}
+.srcbox .st{display:block;margin-top:5px;font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.5}
+.srcbox .sd{margin-top:4px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.qrel{margin-top:30px;border-top:1px solid var(--line);padding-top:14px}
+.qrel h3{font-size:14px;font-weight:800;color:var(--accent-deep);margin:0 0 6px}
+.qrel ul{margin:0 0 0 18px;padding:0;font-size:15px;line-height:2}
+
+/* ③ CTA 변형 */
+.ctagrid{display:flex;gap:18px;flex-wrap:wrap;margin-top:22px;align-items:flex-start}
+.ctacell{flex:1 1 300px;min-width:300px}
+.ctacell>h4{margin:0 0 10px;font-size:14px;font-weight:800;color:var(--accent-deep)}
+.ctacell .pro{margin:10px 0 0;font-size:13.5px;color:var(--muted);line-height:1.6}
+.joinbox{padding:20px 22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.joinbox b{font-size:16px;display:block}
+.joinbox p{margin:8px 0 14px;font-size:14.5px;color:var(--muted)}
+.joinbtn{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;
+  padding:8px 18px;font-weight:800;font-size:14px;text-decoration:none}
+.joinbtn:hover{text-decoration:none;filter:brightness(.96)}
+.joinbox.b{background:var(--chip-bg);border:none;border-left:4px solid var(--accent);
+  border-radius:0 14px 14px 0;box-shadow:none}
+.joinbox.c{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:12px;box-shadow:none}
+.joinbox.c .ct{font-size:14.5px;font-weight:700;line-height:1.5;flex:1;min-width:0}
+.joinbox.c .ct span{display:block;font-weight:500;color:var(--muted);font-size:13px}
+.joinbox.c .joinbtn{flex:0 0 auto;font-size:13.5px;padding:7px 15px}
+.f390 .joinbox.c{flex-wrap:wrap}
+
+/* ④ 요약 상세 */
+.backonly{font:600 12.5px ui-monospace,Menlo,monospace;color:var(--muted);margin:0 0 16px}
+.tcard{border-top:1px solid var(--line);padding:15px 2px}
+.tcard:last-of-type{border-bottom:1px solid var(--line)}
+.tcard .slot{font:800 13px ui-monospace,Menlo,monospace;color:var(--muted)}
+.tcard h3{margin:4px 0 5px;font-size:17px;font-weight:750;line-height:1.45;letter-spacing:-.01em}
+.tcard p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.65}
+.tcard .row{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.f900 .tcard{display:grid;grid-template-columns:82px 1fr;gap:18px}
+.gray .tcard h3{color:var(--muted);font-weight:700}
+
+/* ⑤ 팔레트 */
+.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:22px}
+.palcard{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--surface)}
+.palcard .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.palcard .spec{margin:10px 0 0;font:600 12px ui-monospace,Menlo,monospace;color:var(--muted);line-height:1.9}
+.palcard .spec i{font-style:normal;color:var(--ink);font-weight:700}
+.swatch{width:22px;height:22px;border-radius:5px;border:1px solid rgba(32,28,19,.12);flex:0 0 auto}
+.usage{margin-top:20px;padding:16px 18px;background:var(--ground);border:1px solid var(--line);border-radius:12px}
+.usage .qlist li{border-color:var(--line)}
+
+/* ⑥ 탭 3안 */
+.tabsA{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px;
+  scrollbar-width:thin;margin-bottom:6px}
+.tabsA a{flex:0 0 auto}
+.tabsA::-webkit-scrollbar{height:5px}
+.tabsA::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+.tabsB a{padding:7px 10px}
+.tabsC{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tabsC a{text-align:center;padding:8px 4px;margin:0;font-size:11.5px;white-space:nowrap;overflow:hidden}
+.tabsC a.join{margin:0}
+.fade{position:relative}
+.fade::after{content:"";position:absolute;top:0;right:0;bottom:6px;width:28px;pointer-events:none;
+  background:linear-gradient(90deg,rgba(247,245,239,0),var(--ground))}
+
+/* 다크 존 */
+.darkzone{background:var(--ground);color:var(--ink);border-color:var(--line)}
+.darkzone .palcard{background:var(--surface);border-color:var(--line)}
+.darkzone .swatch{border-color:rgba(239,232,216,.18)}
+.darkzone .usage{background:#1C180F;border-color:var(--line)}
+.darkzone .lead,.darkzone .note{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="doc">
+
+<div class="dochead">
+  <div class="eyebrow">chat.axwith.com · design review</div>
+  <h1>클코단 아카이브 개선 시안 6종</h1>
+  <p>2026-08-30. 실제 사이트에서 추출한 토큰(크림 #F7F5EF · 잉크 #201C13 · 옐로 #F5C400)을 그대로 쓴 정적 목업입니다. 각 시안을 모바일 390px와 데스크톱 900px 두 폭에서 나란히 보여줍니다. 링크는 동작하지 않습니다.</p>
+  <ul class="toc">
+    <li><a href="#s1">① QnA 인덱스 Before/After</a></li>
+    <li><a href="#s2">② QnA 개별 페이지</a></li>
+    <li><a href="#s3">③ 참여 CTA 3변형</a></li>
+    <li><a href="#s4">④ 요약 상세(s/) 개선</a></li>
+    <li><a href="#s5">⑤ 카테고리 칩 색상</a></li>
+    <li><a href="#s6">⑥ 모바일 탭 내비</a></li>
+    <li><a href="#dark">다크 모드 팔레트</a></li>
+  </ul>
+</div>
+
+<!-- ================= ① ================= -->
+<section class="plate" id="s1">
+  <div class="eyebrow">시안 01</div>
+  <h2>QnA 인덱스 Before / After</h2>
+  <p class="lead">268개 질문의 답변 전문이 <code>&lt;details&gt;</code>로 한 페이지에 인라인되어 있습니다. 개별 페이지가 생긴 지금은 인덱스가 전문을 들고 있을 이유가 없습니다.</p>
+  <p class="pline"><b>문제</b> 첫 로드 263KB, 스크롤만 긴 벽. 질문을 훑을 수 없고 개별 페이지와 본문이 중복됩니다.</p>
+  <p class="pline"><b>해결</b> 제목 + 논의 횟수 칩만 남긴 목록형으로 바꾸고 본문은 개별 페이지가 정본. 약 20KB.</p>
+
+  <div class="blockhead">현재 — 접이식 전문 인라인</div>
+  <div class="pair">
+    <div class="frame f390"><div class="fhead">현재 · 모바일 390px</div>
+      <div class="canvas">
+        <nav class="tabs"><a href="#">대화 요약</a><a href="#">공유된 레포</a><a class="on" href="#">Q&amp;A</a></nav>
+        <h1>Q&amp;A</h1>
+        <p class="sub">오픈채팅에서 오간 질문 268개를 주제별로 정리했습니다.</p>
+        <div class="weightbar">첫 로드 263KB · DOM 268 × details</div>
+        <details class="qna" open><summary>클로드 코드 토큰이 빨리 닳는 이유가 뭔가요?</summary>
+          <p>대화가 길어질수록 이전 맥락 전체가 매 요청에 다시 실려 나가기 때문입니다. 여기에 큰 파일을 통째로 읽거나 MCP 서버를 여럿 붙여두면 시작 시점부터 컨텍스트가 채워진 상태로 출발합니다.</p>
+          <ul><li>긴 세션은 중간에 정리하고 새로 시작하는 편이 낫다는 의견</li><li>파일 전체 읽기 대신 필요한 구간만 지정</li></ul>
+        </details>
+        <details class="qna" open><summary>개발 입문자에게 추천할 만한 IDE가 있을까요?</summary>
+          <p>터미널 기반 도구를 쓰더라도 편집기는 익숙한 것을 쓰라는 쪽이 다수였습니다. VS Code 계열에서 시작해 필요해지면 옮기는 순서를 권했습니다.</p>
+          <ul><li>편집기 선택보다 저장소·브랜치 개념이 먼저</li></ul>
+        </details>
+        <details class="qna"><summary>CLAUDE.md는 얼마나 길게 쓰는 게 적당한가요?</summary></details>
+        <details class="qna"><summary>서브에이전트를 언제 쓰고 언제 쓰지 말아야 하나요?</summary></details>
+        <p class="note" style="margin-top:14px">…이하 264개 항목이 같은 방식으로 이어집니다.</p>
+      </div>
+    </div>
+    <div class="frame f900"><div class="fhead">현재 · 데스크톱 900px</div>
+      <div class="canvas">
+        <nav class="tabs"><a href="#">대화 요약</a><a href="#">공유된 레포</a><a href="#">주간 정리</a><a href="#">매거진</a><a class="on" href="#">Q&amp;A</a><a class="join" href="#">방 참여하기 →</a></nav>
+        <h1>Q&amp;A</h1>
+        <p class="sub">오픈채팅에서 오간 질문 268개를 주제별로 정리했습니다.</p>
+        <div class="weightbar">첫 로드 263KB · DOM 268 × details · 스크롤 길이 약 190화면</div>
+        <details class="qna" open><summary>클로드 코드 토큰이 빨리 닳는 이유가 뭔가요?</summary>
+          <p>대화가 길어질수록 이전 맥락 전체가 매 요청에 다시 실려 나가기 때문입니다. 여기에 큰 파일을 통째로 읽거나 MCP 서버를 여럿 붙여두면 시작 시점부터 컨텍스트가 채워진 상태로 출발합니다.</p>
+          <ul><li>긴 세션은 중간에 정리하고 새로 시작하는 편이 낫다는 의견</li><li>파일 전체 읽기 대신 필요한 구간만 지정</li></ul>
+        </details>
+        <details class="qna" open><summary>개발 입문자에게 추천할 만한 IDE가 있을까요?</summary>
+          <p>터미널 기반 도구를 쓰더라도 편집기는 익숙한 것을 쓰라는 쪽이 다수였습니다. VS Code 계열에서 시작해 필요해지면 옮기는 순서를 권했습니다.</p>
+          <ul><li>편집기 선택보다 저장소·브랜치 개념이 먼저</li></ul>
+        </details>
+        <details class="qna"><summary>CLAUDE.md는 얼마나 길게 쓰는 게 적당한가요?</summary></details>
+        <details class="qna"><summary>서브에이전트를 언제 쓰고 언제 쓰지 말아야 하나요?</summary></details>
+        <p class="note" style="margin-top:14px">…이하 264개 항목이 같은 방식으로 이어집니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="blockhead">개선안 — 제목 + 논의 횟수 목록</div>
+  <div class="pair">
+    <div class="frame f390"><div class="fhead">개선안 · 모바일 390px</div>
+      <div class="canvas">
+        <nav class="tabs"><a href="#">대화 요약</a><a href="#">공유된 레포</a><a class="on" href="#">Q&amp;A</a></nav>
+        <h1>Q&amp;A</h1>
+        <p class="sub">오픈채팅에서 반복해서 나온 질문 268개. 제목을 누르면 답변 페이지로 갑니다.</p>
+        <div class="weightbar good">첫 로드 약 20KB · 항목당 1줄</div>
+        <div class="grouphead">자주 나오는 질문</div>
+        <ul class="qlist">
+          <li><a class="qt" href="#">클로드 코드 토큰이 빨리 닳는 이유가 뭔가요?</a>
+            <div class="qmeta"><span class="cat ask">질문·트러블슈팅</span><span class="chip count">12번 논의</span></div></li>
+          <li><a class="qt" href="#">개발 입문자에게 추천할 만한 IDE가 있을까요?</a>
+            <div class="qmeta"><span class="cat tool">도구·라이브러리</span><span class="chip count">7번 논의</span></div></li>
+          <li><a class="qt" href="#">CLAUDE.md는 얼마나 길게 쓰는 게 적당한가요?</a>
+            <div class="qmeta"><span class="cat flow">워크플로우·방법론</span><span class="chip count">9번 논의</span></div></li>
+          <li><a class="qt" href="#">오푸스와 소네트를 어떻게 나눠 쓰시나요?</a>
+            <div class="qmeta"><span class="cat model">AI 모델·프롬프트</span><span class="chip count">11번 논의</span></div></li>
+        </ul>
+        <div class="grouphead">설정과 도구</div>
+        <ul class="qlist">
+          <li><a class="qt" href="#">MCP 서버는 몇 개까지 붙여도 괜찮나요?</a>
+            <div class="qmeta"><span class="cat tool">도구·라이브러리</span><span class="chip count">5번 논의</span></div></li>
+          <li><a class="qt" href="#">서브에이전트를 언제 쓰고 언제 쓰지 말아야 하나요?</a>
+            <div class="qmeta"><span class="cat flow">워크플로우·방법론</span><span class="chip count">6번 논의</span></div></li>
+          <li><a class="qt" href="#">AI로 리팩터링할 때 어떤 기준을 세워야 하나요?</a>
+            <div class="qmeta"><span class="cat flow">워크플로우·방법론</span><span class="chip count">4번 논의</span></div></li>
+          <li><a class="qt" href="#">클로드 코드 공부는 어디서부터 시작하면 좋나요?</a>
+            <div class="qmeta"><span class="cat res">리소스·자료</span><span class="chip count">8번 논의</span></div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="frame f900"><div class="fhead">개선안 · 데스크톱 900px</div>
+      <div class="canvas">
+        <nav class="tabs"><a href="#">대화 요약</a><a href="#">공유된 레포</a><a href="#">주간 정리</a><a href="#">매거진</a><a class="on" href="#">Q&amp;A</a><a class="join" href="#">방 참여하기 →</a></nav>
+        <h1>Q&amp;A</h1>
+        <p class="sub">오픈채팅에서 반복해서 나온 질문 268개. 제목을 누르면 답변 페이지로 갑니다.</p>
+        <div class="weightbar good">첫 로드 약 20KB · 항목당 1줄 · 전문은 개별 페이지가 정본</div>
+        <div class="grouphead">자주 나오는 질문</div>
+        <ul class="qlist">
+          <li><a class="qt" href="#">클로드 코드 토큰이 빨리 닳는 이유가 뭔가요?</a>
+            <div class="qmeta"><span class="cat ask">질문·트러블슈팅</span><span class="chip count">12번 논의</span></div></li>
+          <li><a class="qt" href="#">개발 입문자에게 추천할 만한 IDE가 있을까요?</a>
+            <div class="qmeta"><span class="cat tool">도구·라이브러리</span><span class="chip count">7번 논의</span></div></li>
+          <li><a class="qt" href="#">CLAUDE.md는 얼마나 길게 쓰는 게 적당한가요?</a>
+            <div class="qmeta"><span class="cat flow">워크플로우·방법론</span><span class="chip count">9번 논의</span></div></li>
+          <li><a class="qt" href="#">오푸스와 소네트를 어떻게 나눠 쓰시나요?</a>
+            <div class="qmeta"><span class="cat model">AI 모델·프롬프트</span><span class="chip count">11번 논의</span></div></li>
+        </ul>
+        <div class="grouphead">설정과 도구</div>
+        <ul class="qlist">
+          <li><a class="qt" href="#">MCP 서버는 몇 개까지 붙여도 괜찮나요?</a>
+            <div class="qmeta"><span class="cat tool">도구·라이브러리</span><span class="chip count">5번 논의</span></div></li>
+          <li><a class="qt" href="#">서브에이전트를 언제 쓰고 언제 쓰지 말아야 하나요?</a>
+            <div class="qmeta"><span class="cat flow">워크플로우·방법론</span><span class="chip count">6번 논의</span></div></li>
+          <li><a class="qt" href="#">AI로 리팩터링할 때 어떤 기준을 세워야 하나요?</a>
+            <div class="qmeta"><span class="cat flow">워크플로우·방법론</span><span class="chip count">4번 논의</span></div></li>
+          <li><a class="qt" href="#">클로드 코드 공부는 어디서부터 시작하면 좋나요?</a>
+            <div class="qmeta"><span class="cat res">리소스·자료</span><span class="chip count">8번 논의</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="note">"N번 논의"는 같은 질문이 채팅에서 반복된 횟수입니다. 정렬 기준으로도 쓸 수 있어 목록을 훑는 사람에게 우선순위를 줍니다.</p>
+</section>
+
+<!-- ================= ② ================= -->
+<section class="plate" id="s2">
+  <div class="eyebrow">시안 02</div>
+  <h2>QnA 개별 페이지</h2>
+  <p class="lead">268개 개별 페이지가 검색 유입의 착지점입니다. 지금은 탭도 CTA도 없어 착지한 사람이 갈 곳이 없습니다.</p>
+  <p class="pline"><b>문제</b> 착지 → 읽음 → 이탈. 원문 요약으로 돌아가는 길도, 방에 들어오는 길도 없습니다.</p>
+  <p class="pline"><b>해결</b> 첫 문단을 직답으로 올리고, 원문 역링크·같은 주제 3개·참여 CTA로 다음 행동을 셋 만듭니다.</p>
+  <div class="pair">
+    <div class="frame f390"><div class="fhead">모바일 390px</div>
+      <div class="canvas">
+        <nav class="tabs"><a href="#">대화 요약</a><a href="#">공유된 레포</a><a class="on" href="#">Q&amp;A</a></nav>
+        <div class="eyebrow">질문 · 트러블슈팅</div>
+        <h1>클로드 코드 토큰이 빨리 닳는 이유가 뭔가요?</h1>
+        <article class="qbody">
+          <p class="qanswer">대화가 길어질수록 그때까지의 맥락 전체가 매 요청에 다시 실려 나가기 때문입니다. 토큰은 보낸 글자 수가 아니라 매번 다시 보내는 누적 맥락에 비례해 줄어듭니다.</p>
+          <ul>
+            <li>큰 파일을 통째로 읽으면 그 내용이 이후 모든 요청에 계속 따라붙습니다.</li>
+            <li>MCP 서버를 여럿 붙여두면 도구 정의만으로도 시작 시점 컨텍스트가 채워집니다.</li>
+            <li>주제가 바뀌면 세션을 끊고 새로 시작하는 편이 낫다는 의견이 많았습니다.</li>
+            <li>같은 질문을 다시 던지기보다 요약을 만들어 이어가는 방식이 언급됐습니다.</li>
+          </ul>
+        </article>
+        <a class="srcbox" href="#">
+          <span class="sl">이 대화의 원문 보기</span>
+          <span class="st">토큰 소모와 컨텍스트 관리 — 오후 대화 정리</span>
+          <span class="sd">2026-08-14 · 논의 참여 9명</span>
+        </a>
+        <aside class="joinbox" style="margin-top:24px">
+          <b>이런 얘기가 매일 오가는 방이 있어요</b>
+          <p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p>
+          <a class="joinbtn" href="#">클코단 참여하기 →</a>
+        </aside>
+        <section class="qrel">
+          <h3>같은 주제 질문</h3>
+          <ul>
+            <li><a href="#">컨텍스트가 꽉 찼다는 경고는 언제 뜨나요?</a></li>
+            <li><a href="#">MCP 서버는 몇 개까지 붙여도 괜찮나요?</a></li>
+            <li><a href="#">오푸스와 소네트를 어떻게 나눠 쓰시나요?</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+    <div class="frame f900"><div class="fhead">데스크톱 900px</div>
+      <div class="canvas">
+        <nav class="tabs"><a href="#">대화 요약</a><a href="#">공유된 레포</a><a href="#">주간 정리</a><a href="#">매거진</a><a class="on" href="#">Q&amp;A</a><a class="join" href="#">방 참여하기 →</a></nav>
+        <div class="eyebrow">질문 · 트러블슈팅</div>
+        <h1>클로드 코드 토큰이 빨리 닳는 이유가 뭔가요?</h1>
+        <article class="qbody">
+          <p class="qanswer">대화가 길어질수록 그때까지의 맥락 전체가 매 요청에 다시 실려 나가기 때문입니다. 토큰은 보낸 글자 수가 아니라 매번 다시 보내는 누적 맥락에 비례해 줄어듭니다.</p>
+          <ul>
+            <li>큰 파일을 통째로 읽으면 그 내용이 이후 모든 요청에 계속 따라붙습니다.</li>
+            <li>MCP 서버를 여럿 붙여두면 도구 정의만으로도 시작 시점 컨텍스트가 채워집니다.</li>
+            <li>주제가 바뀌면 세션을 끊고 새로 시작하는 편이 낫다는 의견이 많았습니다.</li>
+            <li>같은 질문을 다시 던지기보다 요약을 만들어 이어가는 방식이 언급됐습니다.</li>
+          </ul>
+        </article>
+        <a class="srcbox" href="#">
+          <span class="sl">이 대화의 원문 보기</span>
+          <span class="st">토큰 소모와 컨텍스트 관리 — 오후 대화 정리</span>
+          <span class="sd">2026-08-14 · 논의 참여 9명</span>
+        </a>
+        <aside class="joinbox" style="margin-top:24px">
+          <b>이런 얘기가 매일 오가는 방이 있어요</b>
+          <p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p>
+          <a class="joinbtn" href="#">클코단 참여하기 →</a>
+        </aside>
+        <section class="qrel">
+          <h3>같은 주제 질문</h3>
+          <ul>
+            <li><a href="#">컨텍스트가 꽉 찼다는 경고는 언제 뜨나요?</a></li>
+            <li><a href="#">MCP 서버는 몇 개까지 붙여도 괜찮나요?</a></li>
+            <li><a href="#">오푸스와 소네트를 어떻게 나눠 쓰시나요?</a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+  <p class="note">첫 문단(16.5px / weight 500)은 검색 스니펫과 그대로 겹칩니다. 착지한 사람이 스크롤 없이 답을 확인하고, 그 아래에서 원문·이웃 질문·참여 중 하나를 고르게 됩니다.</p>
+</section>
+
+<!-- ================= ③ ================= -->
+<section class="plate" id="s3">
+  <div class="eyebrow">시안 03</div>
+  <h2>참여 CTA 3변형</h2>
+  <p class="lead">카피는 셋 다 동일합니다. 다른 것은 시각적 무게와 놓이는 위치입니다.</p>
+  <p class="pline"><b>문제</b> 현재 CTA는 매거진 기사 한 종에만 있고, 유입 대부분이 착지하는 상세 페이지에는 없습니다.</p>
+  <p class="pline"><b>해결</b> 표면별로 무게가 다른 변형을 준비해 두고 GA4 placement 라벨로 어느 쪽이 전환을 만드는지 측정합니다.</p>
+
+  <div class="pair">
+    <div class="frame f900"><div class="fhead">데스크톱 900px · 3변형 비교</div>
+      <div class="canvas">
+        <div class="ctagrid">
+          <div class="ctacell">
+            <h4>A) 현재안 — 흰 카드</h4>
+            <aside class="joinbox">
+              <b>이런 얘기가 매일 오가는 방이 있어요</b>
+              <p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p>
+              <a class="joinbtn" href="#">클코단 참여하기 →</a>
+            </aside>
+            <p class="pro">본문 흐름을 끊지 않지만, 배경이 카드와 비슷해 스크롤 중 눈에 걸리지 않습니다.</p>
+          </div>
+          <div class="ctacell">
+            <h4>B) 강조형 — chip-bg + 액센트 바</h4>
+            <aside class="joinbox b">
+              <b>이런 얘기가 매일 오가는 방이 있어요</b>
+              <p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p>
+              <a class="joinbtn" href="#">클코단 참여하기 →</a>
+            </aside>
+            <p class="pro">면으로 구분돼 확실히 보입니다. 한 페이지에 두 번 이상 쓰면 광고처럼 읽힙니다.</p>
+          </div>
+          <div class="ctacell">
+            <h4>C) 인라인형 — 가로 배너</h4>
+            <aside class="joinbox c">
+              <span class="ct">이런 얘기가 매일 오가는 방이 있어요<span>질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</span></span>
+              <a class="joinbtn" href="#">참여하기 →</a>
+            </aside>
+            <p class="pro">본문 중간에 넣어도 흐름이 끊기지 않습니다. 세로 공간을 덜 쓰는 대신 존재감이 가장 약합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame f390"><div class="fhead">모바일 390px · 3변형</div>
+      <div class="canvas">
+        <h4 style="margin:0 0 10px;font-size:14px;color:var(--accent-deep)">A) 현재안</h4>
+        <aside class="joinbox">
+          <b>이런 얘기가 매일 오가는 방이 있어요</b>
+          <p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p>
+          <a class="joinbtn" href="#">클코단 참여하기 →</a>
+        </aside>
+        <h4 style="margin:22px 0 10px;font-size:14px;color:var(--accent-deep)">B) 강조형</h4>
+        <aside class="joinbox b">
+          <b>이런 얘기가 매일 오가는 방이 있어요</b>
+          <p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p>
+          <a class="joinbtn" href="#">클코단 참여하기 →</a>
+        </aside>
+        <h4 style="margin:22px 0 10px;font-size:14px;color:var(--accent-deep)">C) 인라인형</h4>
+        <aside class="joinbox c">
+          <span class="ct">이런 얘기가 매일 오가는 방이 있어요<span>질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</span></span>
+          <a class="joinbtn" href="#">참여하기 →</a>
+        </aside>
+        <p class="note">모바일에서 C는 버튼이 아래로 접힙니다. 좁은 폭에서는 B와 높이 차가 거의 없습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ④ ================= -->
+<section class="plate" id="s4">
+  <div class="eyebrow">시안 04</div>
+  <h2>요약 상세(s/) 개선</h2>
+  <p class="lead">112개 요약 상세 페이지는 탭 없이 "← 뒤로"만 있고, 카드가 전부 회색조라 스캔이 되지 않습니다.</p>
+  <p class="pline"><b>문제</b> 어느 사이트의 어느 구역인지 알 수 없고, 카드 10여 개가 시각적으로 균질해 관심 있는 논의를 못 찾습니다.</p>
+  <p class="pline"><b>해결</b> 인덱스와 같은 탭 내비를 얹고, 각 논의 카드에 카테고리 칩을 붙여 색으로 훑을 수 있게 합니다.</p>
+
+  <div class="pair">
+    <div class="frame f390"><div class="fhead">현재 · 모바일 390px</div>
+      <div class="canvas gray">
+        <p class="backonly">← 뒤로</p>
+        <h1>2026-08-14 오후 대화</h1>
+        <p class="sub">논의 11건</p>
+        <div class="tcard"><span class="slot">14:05</span><h3>토큰 소모와 컨텍스트 관리</h3><p>긴 세션에서 토큰이 빨리 줄어드는 이유와 세션을 끊는 기준을 두고 의견이 오갔습니다.</p></div>
+        <div class="tcard"><span class="slot">14:32</span><h3>CLAUDE.md 분량 논쟁</h3><p>규칙을 길게 적을수록 지켜지지 않는다는 경험과, 짧게 쓰고 훅으로 강제하자는 제안이 갈렸습니다.</p></div>
+        <div class="tcard"><span class="slot">15:10</span><h3>입문자용 편집기 추천</h3><p>편집기 선택보다 저장소·브랜치 개념이 먼저라는 쪽으로 정리됐습니다.</p></div>
+        <div class="tcard"><span class="slot">16:20</span><h3>서브에이전트 사용 기준</h3><p>맥락을 나눠도 되는 작업에만 쓰고, 이어지는 판단이 필요한 작업은 한 세션에 두자는 정리.</p></div>
+      </div>
+    </div>
+    <div class="frame f900"><div class="fhead">개선안 · 데스크톱 900px</div>
+      <div class="canvas">
+        <nav class="tabs"><a class="on" href="#">대화 요약</a><a href="#">공유된 레포</a><a href="#">주간 정리</a><a href="#">매거진</a><a href="#">Q&amp;A</a><a class="join" href="#">방 참여하기 →</a></nav>
+        <h1>2026-08-14 오후 대화</h1>
+        <p class="sub">논의 11건 · 참여 23명</p>
+        <div class="tcard"><span class="slot">14:05</span>
+          <div><h3>토큰 소모와 컨텍스트 관리</h3>
+          <p>긴 세션에서 토큰이 빨리 줄어드는 이유와 세션을 끊는 기준을 두고 의견이 오갔습니다.</p>
+          <div class="row"><span class="cat ask">질문·트러블슈팅</span><span class="chip count">Q&amp;A로 정리됨</span></div></div></div>
+        <div class="tcard"><span class="slot">14:32</span>
+          <div><h3>CLAUDE.md 분량 논쟁</h3>
+          <p>규칙을 길게 적을수록 지켜지지 않는다는 경험과, 짧게 쓰고 훅으로 강제하자는 제안이 갈렸습니다.</p>
+          <div class="row"><span class="cat flow">워크플로우·방법론</span></div></div></div>
+        <div class="tcard"><span class="slot">15:10</span>
+          <div><h3>입문자용 편집기 추천</h3>
+          <p>편집기 선택보다 저장소·브랜치 개념이 먼저라는 쪽으로 정리됐습니다.</p>
+          <div class="row"><span class="cat tool">도구·라이브러리</span><span class="cat res">리소스·자료</span></div></div></div>
+        <div class="tcard"><span class="slot">16:20</span>
+          <div><h3>서브에이전트 사용 기준</h3>
+          <p>맥락을 나눠도 되는 작업에만 쓰고, 이어지는 판단이 필요한 작업은 한 세션에 두자는 정리.</p>
+          <div class="row"><span class="cat flow">워크플로우·방법론</span><span class="cat model">AI 모델·프롬프트</span></div></div></div>
+      </div>
+    </div>
+    <div class="frame f390"><div class="fhead">개선안 · 모바일 390px</div>
+      <div class="canvas">
+        <nav class="tabs"><a class="on" href="#">대화 요약</a><a href="#">공유된 레포</a><a href="#">Q&amp;A</a></nav>
+        <h1>2026-08-14 오후 대화</h1>
+        <p class="sub">논의 11건 · 참여 23명</p>
+        <div class="tcard"><span class="slot">14:05</span><h3>토큰 소모와 컨텍스트 관리</h3><p>긴 세션에서 토큰이 빨리 줄어드는 이유와 세션을 끊는 기준을 두고 의견이 오갔습니다.</p>
+          <div class="row"><span class="cat ask">질문·트러블슈팅</span><span class="chip count">Q&amp;A로 정리됨</span></div></div>
+        <div class="tcard"><span class="slot">14:32</span><h3>CLAUDE.md 분량 논쟁</h3><p>규칙을 길게 적을수록 지켜지지 않는다는 경험과, 짧게 쓰고 훅으로 강제하자는 제안이 갈렸습니다.</p>
+          <div class="row"><span class="cat flow">워크플로우·방법론</span></div></div>
+        <div class="tcard"><span class="slot">15:10</span><h3>입문자용 편집기 추천</h3><p>편집기 선택보다 저장소·브랜치 개념이 먼저라는 쪽으로 정리됐습니다.</p>
+          <div class="row"><span class="cat tool">도구·라이브러리</span><span class="cat res">리소스·자료</span></div></div>
+        <div class="tcard"><span class="slot">16:20</span><h3>서브에이전트 사용 기준</h3><p>맥락을 나눠도 되는 작업에만 쓰고, 이어지는 판단이 필요한 작업은 한 세션에 두자는 정리.</p>
+          <div class="row"><span class="cat flow">워크플로우·방법론</span><span class="cat model">AI 모델·프롬프트</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ⑤ ================= -->
+<section class="plate" id="s5">
+  <div class="eyebrow">시안 05</div>
+  <h2>카테고리 칩 색상 시스템</h2>
+  <p class="lead">옐로 액센트는 "지금 여기"와 참여 버튼에만 남깁니다. 카테고리는 채도를 낮춘 흙빛 6색으로 구분해 액센트와 경쟁하지 않게 합니다.</p>
+  <p class="pline"><b>문제</b> 카테고리를 옐로 계열로 처리하면 활성 탭·CTA와 구분되지 않고, 무채색으로 처리하면 구분이 안 됩니다.</p>
+  <p class="pline"><b>해결</b> 채도 12~20% 흙빛 6색. 라이트/다크 모두 본문 대비 4.5:1 이상을 확보했습니다.</p>
+
+  <div class="pal">
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#E7EADB"></span><span class="cat tool">도구·라이브러리</span></div>
+      <p class="spec">배경 <i>#E7EADB</i> / 글자 <i>#4A5A38</i><br>칩 내부 대비 <i>6.12:1</i> · 크림 배경 대비 <i>6.85:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#F0E2D8"></span><span class="cat flow">워크플로우·방법론</span></div>
+      <p class="spec">배경 <i>#F0E2D8</i> / 글자 <i>#7A4B33</i><br>칩 내부 대비 <i>5.75:1</i> · 크림 배경 대비 <i>6.68:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#EAE3E8"></span><span class="cat model">AI 모델·프롬프트</span></div>
+      <p class="spec">배경 <i>#EAE3E8</i> / 글자 <i>#5E4A5C</i><br>칩 내부 대비 <i>6.38:1</i> · 크림 배경 대비 <i>7.38:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#F2E0DC"></span><span class="cat ask">질문·트러블슈팅</span></div>
+      <p class="spec">배경 <i>#F2E0DC</i> / 글자 <i>#7E3F35</i><br>칩 내부 대비 <i>6.22:1</i> · 크림 배경 대비 <i>7.27:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#E0E6EA"></span><span class="cat res">리소스·자료</span></div>
+      <p class="spec">배경 <i>#E0E6EA</i> / 글자 <i>#3F5563</i><br>칩 내부 대비 <i>6.20:1</i> · 크림 배경 대비 <i>7.16:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#EAE6DC"></span><span class="cat etc">운영·기타</span></div>
+      <p class="spec">배경 <i>#EAE6DC</i> / 글자 <i>#5A5344</i><br>칩 내부 대비 <i>6.12:1</i> · 크림 배경 대비 <i>6.99:1</i></p></div>
+  </div>
+
+  <div class="usage">
+    <div class="eyebrow">액센트와 함께 놓았을 때</div>
+    <nav class="tabs" style="margin-top:10px"><a class="on" href="#">Q&amp;A</a><a href="#">대화 요약</a><a class="join" href="#">방 참여하기 →</a></nav>
+    <ul class="qlist">
+      <li><a class="qt" href="#">MCP 서버는 몇 개까지 붙여도 괜찮나요?</a>
+        <div class="qmeta"><span class="cat tool">도구·라이브러리</span><span class="chip count">5번 논의</span></div></li>
+      <li><a class="qt" href="#">클로드 코드 공부는 어디서부터 시작하면 좋나요?</a>
+        <div class="qmeta"><span class="cat res">리소스·자료</span><span class="chip count">8번 논의</span></div></li>
+      <li><a class="qt" href="#">방 규칙이나 공지는 어디서 확인하나요?</a>
+        <div class="qmeta"><span class="cat etc">운영·기타</span><span class="chip count">3번 논의</span></div></li>
+    </ul>
+    <p class="note">노란색은 활성 탭과 참여 버튼 두 곳에만 남습니다. 카테고리 칩은 밝기가 비슷해 목록에서 줄무늬처럼 읽히지 않습니다.</p>
+  </div>
+</section>
+
+<!-- ================= ⑥ ================= -->
+<section class="plate" id="s6">
+  <div class="eyebrow">시안 06</div>
+  <h2>모바일 탭 내비 3안</h2>
+  <p class="lead">탭 5개(대화 요약·공유된 레포·주간 정리·매거진·Q&amp;A)에 참여 버튼까지 390px에 넣어야 합니다.</p>
+  <p class="pline"><b>문제</b> 현재 <code>flex-wrap</code>으로 줄바꿈되면 항목 배치가 매 페이지 달라지고 참여 버튼 위치가 흔들립니다.</p>
+  <p class="pline"><b>해결</b> 세 방식을 같은 폭에서 비교합니다. 아래 프레임은 실제 390px 렌더입니다.</p>
+
+  <div class="pair">
+    <div class="frame f390"><div class="fhead">(a) 가로 스크롤</div>
+      <div class="canvas">
+        <div class="fade"><nav class="tabs tabsA"><a class="on" href="#">Q&amp;A</a><a href="#">대화 요약</a><a href="#">공유된 레포</a><a href="#">주간 정리</a><a href="#">매거진</a></nav></div>
+        <a class="joinbtn" href="#" style="margin-top:6px">방 참여하기 →</a>
+        <p class="note">라벨을 그대로 유지하고 한 줄 높이도 유지됩니다. 오른쪽 항목이 잘려 있다는 신호(끝단 페이드)가 필요하고, 스크롤을 안 해보는 사람에게는 매거진이 없는 것과 같습니다. 참여 버튼은 스크롤 영역 밖으로 뺐습니다.</p>
+      </div>
+    </div>
+    <div class="frame f390"><div class="fhead">(b) 라벨 축약</div>
+      <div class="canvas">
+        <nav class="tabs tabsB"><a class="on" href="#">Q&amp;A</a><a href="#">요약</a><a href="#">레포</a><a href="#">주간</a><a href="#">매거진</a></nav>
+        <a class="joinbtn" href="#" style="margin-top:6px">방 참여하기 →</a>
+        <p class="note">5개가 한 줄에 모두 보이고 잘림이 없습니다. "요약"·"레포"는 처음 온 사람에게 뜻이 덜 분명해집니다. 데스크톱에서는 전체 라벨을 쓰므로 폭에 따라 이름이 달라지는 문제가 생깁니다.</p>
+      </div>
+    </div>
+    <div class="frame f390"><div class="fhead">(c) 2행 배치</div>
+      <div class="canvas">
+        <nav class="tabs tabsC"><a class="on" href="#">Q&amp;A</a><a href="#">대화 요약</a><a href="#">공유된 레포</a><a href="#">주간 정리</a><a href="#">매거진</a><a class="join" href="#">참여하기 →</a></nav>
+        <p class="note">전체 라벨을 유지하면서 모두 보입니다. 3열 2행 그리드라 항목 위치가 페이지마다 고정됩니다. 헤더가 한 줄(약 40px) 높아져 첫 화면에서 제목이 그만큼 밀립니다.</p>
+      </div>
+    </div>
+  </div>
+  <p class="note">세 안의 트레이드오프는 라벨 온전함 · 전부 보임 · 높이 셋 중 둘만 얻는 구조입니다. (c)가 둘(온전함·전부 보임)을 얻고 높이를 내줍니다.</p>
+</section>
+
+<!-- ================= 다크 ================= -->
+<section class="plate darkzone" id="dark">
+  <div class="eyebrow">다크 모드</div>
+  <h2>카테고리 칩 — 다크 팔레트</h2>
+  <p class="lead">다크에서는 배경을 어둡게 깔고 글자를 밝게 뒤집습니다. 라이트와 색상(hue)은 같고 명도만 반전되어 같은 카테고리로 읽힙니다.</p>
+  <div class="pal">
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#2A3021"></span><span class="cat tool">도구·라이브러리</span></div>
+      <p class="spec">배경 <i>#2A3021</i> / 글자 <i>#C3D2AB</i><br>칩 내부 대비 <i>8.51:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#34261D"></span><span class="cat flow">워크플로우·방법론</span></div>
+      <p class="spec">배경 <i>#34261D</i> / 글자 <i>#E2BFA6</i><br>칩 내부 대비 <i>8.49:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#2E2730"></span><span class="cat model">AI 모델·프롬프트</span></div>
+      <p class="spec">배경 <i>#2E2730</i> / 글자 <i>#D3C0D0</i><br>칩 내부 대비 <i>8.43:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#35241F"></span><span class="cat ask">질문·트러블슈팅</span></div>
+      <p class="spec">배경 <i>#35241F</i> / 글자 <i>#E8B4A8</i><br>칩 내부 대비 <i>8.10:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#212B31"></span><span class="cat res">리소스·자료</span></div>
+      <p class="spec">배경 <i>#212B31</i> / 글자 <i>#B4C9D6</i><br>칩 내부 대비 <i>8.43:1</i></p></div>
+    <div class="palcard"><div class="top"><span class="swatch" style="background:#2C281E"></span><span class="cat etc">운영·기타</span></div>
+      <p class="spec">배경 <i>#2C281E</i> / 글자 <i>#CFC5AE</i><br>칩 내부 대비 <i>8.57:1</i></p></div>
+  </div>
+  <div class="usage">
+    <nav class="tabs"><a class="on" href="#">Q&amp;A</a><a href="#">대화 요약</a><a class="join" href="#">방 참여하기 →</a></nav>
+    <ul class="qlist">
+      <li><a class="qt" href="#">클로드 코드 토큰이 빨리 닳는 이유가 뭔가요?</a>
+        <div class="qmeta"><span class="cat ask">질문·트러블슈팅</span><span class="chip count">12번 논의</span></div></li>
+      <li><a class="qt" href="#">CLAUDE.md는 얼마나 길게 쓰는 게 적당한가요?</a>
+        <div class="qmeta"><span class="cat flow">워크플로우·방법론</span><span class="chip count">9번 논의</span></div></li>
+      <li><a class="qt" href="#">오푸스와 소네트를 어떻게 나눠 쓰시나요?</a>
+        <div class="qmeta"><span class="cat model">AI 모델·프롬프트</span><span class="chip count">11번 논의</span></div></li>
+    </ul>
+    <p class="note">다크에서는 액센트가 #FBDA30로 밝아지므로 칩과의 명도 차가 라이트보다 큽니다. 카테고리 칩이 배경에 가라앉아 액센트를 방해하지 않습니다.</p>
+  </div>
+</section>
+
+</div>
+</body>
+</html>
