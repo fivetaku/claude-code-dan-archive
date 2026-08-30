@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+# 내부 검토용 임시 시안 (결정 후 파일과 함께 삭제)
+Disallow: /design-preview.html
 
 Sitemap: https://chat.axwith.com/sitemap.xml
