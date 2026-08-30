@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>클코단 아카이브 — 주간 정리</title>
+<title>클코단 주간정리 — 8월 24일 ~ 8월 30일</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="description" content="클코단 오픈채팅 논의를 주 단위로 정리한 아카이브.">
-<link rel="canonical" href="/weekly/">
-<meta property="og:title" content="클코단 주간 정리">
-<meta property="og:type" content="website">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "클코단 주간 정리", "url": "/weekly/", "isPartOf": {"@type": "WebSite", "name": "클코단 아카이브", "url": "/"}}</script>
+<meta name="description" content="8월 24일 ~ 8월 30일 클코단 논의 주간 정리 — 한 주간 화제를 모았습니다.">
+<link rel="canonical" href="/w/2026-W35.html">
+<meta property="og:title" content="클코단 주간정리 — 8월 24일 ~ 8월 30일">
+<meta property="og:type" content="article">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클코단 주간정리 — 8월 24일 ~ 8월 30일", "description": "8월 24일 ~ 8월 30일 클코단 논의 주간 정리 — 한 주간 화제를 모았습니다.", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "datePublished": "2026-08-30", "image": "/apple-touch-icon.png", "mainEntityOfPage": {"@type": "WebPage", "@id": "/w/2026-W35.html"}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -153,18 +153,56 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
 font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 .wkbanner span{color:var(--accent-deep)}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap}
+@media(max-width:640px){
+.tabwrap{position:relative;margin-right:-24px}
+.tabwrap::after{content:"";position:absolute;right:0;top:0;bottom:6px;width:36px;pointer-events:none;
+background:linear-gradient(90deg,transparent,var(--ground) 72%)}
+.tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;
+scrollbar-width:none;padding-right:30px;scroll-snap-type:x proximity}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 13px;scroll-snap-align:start}
+.tabs a.join{margin-left:6px}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
+border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 </style>
 </head>
 <body>
 <div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../">대화 요약</a><a href="../repos/">공유된 레포</a><a class="on" href="../weekly/">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a></nav></div>
 <header>
   <span class="mark">지피탁구</span>
-  <h1>주간 정리</h1>
-  <p class="sub">한 주의 대화를 일요일 밤마다 하이라이트로 묶어둡니다.</p>
+  <h1>8월 24일 ~ 8월 30일 주간정리</h1>
+  <p class="sub">에이전트 워크플로·보안·로컬 AI 집중</p>
+  <div class="meta" style="margin-top:12px">
+    <span>요약 <b>23</b>회</span>
+    <span>발화 <b>4767</b>건</span>
+    <span>하이라이트 <b>5</b></span>
+  </div>
 </header>
-<nav class="tabs"><a href="../">대화 요약</a><a href="../repos/">공유된 레포</a><a class="on" href="./">주간 정리</a><a href="../mag/">매거진</a><a href="../qna/">Q&amp;A</a></nav>
-<div id="browse"><article class="entry"><div class="slot">W35</div><div><h3><a href="../w/2026-W35.html">에이전트 워크플로·보안·로컬 AI 집중</a></h3><div class="emeta">8월 24일 ~ 8월 30일 · 요약 23회 · 발화 4,767건 · 하이라이트 5개</div></div></article><article class="entry"><div class="slot">W34</div><div><h3><a href="../w/2026-W34.html">AI 에이전트 운영·검증·인프라가 핵심</a></h3><div class="emeta">8월 17일 ~ 8월 23일 · 요약 25회 · 발화 5,285건 · 하이라이트 5개</div></div></article><article class="entry"><div class="slot">W33</div><div><h3><a href="../w/2026-W33.html">하네스·라우팅과 로컬 LLM 실험 확산</a></h3><div class="emeta">8월 10일 ~ 8월 16일 · 요약 23회 · 발화 5,217건 · 하이라이트 5개</div></div></article><article class="entry"><div class="slot">W32</div><div><h3><a href="../w/2026-W32.html">볼타 자동화·모델 논쟁·AX 화두 속 1000명 돌파</a></h3><div class="emeta">8월 3일 ~ 8월 9일 · 요약 26회 · 발화 5,530건 · 하이라이트 5개</div></div></article><article class="entry"><div class="slot">W31</div><div><h3><a href="../w/2026-W31.html">파일삭제 사고와 MCP 오버엔지니어링 논쟁</a></h3><div class="emeta">7월 27일 ~ 8월 2일 · 요약 3회 · 발화 522건 · 하이라이트 5개</div></div></article></div>
-<footer>지피탁구 봇이 매주 자동 생성한 주간 정리 모음입니다. 주간 5건.</footer>
+<section class="wkstat">
+  <h2>요일별 활동</h2><div class="days"><div class="daycol"><span class="daybar" style="height:46px"></span><span class="daylbl">24</span></div><div class="daycol"><span class="daybar" style="height:66px"></span><span class="daylbl">25</span></div><div class="daycol"><span class="daybar" style="height:90px"></span><span class="daylbl">26</span></div><div class="daycol"><span class="daybar" style="height:60px"></span><span class="daylbl">27</span></div><div class="daycol"><span class="daybar" style="height:86px"></span><span class="daylbl">28</span></div><div class="daycol"><span class="daybar" style="height:22px"></span><span class="daylbl">29</span></div><div class="daycol"><span class="daybar" style="height:36px"></span><span class="daylbl">30</span></div></div>
+  <h2>주제 분포</h2><div class="catrow"><span class="catname">커뮤니티·잡담</span><span class="catbar" style="width:100%"></span><span class="catnum">54</span></div><div class="catrow"><span class="catname">질문·트러블슈팅</span><span class="catbar" style="width:91%"></span><span class="catnum">49</span></div><div class="catrow"><span class="catname">도구·라이브러리</span><span class="catbar" style="width:87%"></span><span class="catnum">47</span></div><div class="catrow"><span class="catname">워크플로우·방법론</span><span class="catbar" style="width:61%"></span><span class="catnum">33</span></div><div class="catrow"><span class="catname">AI 모델·프롬프트</span><span class="catbar" style="width:54%"></span><span class="catnum">29</span></div><div class="catrow"><span class="catname">자료·링크 공유</span><span class="catbar" style="width:44%"></span><span class="catnum">24</span></div><div class="catrow"><span class="catname">배포·운영</span><span class="catbar" style="width:28%"></span><span class="catnum">15</span></div><div class="catrow"><span class="catname">기타</span><span class="catbar" style="width:11%"></span><span class="catnum">6</span></div>
+</section>
+<section class="details"><article class="dcard"><div class="t">워크플로우·방법론</div><h2>서브에이전트 워크플로</h2><p class="sum">모델별 역할 분배, 병렬·턴제 실행, 컨텍스트 절약을 위한 서브에이전트 운영 방식이 반복 논의됐다. 작업 계약과 컨텍스트 스키마를 모델 독립적으로 설계하자는 제안도 나왔다.</p><ul><li><a href="../s/2026-08-30-0900.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">배포·운영</div><h2>에이전트 보안 강화</h2><p class="sum">제한 실행 모드, 권한 격리, 최소 권한 IAM, 패키지 설치 가드 훅 등 에이전트 실행 환경의 보안 통제가 핵심 주제로 다뤄졌다. 클라우드 자원과 배포 경로까지 함께 관리해야 한다는 공감대가 형성됐다.</p><ul><li><a href="../s/2026-08-30-0900.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">배포·운영</div><h2>Claude 장애와 한도</h2><p class="sum">Claude·Claude Code 장애와 복구 공지가 여러 차례 공유됐고, 플랜 한도 및 사용량 관리 문제도 이어졌다. 비용 절감을 위한 저비용 모델 병행과 예산 관리 필요성이 논의됐다.</p><ul><li><a href="../s/2026-08-29-0900.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">도구·라이브러리</div><h2>로컬 LLM 장비 선택</h2><p class="sum">맥미니·맥스튜디오와 GPU 환경에서 메모리 용량, 병렬 운용, 모델 규모를 기준으로 한 장비 선택 논의가 활발했다. 로컬 구축 비용과 운영비를 단순히 0원으로 볼 수 없다는 지적도 나왔다.</p><ul><li><a href="../s/2026-08-27-1800.html">그날 요약 보기</a></li></ul></article><article class="dcard"><div class="t">도구·라이브러리</div><h2>문서 자동화와 HWPX</h2><p class="sum">사업계획서의 HWP/HWPX 서식 보존 문제와 자동화 방법이 집중 논의됐다. HWPX 편집 원리와 문서 읽기·생성·편집을 지원하는 에이전트 스킬도 공유됐다.</p><ul><li><a href="../s/2026-08-28-2200.html">그날 요약 보기</a></li></ul></article></section>
+<div class="months"><h2>이번 주 새 레포 11개</h2><a href="../repos/fivetaku-tikeytaka.html">fivetaku/tikeytaka</a><a href="../repos/fivetaku-ddiring.html">fivetaku/ddiring</a><a href="../repos/leonxlnx-taste-skill.html">leonxlnx/taste-skill</a><a href="../repos/pbakaus-impeccable.html">pbakaus/impeccable</a><a href="../repos/AgriciDaniel-claude-seo.html">AgriciDaniel/claude-seo</a><a href="../repos/VoltAgent-awesome-design-md.html">VoltAgent/awesome-design-md</a><a href="../repos/MengTo-Skills.html">MengTo/Skills</a><a href="../repos/fivetaku-grok-bot-0.18-reconstructed.html">fivetaku/grok-bot-0.18-reconstructed</a><a href="../repos/Leonxlnx-taste-skill.html">Leonxlnx/taste-skill</a><a href="../repos/DoHyun468-claw-hwp.html">DoHyun468/claw-hwp</a><a href="../repos/gary149-h3-game-sprites.html">gary149/h3-game-sprites</a></div>
+
+<footer>지피탁구 봇이 그 주 요약을 모아 자동 정리했습니다.</footer>
 </div>
 </body>
 </html>
