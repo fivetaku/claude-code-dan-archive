@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>DGX Spark 발열, 외부 팬이 성능 저하를 막을까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/dgx-spark-external-fan-cooling.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/dgx-spark-external-fan-cooling.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
+    <description>NVIDIA DGX Spark의 장시간 작업에서 발열과 스로틀링을 구분하고, 외부 팬·3D 출력 덕트·방열판·펠티어의 효과와 위험을 공식 자료와 실측으로 살폈다.</description>
+  </item>
+  <item>
+    <title>Command Code 1달러 다중 계정, 밴과 환불의 실제 기준</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/command-code-multi-account-ban.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/command-code-multi-account-ban.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Command Code의 1인 1계정 약관과 Go 플랜의 모델·API 제한을 검증했다. 환불 예외, 공식 설치법, Claude Code와의 차이도 최신 문서로 정리했다.</description>
+  </item>
+  <item>
     <title>Claude Haiku 4.5에 RAG면 충분할까, 온톨로지의 경계</title>
     <link>https://chat.axwith.com/mag/models/haiku-rag-ontology-boundary.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/haiku-rag-ontology-boundary.html</guid>
@@ -227,21 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Mon, 24 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드 입문 가이드 CC101과 훅(hooks) 설정이 왜 초보자에게 필수인지, 실제 파일 삭제 사고 사례와 함께 정리한다.</description>
-  </item>
-  <item>
-    <title>Qwen3.8-27B 로컬 구동, 맥 128GB냐 연구실 서버냐</title>
-    <link>https://chat.axwith.com/mag/tools/qwen-27b-mac-vs-lab-server.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/qwen-27b-mac-vs-lab-server.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
-    <description>알리바바 Qwen3.8-27B 로컬 구동에 필요한 실제 사양과 맥 스튜디오·연구실 GPU 서버 비교, 2026년 램 품귀로 128GB 맥 구성이 막힌 배경까지 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드코드 자료조사, insane-search·insane-research로 채우는 법</title>
-    <link>https://chat.axwith.com/mag/tools/insane-search-insane-research-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/insane-search-insane-research-guide.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드용 자료조사 플러그인 insane-search와 insane-research를 실제로 엮어 쓴 사례를 통해, 두 도구의 작동 원리와 국내 기관 자료를 우선하도록 손본 방법을 정리했다.</description>
   </item>
 </channel></rss>
