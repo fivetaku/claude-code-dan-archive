@@ -21,6 +21,22 @@
     <description>Cursor Ultra와 SuperGrok Heavy의 한도는 합쳐지지 않는다. Cursor 내부의 두 사용량 풀과 Fable·Grok·Composer를 비용에 맞춰 배분하는 방법을 공식 문서로 확인했다.</description>
   </item>
   <item>
+    <title>Claude Code로 만든 그늘로, 복제 논쟁보다 중요한 실행의 조건</title>
+    <link>https://chat.axwith.com/mag/resources/claude-code-shade-route-app.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-shade-route-app.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Sun, 30 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code와 Codex로 만든 그늘로의 실제 제작 순서와 공공데이터 전처리, Shadowmap·직방과의 차이, 출시 뒤 정확도와 책임의 한계를 짚었다.</description>
+  </item>
+  <item>
+    <title>컨소시엄이 Claude Code를 꺼 달라고 할 때의 계약 기준</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-consortium-contract.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-consortium-contract.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 30 Aug 2026 12:00:00 +0900</pubDate>
+    <description>컨소시엄 상대가 Claude Code 사용을 반대할 때 무엇을 확인해야 할까. 상용 데이터 정책부터 샌드박스, 변경 합의, 검수와 납품 책임까지 실무 순서로 정리했다.</description>
+  </item>
+  <item>
     <title>Claude Code 모델 라우팅, 멀티 에이전트는 언제 필요한가</title>
     <link>https://chat.axwith.com/mag/tools/claude-code-model-routing.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-model-routing.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
     <description>클로드코드용 자료조사 플러그인 insane-search와 insane-research를 실제로 엮어 쓴 사례를 통해, 두 도구의 작동 원리와 국내 기관 자료를 우선하도록 손본 방법을 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드 코드에서 이미지 생성하기, 품앗이와 코덱스 브릿지 실전</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-image-gen-pumasi-codex.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-image-gen-pumasi-codex.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드가 이미지를 생성 못 하는 이유와, 품앗이·코덱스 CLI 브릿지로 gpt-image-2를 호출해 우회하는 실제 설치·사용법을 정리했다.</description>
-  </item>
-  <item>
-    <title>딥시크·큐원으로 논문 쓴다는 것, 실제로 뭘 뜻하나</title>
-    <link>https://chat.axwith.com/mag/models/chinese-llm-academic-writing.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/chinese-llm-academic-writing.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sun, 23 Aug 2026 12:00:00 +0900</pubDate>
-    <description>딥시크·큐원 등 중국계 모델의 논문 작성 활용을 다룬 비교 연구, 가짜 참고문헌 사고, 검열 문제, 데이터 보안 이슈까지 실제 근거로 짚는다.</description>
   </item>
 </channel></rss>
