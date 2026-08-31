@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 끼리끼리 사용법, 고정 AI 팀은 판단을 일관되게 할까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code 플러그인 끼리끼리가 팀을 구성하고 다시 불러오는 과정을 설명한다. 고정 팀이 판단 일관성을 보장하는지, Agent Teams와 Workflow의 비용·충돌 한계까지 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/resources/claude-code-kkirikkiri-agent-team.html">
+<meta property="og:title" content="Claude Code 끼리끼리 사용법, 고정 AI 팀은 판단을 일관되게 할까">
+<meta property="og:description" content="Claude Code 플러그인 끼리끼리가 팀을 구성하고 다시 불러오는 과정을 설명한다. 고정 팀이 판단 일관성을 보장하는지, Agent Teams와 Workflow의 비용·충돌 한계까지 짚는다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/resources/claude-code-kkirikkiri-agent-team.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 끼리끼리 사용법, 고정 AI 팀은 판단을 일관되게 할까", "description": "Claude Code 플러그인 끼리끼리가 팀을 구성하고 다시 불러오는 과정을 설명한다. 고정 팀이 판단 일관성을 보장하는지, Agent Teams와 Workflow의 비용·충돌 한계까지 짚는다.", "datePublished": "2026-09-01", "dateModified": "2026-09-01", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/resources/claude-code-kkirikkiri-agent-team.html"}, "articleSection": "자료·링크 공유", "keywords": "Claude Code, 끼리끼리, kkirikkiri, Agent Teams, 멀티에이전트, Claude Code 플러그인", "image": "https://chat.axwith.com/mag/hero/claude-code-kkirikkiri-agent-team.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code 끼리끼리는 어떻게 설치하나요?", "acceptedAnswer": {"@type": "Answer", "text": "GPTaku 플러그인 마켓플레이스를 추가한 뒤 kkirikkiri를 설치한다. Agent Teams를 쓰려면 settings.json에서 실험 기능을 켜고, 프로젝트에서 /kkirikkiri 뒤에 원하는 팀 목적을 적는다."}}, {"@type": "Question", "name": "끼리끼리의 고정 팀은 같은 판단을 보장하나요?", "acceptedAnswer": {"@type": "Answer", "text": "보장하지 않는다. 저장한 역할과 검증 절차는 재사용할 수 있지만, 모델과 입력 맥락이 달라지면 결과도 달라질 수 있다."}}, {"@type": "Question", "name": "Agent Teams와 subagent 중 무엇을 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "팀원끼리 자료를 공유하고 반박해야 하면 Agent Teams가 맞다. 독립된 짧은 작업 결과만 모으면 비용이 낮은 subagent가 더 적합하다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-kkirikkiri-agent-team.png" alt="Claude Code 끼리끼리 사용법, 고정 AI 팀은 판단을 일관되게 할까" loading="eager">
+<header>
+  <span class="catchip c-res">자료·링크 공유</span>
+  <h1>Claude Code 끼리끼리 사용법, 고정 AI 팀은 판단을 일관되게 할까</h1>
+  <p class="sub">한 문장으로 에이전트 팀을 짜는 끼리끼리의 설치법과 저장 구조, Agent Teams와의 차이를 실전 기준으로 살폈다.</p>
+  <div class="meta"><span>2026-09-01</span><span>논의 <b>2</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Code에 같은 전문가 팀을 계속 붙이면 판단도 한결같아질까. 끼리끼리(kkirikkiri)는 자연어 요청을 팀 구성과 실행으로 바꾸는 플러그인이다. 이 글은 설치부터 재사용까지 따라가며, 고정 팀이 실제로 고정하는 것이 무엇인지 묻는다.</p>
+<h2>끼리끼리는 고정 팀보다 저장 가능한 동적 팀에 가깝다</h2>
+<p>끼리끼리 README는 입력 뒤 2~3개 질문을 거쳐 팀을 만든다고 설명한다. 플러그인이 작업 의도와 설치 환경을 먼저 읽어 리서치, 개발, 분석, 콘텐츠, 제품 가운데 프리셋을 고른다. 같은 문장을 넣어도 환경과 답변에 따라 구성이 달라질 수 있다.</p>
+<p>리서치는 기본적으로 리더와 리서처 둘로 시작한다. 개발은 리더와 개발자 둘, 콘텐츠는 작성자와 검토자를 붙인다. 프리셋은 완성된 조직도가 아니라 출발점이다.</p>
+<p>방에서 고정 구성을 활용하자는 의견이 나온 이유는 이해하기 쉽다. 같은 역할과 검토 순서를 쓰면 판단 기준을 반복하기 편하다. 그러나 저장소는 동일한 결론이나 정확도를 보장하지 않는다. 모델 버전과 입력 맥락이 달라지면 결과도 바뀔 수 있다.</p>
+<p>고정 팀은 실행 후 따로 저장해야 생긴다. 사용자가 저장에 동의하면 구성이 `.kkirikkiri/shared/saved-teams/` 아래에 남는다. 다음 세션에서 `/kkirikkiri use the research team from last time`처럼 불러올 수 있다. 잘 맞은 개별 에이전트는 `.claude/agents/`에 저장해 다른 프로젝트에서 재사용한다.</p>
+<h2>설치부터 report.md까지 네 번의 입력으로 이어진다</h2>
+<p>먼저 Claude Code에서 `/plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git`를 실행한다. 이어 `/plugin install kkirikkiri@gptaku-plugins`로 플러그인을 설치한다. Anthropic은 외부 플러그인을 설치하기 전에 코드와 포함된 서버를 신뢰할 수 있는지 확인하라고 안내한다.</p>
+<p>Agent Teams를 쓰려면 `~/.claude/settings.json`의 `env`에 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`을 넣는다. 그다음 프로젝트 폴더에서 `/kkirikkiri 리서치 팀 만들어줘`처럼 목적을 적는다. Node.js는 외부 CLI 연동에 필요하다. tmux는 분할 화면을 볼 때만 선택 사항이다.</p>
+<p>플러그인은 Codex CLI, Antigravity CLI의 `agy`, gajae-code의 `gjc`, 기존 `.claude/agents/`를 찾는다.  최근 계열은 외부 작업자 후보를 Codex, agy, gjc로 정리했다. 외부 CLI가 없어도 Claude만으로 실행할 수 있다.</p>
+<p>사용자는 짧은 인터뷰에 답하고 제안된 역할과 실행 방식을 확인한다. Agent Teams 경로를 고르면 프로젝트에 세션별 폴더가 생긴다. `TEAM_PLAN.md`에는 목표와 담당을, `TEAM_PROGRESS.md`에는 진행 상태를 기록한다. `TEAM_FINDINGS.md`는 발견과 실패한 접근을 남긴다. `report.md`가 최종 결과를 모은다.</p>
+<p>입력은 한 문장이지만 산출물은 계획, 작업 기록, 근거, 보고서로 나뉜다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-kkirikkiri-agent-team.png" alt="" loading="lazy"><h2>Agent Teams와 Workflow는 같은 병렬 실행이 아니다</h2>
+<p>Claude Code 자체도 자연어로 Agent Teams를 만들 수 있다. Anthropic 공식 문서에 따르면 팀원은 각자 독립 컨텍스트를 쓰고 공유 작업 목록과 메시지로 협업한다. 그러므로 &quot;한 문장으로 팀 생성&quot;만 끼리끼리의 독점 기능은 아니다.</p>
+<p>차이는 팀을 짜는 정책에 있다. 끼리끼리는 인터뷰, 환경 스캔, 프리셋, 역할 카드, 검증 라운드를 한 흐름으로 묶는다. 1차 결과가 기준에 못 미치면 일부 팀원을 바꾸거나 전면 재구성한다. 공개 저장소는 이 과정을 최대 세 라운드로 제한한다.</p>
+<p>Agent Teams는 서로 질문하고 반박해야 하는 조사와 디버깅에 맞는다. Anthropic은 독립 모듈 개발과 여러 관점의 리뷰도 강한 사례로 든다. 반대로 순차 작업, 같은 파일 수정, 의존성이 많은 작업에는 단일 세션이나 subagent가 낫다고 명시한다.</p>
+<p>끼리끼리의 Workflow는 대량의 독립 작업을 정해진 순서로 흘려보내는 쪽이다. 최신 Claude Code의 Dynamic Workflows도 JavaScript로 병렬 실행과 교차검증을 구성한다. 팀원 대화가 필요하면 Agent Teams, 반복 가능한 팬아웃이면 Workflow라는 구분이 핵심이다.</p>
+<h2>일관성은 역할 이름보다 기록과 완료 조건에서 나온다</h2>
+<p>같은 팀 이름만 유지해도 기준이 자동으로 고정되지는 않는다. 역할 카드에 담당 범위, 사용 도구, 실패 조건, 산출물 형식을 적어야 한다. `CLAUDE.md`에는 파일 규칙과 테스트 명령을 분명히 두는 편이 좋다. 각 에이전트가 프로젝트 규칙을 따로 읽기 때문이다.</p>
+<p>직접 운용해 본 사람들 사이에서는 역할보다 작업 경계가 중요하다는 반응이 많다. 한 에이전트에는 한 기능, 한 파일 묶음, 한 가설처럼 독립된 소유권을 주라는 조언이다. 팀원이 같은 파일을 만지면 덮어쓰기가 생길 수 있다는 Anthropic의 경고와도 맞는다.</p>
+<p>판단형 작업은 반대 관점을 일부러 넣을 때 팀의 의미가 커진다. 예를 들어 리서처 둘이 같은 자료를 나누는 대신, 한쪽은 근거를 세우고 다른 쪽은 반례를 찾게 할 수 있다. 리더는 두 결과를 합치기 전에 불일치와 미확인 항목을 검사한다. 이런 프로토콜이 고정돼야 다음 실행과 비교할 수 있다.</p>
+<p>`TEAM_FINDINGS.md`에 실패 경로까지 남기는 이유도 여기에 있다. 새 팀원이 결론만 읽으면 같은 실수를 되풀이할 수 있다. 판단의 재현성은 사람 구성이 아니라 판단 과정의 흔적에서 나온다.</p>
+<h2>작은 팀에는 세 명으로 시작할 이유가 있다</h2>
+<p>Agent Teams는 팀원마다 별도 컨텍스트를 사용한다. Anthropic은 토큰 사용이 팀원 수에 따라 늘고 조율 비용도 커진다고 밝힌다. 공식 권장은 대개 3~5명부터 시작한다. 다만 작고 명확한 팀이 더 낫다는 쪽이다.</p>
+<p>써본 사람들 사이에서도 단순 병렬 작업은 subagent가 싸고 빠르다는 불만이 반복된다. 팀 간 메시지와 대기, 상태 복구가 실제 작업보다 길어질 수 있다는 것이다. 반면 여러 가설을 서로 깨뜨리거나 긴 조사를 분리할 때는 추가 비용을 받아들일 만하다는 의견도 있다.</p>
+<p>현재 Agent Teams는 실험 기능이다. 공식 문서는 in-process 팀원의 세션 복원 불가, 늦게 갱신되는 작업 상태, 느린 종료를 제한으로 적는다. 한 세션에는 한 팀만 둘 수 있고 팀원이 다시 하위 팀을 만들 수도 없다.</p>
+<p>개인 개발자와 소규모 팀이 끼리끼리에서 얻는 핵심은 인원 증가가 아니다. 잘 작동한 역할, 작업 경계, 검증 순서, 실패 기록을 다음 작업에 다시 적용하는 능력이다. 고정 팀이 일관성을 만드는 것이 아니라, 저장된 운영 규칙이 팀을 일관되게 만든다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">끼리끼리</span><span class="chip">kkirikkiri</span><span class="chip">Agent Teams</span><span class="chip">멀티에이전트</span><span class="chip">Claude Code 플러그인</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/fivetaku/kkirikkiri" rel="nofollow noopener">https://github.com/fivetaku/kkirikkiri</a></li><li><a href="https://github.com/fivetaku/kkirikkiri/blob/main/README.ko.md" rel="nofollow noopener">https://github.com/fivetaku/kkirikkiri/blob/main/README.ko.md</a></li><li><a href="https://github.com/fivetaku/kkirikkiri/blob/main/CHANGELOG.md" rel="nofollow noopener">https://github.com/fivetaku/kkirikkiri/blob/main/CHANGELOG.md</a></li><li><a href="https://github.com/fivetaku/kkirikkiri/blob/main/commands/kkirikkiri.md" rel="nofollow noopener">https://github.com/fivetaku/kkirikkiri/blob/main/commands/kkirikkiri.md</a></li><li><a href="https://github.com/fivetaku/kkirikkiri/blob/main/skills/kkirikkiri/SKILL.md" rel="nofollow noopener">https://github.com/fivetaku/kkirikkiri/blob/main/skills/kkirikkiri/SKILL.md</a></li><li><a href="https://code.claude.com/docs/en/agent-teams" rel="nofollow noopener">https://code.claude.com/docs/en/agent-teams</a></li><li><a href="https://code.claude.com/docs/en/agents" rel="nofollow noopener">https://code.claude.com/docs/en/agents</a></li><li><a href="https://code.claude.com/docs/en/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/en/sub-agents</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code 끼리끼리는 어떻게 설치하나요?</h2><p class="sum">GPTaku 플러그인 마켓플레이스를 추가한 뒤 kkirikkiri를 설치한다. Agent Teams를 쓰려면 settings.json에서 실험 기능을 켜고, 프로젝트에서 /kkirikkiri 뒤에 원하는 팀 목적을 적는다.</p></article><article class="dcard"><div class="t">Q</div><h2>끼리끼리의 고정 팀은 같은 판단을 보장하나요?</h2><p class="sum">보장하지 않는다. 저장한 역할과 검증 절차는 재사용할 수 있지만, 모델과 입력 맥락이 달라지면 결과도 달라질 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>Agent Teams와 subagent 중 무엇을 써야 하나요?</h2><p class="sum">팀원끼리 자료를 공유하고 반박해야 하면 Agent Teams가 맞다. 독립된 짧은 작업 결과만 모으면 비용이 낮은 subagent가 더 적합하다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="dexa-vfx-remotion-hyperframes.html">모션 이펙트 214종을 코드로 가져오는 법, Remotion과 HyperFrames</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-ai-archive-magazine.html">오픈채팅 대화 AI 자동 아카이브·매거진, 어디까지 믿을 수 있나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-adoption-authority-bottleneck.html">AI 전환이 막히는 진짜 이유, 기술 아닌 권한 문제</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="seedance-25-unlimited-access.html">Seedance 2.5 무제한 이용처, 어디까지 진짜인가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="grok-annual-discount-eligibility.html">그록 SuperGrok 연간 구독 할인, 대상은 왜 갈렸나</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-19-2200.html">2026-08-19 08-19 17:50~21:49</a> · <a href="../../s/2026-08-31-1800.html">2026-08-31 08-31 15:32~17:50</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
