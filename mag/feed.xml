@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>퍼플렉시티 포터블 컴퓨터, 진짜 로컬 AI 에이전트인가</title>
+    <link>https://chat.axwith.com/mag/tools/perplexity-portable-computer-local-ai.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/perplexity-portable-computer-local-ai.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Perplexity Portable Computer의 로컬 실행 범위, DGX Spark 설치 조건, Pro 구독과 크레딧 구조, PPLX 27B 성능과 실제 활용 한계를 정리했다.</description>
+  </item>
+  <item>
     <title>DGX Spark 발열, 외부 팬이 성능 저하를 막을까</title>
     <link>https://chat.axwith.com/mag/troubleshooting/dgx-spark-external-fan-cooling.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/dgx-spark-external-fan-cooling.html</guid>
@@ -19,6 +27,14 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
     <description>Command Code의 1인 1계정 약관과 Go 플랜의 모델·API 제한을 검증했다. 환불 예외, 공식 설치법, Claude Code와의 차이도 최신 문서로 정리했다.</description>
+  </item>
+  <item>
+    <title>Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-agent-team-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-agent-team-guide.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code 단일 세션, 서브에이전트, Agent Teams의 차이를 공식 문서와 실사용 반응으로 비교하고 통제 가능한 하네스의 실전 구성 순서까지 설명한다.</description>
   </item>
   <item>
     <title>Claude Haiku 4.5에 RAG면 충분할까, 온톨로지의 경계</title>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Mon, 24 Aug 2026 12:00:00 +0900</pubDate>
     <description>랙서버로 개인 AI 장비를 꾸리는 상상과 달리 NVLink 없는 텐서 병렬은 한계가 뚜렷하다. 바이브 코딩엔 고사양보다 32GB 램과 맥북이 현실적인 이유를 짚었다.</description>
-  </item>
-  <item>
-    <title>클로드 맥스 200달러도 순식간에 바닥나는 이유, 페이블 5 범인설</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-max-fable-5-usage-limit.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-max-fable-5-usage-limit.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Mon, 24 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드 세션·주간 한도가 맥스 요금제로 올려도 왜 순식간에 바닥나는지, 페이블 5의 소진 속도와 요금제별 배정 방식, 한도를 아끼는 실전 요령까지 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드 코드 처음 배운다면 훅부터, CC101이 말하는 이유</title>
-    <link>https://chat.axwith.com/mag/resources/claude-code-cc101-hooks-beginner-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-cc101-hooks-beginner-guide.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Mon, 24 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드 입문 가이드 CC101과 훅(hooks) 설정이 왜 초보자에게 필수인지, 실제 파일 삭제 사고 사례와 함께 정리한다.</description>
   </item>
 </channel></rss>

@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code 단일 세션, 서브에이전트, Agent Teams의 차이를 공식 문서와 실사용 반응으로 비교하고 통제 가능한 하네스의 실전 구성 순서까지 설명한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-agent-team-guide.html">
+<meta property="og:title" content="Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준">
+<meta property="og:description" content="Claude Code 단일 세션, 서브에이전트, Agent Teams의 차이를 공식 문서와 실사용 반응으로 비교하고 통제 가능한 하네스의 실전 구성 순서까지 설명한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/claude-code-agent-team-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준", "description": "Claude Code 단일 세션, 서브에이전트, Agent Teams의 차이를 공식 문서와 실사용 반응으로 비교하고 통제 가능한 하네스의 실전 구성 순서까지 설명한다.", "datePublished": "2026-08-31", "dateModified": "2026-08-31", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/claude-code-agent-team-guide.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, 서브에이전트, Agent Teams, Claude Code 훅, Claude Code 스킬, worktree", "image": "https://chat.axwith.com/mag/hero/claude-code-agent-team-guide.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code 서브에이전트와 Agent Teams는 무엇이 다른가?", "acceptedAnswer": {"@type": "Answer", "text": "서브에이전트는 독립 작업을 수행한 뒤 호출자에게 결과를 반환한다. Agent Teams의 팀원은 별도 컨텍스트와 공유 작업 목록을 쓰며 서로 직접 메시지를 보낸다."}}, {"@type": "Question", "name": "여러 Claude Code 세션이 같은 파일을 수정해도 안전한가?", "acceptedAnswer": {"@type": "Answer", "text": "같은 체크아웃을 함께 수정하면 충돌 위험이 있다. 세션별로 `claude --worktree`를 쓰거나 커스텀 서브에이전트에 `isolation: worktree`를 설정하는 편이 안전하다."}}, {"@type": "Question", "name": "훅만으로 서브에이전트의 행동을 완전히 통제할 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "훅은 명령 차단과 완료 검증에 강하지만 설계 판단 전체를 대신하지는 않는다. `CLAUDE.md`, 스킬, 도구 권한, 성공·중단 조건을 함께 구성해야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap}
+@media(max-width:640px){
+.tabwrap{position:relative;margin-right:-24px}
+.tabwrap::after{content:"";position:absolute;right:0;top:0;bottom:6px;width:36px;pointer-events:none;
+background:linear-gradient(90deg,transparent,var(--ground) 72%)}
+.tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;
+scrollbar-width:none;padding-right:30px;scroll-snap-type:x proximity}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 13px;scroll-snap-align:start}
+.tabs a.join{margin-left:6px}}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'article-top'})}catch(e){}">클코단 참여하기 &rarr;</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-agent-team-guide.png" alt="Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준" loading="eager">
+<header>
+  <div class="eyebrow">워크플로우·방법론</div>
+  <h1>Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준</h1>
+  <p class="sub">세 개의 터미널을 관리하는 대신 어떤 작업을 위임하고, 어디에 훅·스킬·worktree를 걸어야 하는지 짚었다.</p>
+  <div class="meta"><span>2026-08-31</span><span>논의 <b>3</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>기능별로 Claude Code 세션을 세 개 열면 속도는 빨라질 수 있다. 그런데 어느 순간 사용자는 개발자보다 작업 배차 담당자에 가까워진다. 서브에이전트와 Agent Teams는 이 부담을 줄일까, 아니면 더 복잡한 산출물을 만드는가?</p>
+<h2>세 개의 세션은 자동으로 한 팀이 되지 않는다</h2>
+<p>세션을 나누면 각 창은 자기 대화 이력과 판단만 가진다. 한 창에서 바뀐 설계가 다른 창에 자동 전달되지 않는다. 사용자가 계획, 변경 사항, 충돌을 직접 옮기면 병렬화의 이득이 관리비로 빠져나간다.</p>
+<p>Claude Code의 선택지는 현재 네 갈래다. 단일 세션은 맥락이 계속 이어지는 순차 작업에 맞는다. 서브에이전트는 조사나 테스트처럼 독립적인 일을 맡고 요약만 메인 대화로 돌려준다. Agent Teams는 별도 컨텍스트를 가진 팀원들이 공유 작업 목록과 메시지로 조율한다.</p>
+<p>파일 충돌은 별도 문제다. Anthropic은 Agent Teams가 팀원별 worktree를 자동 제공하지 않는다고 설명한다. 같은 파일을 건드릴 가능성이 있으면 `claude --worktree feature-auth`처럼 체크아웃을 분리해야 한다. 커스텀 서브에이전트에는 `isolation: worktree`를 지정할 수 있다.</p>
+<h2>서브에이전트와 Agent Teams의 경계는 대화 필요성이다</h2>
+<p>Anthropic은 Agent Teams를 2026년 2월 Claude Code 2.1.32에서 Research Preview로 공개했다. 현재도 기본 비활성화이며 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` 설정이 필요하다. 최신 문서는 2.1.178부터 `TeamCreate`와 `TeamDelete`가 사라졌다고 안내한다. 예전 사용법을 그대로 따르면 동작을 오해하기 쉽다.</p>
+<p>고르는 기준은 에이전트 수가 아니다. 결과만 받으면 되는 로그 분석, 문서 조사, 테스트 실행은 서브에이전트가 가볍다. 보안·성능·제품 요구를 서로 반박하거나 경쟁 가설을 시험해야 할 때 팀 메시지가 의미를 갖는다. 순서 의존성이 크거나 한 파일을 함께 고치는 작업에는 단일 세션이 낫다는 것이 공식 권고다.</p>
+<p>써본 사람들 사이에서도 평가가 갈렸다. 독립 조사와 리뷰에서는 맥락 분리가 유용하다는 반응이 있었다. 반면 팀장이 기다리는 시간이 늘고, 설계 기준이 흐려지며, 조율 메시지가 사용량을 키운다는 불만도 반복됐다. 작은 프로젝트에는 직접 세션을 관리하는 편이 빠르다는 의견도 있었다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-agent-team-guide.png" alt="" loading="lazy"><h2>통제는 지침, 능력, 강제 장치를 나눠야 한다</h2>
+<p>`CLAUDE.md`는 프로젝트 구조와 코딩 원칙을 모든 세션에 제공한다. 하지만 지침은 정책 엔진이 아니다. 설계 원칙을 적었다고 위반이 기술적으로 차단되지는 않는다. 서브에이전트의 작업 프롬프트에도 완료 조건과 수정 금지 범위를 다시 명시해야 한다.</p>
+<p>반복 절차는 `.claude/skills/&lt;name&gt;/SKILL.md`로 옮긴다. 예를 들어 계획 검토, 구현, 테스트, 독립 리뷰 순서를 스킬에 적을 수 있다. 자동 발동이 위험하면 `disable-model-invocation: true`로 두고 사람이 직접 호출한다. 서브에이전트에 필요한 스킬은 정의 파일의 `skills` 항목으로 미리 넣는다.</p>
+<p>실제 차단은 훅과 권한이 맡는다. `PreToolUse` 훅은 보호 파일 수정이나 특정 명령을 거부할 수 있다. `SubagentStop`과 `TaskCompleted` 훅은 테스트 결과나 체크리스트가 없을 때 종료를 막는 데 쓸 수 있다. 커스텀 에이전트의 `tools`, `disallowedTools`, `permissionMode`, `maxTurns`는 보이는 도구와 실행 범위를 좁힌다.</p>
+<h2>하네스는 역할보다 입출력을 먼저 적는다</h2>
+<p>작동하는 최소 구성은 거창한 페르소나 팀이 아니다. 먼저 `CLAUDE.md`에 아키텍처 불변 조건과 표준 검증 명령을 적는다. 다음으로 `.claude/agents/implementer.md`에는 소유 파일, 입력 명세, 금지 변경, 산출물을 둔다. `reviewer.md`에는 구현자와 다른 관점에서 요구사항과 diff를 대조하도록 적는다.</p>
+<p>실행 순서도 짧게 고정한다. 메인 세션이 계획을 승인하고, 구현 에이전트가 격리된 worktree에서 변경한다. 리뷰 에이전트는 같은 요구사항과 diff만 받아 누락과 과잉 변경을 찾는다. 마지막 훅은 테스트 명령의 종료 코드와 필수 결과물이 있어야 작업 완료를 허용한다.</p>
+<p>설계의 구멍을 의도로 착각하는 문제에는 중단 조건이 필요하다. 입력에 모순이 있거나 공개 API가 달라져야 하면 구현자가 추정하지 않고 질문을 반환하게 한다. 반대로 사소한 구현 선택까지 매번 묻지 않도록 수정 가능 범위도 함께 적는다. 네거티브 지시만 늘리는 방식보다 경계와 성공 조건을 짝지어 쓰는 편이 판단하기 쉽다.</p>
+<p>관련 저장소인 sonmat은 이 문제를 검증 규율의 전파로 다룬다. README에 따르면 `/plugin marketplace add jun0-ds/sonmat`과 `/plugin install sonmat@sonmat`으로 설치한다. 세션 시작 훅이 `CLAUDE.md`에 참조를 심고, `discipline`, `skills`, `agents`를 함께 써서 작업자까지 검증 원칙을 전달한다. 해당 효과는 프로젝트의 설계 주장인 만큼 자체 작업에서도 확인이 필요하다.</p>
+<h2>에이전트를 늘리기 전에 실패 비용을 계산한다</h2>
+<p>병렬화는 무료가 아니다. Anthropic 비용 문서는 팀원이 계획 모드로 움직일 때 Agent Teams가 표준 세션보다 약 7배 많은 토큰을 쓸 수 있다고 밝힌다. 팀원마다 컨텍스트가 있고, 활동 중인 팀원은 종료 전까지 토큰을 소비한다. 개인 개발자와 소규모 팀에는 속도보다 재작업 비용이 더 큰 작업만 팀으로 넘길 이유가 생긴다.</p>
+<p>복수 에이전트가 유리한 단위는 서로 독립적이며 결과를 합쳐 검증할 수 있어야 한다. 리뷰를 구현과 분리하고, 파일 소유권을 나누고, 실제 테스트를 종료 조건으로 묶으면 에이전트 수가 품질로 이어질 여지가 생긴다. 세션 세 개를 한 팀으로 바꾸는 핵심은 더 많은 대화가 아니라, 충돌하지 않는 책임과 실패를 멈추는 장치다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">서브에이전트</span><span class="chip">Agent Teams</span><span class="chip">Claude Code 훅</span><span class="chip">Claude Code 스킬</span><span class="chip">worktree</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/agent-teams" rel="nofollow noopener">https://code.claude.com/docs/en/agent-teams</a></li><li><a href="https://code.claude.com/docs/en/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/en/sub-agents</a></li><li><a href="https://code.claude.com/docs/en/agents" rel="nofollow noopener">https://code.claude.com/docs/en/agents</a></li><li><a href="https://code.claude.com/docs/en/hooks-guide" rel="nofollow noopener">https://code.claude.com/docs/en/hooks-guide</a></li><li><a href="https://code.claude.com/docs/en/slash-commands" rel="nofollow noopener">https://code.claude.com/docs/en/slash-commands</a></li><li><a href="https://code.claude.com/docs/en/worktrees" rel="nofollow noopener">https://code.claude.com/docs/en/worktrees</a></li><li><a href="https://code.claude.com/docs/en/costs" rel="nofollow noopener">https://code.claude.com/docs/en/costs</a></li><li><a href="https://code.claude.com/docs/en/changelog" rel="nofollow noopener">https://code.claude.com/docs/en/changelog</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code 서브에이전트와 Agent Teams는 무엇이 다른가?</h2><p class="sum">서브에이전트는 독립 작업을 수행한 뒤 호출자에게 결과를 반환한다. Agent Teams의 팀원은 별도 컨텍스트와 공유 작업 목록을 쓰며 서로 직접 메시지를 보낸다.</p></article><article class="dcard"><div class="t">Q</div><h2>여러 Claude Code 세션이 같은 파일을 수정해도 안전한가?</h2><p class="sum">같은 체크아웃을 함께 수정하면 충돌 위험이 있다. 세션별로 `claude --worktree`를 쓰거나 커스텀 서브에이전트에 `isolation: worktree`를 설정하는 편이 안전하다.</p></article><article class="dcard"><div class="t">Q</div><h2>훅만으로 서브에이전트의 행동을 완전히 통제할 수 있나?</h2><p class="sum">훅은 명령 차단과 완료 검증에 강하지만 설계 판단 전체를 대신하지는 않는다. `CLAUDE.md`, 스킬, 도구 권한, 성공·중단 조건을 함께 구성해야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-03-1330.html">2026-08-03 08-03 09:43~13:49</a> · <a href="../../s/2026-08-17-1630.html">2026-08-17 08-17 12:10~16:18</a> · <a href="../../s/2026-08-31-1330.html">2026-08-31 08-31 09:54~13:14</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
