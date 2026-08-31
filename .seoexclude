@@ -1,0 +1,5 @@
+# seo-gate 경로 제외 (insane-seo .seoexclude — relpath glob, 한 줄당 하나)
+# l/ = 단축링크 리다이렉트 스텁. 의도적으로 noindex이고 콘텐츠가 아니라 검사 비대상.
+l/*
+# design-preview.html = 디자인 시안 모음 페이지. 발행 콘텐츠가 아님.
+design-preview.html
