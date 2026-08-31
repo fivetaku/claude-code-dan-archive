@@ -96,16 +96,18 @@ padding:7px 13px;margin:0 6px 6px 0}
 padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
 .tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
 .tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
-.tabs a{white-space:nowrap}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
 @media(max-width:640px){
-.tabwrap{position:relative;margin-right:-24px}
-.tabwrap::after{content:"";position:absolute;right:0;top:0;bottom:6px;width:36px;pointer-events:none;
-background:linear-gradient(90deg,transparent,var(--ground) 72%)}
-.tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;
-scrollbar-width:none;padding-right:30px;scroll-snap-type:x proximity}
-.tabs::-webkit-scrollbar{display:none}
-.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 13px;scroll-snap-align:start}
-.tabs a.join{margin-left:6px}}
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
 /* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
 .entry.repo{display:block;padding:18px 4px}
 .entry.repo>div{min-width:0}
@@ -146,28 +148,61 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
 padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
 .tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
 .tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
-.tabs a{white-space:nowrap}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
 @media(max-width:640px){
-.tabwrap{position:relative;margin-right:-24px}
-.tabwrap::after{content:"";position:absolute;right:0;top:0;bottom:6px;width:36px;pointer-events:none;
-background:linear-gradient(90deg,transparent,var(--ground) 72%)}
-.tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;
-scrollbar-width:none;padding-right:30px;scroll-snap-type:x proximity}
-.tabs::-webkit-scrollbar{display:none}
-.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 13px;scroll-snap-align:start}
-.tabs a.join{margin-left:6px}}
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
 @media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
 -webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
 .tabs::-webkit-scrollbar{display:none}
 .tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
 .tabs a.join{margin-left:6px}}
 
-.joinbox{margin:30px 0 6px;padding:16px 18px;border:1px solid var(--line);
-border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+/* B 강조형 (2026-09-01 확정) — 흰 카드는 본문에 묻혀 지나쳤다. 배경을 채우고 왼쪽 바를 굵게. */
+.joinbox{margin:30px 0 6px;padding:18px 20px;border:1px solid var(--line);
+border-left:5px solid var(--accent);border-radius:12px;background:var(--chip-bg)}
 .joinbox b{display:block;margin-bottom:4px}
 .joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
 .joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
 border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
 
 .qnalist{margin-top:22px}
 .qgrp{font-size:15px;font-weight:800;color:var(--accent-deep);margin:28px 0 4px;letter-spacing:-.01em}
@@ -207,9 +242,9 @@ background:var(--surface);text-decoration:none}
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../">대화 요약</a><a href="../../repos/">공유된 레포</a><a href="../../weekly/">주간 정리</a><a href="../../mag/">매거진</a><a class="on" href="../../qna/">Q&amp;A</a><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></nav></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
-  <div class="eyebrow">트러블슈팅</div>
+  <span class="catchip c-ask">트러블슈팅</span>
   <h1>페이블 대신 오푸스를 써보니 실제로 어떤가요?</h1>
   
 </header>
