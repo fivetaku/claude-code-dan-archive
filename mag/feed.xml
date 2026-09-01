@@ -5,12 +5,28 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까</title>
+    <link>https://chat.axwith.com/mag/ops/toy-project-hosting-choices.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/toy-project-hosting-choices.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Tue, 01 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Vercel, Railway, Hostinger VPS, OCI, AWS Lambda를 가격표만으로 고르지 않도록 상시 실행, 영속 저장소, 배포 절차, 직접 운영 부담까지 비교한다.</description>
+  </item>
+  <item>
     <title>OpenCrab 온톨로지팩으로 Claude Code 결과물 높이는 법</title>
     <link>https://chat.axwith.com/mag/workflow/opencrab-ontology-pack-workflow.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/opencrab-ontology-pack-workflow.html</guid>
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 01 Sep 2026 12:00:00 +0900</pubDate>
     <description>OpenCrab과 CrabHarness로 배경지식을 수집·검증해 온톨로지팩으로 만들고 Claude Code와 Semantic SVG에 연결하는 과정과 한계를 설명한다.</description>
+  </item>
+  <item>
+    <title>Claude Code로 MVP DB 설계, 어디까지 먼저 정해야 하나</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-mvp-database-design.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-mvp-database-design.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Tue, 01 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code로 MVP를 만들 때 DB를 얼마나 먼저 설계해야 할까. 최소 무결성, Plan Mode, 버전 관리 마이그레이션, 운영 배포 순서를 실무 기준으로 정리했다.</description>
   </item>
   <item>
     <title>Claude Code 끼리끼리 사용법, 고정 AI 팀은 판단을 일관되게 할까</title>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Tue, 25 Aug 2026 12:00:00 +0900</pubDate>
     <description>정적 사이트 아카이브의 세 경로에서 CSS가 통째로 빠진 사고를 계기로, 스타일 누락이 반복되는 구조적 이유와 DESIGN.md·자동 검사 같은 재발 방지책을 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법</title>
-    <link>https://chat.axwith.com/mag/ops/claude-github-outage-529-status-page.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/claude-github-outage-529-status-page.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Tue, 25 Aug 2026 12:00:00 +0900</pubDate>
-    <description>8월 클로드·깃허브 동시 장애를 계기로 529 오류의 뜻, status.claude.com 읽는 법, 상용·정부용 가동률 격차, fallbackModel 설정법을 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드코드 디스코드 연동 &#x27;채널스&#x27;, 리모트컨트롤과 뭐가 다른가</title>
-    <link>https://chat.axwith.com/mag/tools/claude-code-channels-discord-vs-remote-control.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-channels-discord-vs-remote-control.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Tue, 25 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드코드를 디스코드·텔레그램에 연결하는 공식 채널스(channels) 기능을 리모트컨트롤과 비교하고, 봇 생성부터 페어링까지 실제 설정 순서와 보안 함정을 정리했다.</description>
   </item>
 </channel></rss>
