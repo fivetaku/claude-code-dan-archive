@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Claude 플랜별 사용 한도는 어떻게 다른가요? — 클코단 Q&amp;A</title>
+<title>자동 워크플로우 스킬은 어떻게 사용하는 거야? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="Claude Max 100달러 플랜이 개인 사이드 프로젝트와 앱 빌딩에 충분한지 논의됐다. 장시간·병렬 작업을 하면 100 플랜이나 20배 수준 사용량도 빠르게 닳을 수 있다는 경험이 공유됐다. 다만 100달러 플랜을 한 달 먼저 써 본 뒤 부족할 때">
-<link rel="canonical" href="https://chat.axwith.com/qna/q/claude플랜한도.html">
-<meta property="og:title" content="Claude 플랜별 사용 한도는 어떻게 다른가요?">
-<meta property="og:description" content="Claude Max 100달러 플랜이 개인 사이드 프로젝트와 앱 빌딩에 충분한지 논의됐다. 장시간·병렬 작업을 하면 100 플랜이나 20배 수준 사용량도 빠르게 닳을 수 있다는 경험이 공유됐다. 다만 100달러 플랜을 한 달 먼저 써 본 뒤 부족할 때">
+<meta name="description" content="워크플로우를 자동 발화하는 스킬을 만들려면 상당히 복잡한 구조가 필요하다는 언급이 나왔다. 이에 Claude에 집중하고 검수 스킬을 꼼꼼하게 설계해보라는 제안이 뒤따랐다.">
+<link rel="canonical" href="https://chat.axwith.com/qna/q/자동워크플로우스킬.html">
+<meta property="og:title" content="자동 워크플로우 스킬은 어떻게 사용하는 거야?">
+<meta property="og:description" content="워크플로우를 자동 발화하는 스킬을 만들려면 상당히 복잡한 구조가 필요하다는 언급이 나왔다. 이에 Claude에 집중하고 검수 스킬을 꼼꼼하게 설계해보라는 제안이 뒤따랐다.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://chat.axwith.com/qna/q/claude플랜한도.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "Claude 플랜별 사용 한도는 어떻게 다른가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "Claude Max 100달러 플랜이 개인 사이드 프로젝트와 앱 빌딩에 충분한지 논의됐다. 장시간·병렬 작업을 하면 100 플랜이나 20배 수준 사용량도 빠르게 닳을 수 있다는 경험이 공유됐다. 다만 100달러 플랜을 한 달 먼저 써 본 뒤 부족할 때 상위 플랜으로 올리는 것이 합리적이라는 조언이 나왔다. 비용 절감을 위해 저비용 모델을 병행하는 방식도 함께 논의됐다. 개인 프로젝트라도 작업 시간과 병렬 세션 수에 따라 Max 100 플랜 한도가 부족할 수 있다는 의견이 나왔다. 하루 약 10시간 사용과 여러 작업 병렬 처리에서는 높은 사용량 플랜도 빠르게 소진된다는 사례가 공유됐다. 하루 약 3시간 사용처럼 사용 패턴이 다르면 체감도 달라질 수 있다고 언급됐다. 처음에는 100달러 플랜을 사용한 뒤 실제 소진량을 보고 업그레이드하는 전략이 제안됐다. 일상 작업은 저비용 모델로 분리해 상위 플랜 소모를 줄이는 방안이 함께 언급됐다."}}}</script>
+<meta property="og:url" content="https://chat.axwith.com/qna/q/자동워크플로우스킬.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "자동 워크플로우 스킬은 어떻게 사용하는 거야?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "워크플로우를 자동 발화하는 스킬을 만들려면 상당히 복잡한 구조가 필요하다는 언급이 나왔다. 이에 Claude에 집중하고 검수 스킬을 꼼꼼하게 설계해보라는 제안이 뒤따랐다. 자동 발화 워크플로우 스킬 구현 난도가 높다는 경험이 공유됐다. 검수 과정을 스킬로 정교하게 설계하는 접근이 제안됐다. AI 구독 선택 논의가 워크플로우 설계 조언으로 이어졌다."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -244,16 +244,16 @@ background:var(--surface);text-decoration:none}
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
-  <span class="catchip c-etc">요금·사용량</span>
-  <h1>Claude 플랜별 사용 한도는 어떻게 다른가요?</h1>
-  <p class="sub">방에서 4번 논의된 질문입니다.</p>
+  <span class="catchip c-flow">워크플로우·하네스</span>
+  <h1>자동 워크플로우 스킬은 어떻게 사용하는 거야?</h1>
+  
 </header>
 <article class="qbody">
-  <p class="qanswer">Claude Max 100달러 플랜이 개인 사이드 프로젝트와 앱 빌딩에 충분한지 논의됐다. 장시간·병렬 작업을 하면 100 플랜이나 20배 수준 사용량도 빠르게 닳을 수 있다는 경험이 공유됐다. 다만 100달러 플랜을 한 달 먼저 써 본 뒤 부족할 때 상위 플랜으로 올리는 것이 합리적이라는 조언이 나왔다. 비용 절감을 위해 저비용 모델을 병행하는 방식도 함께 논의됐다.</p>
-  <ul><li>개인 프로젝트라도 작업 시간과 병렬 세션 수에 따라 Max 100 플랜 한도가 부족할 수 있다는 의견이 나왔다.</li><li>하루 약 10시간 사용과 여러 작업 병렬 처리에서는 높은 사용량 플랜도 빠르게 소진된다는 사례가 공유됐다.</li><li>하루 약 3시간 사용처럼 사용 패턴이 다르면 체감도 달라질 수 있다고 언급됐다.</li><li>처음에는 100달러 플랜을 사용한 뒤 실제 소진량을 보고 업그레이드하는 전략이 제안됐다.</li><li>일상 작업은 저비용 모델로 분리해 상위 플랜 소모를 줄이는 방안이 함께 언급됐다.</li></ul>
+  <p class="qanswer">워크플로우를 자동 발화하는 스킬을 만들려면 상당히 복잡한 구조가 필요하다는 언급이 나왔다. 이에 Claude에 집중하고 검수 스킬을 꼼꼼하게 설계해보라는 제안이 뒤따랐다.</p>
+  <ul><li>자동 발화 워크플로우 스킬 구현 난도가 높다는 경험이 공유됐다.</li><li>검수 과정을 스킬로 정교하게 설계하는 접근이 제안됐다.</li><li>AI 구독 선택 논의가 워크플로우 설계 조언으로 이어졌다.</li></ul>
 </article>
 <a class="srccard" href="../../s/2026-09-01-1800.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-01 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecode최신업데이트소식.html">Claude Code 최신 업데이트 소식 아시는 분 계신가요?</a></li><li><a href="claude구독중복결제.html">Claude 구독료가 중복으로 결제됐는데 어떻게 해결하나요?</a></li><li><a href="claude비즈니스요금제.html">Claude 비즈니스 요금제는 어떻게 구성되어 있나요?</a></li><li><a href="claudemd정리주기.html">CLAUDE.md는 얼마나 자주 정리해줘야 하나요?</a></li><li><a href="fable5사용비용적합성논.html">fable5는 비용 대비 어디에 적합한 모델인가요?</a></li></ul></section>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="세션분할과서브에이전트.html">세션을 나눠서 서브에이전트로 쓰는 게 나을까요?</a></li><li><a href="에이전트로글쓰기워크플로우.html">에이전트로 글쓰기 워크플로우는 어떻게 짜나요?</a></li><li><a href="클로드코드하네스.html">클로드 코드 하네스가 정확히 무엇인가요?</a></li><li><a href="claudemem맥락기억도구공유.html">claude-mem이라는 맥락 기억 도구는 어떤 건가요?</a></li><li><a href="에이전트메모리관리논쟁.html">에이전트 메모리는 어떻게 관리하는 게 맞을까요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../">아카이브</a></footer>
