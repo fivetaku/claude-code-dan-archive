@@ -13,6 +13,22 @@
     <description>강남 AX 엔지니어 공고를 고를 때 확인할 업무 범위, 배포 조건, KPI, 포트폴리오 구성법을 최신 채용 사례와 공식 조사로 짚고, PoC에서 멈추지 않을 조직의 조건을 설명했다.</description>
   </item>
   <item>
+    <title>Claude Fable 5.1, 성능보다 사용량이 먼저 보인 이유</title>
+    <link>https://chat.axwith.com/mag/models/claude-fable-51-usage-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-fable-51-usage-guide.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Wed, 02 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Anthropic Fable 5.1의 공식 성능과 가격, Claude Code 2.1.257 사용법을 확인하고 빠른 한도 소진 체감이 생기는 이유와 모델 비교법을 분석했다.</description>
+  </item>
+  <item>
+    <title>Claude Code와 OpenAI Codex, 코딩할 때 무엇이 더 좋은가</title>
+    <link>https://chat.axwith.com/mag/models/claude-code-vs-openai-codex.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-vs-openai-codex.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Wed, 02 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code와 OpenAI Codex 중 무엇이 더 좋은지 최신 모델, 가격, 벤치마크, 실사용 반응으로 비교한다. 내 코드베이스에서 승자를 가리는 재현 가능한 방법도 담았다.</description>
+  </item>
+  <item>
     <title>Claude Code 브라우저 자동화, /chrome·CDP·Playwright 선택법</title>
     <link>https://chat.axwith.com/mag/workflow/claude-code-browser-automation.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-browser-automation.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Wed, 26 Aug 2026 12:00:00 +0900</pubDate>
     <description>사내 보안 정책으로 로컬 개발이 막힌 개발자가 집에 로컬 LLM·여러 에이전트를 상시 구동하려 할 때, 갓 나온 M5 맥스튜디오와 맥미니 중 무엇을 사야 하는지 실사용 성능과 전기료까지 따져봤다.</description>
-  </item>
-  <item>
-    <title>클로드 채팅, 오래 쓸수록 성향이 변한다는 계정 잠금 우려의 진실</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-persona-drift-long-chat.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-persona-drift-long-chat.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Wed, 26 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 채팅이 오래 쓸수록 딴판이 되고 마크다운 규칙도 안 지켜진다는 불만, 계정 잠금까지 걱정된다는 목소리를 앤스로픽의 페르소나 벡터 연구와 안전 정책 자료로 검증한 기사.</description>
-  </item>
-  <item>
-    <title>하이쿠 기본 모델 논쟁, 답답함의 진짜 원인은 지시였다</title>
-    <link>https://chat.axwith.com/mag/models/claude-haiku-default-model-instruction-gap.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-haiku-default-model-instruction-gap.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Wed, 26 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드에서 하이쿠를 기본 모델로 썼다가 답답함을 호소한 사용자들이 있다. 모델별 가격·성능 차이와 앤트로픽의 목표 기반 대 단계별 지시 가이드라인을 근거로 진짜 원인이 무엇인지 확인했다.</description>
   </item>
 </channel></rss>

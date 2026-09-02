@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Fable 5.1, 성능보다 사용량이 먼저 보인 이유 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Anthropic Fable 5.1의 공식 성능과 가격, Claude Code 2.1.257 사용법을 확인하고 빠른 한도 소진 체감이 생기는 이유와 모델 비교법을 분석했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/claude-fable-51-usage-guide.html">
+<meta property="og:title" content="Claude Fable 5.1, 성능보다 사용량이 먼저 보인 이유">
+<meta property="og:description" content="Anthropic Fable 5.1의 공식 성능과 가격, Claude Code 2.1.257 사용법을 확인하고 빠른 한도 소진 체감이 생기는 이유와 모델 비교법을 분석했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/claude-fable-51-usage-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Fable 5.1, 성능보다 사용량이 먼저 보인 이유", "description": "Anthropic Fable 5.1의 공식 성능과 가격, Claude Code 2.1.257 사용법을 확인하고 빠른 한도 소진 체감이 생기는 이유와 모델 비교법을 분석했다.", "datePublished": "2026-09-02", "dateModified": "2026-09-02", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/claude-fable-51-usage-guide.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Claude Fable 5.1, Claude Code, Anthropic, AI 코딩 모델, effort, 토큰 사용량", "image": "https://chat.axwith.com/mag/hero/claude-fable-51-usage-guide.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code에서 Fable 5.1을 어떻게 사용하나요?", "acceptedAnswer": {"@type": "Answer", "text": "`claude update`로 2.1.257 이상으로 올린 뒤 세션에서 `/model`을 실행해 Fable 5.1을 선택한다. 계정과 요금제에 따라 표시되는 모델은 다를 수 있으므로 `/model` 목록이 기준이다."}}, {"@type": "Question", "name": "Fable 5.1은 Fable 5보다 사용량이 더 많은가요?", "acceptedAnswer": {"@type": "Answer", "text": "항상 그렇다고 확인된 것은 아니다. 캐시 읽기 API 단가는 낮아졌지만, 구독 한도 체감은 effort, 출력 길이, 파일 재작성, 도구 호출, 누적 컨텍스트에 따라 달라진다."}}, {"@type": "Question", "name": "Fable 5.1과 Opus 5 중 무엇을 골라야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "Anthropic은 대부분의 작업에 Opus 5부터 시작하고, 더 어려운 장거리 추론에서 Fable 5.1을 쓰라고 안내한다. 같은 과제를 `medium`과 `high`에서 반복해 성공률과 과제당 비용을 비교하는 편이 정확하다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-fable-51-usage-guide.png" alt="Claude Fable 5.1, 성능보다 사용량이 먼저 보인 이유" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Claude Fable 5.1, 성능보다 사용량이 먼저 보인 이유</h1>
+  <p class="sub">같은 가격과 더 싼 캐시에도 사용 한도는 왜 빨리 줄었나. CLI 업데이트부터 effort별 실전 검증법까지 짚었다.</p>
+  <div class="meta"><span>2026-09-02</span><span>논의 <b>2</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Fable 5.1이 공개되자 성능표보다 사용량 표시가 먼저 화제가 됐다. 높은 effort에서 한도가 빠르게 줄었다는 체감이 나왔고 이전 Fable보다 긴 작업을 안정적으로 끝낸다는 평가도 동시에 나왔다. 이번 업데이트는 모델이 실제로 좋아진 것일까, 아니면 Claude Code의 실행 방식이 달라져 그렇게 느껴지는 것일까.</p>
+<h2>Fable 5.1은 장거리 작업을 겨냥한 마이너 업데이트다</h2>
+<p>Anthropic은 2026년 9월 1일 Fable 5.1을 일반 제공했다. 100만 토큰 컨텍스트와 최대 12만8000토큰 출력은 Fable 5와 같다. API 가격도 입력 100만 토큰당 10달러, 출력 50달러로 유지됐다.</p>
+<p>바뀐 지점은 장시간 에이전트 작업의 안정성과 비용 구조다. Anthropic은 여러 앱을 오가는 작업, 코드베이스 전체 기능 개발, 다단계 조사에 Fable 5.1을 배치했다. 캐시 읽기 가격은 이전보다 75% 낮은 100만 토큰당 0.25달러로 내려갔다.</p>
+<p>공식 발표는 일반 작업의 예상 비용을 약 25%, 에이전트형 작업을 최대 약 45% 줄일 수 있다고 설명한다. 단서가 중요하다. 이 계산은 토큰 단위로 청구되는 환경을 전제로 한다. Claude Max의 포함 사용량이 같은 비율로 늘어난다는 약속은 아니다.</p>
+<p>Fable 5.1은 완전히 다른 제품이라기보다 Fable 5의 강점을 조정한 모델에 가깝다. 기존 프롬프트를 그대로 써도 된다는 공식 안내도 이 해석을 뒷받침한다. 다만 effort, 진행 알림, 파일 편집, 하위 에이전트 운용 방식은 다시 맞춰야 한다.</p>
+<h2>Claude Code에서는 버전과 모델을 먼저 확인한다</h2>
+<p>Claude Code에서 시험하는 순서는 짧다. 터미널에서 `claude update`를 실행하고 `claude --version`이 2.1.257 이상인지 확인한다. 해당 릴리스는 `claude-fable-5-1`을 추가하고, `fable` 별칭의 기본 대상을 5.1로 바꿨다.</p>
+<p>프로젝트에서 `claude`를 연 뒤 `/model`을 실행하면 계정에 허용된 모델을 볼 수 있다. Fable 5.1을 고르고 `/effort`에서 작업 강도를 정한다. 한 번만 지정하려면 `claude --model claude-fable-5-1`처럼 전체 모델 ID를 넘길 수도 있다.</p>
+<p>첫 실험에 기존 대형 작업을 바로 투입하는 방법은 비교를 어렵게 만든다. 같은 저장소와 같은 커밋에서 하나의 이슈를 골라야 한다. 수정 파일 범위, 테스트 명령, 금지 영역, 완료 조건을 프롬프트에 함께 넣으면 지시 이행과 범위 통제를 비교할 수 있다.</p>
+<p>예를 들어 “원인을 찾고 고쳐라”보다 “실패 테스트를 재현하고, 원인 파일만 수정한 뒤 같은 테스트를 통과시켜라”가 낫다. 입력은 이슈와 저장소 상태이고 산출물은 패치, 테스트 결과, 변경 요약이다. Fable 5.0 또는 Opus 5에도 같은 입력을 주면 하네스 차이까지 줄일 수 있다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-fable-51-usage-guide.png" alt="" loading="lazy"><h2>벤치마크 상승은 분명하지만 모든 작업의 체감 차이는 아니다</h2>
+<p>Anthropic이 공개한 Terminal-Bench-Science 0.1에서 Fable 5.1은 52.6%를 기록했다. 같은 실험의 Fable 5는 24.7%, Opus 5는 29.0%였다. 에이전트형 터미널 코딩을 보는 Terminal-Bench 4.0은 Fable 5.1이 55.8%, Fable 5가 42.0%였다.</p>
+<p>CursorBench 3.2.0에서는 73.4%와 70.5%로 차이가 작았다. Humanity’s Last Exam도 도구 없이 60.9%와 57.8%였다. 벤치마크마다 개선 폭이 크게 다른 만큼 “수학이 두 배 좋아졌다”거나 “코딩이 완전히 달라졌다”고 일반화할 근거는 없다.</p>
+<p>국내 초기 사용자들은 요구가 덜 정리된 과제와 큰 하네스에서 Fable 5.1이 범위를 더 잘 지켰다는 의견을 냈다. 반면 Fable 5.0도 이미 강해서 일상 코딩에서는 차이를 찾기 어렵다는 평가도 있었다. 써본 사람들 사이에서도 긴 조사와 복잡한 구현에는 호평이 있었지만 짧은 수정에서는 과한 설명과 전체 파일 재작성이 부담이라는 반응이 엇갈렸다.</p>
+<p>공식 프롬프팅 문서도 이런 행동 차이를 인정한다. 5.1은 작은 변경에도 파일 전체를 다시 쓸 가능성이 높고 열린 요구에서는 주변 문제까지 손댈 수 있다. 체감 향상이 모델 가중치 하나에서만 오지 않고 시스템 프롬프트, 도구 호출, 편집 전략과 결합해 나온다는 관찰이 설득력을 얻는 이유다.</p>
+<h2>사용량이 빨리 줄어드는 데는 세 가지 변수가 섞여 있다</h2>
+<p>Claude Code에서 Fable 5.1의 기본 effort는 `high`다. Claude.ai와 Cowork의 기본값은 `medium`이다. Anthropic은 같은 이름의 effort라도 Fable 5와 5.1에서 사고량이 같지 않다고 명시했다. `xhigh`와 `max`는 긴 산출물을 쓰기 전 사고가 길어져 더 많은 토큰과 시간이 들 수 있다.</p>
+<p>컨텍스트도 매 턴 다시 비용을 만든다. Claude Code는 대화 기록, `CLAUDE.md`, 읽은 파일, 새 프롬프트를 다음 요청에 함께 보낸다. Anthropic 도움말은 작업이 바뀌면 `/clear`, 같은 작업을 이어가면 `/compact`를 쓰라고 안내한다. 작은 요청이라도 긴 세션 뒤에 붙으면 소비량이 커질 수 있다.</p>
+<p>Max 구독은 세션 한도가 5시간마다 돌아오고 모든 모델에 걸친 주간 한도도 있다. Anthropic은 계정별 정확한 토큰 몫을 공개하지 않으며 용량 상황에 따라 추가 제한을 둘 수 있다고 밝힌다. 출시 때 사용량이 초기화됐다는 일부 경험은 있었지만 공식 문서에서 모든 계정에 적용되는 혜택으로 확인되지는 않는다.</p>
+<p>그래서 “캐시가 싸졌는데 왜 더 빨리 닳나”라는 질문에는 단일 답이 없다. API 사용자는 낮아진 캐시 단가를 직접 받는다. 구독자는 effort, 출력 길이, 전체 파일 재작성, 반복 도구 호출, 누적 컨텍스트가 한도 표시를 함께 움직인다. 써본 사람들 사이에서도 수십 분 만에 급감했다는 불만과 이전보다 적게 썼다는 반대 경험이 함께 나왔다.</p>
+<h2>승부는 최고 effort가 아니라 과제당 비용에서 난다</h2>
+<p>Anthropic은 `high`에서 시작하되 `low`, `medium`, `xhigh`, `max`를 자체 평가로 다시 비교하라고 권한다. 공식 측정에서 `medium`은 더 낮은 비용으로 Fable 5와 대체로 비슷한 결과를 냈다. `low`는 검색 도구를 덜 부르는 경향이 있어 조사 과제에는 별도 확인 지시가 필요하다.</p>
+<p>개인 개발자나 작은 팀은 세 모델을 막연히 번갈아 쓰기보다 과제당 성공 비용을 재면 된다. 같은 버그를 세 번씩 실행하고 성공률, 소요 시간, 입력·출력·캐시 토큰, 수정 파일 수, 재작업 횟수를 남긴다. Fable 5.1은 불확실한 설계와 장거리 검증에 두고 Opus 5는 일반적인 고난도 작업에 두어 비교하면 된다.</p>
+<p>짧은 수정에서는 “지정 파일만 바꾸고 전체 파일을 재작성하지 말라”는 제한을 넣는다. 긴 작업은 완료 조건과 중단 지점을 명시하고 `high`부터 측정한다. Fable 5.1의 가치는 최고 effort를 켰을 때가 아니라 `medium`에서도 기존 Fable이 맡던 불확실한 장거리 작업을 끝내는지에서 결정된다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Fable 5.1</span><span class="chip">Claude Code</span><span class="chip">Anthropic</span><span class="chip">AI 코딩 모델</span><span class="chip">effort</span><span class="chip">토큰 사용량</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.anthropic.com/claude-fable-and-mythos-5-1" rel="nofollow noopener">https://www.anthropic.com/claude-fable-and-mythos-5-1</a></li><li><a href="https://platform.claude.com/docs/en/models/fable-5-1/overview" rel="nofollow noopener">https://platform.claude.com/docs/en/models/fable-5-1/overview</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1" rel="nofollow noopener">https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompti</a></li><li><a href="https://github.com/anthropics/claude-code/releases/tag/v2.1.257" rel="nofollow noopener">https://github.com/anthropics/claude-code/releases/tag/v2.1.257</a></li><li><a href="https://docs.anthropic.com/en/docs/claude-code/getting-started" rel="nofollow noopener">https://docs.anthropic.com/en/docs/claude-code/getting-started</a></li><li><a href="https://support.claude.com/en/articles/11049741-what-is-the-max-plan" rel="nofollow noopener">https://support.claude.com/en/articles/11049741-what-is-the-max-plan</a></li><li><a href="https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code" rel="nofollow noopener">https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claud</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 Fable 5.1을 어떻게 사용하나요?</h2><p class="sum">`claude update`로 2.1.257 이상으로 올린 뒤 세션에서 `/model`을 실행해 Fable 5.1을 선택한다. 계정과 요금제에 따라 표시되는 모델은 다를 수 있으므로 `/model` 목록이 기준이다.</p></article><article class="dcard"><div class="t">Q</div><h2>Fable 5.1은 Fable 5보다 사용량이 더 많은가요?</h2><p class="sum">항상 그렇다고 확인된 것은 아니다. 캐시 읽기 API 단가는 낮아졌지만, 구독 한도 체감은 effort, 출력 길이, 파일 재작성, 도구 호출, 누적 컨텍스트에 따라 달라진다.</p></article><article class="dcard"><div class="t">Q</div><h2>Fable 5.1과 Opus 5 중 무엇을 골라야 하나요?</h2><p class="sum">Anthropic은 대부분의 작업에 Opus 5부터 시작하고, 더 어려운 장거리 추론에서 Fable 5.1을 쓰라고 안내한다. 같은 과제를 `medium`과 `high`에서 반복해 성공률과 과제당 비용을 비교하는 편이 정확하다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-02-0900.html">2026-09-02 09-01 23:43~09-02 08:49</a> · <a href="../../s/2026-09-02-1330.html">2026-09-02 09-02 09:04~13:04</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

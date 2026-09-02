@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code와 OpenAI Codex, 코딩할 때 무엇이 더 좋은가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code와 OpenAI Codex 중 무엇이 더 좋은지 최신 모델, 가격, 벤치마크, 실사용 반응으로 비교한다. 내 코드베이스에서 승자를 가리는 재현 가능한 방법도 담았다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/claude-code-vs-openai-codex.html">
+<meta property="og:title" content="Claude Code와 OpenAI Codex, 코딩할 때 무엇이 더 좋은가">
+<meta property="og:description" content="Claude Code와 OpenAI Codex 중 무엇이 더 좋은지 최신 모델, 가격, 벤치마크, 실사용 반응으로 비교한다. 내 코드베이스에서 승자를 가리는 재현 가능한 방법도 담았다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/claude-code-vs-openai-codex.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code와 OpenAI Codex, 코딩할 때 무엇이 더 좋은가", "description": "Claude Code와 OpenAI Codex 중 무엇이 더 좋은지 최신 모델, 가격, 벤치마크, 실사용 반응으로 비교한다. 내 코드베이스에서 승자를 가리는 재현 가능한 방법도 담았다.", "datePublished": "2026-09-02", "dateModified": "2026-09-02", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/claude-code-vs-openai-codex.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Claude Code, OpenAI Codex, GPT-5.6, AI 코딩 에이전트, SWE-bench, 코딩 모델 비교", "image": "https://chat.axwith.com/mag/hero/claude-code-vs-openai-codex.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code와 OpenAI Codex 중 코딩 성능은 어느 쪽이 더 좋은가?", "acceptedAnswer": {"@type": "Answer", "text": "모든 작업에서 앞서는 단일 승자는 확인되지 않았다. 독립 연구에서도 기능·문서·버그 수정·리팩터링에 따라 우위가 달라졌다."}}, {"@type": "Question", "name": "Claude Code와 Codex를 공정하게 비교하려면 어떻게 해야 하나?", "acceptedAnswer": {"@type": "Answer", "text": "같은 시작 커밋과 프롬프트, 권한, 시간·비용 한도를 사용한다. 테스트 통과뿐 아니라 불필요한 수정과 교정 횟수도 기록해야 한다."}}, {"@type": "Question", "name": "두 코딩 에이전트를 함께 써도 효과가 있나?", "acceptedAnswer": {"@type": "Answer", "text": "한 도구가 구현하고 다른 도구가 리뷰하는 방식이 쓰인다. 같은 요구사항과 검증 명령을 공유해야 교차 점검의 효과를 판단할 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-vs-openai-codex.png" alt="Claude Code와 OpenAI Codex, 코딩할 때 무엇이 더 좋은가" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Claude Code와 OpenAI Codex, 코딩할 때 무엇이 더 좋은가</h1>
+  <p class="sub">업무 감각과 치명적 실수 사이, 최신 공식 정보와 독립 평가로 두 코딩 에이전트의 차이와 선택법을 구체적으로 짚었다</p>
+  <div class="meta"><span>2026-09-02</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>비교 대상은 모델이 아니라 실행 조합이다</h2>
+<p>Claude Code와 GPT 계열 Codex 중 무엇이 코딩에 더 나을까. 질문은 단순하다. 하지만 2026년 9월의 답은 모델 이름 하나로 끝나지 않는다. 이 기사는 업무 감각과 치명적 실수라는 두 체감을 실제 선택 기준으로 바꾼다.</p>
+<p>Claude와 GPT는 모델 계열이다. Claude Code와 OpenAI Codex는 모델이 파일을 읽고 명령을 실행하게 만드는 에이전트 도구다. 같은 모델도 권한, 도구, 추론 예산, 입력 맥락에 따라 다른 결과를 낸다.</p>
+<p>현재 Anthropic은 Claude Fable 5.1, Opus 5, Sonnet 5, Haiku 4.5를 제공한다. OpenAI는 GPT-5.6 Sol, Terra, Luna를 복잡도와 비용에 따라 나눈다. 두 회사 모두 최신 상위 모델에 100만 토큰급 API 컨텍스트를 제공한다.</p>
+<p>사용법은 닮았다. 프로젝트 폴더에서 `claude` 또는 `codex`를 실행하고 목표를 적는다. 도구는 저장소를 탐색하고 파일을 고친 뒤 테스트를 돌린다. Claude Code는 `CLAUDE.md`, 스킬, 훅, MCP로 작업 규칙을 확장하고, Codex는 모델과 reasoning effort, 샌드박스 권한, 리뷰 단계를 선택할 수 있다.</p>
+<p>그래서 &quot;클로드가 센스 있다&quot;는 말은 모델만 평가하지 않는다. 프롬프트 해석, 맥락 수집, 도구 호출, 수정 범위까지 합친 경험이다.</p>
+<h2>공개 점수는 한 줄 순위를 허락하지 않는다</h2>
+<p>2026년 공개 PR 7,156건을 분석한 MSR 연구는 작업 종류가 수락률에 크게 작용한다고 밝혔다. Codex는 모든 과제 유형에서 고르게 높은 수락률을 보였다. Claude Code는 기능과 문서 작업에서 앞섰다. 다만 Claude의 일부 항목은 표본이 적었고 사용자와 저장소 차이도 통제되지 않았다.</p>
+<p>벤치마크 자체도 흔들린다. OpenAI는 2026년 SWE-Bench Pro 공개 과제 731개를 감사했다. 자동 점검은 27.4%, 인간 검토는 34.1%에서 심각한 문제를 찾았다. 숨은 테스트가 명세보다 엄격하거나 프롬프트가 요구사항을 빠뜨린 사례가 포함됐다.</p>
+<p>SWE-bench-Live와 SWE-rebench는 오래된 과제의 오염 위험을 줄이려고 최신 이슈를 계속 수집한다. EditBench에서는 편집 유형과 제공 맥락에 따라 모델 순위가 달라졌다. 한 벤치마크의 1등을 모든 개발 업무의 우승자로 옮기면 안 되는 이유다.</p>
+<p>METR의 시간 지평 평가도 성공 확률을 함께 본다. 긴 작업을 해낼 수 있다는 수치는 모든 비슷한 작업의 성공을 뜻하지 않는다. 실제 업무에는 저장소 관습, 지난 결정, 모호한 요구가 더해진다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-vs-openai-codex.png" alt="" loading="lazy"><h2>업무 감각과 치명적 실수는 함께 나타날 수 있다</h2>
+<p>써본 사람들 사이에서는 Claude가 의도를 빨리 알아듣는다는 반응이 반복된다. 프런트엔드 표현, 초안 구성, 계획 과정이 자연스럽다는 평가도 있다. 반면 적극적인 수정이 범위를 넘거나 긴 세션에서 앞선 지시를 놓친다는 불만도 나온다.</p>
+<p>속도가 답답하거나 원하는 방향을 설명하기 어렵다는 경험도 적지 않다. 그래도 Codex는 백엔드 로직과 버그 추적, 코드 리뷰에서 더 집요하다는 평가를 받는다. 버전과 저장소, 사용자의 개입 방식이 바뀌면 이 선호도도 뒤집혔다.</p>
+<p>공식 안전장치는 정확성을 보증하지 않는다. Claude Code는 승인 규칙과 Bash 샌드박스를 제공한다. Codex도 기본 네트워크 차단과 워크스페이스 쓰기 제한을 둔다. 두 회사 모두 인터넷 접근과 외부 입력에서 프롬프트 인젝션 위험을 경고한다.</p>
+<p>치명적 실수는 말투보다 검증 구조에서 줄어든다. 테스트를 구현에 맞춰 바꾸거나 무관한 파일까지 건드리면 유창한 설명도 실패를 가릴 수 있다.</p>
+<h2>가격은 구독료보다 재작업 비용으로 비교해야 한다</h2>
+<p>개인용 Claude Pro와 ChatGPT Plus는 모두 월 20달러다. 상위 개인 요금제는 두 제품 모두 월 100달러부터 시작한다. 다만 메시지 수는 작업 크기, 모델, 컨텍스트, 도구 사용에 따라 다르게 소모된다.</p>
+<p>API 단가도 모델별 차이가 크다. Claude는 Haiku 4.5부터 Fable 5.1까지 입력 가격이 백만 토큰당 1~10달러다. GPT-5.6은 Luna부터 Sol까지 0.20~4달러다. 출력 가격과 긴 입력 할증까지 넣으면 단순 구독료 비교가 금방 무너진다.</p>
+<p>개인 개발자에게 더 큰 비용은 실패한 패치의 복구 시간이다. 빠른 초안이 두 번의 재작업을 부르면 싸다고 말하기 어렵다. 느린 검토가 출시 시간을 밀어도 같은 문제가 생긴다.</p>
+<p>역할을 나누는 사용자도 있다. Claude로 계획과 초안을 만들고 Codex로 리뷰하거나 반대 순서로 교차 점검한다. 이 방식도 두 도구가 같은 테스트와 요구사항을 공유해야 효과를 잰다.</p>
+<h2>내 저장소에서 승자를 가리는 비교법</h2>
+<p>최근 실제 작업 10~20개를 고른다. 버그 수정, 기능 추가, 리팩터링, 문서 작업을 따로 묶는다. 각 작업은 같은 시작 커밋에서 실행한다. 권한과 시간, 비용 한도도 맞춘다.</p>
+<p>프롬프트에는 수정 범위와 금지 사항을 적는다. 통과할 테스트, 빌드, 린트, 화면 검증도 지정한다. 먼저 읽기 전용 계획을 받는다. 구현 뒤에는 diff와 실행 로그를 보관한다.</p>
+<p>평가 항목은 완료 여부만으로 부족하다. 불필요한 변경 파일 수, 테스트 훼손, 사람의 교정 횟수, 총비용, 경과시간을 함께 기록한다. 실패가 컸던 작업은 새 세션에서 같은 조건으로 한 번 더 돌린다.</p>
+<p>평균 점수 하나보다 작업별 승률이 유용하다. 기능 설계는 Claude Code, 결함 수정은 Codex처럼 배치가 갈릴 수 있다. 승자는 브랜드가 아니라, 당신의 저장소에서 더 적은 재작업으로 검증을 통과한 실행 조합이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">OpenAI Codex</span><span class="chip">GPT-5.6</span><span class="chip">AI 코딩 에이전트</span><span class="chip">SWE-bench</span><span class="chip">코딩 모델 비교</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/overview" rel="nofollow noopener">https://code.claude.com/docs/en/overview</a></li><li><a href="https://code.claude.com/docs/en/best-practices" rel="nofollow noopener">https://code.claude.com/docs/en/best-practices</a></li><li><a href="https://code.claude.com/docs/en/security" rel="nofollow noopener">https://code.claude.com/docs/en/security</a></li><li><a href="https://platform.claude.com/docs/en/models/overview" rel="nofollow noopener">https://platform.claude.com/docs/en/models/overview</a></li><li><a href="https://claude.com/pricing" rel="nofollow noopener">https://claude.com/pricing</a></li><li><a href="https://learn.chatgpt.com/docs/codex/cli" rel="nofollow noopener">https://learn.chatgpt.com/docs/codex/cli</a></li><li><a href="https://learn.chatgpt.com/docs/pricing" rel="nofollow noopener">https://learn.chatgpt.com/docs/pricing</a></li><li><a href="https://learn.chatgpt.com/docs/agent-approvals-security" rel="nofollow noopener">https://learn.chatgpt.com/docs/agent-approvals-security</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code와 OpenAI Codex 중 코딩 성능은 어느 쪽이 더 좋은가?</h2><p class="sum">모든 작업에서 앞서는 단일 승자는 확인되지 않았다. 독립 연구에서도 기능·문서·버그 수정·리팩터링에 따라 우위가 달라졌다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code와 Codex를 공정하게 비교하려면 어떻게 해야 하나?</h2><p class="sum">같은 시작 커밋과 프롬프트, 권한, 시간·비용 한도를 사용한다. 테스트 통과뿐 아니라 불필요한 수정과 교정 횟수도 기록해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>두 코딩 에이전트를 함께 써도 효과가 있나?</h2><p class="sum">한 도구가 구현하고 다른 도구가 리뷰하는 방식이 쓰인다. 같은 요구사항과 검증 명령을 공유해야 교차 점검의 효과를 판단할 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-12-0730.html">2026-08-12 08-11 17:50~08-12 01:58</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
