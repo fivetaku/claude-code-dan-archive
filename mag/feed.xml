@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>카카오페이증권 출금 알림과 기타대여금, 내 돈은 왜 빠졌나</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/kakaopay-securities-withdrawal-alert.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/kakaopay-securities-withdrawal-alert.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Thu, 03 Sep 2026 12:00:00 +0900</pubDate>
+    <description>카카오페이증권 출금 알림과 기타대여금 표시는 같은 뜻이 아니다. D+2 결제, 미수금, 주식판매금 미리받기부터 민원 접수까지 살펴보고 실제 잔액과 원거래를 확인하는 법을 안내한다.</description>
+  </item>
+  <item>
+    <title>Claude Code GPTaku Plugins 설치와 활용, 무엇부터 써야 하나</title>
+    <link>https://chat.axwith.com/mag/resources/claude-code-gptaku-plugins-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-gptaku-plugins-guide.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Thu, 03 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code용 서드파티 마켓플레이스 GPTaku Plugins의 설치 명령과 대표 활용 흐름을 소개한다. Skills·MCP·Hooks와의 차이, 컨텍스트 비용과 보안 점검법도 함께 다룬다.</description>
+  </item>
+  <item>
     <title>강남 AX 엔지니어 채용, 진짜 전환 조직을 가려내는 법</title>
     <link>https://chat.axwith.com/mag/troubleshooting/gangnam-ax-engineer-job-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/gangnam-ax-engineer-job-guide.html</guid>
@@ -227,21 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
     <description>볼타 슬랙 연동에서 승인 버튼만으로 세금계산서가 발행되는 역발행 구조와 무료 요금제 조건, 하나금융티아이 제휴·스트롱벤처스 투자 등 협업 관계를 실제 자료로 확인해 정리했다.</description>
-  </item>
-  <item>
-    <title>맥 스튜디오 품절 대란이 바꿔놓은 중고 맥 시세와 구매법</title>
-    <link>https://chat.axwith.com/mag/resources/mac-studio-shortage-used-price.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/mac-studio-shortage-used-price.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Wed, 26 Aug 2026 12:00:00 +0900</pubDate>
-    <description>D램 대란으로 맥 스튜디오·미니 배송이 몇 달씩 밀리는 사이 중고 맥 시세가 버티는 이유, 중고거래 사기 주의점, 맥미니 SSD 확장 방법을 정리했다.</description>
-  </item>
-  <item>
-    <title>회사 밖에서 로컬 LLM 돌리려면 맥스튜디오가 정답일까</title>
-    <link>https://chat.axwith.com/mag/tools/mac-studio-local-llm-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/mac-studio-local-llm-guide.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Wed, 26 Aug 2026 12:00:00 +0900</pubDate>
-    <description>사내 보안 정책으로 로컬 개발이 막힌 개발자가 집에 로컬 LLM·여러 에이전트를 상시 구동하려 할 때, 갓 나온 M5 맥스튜디오와 맥미니 중 무엇을 사야 하는지 실사용 성능과 전기료까지 따져봤다.</description>
   </item>
 </channel></rss>

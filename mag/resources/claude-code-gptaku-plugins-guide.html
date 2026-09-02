@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code GPTaku Plugins 설치와 활용, 무엇부터 써야 하나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code용 서드파티 마켓플레이스 GPTaku Plugins의 설치 명령과 대표 활용 흐름을 소개한다. Skills·MCP·Hooks와의 차이, 컨텍스트 비용과 보안 점검법도 함께 다룬다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/resources/claude-code-gptaku-plugins-guide.html">
+<meta property="og:title" content="Claude Code GPTaku Plugins 설치와 활용, 무엇부터 써야 하나">
+<meta property="og:description" content="Claude Code용 서드파티 마켓플레이스 GPTaku Plugins의 설치 명령과 대표 활용 흐름을 소개한다. Skills·MCP·Hooks와의 차이, 컨텍스트 비용과 보안 점검법도 함께 다룬다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/resources/claude-code-gptaku-plugins-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code GPTaku Plugins 설치와 활용, 무엇부터 써야 하나", "description": "Claude Code용 서드파티 마켓플레이스 GPTaku Plugins의 설치 명령과 대표 활용 흐름을 소개한다. Skills·MCP·Hooks와의 차이, 컨텍스트 비용과 보안 점검법도 함께 다룬다.", "datePublished": "2026-09-03", "dateModified": "2026-09-03", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/resources/claude-code-gptaku-plugins-guide.html"}, "articleSection": "자료·링크 공유", "keywords": "Claude Code, GPTaku Plugins, Claude Code 플러그인, Agent Skills, MCP, 바이브코딩", "image": "https://chat.axwith.com/mag/hero/claude-code-gptaku-plugins-guide.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "GPTaku Plugins는 Anthropic 공식 플러그인인가요?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. `fivetaku/gptaku_plugins`가 배포하는 제3자 Claude Code 마켓플레이스다. Claude Code의 공식 플러그인 형식을 사용하지만 Anthropic의 기능 보증을 의미하지 않는다."}}, {"@type": "Question", "name": "GPTaku Plugins는 어떻게 설치하나요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code에서 마켓플레이스를 등록한 뒤 원하는 플러그인을 별도로 설치한다. 설치 후 `/reload-plugins`를 실행하면 현재 세션에 변경 사항을 반영할 수 있다."}}, {"@type": "Question", "name": "GPTaku Plugins 중 무엇부터 설치해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "공개 웹 조사가 자주 막히면 `insane-search`, 아이디어를 제품 문서로 만들려면 `show-me-the-prd`가 적합하다. 여러 개를 한꺼번에 설치하기보다 반복하는 작업 하나에 맞춰 선택하는 편이 낫다."}}, {"@type": "Question", "name": "GPTaku Plugins 사용에 API 키가 필요한가요?", "acceptedAnswer": {"@type": "Answer", "text": "제작자 설명상 다수의 플러그인은 추가 API 키 없이 작동한다. 다만 `nopal`, `insane-review`, `pumasi`처럼 외부 로그인이나 별도 CLI가 필요한 예외가 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-gptaku-plugins-guide.png" alt="Claude Code GPTaku Plugins 설치와 활용, 무엇부터 써야 하나" loading="eager">
+<header>
+  <span class="catchip c-res">자료·링크 공유</span>
+  <h1>Claude Code GPTaku Plugins 설치와 활용, 무엇부터 써야 하나</h1>
+  <p class="sub">반복 질문을 워크플로로 바꾸는 GPTaku Plugins의 구조와 설치법, 선택 기준과 보안 주의점을 살폈다</p>
+  <div class="meta"><span>2026-09-03</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Code는 자주 업데이트되지만, 현장에서 반복되는 질문은 의외로 비슷하다. 무엇을 설치하고 어떤 작업에 써야 하는지, 기존 기능과 무엇이 다른지가 더 절실하다. GPTaku Plugins는 이 질문을 반복 가능한 워크플로로 바꾸려는 서드파티 플러그인 모음이다.</p>
+<h2>업데이트보다 사용법이 먼저 나온 이유</h2>
+<p>공유된 패스트캠퍼스 세미나 안내도 최신 기능 소개보다 FAQ와 플러그인 활용에 무게를 뒀다. 저녁 세미나에서 GPTaku Plugin을 간단히 다루고, 다시보기는 강의 수강생에게만 제공한다는 내용이었다.</p>
+<p>이런 구성은 현재 Claude Code의 확장 방식과 맞물린다. FastCampus 강의 페이지도 커스텀 플러그인 설치와 Skills 제작을 입문 과정의 핵심 단계로 제시한다. 새 기능을 구경하는 데서 멈추지 않고, 반복 업무를 직접 묶어 쓰는 방향이다.</p>
+<p>Anthropic 공식 문서는 플러그인을 Skills·에이전트·Hooks·MCP 서버 등을 담는 배포 단위로 정의한다. GPTaku Plugins도 하나의 거대한 기능이 아니다. 조사, 기획, 디자인 분석, 코드 검토처럼 목적이 다른 플러그인을 한 마켓플레이스에서 제공한다.</p>
+<p>질문은 `GPTaku를 설치할까`보다 `내가 반복해서 막히는 작업이 무엇인가`에 가깝다.</p>
+<h2>마켓 등록과 플러그인 설치는 서로 다른 단계다</h2>
+<p>GPTaku Plugins는 Anthropic 공식 마켓플레이스가 아니다. `fivetaku/gptaku_plugins`가 공개한 제3자 Claude Code 마켓플레이스다. 공식 마켓과 같은 설치 구조를 쓰지만, Anthropic이 기능을 보증하지는 않는다.</p>
+<p>설치는 Claude Code 안에서 세 단계로 진행한다. 먼저 아래 명령으로 마켓플레이스 목록을 등록한다.</p>
+<p>`/plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git`</p>
+<p>이 명령만으로 개별 도구가 설치되지는 않는다. 공개 웹페이지 조사에 쓰는 `insane-search`를 선택했다면 다음 명령을 실행한다.</p>
+<p>`/plugin install insane-search@gptaku-plugins`</p>
+<p>현재 세션에 변경 내용을 반영하려면 `/reload-plugins`를 실행한다. Anthropic 공식 문서도 마켓 등록과 개별 설치를 별도 단계로 설명한다. 플러그인이 보이지 않을 때는 `/plugin`의 Installed·Errors 화면과 `/doctor`를 확인할 수 있다.</p>
+<p>설치 범위도 정해야 한다. user 범위는 개인의 모든 프로젝트, project 범위는 저장소 협업자, local 범위는 해당 저장소의 현재 사용자에게 적용된다. 개인 개발자는 local 또는 user 범위로 시험하고, 팀 공유는 코드 검토 뒤 project 범위를 택하는 편이 안전하다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-gptaku-plugins-guide.png" alt="" loading="lazy"><h2>작업의 입력과 산출물로 플러그인을 고른다</h2>
+<p>웹 조사가 자주 막힌다면 `insane-search`가 가장 단순한 출발점이다. 마켓 등록과 설치를 마친 뒤 `Reddit에서 Claude Code 플러그인 반응을 찾아 요약해줘`처럼 자연어로 요청한다. 플러그인은 일반 접근부터 공개 API·리더·브라우저 방식까지 순차적으로 시도하도록 설계됐다.</p>
+<p>산출물은 접근 가능한 공개 자료를 모은 요약이다. 로그인 권한이나 유료 콘텐츠를 새로 얻어주는 도구는 아니다. 제작자는 별도 API 키 없이 사용할 수 있다고 설명하지만, 대상 사이트의 정책과 접근 조건은 그대로 남는다.</p>
+<p>아이디어를 개발 문서로 바꾸려면 `show-me-the-prd`가 맞는다. 해당 플러그인을 설치한 뒤 `/show-me-the-prd 사진 정리 앱을 만들고 싶다`처럼 입력한다. 이어지는 질문에 사용자와 문제, 핵심 기능, 제약을 답하면 문서가 만들어진다.</p>
+<p>프로젝트 설명에 명시된 산출물은 PRD, 데이터 모델, 단계별 계획, AI 프로젝트 사양이다. 막연한 아이디어를 바로 구현시키는 대신, Claude Code가 읽을 작업 재료부터 만든다. 생성된 문서는 확정 계약이 아니므로 가정과 범위를 사용자가 다시 확인해야 한다.</p>
+<p>공식 문서만 근거로 기술 질문에 답하게 하려면 `docs-guide`가 더 적합하다. 넓은 주제를 출처와 함께 조사하려면 `insane-research`, 웹사이트 CSS를 분석하려면 `insane-design`을 고른다. PRD 이후 실행 계약은 `goaljaby`, 병렬 개발은 `pumasi`나 `kkirikkiri`가 맡는다.</p>
+<p>외부 조건도 선택 기준이다. GPTaku 저장소에 따르면 `nopal`은 Google 계정과 `gws` 로그인이 필요하다. `insane-review`는 로그인된 ChatGPT Plus·Pro 웹 세션, `pumasi`는 Codex CLI를 요구한다. 설치 전에 각 저장소의 입력·산출물·의존성을 확인해야 하는 이유다.</p>
+<h2>Skills와 MCP를 이미 쓴다면 역할부터 나눠야 한다</h2>
+<p>Anthropic은 Skills를 재사용할 지식과 절차로 설명한다. MCP는 데이터베이스나 Slack 같은 외부 서비스에 도구 접근을 제공한다. Hooks는 파일 수정이나 세션 종료 같은 사건에 자동으로 반응한다.</p>
+<p>플러그인은 이 요소들을 설치 가능한 묶음으로 배포한다. 기존 MCP 위에 사용 절차를 담은 Skill을 얹거나, 편집 뒤 검사를 실행하는 Hook을 함께 넣을 수 있다. 그래서 플러그인과 MCP를 경쟁 제품처럼 비교하면 선택이 꼬인다.</p>
+<p>써본 사람들 사이에서는 역할이 선명한 플러그인만 켜야 한다는 조언이 나온다. 비슷한 Skills와 Hooks를 여러 개 활성화하면 무엇이 실행됐는지 추적하기 어렵다는 불만도 있다. 작은 프로젝트에서는 설정과 컨텍스트 부담이 편익보다 커질 수 있다는 의견이다.</p>
+<p>공식 문서에 따르면 모델이 호출할 수 있는 Skill은 이름과 설명을 매 요청의 컨텍스트에 싣는다. 본문 전체는 실제 호출할 때 로드된다. 수동 호출만 허용하면 평소 컨텍스트 비용을 줄일 수 있다.</p>
+<h2>플러그인의 편리함은 신뢰 검토를 대신하지 않는다</h2>
+<p>Anthropic은 플러그인과 마켓플레이스가 사용자 권한으로 임의 코드를 실행할 수 있다고 경고한다. MCP 서버와 실행 스크립트, Hooks도 플러그인에 포함될 수 있다. 공개 저장소라는 사실만으로 안전성이 자동 확인되지는 않는다.</p>
+<p>설치 전에는 `.claude-plugin/marketplace.json`에서 실제 소스 위치를 확인해야 한다. 개별 저장소에서는 `SKILL.md`, 실행 스크립트, Hooks, 외부 CLI와 인증 요구를 살핀다. 업무용 저장소라면 파일 쓰기와 외부 전송 경로도 검토 대상이다.</p>
+<p>최근 Claude Code는 플러그인 의존성 정리와 HTTPS 소스 선호 설정을 추가했다. 사용하지 않은 플러그인을 찾는 관리 화면도 강화됐다. 확장 생태계가 커지면서 설치보다 제거와 추적이 중요한 기능이 됐다.</p>
+<p>GPTaku Plugins의 강점은 Claude Code에 새로운 모델을 넣는 데 있지 않다. 조사와 문서화, 검토처럼 반복되는 절차를 이름 있는 작업으로 고정한다. FAQ 중심 세미나가 짚은 핵심도 여기에 있다. 업데이트를 얼마나 아는지가 아니라, 자주 막히는 한 작업을 재현 가능한 흐름으로 바꿀 수 있는지가 활용 수준을 가른다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">GPTaku Plugins</span><span class="chip">Claude Code 플러그인</span><span class="chip">Agent Skills</span><span class="chip">MCP</span><span class="chip">바이브코딩</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://fastcampus.co.kr/biz_online_claudecode" rel="nofollow noopener">https://fastcampus.co.kr/biz_online_claudecode</a></li><li><a href="https://github.com/fivetaku/gptaku_plugins" rel="nofollow noopener">https://github.com/fivetaku/gptaku_plugins</a></li><li><a href="https://github.com/fivetaku/gptaku_plugins/blob/main/.claude-plugin/marketplace.json" rel="nofollow noopener">https://github.com/fivetaku/gptaku_plugins/blob/main/.claude-plugin/marketplace.</a></li><li><a href="https://github.com/fivetaku/insane-search" rel="nofollow noopener">https://github.com/fivetaku/insane-search</a></li><li><a href="https://github.com/fivetaku/show-me-the-prd" rel="nofollow noopener">https://github.com/fivetaku/show-me-the-prd</a></li><li><a href="https://code.claude.com/docs/en/discover-plugins" rel="nofollow noopener">https://code.claude.com/docs/en/discover-plugins</a></li><li><a href="https://code.claude.com/docs/en/plugins-reference" rel="nofollow noopener">https://code.claude.com/docs/en/plugins-reference</a></li><li><a href="https://code.claude.com/docs/en/features-overview" rel="nofollow noopener">https://code.claude.com/docs/en/features-overview</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins는 Anthropic 공식 플러그인인가요?</h2><p class="sum">아니다. `fivetaku/gptaku_plugins`가 배포하는 제3자 Claude Code 마켓플레이스다. Claude Code의 공식 플러그인 형식을 사용하지만 Anthropic의 기능 보증을 의미하지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins는 어떻게 설치하나요?</h2><p class="sum">Claude Code에서 마켓플레이스를 등록한 뒤 원하는 플러그인을 별도로 설치한다. 설치 후 `/reload-plugins`를 실행하면 현재 세션에 변경 사항을 반영할 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins 중 무엇부터 설치해야 하나요?</h2><p class="sum">공개 웹 조사가 자주 막히면 `insane-search`, 아이디어를 제품 문서로 만들려면 `show-me-the-prd`가 적합하다. 여러 개를 한꺼번에 설치하기보다 반복하는 작업 하나에 맞춰 선택하는 편이 낫다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins 사용에 API 키가 필요한가요?</h2><p class="sum">제작자 설명상 다수의 플러그인은 추가 API 키 없이 작동한다. 다만 `nopal`, `insane-review`, `pumasi`처럼 외부 로그인이나 별도 CLI가 필요한 예외가 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="dexa-vfx-remotion-hyperframes.html">모션 이펙트 214종을 코드로 가져오는 법, Remotion과 HyperFrames</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-ai-archive-magazine.html">오픈채팅 대화 AI 자동 아카이브·매거진, 어디까지 믿을 수 있나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-adoption-authority-bottleneck.html">AI 전환이 막히는 진짜 이유, 기술 아닌 권한 문제</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="seedance-25-unlimited-access.html">Seedance 2.5 무제한 이용처, 어디까지 진짜인가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="grok-annual-discount-eligibility.html">그록 SuperGrok 연간 구독 할인, 대상은 왜 갈렸나</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-25-2200.html">2026-08-25 08-25 17:25~21:43</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
