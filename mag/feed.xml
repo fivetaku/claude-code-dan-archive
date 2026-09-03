@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Fable 5.1 울트라코드 한도, 왜 빨리 닳고 어디서 멈추나</title>
+    <link>https://chat.axwith.com/mag/models/fable-ultracode-usage-limits.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/fable-ultracode-usage-limits.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Fri, 04 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Fable 5.1과 ultracode를 함께 쓰면 사용량이 급증하는 이유를 공식 문서로 분석했다. 한도 도달 시 동작과 비용을 줄이는 설정도 설명한다.</description>
+  </item>
+  <item>
+    <title>Claude Code 하네스 선택법, OMO·Superpowers·MoAI 비교</title>
+    <link>https://chat.axwith.com/mag/tools/claude-code-harness-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-harness-guide.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Fri, 04 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code 하네스의 의미와 OMO, Hermes, Superpowers, MoAI-ADK의 차이를 공식 자료와 실사용 반응으로 비교하고 직접 구성하는 순서를 설명한다.</description>
+  </item>
+  <item>
     <title>카카오페이증권 출금 알림과 기타대여금, 내 돈은 왜 빠졌나</title>
     <link>https://chat.axwith.com/mag/troubleshooting/kakaopay-securities-withdrawal-alert.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/kakaopay-securities-withdrawal-alert.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Fri, 28 Aug 2026 12:00:00 +0900</pubDate>
     <description>아날로그 회로의 netlist를 사람이 읽는 schematic으로 바꾸는 최신 연구를 살펴보고, Claude Code·SKiDL·KiCad로 구현할 수 있는 자동화 절차와 다층 보드의 한계를 정리했다.</description>
-  </item>
-  <item>
-    <title>카카오톡 봇 탁구는 왜 사진을 못 보도록 만들었을까</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/kakaotalk-bot-image-recognition.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/kakaotalk-bot-image-recognition.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클코단 봇 탁구가 이미지 URL 요청에 멈춘 소동을 계기로, 카카오톡 봇이 사진을 인식하지 못하는 진짜 이유와 URL 우회 사고의 전말을 짚었다.</description>
-  </item>
-  <item>
-    <title>Grok Bot 소스맵 노출 사고, 재구성 프로젝트로 이어진 전말</title>
-    <link>https://chat.axwith.com/mag/tools/grok-bot-source-map-reconstruction.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/grok-bot-source-map-reconstruction.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
-    <description>xAI Grok Bot 0.18.0이 소스맵을 켠 채 배포되며 프롬프트와 라우팅 로직이 재구성된 사건, 라우터를 Codex·OpenRouter로 바꾸는 방법, 클로드코드가 겪은 유사 사고까지 정리했다.</description>
   </item>
 </channel></rss>
