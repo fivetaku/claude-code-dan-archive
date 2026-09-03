@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>클코단 아카이브 — 공유된 레포</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="클코단 오픈채팅에서 공유된 GitHub 레포 75개를 봇이 분석해 정리한 카탈로그.">
 <link rel="canonical" href="https://chat.axwith.com/repos/">
 <meta property="og:title" content="클코단 레포 아카이브">
@@ -88,23 +89,8 @@ border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
 text-decoration:none;border:1px solid var(--line);border-radius:8px;
 padding:7px 13px;margin:0 6px 6px 0}
 .empty{padding:26px 4px;color:var(--muted);font-size:15px}
-.tabs{display:flex;gap:6px;margin:18px 0 4px}
-.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
-padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
-.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
-.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
-.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
-.tabs a i{font-style:normal;order:-1}
-.joinrow{display:none}
-@media(max-width:640px){
-.tabs{flex-wrap:nowrap;gap:5px}
-.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
-.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
-.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
-.joinrow{display:block;margin:8px 0 4px}
-.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
-color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
-border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
 /* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
 .entry.repo{display:block;padding:18px 4px}
 .entry.repo>div{min-width:0}
@@ -140,6 +126,28 @@ margin-right:6px;font-variant-numeric:tabular-nums}
 .repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
 font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
 </style>
 </head>
 <body>
@@ -149,7 +157,7 @@ font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
   <h1>공유된 레포</h1>
   <p class="sub">방에서 공유된 GitHub 레포를 자동 분석해 모아둡니다.</p>
 </header>
-<div class="tabwrap"><nav class="tabs"><a href="../"><b>요약</b><i> 대화</i></a><a class="on" href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../"><b>요약</b><i> 대화</i></a><a class="on" href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <div class="find">
   <input id="q" type="search" placeholder="레포 검색 — 이름·설명·언어" disabled
          autocomplete="off" enterkeyhint="search" aria-label="레포 검색">

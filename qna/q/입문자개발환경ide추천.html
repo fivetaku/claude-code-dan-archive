@@ -91,23 +91,8 @@ border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
 text-decoration:none;border:1px solid var(--line);border-radius:8px;
 padding:7px 13px;margin:0 6px 6px 0}
 .empty{padding:26px 4px;color:var(--muted);font-size:15px}
-.tabs{display:flex;gap:6px;margin:18px 0 4px}
-.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
-padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
-.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
-.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
-.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
-.tabs a i{font-style:normal;order:-1}
-.joinrow{display:none}
-@media(max-width:640px){
-.tabs{flex-wrap:nowrap;gap:5px}
-.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
-.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
-.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
-.joinrow{display:block;margin:8px 0 4px}
-.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
-color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
-border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
 /* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
 .entry.repo{display:block;padding:18px 4px}
 .entry.repo>div{min-width:0}
@@ -253,10 +238,10 @@ background:var(--surface);text-decoration:none}
   <ul><li>WSL CLI 개발 vs 클로드데스크탑 코드 비교 질문</li><li>VSCode가 무료 기본 IDE라 입문 강의에서 추천된다는 답</li><li>Cursor는 바이브코딩 입문용으로 좋다는 평가, 안티고니도 입문용으로 쓸만함</li><li>VSCode 장점: 폴더/엑셀/DB/이미지 미리보기, 코덱스 연동</li><li>git GUI 툴 Fork로 파일 변경 이력 확인한다는 팁 공유</li></ul>
 </article>
 <a class="srccard" href="../../s/2026-07-30-0900.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-07-30 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="클로드입문상담.html">클로드코드를 처음 시작하는데 뭐부터 배워야 하나요?</a></li><li><a href="클로드코드입문자가이드.html">클로드 코드를 처음 쓰는 사람을 위한 가이드가 있나요?</a></li><li><a href="geminiclaude연계.html">Gemini랑 Claude를 연계해서 쓰는 방법 있나요?</a></li><li><a href="vps활용과동기화.html">VPS에서 클로드코드 작업물을 여러 기기에 동기화하려면 어떻게 하나요?</a></li><li><a href="vps기반만능도구.html">VPS를 만능 도구처럼 활용하는 방법에는 어떤 게 있을까요?</a></li></ul></section>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="클로드입문상담.html">클로드코드를 처음 시작하는데 뭐부터 배워야 하나요?</a></li><li><a href="클로드디자인개선.html">클로드 디자인을 어떻게 개선할 수 있을까?</a></li><li><a href="클로드코드입문자가이드.html">클로드 코드를 처음 쓰는 사람을 위한 가이드가 있나요?</a></li><li><a href="geminiclaude연계.html">Gemini랑 Claude를 연계해서 쓰는 방법 있나요?</a></li><li><a href="vps활용과동기화.html">VPS에서 클로드코드 작업물을 여러 기기에 동기화하려면 어떻게 하나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
-<a href="../../p/about.html">소개</a> · <a href="../../">아카이브</a></footer>
+<a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>
 </div>
 </body>
 </html>
