@@ -142,6 +142,8 @@
   <url><loc>https://chat.axwith.com/mag/models/claude-code-vs-openai-codex.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/resources/claude-code-gptaku-plugins-guide.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/troubleshooting/kakaopay-securities-withdrawal-alert.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/mag/workflow/honest-ai-lottery-service.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/mag/workflow/claude-code-vibe-coding-standardization.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/repos/</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/weekly/</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/feed.xml</loc><lastmod>2026-09-03</lastmod></url>
@@ -153,11 +155,13 @@
   <url><loc>https://chat.axwith.com/qna/q/ai구독한도비교.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai리팩터링기준.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai서비스모델질문.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/ai서비스장애대응.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai시장기업질문.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai업무도입현실.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai업무팀병렬운영.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai역할분담설계.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai워터마크논쟁.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/ai이미지영상생성.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai작업모델분배.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai장비램사양.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/ai직원자동화설계.html</loc><lastmod>2026-09-03</lastmod></url>
@@ -195,6 +199,7 @@
   <url><loc>https://chat.axwith.com/qna/q/cursorgrok요금한도.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/diff기반루틴.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/dx스크립트axllm문.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/fable51출시.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/fable5사용비용적합성논.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/fableadvisor과부하.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/fablegpt모델비교.html</loc><lastmod>2026-09-03</lastmod></url>
@@ -211,6 +216,7 @@
   <url><loc>https://chat.axwith.com/qna/q/gpt로gif영상생성가능여부.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt루나무료공개소식.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt클로드구독고민.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/gpt클코선택.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt플러스vs프로웹챗활용.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/grok46성능논쟁.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/grok활용처논.html</loc><lastmod>2026-09-03</lastmod></url>
@@ -264,9 +270,11 @@
   <url><loc>https://chat.axwith.com/qna/q/wbrowser검토.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/개발용ai구독선택.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/구독과디자인품질.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/구독연동도구질문.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/그록도구질문모음.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/그록봇서비스후기.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/그록플랜연동질문.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/기억검색과라우팅.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/긴컨텍스트와headroom.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/네이버블로그자동화.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/네이버접근과분석.html</loc><lastmod>2026-09-03</lastmod></url>
@@ -314,6 +322,7 @@
   <url><loc>https://chat.axwith.com/qna/q/서브에이전트모델오류.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/선물구매제한.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/세금계산서자동화볼타팝빌.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/세션공유다중사용.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/세션분할과서브에이전트.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/세션제한이어하기.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/세션컨텍스트관리.html</loc><lastmod>2026-09-03</lastmod></url>
@@ -325,6 +334,7 @@
   <url><loc>https://chat.axwith.com/qna/q/에이전트정렬연구.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/에이전트훅우회.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/역할분담에이전트구성사례.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/연구자동화파이프라인.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/영상qa루프설계.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/영상분석플러그인.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/오퍼스5사용량성능저하논.html</loc><lastmod>2026-09-03</lastmod></url>
@@ -377,11 +387,13 @@
   <url><loc>https://chat.axwith.com/qna/q/클로드계정전환login오작동.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드기록지시누락.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드디자인개선.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/클로드리셋주기.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드말투변화.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드모델별업무추천판단기준.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드브라우저캡쳐저장안됨.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드사용량리밋빠른소진.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드상태불안정.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/클로드생각조절.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드서비스장애.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드성향드리프트제어고민.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드세션외부메신저앱연동.html</loc><lastmod>2026-09-03</lastmod></url>
@@ -422,6 +434,7 @@
   <url><loc>https://chat.axwith.com/qna/q/플랜모드사용법질문.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/플러그인토큰소비.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/피시방ssh연결끊김.html</loc><lastmod>2026-09-03</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/하네스래퍼도구.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/하네스설계fable5vsopus5.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/하네스정리와브랜치.html</loc><lastmod>2026-09-03</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/하네스핵심규칙.html</loc><lastmod>2026-09-03</lastmod></url>

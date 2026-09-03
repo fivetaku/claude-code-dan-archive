@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 바이브코딩 표준화, 프롬프트보다 검증을 고정하라 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code로 바이브코딩을 표준화할 때 모델·프롬프트 통일만으로 부족한 이유와 CLAUDE.md, 훅, 검증 스크립트, CI를 연결해 재현성과 품질을 관리하는 방법을 설명한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-vibe-coding-standardization.html">
+<meta property="og:title" content="Claude Code 바이브코딩 표준화, 프롬프트보다 검증을 고정하라">
+<meta property="og:description" content="Claude Code로 바이브코딩을 표준화할 때 모델·프롬프트 통일만으로 부족한 이유와 CLAUDE.md, 훅, 검증 스크립트, CI를 연결해 재현성과 품질을 관리하는 방법을 설명한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/claude-code-vibe-coding-standardization.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 바이브코딩 표준화, 프롬프트보다 검증을 고정하라", "description": "Claude Code로 바이브코딩을 표준화할 때 모델·프롬프트 통일만으로 부족한 이유와 CLAUDE.md, 훅, 검증 스크립트, CI를 연결해 재현성과 품질을 관리하는 방법을 설명한다.", "datePublished": "2026-09-03", "dateModified": "2026-09-03", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/claude-code-vibe-coding-standardization.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, 바이브코딩, CLAUDE.md, Claude Code Hooks, 개발 표준화, AI 코딩 에이전트", "image": "https://chat.axwith.com/mag/hero/claude-code-vibe-coding-standardization.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code에서 같은 프롬프트를 쓰면 같은 코드가 나오나요?", "acceptedAnswer": {"@type": "Answer", "text": "보장되지 않는다. 모델과 effort를 고정해도 도구 호출, 저장소 상태, 누적 문맥과 추론 경로가 달라져 다른 패치가 나올 수 있다."}}, {"@type": "Question", "name": "바이브코딩 표준화에서 가장 먼저 고정할 것은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "완료 조건과 이를 검사하는 단일 검증 명령을 먼저 고정한다. 이후 `CLAUDE.md`, 권한, 훅, CI가 같은 기준을 실행하도록 연결한다."}}, {"@type": "Question", "name": "CLAUDE.md만으로 팀 개발 규칙을 강제할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "`CLAUDE.md`는 프로젝트 문맥과 지침을 공유하는 데 적합하지만 강제 장치는 아니다. 금지 행동과 테스트 통과처럼 반드시 지킬 조건은 권한 규칙, command 훅, CI로 집행해야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-vibe-coding-standardization.png" alt="Claude Code 바이브코딩 표준화, 프롬프트보다 검증을 고정하라" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>Claude Code 바이브코딩 표준화, 프롬프트보다 검증을 고정하라</h1>
+  <p class="sub">같은 모델과 지시문도 다른 패치를 만든다. 팀이 고정해야 할 것은 답이 아니라 검증 가능한 개발 루프와 통과 기준이다.</p>
+  <div class="meta"><span>2026-09-03</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>같은 모델과 프롬프트를 쓰면 바이브코딩 결과도 같아질까.</p>
+<p>Claude Code를 팀에 넓히려는 조직이 지금 부딪히는 질문이다. 답은 산출물 복제가 아니라, 달라진 산출물을 같은 기준으로 걸러내는 데 있다.</p>
+<h2>같은 입력이 같은 패치를 보장하지 않는다</h2>
+<p>현장에서는 모델 버전과 effort, 하네스를 맞춰도 두 번째 요청부터 구현이 갈렸다는 경험이 이어졌다. 앞선 도구 호출과 파일 상태가 다음 문맥에 들어가므로 대화가 길어질수록 선택지가 달라진다는 의견이 많았다.</p>
+<p>이 현상은 단순한 체감으로만 치부하기 어렵다. UCL 연구진이 2024년 발표한 ACM 논문은 코드 생성 문제 829개를 반복 시험했다. 기본 설정에서 동일한 테스트 출력이 한 번도 겹치지 않은 과제가 데이터셋별로 47.56~75.76%였다. 온도를 0으로 낮춰도 결정론은 보장되지 않았다.</p>
+<p>2026년 ICLR 워크숍 논문은 SWE-bench Verified에서 6만 개 에이전트 궤적을 분석했다. 세 모델과 두 스캐폴드를 반복 실행하자 단일 실행 pass@1이 2.2~6.0%포인트 흔들렸다. 온도 0에서도 표준편차는 1.5%포인트를 넘었다. 초기의 작은 차이가 다른 해결 전략으로 번졌다. 두 연구는 Claude Code 자체의 결함을 입증하지 않는다. 다만 코딩 에이전트의 한 번짜리 결과를 표준으로 삼기 어렵다는 근거는 된다.</p>
+<h2>프롬프트 고정은 출발선만 맞춘다</h2>
+<p>Claude Code 공식 문서는 모델과 effort를 설정으로 지정할 수 있다고 설명한다. 팀은 `.claude/settings.json`을 저장소에 넣는다. 관리자는 모델 선택과 권한, 샌드박스, MCP, 훅을 제한할 수 있고, `CLAUDE.md`에는 아키텍처와 빌드 명령, 코딩 규칙을 공유한다.</p>
+<p>이 장치들은 실행 조건의 차이를 줄인다. 그러나 자연어 규칙은 모델이 해석하는 입력이다. 규칙을 적었다고 테스트 통과나 금지 파일 보호가 자동으로 보장되지는 않는다.</p>
+<p>GitHub Copilot도 저장소·경로별 지시 파일과 `AGENTS.md`를 지원한다. 공식 안내는 여기에 빌드, 테스트, 검증 방법을 적으라고 권한다. 제품이 달라도 제어면이 좋은 답안 양식보다 저장소 문맥과 검증 절차에 모이는 이유다. DORA의 2025년 연구도 AI를 조직의 강점과 약점을 키우는 증폭기로 규정했다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-vibe-coding-standardization.png" alt="" loading="lazy"><h2>표준화할 것은 기획부터 개선까지의 증거다</h2>
+<p>작업 흐름은 요구사항, 설계, 구현, 검토, 개선으로 나누되 각 단계의 산출물을 명시해야 한다. 입력은 이슈와 수용 조건이다. 출력은 설계 결정, 코드 변경, 테스트 결과, 리뷰 기록이다. 다음 단계는 앞 단계의 문서가 아니라 통과 증거를 받는다.</p>
+<p>NIST의 SSDF 1.1은 보안 개발 관행을 결과 중심으로 제시한다. 조직의 위험과 비용에 맞게 조정하고 계속 개선하라는 방식이다. 고정된 체크리스트를 모든 팀에 복사하라는 표준이 아니다.</p>
+<p>Anthropic이 공개한 에이전트 설계 지침도 명확한 평가 기준이 있을 때 evaluator-optimizer 루프를 권한다. 한 모델이 만들고 다른 평가 단계가 피드백한다. 기준을 충족할 때까지 수정한다. 바이브코딩 표준화도 같은 구조가 맞다. 생성 경로는 열어둔다. 합격 조건은 코드와 자동화로 좁힌다.</p>
+<h2>Claude Code에는 네 개의 파일과 한 개의 CI로 옮긴다</h2>
+<p>먼저 저장소 루트의 `CLAUDE.md`를 짧게 만든다. 아키텍처 경계, 패키지 관리자, 필수 명령, 수정 금지 영역, 완료 조건만 둔다. 긴 작업별 절차는 별도 스킬이나 명령으로 분리한다.</p>
+<p>다음으로 `.claude/settings.json`에 팀 공통 권한과 훅을 커밋한다. `PreToolUse` 훅은 비밀 파일이나 배포 경로 수정을 막는다. `PostToolUse` 훅은 `Edit|Write` 뒤 포매터나 정적 분석을 실행한다. 공식 훅 문서에 따르면 종료 코드 2는 작업을 차단하고 이유를 Claude에 돌려준다.</p>
+<p>검증 명령은 `scripts/verify.sh`처럼 하나로 모은다. 포맷, 린트, 타입 검사, 단위·통합 테스트를 정해진 순서로 실행한다. 하나라도 실패하면 0이 아닌 코드로 끝낸다. `Stop` command 훅이 이 스크립트를 호출하면 검증 실패 상태에서 세션 종료를 막을 수 있다. command 훅이 agent 훅보다 운영 기준에 더 적합하다고 공식 문서는 권고한다.</p>
+<p>CI는 같은 스크립트를 에이전트 밖에서 다시 실행해야 한다. 자동 작업에는 `claude --bare -p`와 명시적인 `--settings`, 모델, effort, 도구 허용 목록을 넘긴다. `--bare`는 개인 훅과 `CLAUDE.md`, MCP 자동 탐색을 생략하므로 필요한 지침은 `--append-system-prompt-file` 등으로 직접 지정해야 한다. 결과는 JSON으로 받고 커밋 SHA, 모델, effort, 프롬프트 버전, 테스트 로그를 함께 남긴다.</p>
+<h2>편차는 없애지 말고 측정한다</h2>
+<p>평가는 두 패치의 문자 일치율이 아니라 수용 조건 통과율로 한다. 대표 과제를 반복 실행해 기능 테스트, 보안 검사, 재작업 여부, 시간과 비용을 기록한다. 모델이나 하네스를 바꿀 때는 같은 과제 묶음으로 전후 분포를 비교해야 한다. 한 번 성공한 데모는 운영 표준의 증거가 아니다.</p>
+<p>써본 사람들 사이에서는 긴 `CLAUDE.md`가 중요한 규칙을 희석한다는 불만도 있다. 짧은 불변 규칙은 문서에 둔다. 반드시 지킬 조건은 훅과 CI로 옮겼더니 관리가 쉬워졌다는 반응이 함께 나온다. 테스트를 먼저 실패시킨다. AI가 만든 테스트도 코드처럼 검토해야 한다는 팁도 반복된다.</p>
+<p>개인 개발자와 소규모 팀에도 이 구분은 실용적이다. 하네스를 전사 제품처럼 만들 필요는 없다. 하나의 검증 스크립트와 보호 훅, 독립 CI만 있어도 모델 교체 비용이 줄어든다. 바이브코딩의 표준은 같은 답을 복제하는 문서가 아니라, 다른 답이 나와도 같은 품질선을 통과하게 만드는 실행 체계다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">바이브코딩</span><span class="chip">CLAUDE.md</span><span class="chip">Claude Code Hooks</span><span class="chip">개발 표준화</span><span class="chip">AI 코딩 에이전트</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/configuration" rel="nofollow noopener">https://code.claude.com/docs/en/configuration</a></li><li><a href="https://code.claude.com/docs/en/admin-setup" rel="nofollow noopener">https://code.claude.com/docs/en/admin-setup</a></li><li><a href="https://code.claude.com/docs/en/hooks" rel="nofollow noopener">https://code.claude.com/docs/en/hooks</a></li><li><a href="https://code.claude.com/docs/en/hooks-guide" rel="nofollow noopener">https://code.claude.com/docs/en/hooks-guide</a></li><li><a href="https://code.claude.com/docs/en/headless" rel="nofollow noopener">https://code.claude.com/docs/en/headless</a></li><li><a href="https://www.anthropic.com/engineering/building-effective-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/building-effective-agents</a></li><li><a href="https://discovery.ucl.ac.uk/id/eprint/10198256/" rel="nofollow noopener">https://discovery.ucl.ac.uk/id/eprint/10198256/</a></li><li><a href="https://arxiv.org/abs/2602.07150" rel="nofollow noopener">https://arxiv.org/abs/2602.07150</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 같은 프롬프트를 쓰면 같은 코드가 나오나요?</h2><p class="sum">보장되지 않는다. 모델과 effort를 고정해도 도구 호출, 저장소 상태, 누적 문맥과 추론 경로가 달라져 다른 패치가 나올 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>바이브코딩 표준화에서 가장 먼저 고정할 것은 무엇인가요?</h2><p class="sum">완료 조건과 이를 검사하는 단일 검증 명령을 먼저 고정한다. 이후 `CLAUDE.md`, 권한, 훅, CI가 같은 기준을 실행하도록 연결한다.</p></article><article class="dcard"><div class="t">Q</div><h2>CLAUDE.md만으로 팀 개발 규칙을 강제할 수 있나요?</h2><p class="sum">`CLAUDE.md`는 프로젝트 문맥과 지침을 공유하는 데 적합하지만 강제 장치는 아니다. 금지 행동과 테스트 통과처럼 반드시 지킬 조건은 권한 규칙, command 훅, CI로 집행해야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-03-1525-s.html">2026-09-03 09-03 13:51~15:25</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

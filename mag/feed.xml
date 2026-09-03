@@ -13,6 +13,22 @@
     <description>카카오페이증권 출금 알림과 기타대여금 표시는 같은 뜻이 아니다. D+2 결제, 미수금, 주식판매금 미리받기부터 민원 접수까지 살펴보고 실제 잔액과 원거래를 확인하는 법을 안내한다.</description>
   </item>
   <item>
+    <title>AI 로또 번호 추천 서비스, 예측 없이도 돈을 벌 수 있을까</title>
+    <link>https://chat.axwith.com/mag/workflow/honest-ai-lottery-service.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/honest-ai-lottery-service.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 03 Sep 2026 12:00:00 +0900</pubDate>
+    <description>AI 로또 추천 서비스의 확률적 한계부터 Claude Code를 활용한 구현 순서, 검증 방식, 유료화 지점과 구매대행·과장광고의 법적 경계까지 살펴봤다.</description>
+  </item>
+  <item>
+    <title>Claude Code 바이브코딩 표준화, 프롬프트보다 검증을 고정하라</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-vibe-coding-standardization.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-vibe-coding-standardization.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 03 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code로 바이브코딩을 표준화할 때 모델·프롬프트 통일만으로 부족한 이유와 CLAUDE.md, 훅, 검증 스크립트, CI를 연결해 재현성과 품질을 관리하는 방법을 설명한다.</description>
+  </item>
+  <item>
     <title>Claude Code GPTaku Plugins 설치와 활용, 무엇부터 써야 하나</title>
     <link>https://chat.axwith.com/mag/resources/claude-code-gptaku-plugins-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-gptaku-plugins-guide.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
     <description>xAI Grok Bot 0.18.0이 소스맵을 켠 채 배포되며 프롬프트와 라우팅 로직이 재구성된 사건, 라우터를 Codex·OpenRouter로 바꾸는 방법, 클로드코드가 겪은 유사 사고까지 정리했다.</description>
-  </item>
-  <item>
-    <title>DGX 스파크로 Qwen3.8 로컬 구동, 128GB로 충분한가</title>
-    <link>https://chat.axwith.com/mag/models/dgx-spark-qwen38-local-run.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/dgx-spark-qwen38-local-run.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
-    <description>클코단에서 나온 스파크 로컬 구동 계획을 계기로 Qwen3.8-27B와 Flash-Next의 메모리 요구량, DGX 스파크와 맥 스튜디오의 실제 속도 차이를 조사했다.</description>
-  </item>
-  <item>
-    <title>볼타 세금계산서, 슬랙에서 승인만 누르면 끝나는 이유</title>
-    <link>https://chat.axwith.com/mag/resources/bolta-tax-invoice-slack-approval.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/bolta-tax-invoice-slack-approval.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Thu, 27 Aug 2026 12:00:00 +0900</pubDate>
-    <description>볼타 슬랙 연동에서 승인 버튼만으로 세금계산서가 발행되는 역발행 구조와 무료 요금제 조건, 하나금융티아이 제휴·스트롱벤처스 투자 등 협업 관계를 실제 자료로 확인해 정리했다.</description>
   </item>
 </channel></rss>
