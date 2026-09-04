@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 하네스, Skill·subagent·hook만으로 시작하는 법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code 공식 구조와 최신 변경 기록을 바탕으로 Skill, subagent, hook의 차이와 최소 하네스 구성 순서, 설계 선택 기준을 구체적으로 설명한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/claude-code-minimal-harness.html">
+<meta property="og:title" content="Claude Code 하네스, Skill·subagent·hook만으로 시작하는 법">
+<meta property="og:description" content="Claude Code 공식 구조와 최신 변경 기록을 바탕으로 Skill, subagent, hook의 차이와 최소 하네스 구성 순서, 설계 선택 기준을 구체적으로 설명한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/claude-code-minimal-harness.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 하네스, Skill·subagent·hook만으로 시작하는 법", "description": "Claude Code 공식 구조와 최신 변경 기록을 바탕으로 Skill, subagent, hook의 차이와 최소 하네스 구성 순서, 설계 선택 기준을 구체적으로 설명한다.", "datePublished": "2026-09-04", "dateModified": "2026-09-04", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-code-minimal-harness.html"}, "articleSection": "도구·라이브러리", "keywords": "Claude Code, Agent Skills, subagent, hooks, AI 코딩 에이전트, 개발 자동화", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code 하네스란 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code 주변에 프로젝트 지침, 재사용 절차, 권한과 검증 시점을 배치한 실행 환경이다. 별도 코딩 모델이나 거대한 오케스트레이터를 뜻하지는 않는다."}}, {"@type": "Question", "name": "Claude Code Skill과 subagent의 차이는?", "acceptedAnswer": {"@type": "Answer", "text": "Skill은 현재 에이전트에 지식과 절차를 불러온다. subagent는 별도 문맥에서 독립 작업을 수행하고 결과를 부모 에이전트에 반환한다."}}, {"@type": "Question", "name": "Claude Code hook은 언제 써야 하나?", "acceptedAnswer": {"@type": "Answer", "text": "린트, 금지 명령 검사, 종료 전 테스트처럼 반드시 같은 시점에 실행해야 하는 검증에 적합하다. 판단이 필요한 업무 절차는 Skill이나 subagent에 두는 편이 낫다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>Claude Code 하네스, Skill·subagent·hook만으로 시작하는 법</h1>
+  <p class="sub">거대한 오케스트레이터보다 Skill·subagent·hook의 책임을 나눠 작은 하네스를 만드는 구체적인 실전 기준</p>
+  <div class="meta"><span>2026-09-04</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Code 하네스를 처음부터 크게 짜야 할까. 공식 구조와 최근 변경 기록을 따라가면 답은 반대쪽에 가깝다. 이미 코드를 읽고 명령을 실행하는 에이전트 위에, Skill·subagent·hook을 필요한 만큼만 얹는 편이 관리와 검증에 유리하다.</p>
+<h2>하네스는 새 에이전트가 아니라 실행 환경이다</h2>
+<p>하네스는 Claude Code를 대신하는 별도 코딩 엔진이 아니다. 프로젝트 지침, 재사용 절차, 권한, 검증 시점을 묶어 행동 범위를 만드는 운영층이다. Anthropic 공식 저장소도 플러그인을 `commands/`, `agents/`, `skills/`, `hooks/`, `.mcp.json`의 조합으로 설명한다.</p>
+<p>클코단 대화에서는 프롬프트와 마크다운, 훅만으로도 출발할 수 있다는 의견이 많았다. 공식 구조도 이 관찰을 뒷받침한다. 모든 구성요소를 한꺼번에 넣어야 플러그인이 되는 것은 아니다. 명령 하나만 둔 최소 플러그인과 Skill만 담은 플러그인도 공식 예시에 포함된다.</p>
+<p>작게 시작해야 하는 이유는 기능 수보다 충돌 지점에 있다.</p>
+<p>지침이 늘면 어떤 규칙이 현재 작업을 지배하는지 추적하기 어려워진다. 훅이 많아지면 편집마다 추가 명령이 실행될 수 있다. subagent를 남발할수록 전달 문맥과 결과 취합 비용도 커진다.</p>
+<h2>Skill과 subagent는 닮았지만 같은 부품이 아니다</h2>
+<p>Skill은 특정 일을 하는 방법을 현재 에이전트에 가르친다. 공식 plugin-dev 문서는 필수 `SKILL.md`와 선택적인 `scripts/`, `references/`, `assets/`를 기본 구조로 제시한다. 이름과 설명은 항상 노출된다. 본문은 발동할 때 읽고 세부 자료는 필요할 때만 불러온다. 이 점진적 공개 방식은 긴 지침이 매번 문맥을 차지하는 문제를 줄인다.</p>
+<p>subagent 정의도 마크다운 본문과 YAML frontmatter를 쓴다. 그래서 두 파일이 비슷해 보인다는 커뮤니티 관찰은 타당하다. 차이는 실행 위치다. Skill은 메인 에이전트의 지식과 절차를 보강한다. subagent는 독립 문맥에서 여러 단계를 수행하고 결과를 부모에게 돌려준다.</p>
+<p>공식 agent-development 자료에서 `description`은 호출 조건을 정하고 본문은 subagent의 시스템 프롬프트가 된다. `tools`로 사용할 도구를 좁히고 `model`도 지정할 수 있다. 읽기 전용 조사자라면 Read·Grep 계열만 주는 식이다. 별도 판단이나 병렬 작업이 필요하지 않다면 Skill 하나가 더 단순하다.</p>
+<h2>hook은 조언이 아니라 실행 시점을 고정한다</h2>
+<p>지침은 모델이 해석하지만 hook은 정해진 사건에 반응한다. Claude Code는 도구 실행 전후, 세션 시작과 종료, 중단, subagent 종료 같은 생명주기 지점을 제공한다. 공식 hook-development 자료는 프롬프트 기반 판단과 명령 기반 검사를 구분한다. 입력 검증이나 포맷 검사처럼 결과가 명확한 일은 명령 hook에 잘 맞는다.</p>
+<p>예를 들어 파일 편집 뒤 린터를 돌리고 싶다면 `PostToolUse`에서 Edit·Write 계열만 걸러 검사 스크립트를 호출할 수 있다. 위험한 셸 명령을 사전에 막으려면 `PreToolUse`가 맞다. 작업이 끝났다는 주장 전에는 `Stop`으로 테스트 상태를 확인할 수 있다. hook은 표준 입력으로 사건 정보를 받고 종료 코드나 JSON으로 허용·차단·추가 문맥을 돌려준다.</p>
+<p>강제력에는 비용이 따른다.</p>
+<p>모든 편집에 무거운 테스트를 붙이면 응답이 느려진다. 잘못 만든 Stop hook은 종료를 반복해서 막을 수 있다. Anthropic의 공식 플러그인 디렉터리도 설치 전 코드를 신뢰할 수 있는지 확인하라고 경고한다. hook과 MCP 서버는 외부 프로그램까지 실행할 수 있기 때문이다.</p>
+<h2>최소 하네스는 한 작업을 세 파일로 나눈다</h2>
+<p>개인 개발자나 작은 팀이라면 반복해서 실패하는 작업 하나를 고르는 편이 좋다. 가령 인증 코드를 바꿀 때 회귀 검사를 자주 빼먹는다면, 먼저 `.claude/skills/auth-check/SKILL.md`에 호출 조건과 검토 순서를 적는다. API 규칙은 `references/`로 빼고 반복 가능한 검사는 `scripts/`에 둔다. 입력은 &quot;인증 변경을 검토해줘&quot;이고 산출물은 위험 목록과 실행한 검사 결과다.</p>
+<p>다음 단계는 별도 문맥이 필요할 때만 연다. `.claude/agents/auth-reviewer.md`에 역할, 호출 조건, 출력 형식을 적고 도구를 읽기와 테스트 실행으로 제한한다. 메인 에이전트는 구현을 맡고 reviewer는 변경 파일과 테스트 결과를 독립적으로 확인한다. 여러 에이전트가 같은 파일을 동시에 고칠 가능성이 있다면 worktree 격리를 검토한다.</p>
+<p>마지막에 `.claude/settings.json`의 hook 설정으로 검증 시점을 고정한다. 편집 직후에는 빠른 정적 검사만 실행하고 종료 시에는 관련 테스트를 확인하는 식으로 나눈다. Skill이 방법을 설명하고 subagent가 독립 검토를 맡으며 hook이 빠뜨릴 수 없는 검사를 실행한다. 세 층의 책임이 겹치지 않아야 고장이 난 위치도 찾기 쉽다.</p>
+<h2>최근 변화는 더 큰 하네스보다 경계 설계를 요구한다</h2>
+<p>Claude Code의 최근 변경 기록에는 worktree로 격리된 subagent의 체크아웃 처리, background agent 중단, Skill·command·agent 로딩과 관련한 수정이 이어진다. 기능이 이미 제품 안으로 깊게 들어왔다는 신호다. 사용자가 별도 오케스트레이터를 먼저 만들 이유는 줄었지만 공유 작업공간과 권한 경계는 더 세심하게 정해야 한다.</p>
+<p>클코단에서는 hook을 하네스의 핵심으로 보는 의견과, 환경과 지침이 먼저라는 의견이 함께 나왔다. 둘은 우선순위가 다르다. 실패가 ‘방법을 몰라서’ 생기면 Skill이 먼저다. 독립 판단이 필요하면 subagent를 추가한다. 정해진 검사를 자꾸 건너뛸 때는 그때 hook을 붙인다.</p>
+<p>좋은 하네스의 크기는 파일 수로 재지 않는다. 같은 실수를 다시 막고도, Claude Code가 원래 가진 판단력을 가리지 않는지가 기준이다. 한 가지 반복 실패를 세 책임으로 분리한 뒤에도 설명할 수 없다면, 하네스가 아니라 또 하나의 복잡한 제품을 만든 것이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">Agent Skills</span><span class="chip">subagent</span><span class="chip">hooks</span><span class="chip">AI 코딩 에이전트</span><span class="chip">개발 자동화</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/en/sub-agents</a></li><li><a href="https://code.claude.com/docs/en/skills" rel="nofollow noopener">https://code.claude.com/docs/en/skills</a></li><li><a href="https://code.claude.com/docs/en/hooks" rel="nofollow noopener">https://code.claude.com/docs/en/hooks</a></li><li><a href="https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/agent-development/SKILL.md" rel="nofollow noopener">https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/ag</a></li><li><a href="https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/skill-development/SKILL.md" rel="nofollow noopener">https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/sk</a></li><li><a href="https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/hook-development/SKILL.md" rel="nofollow noopener">https://github.com/anthropics/claude-code/blob/main/plugins/plugin-dev/skills/ho</a></li><li><a href="https://github.com/anthropics/claude-plugins-official/blob/main/README.md" rel="nofollow noopener">https://github.com/anthropics/claude-plugins-official/blob/main/README.md</a></li><li><a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md" rel="nofollow noopener">https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code 하네스란 무엇인가?</h2><p class="sum">Claude Code 주변에 프로젝트 지침, 재사용 절차, 권한과 검증 시점을 배치한 실행 환경이다. 별도 코딩 모델이나 거대한 오케스트레이터를 뜻하지는 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code Skill과 subagent의 차이는?</h2><p class="sum">Skill은 현재 에이전트에 지식과 절차를 불러온다. subagent는 별도 문맥에서 독립 작업을 수행하고 결과를 부모 에이전트에 반환한다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code hook은 언제 써야 하나?</h2><p class="sum">린트, 금지 명령 검사, 종료 전 테스트처럼 반드시 같은 시점에 실행해야 하는 검증에 적합하다. 판단이 필요한 업무 절차는 Skill이나 subagent에 두는 편이 낫다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-03-2200.html">2026-09-03 09-03 18:58~21:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
