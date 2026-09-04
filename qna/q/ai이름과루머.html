@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenAI로 LLM 위키를 만들 수 있을까요? — 클코단 Q&amp;A</title>
+<title>AI 이름을 둘러싼 루머는 어디까지 사실일까요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="Claude Code 없이 OpenAI API만으로 LLM 위키를 구축할 수 있는지 질문이 이어졌다. 핵심은 인제스션된 원시 파일을 전체 스캔하고 관심 있는 위키 문서를 생성하는 실행 루프를 API로 구현할 수 있는지였다. 이를 참고할 만한 오픈소스의">
-<link rel="canonical" href="https://chat.axwith.com/qna/q/openai로llm위키.html">
-<meta property="og:title" content="OpenAI로 LLM 위키를 만들 수 있을까요?">
-<meta property="og:description" content="Claude Code 없이 OpenAI API만으로 LLM 위키를 구축할 수 있는지 질문이 이어졌다. 핵심은 인제스션된 원시 파일을 전체 스캔하고 관심 있는 위키 문서를 생성하는 실행 루프를 API로 구현할 수 있는지였다. 이를 참고할 만한 오픈소스의">
+<meta name="description" content="아스트라와 페이블 등 AI 모델명으로 보이는 명칭의 공식 정보와 어감이 화제가 됐다. 공식 발표나 성능·가격·도구 연동이 확인되기 전에는 평가를 보류해야 한다는 의견이 나왔다. 라틴어·그리스어·산스크리트어 같은 고대어가 기술 브랜드에 신화성과 권위를 ">
+<link rel="canonical" href="https://chat.axwith.com/qna/q/ai이름과루머.html">
+<meta property="og:title" content="AI 이름을 둘러싼 루머는 어디까지 사실일까요?">
+<meta property="og:description" content="아스트라와 페이블 등 AI 모델명으로 보이는 명칭의 공식 정보와 어감이 화제가 됐다. 공식 발표나 성능·가격·도구 연동이 확인되기 전에는 평가를 보류해야 한다는 의견이 나왔다. 라틴어·그리스어·산스크리트어 같은 고대어가 기술 브랜드에 신화성과 권위를 ">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://chat.axwith.com/qna/q/openai로llm위키.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "OpenAI로 LLM 위키를 만들 수 있을까요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "Claude Code 없이 OpenAI API만으로 LLM 위키를 구축할 수 있는지 질문이 이어졌다. 핵심은 인제스션된 원시 파일을 전체 스캔하고 관심 있는 위키 문서를 생성하는 실행 루프를 API로 구현할 수 있는지였다. 이를 참고할 만한 오픈소스의 존재도 질문했지만, 대화 내 답변은 제공되지 않았다. Claude Code를 쓰지 않고 OpenAI API로 LLM 위키를 구축할 수 있는지 질문이 나왔다. 원시 파일을 스캔해 위키 문서를 생성하는 인제스션·생성 파이프라인이 핵심으로 설명됐다. Claude Code가 수행하는 것으로 이해한 컴파일 또는 실행 과정의 API 대체 가능성이 질문됐다. 실행 루프 구현이 어려운 지점으로 지목됐다. 참조할 오픈소스 프로젝트 추천 요청이 있었으나 답변은 이어지지 않았다."}}}</script>
+<meta property="og:url" content="https://chat.axwith.com/qna/q/ai이름과루머.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "AI 이름을 둘러싼 루머는 어디까지 사실일까요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "아스트라와 페이블 등 AI 모델명으로 보이는 명칭의 공식 정보와 어감이 화제가 됐다. 공식 발표나 성능·가격·도구 연동이 확인되기 전에는 평가를 보류해야 한다는 의견이 나왔다. 라틴어·그리스어·산스크리트어 같은 고대어가 기술 브랜드에 신화성과 권위를 더한다는 대화도 이어졌다. 아스트라와 페이블의 출시·공식 정보 여부를 두고 대화가 오갔다. 검증되지 않은 모델명은 루머로 취급해야 한다는 입장이 제시됐다. 아스트라의 어원과 고대 언어 기반 AI 네이밍의 브랜딩 효과를 논의했다. 그록 관련 루머명이라는 언급도 나왔다."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -229,16 +229,16 @@ background:var(--surface);text-decoration:none}
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
-  <span class="catchip c-res">MCP·연동</span>
-  <h1>OpenAI로 LLM 위키를 만들 수 있을까요?</h1>
+  <span class="catchip c-model">모델 선택</span>
+  <h1>AI 이름을 둘러싼 루머는 어디까지 사실일까요?</h1>
   
 </header>
 <article class="qbody">
-  <p class="qanswer">Claude Code 없이 OpenAI API만으로 LLM 위키를 구축할 수 있는지 질문이 이어졌다. 핵심은 인제스션된 원시 파일을 전체 스캔하고 관심 있는 위키 문서를 생성하는 실행 루프를 API로 구현할 수 있는지였다. 이를 참고할 만한 오픈소스의 존재도 질문했지만, 대화 내 답변은 제공되지 않았다.</p>
-  <ul><li>Claude Code를 쓰지 않고 OpenAI API로 LLM 위키를 구축할 수 있는지 질문이 나왔다.</li><li>원시 파일을 스캔해 위키 문서를 생성하는 인제스션·생성 파이프라인이 핵심으로 설명됐다.</li><li>Claude Code가 수행하는 것으로 이해한 컴파일 또는 실행 과정의 API 대체 가능성이 질문됐다.</li><li>실행 루프 구현이 어려운 지점으로 지목됐다.</li><li>참조할 오픈소스 프로젝트 추천 요청이 있었으나 답변은 이어지지 않았다.</li></ul>
+  <p class="qanswer">아스트라와 페이블 등 AI 모델명으로 보이는 명칭의 공식 정보와 어감이 화제가 됐다. 공식 발표나 성능·가격·도구 연동이 확인되기 전에는 평가를 보류해야 한다는 의견이 나왔다. 라틴어·그리스어·산스크리트어 같은 고대어가 기술 브랜드에 신화성과 권위를 더한다는 대화도 이어졌다.</p>
+  <ul><li>아스트라와 페이블의 출시·공식 정보 여부를 두고 대화가 오갔다.</li><li>검증되지 않은 모델명은 루머로 취급해야 한다는 입장이 제시됐다.</li><li>아스트라의 어원과 고대 언어 기반 AI 네이밍의 브랜딩 효과를 논의했다.</li><li>그록 관련 루머명이라는 언급도 나왔다.</li></ul>
 </article>
-<a class="srccard" href="../../s/2026-08-25-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-25 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="클로드서비스장애.html">클로드 일부 서버에 장애가 있는 건가요?</a></li><li><a href="insanesearch소개.html">Insane Search는 어떤 검색 도구일까?</a></li><li><a href="추가ai추천.html">추가로 써볼 만한 AI가 있을까요?</a></li><li><a href="클로드세션외부메신저앱연동.html">클로드 세션을 외부 메신저나 앱과 연동할 수 있나요?</a></li><li><a href="서버원격코딩환경.html">서버에 원격으로 접속해서 코딩하려면 어떻게 하나요?</a></li></ul></section>
+<a class="srccard" href="../../s/2026-09-04-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-04 아카이브</span></a>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="codex초기설정.html">Codex 초기 설정은 어떻게 하나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>
