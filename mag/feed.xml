@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>AI 콜센터와 Claude Code, 비용 절감률만 믿으면 안 되는 이유</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-roi-cost-per-outcome.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-roi-cost-per-outcome.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 05 Sep 2026 12:00:00 +0900</pubDate>
+    <description>AI 콜센터와 Claude Code의 비용 절감 효과를 어떻게 검증할까. 상담 자동화 사례와 생산성 연구를 바탕으로 실제 ROI 측정법을 짚는다.</description>
+  </item>
+  <item>
+    <title>AI 에이전트란 무엇인가, Claude Code로 이해하는 핵심 구조</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-agent-claude-code-architecture.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-claude-code-architecture.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 05 Sep 2026 12:00:00 +0900</pubDate>
+    <description>AI 에이전트는 단순한 LLM 호출과 무엇이 다를까. Claude Code의 CLAUDE.md, Skills, subagents, hooks, MCP를 기준으로 구조와 설계 경계를 설명한다.</description>
+  </item>
+  <item>
     <title>Fable 5.1 울트라코드 한도, 왜 빨리 닳고 어디서 멈추나</title>
     <link>https://chat.axwith.com/mag/models/fable-ultracode-usage-limits.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/fable-ultracode-usage-limits.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sat, 29 Aug 2026 12:00:00 +0900</pubDate>
     <description>Orca, Paseo, cmux, Herdr의 설치·브라우저 제어·모바일 연결·멀티에이전트 운영 방식을 공식 문서와 실사용 의견으로 비교하고 선택 기준을 짚는다.</description>
-  </item>
-  <item>
-    <title>콜센터 로컬 AI는 정말 월 비용을 없애는가, GPU 뒤의 TCO</title>
-    <link>https://chat.axwith.com/mag/ops/local-ai-call-center-tco.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/local-ai-call-center-tco.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Fri, 28 Aug 2026 12:00:00 +0900</pubDate>
-    <description>콜센터 로컬 AI의 실제 비용을 GPU·전력·냉각·인력·음성 처리로 분해하고, Claude API와 클라우드 방식의 TCO를 같은 SLA와 동시통화 조건에서 비교한다.</description>
-  </item>
-  <item>
-    <title>Claude Code UI 디자인 스킬, 많이 겹칠수록 좋아질까</title>
-    <link>https://chat.axwith.com/mag/tools/claude-code-ui-design-skills.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-ui-design-skills.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 28 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code용 UI 디자인 스킬과 컴포넌트 도구는 역할이 다르다. 디자인 계약부터 구현, 검수까지 충돌 없이 연결하고 AI스러운 화면을 줄이는 실제 순서를 정리했다.</description>
   </item>
 </channel></rss>
