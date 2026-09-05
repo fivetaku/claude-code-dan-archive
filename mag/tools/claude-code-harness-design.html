@@ -12,7 +12,7 @@
 <meta property="og:description" content="Claude Code 하네스를 거대하게 만들기 전에 CLAUDE.md, SKILL.md, 서브에이전트, 훅, worktree의 책임을 나누는 실전 기준을 설명한다.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/mag/tools/claude-code-harness-design.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 하네스, 크게 짜기 전에 나눠야 할 네 가지", "description": "Claude Code 하네스를 거대하게 만들기 전에 CLAUDE.md, SKILL.md, 서브에이전트, 훅, worktree의 책임을 나누는 실전 기준을 설명한다.", "datePublished": "2026-09-04", "dateModified": "2026-09-04", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-code-harness-design.html"}, "articleSection": "도구·라이브러리", "keywords": "Claude Code, 에이전트 하네스, SKILL.md, 서브에이전트, Claude Code 훅, git worktree", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 하네스, 크게 짜기 전에 나눠야 할 네 가지", "description": "Claude Code 하네스를 거대하게 만들기 전에 CLAUDE.md, SKILL.md, 서브에이전트, 훅, worktree의 책임을 나누는 실전 기준을 설명한다.", "datePublished": "2026-09-04", "dateModified": "2026-09-04", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-code-harness-design.html"}, "articleSection": "도구·라이브러리", "keywords": "Claude Code, 에이전트 하네스, SKILL.md, 서브에이전트, Claude Code 훅, git worktree", "image": "https://chat.axwith.com/mag/hero/claude-code-harness-design.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code 하네스는 무엇으로 구성하나요?", "acceptedAnswer": {"@type": "Answer", "text": "보통 CLAUDE.md, 스킬, 서브에이전트, 훅, MCP, worktree를 조합한다. 모든 요소를 넣기보다 반복 절차와 강제 조건부터 분리하는 편이 낫다."}}, {"@type": "Question", "name": "Claude Code 스킬과 서브에이전트의 차이는 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "스킬은 현재 에이전트가 불러 쓰는 지식과 절차다. 서브에이전트는 별도 문맥과 도구 범위에서 독립 작업을 수행한다."}}, {"@type": "Question", "name": "Claude Code 훅은 언제 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "실행 전 차단, 실행 후 검사, 종료 조건처럼 반드시 지켜야 할 경계에 쓴다. 단순 조언이나 업무 지식은 CLAUDE.md나 SKILL.md가 더 알맞다."}}]}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
@@ -214,7 +214,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
-
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-harness-design.png" alt="Claude Code 하네스, 크게 짜기 전에 나눠야 할 네 가지" loading="eager">
 <header>
   <span class="catchip c-tool">도구·라이브러리</span>
   <h1>Claude Code 하네스, 크게 짜기 전에 나눠야 할 네 가지</h1>
@@ -231,7 +231,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>반복 업무는 `.claude/skills/&lt;이름&gt;/SKILL.md`로 뺀다. Anthropic의 Skill Development 문서는 스킬을 전문 지식과 작업 흐름을 담는 모듈로 설명한다. 필수 파일은 YAML 프론트매터와 Markdown 본문을 가진 `SKILL.md`다. 재사용 코드는 `scripts/`, 상세 문서는 `references/`, 결과물 재료는 `assets/`에 둔다.</p>
 <p>서브에이전트 정의도 Markdown과 YAML 프론트매터를 쓴다. 닮은 형식 때문에 둘을 같은 것으로 보기 쉽다. 그러나 스킬은 메인 에이전트가 불러 쓰는 절차다. 서브에이전트는 별도 문맥에서 자율 작업을 맡는 실행자다. 공식 Agent Development 문서도 에이전트를 복잡한 다단계 작업용 subprocess로 구분한다.</p>
 <p>파일을 하나 만들 때는 `.claude/agents/code-reviewer.md`처럼 둔다. 프론트매터에는 이름, 호출 조건, 모델, 허용 도구를 적는다. 본문에는 책임, 작업 순서, 품질 기준, 반환 형식을 쓴다. 읽기 전용 검토라면 `Read`, `Grep`, `Glob`만 허용해 범위를 줄일 수 있다.</p>
-<h2>훅은 지침을 실행 가능한 경계로 바꾼다</h2>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-harness-design.png" alt="" loading="lazy"><h2>훅은 지침을 실행 가능한 경계로 바꾼다</h2>
 <p>&quot;테스트를 실행하라&quot;는 문장은 모델이 해석한다. 훅은 사건이 발생할 때 코드를 실행한다. Anthropic의 Hook Development 문서는 훅을 검증, 정책 집행, 문맥 주입, 외부 도구 연동에 쓰는 이벤트 자동화로 규정한다.</p>
 <p>`PreToolUse`는 도구 실행 전에 입력을 허용하거나 막고 바꿀 수 있다. `PostToolUse`는 실행 결과를 검사한다. `Stop`과 `SubagentStop`은 에이전트가 끝내려 할 때 완료 조건을 확인한다. `SessionStart`는 세션 시작 시 필요한 환경과 문맥을 불러온다.</p>
 <p>만드는 순서도 단순하다. 먼저 막아야 할 사건 하나를 고른다. 다음으로 `.claude/settings.json`에 matcher와 command를 연결한다. 스크립트는 표준 입력의 JSON을 읽고 종료 코드나 구조화된 JSON을 돌려준다. 입력은 도구 이름과 인수다. 산출물은 허용·차단 결정이나 Claude가 읽을 피드백이다.</p>

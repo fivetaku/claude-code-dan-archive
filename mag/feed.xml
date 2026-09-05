@@ -5,12 +5,28 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>GPT-6 아스트라, 솔보다 빠른데 사용 한도는 왜 빨리 닳나</title>
+    <link>https://chat.axwith.com/mag/models/gpt-astra-sol-usage-limits.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-astra-sol-usage-limits.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sat, 05 Sep 2026 12:00:00 +0900</pubDate>
+    <description>GPT-6 Astra는 솔보다 작업을 빨리 끝내도 구독 한도를 더 빨리 쓸 수 있다. 공식 크레딧 요금, 5시간 사용량, macOS·Windows 제공 조건과 브라우저 검증 절차를 살펴본다.</description>
+  </item>
+  <item>
     <title>AI 콜센터와 Claude Code, 비용 절감률만 믿으면 안 되는 이유</title>
     <link>https://chat.axwith.com/mag/workflow/ai-roi-cost-per-outcome.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-roi-cost-per-outcome.html</guid>
     <category>워크플로우·방법론</category>
     <pubDate>Sat, 05 Sep 2026 12:00:00 +0900</pubDate>
     <description>AI 콜센터와 Claude Code의 비용 절감 효과를 어떻게 검증할까. 상담 자동화 사례와 생산성 연구를 바탕으로 실제 ROI 측정법을 짚는다.</description>
+  </item>
+  <item>
+    <title>AI 채용 트렌드 분석, 기업 공고로 유료 서비스 만들기</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-hiring-data-business.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-hiring-data-business.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 05 Sep 2026 12:00:00 +0900</pubDate>
+    <description>기업별 AI 채용 움직임을 분석하는 서비스는 무엇을 팔아야 할까. Greenhouse API와 국내 공공데이터로 공고를 수집하는 방법, LinkUp·Lightcast 사례, 전략 해석의 한계를 짚는다.</description>
   </item>
   <item>
     <title>AI 에이전트란 무엇인가, Claude Code로 이해하는 핵심 구조</title>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Sat, 29 Aug 2026 12:00:00 +0900</pubDate>
     <description>M5 맥북 에어의 24GB와 32GB 중 개발자에게 맞는 구성을 Claude Code, Docker, 멀티에이전트, 로컬 LLM 사용량과 냉각 성능을 기준으로 비교했다.</description>
-  </item>
-  <item>
-    <title>Claude Code 기업 메모리, 문서 30개보다 큐레이션이 먼저다</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-curated-memory-wiki.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-curated-memory-wiki.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sat, 29 Aug 2026 12:00:00 +0900</pubDate>
-    <description>회사 문서를 Claude Code에 전부 넣지 않고 CLAUDE.md, Auto Memory, RAG, MCP로 선별 연결하는 방법과 권한 경계 설계를 정리했다.</description>
-  </item>
-  <item>
-    <title>Orca·Paseo·cmux·Herdr, AI 코딩 환경은 무엇이 다른가</title>
-    <link>https://chat.axwith.com/mag/tools/ai-coding-agent-environments.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/ai-coding-agent-environments.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sat, 29 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Orca, Paseo, cmux, Herdr의 설치·브라우저 제어·모바일 연결·멀티에이전트 운영 방식을 공식 문서와 실사용 의견으로 비교하고 선택 기준을 짚는다.</description>
   </item>
 </channel></rss>
