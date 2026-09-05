@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code로 면접 준비, AI 경험을 설명하는 복기법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code를 활용한 면접 준비와 복기 방법을 정리했다. STAR로 AI 프로젝트의 개인 기여를 설명하고, 클로바노트 전사문에서 근거와 빈칸을 찾아 후속 질문을 연습하는 절차를 공식 채용 안내와 함께 살펴본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-interview-review.html">
+<meta property="og:title" content="Claude Code로 면접 준비, AI 경험을 설명하는 복기법">
+<meta property="og:description" content="Claude Code를 활용한 면접 준비와 복기 방법을 정리했다. STAR로 AI 프로젝트의 개인 기여를 설명하고, 클로바노트 전사문에서 근거와 빈칸을 찾아 후속 질문을 연습하는 절차를 공식 채용 안내와 함께 살펴본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/claude-code-interview-review.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code로 면접 준비, AI 경험을 설명하는 복기법", "description": "Claude Code를 활용한 면접 준비와 복기 방법을 정리했다. STAR로 AI 프로젝트의 개인 기여를 설명하고, 클로바노트 전사문에서 근거와 빈칸을 찾아 후속 질문을 연습하는 절차를 공식 채용 안내와 함께 살펴본다.", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/claude-code-interview-review.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, 면접 준비, 면접 복기, STAR 기법, 클로바노트, AI 활용 경험", "image": "https://chat.axwith.com/mag/hero/claude-code-interview-review.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code로 면접 복기는 어떻게 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "채용 공고, 확인한 경력 사실, 면접 연습 전사문을 파일로 준비합니다. Claude Code에 요구 역량별 분류와 근거 위치, 설명이 빠진 부분, 예상 추가 질문을 정리하도록 요청한 뒤 원문과 대조합니다."}}, {"@type": "Question", "name": "면접에서 AI로 만든 프로젝트를 어떻게 설명하나요?", "acceptedAnswer": {"@type": "Answer", "text": "해결하려던 문제와 선택 이유를 밝히고, AI에 맡긴 작업과 직접 판단·검증한 부분을 구분합니다. 실제 기록으로 뒷받침할 수 있는 결과와 시행착오를 설명하고, 확인하지 않은 성과를 추가하지 않습니다."}}, {"@type": "Question", "name": "면접 중 ChatGPT나 Claude를 사용해도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "지원 회사와 평가 단계의 지침에 따라 다릅니다. Anthropic은 준비 단계의 AI 활용을 권장하지만, 별도 허용이 없는 과제와 실시간 면접에서는 AI 도움을 금지합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-interview-review.png" alt="Claude Code로 면접 준비, AI 경험을 설명하는 복기법" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>Claude Code로 면접 준비, AI 경험을 설명하는 복기법</h1>
+  <p class="sub">AI로 만든 결과를 면접에서 자신의 역량으로 설명하려면 무엇을 남겨야 할까. 클로바노트 전사부터 Claude Code의 근거 분류와 후속 질문 연습까지 살펴본다.</p>
+  <div class="meta"><span>2026-09-06</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI로 면접을 준비하는 일은 Anthropic의 공식 채용 안내에도 등장한다. 클코단에서는 탈락 이후 말하기를 다듬는 방법과 함께, AI로 수행한 작업에서 자신의 역할을 어떻게 드러낼지 고민이 나왔다. Claude Code를 활용해 경험을 정리하고, 추가 질문에도 설명이 이어지는 답변을 만들려면 무엇이 필요할까?</p>
+<h2>후속 질문을 예상하되 답변의 핵심은 먼저 밝힌다</h2>
+<p>클코단에서는 유창하게 말하는 기술보다 경험을 엮는 방식이 중요하다는 의견이 제시됐다. 서류에 담은 사례가 다음 대화로 이어지도록 구성하고, 지면에 싣지 않은 다른 사례도 챙기자는 조언이었다. 다만 질문을 끌어내는 전략이 채용 성과를 높인다는 근거까지 확인된 것은 아니다.</p>
+<p>Amazon의 공식 면접 가이드는 STAR를 권한다. 상황(Situation), 맡은 과제(Task), 취한 행동(Action), 결과(Result)를 따라 구체적인 경험을 설명하는 방식이다. 팀이 달성한 성과에서는 지원자가 내린 판단과 직접 수행한 일을 구분하도록 안내한다.</p>
+<p>같은 회사의 면접관 조언은 준비한 이야기가 있어도 실제로 받은 질문에 답해야 한다고 강조한다. 서류에 없는 면모를 보여주는 것과 중요한 설명을 일부러 생략하는 것은 다르다. 핵심 행동과 결과를 먼저 밝히고, 선택 이유나 실패 경위를 더 설명할 준비를 하는 편이 이 안내에 부합한다.</p>
+<p>추가 질문에 대비할 대상은 멋진 문장의 다음 문장이 아니라, 그 문장을 뒷받침할 경험이다.</p>
+<h2>AI가 만든 결과물에서 본인의 판단을 분리한다</h2>
+<p>AI를 사용한 프로젝트도 같은 기준으로 설명할 수 있다. Anthropic은 지원자가 자신의 실제 경험을 먼저 작성한 뒤 Claude로 표현을 다듬도록 권한다. 회사 조사와 답변 연습에도 AI를 권장하지만, 해보지 않은 경험을 생성하는 것은 허용하지 않는다.</p>
+<p>방에서는 사용한 AI 이름만 앞세우기보다 작업에 착수한 배경과 시행착오를 설명하자는 의견이 나왔다. 참고한 자료를 어떻게 골랐고, 예상과 다른 결과를 어떤 기준으로 고쳤는지 보여주자는 취지다. 도구의 산출물과 사용자의 기여가 뒤섞이는 문제를 겨냥한 조언이다.</p>
+<p>이를 답변으로 옮길 때는 해결하려던 문제, 검토한 대안, AI에 맡긴 부분, 직접 확인한 부분을 나눠 적을 수 있다. 이후 결과를 뒷받침할 작업 기록을 연결한다. 측정하지 않은 개선율을 채워 넣기보다 실제 확인한 변화와 남은 한계를 구분하는 방식이다.</p>
+<p>개인 개발자는 기존 프로젝트의 요구사항, 수정 기록, 테스트 결과를 이런 재료로 활용할 수 있다. 1인 사업자나 소규모 팀에도 고객 요구와 납품 과정을 설명할 때 같은 틀을 적용할 여지가 있다. 결과 화면에 드러나지 않는 선택과 책임을 말로 꺼내는 데 목적이 있다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-interview-review.png" alt="" loading="lazy"><h2>클로바노트에서는 요약보다 발언 기록을 확보한다</h2>
+<p>클코단에서는 말한 내용을 다시 듣거나 영상으로 살펴보는 복기 방법도 공유됐다. 클로바노트로 전사하고 GPT나 Claude Code로 내용을 검토하자는 팁이다. 아래 절차는 방에서 완성된 시스템을 재현한 사례가 아니라, 공식 기능을 바탕으로 구성한 활용 예시다.</p>
+<p>출발점은 본인이 연습한 모의면접 녹음이다. 실제 면접 자료를 사용한다면 녹음과 외부 서비스 입력이 허용되는 범위를 확인해야 한다. 분석용 사본에서는 개인을 식별하는 정보와 공개할 수 없는 업무 내용을 제거한다.</p>
+<p>네이버 고객센터에 따르면 PC의 클로바노트에서 새 노트를 만들고 인식 언어를 선택해 음성 파일을 올릴 수 있다. 업로드가 끝나면 음성이 텍스트로 변환된다. 변환문을 녹음과 대조해 잘못 인식된 용어를 고친 뒤, 노트의 다운로드 메뉴에서 음성 기록을 받는다.</p>
+<p>공식 안내는 발언 시각과 참석자 정보를 다운로드 옵션에 포함할 수 있다고 설명한다. 복기용으로는 질문자와 답변자를 구분하고 시각도 남겨두면 원래 발언을 찾기 쉽다. 요약만 읽으면 답변의 어느 부분에서 설명이 빠졌는지 비교하기 어렵다.</p>
+<h2>Claude Code에 답변 작성보다 근거 분류를 맡긴다</h2>
+<p>Anthropic 문서는 Claude Code가 파일을 읽고 수정하며 여러 파일을 함께 다룬다고 설명한다. 이 기능을 복기에 적용하면 채용 공고, 경력 자료, 전사문을 서로 대조하도록 요청할 수 있다. 전사문 하나를 붙여 넣고 질문받는 연습은 ChatGPT에서도 구성할 수 있지만, 여기서는 파일로 기록을 축적하는 방식을 택한다.</p>
+<p>예시 작업 폴더에 공고를 담은 `job.md`, 검증한 경력 사실을 담은 `experience.md`, 전사문 `interview.txt`를 준비한다. 내려받은 전사문 내용을 일반 텍스트로 저장하고, 질문과 답변의 구분을 유지한다. 이 파일명은 예시이며 별도 플러그인 이름이 아니다.</p>
+<p>폴더 최상위의 `CLAUDE.md`에는 경험을 추가하지 말고, 근거 위치를 표시하며, 불명확한 내용은 확인 필요로 남기라고 적는다. 공식 문서에 따르면 Claude Code는 세션 시작 시 이 파일을 읽는다. 다만 지시를 문맥으로 취급하므로 사실 보존을 자동으로 보장하는 장치는 아니다.</p>
+<p>Claude Code가 설치돼 있다면 해당 폴더에서 `claude`를 실행하고 세 파일을 읽도록 요청한다. 공고의 요구 역량별로 답변을 분류하고, 각 답변에서 상황·과제·행동·결과가 드러나는지 점검하도록 지정한다. 근거가 빠진 설명과 경력 자료에 없는 주장은 따로 표시하게 한다.</p>
+<p>산출물은 `review.md`로 지정한다. 각 질문 아래 관련 역량, 전사문 시각, 설명이 부족한 부분, 확인할 사실, 예상 추가 질문을 묶도록 요청한다. 답변을 곧바로 완성시키기보다 무엇을 더 확인해야 하는지 목록을 얻는 단계다.</p>
+<p>생성된 문장은 반드시 입력 자료와 다시 대조한다. 특히 팀의 성과가 개인의 성과로 바뀌거나, 참여 경험이 의사결정 책임으로 확대됐는지 확인한다. 근거가 없는 빈칸은 더 그럴듯한 표현으로 덮을수록 다음 질문에 취약해진다.</p>
+<h2>분류한 경험을 다른 질문에도 설명해 본다</h2>
+<p>검토가 끝나면 `review.md`에서 설명이 약한 질문을 골라 모의면접을 진행한다. AI에게 한 번에 하나씩 묻고, 답변을 기다린 뒤 같은 경험의 선택 이유를 추가로 질문하도록 요청할 수 있다. 연습 후에는 새 전사문과 이전 기록을 대조해 빠졌던 설명이 실제로 들어갔는지 확인한다.</p>
+<p>써본 사람들 사이에선 직무 설명을 제공한 반복 연습이 장황한 답변을 줄이고 핵심 사례를 찾는 데 유용했다는 반응도 있다. 반면 정한 질문 순서를 벗어나거나 답변 평가를 그대로 믿기 어렵다는 의견도 나온다. 이런 체감은 연습 방법의 참고가 되지만 합격 가능성을 계산하는 근거는 아니다.</p>
+<p>하버드 Mignone 진로지원센터도 STAR 형식으로 작성한 답변에 AI 피드백을 받아보라고 안내한다. 동시에 답변을 통째로 외우지 말고 자신의 표현을 유지하라고 강조한다. 실제 질문에 맞춰 내용을 바꿀 수 있어야 하기 때문이다.</p>
+<p>AI로 준비하는 것과 실제 평가에서 답을 공급받는 것도 구분해야 한다. Anthropic은 별도 허용이 없는 과제와 실시간 면접에서 AI 도움을 금지한다. 준비 단계의 활용 권장을 모든 면접의 사용 허가로 확대할 수 없다.</p>
+<p>이 복기가 겨냥하는 변화는 더 매끈한 대본이 아니다. 질문이 달라져도 자신이 한 일과 하지 않은 일, 선택한 이유와 확인한 결과를 일관되게 설명하는 능력이다. Claude Code가 남긴 분류표의 가치는 지원자가 그 기록 없이도 경험을 설명할 때 드러난다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">면접 준비</span><span class="chip">면접 복기</span><span class="chip">STAR 기법</span><span class="chip">클로바노트</span><span class="chip">AI 활용 경험</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.anthropic.com/candidate-ai-guidance" rel="nofollow noopener">https://www.anthropic.com/candidate-ai-guidance</a></li><li><a href="https://www.aboutamazon.com/news/workplace/amazon-interview-guide" rel="nofollow noopener">https://www.aboutamazon.com/news/workplace/amazon-interview-guide</a></li><li><a href="https://www.aboutamazon.com/news/workplace/amazon-job-interview-questions-tips-bar-raisers" rel="nofollow noopener">https://www.aboutamazon.com/news/workplace/amazon-job-interview-questions-tips-b</a></li><li><a href="https://help.naver.com/service/24269/contents/12820?lang=ko" rel="nofollow noopener">https://help.naver.com/service/24269/contents/12820?lang=ko</a></li><li><a href="https://help.naver.com/service/24269/contents/12831?lang=ko" rel="nofollow noopener">https://help.naver.com/service/24269/contents/12831?lang=ko</a></li><li><a href="https://code.claude.com/docs/en/overview" rel="nofollow noopener">https://code.claude.com/docs/en/overview</a></li><li><a href="https://code.claude.com/docs/en/memory" rel="nofollow noopener">https://code.claude.com/docs/en/memory</a></li><li><a href="https://careerservices.fas.harvard.edu/ai-interviews-and-offers/" rel="nofollow noopener">https://careerservices.fas.harvard.edu/ai-interviews-and-offers/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code로 면접 복기는 어떻게 하나요?</h2><p class="sum">채용 공고, 확인한 경력 사실, 면접 연습 전사문을 파일로 준비합니다. Claude Code에 요구 역량별 분류와 근거 위치, 설명이 빠진 부분, 예상 추가 질문을 정리하도록 요청한 뒤 원문과 대조합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>면접에서 AI로 만든 프로젝트를 어떻게 설명하나요?</h2><p class="sum">해결하려던 문제와 선택 이유를 밝히고, AI에 맡긴 작업과 직접 판단·검증한 부분을 구분합니다. 실제 기록으로 뒷받침할 수 있는 결과와 시행착오를 설명하고, 확인하지 않은 성과를 추가하지 않습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>면접 중 ChatGPT나 Claude를 사용해도 되나요?</h2><p class="sum">지원 회사와 평가 단계의 지침에 따라 다릅니다. Anthropic은 준비 단계의 AI 활용을 권장하지만, 별도 허용이 없는 과제와 실시간 면접에서는 AI 도움을 금지합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-03-1330.html">2026-09-03 09-03 10:35~13:19</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
