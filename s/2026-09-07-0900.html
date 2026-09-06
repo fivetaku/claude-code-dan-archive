@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 9월 7일 09:00 — 에이전트 배선과 오케스트레이션</title>
+<meta name="description" content="9월 7일 클코단 논의 요약 — 에이전트 배선과 오케스트레이션 · 루프와 그래프 설계 · 에이전트 시대 코드 읽기 · 카파시 에이전트 강의">
+<link rel="canonical" href="https://chat.axwith.com/s/2026-09-07-0900.html">
+<meta property="og:title" content="9월 7일 클코단 논의 요약">
+<meta property="og:description" content="9월 7일 클코단 논의 요약 — 에이전트 배선과 오케스트레이션 · 루프와 그래프 설계 · 에이전트 시대 코드 읽기 · 카파시 에이전트 강의">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/s/2026-09-07-0900.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "9월 7일 클코단 논의 요약", "description": "9월 7일 클코단 논의 요약 — 에이전트 배선과 오케스트레이션 · 루프와 그래프 설계 · 에이전트 시대 코드 읽기 · 카파시 에이전트 강의", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "datePublished": "2026-09-07", "image": "https://chat.axwith.com/apple-touch-icon.png", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/s/2026-09-07-0900.html"}}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{position:relative;margin:44px -24px 0;padding:8px 24px;overflow-x:auto;
+-webkit-overflow-scrolling:touch}
+.bone{position:relative;min-width:880px;height:430px}
+/* 모바일에선 가로 스크롤인 걸 알 수 없어 잘린 카드가 오류처럼 보였다(2026-08-30 실측).
+   힌트 라벨 + 오른쪽 페이드로 "밀 수 있다"를 알린다. 높이도 화면에 맞게 줄인다. */
+.bonehint{display:none}
+@media(max-width:640px){
+.bonebox{margin-top:26px}
+.bone{height:340px}
+.bonewrap{position:relative}
+.bonewrap::after{content:"";position:absolute;right:0;top:0;bottom:0;width:40px;pointer-events:none;
+background:linear-gradient(90deg,transparent,var(--ground) 78%)}
+.bonehint{display:flex;align-items:center;gap:6px;margin:26px 0 -18px;
+font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.bonehint b{color:var(--accent-deep);font-weight:700}}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+/* B 강조형 (2026-09-01 확정) — 흰 카드는 본문에 묻혀 지나쳤다. 배경을 채우고 왼쪽 바를 굵게. */
+.joinbox{margin:30px 0 6px;padding:18px 20px;border:1px solid var(--line);
+border-left:5px solid var(--accent);border-radius:12px;background:var(--chip-bg)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a class="on" href="../"><b>요약</b><i> 대화</i></a><a href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>9월 7일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>09-07 00:52~08:48</b></span>
+    <span>발화 <b>233</b></span>
+    <span>참여 <b>73</b>명</span>
+    <span>주제 <b>14</b>갈래</span>
+  </div>
+</header>
+
+<p class="bonehint"><b>&rarr;</b> 옆으로 밀어 시간대별 흐름 보기</p><div class="bonewrap"><div class="bonebox"><div class="bone" style="height:516px;min-width:1680px"><div class="spine"></div><div class="bar" style="left:2.0%;height:6px"></div><div class="bar" style="left:3.0%;height:6px"></div><div class="bar" style="left:4.0%;height:8px"></div><div class="bar" style="left:4.9%;height:6px"></div><div class="bar" style="left:5.9%;height:8px"></div><div class="bar" style="left:6.9%;height:8px"></div><div class="bar" style="left:7.9%;height:8px"></div><div class="bar peak" style="left:8.9%;height:58px"></div><div class="bar" style="left:9.8%;height:37px"></div><div class="bar" style="left:10.8%;height:21px"></div><div class="bar" style="left:11.8%;height:17px"></div><div class="bar" style="left:12.8%;height:17px"></div><div class="bar" style="left:13.8%;height:8px"></div><div class="bar" style="left:14.7%;height:8px"></div><div class="bar" style="left:15.7%;height:6px"></div><div class="bar" style="left:16.7%;height:8px"></div><div class="bar" style="left:17.7%;height:6px"></div><div class="bar" style="left:18.6%;height:12px"></div><div class="bar" style="left:19.6%;height:6px"></div><div class="bar" style="left:20.6%;height:6px"></div><div class="bar" style="left:21.6%;height:6px"></div><div class="bar" style="left:22.6%;height:8px"></div><div class="bar" style="left:23.5%;height:8px"></div><div class="bar" style="left:24.5%;height:8px"></div><div class="bar" style="left:25.5%;height:8px"></div><div class="bar" style="left:26.5%;height:6px"></div><div class="bar" style="left:27.5%;height:8px"></div><div class="bar" style="left:28.4%;height:8px"></div><div class="bar" style="left:29.4%;height:8px"></div><div class="bar" style="left:30.4%;height:17px"></div><div class="bar" style="left:31.4%;height:12px"></div><div class="bar" style="left:32.4%;height:6px"></div><div class="bar" style="left:33.3%;height:8px"></div><div class="bar" style="left:34.3%;height:6px"></div><div class="bar" style="left:35.3%;height:6px"></div><div class="bar" style="left:36.3%;height:8px"></div><div class="bar" style="left:37.2%;height:6px"></div><div class="bar" style="left:38.2%;height:6px"></div><div class="bar" style="left:39.2%;height:6px"></div><div class="bar" style="left:40.2%;height:6px"></div><div class="bar" style="left:41.2%;height:33px"></div><div class="bar" style="left:42.1%;height:8px"></div><div class="bar" style="left:43.1%;height:8px"></div><div class="bar" style="left:44.1%;height:8px"></div><div class="bar" style="left:45.1%;height:12px"></div><div class="bar" style="left:46.1%;height:6px"></div><div class="bar" style="left:47.0%;height:8px"></div><div class="bar" style="left:48.0%;height:8px"></div><div class="bar" style="left:49.0%;height:8px"></div><div class="bar" style="left:50.0%;height:8px"></div><div class="bar" style="left:51.0%;height:8px"></div><div class="bar" style="left:51.9%;height:8px"></div><div class="bar" style="left:52.9%;height:8px"></div><div class="bar" style="left:53.9%;height:8px"></div><div class="bar" style="left:54.9%;height:8px"></div><div class="bar" style="left:55.9%;height:17px"></div><div class="bar" style="left:56.8%;height:8px"></div><div class="bar" style="left:57.8%;height:17px"></div><div class="bar" style="left:58.8%;height:8px"></div><div class="bar" style="left:59.8%;height:8px"></div><div class="bar" style="left:60.8%;height:8px"></div><div class="bar" style="left:61.7%;height:8px"></div><div class="bar" style="left:62.7%;height:8px"></div><div class="bar" style="left:63.7%;height:8px"></div><div class="bar" style="left:64.7%;height:6px"></div><div class="bar" style="left:65.6%;height:8px"></div><div class="bar" style="left:66.6%;height:8px"></div><div class="bar" style="left:67.6%;height:17px"></div><div class="bar" style="left:68.6%;height:17px"></div><div class="bar" style="left:69.6%;height:8px"></div><div class="bar" style="left:70.5%;height:6px"></div><div class="bar" style="left:71.5%;height:6px"></div><div class="bar" style="left:72.5%;height:6px"></div><div class="bar" style="left:73.5%;height:6px"></div><div class="bar" style="left:74.5%;height:6px"></div><div class="bar" style="left:75.4%;height:8px"></div><div class="bar" style="left:76.4%;height:8px"></div><div class="bar" style="left:77.4%;height:8px"></div><div class="bar" style="left:78.4%;height:8px"></div><div class="bar" style="left:79.4%;height:8px"></div><div class="bar" style="left:80.3%;height:8px"></div><div class="bar" style="left:81.3%;height:12px"></div><div class="bar" style="left:82.3%;height:17px"></div><div class="bar" style="left:83.3%;height:17px"></div><div class="bar" style="left:84.2%;height:8px"></div><div class="bar" style="left:85.2%;height:8px"></div><div class="bar" style="left:86.2%;height:8px"></div><div class="bar" style="left:87.2%;height:17px"></div><div class="bar" style="left:88.2%;height:8px"></div><div class="bar" style="left:89.1%;height:25px"></div><div class="bar" style="left:90.1%;height:6px"></div><div class="bar" style="left:91.1%;height:6px"></div><div class="bar" style="left:92.1%;height:21px"></div><div class="bar" style="left:93.1%;height:8px"></div><div class="bar" style="left:94.0%;height:17px"></div><div class="bar" style="left:95.0%;height:8px"></div><div class="bar" style="left:96.0%;height:21px"></div><div class="lbl" style="left:2.0%">00:52</div><div class="peaktag" style="left:8.9%;bottom:66px">01:00 · 14건</div><div class="lbl" style="left:17.7%">01:12</div><div class="lbl" style="left:33.3%">03:47</div><div class="lbl" style="left:49.0%">06:55</div><div class="lbl" style="left:64.7%">07:38</div><div class="lbl" style="left:80.3%">08:15</div><div class="lbl" style="left:96.0%">08:48</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">00:52-00:54</div><h3>우로보로스와 딥인터뷰</h3></div></div><div class="rib dn" style="left:4.9%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">00:56-00:59</div><h3>ADHD와 병렬 작업</h3></div></div><div class="rib up" style="left:8.9%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">01:00-01:05</div><h3>에이전트 배선과 오케스트레이션</h3></div></div><div class="rib up" style="left:15.7%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">01:08-01:15</div><h3>카파시 에이전트 강의</h3></div></div><div class="rib dn" style="left:21.6%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">01:25-01:25</div><h3>루프와 그래프 설계</h3></div></div><div class="rib dn" style="left:22.6%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">01:26-01:32</div><h3>에이전트 시대 코드 읽기</h3></div></div><div class="rib up" style="left:24.5%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">01:29-01:35</div><h3>OpenCodex와 CodexMU</h3></div></div><div class="rib up" style="left:31.4%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">01:46-04:13</div><h3>지역 우회 결제 문의</h3></div></div><div class="rib dn" style="left:38.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">04:58-04:58</div><h3>GPT-6 Astra 성능</h3></div></div><div class="rib dn" style="left:40.2%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">06:38-06:58</div><h3>GPT 구독과 취업 준비</h3></div></div><div class="rib up" style="left:70.5%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">07:54-08:00</div><h3>클로드 코드 압축 토큰</h3></div></div><div class="rib dn flip" style="left:77.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">08:36-08:36</div><h3>맥미니 필요성 논의</h3></div></div><div class="rib up" style="left:81.3%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">08:16-08:16</div><h3>Astra 사고방식 이식</h3></div></div><div class="rib dn flip" style="left:83.2%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">08:48-08:48</div><h3>플러그인 Codex 호환성</h3></div></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">01:00-01:05<span class="catchip c-flow">워크플로우·방법론</span></div><h2>에이전트 배선과 오케스트레이션</h2><p class="sum">에이전트 워크플로우에서 말하는 배선의 의미를 질문하며 논의가 시작됐다. 배선은 각 에이전트의 입력·출력, 역할 위임, 도구 권한, 실패 처리와 다음 단계 전달을 정하는 인터페이스 계약으로 정리됐다. 모델·도구 라우팅, 결과 병합, 재시도와 검증까지 포함하면 상위 개념인 오케스트레이션이라는 구분이 제시됐다. 중간에 무관한 텍스트가 섞이는 응답 오류가 있었고, 문맥 필터 개선 필요성이 언급됐다.</p><ul><li>배선은 에이전트 간 입력·출력과 책임 범위를 연결하는 설계다.</li><li>트리거, 도구 권한, 출력 형식, 실패 시 분기를 명시하는 요소가 언급됐다.</li><li>오케스트레이션은 역할 분해·모델 라우팅·결과 통합·재시도·검증을 포괄한다.</li><li>무관한 기사성 텍스트가 출력되는 문맥 오염 문제가 지적됐다.</li></ul></article><article class="dcard"><div class="t">01:25-01:25<span class="catchip c-flow">워크플로우·방법론</span></div><h2>루프와 그래프 설계</h2><p class="sum">확장 가능한 에이전트 시스템에서 Loop와 Graph를 구분해 설명했다. Loop는 개별 에이전트가 생산·점검·수정을 반복하는 미시적 피드백 구조이고, Graph는 작업 분할·병렬 처리·병합·게이트·복귀를 관리하는 상위 오케스트레이션 구조로 정리됐다. 좋은 루프만으로는 부족하며, 결정론적 게이트·범위 제한 재시도·피드백 엣지·영향 범위에 따른 사람 개입이 중요하다고 제시됐다.</p><ul><li>Loop는 개별 노드 내부의 Produce→Check→Correct 피드백 메커니즘으로 설명됐다.</li><li>Graph는 Split→Parallel Work→Merge→Gate→Return 흐름을 조정한다.</li><li>시스템 확장성의 핵심으로 결정론적 게이트와 제한된 재시도가 언급됐다.</li><li>사람 개입은 영향 범위를 기준으로 설계해야 한다는 관점이 제시됐다.</li></ul></article><article class="dcard"><div class="t">01:26-01:32<span class="catchip c-flow">워크플로우·방법론</span></div><h2>에이전트 시대 코드 읽기</h2><p class="sum">프론티어 모델과 에이전트 오케스트레이션 시대에도 코드 한 줄씩 읽는 능력이 필요한지 논의했다. 모든 코드를 순차적으로 독해하기보다 README·주석·공개 인터페이스·테스트로 계약을 파악하고, 상태 변경·외부 I/O·오류 처리·핵심 실행 경로를 깊게 읽는 방식이 제안됐다. WARN·TODO·ANCHOR·NOTE 같은 주석 표식으로 에이전트가 세션 경계에서도 코드 의도와 위험 구간을 추적하게 하는 실험도 공유됐다. 구현 대신 깊은 SPEC 인터뷰, PRD, 마일스톤, 수용 기준을 관리하는 개발 방식에서는 SPEC 정밀도가 제품 품질의 상한이 된다는 결론이 나왔다.</p><ul><li>코드 독해의 핵심 범위로 경계, 상태 변경, 예외 처리, 권한, 외부 I/O가 제시됐다.</li><li>수정·장애 대응·보안 검토 시 해당 실행 경로는 끝까지 읽어야 한다는 의견이 나왔다.</li><li>주석 표식은 에이전트용 의미 인덱스로 활용될 수 있다.</li><li>검증 하네스는 외부 관찰 가능한 수용 기준과 회귀 시나리오, 금지 조건을 함께 둬야 한다.</li><li>사람의 역할은 구현 독해에서 품질 기준·경계조건 설계로 이동할 수 있다.</li></ul></article><article class="dcard"><div class="t">01:08-01:15<span class="catchip c-res">자료·링크 공유</span></div><h2>카파시 에이전트 강의</h2><p class="sum">무료 에이전트 강의 자료가 공유됐다. 처음에는 관련 X 게시물이 올라왔고, 원본 영상 링크를 묻는 요청 뒤 다른 X 링크가 추가로 제시됐다. 영어 자막만 있어 한국어 자막 부재가 아쉽다는 반응이 있었다.</p><ul><li>무료 에이전트 강의 자료가 유용한 리소스로 소개됐다.</li><li>원본 영상 링크를 찾는 질문이 나왔다.</li><li>영어 자막만 제공되는 점이 언급됐다.</li><li><a href="https://x.com/kyr0stack/status/2095613463888339201?s=20" rel="nofollow ugc noopener noreferrer" target="_blank">https://x.com/kyr0stack/status/2095613463888339201?s=20</a></li></ul></article><article class="dcard"><div class="t">01:29-01:35<span class="catchip c-tool">도구·라이브러리</span></div><h2>OpenCodex와 CodexMU</h2><p class="sum">OpenCodex와 CodexMU의 차이를 묻고 두 깃허브 저장소 링크가 공유됐다. 응답에서는 OpenCodex를 개인 로컬 실행·도구 연결·세션 관리 중심 도구로, CodexMU를 여러 사용자·세션·권한 환경을 위한 운영 레이어로 구분했다. 다만 CodexMU의 성격은 대화 내 설명에 의존하므로 실제 저장소 기준의 추가 확인이 필요하다.</p><ul><li>OpenCodex와 CodexMU를 비교하는 질문이 나왔다.</li><li>OpenCodex 저장소와 CodexMU 저장소 링크가 함께 제시됐다.</li><li>개인 개발 자동화와 다중 사용자 운영이라는 용도 차이로 설명됐다.</li><li>정확한 기능 비교를 위해서는 각 저장소 문서와 구현 확인이 필요하다.</li><li><a href="https://github.com/lidge-jun/opencodex" rel="nofollow ugc noopener noreferrer" target="_blank">https://github.com/lidge-jun/opencodex</a></li></ul></article><article class="dcard"><div class="t">04:58-04:58<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>GPT-6 Astra 성능</h2><p class="sum">GPT-6 Astra와 GPT-5.6 Sol의 추론 설정 및 성능 비교가 공유됐다. Astra의 낮은 추론 설정이 Sol의 높은 추론 설정보다 낫다는 내용이 제시됐으며, 같은 품질이라면 추론 수준을 낮춰 속도와 비용을 줄이라는 팁이 나왔다.</p><ul><li>Astra와 Sol의 추론 설정별 성능 비교가 언급됐다.</li><li>Astra 사용자는 낮은 추론 설정부터 시험해 보라는 제안이 나왔다.</li><li>품질이 유지된다면 속도와 비용 측면에서 낮은 추론 설정이 유리하다는 관점이 제시됐다.</li></ul></article><article class="dcard"><div class="t">06:38-06:58<span class="catchip c-flow">워크플로우·방법론</span></div><h2>GPT 구독과 취업 준비</h2><p class="sum">대학생·취업 준비생이 고가 구독과 중간 가격 구독 중 무엇을 선택할지 질문했다. 취준·개발 입문 목적이라면 중간 가격 구독으로 먼저 사용하고, 여러 에이전트나 장시간 작업 때문에 사용량이 계속 부족할 때 상향하는 방안이 제시됐다. 자기소개서와 경험기술서에는 경험 정리, 채용공고 기반 키워드 추출, 초안·피드백·면접 질문을 한 세트로 활용하되 본인 경험을 계속 제공하는 방식이 권장됐다.</p><ul><li>첫 구독은 중간 가격 요금제로 시작하라는 의견이 나왔다.</li><li>고가 구독은 다수 에이전트와 긴 작업을 매일 수행할 때 체감이 크다고 설명됐다.</li><li>취업 준비에는 경험 구조화와 공고 맞춤 키워드 추출을 활용할 수 있다.</li><li>자소서 초안, 피드백, 면접 예상 질문을 연계해 활용하는 흐름이 제안됐다.</li></ul></article><article class="dcard"><div class="t">00:52-00:54<span class="catchip c-tool">도구·라이브러리</span></div><h2>우로보로스와 딥인터뷰</h2><p class="sum">재무상태 분석·설계용 깃허브 스킬 존재 여부와 딥인터뷰의 의미를 질문했다. 이어 우로보로스 스킬의 작동 원리를 물었다. 해당 구간에서는 구체적인 답변이 이어지지 않았다.</p><ul><li>재무 분석과 설계를 돕는 스킬을 찾는 질문이 나왔다.</li><li>딥인터뷰 개념을 묻는 질문이 나왔다.</li><li>우로보로스 스킬의 구조와 작동 방식 설명을 요청했다.</li></ul></article><article class="dcard"><div class="t">00:56-00:59<span class="catchip c-flow">워크플로우·방법론</span></div><h2>ADHD와 병렬 작업</h2><p class="sum">ADHD 성향에서 개발 작업과 에이전트 응답 대기 시간을 병렬 프로젝트로 활용하는 방식이 논의됐다. SPEC 인터뷰처럼 맥락을 누적하는 작업은 전환 비용이 커서 한 프로젝트에 집중하고, 단순 구현·독립 태스크만 병렬화하는 편이 낫다는 결론이 나왔다. SPEC은 무엇을 만들지 확정하고 재작업을 줄이는 비용이라 구현보다 비싸지만, 선명한 SPEC이 구현 비용을 낮춘다는 의견이 제시됐다.</p><ul><li>맥락을 깊게 쌓는 SPEC 단계에서는 컨텍스트 전환을 피하는 것이 유리하다.</li><li>단순 구현, 빌드 대기, 독립 태스크는 병렬 처리 효율이 있을 수 있다.</li><li>SPEC은 질문·합의·재작업 방지까지 포함하므로 구현보다 비용이 크다.</li><li>애매한 요구는 구현으로 넘기지 않고 SPEC에서 해소하는 방식을 권했다.</li></ul></article><article class="dcard"><div class="t">07:54-08:00<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>클로드 코드 압축 토큰</h2><p class="sum">클로드 코드에서 컨텍스트를 줄이기 위해 `/compact`를 실행할 때도 토큰이 소비되는지 질문했다. 압축은 요약을 생성하는 과정이므로 토큰을 사용한다는 답변이 나왔다. LLM 요약은 맥락을 일부 잃을 수 있으므로 중요한 정보는 별도로 관리해야 한다는 주의점도 언급됐다.</p><ul><li>`/compact` 실행 자체도 토큰을 소비한다는 설명이 나왔다.</li><li>압축은 대화 맥락을 요약하는 생성 작업으로 이해됐다.</li><li>임의 요약 과정에서 맥락 유실 가능성이 있다는 주의가 제시됐다.</li></ul></article><article class="dcard"><div class="t">08:48-08:48<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>플러그인 Codex 호환성</h2><p class="sum">지피타쿠 플러그인을 Codex에서도 사용할 수 있는지 질문했다. 이 구간에서는 답변이나 호환성 확인 정보가 제공되지 않았다.</p><ul><li>플러그인의 Codex 호환 여부를 묻는 질문이 나왔다.</li><li>대화 내에서 구체적인 답변은 확인되지 않았다.</li><li>플러그인별 지원 환경 확인이 필요한 사안으로 남았다.</li></ul></article><article class="dcard"><div class="t">08:16-08:16<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>Astra 사고방식 이식</h2><p class="sum">GPT-6 Astra의 사고방식이나 패턴을 다른 모델에 적용해 보고 싶다는 의견이 나왔다. 구체적인 프롬프트나 이식 방법은 이어서 논의되지 않았다.</p><ul><li>Astra의 문제 해결 패턴을 다른 모델에서 재현하려는 관심이 언급됐다.</li><li>적용 대상은 Opus와 Sonnet으로 제시됐다.</li><li>구체적 방법론은 대화에서 다뤄지지 않았다.</li></ul></article><article class="dcard"><div class="t">08:36-08:36<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>맥미니 필요성 논의</h2><p class="sum">기본형 맥미니로도 이미 충분한 작업이 가능한데 M4 이상 모델이 꼭 필요한지 의문을 제기했다. 성능 요구사항이나 구체적 사용 사례는 이어서 논의되지 않았다.</p><ul><li>맥미니 상위 모델의 필요성에 대한 의문이 제기됐다.</li><li>기본형으로도 충분하다는 사용 감상이 공유됐다.</li><li>구체적인 작업별 성능 비교는 나오지 않았다.</li></ul></article><article class="dcard"><div class="t">01:46-04:13<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>지역 우회 결제 문의</h2><p class="sum">해외 지역 설정과 VPN 사용 시 접근이 차단되는 상황이 언급됐다. 우회 수단에 대한 대화가 오갔으나, 구체적인 우회 방법은 확인되지 않았다. 합법적인 결제·서비스 이용 조건을 확인할 필요가 있는 사안으로 남았다.</p><ul><li>해외 지역 접속 시 VPN 사용 감지 문구가 나타났다는 경험이 공유됐다.</li><li>대체 접속 수단에 대한 언급이 있었다.</li><li>성공 여부를 추후 공유해 달라는 요청이 나왔다.</li></ul></article></section>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-09-07-0900</span>
+</footer>
+</div>
+</body>
+</html>
