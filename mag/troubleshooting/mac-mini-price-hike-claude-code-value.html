@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="2026년 세 차례 오른 맥미니 가격의 경위, 같은 드라이브인데 맥이 빠른 기술적 원인, 클로드코드 전용·24시간 에이전트 서버 용도별 가성비, M6 신형과 M4 재고 중 무엇을 살지 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html">
+<meta property="og:title" content="값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가">
+<meta property="og:description" content="2026년 세 차례 오른 맥미니 가격의 경위, 같은 드라이브인데 맥이 빠른 기술적 원인, 클로드코드 전용·24시간 에이전트 서버 용도별 가성비, M6 신형과 M4 재고 중 무엇을 살지 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가", "description": "2026년 세 차례 오른 맥미니 가격의 경위, 같은 드라이브인데 맥이 빠른 기술적 원인, 클로드코드 전용·24시간 에이전트 서버 용도별 가성비, M6 신형과 M4 재고 중 무엇을 살지 정리했다.", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html"}, "articleSection": "질문·트러블슈팅", "keywords": "맥미니, M6 맥미니, 클로드코드, 가성비, WSL2, 오픈클로, 메모리 가격 인상", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "맥미니 M6 국내 가격은 얼마인가?", "acceptedAnswer": {"@type": "Answer", "text": "2026년 8월 25일 발표된 M6 맥미니 기본형(16GB·256GB)은 1,499,000원부터, M5 Pro 모델은 2,990,000원부터다. 국내 배송은 9월 22일 시작한다. 연초 M4 기본형은 89만 원이었다."}}, {"@type": "Question", "name": "클로드코드용 맥미니는 메모리 16GB로 충분한가?", "acceptedAnswer": {"@type": "Answer", "text": "클로드코드는 추론을 앤트로픽 서버에서 하므로 로컬에서는 터미널·git·빌드 도구만 돌린다. 이 용도라면 16GB로 여유가 있다는 것이 커뮤니티 합의다. 로컬 LLM을 함께 돌릴 계획이면 24GB 이상을 권하며, 메모리는 나중에 늘릴 수 없다."}}, {"@type": "Question", "name": "윈도우 PC에서 클로드코드가 맥보다 느린 이유는?", "acceptedAnswer": {"@type": "Answer", "text": "윈도우의 CreateProcess()가 리눅스·macOS의 fork()보다 프로세스 생성 비용이 훨씬 크고, 백신 필터가 이를 가로채기 때문이다. 같은 PC라도 WSL2에서 프로젝트를 리눅스 파일시스템에 두면 맥과 비슷한 속도가 난다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-ask">질문·트러블슈팅</span>
+  <h1>값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가</h1>
+  <p class="sub">기본형이 넉 달 새 89만 원에서 149만9천 원으로 뛰었다. 윈도우 PC보다 빠르게 느껴지는 이유와 맥북프로·M4 재고와의 셈법을 따졌다.</p>
+  <div class="meta"><span>2026-09-06</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><h2>클로드코드 개발자에게 149만 원짜리 맥미니는 여전히 답인가</h2>
+<p>맥미니가 값이 오른 뒤에도 살 만한 물건인지 묻는 이야기가 클코단에서 나왔다. 89만 원이던 기본형이 넉 달 만에 149만9천 원이 됐으니 물을 만하다. 이 기사는 그 질문을 클로드코드를 매일 돌리는 개발자 기준으로 따진다. 값이 왜 올랐고, 윈도우 PC 대신 맥을 고를 때 실제로 무엇이 빨라지며, 지금 사는 게 맞는지까지 답한다.</p>
+<h2>시작가가 넉 달 만에 60만 원 오른 경위</h2>
+<p>2026년 맥미니 가격은 세 번 움직였다. 5월 초 애플은 89만 원짜리 M4 256GB 기본형을 판매 목록에서 뺐다. 한국경제는 512GB 모델 119만 원이 새 기준이 됐다고 전했다. 배경으로는 오픈클로 같은 AI 에이전트 이용자들이 몰려 기본형이 품절된 사정을 짚었다.</p>
+<p>6월 하순에는 맥 전 제품 가격이 한꺼번에 올랐다. ZDNet 코리아에 따르면 인상폭은 최대 20% 안팎이었다. 애플은 월스트리트저널에 부품 가격이 이렇게 빨리 오른 적이 없었다고 설명했다. 팀 쿡은 7월 실적 발표에서 메모리 가격 상승을 100년 만의 홍수에 비유했다.</p>
+<p>8월 25일 발표된 M6 맥미니는 1,499,000원부터 시작한다. 인상분은 60만9천 원이다. 기본 메모리 16GB와 저장공간 256GB는 그대로다.</p>
+<p>부품 원가 상승도 가격 인상에 영향을 준 구조다.</p>
+<h2>같은 드라이브를 양쪽에 물려도 맥이 빠른 이유</h2>
+<p>방에서는 한 대의 드라이브를 윈도우와 맥 양쪽에서 똑같이 쓰는데도 맥 쪽 작업이 더 빠르게 느껴졌다는 경험이 나왔다. 원인으로는 칩 차이와 운영체제 차이가 함께 거론됐다. 이 체감은 측정된 적이 있다.</p>
+<p>개발자 조시 샐웨이는 라이젠 9 9950X3D에 64GB 메모리를 단 윈도우 PC와 M1 Pro 맥북프로 16GB로 클로드코드가 자주 하는 작업을 재봤다. 프로세스 실행, 수천 개 작은 파일 읽고 쓰기, ripgrep 검색, git 명령을 묶은 전체 벤치마크가 윈도우 Git Bash에서 11.9초, 같은 PC의 WSL2에서 2.8초, M1 Pro 맥에서 2.6초 걸렸다. 멀티코어 점수가 두 배인 PC가 네이티브 윈도우에서는 5년 전 칩을 단 맥보다 네 배 넘게 느렸다.</p>
+<p>차이는 칩이 아니라 운영체제가 새 프로세스를 만드는 방식에서 났다. Git for Windows 문서는 윈도우에서 fork()를 에뮬레이션하는 비용 때문에 프로세스를 자주 만드는 프로그램이 느려질 수 있다고 설명한다. 클로드코드는 git·node·grep을 반복 호출하므로 이 비용이 그대로 쌓인다.</p>
+<p>그래서 윈도우가 느리다기보다 네이티브 윈도우 셸이 느리다는 말이 정확하다. 같은 PC에서 WSL2로 돌리고 프로젝트를 /mnt/c가 아닌 리눅스 파일시스템에 두면 맥과 거의 같은 속도가 나왔다. 파일 2천 개 쓰기 같은 항목은 WSL2가 맥을 앞섰다. 클로드코드 공식 문서 기준으로 네이티브 윈도우 설치는 Git for Windows 없이도 PowerShell 도구로 돌아가지만 샌드박스 기능은 WSL2에서만 지원된다.</p>
+<h2>가성비와 가심비를 가르는 기준은 일하는 속도</h2>
+<p>방에서는 가격이 오른 지금 그냥 갖고 싶어서 사는 거라면 가심비이고 가성비를 따지려면 일하는 속도를 얼마나 내줄지까지 계산에 넣어야 한다는 의견이 나왔다. 용도에 따라 답이 달라진다는 데는 이견이 없었다.</p>
+<p>클로드코드만 돌리는 용도라면 계산이 단순하다. 추론은 앤트로픽 서버에서 일어나고 맥미니는 터미널·git·node·빌드 도구만 돌린다. 클라우드 API 용도인지 로컬 모델을 돌릴 용도인지에 따라 필요한 메모리가 달라진다. 메모리는 칩에 붙어 있어 나중에 늘릴 수 없으니 이 결정은 살 때 끝내야 한다.</p>
+<p>같은 환경을 들고 다녀야 한다면 셈이 달라진다. 위클리서울에 따르면 6월 인상 뒤 M5 계열 맥북프로 14형은 329만 원, 16형은 499만 원부터다. M6 맥미니 기본형과 두 배 이상 차이가 난다. 모니터와 키보드가 이미 있다면 그 차액이 곧 휴대성의 값이다. 반대로 맥미니 한 대만 두고 밖에서는 클로드코드 웹이나 원격 접속으로 쓰는 구성도 가능하다.</p>
+<p>더 센 칩이 필요한 개발자에게는 선택지가 애매하다. 이번 세대에는 M6 Pro가 없고 M5 Pro 맥미니가 299만 원부터다. 맥루머스 포럼에서는 모델 구성과 가격에 대한 불만이 나왔다.</p>
+<h2>24시간 에이전트 서버로 둘 때 드는 돈과 위험</h2>
+<p>맥미니 품귀를 만든 용도가 바로 이것이다. 더넥스트웹과 디크립트는 오픈클로 이용자들의 맥미니 구매 증가와 배송 지연을 보도했다. 팀 쿡은 5월에 맥미니와 맥스튜디오 부족이 몇 달 더 갈 수 있다고 경고했다.</p>
+<p>전기료는 걱정거리가 아니다. 브라이언 커리의 기술 가이드에 따르면 M4 맥미니는 유휴 시 10W 아래를 쓴다. 연간 전기료는 실제 소비전력과 적용 요금에 따라 달라진다.</p>
+<p>써본 사람들 사이에서는 평가가 갈린다. 클로드코드를 상시 띄워두고 cron으로 매일 같은 처리를 확실히 돌리는 데 딱 맞는다는 반응이 있는 한편, 원격에서 지시만 내리는 용도라면 굳이 전용 기기가 필요 없고 클라우드 환경이면 충분하다는 회의도 있다. 마인드스튜디오 가이드처럼 저가 클라우드 서버를 대안으로 드는 쪽은 맥미니 값의 일부로 같은 일이 된다고 본다. 반면 macOS 앱이나 애플 생태계 연동처럼 맥에서만 되는 일이 있다면 계산이 뒤집힌다.</p>
+<p>위험도 있다. 클로드코드 저장소의 한 이슈에는 헤드리스 M4 Pro 맥미니의 디스플레이 문제를 진단시켰다가 8시간 넘게 상태가 악화된 사례가 올라와 있다. 에이전트에 기기 관리 권한까지 주면 챗봇과는 다른 위협 모델이 된다는 지적은 오픈클로 진영에서도 나온다.</p>
+<h2>지금 사야 하나, 재고 M4를 기다려야 하나</h2>
+<p>M6 맥미니는 9월 22일부터 배송된다. 애플은 M4 대비 CPU 40% 향상을 내세우지만 애플인사이더는 실측 벤치마크가 아직 없어 긱벤치 7 싱글코어를 3,900~4,590점 사이로 추정만 하고 있다. 맥월드는 독립 벤치마크를 보고 싶거나 최신 칩보다 값을 우선한다면 할인된 M4를 보라고 조언한다.</p>
+<p>문제는 그 M4의 국내 재고다. 퀘이사존 핫딜 게시판에는 과거 쿠팡 M4 맥미니의 품절 기록이 남아 있다. 미국에서는 B&amp;H가 노동절 세일로 M4·M4 Pro 상위 구성을 최대 400달러 깎았지만 기본형 499달러 딜은 이번엔 확인되지 않았다.</p>
+<p>기다리면 싸질지도 불투명하다. 트렌드포스는 3분기 D램 계약가가 전 분기보다 13~18% 더 오른다고 봤고 카운터포인트는 하반기에도 부품 가격이 높게 유지된다고 예측한다. 버사로직 공급망 브리프에 인용된 업계 전망은 공급 부족이 2027년까지 이어질 것으로 본다.</p>
+<p>값이 오른 맥미니가 가성비인지는 무엇과 비교하느냐로 정해진다. 이미 있는 윈도우 PC와 견주면 WSL2 설정만으로 격차 대부분이 사라지므로 새 기기 값을 정당화하기 어렵다. 맥북프로와 견주면 휴대성을 포기하는 대가로 절반 값에 같은 개발 환경을 얻는다. 하루 종일 켜두고 일을 시키는 상자라면 얘기가 다르다. 149만9천 원짜리 직원 하나를 들이는 셈이다. 어느 비교표를 꺼내느냐가 곧 각자의 답이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">맥미니</span><span class="chip">M6 맥미니</span><span class="chip">클로드코드</span><span class="chip">가성비</span><span class="chip">WSL2</span><span class="chip">오픈클로</span><span class="chip">메모리 가격 인상</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.hankyung.com/article/2026050328311" rel="nofollow noopener">https://www.hankyung.com/article/2026050328311</a></li><li><a href="https://zdnet.co.kr/view/?no=20260626012843" rel="nofollow noopener">https://zdnet.co.kr/view/?no=20260626012843</a></li><li><a href="https://wikidocs.net/blog/@openwiki/29551/" rel="nofollow noopener">https://wikidocs.net/blog/@openwiki/29551/</a></li><li><a href="https://www.apple.com/newsroom/2026/08/apple-unveils-a-more-powerful-mac-mini-featuring-the-all-new-m6-and-m5-pro/" rel="nofollow noopener">https://www.apple.com/newsroom/2026/08/apple-unveils-a-more-powerful-mac-mini-fe</a></li><li><a href="https://www.macworld.com/article/3220063/apple-launches-new-m6-mac-mini-with-another-price-hike.html" rel="nofollow noopener">https://www.macworld.com/article/3220063/apple-launches-new-m6-mac-mini-with-ano</a></li><li><a href="https://www.macrumors.com/2026/06/25/apple-hikes-m4-pro-mac-mini-starting-price/" rel="nofollow noopener">https://www.macrumors.com/2026/06/25/apple-hikes-m4-pro-mac-mini-starting-price/</a></li><li><a href="https://fortune.com/2026/05/02/apple-mac-minis-starting-price-hike-799-ai-demand-supply-shortage/" rel="nofollow noopener">https://fortune.com/2026/05/02/apple-mac-minis-starting-price-hike-799-ai-demand</a></li><li><a href="https://joshsalway.com/articles/windows-vs-mac-for-claude-code-the-benchmark-that-changed-how-i-work/" rel="nofollow noopener">https://joshsalway.com/articles/windows-vs-mac-for-claude-code-the-benchmark-tha</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>맥미니 M6 국내 가격은 얼마인가?</h2><p class="sum">2026년 8월 25일 발표된 M6 맥미니 기본형(16GB·256GB)은 1,499,000원부터, M5 Pro 모델은 2,990,000원부터다. 국내 배송은 9월 22일 시작한다. 연초 M4 기본형은 89만 원이었다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드코드용 맥미니는 메모리 16GB로 충분한가?</h2><p class="sum">클로드코드는 추론을 앤트로픽 서버에서 하므로 로컬에서는 터미널·git·빌드 도구만 돌린다. 이 용도라면 16GB로 여유가 있다는 것이 커뮤니티 합의다. 로컬 LLM을 함께 돌릴 계획이면 24GB 이상을 권하며, 메모리는 나중에 늘릴 수 없다.</p></article><article class="dcard"><div class="t">Q</div><h2>윈도우 PC에서 클로드코드가 맥보다 느린 이유는?</h2><p class="sum">윈도우의 CreateProcess()가 리눅스·macOS의 fork()보다 프로세스 생성 비용이 훨씬 크고, 백신 필터가 이를 가로채기 때문이다. 같은 PC라도 WSL2에서 프로젝트를 리눅스 파일시스템에 두면 맥과 비슷한 속도가 난다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-04-1552-s.html">2026-09-04 09-04 13:28~15:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

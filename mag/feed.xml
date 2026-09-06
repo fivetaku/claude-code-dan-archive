@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 06 Sep 2026 12:00:00 +0900</pubDate>
+    <description>2026년 세 차례 오른 맥미니 가격의 경위, 같은 드라이브인데 맥이 빠른 기술적 원인, 클로드코드 전용·24시간 에이전트 서버 용도별 가성비, M6 신형과 M4 재고 중 무엇을 살지 정리했다.</description>
+  </item>
+  <item>
+    <title>Fable 5.1 토큰 소모, Max 20x로도 부족한 이유와 줄이는 설정</title>
+    <link>https://chat.axwith.com/mag/models/fable-5-1-token-usage-max-plan.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/fable-5-1-token-usage-max-plan.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 06 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Fable 5.1이 클로드 코드 Max 요금제 한도를 빠르게 소모하는 이유를 앤트로픽 문서와 Artificial Analysis 측정으로 짚고, effort·서브에이전트 설정과 구독료 평가 기준을 정리한다.</description>
+  </item>
+  <item>
     <title>Claude Max와 ChatGPT Pro, 월 100달러 사용 한도 비교</title>
     <link>https://chat.axwith.com/mag/models/claude-max-chatgpt-pro-limits.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-max-chatgpt-pro-limits.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Sun, 30 Aug 2026 12:00:00 +0900</pubDate>
     <description>Claude Haiku 4.5와 기본 RAG로 시작해도 되는 조건을 짚고, GraphRAG와 Palantir식 온톨로지가 필요한 질문과 운영 경계를 구체적으로 구분한다.</description>
-  </item>
-  <item>
-    <title>Cursor Ultra와 SuperGrok Heavy, 사용량은 정말 따로일까</title>
-    <link>https://chat.axwith.com/mag/tools/cursor-ultra-grok-usage-limits.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/cursor-ultra-grok-usage-limits.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sun, 30 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Cursor Ultra와 SuperGrok Heavy의 한도는 합쳐지지 않는다. Cursor 내부의 두 사용량 풀과 Fable·Grok·Composer를 비용에 맞춰 배분하는 방법을 공식 문서로 확인했다.</description>
-  </item>
-  <item>
-    <title>Claude Code로 만든 그늘로, 복제 논쟁보다 중요한 실행의 조건</title>
-    <link>https://chat.axwith.com/mag/resources/claude-code-shade-route-app.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-shade-route-app.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Sun, 30 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code와 Codex로 만든 그늘로의 실제 제작 순서와 공공데이터 전처리, Shadowmap·직방과의 차이, 출시 뒤 정확도와 책임의 한계를 짚었다.</description>
   </item>
 </channel></rss>
