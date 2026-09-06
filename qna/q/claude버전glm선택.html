@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>loongphy/codext — 클코단 레포 아카이브</title>
+<title>최신 Claude 버전과 GLM 중 어떤 것을 선택하는 게 나을까요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="openai/codex 포크, 개인용 커스텀 Codex CLI">
-<link rel="canonical" href="https://chat.axwith.com/repos/loongphy-codext.html">
-<meta property="og:title" content="loongphy/codext — 클코단 레포 아카이브">
-<meta property="og:type" content="website">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "loongphy/codext", "codeRepository": "https://github.com/loongphy/codext", "description": "openai/codex 포크, 개인용 커스텀 Codex CLI", "programmingLanguage": "Rust"}</script>
+<meta name="description" content="Opus 5가 소소한 개발 작업에서 실수가 잦아 이전 버전을 사용한다는 경험담이 나왔다. Claude의 마이너 버전 업데이트가 잦은 이유로 모델·도구·안전성 패치를 작게 자주 배포하고, 코딩 에이전트에서는 작은 변화도 크게 체감된다는 의견이 제시됐다.">
+<link rel="canonical" href="https://chat.axwith.com/qna/q/claude버전glm선택.html">
+<meta property="og:title" content="최신 Claude 버전과 GLM 중 어떤 것을 선택하는 게 나을까요?">
+<meta property="og:description" content="Opus 5가 소소한 개발 작업에서 실수가 잦아 이전 버전을 사용한다는 경험담이 나왔다. Claude의 마이너 버전 업데이트가 잦은 이유로 모델·도구·안전성 패치를 작게 자주 배포하고, 코딩 에이전트에서는 작은 변화도 크게 체감된다는 의견이 제시됐다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/qna/q/claude버전glm선택.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "최신 Claude 버전과 GLM 중 어떤 것을 선택하는 게 나을까요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "Opus 5가 소소한 개발 작업에서 실수가 잦아 이전 버전을 사용한다는 경험담이 나왔다. Claude의 마이너 버전 업데이트가 잦은 이유로 모델·도구·안전성 패치를 작게 자주 배포하고, 코딩 에이전트에서는 작은 변화도 크게 체감된다는 의견이 제시됐다. GLM 구독자가 앱 빌딩 외 작업과 SPEC 단계 자율 판단의 한계를 언급하며 OpenRouter를 통해 ChatGPT 모델로 전환할지 물었다. 대화의 결론은 버전 번호보다 실제 작업 안정성을 봐야 한다는 것이었다. Opus 5와 이전 버전의 개발 작업 안정성을 비교하는 경험담이 나왔다. Claude의 잦은 마이너 업데이트 배경을 추정했다. GLM 구독 지속과 OpenRouter 기반 모델 전환을 고민하는 질문이 나왔다. 모델 선택은 실제 업무 안정성과 작업 적합성으로 판단하자는 의견이 제시됐다."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -156,24 +158,90 @@ border-left:5px solid var(--accent);border-radius:12px;background:var(--chip-bg)
 .joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
 .joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
 border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.qnalist{margin-top:22px}
+.qgrp{font-size:15px;font-weight:800;color:var(--accent-deep);margin:28px 0 4px;letter-spacing:-.01em}
+.qrow{display:flex;align-items:baseline;gap:8px;border-bottom:1px solid var(--line);
+padding:13px 2px;text-decoration:none;color:var(--ink)}
+.qrow:hover .qq{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
+.qrow .qq{font-size:16.5px;font-weight:700;line-height:1.5}
+.qrow .qq::before{content:"Q  ";color:var(--accent-deep);font-family:ui-monospace,Menlo,monospace}
+.qrow-flat{display:block}
+.qmini{margin:6px 0 0;font-size:14px;color:var(--muted);line-height:1.6}
+.qna{border-bottom:1px solid var(--line);padding:14px 2px}
+.qna summary{font-size:16.5px;font-weight:700;cursor:pointer;list-style:none;line-height:1.5}
+.qna summary::-webkit-details-marker{display:none}
+.qna summary::before{content:"Q  ";color:var(--accent-deep);font-family:ui-monospace,Menlo,monospace;font-weight:800}
+.qna[open] summary{color:var(--accent-deep)}
+.qna p{font-size:15px;line-height:1.7;color:var(--ink);margin:11px 0 6px;padding-left:22px}
+.qna ul{margin:6px 0 4px 22px;font-size:14px;color:var(--muted)}
+.qna li{margin:4px 0}
+.qna .chip{margin-left:8px;font-weight:600}
+.qlink{margin-left:8px;color:var(--muted);text-decoration:none;font-weight:800}
+.qlink:hover{color:var(--accent-deep)}
+
+.qbody{margin-top:18px}
+.qanswer{font-size:16.5px;line-height:1.75;font-weight:500}
+.qbody ul{margin:12px 0 4px 20px;font-size:15px;line-height:1.7}
+.qrel{margin-top:34px;border-top:1px solid var(--line);padding-top:16px}
+.qrel h2{font-size:15px;font-weight:800;color:var(--accent-deep)}
+.qrel ul{margin:8px 0 0 18px;font-size:15px;line-height:2}
+.artnav{margin-bottom:14px}
+.srccard{display:flex;justify-content:space-between;align-items:center;gap:12px;
+margin-top:26px;padding:13px 16px;border:1px solid var(--line);border-radius:10px;
+background:var(--surface);text-decoration:none}
+.srccard:hover{border-color:var(--accent)}
+.srclabel{font-weight:700;color:var(--accent-deep)}
+.srcdate{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--muted)}
 </style>
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../"><b>요약</b><i> 대화</i></a><a class="on" href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
-  <div class="eyebrow" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--accent-deep)">REPOSITORY</div>
-  <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">loongphy/codext</h1>
-  <p class="sub">openai/codex 포크, 개인용 커스텀 Codex CLI</p>
+  <span class="catchip c-model">모델 선택</span>
+  <h1>최신 Claude 버전과 GLM 중 어떤 것을 선택하는 게 나을까요?</h1>
+  
 </header>
-<div class="repo">
-<p class="rmeta"><span class="rlang">Rust</span><a class="gh" href="https://github.com/loongphy/codext">GitHub에서 보기 →</a></p>
-<p class="rmeta">OpenAI Codex CLI를 쓰면서 사용량 제한·계정 전환·서버 과부하 대응 등 편의 기능을 원하는 개인 사용자</p>
-<ul><li>TUI 헤더에 모델·effort·cwd·git 상태·사용량 한도·계정 정보를 표시</li><li>Ctrl+Shift+C로 작성 중인 초안을 클립보드에 복사</li><li>사용량 한도 도달 시 후속 메시지를 큐에 저장했다가 한도 회복되면 첫 메시지 자동 전송</li><li>auth.json 변경을 감지해 재시작 없이 계정 전환을 안전한 시점에 반영</li><li>모델 과부하 시 15~240초 지수 백오프로 최대 5회 자동 재시도(Continue)</li></ul>
-<p class="rmeta">설치: npm i -g @loongphy/codext 또는 소스 빌드: cd codex-rs &amp;&amp; cargo run --bin codex</p>
-</div>
+<article class="qbody">
+  <p class="qanswer">Opus 5가 소소한 개발 작업에서 실수가 잦아 이전 버전을 사용한다는 경험담이 나왔다. Claude의 마이너 버전 업데이트가 잦은 이유로 모델·도구·안전성 패치를 작게 자주 배포하고, 코딩 에이전트에서는 작은 변화도 크게 체감된다는 의견이 제시됐다. GLM 구독자가 앱 빌딩 외 작업과 SPEC 단계 자율 판단의 한계를 언급하며 OpenRouter를 통해 ChatGPT 모델로 전환할지 물었다. 대화의 결론은 버전 번호보다 실제 작업 안정성을 봐야 한다는 것이었다.</p>
+  <ul><li>Opus 5와 이전 버전의 개발 작업 안정성을 비교하는 경험담이 나왔다.</li><li>Claude의 잦은 마이너 업데이트 배경을 추정했다.</li><li>GLM 구독 지속과 OpenRouter 기반 모델 전환을 고민하는 질문이 나왔다.</li><li>모델 선택은 실제 업무 안정성과 작업 적합성으로 판단하자는 의견이 제시됐다.</li></ul>
+</article>
+<a class="srccard" href="../../s/2026-09-06-0900.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-06 아카이브</span></a>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="codex초기설정.html">Codex 초기 설정은 어떻게 하나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
-<footer>봇이 README를 읽고 자동 분석한 요약입니다. 원문은 GitHub 레포를 확인하세요.</footer>
+<footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
+<a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>
 </div>
 </body>
 </html>
