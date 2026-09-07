@@ -12,7 +12,7 @@
 <meta property="og:description" content="Fable 계정을 병렬로 돌리는 이른바 풍차돌리기와 이를 위한 고사양 노트북 이야기가 나왔다. 최소 메모리로 32GB가 언급됐고, 그림 기준으로는 8개까지 필요하지 않을 수 있다는 반응도 있었다.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/qna/q/fable풍차돌리기.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "Fable을 여러 개 돌려쓰는 풍차돌리기는 어떻게 하는 건가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "Fable 계정을 병렬로 돌리는 이른바 풍차돌리기와 이를 위한 고사양 노트북 이야기가 나왔다. 최소 메모리로 32GB가 언급됐고, 그림 기준으로는 8개까지 필요하지 않을 수 있다는 반응도 있었다. Fable 다계정 병렬 사용 사례가 언급됐다. 풍차돌리기용 장비로 고사양 노트북과 메모리 용량이 논의됐다. 최소 사양으로 32GB 메모리가 언급됐다. 동시 실행 수가 반드시 8개일 필요는 없다는 의견이 나왔다."}}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "Fable을 여러 개 돌려쓰는 풍차돌리기는 어떻게 하는 건가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "Fable 계정을 병렬로 돌리는 이른바 풍차돌리기와 이를 위한 고사양 노트북 이야기가 나왔다. 최소 메모리로 32GB가 언급됐고, 그림 기준으로는 8개까지 필요하지 않을 수 있다는 반응도 있었다. Fable 다계정 병렬 사용 사례가 언급됐다. 풍차돌리기용 장비로 고사양 노트북과 메모리 용량이 논의됐다. 최소 사양으로 32GB 메모리가 언급됐다. 동시 실행 수가 반드시 8개일 필요는 없다는 의견이 나왔다. 특정 작업이 Fable로도 가능할 수 있다는 의견이 나왔다."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -26,6 +26,14 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 .mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
 
 /* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
 /* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
@@ -231,14 +239,14 @@ background:var(--surface);text-decoration:none}
 <header>
   <span class="catchip c-flow">워크플로우·하네스</span>
   <h1>Fable을 여러 개 돌려쓰는 풍차돌리기는 어떻게 하는 건가요?</h1>
-  
+  <p class="sub">방에서 2번 논의된 질문입니다.</p>
 </header>
 <article class="qbody">
   <p class="qanswer">Fable 계정을 병렬로 돌리는 이른바 풍차돌리기와 이를 위한 고사양 노트북 이야기가 나왔다. 최소 메모리로 32GB가 언급됐고, 그림 기준으로는 8개까지 필요하지 않을 수 있다는 반응도 있었다.</p>
-  <ul><li>Fable 다계정 병렬 사용 사례가 언급됐다.</li><li>풍차돌리기용 장비로 고사양 노트북과 메모리 용량이 논의됐다.</li><li>최소 사양으로 32GB 메모리가 언급됐다.</li><li>동시 실행 수가 반드시 8개일 필요는 없다는 의견이 나왔다.</li></ul>
+  <ul><li>Fable 다계정 병렬 사용 사례가 언급됐다.</li><li>풍차돌리기용 장비로 고사양 노트북과 메모리 용량이 논의됐다.</li><li>최소 사양으로 32GB 메모리가 언급됐다.</li><li>동시 실행 수가 반드시 8개일 필요는 없다는 의견이 나왔다.</li><li>특정 작업이 Fable로도 가능할 수 있다는 의견이 나왔다.</li></ul>
 </article>
-<a class="srccard" href="../../s/2026-08-23-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-23 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="세션분할과서브에이전트.html">세션을 나눠서 서브에이전트로 쓰는 게 나을까요?</a></li><li><a href="claudecowork메모리.html">클로드 코워크에서 메모리 기능은 어떻게 쓰나요?</a></li><li><a href="에이전트로글쓰기워크플로우.html">에이전트로 글쓰기 워크플로우는 어떻게 짜나요?</a></li><li><a href="하네스래퍼도구.html">클로드 코드용 하네스나 래퍼 도구는 어떤 게 있나요?</a></li><li><a href="클로드코드하네스.html">클로드 코드 하네스가 정확히 무엇인가요?</a></li></ul></section>
+<a class="srccard" href="../../s/2026-09-07-1330.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-07 아카이브</span></a>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="세션분할과서브에이전트.html">세션을 나눠서 서브에이전트로 쓰는 게 나을까요?</a></li><li><a href="claudecowork메모리.html">클로드 코워크에서 메모리 기능은 어떻게 쓰나요?</a></li><li><a href="에이전트로글쓰기워크플로우.html">에이전트로 글쓰기 워크플로우는 어떻게 짜나요?</a></li><li><a href="연구자동화파이프라인.html">연구 과정을 자동화하는 파이프라인은 어떻게 만드나요?</a></li><li><a href="하네스래퍼도구.html">클로드 코드용 하네스나 래퍼 도구는 어떤 게 있나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>

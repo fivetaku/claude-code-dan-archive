@@ -27,6 +27,14 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(min-width:760px){body{font-size:18px}}
 
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
 /* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
 /* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
    보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
@@ -238,7 +246,7 @@ background:var(--surface);text-decoration:none}
   <ul><li>하네스는 모델의 동작 방식과 결과를 좌우하는 요소로 논의됐다.</li><li>OMO와 가재의 정체, 소스와 원문을 찾으려는 질문이 나왔다.</li><li>헤르메스와 하네스·가재의 차이를 묻는 질문이 있었다.</li><li>처음에는 Claude Code 자체를 쓰며 필요에 따라 도구를 찾으라는 조언이 나왔다.</li><li>가재 삭제 뒤 흔적이 남는 현상에 대한 질문은 미해결로 남았다.</li></ul>
 </article>
 <a class="srccard" href="../../s/2026-09-03-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-03 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="세션분할과서브에이전트.html">세션을 나눠서 서브에이전트로 쓰는 게 나을까요?</a></li><li><a href="claudecowork메모리.html">클로드 코워크에서 메모리 기능은 어떻게 쓰나요?</a></li><li><a href="에이전트로글쓰기워크플로우.html">에이전트로 글쓰기 워크플로우는 어떻게 짜나요?</a></li><li><a href="클로드코드하네스.html">클로드 코드 하네스가 정확히 무엇인가요?</a></li><li><a href="claudemem맥락기억도구공유.html">claude-mem이라는 맥락 기억 도구는 어떤 건가요?</a></li></ul></section>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="세션분할과서브에이전트.html">세션을 나눠서 서브에이전트로 쓰는 게 나을까요?</a></li><li><a href="claudecowork메모리.html">클로드 코워크에서 메모리 기능은 어떻게 쓰나요?</a></li><li><a href="에이전트로글쓰기워크플로우.html">에이전트로 글쓰기 워크플로우는 어떻게 짜나요?</a></li><li><a href="연구자동화파이프라인.html">연구 과정을 자동화하는 파이프라인은 어떻게 만드나요?</a></li><li><a href="클로드코드하네스.html">클로드 코드 하네스가 정확히 무엇인가요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>

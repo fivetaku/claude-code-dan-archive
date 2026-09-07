@@ -27,6 +27,14 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(min-width:760px){body{font-size:18px}}
 
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
 /* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
 /* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
    보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
@@ -229,16 +237,16 @@ background:var(--surface);text-decoration:none}
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
-  <span class="catchip c-etc">요금·사용량</span>
+  <span class="catchip c-model">모델 선택</span>
   <h1>그록이랑 다른 도구들 관련 질문은 어디서 모아보나요?</h1>
-  
+  <p class="sub">방에서 2번 논의된 질문입니다.</p>
 </header>
 <article class="qbody">
   <p class="qanswer">Thinking Machine의 방향성, 그록봇으로 클로드 코드에서 넘어갈 가치, 오픈코덱스와 오픈코드의 차이 등 여러 도구 관련 질문이 이어졌다. SOL 1M 변경 경험과 aside 사용 경험을 묻는 질문도 나왔다. 그록과 GLM의 토큰 생성 속도 비교 질문도 있었지만 이 구간에서는 답변이 제시되지 않았다.</p>
   <ul><li>Thinking Machine이 추구하는 방향에 대한 질문이 있었다.</li><li>그록봇과 클로드 코드 사이의 이전 가치가 질문됐다.</li><li>오픈코덱스와 오픈코드의 차이를 묻는 질문이 나왔다.</li><li>SOL 1M 변경 경험 및 aside 사용 경험을 찾는 요청이 있었다.</li><li>그록과 GLM의 토큰 속도 비교 질문은 답변 없이 남았다.</li></ul>
 </article>
-<a class="srccard" href="../../s/2026-08-17-1630.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-17 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecode최신업데이트소식.html">Claude Code 최신 업데이트 소식 아시는 분 계신가요?</a></li><li><a href="claude성능체감변화.html">Claude 성능이 예전보다 체감상 달라졌나요?</a></li><li><a href="claude구독중복결제.html">Claude 구독료가 중복으로 결제됐는데 어떻게 해결하나요?</a></li><li><a href="claude비즈니스요금제.html">Claude 비즈니스 요금제는 어떻게 구성되어 있나요?</a></li><li><a href="claude플랜한도.html">Claude 플랜별 사용 한도는 어떻게 다른가요?</a></li></ul></section>
+<a class="srccard" href="../../s/2026-09-07-1154-s.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-07 아카이브</span></a>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="codex초기설정.html">Codex 초기 설정은 어떻게 하나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>

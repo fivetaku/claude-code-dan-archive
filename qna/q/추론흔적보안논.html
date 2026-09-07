@@ -27,6 +27,14 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(min-width:760px){body{font-size:18px}}
 
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
 /* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
 /* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
    보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
@@ -238,7 +246,7 @@ background:var(--surface);text-decoration:none}
   <ul><li>API 키가 추론 과정에 노출될 수 있다는 우려가 제기됐다.</li><li>저장 위치에 대해서는 클라이언트 측 암호화 텍스트 블록이라는 정정이 나왔다.</li><li>여러 AI 제공사가 관련된 것으로 보이는 자료가 공유됐다.</li><li>추론 그래프와 모델 증류의 관계를 해석하려는 논의가 시작됐다.</li></ul>
 </article>
 <a class="srccard" href="../../s/2026-08-13-0900.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-13 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="codex초기설정.html">Codex 초기 설정은 어떻게 하나요?</a></li></ul></section>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="codex초기설정.html">Codex 초기 설정은 어떻게 하나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>
