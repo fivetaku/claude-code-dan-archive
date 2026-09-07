@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 9월 7일 13:30 — 아스트라 전환 고민</title>
+<meta name="description" content="9월 7일 클코단 논의 요약 — 아스트라 전환 고민 · 추론 강도 설정 · 제미나이 평판 · PPT 코딩도구 비교">
+<link rel="canonical" href="https://chat.axwith.com/s/2026-09-07-1330.html">
+<meta property="og:title" content="9월 7일 클코단 논의 요약">
+<meta property="og:description" content="9월 7일 클코단 논의 요약 — 아스트라 전환 고민 · 추론 강도 설정 · 제미나이 평판 · PPT 코딩도구 비교">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/s/2026-09-07-1330.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "9월 7일 클코단 논의 요약", "description": "9월 7일 클코단 논의 요약 — 아스트라 전환 고민 · 추론 강도 설정 · 제미나이 평판 · PPT 코딩도구 비교", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "datePublished": "2026-09-07", "image": "https://chat.axwith.com/apple-touch-icon.png", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/s/2026-09-07-1330.html"}}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{position:relative;margin:44px -24px 0;padding:8px 24px;overflow-x:auto;
+-webkit-overflow-scrolling:touch}
+.bone{position:relative;min-width:880px;height:430px}
+/* 모바일에선 가로 스크롤인 걸 알 수 없어 잘린 카드가 오류처럼 보였다(2026-08-30 실측).
+   힌트 라벨 + 오른쪽 페이드로 "밀 수 있다"를 알린다. 높이도 화면에 맞게 줄인다. */
+.bonehint{display:none}
+@media(max-width:640px){
+.bonebox{margin-top:26px}
+.bone{height:340px}
+.bonewrap{position:relative}
+.bonewrap::after{content:"";position:absolute;right:0;top:0;bottom:0;width:40px;pointer-events:none;
+background:linear-gradient(90deg,transparent,var(--ground) 78%)}
+.bonehint{display:flex;align-items:center;gap:6px;margin:26px 0 -18px;
+font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.bonehint b{color:var(--accent-deep);font-weight:700}}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+/* B 강조형 (2026-09-01 확정) — 흰 카드는 본문에 묻혀 지나쳤다. 배경을 채우고 왼쪽 바를 굵게. */
+.joinbox{margin:30px 0 6px;padding:18px 20px;border:1px solid var(--line);
+border-left:5px solid var(--accent);border-radius:12px;background:var(--chip-bg)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a class="on" href="../"><b>요약</b><i> 대화</i></a><a href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>9월 7일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>09-07 12:02~13:20</b></span>
+    <span>발화 <b>132</b></span>
+    <span>참여 <b>24</b>명</span>
+    <span>주제 <b>12</b>갈래</span>
+  </div>
+</header>
+
+<p class="bonehint"><b>&rarr;</b> 옆으로 밀어 시간대별 흐름 보기</p><div class="bonewrap"><div class="bonebox"><div class="bone" style="height:516px;min-width:1470px"><div class="spine"></div><div class="bar" style="left:2.0%;height:6px"></div><div class="bar" style="left:4.8%;height:6px"></div><div class="bar" style="left:7.7%;height:6px"></div><div class="bar" style="left:10.5%;height:6px"></div><div class="bar" style="left:13.4%;height:6px"></div><div class="bar" style="left:16.2%;height:6px"></div><div class="bar" style="left:19.1%;height:6px"></div><div class="bar" style="left:21.9%;height:6px"></div><div class="bar" style="left:24.8%;height:6px"></div><div class="bar" style="left:27.6%;height:6px"></div><div class="bar" style="left:30.5%;height:6px"></div><div class="bar" style="left:33.3%;height:6px"></div><div class="bar" style="left:36.2%;height:6px"></div><div class="bar" style="left:39.0%;height:6px"></div><div class="bar" style="left:41.9%;height:6px"></div><div class="bar" style="left:44.7%;height:6px"></div><div class="bar" style="left:47.6%;height:6px"></div><div class="bar" style="left:50.4%;height:6px"></div><div class="bar" style="left:53.3%;height:8px"></div><div class="bar" style="left:56.1%;height:8px"></div><div class="bar" style="left:59.0%;height:6px"></div><div class="bar" style="left:61.8%;height:6px"></div><div class="bar" style="left:64.7%;height:6px"></div><div class="bar" style="left:67.5%;height:6px"></div><div class="bar" style="left:70.4%;height:6px"></div><div class="bar" style="left:73.2%;height:19px"></div><div class="bar" style="left:76.1%;height:10px"></div><div class="bar" style="left:78.9%;height:19px"></div><div class="bar" style="left:81.8%;height:6px"></div><div class="bar" style="left:84.6%;height:17px"></div><div class="bar" style="left:87.5%;height:19px"></div><div class="bar" style="left:90.3%;height:39px"></div><div class="bar peak" style="left:93.2%;height:58px"></div><div class="bar" style="left:96.0%;height:6px"></div><div class="lbl" style="left:2.0%">12:02</div><div class="lbl" style="left:16.2%">12:14</div><div class="lbl" style="left:30.5%">12:25</div><div class="lbl" style="left:44.7%">12:52</div><div class="lbl" style="left:59.0%">13:04</div><div class="lbl" style="left:73.2%">13:12</div><div class="lbl" style="left:87.5%">13:17</div><div class="peaktag" style="left:93.2%;bottom:66px">13:19 · 28건</div><div class="lbl" style="left:96.0%">13:20</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">12:02-12:11</div><h3>추론 강도 설정</h3></div></div><div class="rib dn" style="left:19.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">12:20-12:26</div><h3>M2 울트라 자료</h3></div></div><div class="rib up" style="left:27.6%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">12:24-13:05</div><h3>아스트라 전환 고민</h3></div></div><div class="rib dn" style="left:36.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">12:27-12:27</div><h3>AI 친구 제작 문의</h3></div></div><div class="rib up" style="left:39.0%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">12:28-12:28</div><h3>클코단 명칭 질문</h3></div></div><div class="rib dn" style="left:41.9%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">12:51-13:16</div><h3>제미나이 평판</h3></div></div><div class="rib up" style="left:44.7%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">12:52-12:53</div><h3>정전식 터치 물체</h3></div></div><div class="rib dn" style="left:53.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">13:02-13:06</div><h3>PPT 코딩도구 비교</h3></div></div><div class="rib up" style="left:59.0%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">13:04-13:04</div><h3>구독 조합 선택</h3></div></div><div class="rib dn flip" style="left:70.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">13:16-13:17</div><h3>Fable 성능 기대</h3></div></div><div class="rib up flip" style="left:70.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">13:16-13:20</div><h3>안드로이드와 맥 연동</h3></div></div><div class="rib dn" style="left:78.9%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">13:14-13:16</div><h3>Aside 연동 결제</h3></div></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">12:24-13:05<span class="catchip c-tool">도구·라이브러리</span></div><h2>아스트라 전환 고민</h2><p class="sum">아스트라 출시를 계기로 기존 Claude 사용자도 즉시 갈아타야 하는지와 요금 효율을 묻는 질문이 나왔다. 아스트라는 게임·영상·3D 분야에 강점이 있어 보인다는 감상이 공유됐고, PPT 디자인 품질 개선 가능성도 논의됐다. Android 게임 설계와 프로그램 구성설계에 Fable 및 자동 모드를 적용할 때 사용량과 적합한 설정을 묻는 질문도 이어졌다.</p><ul><li>아스트라로 즉시 전환해야 하는지 냉정한 평가를 요청했다.</li><li>아스트라 사용을 위한 GPT 요금제와 Claude 대비 비용·토큰 사용량을 질문했다.</li><li>게임·영상·3D 결과물에서 강점이 있어 보인다는 반응이 나왔다.</li><li>PPT 디자인에서 AI 느낌을 줄일 수 있을지 기대와 의문이 제기됐다.</li><li>Fable을 Android 게임 설계와 프로그램 구성설계에 쓸 때의 사용량·모드 선택을 질문했다.</li><li><a href="https://www.threads.com/share/EnHE41jl3/" rel="nofollow ugc noopener noreferrer" target="_blank">https://www.threads.com/share/EnHE41jl3/</a></li></ul></article><article class="dcard"><div class="t">12:02-12:11<span class="catchip c-flow">워크플로우·방법론</span></div><h2>추론 강도 설정</h2><p class="sum">모델 추론 강도를 medium·low로 두는 편이 낫다는 의견과 high·max의 토큰 효율이 낮다는 이야기가 나왔다. 메인 세션은 high로 두고 작업 전환 시 ultrathink를 쓰는 방식도 공유됐다. 작업의 낯섦과 깊이, 최근 컨텍스트에 매몰될 위험에 따라 extra·max·high·medium·ultra를 구분해 쓰자는 기준이 제시됐다.</p><ul><li>high나 max는 토큰 대비 성능이 오히려 떨어질 수 있다는 의견이 나왔다.</li><li>메인 세션 high와 작업 시작 전 ultrathink 조합 사례가 공유됐다.</li><li>모르는 문제를 깊게 다룰 때는 max, 이미 아는 내용은 high·medium을 쓴다는 기준이 제시됐다.</li><li>대화 맥락이 산으로 갈 수 있는 안건에는 ultra를 쓰자는 팁이 나왔다.</li></ul></article><article class="dcard"><div class="t">12:51-13:16<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>제미나이 평판</h2><p class="sum">Gemini의 전반적 평판과 GPT 대비 연구·일상 사용 적합성을 논의했다. 질적연구 석사논문 작성에는 insane-research 사용 제안이 나왔고, Gemini는 무료 또는 클라우드·드라이브 구독 부가 기능처럼 활용하자는 의견이 많았다. 웹·유튜브 검색, 면접 시뮬레이션, 가벼운 질문에는 쓸 만하지만 검색 품질은 Luna와 큰 차이가 없다는 경험담도 공유됐다.</p><ul><li>질적연구 석사논문 작성용으로 GPT와 Gemini 중 선택을 질문했다.</li><li>insane-research 사용 제안이 나왔다.</li><li>Gemini는 유료 주력 도구보다는 무료·일상용으로 쓰자는 의견이 반복됐다.</li><li>Google Drive 구독에 Gemini가 포함된다는 이용 사례가 언급됐다.</li><li>웹검색·유튜브 검색·면접 시뮬레이션과 가벼운 질문에 활용한다는 경험담이 나왔다.</li></ul></article><article class="dcard"><div class="t">13:02-13:06<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>PPT 코딩도구 비교</h2><p class="sum">PPT 디자인에서 Codex와 Claude Code 중 무엇이 나은지 묻는 질문이 나왔다. 기존에 Claude Code에 여러 스킬과 플러그인을 붙여도 원하는 디자인 수준에 도달하지 못했다는 경험이 공유됐다. 이 구간에는 구체적인 비교 답변은 없었다.</p><ul><li>PPT 디자인 품질 기준으로 Codex와 Claude Code를 비교해 달라는 질문이 나왔다.</li><li>Claude Code에 여러 스킬·플러그인을 적용해도 만족스럽지 않았다는 경험담이 나왔다.</li><li>아스트라가 디자인 결과의 AI 느낌을 줄일 수 있을지에 대한 기대와 연결됐다.</li></ul></article><article class="dcard"><div class="t">13:04-13:04<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>구독 조합 선택</h2><p class="sum">Claude Max 5 사용량이 거의 소진된 상황에서 Max 20으로 올릴지 GPT Pro를 추가할지 묻는 질문이 나왔다. 구체적인 비교 답변은 기록되지 않았다.</p><ul><li>Claude Max 5의 사용량 소진이 언급됐다.</li><li>Max 20 업그레이드와 GPT Pro 추가 구독을 비교했다.</li><li>답변이나 최종 선택은 나오지 않았다.</li></ul></article><article class="dcard"><div class="t">13:14-13:16<span class="catchip c-tool">도구·라이브러리</span></div><h2>Aside 연동 결제</h2><p class="sum">Aside 무료 사용 중 토큰 결제를 Aside 플랜으로 해야 하는지, 기존 GPT나 Claude 계정을 OAuth로 연동할 수 있는지 질문이 나왔다. 가능하다는 짧은 답변이 제공됐다. Aside에서 Gemini를 쓴다는 활용 언급도 있었다.</p><ul><li>Aside 무료 플랜에서 토큰 결제 안내를 받았다는 상황이 공유됐다.</li><li>기존 GPT 또는 Claude 계정 OAuth 연동 가능 여부를 질문했다.</li><li>연동 가능하다는 답변이 나왔다.</li><li>Aside에서 Gemini를 사용한다는 언급이 있었다.</li></ul></article><article class="dcard"><div class="t">12:27-12:27<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>AI 친구 제작 문의</h2><p class="sum">대화형 AI 친구를 만들기 적합한 도구와 가격제를 묻는 질문이 나왔다. 메신저 계정 연동 방식에 대한 궁금증도 함께 제기됐다. 구체적인 도구 추천이나 답변은 이어지지 않았다.</p><ul><li>대화형 AI 친구 제작 도구를 질문했다.</li><li>가격 정책 안내를 요청했다.</li><li>메신저 계정 보유·연동 방식에 대한 궁금증이 언급됐다.</li></ul></article><article class="dcard"><div class="t">13:16-13:17<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>Fable 성능 기대</h2><p class="sum">일부 작업은 Fable로도 가능할 것이라는 의견과 함께 Fable 5.5 출시를 바라는 반응이 나왔다. 성능 수치가 더 올라야 한다는 기대가 덧붙었다. 구체적인 작업 검증 사례는 없었다.</p><ul><li>특정 작업이 Fable로도 가능할 수 있다는 의견이 나왔다.</li><li>직접 테스트한 것은 아니라는 단서가 붙었다.</li><li>Fable 5.5 출시와 성능 향상에 대한 기대가 표현됐다.</li></ul></article><article class="dcard"><div class="t">13:16-13:20<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>안드로이드와 맥 연동</h2><p class="sum">Android와 iPhone, Mac 조합의 연결성과 기기 선택을 두고 잡담이 이어졌다. Gemini는 Android 사용자나 가벼운 용도에서 충분할 수 있다는 의견이 나온 뒤, Mac에서 Android를 제어해 문자·전화를 하는 흐름과 AirPods 자동 전환 여부가 논의됐다. Android에서 Mac으로의 기능은 언급됐지만 Mac에서 Android를 쓰는 조합은 제약이 있다는 인식이 공유됐다.</p><ul><li>Android 사용자들이 Gemini를 많이 활용하는 것 같다는 관찰이 나왔다.</li><li>iPhone과 Mac의 연속성 기능을 실제로 얼마나 쓰는지 의견이 갈렸다.</li><li>Android에서 Mac 방향의 연동은 가능하지만 반대 방향은 제약이 있다는 말이 나왔다.</li><li>Mac에서 iPhone을 제어해 문자·전화를 하는 사용 사례가 언급됐다.</li><li>Android에서는 AirPods 자동 기기 전환과 일부 기능이 아쉽다는 의견이 나왔다.</li></ul></article><article class="dcard"><div class="t">12:20-12:26<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>M2 울트라 자료</h2><p class="sum">M2 Ultra 128GB에 대한 의견과 자료 유무를 묻는 대화가 있었다. 자료가 없다는 말이 판매 이력 부재인지 제품 자체의 부재인지 확인하는 질문이 이어졌다. 구체적인 답변이나 결론은 나오지 않았다.</p><ul><li>M2 Ultra 128GB에 대한 평가를 요청했다.</li><li>관련 자료가 없다는 표현의 의미를 되물었다.</li><li>판매된 적이 없는 것인지 제품이 없는 것인지 구분이 필요하다는 말이 나왔다.</li></ul></article><article class="dcard"><div class="t">12:28-12:28<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>클코단 명칭 질문</h2><p class="sum">클코가 Claude Code를 뜻하는지와 클코단의 의미를 묻는 짧은 질문이 있었다. 답변은 기록되지 않았다.</p><ul><li>클코의 약칭 의미를 확인하려 했다.</li><li>클코단의 명칭 의미를 질문했다.</li></ul></article><article class="dcard"><div class="t">12:52-12:53<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>정전식 터치 물체</h2><p class="sum">소시지로 휴대폰 터치가 되는 이유를 묻는 대화가 있었다. 수분과 염분으로 전기가 통하고 정전식 터치가 전기 변화를 감지하기 때문이라는 설명이 나왔다. 손가락과 소시지 외에 터치가 잘 되는 물체를 추가로 물었으나 답변은 없었다.</p><ul><li>소시지가 휴대폰 정전식 터치에 반응하는 원인을 질문했다.</li><li>수분과 염분에 따른 전도성 및 전기 변화 감지 원리가 설명됐다.</li><li>다른 터치 가능한 물체에 대한 추가 질문이 나왔다.</li></ul></article></section>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-09-07-1330</span>
+</footer>
+</div>
+</body>
+</html>
