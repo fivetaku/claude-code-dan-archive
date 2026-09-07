@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>SKCT 준비법: 오답 감점과 온라인 응시 환경에 맞춘 2주 전략</title>
+    <link>https://chat.axwith.com/mag/workflow/skct-prep-strategy-online-penalty.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/skct-prep-strategy-online-penalty.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Tue, 08 Sep 2026 12:00:00 +0900</pubDate>
+    <description>SK그룹 종합역량검사 SKCT의 2026 하반기 일정, 인지·심층·실행역량 구성, 오답 감점제, 자택 온라인 응시 세팅, 유형별 반복 풀이 전략과 화면 연습 도구까지 정리했다.</description>
+  </item>
+  <item>
+    <title>CRDT 상태 벡터란 무엇인가: Yjs·pycrdt 동기화 원리와 벡터 클록의 차이</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/crdt-state-vector-yjs-pycrdt-explained.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/crdt-state-vector-yjs-pycrdt-explained.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Tue, 08 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Yjs와 pycrdt의 상태 벡터가 무엇을 기록하는지, 벡터 클록과 왜 용도가 다른지, 클라이언트 증가와 순번 공백에서 어떤 한계가 오는지 공식 문서와 이슈로 확인한다. Automerge 해시 헤드, Loro 프론티어와 비교.</description>
+  </item>
+  <item>
     <title>값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가</title>
     <link>https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
     <description>Command Code의 1인 1계정 약관과 Go 플랜의 모델·API 제한을 검증했다. 환불 예외, 공식 설치법, Claude Code와의 차이도 최신 문서로 정리했다.</description>
-  </item>
-  <item>
-    <title>Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-agent-team-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-agent-team-guide.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code 단일 세션, 서브에이전트, Agent Teams의 차이를 공식 문서와 실사용 반응으로 비교하고 통제 가능한 하네스의 실전 구성 순서까지 설명한다.</description>
-  </item>
-  <item>
-    <title>Claude Haiku 4.5에 RAG면 충분할까, 온톨로지의 경계</title>
-    <link>https://chat.axwith.com/mag/models/haiku-rag-ontology-boundary.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/haiku-rag-ontology-boundary.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sun, 30 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Claude Haiku 4.5와 기본 RAG로 시작해도 되는 조건을 짚고, GraphRAG와 Palantir식 온톨로지가 필요한 질문과 운영 경계를 구체적으로 구분한다.</description>
   </item>
 </channel></rss>
