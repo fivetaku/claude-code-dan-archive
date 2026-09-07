@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 9월 7일 16:54-s — SKCT 준비법</title>
+<meta name="description" content="9월 7일 클코단 논의 요약 — SKCT 준비법 · 지메일 연결·코드수정 · 코워크 파일 정리 · 필쫀쿠 이용 문의">
+<link rel="canonical" href="https://chat.axwith.com/s/2026-09-07-1654-s.html">
+<meta property="og:title" content="9월 7일 클코단 논의 요약">
+<meta property="og:description" content="9월 7일 클코단 논의 요약 — SKCT 준비법 · 지메일 연결·코드수정 · 코워크 파일 정리 · 필쫀쿠 이용 문의">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/s/2026-09-07-1654-s.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "9월 7일 클코단 논의 요약", "description": "9월 7일 클코단 논의 요약 — SKCT 준비법 · 지메일 연결·코드수정 · 코워크 파일 정리 · 필쫀쿠 이용 문의", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "datePublished": "2026-09-07", "image": "https://chat.axwith.com/apple-touch-icon.png", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/s/2026-09-07-1654-s.html"}}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{position:relative;margin:44px -24px 0;padding:8px 24px;overflow-x:auto;
+-webkit-overflow-scrolling:touch}
+.bone{position:relative;min-width:880px;height:430px}
+/* 모바일에선 가로 스크롤인 걸 알 수 없어 잘린 카드가 오류처럼 보였다(2026-08-30 실측).
+   힌트 라벨 + 오른쪽 페이드로 "밀 수 있다"를 알린다. 높이도 화면에 맞게 줄인다. */
+.bonehint{display:none}
+@media(max-width:640px){
+.bonebox{margin-top:26px}
+.bone{height:340px}
+.bonewrap{position:relative}
+.bonewrap::after{content:"";position:absolute;right:0;top:0;bottom:0;width:40px;pointer-events:none;
+background:linear-gradient(90deg,transparent,var(--ground) 78%)}
+.bonehint{display:flex;align-items:center;gap:6px;margin:26px 0 -18px;
+font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.bonehint b{color:var(--accent-deep);font-weight:700}}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+/* B 강조형 (2026-09-01 확정) — 흰 카드는 본문에 묻혀 지나쳤다. 배경을 채우고 왼쪽 바를 굵게. */
+.joinbox{margin:30px 0 6px;padding:18px 20px;border:1px solid var(--line);
+border-left:5px solid var(--accent);border-radius:12px;background:var(--chip-bg)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a class="on" href="../"><b>요약</b><i> 대화</i></a><a href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>9월 7일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>09-07 16:18~16:54</b></span>
+    <span>발화 <b>272</b></span>
+    <span>참여 <b>26</b>명</span>
+    <span>주제 <b>11</b>갈래</span>
+  </div>
+</header>
+
+<p class="bonehint"><b>&rarr;</b> 옆으로 밀어 시간대별 흐름 보기</p><div class="bonewrap"><div class="bonebox"><div class="bone" style="height:516px;min-width:1470px"><div class="spine"></div><div class="bar" style="left:2.0%;height:6px"></div><div class="bar" style="left:5.2%;height:6px"></div><div class="bar" style="left:8.5%;height:6px"></div><div class="bar" style="left:11.7%;height:11px"></div><div class="bar" style="left:15.0%;height:6px"></div><div class="bar" style="left:18.2%;height:11px"></div><div class="bar" style="left:21.4%;height:6px"></div><div class="bar" style="left:24.7%;height:8px"></div><div class="bar" style="left:27.9%;height:11px"></div><div class="bar peak" style="left:31.2%;height:45px"></div><div class="bar" style="left:34.4%;height:6px"></div><div class="bar" style="left:37.7%;height:16px"></div><div class="bar" style="left:40.9%;height:6px"></div><div class="bar" style="left:44.1%;height:6px"></div><div class="bar" style="left:47.4%;height:40px"></div><div class="bar" style="left:50.6%;height:16px"></div><div class="bar" style="left:53.9%;height:42px"></div><div class="bar" style="left:57.1%;height:40px"></div><div class="bar peak" style="left:60.3%;height:58px"></div><div class="bar" style="left:63.6%;height:42px"></div><div class="bar" style="left:66.8%;height:37px"></div><div class="bar peak" style="left:70.1%;height:58px"></div><div class="bar" style="left:73.3%;height:40px"></div><div class="bar" style="left:76.6%;height:21px"></div><div class="bar peak" style="left:79.8%;height:45px"></div><div class="bar peak" style="left:83.0%;height:45px"></div><div class="bar" style="left:86.3%;height:40px"></div><div class="bar" style="left:89.5%;height:37px"></div><div class="bar" style="left:92.8%;height:13px"></div><div class="bar" style="left:96.0%;height:13px"></div><div class="lbl" style="left:2.0%">16:18</div><div class="lbl" style="left:18.2%">16:24</div><div class="peaktag" style="left:31.2%;bottom:53px">16:30 · 17건</div><div class="lbl" style="left:34.4%">16:31</div><div class="lbl" style="left:50.6%">16:40</div><div class="peaktag" style="left:60.3%;bottom:66px">16:43 · 22건</div><div class="lbl" style="left:66.8%">16:45</div><div class="peaktag" style="left:70.1%;bottom:66px">16:46 · 22건</div><div class="peaktag" style="left:79.8%;bottom:53px">16:49 · 17건</div><div class="lbl" style="left:83.0%">16:50</div><div class="lbl" style="left:96.0%">16:54</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">16:18-16:20</div><h3>지메일 연결·코드수정</h3></div></div><div class="rib dn" style="left:11.7%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">16:22-16:26</div><h3>코워크 파일 정리</h3></div></div><div class="rib up" style="left:24.7%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">16:28-16:29</div><h3>필쫀쿠 이용 문의</h3></div></div><div class="rib dn" style="left:31.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">16:30-16:32</div><h3>GPT Work·Sites 반응</h3></div></div><div class="rib up" style="left:44.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">16:38-16:43</div><h3>SK하이닉스 채용 축하</h3></div></div><div class="rib dn" style="left:47.4%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">16:39-16:39</div><h3>클로드 사내 접속</h3></div></div><div class="rib up" style="left:50.6%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">16:40-16:51</div><h3>SKCT 준비법</h3></div></div><div class="rib dn" style="left:57.1%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">16:42-16:48</div><h3>신입 채용 나이 논의</h3></div></div><div class="rib up flip" style="left:71.9%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">16:51-16:54</div><h3>농업 수익화 질문</h3></div></div><div class="rib dn" style="left:73.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">16:47-16:52</div><h3>청년 기준과 농촌</h3></div></div><div class="rib up flip" style="left:81.6%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">16:54-16:54</div><h3>ARC-AGI-3 89%</h3></div></div></div></div></div>
+
+<section class="details"><article class="dcard"><div class="t">16:40-16:51<span class="catchip c-flow">워크플로우·방법론</span></div><h2>SKCT 준비법</h2><p class="sum">SKCT 응시 일정과 난이도, 준비법을 묻는 대화가 이어졌다. 인적성 시험은 유형별 문제를 많이 풀어 눈에 익히는 양치기 방식이 핵심이라는 조언이 나왔다. SKCT는 다른 일부 대기업 인적성보다 어렵다는 경험담도 공유됐다.</p><ul><li>SKCT 응시 기간이 9월 9~13일 내로 안내됐다고 공유됐다.</li><li>코로나 이후 자택 응시 여부가 언급됐다.</li><li>처음 인적성을 준비하는 참여자가 준비법을 질문했다.</li><li>유형별 반복 풀이로 문제 형식에 익숙해져야 한다는 조언이 나왔다.</li><li>SKCT 난이도가 높다는 경험담이 공유됐다.</li></ul></article><article class="dcard"><div class="t">16:18-16:20<span class="catchip c-tool">도구·라이브러리</span></div><h2>지메일 연결·코드수정</h2><p class="sum">커넥터에서 지메일을 연결하는 방법이 언급됐다. 연결한 메일 정보를 바탕으로 클로드에게 코드 수정을 요청할 수 있는지 확인했고, 그렇게 활용하면 된다는 흐름이었다.</p><ul><li>커넥터 메뉴에서 지메일을 연결하라고 안내했다.</li><li>지메일 연결이 완료됐다고 공유했다.</li><li>연결된 정보를 코드 수정 요청에 활용하는 맥락이 나왔다.</li></ul></article><article class="dcard"><div class="t">16:22-16:26<span class="catchip c-flow">워크플로우·방법론</span></div><h2>코워크 파일 정리</h2><p class="sum">클로드 코워크에 다운로드 파일 정리를 맡기는 것이 유용한지 질문이 나왔다. 파일 이동 이력을 남기고 기본 아카이브를 활용하면 롤백 가능하다는 의견이 제시됐다. 파일을 분류하고 기록하는 작업은 여러 가방과 분산 작업에 비유됐다.</p><ul><li>다운로드 폴더 정리를 AI에 맡긴 경험이 공유됐다.</li><li>자동 정리와 직접 정리 중 어느 쪽이 나은지 고민했다.</li><li>이동 기록을 남겨 롤백 가능성을 확보하자는 제안이 나왔다.</li><li>파일 보관·검색 작업을 분산형 구조로 바라보는 비유가 이어졌다.</li></ul></article><article class="dcard"><div class="t">16:28-16:29<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>필쫀쿠 이용 문의</h2><p class="sum">필쫀쿠가 현재도 가능한지와 이용 방법을 묻는 대화가 나왔다. 관련 안내는 매거진의 기존 링크를 찾아보라는 답으로 이어졌다. 필쫀쿠는 챗GPT Pro를 필리핀 페소로 결제해 비용을 낮추려는 방 은어이며, 카드 거절과 약관 위반 위험이 따른다.</p><ul><li>필쫀쿠의 현재 가능 여부를 질문했다.</li><li>구체적 이용 방법을 문의했다.</li><li>기존 매거진 자료를 참고하라는 안내가 나왔다.</li><li>해외 결제 방식에는 결제 거절 및 약관 위반 위험이 언급된 사실로 확인됐다.</li></ul></article><article class="dcard"><div class="t">16:30-16:32<span class="catchip c-tool">도구·라이브러리</span></div><h2>GPT Work·Sites 반응</h2><p class="sum">GPT의 Work 기능이 페이지를 바로 만들어줘서 좋다는 사용 후기가 공유됐다. Sites도 좋다는 의견과 함께, 특정 질문에서는 Work의 성능이 괜찮다는 평가가 나왔다.</p><ul><li>Work 기능으로 페이지를 빠르게 만들 수 있다는 의견이 나왔다.</li><li>Sites도 함께 추천됐다.</li><li>Work는 특정 질문에서 특히 유용하다는 후기가 있었다.</li></ul></article><article class="dcard"><div class="t">16:39-16:39<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>클로드 사내 접속</h2><p class="sum">직장 네트워크에서 클로드는 접속되지 않지만 코덱스는 되는 이유를 묻는 질문이 나왔다. 두 서비스를 함께 차단하거나 허용하지 않는 정책의 일관성에 대한 의문이 제기됐다. 공식 상태 페이지상 클로드 서비스는 정상이라는 자동 응답도 있었지만, 사내 접근 제한의 원인은 확인되지 않았다.</p><ul><li>사내 환경에서 서비스별 접근 가능 여부가 다르다고 공유됐다.</li><li>차단 정책의 기준이 무엇인지 의문이 제기됐다.</li><li>클로드 공식 서비스 상태는 정상으로 표시됐다.</li><li>네트워크·보안 정책 등 구체 원인은 대화에서 해결되지 않았다.</li></ul></article><article class="dcard"><div class="t">16:51-16:54<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>농업 수익화 질문</h2><p class="sum">스마트팜과 귀농 맥락에서 농사를 시작해 수익화하기까지 걸리는 기간을 작물 하나로 분석해 달라는 요청이 나왔다. 이어 새싹채소 재배의 초기 예산과 시장성도 질문됐다. 구체적인 분석이나 답변은 이 구간에서 제공되지 않았다.</p><ul><li>농업 시작부터 수익화까지의 기간 분석을 요청했다.</li><li>작물 하나를 선정해 분석해 달라는 조건이 제시됐다.</li><li>새싹채소 재배의 예산과 판매 가능성을 질문했다.</li><li>대화 구간 내 구체적인 답변은 없었다.</li></ul></article><article class="dcard"><div class="t">16:54-16:54<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>ARC-AGI-3 89%</h2><p class="sum">ARC-AGI-3에서 89%라는 점수가 어느 정도 수준인지 질문이 나왔다. ARC-AGI-3는 사전 설명 없이 새 환경을 탐색하고 목표를 습득하며 세계모델을 구축하는 AI 에이전트 능력을 평가하는 인터랙티브 추론 벤치마크다. 해당 점수의 상대적 의미에 대한 답변은 이 구간에 없었다.</p><ul><li>ARC-AGI-3의 89% 점수 수준을 질문했다.</li><li>벤치마크는 인터랙티브 환경에서 에이전트 추론 능력을 측정한다.</li><li>새 환경 탐색·목표 습득·세계모델 구축 능력이 평가 대상이다.</li><li>점수 비교 기준이나 해석은 제공되지 않았다.</li></ul></article><article class="dcard"><div class="t">16:38-16:43<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>SK하이닉스 채용 축하</h2><p class="sum">SK하이닉스 서류전형 합격 소식에 축하가 이어졌다. 현직자와 지원자들이 이직·신입 지원 경험, 근무 환경과 보상에 관한 인상을 나눴다. 이번 채용 규모가 클 수 있다는 추측과 AI 관련 업무 수요가 있을 수 있다는 의견도 나왔다.</p><ul><li>서류전형 합격 소식에 다수의 축하가 이어졌다.</li><li>경력 보유자의 신입 지원 사례가 언급됐다.</li><li>SW·반도체 배경과 직무 관련 대화가 나왔다.</li><li>AI 에이전트 구축 수요가 있을 수 있다는 의견이 제시됐다.</li></ul></article><article class="dcard"><div class="t">16:42-16:48<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>신입 채용 나이 논의</h2><p class="sum">대기업 신입 지원에서 나이와 경력이 미치는 영향에 대한 대화가 나왔다. 학·석사 기준 신입 지원 나이를 30대 초반 정도로 보는 개인적 경험담이 있었고, 박사 학위자는 더 높은 연령대의 입사 사례도 언급됐다. 이는 참여자들의 경험과 인상 수준의 대화였다.</p><ul><li>신입 채용에서 나이 제한이 있는지 질문이 나왔다.</li><li>경력 보유자가 신입으로 지원하는 사례가 언급됐다.</li><li>학·석사와 박사 학위에 따라 입사 연령대가 달라질 수 있다는 경험담이 나왔다.</li><li>공식 채용 기준으로 확인된 결론은 없었다.</li></ul></article><article class="dcard"><div class="t">16:47-16:52<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>청년 기준과 농촌</h2><p class="sum">청년의 법·제도상 연령 기준이 제도와 지역에 따라 다르다는 대화가 이어졌다. 농촌 청년회와 귀농 생활을 소재로 농촌 공동체 적응의 어려움을 농담 섞어 이야기했다. 스마트팜은 지원을 받더라도 몸을 갈아 넣는 방식으로는 하지 말라는 경험 기반 조언이 나왔다.</p><ul><li>청년 연령 기준은 제도별로 다를 수 있다는 설명이 나왔다.</li><li>일부 지역의 더 넓은 청년 기준이 언급됐다.</li><li>농촌 공동체와 지역 관계에 적응하기 어렵다는 경험담이 공유됐다.</li><li>스마트팜은 지원 제도와 노동 부담을 함께 검토해야 한다는 의견이 나왔다.</li><li>청년농업 관련 교육·지원 프로그램이 언급됐다.</li></ul></article></section>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-09-07-1654-s</span>
+</footer>
+</div>
+</body>
+</html>
