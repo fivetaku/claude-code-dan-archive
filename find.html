@@ -325,7 +325,7 @@ mark{background:#FFE9A0;color:inherit;padding:0 2px;border-radius:3px}
       +'<span>'+hits.length+'개 주제 · '+esc(dk(ds[0]))+' ~ '+esc(dk(ds[ds.length-1]))+' · '+ds.length+'일</span></span>'
       +'<span class="tsbars">'+bars+'</span>'
       +'<span class="tsfoot"><span class="tsl">'+esc(dk(ds[0]))+'</span>'
-      +'<span class="tspill" id="pill">타임라인 접기</span>'
+      +'<span class="tspill" id="pill">타임라인 보기</span>'
       +'<span class="tsr">'+esc(dk(ds[ds.length-1]))+'</span></span></summary>';
   }
 
@@ -445,7 +445,8 @@ mark{background:#FFE9A0;color:inherit;padding:0 2px;border-radius:3px}
       host.innerHTML='<p class="empty">"'+esc(kw)+'"가 나온 대화가 없습니다. 다른 말로 찾아보세요.</p>';
       return;
     }
-    host.innerHTML='<details class="tlbox" open>'+strip(hits,kw)+bone(hits)+'</details>'
+    // 기본은 접힘 — 펼쳐두면 아래 주제 카드가 첫 화면에 안 보인다(오너 2026-09-08). 요약 상세와 같은 규약.
+    host.innerHTML='<details class="tlbox">'+strip(hits,kw)+bone(hits)+'</details>'
       +cards(hits,kw,d.s);
     wire();
   }).catch(function(){
