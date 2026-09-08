@@ -184,7 +184,7 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
 </header>
 <div class="tabwrap"><nav class="tabs"><a class="on" href="./"><b>요약</b><i> 대화</i></a><a href="./repos/"><b>레포</b><i> 공유된</i></a><a href="./weekly/"><b>주간</b><i> 정리</i></a><a href="./mag/"><b>매거진</b><i></i></a><a href="./qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <a class="wkbanner" href="w/2026-W36.html"><span>이번 주 정리</span> — 에이전트 설계와 모델 운용 재점검</a>
-<section class="hero"><div class="fresh">방금 갱신 · 09-08 18:00</div><h2><a href="s/2026-09-08-1800.html">Codex Desktop 멀티모델 커스텀 성공 · Aside vs Ego Lite 비교 논의 · AI 사용량 위젯 만들기 논의</a></h2><div class="hmeta">256건 · 35명</div></section>
+<section class="hero"><div class="fresh">3시간 전 · 09-08 18:00</div><h2><a href="s/2026-09-08-1800.html">Codex Desktop 멀티모델 커스텀 성공 · Aside vs Ego Lite 비교 논의 · AI 사용량 위젯 만들기 논의</a></h2><div class="hmeta">256건 · 35명</div></section>
 <div class="find">
   <input id="q" type="search" placeholder="주제 검색 — 예: 훅, MCP, 서브에이전트" disabled
          autocomplete="off" enterkeyhint="search" aria-label="요약 검색">
@@ -208,10 +208,19 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
   function isCho(q){return /^[\u3131-\u314e]+$/.test(q);}
   var input=document.getElementById('q');
   if(!input) return;
-  var IDX=null, tmr=null;
+  var IDX=null, tmr=null, ALIAS=null;
   fetch('data/index.json').then(function(r){return r.json();}).then(function(d){
     IDX=d.e; input.disabled=false;
   }).catch(function(){ /* 검색 실패해도 목록은 그대로 */ });
+  // 별칭 표 — 페이블/fable, 코덱스/codex처럼 갈린 표기를 한 묶음으로 (없어도 검색은 그대로)
+  fetch('data/aliases.json').then(function(r){return r.json();}).then(function(d){ALIAS=d.g||[];}).catch(function(){ALIAS=[];});
+  function expand(q){
+    var out=[q];
+    if(!ALIAS) return out;
+    for(var i=0;i<ALIAS.length;i++){ if(ALIAS[i].indexOf(q)>-1){ ALIAS[i].forEach(function(t){ if(out.indexOf(t)<0) out.push(t); }); } }
+    return out;
+  }
+  function anyIn(h, qs){ for(var i=0;i<qs.length;i++){ if(h.indexOf(qs[i])>-1) return true; } return false; }
   function esc(t){return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   function render(list){
@@ -245,10 +254,10 @@ font-size:15px;font-weight:700;box-shadow:var(--shadow)}
     if(!IDX) return;
     var q=norm(input.value);
     if(!q){render(null);return;}
-    var cho=isCho(q);
+    var cho=isCho(q), qs=expand(q);
     render(IDX.filter(function(e){
       if(!e._h){e._h=norm(e.t.join(' ')+' '+(e.f||''));}
-      if(e._h.indexOf(q)>-1) return true;
+      if(anyIn(e._h,qs)) return true;
       if(cho){ if(!e._c) e._c=toCho(e._h); return e._c.indexOf(q)>-1; }
       return false;
     }));
