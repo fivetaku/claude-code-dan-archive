@@ -28,9 +28,10 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 @media(min-width:760px){body{font-size:18px}}
 
 /* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
-.tlgo{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 14px;
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
 padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
 text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
 .tlgo:hover{background:var(--chip-bg)}
 .tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
 .tlgo span{font-size:13px;color:var(--muted)}
@@ -246,7 +247,7 @@ background:var(--surface);text-decoration:none}
   <ul><li>오푸스4.8 속도 저하 호소</li><li>소넷 전환 시 개발지식 필요 여부 질문</li><li>제미나이3.1 활용 사례도 언급됨</li></ul>
 </article>
 <a class="srccard" href="../../s/2026-08-05-1725-s.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-05 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="codex초기설정.html">Codex 초기 설정은 어떻게 하나요?</a></li></ul></section>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="멀티모델역할분담.html">멀티 모델로 역할을 어떻게 나눠서 쓰나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>
