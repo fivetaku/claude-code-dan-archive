@@ -61,7 +61,7 @@ border-radius:999px;padding:7px 17px;font-family:"Pretendard Variable","Pretenda
 .tlbox[open] .tspill{background:var(--surface);color:var(--accent-deep)}
 .tlstrip:hover .tspill{filter:brightness(1.05)}
 @media(max-width:520px){.tsbars{height:26px}.tshead b{font-size:14px}
-.tsfoot .tsl,.tsfoot .tsr{display:none}}
+.tsfoot{justify-content:center}.tsfoot .tsl,.tsfoot .tsr{display:none}}
 
 
 
@@ -225,7 +225,7 @@ mark{background:#FFE9A0;color:inherit;padding:0 2px;border-radius:3px}
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a class="on" href=""><b>요약</b><i> 대화</i></a><a href="repos/"><b>레포</b><i> 공유된</i></a><a href="weekly/"><b>주간</b><i> 정리</i></a><a href="mag/"><b>매거진</b><i></i></a><a href="qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<div class="tabwrap"><nav class="tabs"><a class="on" href="./"><b>요약</b><i> 대화</i></a><a href="./repos/"><b>레포</b><i> 공유된</i></a><a href="./weekly/"><b>주간</b><i> 정리</i></a><a href="./mag/"><b>매거진</b><i></i></a><a href="./qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
   <div class="eyebrow">GPTAKU BOT &middot; SEARCH</div>
   <h1 id="findhead">대화 흐름 찾기</h1>
@@ -242,89 +242,119 @@ mark{background:#FFE9A0;color:inherit;padding:0 2px;border-radius:3px}
   <span><a href="./">아카이브 홈</a></span>
 </footer>
 </div>
-<script>(function(){
-  var MAX_RIBS=28, MIN_IMP=3, DAY_PX=78, CARD_LIMIT=60;
-  var CHO='\u3131\u3132\u3134\u3137\u3138\u3139\u3141\u3142\u3143\u3145\u3146\u3147\u3148\u3149\u314a\u314b\u314c\u314d\u314e';
-  function norm(s){return String(s).normalize('NFC').toLowerCase().replace(/[\s\-_\u00b7\/]+/g,'');}
+<script>
+(function(){
+  var NARROW=window.innerWidth<640;
+  var MAX_RIBS=NARROW?14:28, MIN_IMP=3, DAY_PX=NARROW?62:78, CARD_LIMIT=60;
+  var STRIP_BUCKETS=34;                       // 띠 막대 상한 — 파이썬 tlstrip과 같은 규약
+  var CHO='ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
+  var REDUCED=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function norm(s){return String(s).normalize('NFC').toLowerCase().replace(/[\s\-_·\/]+/g,'');}
   function toCho(s){var o='';for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);
     o+=(c>=0xAC00&&c<=0xD7A3)?CHO[Math.floor((c-0xAC00)/588)]:s[i];}return o;}
-  function isCho(q){return /^[\u3131-\u314e]+$/.test(q);}
+  function isCho(q){return /^[ㄱ-ㅎ]+$/.test(q);}
   function esc(t){return String(t).replace(/[&<>"]/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-  function hl(t,kw){var e=esc(t);
-    if(!kw) return e;
-    try{return e.replace(new RegExp('('+kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>');}
-    catch(err){return e;}}
-  function dk(iso){return iso.slice(5).replace('-','/');}
+  // 원문에서 매칭한 뒤 구간별로 이스케이프 — 이스케이프 후 매칭하면 &amp; 같은 엔티티가 쪼개진다
+  function hl(t,kw){
+    t=String(t);
+    if(!kw) return esc(t);
+    var re;
+    try{re=new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');}catch(err){return esc(t);}
+    var out='',last=0,m;
+    while((m=re.exec(t))!==null){
+      if(!m[0]){re.lastIndex++;continue;}
+      out+=esc(t.slice(last,m.index))+'<mark>'+esc(m[0])+'</mark>';
+      last=m.index+m[0].length;
+    }
+    return out+esc(t.slice(last));
+  }
+  // http(s)만 통과 — javascript: 등은 빈 문자열
+  function httpURL(v){
+    try{var u=new URL(String(v));return (u.protocol==='https:'||u.protocol==='http:')?u.href:'';}
+    catch(err){return '';}
+  }
+  function dk(iso){return String(iso).slice(5).replace('-','/');}      // 표시용 MM/DD — 키로는 쓰지 않는다
   function addD(iso,n){var d=new Date(iso+'T00:00:00Z');d.setUTCDate(d.getUTCDate()+n);
     return d.toISOString().slice(0,10);}
-  function cid(c){return 'c-'+c.s+'-'+norm(c.t).replace(/[^0-9a-z가-힣]+/g,'').slice(0,24);}
+  function cid(c){return 'c-'+c._idx;}                                  // 고유 순번 — 제목 기반은 충돌한다
 
   function search(CARDS,kw){
-    var q=norm(kw), cho=isCho(q), out=[];
+    var q=norm(kw);
+    if(!q) return [];                                                   // q=- 처럼 정규화 후 빈 입력 방어
+    var cho=isCho(q), out=[];
     for(var i=0;i<CARDS.length;i++){
       var c=CARDS[i];
-      if(!c._h) c._h=norm(c.t+' '+c.m+' '+(c.x||[]).join(' '));
+      if(c._idx===undefined){
+        c._idx=i;
+        c.i=Number(c.i); if(!isFinite(c.i)) c.i=0;
+        c._h=norm(c.t+' '+c.m+' '+(c.x||[]).join(' '));
+      }
       if(c._h.indexOf(q)>-1){out.push(c);continue;}
       if(cho){ if(!c._c) c._c=toCho(c._h); if(c._c.indexOf(q)>-1) out.push(c); }
     }
-    out.sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:(a.s<b.s?-1:1);});
+    out.sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:(a.s<b.s?-1:a.s>b.s?1:a._idx-b._idx);});
     return out;
   }
 
   function dayList(hits){
     var out=[], d=hits[0].d, last=hits[hits.length-1].d;
     while(d<=last){out.push(d); d=addD(d,1);}
+    if(out.length===1) out=[addD(out[0],-1),out[0],addD(out[0],1)];
     return out;
   }
 
   function strip(hits,kw){
     var ds=dayList(hits), per={};
     hits.forEach(function(h){per[h.d]=(per[h.d]||0)+1;});
-    var mx=0; ds.forEach(function(x){if((per[x]||0)>mx) mx=per[x];});
-    var peak=0; ds.forEach(function(x,i){if((per[x]||0)===mx&&!peak) peak=i;});
-    var bars=ds.map(function(x,i){
-      var c=per[x]||0, h=Math.max(2,Math.round(c/(mx||1)*100));
-      var cls=(i===peak&&c)?'tsb peak':(c?'tsb on':'tsb');
-      return '<i class="'+cls+'" style="height:'+h+'%" title="'+dk(x)+' \u00b7 '+c+'건"></i>';
+    var size=Math.max(1,Math.ceil(ds.length/STRIP_BUCKETS)), buckets=[];
+    for(var i=0;i<ds.length;i+=size){
+      var chunk=ds.slice(i,i+size), sum=0;
+      chunk.forEach(function(x){sum+=per[x]||0;});
+      buckets.push({a:chunk[0],b:chunk[chunk.length-1],c:sum});
+    }
+    var mx=0,peak=0;
+    buckets.forEach(function(bk,i){if(bk.c>mx){mx=bk.c;peak=i;}});
+    var bars=buckets.map(function(bk,i){
+      var h=Math.max(2,Math.round(bk.c/(mx||1)*100));
+      var cls=(i===peak&&bk.c)?'tsb peak':(bk.c?'tsb on':'tsb');
+      var span=bk.a===bk.b?dk(bk.a):dk(bk.a)+'~'+dk(bk.b);
+      return '<i class="'+cls+'" style="height:'+h+'%" title="'+esc(span)+' · '+bk.c+'건"></i>';
     }).join('');
-    return '<summary class="tlstrip"><div class="tshead"><b>'+esc(kw)+'</b>'
-      +'<span>'+hits.length+'개 주제 \u00b7 '+dk(ds[0])+' ~ '+dk(ds[ds.length-1])+' \u00b7 '+ds.length+'일</span></div>'
-      +'<div class="tsbars">'+bars+'</div>'
-      +'<div class="tsfoot"><span class="tsl">'+dk(ds[0])+'</span>'
+    return '<summary class="tlstrip"><span class="tshead"><b>'+esc(kw)+'</b>'
+      +'<span>'+hits.length+'개 주제 · '+esc(dk(ds[0]))+' ~ '+esc(dk(ds[ds.length-1]))+' · '+ds.length+'일</span></span>'
+      +'<span class="tsbars">'+bars+'</span>'
+      +'<span class="tsfoot"><span class="tsl">'+esc(dk(ds[0]))+'</span>'
       +'<span class="tspill" id="pill">타임라인 접기</span>'
-      +'<span class="tsr">'+dk(ds[ds.length-1])+'</span></div></summary>';
+      +'<span class="tsr">'+esc(dk(ds[ds.length-1]))+'</span></span></summary>';
   }
 
   function bone(hits){
     var ds=dayList(hits), per={};
     hits.forEach(function(h){per[h.d]=(per[h.d]||0)+1;});
-    var dens=ds.map(function(x){return [dk(x),per[x]||0];});
-    if(dens.length<2) dens=[[dk(addD(hits[0].d,-1)),0]].concat(dens,[[dk(addD(hits[hits.length-1].d,1)),0]]);
-    var n=dens.length, mx=0;
-    dens.forEach(function(p){if(p[1]>mx) mx=p[1];});
+    var n=ds.length, mx=0;
+    ds.forEach(function(x){if((per[x]||0)>mx) mx=per[x];});
     var cut=Math.max(2,mx*0.75), step=Math.max(1,Math.floor(n/6));
     var boneW=Math.max(880,n*DAY_PX), CW=190/boneW*100+1.5;
-    var bars=[],labels=[],peaks=[];
+    var bars=[],labels=[],peaks=[],idx={};
     for(var i=0;i<n;i++){
-      var left=2+(i/(n-1))*94, cnt=dens[i][1], h=Math.max(6,Math.round(cnt/(mx||1)*58));
+      idx[ds[i]]=i;                                                     // ISO 날짜 키 — 연도가 다른 같은 월일이 안 겹친다
+      var left=2+(i/(n-1))*94, cnt=per[ds[i]]||0, h=Math.max(6,Math.round(cnt/(mx||1)*58));
       var isPk=cnt>=cut&&cnt>0;
       bars.push('<div class="bar'+(isPk?' peak':'')+'" style="left:'+left.toFixed(1)+'%;height:'+h+'px"></div>');
       if(isPk&&!peaks.some(function(p){return Math.abs(left-p)<8;})){
         peaks.push(left);
         labels.push('<div class="peaktag" style="left:'+left.toFixed(1)+'%;bottom:calc(50% + '+(h+8)+'px)">'
-          +dens[i][0]+' \u00b7 '+cnt+'건</div>');
+          +esc(dk(ds[i]))+' · '+cnt+'건</div>');
       }
       if(i%step===0||i===n-1)
-        labels.push('<div class="lbl" style="left:'+left.toFixed(1)+'%">'+dens[i][0]+'</div>');
+        labels.push('<div class="lbl" style="left:'+left.toFixed(1)+'%">'+esc(dk(ds[i]))+'</div>');
     }
-    var ranked=hits.slice().sort(function(a,b){return b.i-a.i||(a.d<b.d?-1:1);});
+    var ranked=hits.slice().sort(function(a,b){return b.i-a.i||(a.d<b.d?-1:a.d>b.d?1:a._idx-b._idx);});
     var keep=ranked.filter(function(h){return h.i>=MIN_IMP;}).slice(0,MAX_RIBS);
     if(!keep.length) keep=ranked.slice(0,MAX_RIBS);
-    var top={}; keep.forEach(function(h){top[cid(h)]=1;});
-    var idx={}; dens.forEach(function(p,i){idx[p[0]]=i;});
-    var rows=hits.filter(function(h){return top[cid(h)];}).map(function(h){
-      var i=idx[dk(h.d)], x=(i===undefined)?50:2+(i/(n-1))*94;
+    var rows=keep.map(function(h){                                       // 고른 갈비만 그린다 — hits 재필터 금지
+      var i=idx[h.d], x=(i===undefined)?50:2+(i/(n-1))*94;
       x=Math.min(Math.max(x,2),97);
       var cap=100-CW-1, flip=x>cap;
       return {left:Math.min(Math.max(flip?x-CW:x,2),cap), flip:flip, h:h};
@@ -345,34 +375,44 @@ mark{background:#FFE9A0;color:inherit;padding:0 2px;border-radius:3px}
       var off=STEM+lv*LVL;
       ribs.push('<div class="rib '+side+(r.flip?' flip':'')+'" style="left:'+r.left.toFixed(1)+'%">'
         +'<div class="stem" style="height:'+off+'px"></div>'
-        +'<div class="ribcard i'+r.h.i+'" data-goto="'+esc(cid(r.h))+'" role="button" tabindex="0" style="'
+        +'<div class="ribcard i'+esc(r.h.i)+'" data-goto="'+esc(cid(r.h))+'" role="button" tabindex="0" style="'
         +(side==='up'?'margin-bottom:':'margin-top:')+off+'px">'
-        +'<div class="t">'+dk(r.h.d)+'</div><h3>'+esc(r.h.t)+'</h3></div></div>');
+        +'<div class="t">'+esc(dk(r.h.d))+'</div><h3>'+esc(r.h.t)+'</h3></div></div>');
     });
     var half=Math.max(170,STEM+maxLvl*LVL+120);
-    return '<div class="bonewrap"><p class="bonehint"><b>\u2192</b> 옆으로 밀어 흐름 보기</p>'
+    return '<div class="bonewrap"><p class="bonehint"><b>→</b> 옆으로 밀어 흐름 보기</p>'
       +'<div class="bonebox"><div class="bone" style="height:'+(half*2)+'px;min-width:'+boneW+'px">'
       +'<div class="spine"></div>'+bars.join('')+labels.join('')+ribs.join('')+'</div></div></div>';
   }
 
   function cards(hits,kw,slots){
-    var sorted=hits.slice().sort(function(a,b){return b.i-a.i||(a.d<b.d?-1:1);});
+    var sorted=hits.slice().sort(function(a,b){return b.i-a.i||(a.d<b.d?-1:a.d>b.d?1:a._idx-b._idx);});
     var shown=sorted.slice(0,CARD_LIMIT);
     var html=shown.map(function(c){
       var det=(c.x||[]).map(function(x){return '<li>'+hl(x,kw)+'</li>';}).join('');
-      var link=c.l?'<li><a href="'+esc(c.l)+'">'+esc(c.l)+'</a></li>':'';
-      var back=(slots&&slots[c.s])?'<li><a href="'+esc(slots[c.s].u)+'">이 대화 전체 요약 보기 \u2192 '+esc(c.s)+'</a></li>':'';
-      return '<article class="dcard" id="'+esc(cid(c))+'"><div class="t">'+esc(c.d)+' '+esc(c.r)+'</div>'
+      var u=httpURL(c.l);
+      var link=u?'<li><a href="'+esc(u)+'" target="_blank" rel="nofollow ugc noopener noreferrer">'+esc(c.l)+'</a></li>':'';
+      var back='';
+      if(slots&&slots[c.s]&&/^s\/[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{4}(-s)?\.html$/.test(slots[c.s].u))
+        back='<li><a href="'+esc(slots[c.s].u)+'">이 대화 전체 요약 보기 → '+esc(c.s)+'</a></li>';
+      return '<article class="dcard" id="'+esc(cid(c))+'" tabindex="-1"><div class="t">'+esc(c.d)+' '+esc(c.r)+'</div>'
         +'<h2>'+hl(c.t,kw)+'</h2><p class="sum">'+hl(c.m,kw)+'</p>'
         +'<ul>'+det+link+back+'</ul></article>';
     }).join('');
     var more=sorted.length>CARD_LIMIT
-      ? '<p class="findmore">중요도 낮은 '+(sorted.length-CARD_LIMIT)+'장은 접었습니다.</p>' : '';
+      ? '<p class="findmore">중요도 상위 '+CARD_LIMIT+'개만 표시했습니다 (전체 '+sorted.length+'개).</p>' : '';
     return '<section class="details">'+html+'</section>'+more;
   }
 
   function wire(){
     var box=document.querySelector('.bonebox');
+    function jump(el){
+      var t=document.getElementById(el.getAttribute('data-goto'));
+      if(!t) return;
+      t.scrollIntoView({behavior:REDUCED?'auto':'smooth',block:'start'});
+      t.focus({preventScroll:true});
+      t.classList.remove('flash'); void t.offsetWidth; t.classList.add('flash');
+    }
     if(box){
       box.addEventListener('click',function(e){
         var c=e.target.closest('.ribcard[data-goto]'); if(c) jump(c);});
@@ -380,15 +420,9 @@ mark{background:#FFE9A0;color:inherit;padding:0 2px;border-radius:3px}
         if(e.key!=='Enter'&&e.key!==' ') return;
         var c=e.target.closest('.ribcard[data-goto]'); if(c){e.preventDefault();jump(c);}});
     }
-    function jump(el){
-      var t=document.getElementById(el.getAttribute('data-goto'));
-      if(!t) return;
-      t.scrollIntoView({behavior:'smooth',block:'start'});
-      t.classList.remove('flash'); void t.offsetWidth; t.classList.add('flash');
-    }
-    var box2=document.querySelector('.tlbox'), pill=document.getElementById('pill');
-    if(box2&&pill) box2.addEventListener('toggle',function(){
-      pill.textContent=box2.open?'타임라인 접기':'타임라인 보기';});
+    var tl=document.querySelector('.tlbox'), pill=document.getElementById('pill');
+    if(tl&&pill) tl.addEventListener('toggle',function(){
+      pill.textContent=tl.open?'타임라인 접기':'타임라인 보기';});
   }
 
   var kw=(new URLSearchParams(location.search).get('q')||'').trim();
@@ -417,6 +451,7 @@ mark{background:#FFE9A0;color:inherit;padding:0 2px;border-radius:3px}
   }).catch(function(){
     host.innerHTML='<p class="empty">검색 데이터를 불러오지 못했습니다.</p>';
   });
-})();</script>
+})();
+</script>
 </body>
 </html>

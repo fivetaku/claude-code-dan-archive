@@ -25,6 +25,35 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(min-width:760px){body{font-size:18px}}
 
+/* 타임라인 접기 — 그래프 띠 전체가 여는 버튼이다 (details, JS 없이 동작).
+   같은 컴포넌트를 요약 상세와 검색 결과 양쪽에 쓴다 — 스타일 갈림 방지(2026-09-07 오너). */
+.tlbox{margin:24px 0 0}
+.tlstrip{display:block;cursor:pointer;list-style:none;background:var(--surface);
+border:1px solid var(--line);border-radius:14px;padding:15px 18px 11px;box-shadow:var(--shadow)}
+.tlstrip::-webkit-details-marker{display:none}
+.tlstrip:hover{border-color:var(--accent)}
+.tshead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+font-size:12.5px;color:var(--muted)}
+.tshead b{font-size:15.5px;color:var(--ink);font-weight:750;letter-spacing:-.01em}
+.tshead span{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+.tsbars{display:flex;align-items:flex-end;gap:2px;height:34px;margin:11px 0 7px}
+.tsb{flex:1;min-width:2px;background:var(--line);border-radius:2px;transition:opacity .12s}
+.tsb.on{background:var(--accent);opacity:.4}
+.tsb.peak{background:var(--accent);opacity:1}
+.tlstrip:hover .tsb.on{opacity:.6}
+.tstrip-foot,.tsfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;color:var(--muted);
+font-variant-numeric:tabular-nums}
+.tspill{border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);
+border-radius:999px;padding:7px 17px;font-family:"Pretendard Variable","Pretendard",
+-apple-system,sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.tlbox[open] .tspill{background:var(--surface);color:var(--accent-deep)}
+.tlstrip:hover .tspill{filter:brightness(1.05)}
+@media(max-width:520px){.tsbars{height:26px}.tshead b{font-size:14px}
+.tsfoot{justify-content:center}.tsfoot .tsl,.tsfoot .tsr{display:none}}
+
+
+
 .wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
 /* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
 a{color:var(--accent-deep);text-decoration:none}
@@ -178,7 +207,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
   </div>
 </header>
 
-<p class="bonehint"><b>&rarr;</b> 옆으로 밀어 시간대별 흐름 보기</p><div class="bonewrap"><div class="bonebox"><div class="bone" style="height:700px"><div class="spine"></div><div class="bar" style="left:2.0%;height:35px"></div><div class="bar" style="left:17.7%;height:12px"></div><div class="bar" style="left:33.3%;height:27px"></div><div class="bar peak" style="left:49.0%;height:58px"></div><div class="bar" style="left:64.7%;height:23px"></div><div class="bar" style="left:80.3%;height:6px"></div><div class="bar" style="left:96.0%;height:15px"></div><div class="lbl" style="left:2.0%">17:00</div><div class="lbl" style="left:17.7%">17:01</div><div class="lbl" style="left:33.3%">17:02</div><div class="peaktag" style="left:49.0%;bottom:66px">17:03 · 15건</div><div class="lbl" style="left:49.0%">17:03</div><div class="lbl" style="left:64.7%">17:04</div><div class="lbl" style="left:80.3%">17:07</div><div class="lbl" style="left:96.0%">17:08</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">16:46-16:47</div><h3>스레드 계정 운영</h3></div></div><div class="rib dn" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">16:47-16:50</div><h3>아침 자동화 구상</h3></div></div><div class="rib up" style="left:2.0%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">16:52</div><h3>요약봇의 다음 모습</h3></div></div><div class="rib dn" style="left:2.0%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">16:53-16:58</div><h3>완성 조건과 골잡이</h3></div></div><div class="rib up" style="left:2.0%"><div class="stem" style="height:230px"></div><div class="ribcard" style="margin-bottom:230px"><div class="t">17:00-17:08</div><h3>인세인서치 생태계</h3></div></div></div></div></div>
+<details class="tlbox"><summary class="tlstrip"><span class="tshead"><b>대화가 몰린 시각</b><span>150건 · 07-29 16:46~17:08</span></span><span class="tsbars"><i class="tsb on" style="height:60%" title="17:00 · 9건"></i><i class="tsb on" style="height:20%" title="17:01 · 3건"></i><i class="tsb on" style="height:47%" title="17:02 · 7건"></i><i class="tsb peak" style="height:100%" title="17:03 · 15건"></i><i class="tsb on" style="height:40%" title="17:04 · 6건"></i><i class="tsb on" style="height:7%" title="17:07 · 1건"></i><i class="tsb on" style="height:27%" title="17:08 · 4건"></i></span><span class="tsfoot"><span class="tsl">17:00</span><span class="tspill">타임라인 보기</span><span class="tsr">17:08</span></span></summary><p class="bonehint"><b>&rarr;</b> 옆으로 밀어 시간대별 흐름 보기</p><div class="bonewrap"><div class="bonebox"><div class="bone" style="height:700px"><div class="spine"></div><div class="bar" style="left:2.0%;height:35px"></div><div class="bar" style="left:17.7%;height:12px"></div><div class="bar" style="left:33.3%;height:27px"></div><div class="bar peak" style="left:49.0%;height:58px"></div><div class="bar" style="left:64.7%;height:23px"></div><div class="bar" style="left:80.3%;height:6px"></div><div class="bar" style="left:96.0%;height:15px"></div><div class="lbl" style="left:2.0%">17:00</div><div class="lbl" style="left:17.7%">17:01</div><div class="lbl" style="left:33.3%">17:02</div><div class="peaktag" style="left:49.0%;bottom:66px">17:03 · 15건</div><div class="lbl" style="left:49.0%">17:03</div><div class="lbl" style="left:64.7%">17:04</div><div class="lbl" style="left:80.3%">17:07</div><div class="lbl" style="left:96.0%">17:08</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">16:46-16:47</div><h3>스레드 계정 운영</h3></div></div><div class="rib dn" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">16:47-16:50</div><h3>아침 자동화 구상</h3></div></div><div class="rib up" style="left:2.0%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">16:52</div><h3>요약봇의 다음 모습</h3></div></div><div class="rib dn" style="left:2.0%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">16:53-16:58</div><h3>완성 조건과 골잡이</h3></div></div><div class="rib up" style="left:2.0%"><div class="stem" style="height:230px"></div><div class="ribcard" style="margin-bottom:230px"><div class="t">17:00-17:08</div><h3>인세인서치 생태계</h3></div></div></div></div></div></details>
 
 <section class="details"><article class="dcard"><div class="t">16:46-16:47</div><h2>스레드 계정 운영</h2><p class="sum">메일 알리아스로 계정을 대량 생성하는 방식은 얼굴인증에서 막히고 밴이 반복된다는 경험담.</p><ul><li>직접 찍은 콘텐츠를 AI가 서포트하는 쪽이 결국 계정을 키운다는 데 의견이 모임.</li></ul></article><article class="dcard"><div class="t">16:47-16:50</div><h2>아침 자동화 구상</h2><p class="sum">출근 전 AI가 글감을 수집하고 채널별 내 문체 초안을 만들어두면, 사람은 승인만 하는 파이프라인.</p><ul><li>관건은 글감 수집 기준 — AI 서치와 사람의 감도 차이는 언어화하기 어렵다는 공감.</li><li>원천 자료는 책이 최고, 특히 AI 물이 덜 든 2022년 이전 출간본. 북스캔 실전 팁도.</li></ul></article><article class="dcard"><div class="t">16:52</div><h2>요약봇의 다음 모습</h2><p class="sum">톡방 요약은 시간이 지나면 안 보게 된다 — 웹에서 타임라인으로 정리되면 좋겠다는 의견.</p><ul><li>방 대화에 개인정보가 섞여 수집을 멈췄다는 경험 — 다루는 쪽의 주의를 환기.</li><li>지금 보고 있는 이 페이지가 그 의견의 첫 구현입니다.</li></ul></article><article class="dcard"><div class="t">16:53-16:58</div><h2>완성 조건과 골잡이</h2><p class="sum">루프 자동화에서 &quot;완성의 조건&quot;을 미리 정의하기 어렵다는 실무 질문.</p><ul><li>종료 조건과 정확도 기준을 명시하는 /goal 작성례가 공유됨.</li><li>목표·완료조건·리커버리를 세팅해주는 <a href="https://github.com/fivetaku/goaljaby" rel="nofollow ugc noopener noreferrer" target="_blank">goaljaby</a> 추천.</li></ul></article><article class="dcard"><div class="t">17:00-17:08</div><h2>인세인서치 생태계</h2><p class="sum">딥리서치 + 인세인서치가 인세인리서치로 통합, 서치는 폴백으로 편입.</p><ul><li>크롤링 활용 후기 다수 — 특정 커머스의 차단 강화 관측도.</li><li>한국어 발화 말뭉치 조사와 온톨로지팩 빌딩 시도 공유 예고. <a href="https://github.com/fivetaku/insane-search/" rel="nofollow ugc noopener noreferrer" target="_blank">insane-search</a></li></ul></article></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
