@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPT-6 아스트라를 오케스트레이터로 쓰면 안 되는 이유와 되는 조건 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="GPT-6 아스트라를 오케스트레이터로 두고 루나·솔을 서브에이전트로 쓰는 구성과 페이블 5.1 아래 서브로 두는 구성을 비교한다. Codex config.toml·Claude Code 설정법, 추론 강도별 비용, 주간 한도 소진 사례를 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/gpt-6-astra-orchestrator-or-subagent.html">
+<meta property="og:title" content="GPT-6 아스트라를 오케스트레이터로 쓰면 안 되는 이유와 되는 조건">
+<meta property="og:description" content="GPT-6 아스트라를 오케스트레이터로 두고 루나·솔을 서브에이전트로 쓰는 구성과 페이블 5.1 아래 서브로 두는 구성을 비교한다. Codex config.toml·Claude Code 설정법, 추론 강도별 비용, 주간 한도 소진 사례를 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/gpt-6-astra-orchestrator-or-subagent.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "GPT-6 아스트라를 오케스트레이터로 쓰면 안 되는 이유와 되는 조건", "description": "GPT-6 아스트라를 오케스트레이터로 두고 루나·솔을 서브에이전트로 쓰는 구성과 페이블 5.1 아래 서브로 두는 구성을 비교한다. Codex config.toml·Claude Code 설정법, 추론 강도별 비용, 주간 한도 소진 사례를 정리했다.", "datePublished": "2026-09-13", "dateModified": "2026-09-13", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/gpt-6-astra-orchestrator-or-subagent.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "GPT-6 아스트라, 오케스트레이터, 서브에이전트, Codex CLI, Claude Code, 페이블 5.1, reasoning effort", "image": "https://chat.axwith.com/mag/hero/gpt-6-astra-orchestrator-or-subagent.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Codex에서 GPT-6 아스트라를 오케스트레이터, 루나를 서브에이전트로 설정하는 방법은?", "acceptedAnswer": {"@type": "Answer", "text": "config.toml의 [agents] 블록에 default_subagent_model = \"gpt-5.6-luna\"와 default_subagent_reasoning_effort를 적고, 루트 model을 gpt-6-astra로 둔다. 역할별 TOML 파일의 model 값이 이 기본값보다 우선한다. 공개 저장소 codex-astra-luna-orchestrator의 setup.sh가 이 프로필을 복사해 준다."}}, {"@type": "Question", "name": "아스트라를 총괄로 쓰면 Codex 사용 한도가 왜 빨리 줄어드나?", "acceptedAnswer": {"@type": "Answer", "text": "총괄 스레드는 작업 내내 살아 있어 토큰을 계속 쓰고, 아스트라는 하위 모델에 맡길 일을 스스로 끌어올리거나 완료 확인을 LLM 호출로 반복하는 사례가 보고됐다. 오픈AI는 아스트라가 AGENTS.md 지시에 더 민감하고 질문하려고 멈추는 경향이 있다고 안내한다."}}, {"@type": "Question", "name": "Claude Code에서 서브에이전트 모델을 따로 지정할 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": ".claude/agents/ 아래 에이전트 파일의 model 필드에 sonnet·opus·haiku·fable 별칭이나 전체 모델 ID를 적는다. 전체 기본값은 settings.json의 CLAUDE_CODE_SUBAGENT_MODEL로 정한다. model 필드가 무시된다는 버그 리포트가 있으니 실행 후 실제 모델을 확인해야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/gpt-6-astra-orchestrator-or-subagent.png" alt="GPT-6 아스트라를 오케스트레이터로 쓰면 안 되는 이유와 되는 조건" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>GPT-6 아스트라를 오케스트레이터로 쓰면 안 되는 이유와 되는 조건</h1>
+  <p class="sub">아스트라 총괄에 루나·솔 실무, 또는 페이블 밑 서브. Codex와 Claude Code 설정법과 한도가 새는 지점을 실사용 기록으로 따졌다</p>
+  <div class="meta"><span>2026-09-13</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>GPT-6 아스트라가 9월 4일 일반 공개된 뒤, 클로드코드와 Codex를 함께 쓰는 사람들 사이에서 같은 질문이 반복된다. 가장 비싼 모델을 총괄 자리에 앉히고 싼 모델에게 손발을 시키는 게 맞는가, 아니면 아스트라는 페이블 5.1 아래 서브에이전트로 내려보내야 하는가. 이 기사는 두 배치가 실제로 어떻게 설정되고 어디서 한도와 시간이 새는지를 공개 문서와 실사용 기록으로 따진다.</p>
+<h2>하루 사이에 뒤집힌 방의 평가</h2>
+<p>클코단에서 이 화제는 질문 하나로 시작했다. 아스트라를 오케스트레이터로 두고 루나·솔을 서브에이전트로 붙여 쓰는 사람이 있느냐는 것이었다. 곧 한 참가자가 자기 방식을 소개했다. 큰 설계는 아스트라를 최고 추론 강도로 돌려 잡고, 나머지 모듈 구현은 솔을 high 강도로 돌린다는 구성이었다.</p>
+<p>저녁이 되자 반대 평가가 나왔다. 아스트라는 총괄 자리에 맞지 않으니 페이블 밑에서 서브 역할이나 맡기라는 의견이었다. 바깥의 실사용 기록을 보면 이 두 평가는 조건이 다를 뿐 둘 다 근거가 있다.</p>
+<h2>아스트라를 위에 두는 사람들은 실제로 이렇게 짠다</h2>
+<p>Codex CLI는 config.toml의 [agents] 블록에서 서브에이전트 기본 모델과 추론 강도를 정한다. default_subagent_model과 default_subagent_reasoning_effort가 그 키다. 역할별 TOML 파일에 model과 model_reasoning_effort를 적으면 그 역할만 따로 고정된다. ChatGPT 공식 서브에이전트 문서가 이 우선순위를 명시한다.</p>
+<p>공개 저장소 codex-astra-luna-orchestrator가 이 구조를 그대로 쓴 예다. Pro 플랜 프로필은 루트를 gpt-6-astra medium으로, explorer·worker·tester·researcher 네 역할을 gpt-5.6-luna max로 고정한다. 리뷰어만 아스트라 low로 따로 둔다. 설치는 저장소를 클론해 setup.sh를 실행하고 대상 저장소 경로와 플랜을 고르면 .codex 설정과 AGENTS.md가 복사된다.</p>
+<p>같은 저장소의 Plus 프로필은 루트마저 루나 max로 바꾼다. 루트 스레드가 작업 내내 살아 있어 가장 큰 비용 항목이라는 게 README의 설명이다.</p>
+<p>Claude Code 안에서 아스트라를 총괄로 쓰는 길도 있다. Eigenwise Toolshed 마켓플레이스의 model-gateway 플러그인이 로컬 프록시로 ChatGPT 로그인을 OpenAI 쪽에 넘기고, 나머지 요청은 앤트로픽으로 흘린다. 모델 ID 앞에 claude- 접두어가 있어야 Claude Code가 인식하고, 뒤에 [1m]을 붙여야 20만 토큰에서 압축하지 않는다. 플러그인 제작자는 사흘 써 본 뒤 아스트라가 자기가 앉혀 본 총괄 중 가장 낫다고 썼다. 일을 직접 떠안지 않고 끝까지 위임하더라는 이유다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/gpt-6-astra-orchestrator-or-subagent.png" alt="" loading="lazy"><h2>총괄 자리의 아스트라가 한도를 태우는 방식</h2>
+<p>반대편 기록도 구체적이다. 한 개발자는 솔로 잘 돌던 AGENTS.md 기반 오케스트레이션에 아스트라를 얹고 잠들었다가, 주간 한도 초기화 직후 반나절도 안 돼 100%가 소진된 것을 봤다. 추론 강도를 낮춰 두 번 다시 돌렸지만 결과는 비슷했다. 세션을 들여다보니 아스트라가 하위 모델에 맡겨야 할 일을 전부 자기 것으로 끌어올렸고, 하위 에이전트 완료 확인을 LLM 호출로 잦게 반복해 컨텍스트 압축까지 강제하고 있었다.</p>
+<p>이 개발자가 재구성한 배치는 이렇다. 총괄은 솔 high, 단계 관리자는 솔 medium, 실무는 루나·테라·솔, 리뷰어는 대화를 물려받지 않은 새 솔 medium이다. 아스트라는 본선에서 빼고 설계 충돌이나 스키마 변경 같은 예외 자문역으로만 남겼다. 서브에이전트 대기 시간은 min_wait_timeout_ms를 120000으로 올렸다.</p>
+<p>Kilo 팀의 프로덕션 프리뷰 후기도 방향이 같다. 아스트라는 에이전트 무리를 조율하는 능력이 매우 좋았고 어려운 문제의 품질도 혼자 풀 때보다 크게 올랐지만, 국소 수정을 요청하면 거대한 PR로 돌아오는 과설계 편향이 있었다. 밤새 한 번에 약 2,000단계를 돌린 사례도 적었다.</p>
+<p>오픈AI 문서가 이 성향의 배경을 설명한다. 아스트라는 AGENTS.md 같은 파일의 지시에 이전 모델보다 민감하고, 입력이 결과를 바꿀 만하면 사용자에게 질문하려고 멈추는 경향이 있다. openai/codex 저장소에는 아스트라가 정해진 범위의 작업을 끝내지 못하고 수리와 재계획을 반복한다는 이슈도 올라와 있다.</p>
+<h2>&quot;아스트라 max로 계획, 솔 high로 실행&quot;의 비용 계산</h2>
+<p>방에서 모범사례로 소개된 조합은 계획 단계에 최고 강도를 쓴다. 이 선택이 값어치를 하는지는 Artificial Analysis의 강도별 실측이 답한다. 아스트라의 작업당 비용은 low 0.63달러에서 medium 1.16달러, high 1.41달러, xhigh 1.85달러, max 2.57달러로 오르는데, 지능 지수는 49에서 55까지만 움직인다. low에서 medium으로 가는 한 칸이 가장 크고, 그 위는 한 칸에 1점씩이다.</p>
+<p>오픈AI의 이전 가이드는 다른 모델에서 옮겨올 때 기존 강도를 유지하라고만 말한다. 써본 사람들 사이에선 medium을 기본으로 두고 실패한 작업만 올리라는 반응이 많다.</p>
+<p>솔 high 쪽은 실사용 근거가 하나 있다. 앞서 본 재구성 사례에서 총괄을 솔 medium으로 두었을 때 백로그 조회 건수가 지시와 달라도 그냥 진행하는 사고가 났고, high로 올리자 다시 조회하고 의존성을 확인해 순서를 고쳤다. 그 개발자는 high를 총괄 자리에만 쓴다.</p>
+<h2>페이블 밑에 아스트라를 두면 무엇이 달라지나</h2>
+<p>Claude Code 서브에이전트는 .claude/agents/ 아래 마크다운 파일의 model 필드로 모델을 고른다. 공식 문서 기준 별칭은 sonnet·opus·haiku·fable이고 전체 모델 ID도 받는다. 서브에이전트 전체 기본값은 settings.json의 CLAUDE_CODE_SUBAGENT_MODEL로 정한다. 다만 프론트매터 model 필드가 무시되고 부모 모델을 물려받는다는 버그 리포트가 4월에 올라와 있으니 한 번 실행해 확인해야 한다.</p>
+<p>페이블 5.1을 총괄로 세우는 데는 한도 계산이 따라온다. Max 플랜에서 페이블은 주간 한도의 50%까지만 쓸 수 있고, /usage에 전체 한도와 페이블 한도가 따로 표시된다. Claude Code 기본 강도는 high다. Artificial Analysis는 페이블 5.1이 max 강도에서 이전 세대보다 출력 토큰을 약 1.7배 쓴다고 측정했다. 총괄 자리에서 max를 고르면 그 비용을 그대로 낸다.</p>
+<p>아스트라를 이 밑에 넣으려면 앞서 본 model-gateway 같은 프록시가 필요하다. 그 제작자의 로그에서는 총괄인 아스트라 요청이 4,492건, GPT-5.6 계열 실무 요청이 16,207건이었다. 리뷰어는 다른 모델 가족인 Opus에 맡겼는데, 작성자와 같은 맹점을 공유하지 않는다는 이유였다.</p>
+<p>벤치마크는 어느 쪽 총괄이 옳은지 판정해 주지 않는다. Terminal-Bench 4.0에서는 오픈AI 보고 기준 아스트라 57.7%, 페이블 5.1 55.8%다. Artificial Analysis의 Coding Agent Index는 Claude Code 위의 페이블 5.1이 70, 아스트라가 67이다. 두 모델의 API 단가는 입력 100만 토큰 10달러, 출력 50달러로 같고, 캐시 읽기만 페이블 0.25달러, 아스트라 1달러로 갈린다.</p>
+<p>방의 저녁 결론인 &quot;페이블 밑 서브&quot;는 바깥 기록에서 두 형태로 나타난다. 리뷰어 자리에 low 강도로 두거나, 설계 충돌 때만 부르는 자문역으로 두는 방식이다. 남는 질문은 하나다. 멈춰서 묻고, 지시를 지나치게 지키고, 일을 스스로 끌어안는 아스트라의 성향이 총괄의 결함인지, 아니면 위임 규칙을 아직 아스트라에 맞게 다시 쓰지 않은 사용자 쪽 문제인지다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">GPT-6 아스트라</span><span class="chip">오케스트레이터</span><span class="chip">서브에이전트</span><span class="chip">Codex CLI</span><span class="chip">Claude Code</span><span class="chip">페이블 5.1</span><span class="chip">reasoning effort</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://openai.com/index/gpt-6-astra/" rel="nofollow noopener">https://openai.com/index/gpt-6-astra/</a></li><li><a href="https://developers.openai.com/api/docs/guides/latest-model" rel="nofollow noopener">https://developers.openai.com/api/docs/guides/latest-model</a></li><li><a href="https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra" rel="nofollow noopener">https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra</a></li><li><a href="https://developers.openai.com/api/docs/guides/responses-multi-agent" rel="nofollow noopener">https://developers.openai.com/api/docs/guides/responses-multi-agent</a></li><li><a href="https://learn.chatgpt.com/docs/agent-configuration/subagents" rel="nofollow noopener">https://learn.chatgpt.com/docs/agent-configuration/subagents</a></li><li><a href="https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-work-and-codex" rel="nofollow noopener">https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-</a></li><li><a href="https://chatgpt.com/codex/pricing/" rel="nofollow noopener">https://chatgpt.com/codex/pricing/</a></li><li><a href="https://github.com/donvito/codex-astra-luna-orchestrator/" rel="nofollow noopener">https://github.com/donvito/codex-astra-luna-orchestrator/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Codex에서 GPT-6 아스트라를 오케스트레이터, 루나를 서브에이전트로 설정하는 방법은?</h2><p class="sum">config.toml의 [agents] 블록에 default_subagent_model = &quot;gpt-5.6-luna&quot;와 default_subagent_reasoning_effort를 적고, 루트 model을 gpt-6-astra로 둔다. 역할별 TOML 파일의 model 값이 이 기본값보다 우선한다. 공개 저장소 codex-astra-luna-orchestrator의 setup.sh가 이 프로필을 복사해 준다.</p></article><article class="dcard"><div class="t">Q</div><h2>아스트라를 총괄로 쓰면 Codex 사용 한도가 왜 빨리 줄어드나?</h2><p class="sum">총괄 스레드는 작업 내내 살아 있어 토큰을 계속 쓰고, 아스트라는 하위 모델에 맡길 일을 스스로 끌어올리거나 완료 확인을 LLM 호출로 반복하는 사례가 보고됐다. 오픈AI는 아스트라가 AGENTS.md 지시에 더 민감하고 질문하려고 멈추는 경향이 있다고 안내한다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 서브에이전트 모델을 따로 지정할 수 있나?</h2><p class="sum">.claude/agents/ 아래 에이전트 파일의 model 필드에 sonnet·opus·haiku·fable 별칭이나 전체 모델 ID를 적는다. 전체 기본값은 settings.json의 CLAUDE_CODE_SUBAGENT_MODEL로 정한다. model 필드가 무시된다는 버그 리포트가 있으니 실행 후 실제 모델을 확인해야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-10-1800.html">2026-09-10 09-10 13:29~17:47</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

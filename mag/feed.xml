@@ -5,6 +5,54 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>로컬 LLM 돌리려고 맥미니 살까: Qwen3.8 메모리 요구량과 2026 맥 가격표</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/mac-mini-local-llm-qwen38-buying-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/mac-mini-local-llm-qwen38-buying-guide.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 13 Sep 2026 12:00:00 +0900</pubDate>
+    <description>로컬 LLM용 맥미니·맥북 구매를 고민하는 윈도우 사용자를 위해 Qwen3.8 계열별 메모리 요구량, 2026년 신형 맥 가격, 속도 실측, 서버용 절충안과 Claude Code 연결법을 정리했다.</description>
+  </item>
+  <item>
+    <title>GPT-6 아스트라를 오케스트레이터로 쓰면 안 되는 이유와 되는 조건</title>
+    <link>https://chat.axwith.com/mag/models/gpt-6-astra-orchestrator-or-subagent.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-6-astra-orchestrator-or-subagent.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 13 Sep 2026 12:00:00 +0900</pubDate>
+    <description>GPT-6 아스트라를 오케스트레이터로 두고 루나·솔을 서브에이전트로 쓰는 구성과 페이블 5.1 아래 서브로 두는 구성을 비교한다. Codex config.toml·Claude Code 설정법, 추론 강도별 비용, 주간 한도 소진 사례를 정리했다.</description>
+  </item>
+  <item>
+    <title>챗GPT Pro 20x 필리핀 페소 결제 &#x27;필쫀쿠&#x27;, 19만 원이 나오는 구조와 대가</title>
+    <link>https://chat.axwith.com/mag/resources/chatgpt-pro-peso-checkout-price-risk.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/chatgpt-pro-peso-checkout-price-risk.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Sun, 13 Sep 2026 12:00:00 +0900</pubDate>
+    <description>챗GPT Pro 20x를 필리핀 페소로 결제하는 &#x27;필쫀쿠&#x27;의 원리와 절차를 정리했다. 필리핀 정가 9,990페소, 부가세 12%와 한국 부가세 10%의 차이, 카드 거절·국가 불일치 오류, OpenAI 약관 위반 위험까지 확인된 사실만 담았다.</description>
+  </item>
+  <item>
+    <title>Claude Code·Codex·웹 챗 메모리 하나로 합치기: dhaa 세이브포인트 이식 실험</title>
+    <link>https://chat.axwith.com/mag/workflow/cross-tool-ai-memory-dhaa-savepoint.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/cross-tool-ai-memory-dhaa-savepoint.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Wed, 09 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code·Codex·Claude 앱 메모리가 각각 어디에 저장되는지, 벤더 간 세이브포인트 이식을 실험하는 dhaa 저장소의 구조, AGENTS.md 가져오기와 ai-memory·OpenMemory MCP로 두 도구를 잇는 설치 순서를 정리했다.</description>
+  </item>
+  <item>
+    <title>ChatGPT Plus와 클로드 Pro 코딩 한도, 질문 몇 개에 끝나는 이유와 대처법</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/codex-claude-code-usage-limits-plus-pro.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-claude-code-usage-limits-plus-pro.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Wed, 09 Sep 2026 12:00:00 +0900</pubDate>
+    <description>ChatGPT Plus·Pro 20x와 클로드 Pro·Max의 사용량 한도가 왜 몇 턴 만에 사라지는지 공식 문서로 확인하고, 기획과 실행을 나누는 방법, 페이블 5.1이 Pro에서 빠진 배경, 한도를 아끼는 설정을 정리했다.</description>
+  </item>
+  <item>
+    <title>Aside vs Ego Lite, Claude Code 브라우저 자동화 어느 쪽을 붙일까</title>
+    <link>https://chat.axwith.com/mag/tools/aside-vs-ego-lite-browser-agent.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/aside-vs-ego-lite-browser-agent.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Wed, 09 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code에 붙이는 브라우저 자동화 도구 Aside와 Ego Lite를 비교한다. 설치 방법, Space 격리, CLI·REPL, 윈도우 지원 현황, Hermes+GPT-6 Astra 조합까지 실사용 의견과 공식 정보를 함께 다룬다.</description>
+  </item>
+  <item>
     <title>SKCT 준비법: 오답 감점과 온라인 응시 환경에 맞춘 2주 전략</title>
     <link>https://chat.axwith.com/mag/workflow/skct-prep-strategy-online-penalty.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/skct-prep-strategy-online-penalty.html</guid>
@@ -19,6 +67,22 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Tue, 08 Sep 2026 12:00:00 +0900</pubDate>
     <description>Yjs와 pycrdt의 상태 벡터가 무엇을 기록하는지, 벡터 클록과 왜 용도가 다른지, 클라이언트 증가와 순번 공백에서 어떤 한계가 오는지 공식 문서와 이슈로 확인한다. Automerge 해시 헤드, Loro 프론티어와 비교.</description>
+  </item>
+  <item>
+    <title>Codex 주간 한도 리셋은 왜 예고 없이 오고 주기까지 바꾸나</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/codex-weekly-limit-reset-rules.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-weekly-limit-reset-rules.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Tue, 08 Sep 2026 12:00:00 +0900</pubDate>
+    <description>GPT-6 아스트라 출시 뒤 Codex 사용 한도가 며칠 새 여러 번 풀렸다. 리셋이 왜 사람마다 다른 시각에 오고 주간 주기까지 바꾸는지, 클로드 리셋과 무엇이 다른지 공식 문서와 실사용 경험으로 정리했다.</description>
+  </item>
+  <item>
+    <title>Claude Code에 영상 소리 듣게 하기: whisper.cpp 전사와 품질 검증</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-video-audio-whisper-transcription.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-video-audio-whisper-transcription.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Tue, 08 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code는 mp3·wav를 읽지 못한다. ffmpeg로 소리를 뽑고 whisper.cpp로 전사해 넘기는 절차, Whisper 환각 필터, WhisperX·Gemini 화자 분리, 전사와 청취 품질의 차이를 정리했다.</description>
   </item>
   <item>
     <title>값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가</title>
@@ -179,69 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Wed, 02 Sep 2026 12:00:00 +0900</pubDate>
     <description>Claude Code와 OpenAI Codex 중 무엇이 더 좋은지 최신 모델, 가격, 벤치마크, 실사용 반응으로 비교한다. 내 코드베이스에서 승자를 가리는 재현 가능한 방법도 담았다.</description>
-  </item>
-  <item>
-    <title>Claude Code 브라우저 자동화, /chrome·CDP·Playwright 선택법</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-browser-automation.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-browser-automation.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 02 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code의 /chrome, Chrome DevTools Protocol, Playwright MCP·CLI를 설치 방식과 브라우저 지원, 로그인 상태, 재현성, 보안 기준으로 비교했다.</description>
-  </item>
-  <item>
-    <title>토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까</title>
-    <link>https://chat.axwith.com/mag/ops/toy-project-hosting-choices.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/toy-project-hosting-choices.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Tue, 01 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Vercel, Railway, Hostinger VPS, OCI, AWS Lambda를 가격표만으로 고르지 않도록 상시 실행, 영속 저장소, 배포 절차, 직접 운영 부담까지 비교한다.</description>
-  </item>
-  <item>
-    <title>OpenCrab 온톨로지팩으로 Claude Code 결과물 높이는 법</title>
-    <link>https://chat.axwith.com/mag/workflow/opencrab-ontology-pack-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/opencrab-ontology-pack-workflow.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 01 Sep 2026 12:00:00 +0900</pubDate>
-    <description>OpenCrab과 CrabHarness로 배경지식을 수집·검증해 온톨로지팩으로 만들고 Claude Code와 Semantic SVG에 연결하는 과정과 한계를 설명한다.</description>
-  </item>
-  <item>
-    <title>Claude Code로 MVP DB 설계, 어디까지 먼저 정해야 하나</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-mvp-database-design.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-mvp-database-design.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 01 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code로 MVP를 만들 때 DB를 얼마나 먼저 설계해야 할까. 최소 무결성, Plan Mode, 버전 관리 마이그레이션, 운영 배포 순서를 실무 기준으로 정리했다.</description>
-  </item>
-  <item>
-    <title>Claude Code 끼리끼리 사용법, 고정 AI 팀은 판단을 일관되게 할까</title>
-    <link>https://chat.axwith.com/mag/resources/claude-code-kkirikkiri-agent-team.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-kkirikkiri-agent-team.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Tue, 01 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code 플러그인 끼리끼리가 팀을 구성하고 다시 불러오는 과정을 설명한다. 고정 팀이 판단 일관성을 보장하는지, Agent Teams와 Workflow의 비용·충돌 한계까지 짚는다.</description>
-  </item>
-  <item>
-    <title>퍼플렉시티 포터블 컴퓨터, 진짜 로컬 AI 에이전트인가</title>
-    <link>https://chat.axwith.com/mag/tools/perplexity-portable-computer-local-ai.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/perplexity-portable-computer-local-ai.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Perplexity Portable Computer의 로컬 실행 범위, DGX Spark 설치 조건, Pro 구독과 크레딧 구조, PPLX 27B 성능과 실제 활용 한계를 정리했다.</description>
-  </item>
-  <item>
-    <title>DGX Spark 발열, 외부 팬이 성능 저하를 막을까</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/dgx-spark-external-fan-cooling.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/dgx-spark-external-fan-cooling.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
-    <description>NVIDIA DGX Spark의 장시간 작업에서 발열과 스로틀링을 구분하고, 외부 팬·3D 출력 덕트·방열판·펠티어의 효과와 위험을 공식 자료와 실측으로 살폈다.</description>
-  </item>
-  <item>
-    <title>Command Code 1달러 다중 계정, 밴과 환불의 실제 기준</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/command-code-multi-account-ban.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/command-code-multi-account-ban.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Mon, 31 Aug 2026 12:00:00 +0900</pubDate>
-    <description>Command Code의 1인 1계정 약관과 Go 플랜의 모델·API 제한을 검증했다. 환불 예외, 공식 설치법, Claude Code와의 차이도 최신 문서로 정리했다.</description>
   </item>
 </channel></rss>

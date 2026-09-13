@@ -12,7 +12,7 @@
 <meta property="og:description" content="2026년 세 차례 오른 맥미니 가격의 경위, 같은 드라이브인데 맥이 빠른 기술적 원인, 클로드코드 전용·24시간 에이전트 서버 용도별 가성비, M6 신형과 M4 재고 중 무엇을 살지 정리했다.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가", "description": "2026년 세 차례 오른 맥미니 가격의 경위, 같은 드라이브인데 맥이 빠른 기술적 원인, 클로드코드 전용·24시간 에이전트 서버 용도별 가성비, M6 신형과 M4 재고 중 무엇을 살지 정리했다.", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html"}, "articleSection": "질문·트러블슈팅", "keywords": "맥미니, M6 맥미니, 클로드코드, 가성비, WSL2, 오픈클로, 메모리 가격 인상", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가", "description": "2026년 세 차례 오른 맥미니 가격의 경위, 같은 드라이브인데 맥이 빠른 기술적 원인, 클로드코드 전용·24시간 에이전트 서버 용도별 가성비, M6 신형과 M4 재고 중 무엇을 살지 정리했다.", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/mac-mini-price-hike-claude-code-value.html"}, "articleSection": "질문·트러블슈팅", "keywords": "맥미니, M6 맥미니, 클로드코드, 가성비, WSL2, 오픈클로, 메모리 가격 인상", "image": "https://chat.axwith.com/mag/hero/mac-mini-price-hike-claude-code-value.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "맥미니 M6 국내 가격은 얼마인가?", "acceptedAnswer": {"@type": "Answer", "text": "2026년 8월 25일 발표된 M6 맥미니 기본형(16GB·256GB)은 1,499,000원부터, M5 Pro 모델은 2,990,000원부터다. 국내 배송은 9월 22일 시작한다. 연초 M4 기본형은 89만 원이었다."}}, {"@type": "Question", "name": "클로드코드용 맥미니는 메모리 16GB로 충분한가?", "acceptedAnswer": {"@type": "Answer", "text": "클로드코드는 추론을 앤트로픽 서버에서 하므로 로컬에서는 터미널·git·빌드 도구만 돌린다. 이 용도라면 16GB로 여유가 있다는 것이 커뮤니티 합의다. 로컬 LLM을 함께 돌릴 계획이면 24GB 이상을 권하며, 메모리는 나중에 늘릴 수 없다."}}, {"@type": "Question", "name": "윈도우 PC에서 클로드코드가 맥보다 느린 이유는?", "acceptedAnswer": {"@type": "Answer", "text": "윈도우의 CreateProcess()가 리눅스·macOS의 fork()보다 프로세스 생성 비용이 훨씬 크고, 백신 필터가 이를 가로채기 때문이다. 같은 PC라도 WSL2에서 프로젝트를 리눅스 파일시스템에 두면 맥과 비슷한 속도가 난다."}}]}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
@@ -29,9 +29,10 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 @media(min-width:760px){body{font-size:18px}}
 
 /* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
-.tlgo{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 14px;
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
 padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
 text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
 .tlgo:hover{background:var(--chip-bg)}
 .tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
 .tlgo span{font-size:13px;color:var(--muted)}
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
-
+<img class="artHero" src="https://chat.axwith.com/mag/hero/mac-mini-price-hike-claude-code-value.png" alt="값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가" loading="eager">
 <header>
   <span class="catchip c-ask">질문·트러블슈팅</span>
   <h1>값 오른 맥미니, 클로드코드 개발자에게 아직 가성비인가</h1>
@@ -239,7 +240,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>6월 하순에는 맥 전 제품 가격이 한꺼번에 올랐다. ZDNet 코리아에 따르면 인상폭은 최대 20% 안팎이었다. 애플은 월스트리트저널에 부품 가격이 이렇게 빨리 오른 적이 없었다고 설명했다. 팀 쿡은 7월 실적 발표에서 메모리 가격 상승을 100년 만의 홍수에 비유했다.</p>
 <p>8월 25일 발표된 M6 맥미니는 1,499,000원부터 시작한다. 인상분은 60만9천 원이다. 기본 메모리 16GB와 저장공간 256GB는 그대로다.</p>
 <p>부품 원가 상승도 가격 인상에 영향을 준 구조다.</p>
-<h2>같은 드라이브를 양쪽에 물려도 맥이 빠른 이유</h2>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/mac-mini-price-hike-claude-code-value.png" alt="" loading="lazy"><h2>같은 드라이브를 양쪽에 물려도 맥이 빠른 이유</h2>
 <p>방에서는 한 대의 드라이브를 윈도우와 맥 양쪽에서 똑같이 쓰는데도 맥 쪽 작업이 더 빠르게 느껴졌다는 경험이 나왔다. 원인으로는 칩 차이와 운영체제 차이가 함께 거론됐다. 이 체감은 측정된 적이 있다.</p>
 <p>개발자 조시 샐웨이는 라이젠 9 9950X3D에 64GB 메모리를 단 윈도우 PC와 M1 Pro 맥북프로 16GB로 클로드코드가 자주 하는 작업을 재봤다. 프로세스 실행, 수천 개 작은 파일 읽고 쓰기, ripgrep 검색, git 명령을 묶은 전체 벤치마크가 윈도우 Git Bash에서 11.9초, 같은 PC의 WSL2에서 2.8초, M1 Pro 맥에서 2.6초 걸렸다. 멀티코어 점수가 두 배인 PC가 네이티브 윈도우에서는 5년 전 칩을 단 맥보다 네 배 넘게 느렸다.</p>
 <p>차이는 칩이 아니라 운영체제가 새 프로세스를 만드는 방식에서 났다. Git for Windows 문서는 윈도우에서 fork()를 에뮬레이션하는 비용 때문에 프로세스를 자주 만드는 프로그램이 느려질 수 있다고 설명한다. 클로드코드는 git·node·grep을 반복 호출하므로 이 비용이 그대로 쌓인다.</p>

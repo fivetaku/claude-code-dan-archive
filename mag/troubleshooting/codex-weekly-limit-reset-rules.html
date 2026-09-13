@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex 주간 한도 리셋은 왜 예고 없이 오고 주기까지 바꾸나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="GPT-6 아스트라 출시 뒤 Codex 사용 한도가 며칠 새 여러 번 풀렸다. 리셋이 왜 사람마다 다른 시각에 오고 주간 주기까지 바꾸는지, 클로드 리셋과 무엇이 다른지 공식 문서와 실사용 경험으로 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/codex-weekly-limit-reset-rules.html">
+<meta property="og:title" content="Codex 주간 한도 리셋은 왜 예고 없이 오고 주기까지 바꾸나">
+<meta property="og:description" content="GPT-6 아스트라 출시 뒤 Codex 사용 한도가 며칠 새 여러 번 풀렸다. 리셋이 왜 사람마다 다른 시각에 오고 주간 주기까지 바꾸는지, 클로드 리셋과 무엇이 다른지 공식 문서와 실사용 경험으로 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/codex-weekly-limit-reset-rules.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Codex 주간 한도 리셋은 왜 예고 없이 오고 주기까지 바꾸나", "description": "GPT-6 아스트라 출시 뒤 Codex 사용 한도가 며칠 새 여러 번 풀렸다. 리셋이 왜 사람마다 다른 시각에 오고 주간 주기까지 바꾸는지, 클로드 리셋과 무엇이 다른지 공식 문서와 실사용 경험으로 정리했다.", "datePublished": "2026-09-08", "dateModified": "2026-09-08", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/codex-weekly-limit-reset-rules.html"}, "articleSection": "질문·트러블슈팅", "keywords": "Codex 리셋, 주간 한도, GPT-6 아스트라, 은행 리셋, 클로드 사용량 제한, Claude Code, 페이블 5.1", "image": "https://chat.axwith.com/mag/hero/codex-weekly-limit-reset-rules.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Codex 주간 한도는 언제 리셋되나?", "acceptedAnswer": {"@type": "Answer", "text": "Codex 주간 한도는 고정 요일이 아니라 첫 요청부터 세는 7일 사용 창이다. 사용자마다 날짜가 다르며 Codex CLI의 /status나 설정의 Usage 화면에서 확인할 수 있다."}}, {"@type": "Question", "name": "Codex 은행 리셋과 글로벌 리셋은 무엇이 다른가?", "acceptedAnswer": {"@type": "Answer", "text": "은행 리셋은 계정에 저장됐다가 사용자가 직접 적용하는 것으로 30일 만료가 있다. 글로벌 리셋은 서버가 곧바로 적용해 남은 잔량이 사라지며 저장분이 남지 않는다."}}, {"@type": "Question", "name": "Codex 리셋을 받으면 주간 리셋 날짜가 바뀌나?", "acceptedAnswer": {"@type": "Answer", "text": "바뀐다. OpenAI 헬프센터는 은행 리셋을 쓰면 주간 리셋 날짜가 변경된다고 명시하며, 유료 즉시 리셋도 첫 요청 후 7일 뒤로 다음 리셋이 잡힌다."}}, {"@type": "Question", "name": "클로드 주간 한도는 리셋 뒤에도 주기가 유지되나?", "acceptedAnswer": {"@type": "Answer", "text": "앤트로픽 문서에 따르면 클로드 주간 한도는 계정에 배정된 고정 요일·시각에 초기화되며 사용 시작 시점과 무관하다. 다만 표시 시각이 이동했다는 버그 리포트도 있다."}}, {"@type": "Question", "name": "Claude Code /limit-reset 명령은 주간 한도도 초기화하나?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. /limit-reset은 5시간 세션 창만 지우고 주간 한도는 그대로 적용된다. Claude Code에서 /usage로 두 창의 상태를 확인할 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/codex-weekly-limit-reset-rules.png" alt="Codex 주간 한도 리셋은 왜 예고 없이 오고 주기까지 바꾸나" loading="eager">
+<header>
+  <span class="catchip c-ask">질문·트러블슈팅</span>
+  <h1>Codex 주간 한도 리셋은 왜 예고 없이 오고 주기까지 바꾸나</h1>
+  <p class="sub">아스트라 출시 주간에 쏟아진 Codex 리셋, 은행 리셋과 글로벌 리셋의 차이, 그리고 클로드 주간 창과 갈리는 지점을 짚는다</p>
+  <div class="meta"><span>2026-09-08</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>9월 첫 주, GPT-6 아스트라 출시와 맞물려 OpenAI가 Codex 사용 한도를 며칠 새 여러 번 풀었다. 선물이어야 할 리셋이 클코단에서는 오히려 불만의 씨앗이 됐다. 절반쯤 남긴 한도가 통째로 사라지고 리셋 뒤 주간 주기가 새로 잡히면서 계획이 흐트러졌다는 이야기였다. 이 기사는 그 리셋이 어떤 규칙으로 작동하는지, 클로드의 리셋과 무엇이 다른지, 개인 개발자가 이 규칙을 어떻게 이용할 수 있는지에 답한다.</p>
+<h2>아스트라 출시 주간에 리셋이 몇 번 있었나</h2>
+<p>시간순으로 보면 이렇다. 9월 3일 OpenAI는 GPT-6 아스트라를 제한 프리뷰로 내놨다. 유료 플랜 사용자 중에는 출시 당일 모델을 고를 수 없는 사용자도 있었다. Codex를 총괄하는 티보 소티오는 아스트라에 접근하지 못하는 날마다 은행 리셋을 하나씩 주겠다고 알렸고, 샘 올트먼은 이튿날 어수선한 출시를 사과했다.</p>
+<p>OpenAI는 유료 플랜 사용자에게 은행 리셋을 지급한다고 알렸다. 한국 시각 9월 5일에는 배포가 예정보다 빨리 끝났다며 은행 리셋 지급을 알렸다. 그리고 태평양 시각 9월 7일 저녁, 한국 시각으로 8일 오전에 모든 유료 구독을 대상으로 글로벌 리셋이 예고됐다. 소티오는 한국 시각 8일 오후에 전원 반영을 확인했다.</p>
+<p>그 앞에도 리셋은 있었다. 8월 30일에는 컴팩션·메모리·서브에이전트·MCP 결과 인코딩 등에서 사용량을 과다 소모하던 버그를 고쳤다며 유료 사용자 전원의 한도를 초기화했다. OpenAI는 이 수정으로 같은 한도가 10~50% 더 오래간다고 설명했다. 8월 31일에는 활성 사용자 2500만 명 돌파 기념 리셋이 이어졌다. 리셋 추적 사이트 한 곳은 2025년 9월 이후 기록된 글로벌 리셋을 38회로 센다.</p>
+<p>방에서 체감한 혼란은 여기서 나온다. 같은 리셋인데 반영 시각이 사람마다 달랐고, 누군가는 71%, 누군가는 40%만 쓴 상태에서 초기화를 맞았다는 의견이 많았다. Plus 사용자는 리셋이 늦게 오거나 아예 오지 않았다는 반응도 있었다. 글로벌 리셋은 한도에 직접 적용되고, 은행 리셋은 직접 눌러야 쓰이며, 반영 시각은 행사별로 다르다.</p>
+<h2>은행 리셋과 글로벌 리셋은 다른 물건이다</h2>
+<p>OpenAI 헬프센터는 리셋을 두 종류로 나눈다. 은행 리셋은 계정에 저장됐다가 사용자가 직접 적용하는 것이고, 자동 또는 글로벌 리셋은 한도에 곧바로 적용되며 저장분을 남기지 않는다. 은행 리셋은 최소 하나의 창을 실제로 새로 고칠 때만 소모되고, 새로 고칠 게 없으면 그대로 남는다.</p>
+<p>적용 경로도 문서에 있다. Codex 앱에서 프로필을 열고 Usage로 들어가 남은 리셋을 누른다. 최근에는 데스크톱 앱뿐 아니라 웹과 모바일에서도 적용할 수 있게 됐다. 한도를 다 쓰면 앱이 리셋이 하나 남았다는 안내창을 띄운다. OpenAI 개발자 포럼에서는 5시간 창이 막혔을 때 쓰면 아깝고 주간 한도가 바닥난 뒤에 써야 한다는 팁이 오갔다.</p>
+<p>만료도 있다. 추천 보상으로 받은 은행 리셋은 별도 안내가 없으면 30일 안에 써야 하고, 만료된 리셋은 복구되지 않는다. 은행 리셋이 사라졌다는 보고도 나왔다.</p>
+<p>남은 한도가 이월되지 않는 일은 은행 리셋과 글로벌 리셋 모두에서 생긴다. 은행 리셋은 내가 시점을 고르지만 글로벌 리셋은 서버가 곧바로 덮어쓰기 때문이다.</p>
+<p>Plus 사용자가 못 받았다는 반응도 근거가 있다. openai/codex 저장소에는 다른 계정은 리셋 버튼을 받았는데 자기 Plus 계정만 못 받았다는 이슈가 올라와 있고, Business 계정이 800만 사용자 기념 리셋에서 빠졌다는 포럼 글도 있다. 같은 저장소의 다른 이슈는 Usage 화면이 특별 리셋의 적용 여부와 대상 창을 표시하지 않아 정기 갱신과 구분할 수 없다고 지적한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/codex-weekly-limit-reset-rules.png" alt="" loading="lazy"><h2>리셋하면 주간 주기가 왜 새로 잡히나</h2>
+<p>Codex 주간 한도는 달력 주가 아니다. 주간 한도는 7일 사용 창이며 고정된 요일에 초기화되는 구조가 아니다. 창은 첫 요청부터 세기 시작하므로 사용자마다 리셋 날짜가 다르다.</p>
+<p>리셋은 이 창을 새로 연다. 헬프센터는 은행 리셋을 쓰면 5시간 창과 주간 창이 새로 고쳐지고 주간 리셋 날짜가 바뀐다고 명시한다. Plus·Pro가 살 수 있는 유료 즉시 리셋도 마찬가지다. 적용 뒤 첫 요청부터 새 주간 기간이 시작되고 다음 자동 리셋은 그로부터 7일 뒤로 잡힌다.</p>
+<p>방에서 클로드와 비교해 아쉬워한 지점이 정확히 여기다. 리셋이 톱업이 아니라 새 창이라서, 남은 잔량은 사라지고 예정된 다음 리셋은 뒤로 밀린다.</p>
+<p>바깥에서도 같은 불만이 쌓여 있다. openai/codex 저장소의 한 이슈는 60% 남은 상태에서 리셋을 맞아 잔량이 100%로 바뀌는 대신 리셋 날짜가 닷새 뒤로 옮겨졌다며, 선물이라면 리셋이 아니라 톱업이어야 하고 최소한 거부 옵션은 줘야 한다고 적었다. 주말 긴 세션을 위해 아껴둔 사용량을 빼앗겼다는 이슈도 있다. 개발자 포럼에는 매주 일요일 같은 고정 요일에 초기화하자는 제안이 올라왔고, 리셋일이 월요일에서 수요일, 금요일로 옮겨 다녔다는 사용자는 총량이 늘지 않고 같은 양이 더 긴 기간에 퍼질 뿐이라고 썼다.</p>
+<p>써본 사람들 사이에선 공짜를 두고 불평하기 민망하다는 분위기도 있다. 개발자 맥스 울프는 7월 중순 2주 동안 Codex 주간 한도가 여섯 번 초기화됐다고 세면서, 월 100달러 플랜에서 한도를 다 쓰는 사람에게 리셋 하나는 25달러 값이라고 계산했다.</p>
+<h2>클로드는 리셋해도 주기가 그대로인가</h2>
+<p>방에서는 클로드가 리셋을 줘도 원래 주기를 유지한다는 점을 장점으로 꼽았다. 앤트로픽 지원 문서를 인용한 여러 가이드는 클로드 주간 한도가 계정마다 배정된 고정 요일과 시각에 초기화되며, 언제 쓰기 시작했든 그 시각은 바뀌지 않는다고 전한다. 5시간 창만 첫 메시지부터 도는 롤링 방식이다.</p>
+<p>리셋 이력도 비슷하게 잦다. 9월 1일 페이블 5.1 출시에 맞춰 앤트로픽은 전 사용자의 5시간·주간 한도를 초기화했고, 9월 5일에는 긴 주말을 앞뒀다며 Max 플랜 주간 한도를 다시 풀었다. 7월 1일 페이블 5 복귀와 7월 10일에도 리셋이 있었다. 방에서는 클로드 5, 5.1, 아스트라 6 출시 때 세 번 정도 리셋을 받았다는 회고가 나왔는데, 공개 기록으로는 두 회사를 합쳐 그보다 많다.</p>
+<p>구조 차이는 손해의 크기를 가른다. 클로드는 정기 주간 리셋 시각이 고정이다. Codex는 새 7일 창이 시작되므로 잔량이 사라지고 다음 리셋도 밀린다. 다만 클로드도 완벽하진 않다. anthropics/claude-code 저장소에는 주간 리셋이 이틀 일찍 오면서 표시된 리셋 시각이 앞당겨졌다는 Pro 사용자 이슈가 올라온 적이 있다.</p>
+<p>Claude Code의 /limit-reset 명령은 5시간 창만 지운다. 확인 문구에 주간 한도는 그대로 적용된다고 적혀 있고, 앤트로픽 공식 변경 이력에는 이 명령이 아직 실려 있지 않다. Max 플랜에서 페이블 5·5.1에 쓸 수 있는 주간 한도 상한이 50%라는 문서 조항도 리셋과 무관하게 유지된다.</p>
+<h2>개인 개발자가 이 규칙에서 챙길 것</h2>
+<p>리셋 시각은 서버가 정한다. Codex CLI에서 /status를 치면 서버가 보낸 절대 시각이 그대로 표시되고, Claude Code에서는 /usage가 두 창의 소진율과 초기화 시각을 보여준다. 양쪽 다 설정의 Usage 화면이 최종 근거다.</p>
+<p>Codex 은행 리셋은 주간 한도가 바닥난 뒤에 적용하고, 계정에 표시된 만료일을 확인한다. 5시간 창 구조도 플랜마다 다르다. 소티오에 따르면 Plus는 8월 25일부터 5시간 한도가 복원됐고, Pro 100달러·200달러 플랜은 당분간 주간 한도만 적용된다.</p>
+<p>리셋 추적 사이트가 기록한 50건의 발표는 UTC 17시에서 자정 사이, 한국 시각 새벽과 아침에 몰린다. 방에서 나온 경험과 합치면 Codex에서는 주 후반을 위해 한도를 아껴둘수록 예고 없는 리셋에 잃을 게 많아진다는 판단이 선다.</p>
+<p>페이블 5.1을 쓴다면 앤트로픽 직원이 권한 대로 /effort medium을 기본값으로 두는 방법이 있다. 5.1의 미디엄이 5의 하이와 비슷한 품질을 낸다는 설명이다.</p>
+<p> 써본 사람들 사이에선 리셋 전쟁이라는 말까지 나온다. 남는 질문은 하나다. 기념 리셋과 사과 리셋이 멈춘 뒤에도 기본 주간 한도만으로 지금의 작업량을 감당할 수 있는가.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Codex 리셋</span><span class="chip">주간 한도</span><span class="chip">GPT-6 아스트라</span><span class="chip">은행 리셋</span><span class="chip">클로드 사용량 제한</span><span class="chip">Claude Code</span><span class="chip">페이블 5.1</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://help.openai.com/en/articles/20001498-how-banked-codex-resets-work" rel="nofollow noopener">https://help.openai.com/en/articles/20001498-how-banked-codex-resets-work</a></li><li><a href="https://help.openai.com/en/articles/20001507-paid-weekly-work-and-codex-rate-limit-resets" rel="nofollow noopener">https://help.openai.com/en/articles/20001507-paid-weekly-work-and-codex-rate-lim</a></li><li><a href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan" rel="nofollow noopener">https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan</a></li><li><a href="https://chatgpt.com/codex/pricing/" rel="nofollow noopener">https://chatgpt.com/codex/pricing/</a></li><li><a href="https://9to5mac.com/2026/08/24/openai-restores-5-hour-codex-and-work-limits-for-chatgpt-plus-users/" rel="nofollow noopener">https://9to5mac.com/2026/08/24/openai-restores-5-hour-codex-and-work-limits-for-</a></li><li><a href="https://9to5mac.com/2026/09/04/openai-releasing-major-upgrade-to-chatgpt-and-codex-with-gpt-6-astra-details-here/" rel="nofollow noopener">https://9to5mac.com/2026/09/04/openai-releasing-major-upgrade-to-chatgpt-and-cod</a></li><li><a href="https://daily.dev/posts/openai-resets-codex-and-chatgpt-work-usage-limits-after-fixing-multiple-overconsumption-bugs-ftkpeycch" rel="nofollow noopener">https://daily.dev/posts/openai-resets-codex-and-chatgpt-work-usage-limits-after-</a></li><li><a href="https://community.openai.com/t/flexible-rate-limit-resets-for-codex-and-a-method-to-get-a-reset/1383470" rel="nofollow noopener">https://community.openai.com/t/flexible-rate-limit-resets-for-codex-and-a-method</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Codex 주간 한도는 언제 리셋되나?</h2><p class="sum">Codex 주간 한도는 고정 요일이 아니라 첫 요청부터 세는 7일 사용 창이다. 사용자마다 날짜가 다르며 Codex CLI의 /status나 설정의 Usage 화면에서 확인할 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>Codex 은행 리셋과 글로벌 리셋은 무엇이 다른가?</h2><p class="sum">은행 리셋은 계정에 저장됐다가 사용자가 직접 적용하는 것으로 30일 만료가 있다. 글로벌 리셋은 서버가 곧바로 적용해 남은 잔량이 사라지며 저장분이 남지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>Codex 리셋을 받으면 주간 리셋 날짜가 바뀌나?</h2><p class="sum">바뀐다. OpenAI 헬프센터는 은행 리셋을 쓰면 주간 리셋 날짜가 변경된다고 명시하며, 유료 즉시 리셋도 첫 요청 후 7일 뒤로 다음 리셋이 잡힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 주간 한도는 리셋 뒤에도 주기가 유지되나?</h2><p class="sum">앤트로픽 문서에 따르면 클로드 주간 한도는 계정에 배정된 고정 요일·시각에 초기화되며 사용 시작 시점과 무관하다. 다만 표시 시각이 이동했다는 버그 리포트도 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code /limit-reset 명령은 주간 한도도 초기화하나?</h2><p class="sum">아니다. /limit-reset은 5시간 세션 창만 지우고 주간 한도는 그대로 적용된다. Claude Code에서 /usage로 두 창의 상태를 확인할 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-08-1128-s.html">2026-09-08 09-08 10:03~11:27</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

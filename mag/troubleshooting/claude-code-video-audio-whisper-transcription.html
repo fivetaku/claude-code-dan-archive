@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code에 영상 소리 듣게 하기: whisper.cpp 전사와 품질 검증 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code는 mp3·wav를 읽지 못한다. ffmpeg로 소리를 뽑고 whisper.cpp로 전사해 넘기는 절차, Whisper 환각 필터, WhisperX·Gemini 화자 분리, 전사와 청취 품질의 차이를 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/claude-code-video-audio-whisper-transcription.html">
+<meta property="og:title" content="Claude Code에 영상 소리 듣게 하기: whisper.cpp 전사와 품질 검증">
+<meta property="og:description" content="Claude Code는 mp3·wav를 읽지 못한다. ffmpeg로 소리를 뽑고 whisper.cpp로 전사해 넘기는 절차, Whisper 환각 필터, WhisperX·Gemini 화자 분리, 전사와 청취 품질의 차이를 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/claude-code-video-audio-whisper-transcription.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code에 영상 소리 듣게 하기: whisper.cpp 전사와 품질 검증", "description": "Claude Code는 mp3·wav를 읽지 못한다. ffmpeg로 소리를 뽑고 whisper.cpp로 전사해 넘기는 절차, Whisper 환각 필터, WhisperX·Gemini 화자 분리, 전사와 청취 품질의 차이를 정리했다.", "datePublished": "2026-09-08", "dateModified": "2026-09-08", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/claude-code-video-audio-whisper-transcription.html"}, "articleSection": "질문·트러블슈팅", "keywords": "Claude Code, whisper.cpp, 음성 전사, Whisper 환각, 화자 분리, WhisperX, Gemini 3.5 Transcribe", "image": "https://chat.axwith.com/mag/hero/claude-code-video-audio-whisper-transcription.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code에 mp3나 영상 파일을 직접 넣으면 내용을 들을 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. Claude Code의 Read 도구는 이미지·PDF는 읽지만 오디오는 읽지 못하며, 오류가 나도 모델이 분석을 지어낼 수 있다는 버그 리포트가 있다. ffmpeg로 오디오를 뽑고 whisper.cpp로 전사한 텍스트를 읽히는 방식이 표준이다."}}, {"@type": "Question", "name": "Whisper 전사에서 같은 문장이 계속 반복되는 환각은 어떻게 막나?", "acceptedAnswer": {"@type": "Answer", "text": "Silero VAD 같은 외부 음성 활동 감지로 긴 무음을 0.3~0.5초로 줄여 넣고, condition_on_previous_text를 끈다. 출력에서 compression_ratio가 2.4를 넘거나 avg_logprob가 -1.0 아래인 세그먼트를 걸러내면 대부분 잡힌다."}}, {"@type": "Question", "name": "whisper.cpp에서 large-v3와 large-v3-turbo 중 무엇을 골라야 하나?", "acceptedAnswer": {"@type": "Answer", "text": "일반적인 강의·회의 녹음은 여섯 배 빠른 large-v3-turbo로 충분하다. 억양이 강하거나 여러 사람이 겹쳐 말하거나 녹음 상태가 나쁘면 디코더가 32층인 full large-v3가 조금 더 정확하다."}}, {"@type": "Question", "name": "화자 분리(누가 말했는지)는 Whisper만으로 되나?", "acceptedAnswer": {"@type": "Answer", "text": "whisper.cpp의 tinydiarize는 영어 전용에 화자 교체 지점만 찍어 주고 재현율이 70% 수준이다. 실무에서는 WhisperX처럼 pyannote.audio를 붙이거나 AssemblyAI·Deepgram·Gemini 3.5 Transcribe의 화자 분리 옵션을 쓴다."}}, {"@type": "Question", "name": "Gemini는 오디오를 직접 전사할 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "된다. Gemini API는 오디오 입력을 받으며, 전용 모델 Gemini 3.5 Transcribe는 화자 분리와 단어 타임스탬프를 지원한다. 다만 일반 모델로 긴 파일을 넣으면 12~18분 부근부터 타임스탬프가 앞서 나가는 문제가 보고돼 10~15분 단위로 자르는 것이 권장된다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-video-audio-whisper-transcription.png" alt="Claude Code에 영상 소리 듣게 하기: whisper.cpp 전사와 품질 검증" loading="eager">
+<header>
+  <span class="catchip c-ask">질문·트러블슈팅</span>
+  <h1>Claude Code에 영상 소리 듣게 하기: whisper.cpp 전사와 품질 검증</h1>
+  <p class="sub">AI 코딩 도구는 오디오를 직접 읽지 못한다. ffmpeg·whisper.cpp로 전사해 넘기는 순서와 환각·화자 분리·발음 판정의 한계를 짚는다</p>
+  <div class="meta"><span>2026-09-08</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>영상 하나를 던져 놓고 &quot;이 강의 내용 정리해 줘&quot;라고 하면 AI 코딩 도구가 소리까지 알아서 들어줄 것 같지만, 실제로는 그렇지 않다. 클코단에서는 Claude Code 같은 도구에 영상 소리를 듣게 하는 방법이 화제였고, 이야기는 곧 Whisper 전사 품질을 어떻게 믿을 수 있느냐는 질문으로 옮겨갔다. 이 기사는 그 두 질문에 답한다. 소리를 도구에 넣는 실제 순서는 무엇이고, 전사 결과의 품질은 어디까지 검증할 수 있는가.</p>
+<h2>Claude Code는 오디오를 읽지 못하므로 전사가 먼저다</h2>
+<p>Claude Code의 Read 도구는 이미지와 PDF는 읽지만 mp3·wav·m4a 같은 오디오 파일은 읽지 못한다. Claude Code 공식 저장소에 올라온 버그 리포트에 따르면, 오디오 파일을 읽으라고 하면 오류나 깨진 텍스트가 돌아오는데도 모델이 &quot;어조가 차분하다&quot; 같은 분석을 지어내는 문제가 보고됐다. 오디오를 정식 입력 형식으로 추가해 달라는 기능 요청도 별도 이슈로 열려 있다.</p>
+<p>그래서 지금 통용되는 방식은 한 가지다. 먼저 소리를 글자로 바꾼 뒤, 그 텍스트 파일을 Claude Code에 읽힌다.</p>
+<p>순서는 이렇다. ffmpeg로 영상에서 오디오 트랙만 뽑아 16kHz 모노 WAV로 만든다. whisper.cpp의 whisper-cli에 그 WAV를 넣어 txt·srt·vtt 전사본을 받는다. Claude Code에는 전사본을 읽히고 요약·정리·자막 교정을 맡긴다. 800MB짜리 영상 전체를 넘길 필요가 없고, Whisper가 필요한 것은 오디오 트랙뿐이다.</p>
+<p>이 순서를 자동화한 Claude Code 스킬과 플러그인이 여럿 공개돼 있다. Binjee의 저장소는 Video Input 스킬과 whisper.cpp를 묶어 프레임 추출·전사·요약을 한 번에 돌리는 설치 가이드를 제공한다. jftuga의 transcript-critic은 로컬 파일이나 유튜브 주소를 받아 yt-dlp와 whisper-cli로 전사한 뒤 타임스탬프 요약과 논리 오류 분석까지 뽑는다. alicicek의 claude-transcribe는 플러그인 마켓플레이스로 설치하면 첫 세션에서 yt-dlp·ffmpeg·openai-whisper를 알아서 깔아 준다. danielrosehill의 Claude-Transcription-Plugin은 무음 제거·포맷 정규화·전사·필러 제거·구조화 단계를 명령어로 나눠 두었고, 전사 엔진으로 Whisper 로컬 외에 Gemini와 AssemblyAI도 고를 수 있다.</p>
+<h2>whisper.cpp에서 어떤 모델을 받아 어떻게 돌리는가</h2>
+<p>방에서 공유된 whisper.cpp는 OpenAI Whisper를 C/C++로 옮긴 프로젝트다. 파이썬 없이 돌아가고 Apple Metal·CUDA·Vulkan·CPU를 지원해서 맥북에서 쓰기 편하다. 모델 파일은 저장소의 download-ggml-model.sh 스크립트로 받는다.</p>
+<p>선택지는 크게 둘이다. large-v3는 가장 정확하지만 느리다. large-v3-turbo는 인코더는 그대로 두고 디코더를 32층에서 4층으로 줄인 뒤 미세조정한 모델로, 파일 크기는 약 1.5GiB이며 전사 속도가 더 빠르다. 억양이 세거나 겹쳐 말하거나 녹음이 나쁜 경우엔 full large-v3가 조금 더 낫다는 것이 배포 문서와 사용자 가이드의 공통된 설명이다.</p>
+<p>한국어는 어떤가. OpenAI의 large-v3 릴리스 노트는 한국어에 대해 단어 오류율 대신 문자 오류율을 썼는데, 한국어 띄어쓰기가 데이터셋마다 일관되지 않기 때문이라고 밝혔다. 한국어 회의록 파이프라인을 공개한 TreeSoop 블로그는 전문 용어 인식에서 Whisper 로컬 파이프라인이 비교 대상 유료 서비스보다 나았다고 적었다. 반면 ENERZAi는 자체 테스트에서 한국어 정확도가 영어보다 눈에 띄게 떨어졌다고 썼다. 두 관찰은 충돌하지 않는다. 두 관찰은 large-v3의 한국어 전사 성능에 장점과 한계가 함께 있다는 뜻이다.</p>
+<p>써본 사람들 사이에서 반복해서 나오는 팁이 하나 있다. 언어 자동 감지에 맡기면 한국어 음성이 영어로 나오는 경우가 있으니 언어를 명시하라는 것이다. 또 ffmpeg로 16kHz 리샘플링과 간단한 노이즈 필터를 먼저 거치면 인식률이 눈에 띄게 오른다는 경험담이 여럿이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-video-audio-whisper-transcription.png" alt="" loading="lazy"><h2>전사 지표는 &quot;틀렸는지&quot;를 알려주지만 &quot;듣기 좋은지&quot;는 모른다</h2>
+<p>방에서 나온 문제의식은 정확했다. Whisper는 세그먼트마다 몇 가지 숫자를 함께 돌려주는데, 그 숫자는 전사 실패를 잡는 데는 쓸모 있어도 발음 품질을 판정하지는 못한다.</p>
+<p>openai/whisper 소스 코드 기준으로 지표는 셋이다. avg_logprob는 평균 로그 확률로, 기본 임계값 -1.0보다 낮으면 디코딩 실패로 본다. compression_ratio는 zlib 압축비로, 2.4를 넘으면 반복적인 출력으로 보고 디코딩 실패로 처리한다. no_speech_prob는 무음 확률로, 0.6을 넘고 avg_logprob도 낮으면 그 구간을 무음으로 처리한다. Whisper 저자는 이 기본값이 몇 개 데이터셋에서 그럭저럭 맞았을 뿐이며, 특히 no_speech_prob는 음성 활동 예측치로 믿을 만하지 않다고 GitHub 토론에서 인정했다.</p>
+<p>이 지표가 잡아내는 것은 Whisper의 악명 높은 환각이다. 무음이나 음악 구간에서 &quot;시청해 주셔서 감사합니다&quot; 같은 학습 데이터 문구를 지어내거나 직전 문장을 수십 번 반복하는 현상이다. 2026년 arXiv에 올라온 벤치마크 논문은 Fair-Speech 오디오의 30%를 마스킹한 실험에서 Whisper-small의 삽입 오류 중 86%가 반복 루프였다고 보고했다. 써본 사람들 사이에서도 4시간 녹음에서 소음 구간을 지나면 &quot;네.&quot; &quot;죄송합니다.&quot; 같은 짧은 말이 무한 반복됐다는 이야기, 걸린 지점에서 시작 오프셋을 옮겨 다시 돌린다는 임시방편이 흔하다.</p>
+<p>효과가 확인된 대책은 외부 VAD(음성 활동 감지)다. WhisperX 논문은 Whisper 자체 타임스탬프 대신 외부 VAD 경계로 오디오를 잘라 넣으면 반복 루프와 무음 환각이 줄어든다고 보였다. 실무에서는 Silero VAD로 무음을 찾아 긴 공백을 줄이는 방식이 쓰인다. 무음을 통째로 없애면 Whisper가 문장 경계와 구두점을 잡는 단서까지 사라지기 때문이다. condition_on_previous_text를 끄는 것도 반복 강화를 막는 데 도움이 된다.</p>
+<p>그런데 이 모든 것은 &quot;전사 과정에서 누락이나 삽입·반복이 생겼는가&quot;의 문제다. 발음이 또렷했는지, 청취자가 알아듣기 좋았는지는 다른 층의 질문이다. 그 질문에 답하는 도구는 Microsoft Azure AI Speech의 발음 평가 API다. 참조 텍스트를 주면 음소·단어 단위 정확도와 영어(en-US)의 음절 단위 정확도, 쉼 간격의 자연스러움을 재는 유창성, 강세·억양·속도를 재는 운율 점수를 돌려준다. 다만 Microsoft 문서에 따르면 운율 점수는 en-US 로케일에서만 제공되고, 대본 없는 모드는 Azure STT와 다른 인식 모델을 쓰므로 정확한 판정이 필요하면 STT로 참조 텍스트를 먼저 뽑으라고 안내한다. Microsoft Azure AI Speech의 발음 평가는 한국어(ko-KR)도 지원한다.</p>
+<h2>Whisper 대신 상용 전사 API를 쓰면 무엇이 달라지나</h2>
+<p>방에서는 Whisper Large v3·Deepgram Nova-2·AssemblyAI Universal-2 비교가 요청됐다. 비교 논문 하나가 세 모델을 나란히 다뤘다. 비원어민 영어 전사를 다룬 arXiv 논문(2503.06924)은 Universal-2·Nova-2·Whisper large-v3 등 다섯 시스템을 비교하면서, Whisper만 오픈소스라 로컬 설치가 가능하고 나머지는 구조가 비공개이며 성능 자료도 동료 심사가 아닌 마케팅 자료라고 지적했다.</p>
+<p>숫자는 테스트셋마다 크게 흔들린다.  AssemblyAI는 자사 블로그에서 Universal-3.5 Pro가 Whisper보다 환각을 약 30% 줄였다고 주장한다.  벤더 수치는 참고만 하고 자기 오디오로 직접 재라는 것이 비교 글마다 붙는 조언이다.</p>
+<p>한국어 지원은 셋 다 확인된다. Deepgram은 Nova-3에 한국어를 추가하면서 음절 블록과 빠른 활용, 띄어쓰기 모호성을 핵심 난제로 꼽았고, Nova-2는 여전히 서비스 중이다. AssemblyAI는 한국어 화자 분리도 지원한다. 다만 AssemblyAI 문서에 따르면 언어 자동 감지를 켠 채 지원되지 않는 기능을 요청하면 오류 없이 그 기능만 조용히 빠지므로, 응답에 화자 라벨이 실제로 있는지 확인해야 한다.</p>
+<p>가격은 분당 0.5센트 안팎에서 모인다. 2026년 8월 말 나온 Google의 Gemini 3.5 Transcribe는 파일 전사 기준 분당 약 0.005달러로 추산되고, OpenAI의 gpt-4o-transcribe와 whisper-1은 분당 0.006달러, AssemblyAI Universal-2는 시간당 0.15달러다. Gemini 쪽은 토큰 과금이라 오디오 길이와 출력 텍스트 토큰 수에 따라 실제 청구가 달라진다.</p>
+<h2>화자 분리는 별도 모델을 붙이는 게 정석이다</h2>
+<p>방에서 나온 &quot;화자 분리는 다른 모델을 조합한다&quot;는 언급은 현재 관행과 일치한다. whisper.cpp에도 tinydiarize라는 실험 기능이 있어 -tdrz 옵션으로 화자 교체 지점 토큰을 찍어 주지만, 제약이 크다. small.en 모델 하나뿐이라 영어 전용이고, 누가 말했는지 식별하지 않고 &quot;바뀌었다&quot;만 표시하며, 프로젝트가 공개한 수치로 교체 지점 정밀도는 97.7%인데 재현율은 70.8%다. 열 번 중 세 번은 교체를 놓친다.</p>
+<p>자체 호스팅에서 사실상 표준은 Whisper와 pyannote.audio의 조합이다. WhisperX가 이를 네 단계로 묶는다. faster-whisper로 배치 전사, wav2vec2 강제 정렬로 단어 단위 타임스탬프 복원, pyannote로 화자 구간 추출, 타임스탬프로 단어와 화자 매칭. Whisper 자체 타임스탬프는 발화 단위라 몇 초씩 어긋날 수 있어 정렬 단계가 필요하다. 약점도 문서화돼 있다.  pyannote 모델 가중치는 무료지만 약관 동의가 필요한 게이트 모델이다.</p>
+<p>2026년 3월 arXiv 논문(WhisperAlign)은 한 가지 실전 함정을 짚었다. ASR 파이프라인과 pyannote가 서로 다른 VAD를 쓰기 때문에 경계 타임스탬프가 본질적으로 어긋나며, pyannote 출력을 Silero VAD의 음성 구간 안으로 잘라 넣으면 경계 환각이 사라졌다고 보고했다.</p>
+<h2>Gemini는 소리를 직접 듣지만 긴 파일에서 타임스탬프가 밀린다</h2>
+<p>마지막 질문은 Gemini의 음성 기능이었다. 답은 두 층으로 나뉜다. 소비자용 Gemini 앱의 Gemini Live는 음성 대화 기능으로, 텍스트를 거치지 않고 음성을 직접 생성한다. 개발자가 파일 전사에 쓰는 것은 Gemini API 쪽이다.</p>
+<p>Gemini API는 Claude와 달리 오디오를 입력으로 받는다. 일반 Gemini 모델에 오디오 파일을 올리고 &quot;화자를 구분하고 MM:SS 타임스탬프를 붙여 전사하라&quot;고 프롬프트하면 구조화된 출력으로 받을 수 있다. 여기에 더해 전용 모델 Gemini 3.5 Transcribe가 나왔다. Google 문서에 따르면 85개 이상 언어 자동 감지, 화자 분리, 단어 단위 타임스탬프, 사용자 어휘 바이어싱을 지원하고 단일 요청으로 1시간까지 처리하되, 화자 분리나 단어 단위 타임스탬프를 켜면 30분까지 처리한다. 제약도 명시돼 있다. 사용자 어휘는 화자 분리·단어 타임스탬프와 함께 쓸 수 없고, 실시간 스트리밍 모델은 화자 분리를 지원하지 않는다.</p>
+<p>일반 모델로 긴 오디오를 전사할 때는 알려진 문제가 있다. Google AI 개발자 포럼에 2026년 3월 올라온 버그 리포트는 12분짜리 아랍어 강의에서 Gemini 3 Flash와 3.1 Pro 모두 타임스탬프가 점진적으로 앞서 나갔다고 보고했다.  써본 사람들 사이에서 1~3시간짜리 화자 분리 전사를 Gemini로 한 번에 처리해 본 사람이 있느냐는 질문이 반복되는 것도 같은 맥락이다.</p>
+<p>그래서 개인 개발자가 지금 고를 수 있는 길은 세 갈래다. 비용 없이 로컬에서 끝내려면 ffmpeg·whisper.cpp large-v3-turbo에 Silero VAD를 앞에 붙이고 전사본을 Claude Code에 읽힌다. 화자 라벨이 필요하면 WhisperX나 AssemblyAI·Deepgram의 화자 분리 옵션을 켠다. 소리를 직접 듣는 모델이 필요하면 Gemini API로 넘어가되 짧게 잘라 넣는다. 어느 길이든 전사 실패의 징후는 지표로 잡을 수 있어도, 그 목소리가 듣기 좋았는지는 아직 사람이 들어야 안다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">whisper.cpp</span><span class="chip">음성 전사</span><span class="chip">Whisper 환각</span><span class="chip">화자 분리</span><span class="chip">WhisperX</span><span class="chip">Gemini 3.5 Transcribe</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/ggml-org/whisper.cpp" rel="nofollow noopener">https://github.com/ggml-org/whisper.cpp</a></li><li><a href="https://github.com/ggml-org/whisper.cpp/blob/master/models/README.md" rel="nofollow noopener">https://github.com/ggml-org/whisper.cpp/blob/master/models/README.md</a></li><li><a href="https://github.com/anthropics/claude-code/issues/32096" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/32096</a></li><li><a href="https://github.com/anthropics/claude-code/issues/14444" rel="nofollow noopener">https://github.com/anthropics/claude-code/issues/14444</a></li><li><a href="https://github.com/Binjee/claude-code-skill-to-transcribe-audio-video-file" rel="nofollow noopener">https://github.com/Binjee/claude-code-skill-to-transcribe-audio-video-file</a></li><li><a href="https://github.com/jftuga/transcript-critic" rel="nofollow noopener">https://github.com/jftuga/transcript-critic</a></li><li><a href="https://github.com/alicicek/claude-transcribe" rel="nofollow noopener">https://github.com/alicicek/claude-transcribe</a></li><li><a href="https://github.com/danielrosehill/Claude-Transcription-Plugin" rel="nofollow noopener">https://github.com/danielrosehill/Claude-Transcription-Plugin</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에 mp3나 영상 파일을 직접 넣으면 내용을 들을 수 있나?</h2><p class="sum">아니다. Claude Code의 Read 도구는 이미지·PDF는 읽지만 오디오는 읽지 못하며, 오류가 나도 모델이 분석을 지어낼 수 있다는 버그 리포트가 있다. ffmpeg로 오디오를 뽑고 whisper.cpp로 전사한 텍스트를 읽히는 방식이 표준이다.</p></article><article class="dcard"><div class="t">Q</div><h2>Whisper 전사에서 같은 문장이 계속 반복되는 환각은 어떻게 막나?</h2><p class="sum">Silero VAD 같은 외부 음성 활동 감지로 긴 무음을 0.3~0.5초로 줄여 넣고, condition_on_previous_text를 끈다. 출력에서 compression_ratio가 2.4를 넘거나 avg_logprob가 -1.0 아래인 세그먼트를 걸러내면 대부분 잡힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>whisper.cpp에서 large-v3와 large-v3-turbo 중 무엇을 골라야 하나?</h2><p class="sum">일반적인 강의·회의 녹음은 여섯 배 빠른 large-v3-turbo로 충분하다. 억양이 강하거나 여러 사람이 겹쳐 말하거나 녹음 상태가 나쁘면 디코더가 32층인 full large-v3가 조금 더 정확하다.</p></article><article class="dcard"><div class="t">Q</div><h2>화자 분리(누가 말했는지)는 Whisper만으로 되나?</h2><p class="sum">whisper.cpp의 tinydiarize는 영어 전용에 화자 교체 지점만 찍어 주고 재현율이 70% 수준이다. 실무에서는 WhisperX처럼 pyannote.audio를 붙이거나 AssemblyAI·Deepgram·Gemini 3.5 Transcribe의 화자 분리 옵션을 쓴다.</p></article><article class="dcard"><div class="t">Q</div><h2>Gemini는 오디오를 직접 전사할 수 있나?</h2><p class="sum">된다. Gemini API는 오디오 입력을 받으며, 전용 모델 Gemini 3.5 Transcribe는 화자 분리와 단어 타임스탬프를 지원한다. 다만 일반 모델로 긴 파일을 넣으면 12~18분 부근부터 타임스탬프가 앞서 나가는 문제가 보고돼 10~15분 단위로 자르는 것이 권장된다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-06-0900.html">2026-09-06 09-05 17:59~09-06 08:42</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

@@ -12,7 +12,7 @@
 <meta property="og:description" content="Fable 5.1이 클로드 코드 Max 요금제 한도를 빠르게 소모하는 이유를 앤트로픽 문서와 Artificial Analysis 측정으로 짚고, effort·서브에이전트 설정과 구독료 평가 기준을 정리한다.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/mag/models/fable-5-1-token-usage-max-plan.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Fable 5.1 토큰 소모, Max 20x로도 부족한 이유와 줄이는 설정", "description": "Fable 5.1이 클로드 코드 Max 요금제 한도를 빠르게 소모하는 이유를 앤트로픽 문서와 Artificial Analysis 측정으로 짚고, effort·서브에이전트 설정과 구독료 평가 기준을 정리한다.", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/fable-5-1-token-usage-max-plan.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Fable 5.1, Claude Max, 클로드 코드 사용량 한도, 토큰 소모, effort 설정, 서브에이전트, 구독료 비교", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Fable 5.1 토큰 소모, Max 20x로도 부족한 이유와 줄이는 설정", "description": "Fable 5.1이 클로드 코드 Max 요금제 한도를 빠르게 소모하는 이유를 앤트로픽 문서와 Artificial Analysis 측정으로 짚고, effort·서브에이전트 설정과 구독료 평가 기준을 정리한다.", "datePublished": "2026-09-06", "dateModified": "2026-09-06", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/fable-5-1-token-usage-max-plan.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Fable 5.1, Claude Max, 클로드 코드 사용량 한도, 토큰 소모, effort 설정, 서브에이전트, 구독료 비교", "image": "https://chat.axwith.com/mag/hero/fable-5-1-token-usage-max-plan.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Max 요금제에서 Fable 5.1은 얼마나 쓸 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "Max 요금제는 주간 한도의 최대 50%까지 Fable 5·5.1에 쓸 수 있다. 별도 할당이 아니라 다른 모델과 같은 한도를 나눠 쓰며, Opus보다 약 2배 빨리 소모된다. 50%를 넘기면 사용 크레딧을 충전하거나 Opus 5 등으로 모델을 바꿔야 한다."}}, {"@type": "Question", "name": "Fable 5.1이 Fable 5보다 토큰을 더 쓰는 이유는?", "acceptedAnswer": {"@type": "Answer", "text": "Artificial Analysis 측정에서 5.1은 같은 과제에 약 1.7배 많은 출력 토큰을 썼다. 앤트로픽도 파일 전체 재작성 경향과 병렬 도구 호출 불안정을 퇴행으로 밝혔다. 캐시 읽기 단가 75% 인하가 있었지만 과제당 비용은 20% 높았다."}}, {"@type": "Question", "name": "클로드 코드에서 Fable 토큰 소모를 줄이는 설정은?", "acceptedAnswer": {"@type": "Answer", "text": "/effort medium으로 낮추면 앤트로픽 기준 Fable 5 수준 결과를 훨씬 싸게 낸다. 클로드 코드 기본값은 High다. CLAUDE_CODE_SUBAGENT_MODEL_FORCE로 서브에이전트를 Sonnet이나 Haiku에 고정하고, /usage로 어디에 소모되는지 확인한다."}}, {"@type": "Question", "name": "클로드 코드 주간 한도 50% 프로모션은 언제 끝나나?", "acceptedAnswer": {"@type": "Answer", "text": "5월 13일 시작된 주간 한도 50% 인상 프로모션은 여러 차례 연장돼 2026년 9월 13일까지다. 앤트로픽 지원 문서는 그 뒤 표준 수준으로 돌아간다고만 적고 있고, 영구 인상 여부는 공식 확인이 없다."}}]}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
@@ -29,9 +29,10 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 @media(min-width:760px){body{font-size:18px}}
 
 /* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
-.tlgo{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 14px;
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
 padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
 text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
 .tlgo:hover{background:var(--chip-bg)}
 .tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
 .tlgo span{font-size:13px;color:var(--muted)}
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
-
+<img class="artHero" src="https://chat.axwith.com/mag/hero/fable-5-1-token-usage-max-plan.png" alt="Fable 5.1 토큰 소모, Max 20x로도 부족한 이유와 줄이는 설정" loading="eager">
 <header>
   <span class="catchip c-model">AI 모델·프롬프트</span>
   <h1>Fable 5.1 토큰 소모, Max 20x로도 부족한 이유와 줄이는 설정</h1>
@@ -243,7 +244,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>독립 벤치마크 기관 Artificial Analysis의 측정도 같은 방향이다. Fable 5.1은 같은 지능 지수 과제를 푸는 데 Fable 5보다 약 1.7배 많은 출력 토큰을 썼다. 캐시 인하로 과제당 1.4달러가량 아꼈지만 최종 과제당 비용은 3.76달러로 Fable 5보다 20% 높았고 Opus 5의 2.34달러보다 1.6배였다. 단가 인하와 실제 소모는 다른 이야기다.</p>
 <p>원인 후보는 셋으로 갈린다. 모델 자체의 행동 변화가 하나다. 앤트로픽이 기술 문서에서 직접 밝힌 변화로, 5.1은 부분 수정 대신 파일 전체를 다시 쓰는 경향이 있고 장시간 에이전트 작업에서 다음 호출이 명시되지 않으면 도구를 한 턴에 하나씩 부르기도 한다. 둘 다 토큰 소모를 늘린다. 서브에이전트 확산이 또 하나다. 프롬프트 하나에 에이전트가 여럿 뜨면 각각이 자기 컨텍스트를 들고 돌아간다. 남은 하나는 클로드 코드 클라이언트의 캐시 깨짐 의혹인데, 앞서 언급한 이슈 보고자는 자기 로그에서 캐시 적중률 98%를 확인하고 이 가설을 배제했다.</p>
 <p>써본 사람들 사이에선 캐시 버그를 의심하는 목소리와, 에이전트가 몇 개 뜨는지부터 확인하라는 조언이 함께 돈다. 앤트로픽은 원인을 밝힌 공식 문서를 내지 않았다. 9월 1일 출시 때 한도가 초기화됐다는 보고가 나왔다. 9월 4일에도 주간 한도가 다시 초기화됐다는 보고가 나왔다.</p>
-<h2>한도 축소 우려는 근거가 있나</h2>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/fable-5-1-token-usage-max-plan.png" alt="" loading="lazy"><h2>한도 축소 우려는 근거가 있나</h2>
 <p>한도가 앞으로 더 줄어들 수 있다는 걱정도 방에서 나왔다. 올해 앤트로픽의 한도 변경 이력을 보면 근거 없는 걱정이 아니다.</p>
 <p>3월에 앤트로픽은 평일 피크 시간대 5시간 한도를 줄였다가 사용자가 예상보다 빨리 한도에 닿는다고 인정했다. 5월 6일에는 5시간 한도를 영구히 두 배로 늘리고 피크 감산을 없앴다. 5월 13일부터는 주간 한도를 50% 올리는 프로모션을 시작했다. 7월 13일 종료 예정이던 것이 8월 19일과 8월 31일을 거쳐 지금은 9월 13일까지 연장됐다.</p>
 <p> 9월 14일부터는 표준 주간 한도를 영구히 25% 올린다고 클로드 코드 팀이 발표했다.  지금 체감하는 주간 한도는 평시보다 50% 넉넉한 상태다.</p>
