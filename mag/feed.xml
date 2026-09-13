@@ -29,6 +29,14 @@
     <description>챗GPT Pro 20x를 필리핀 페소로 결제하는 &#x27;필쫀쿠&#x27;의 원리와 절차를 정리했다. 필리핀 정가 9,990페소, 부가세 12%와 한국 부가세 10%의 차이, 카드 거절·국가 불일치 오류, OpenAI 약관 위반 위험까지 확인된 사실만 담았다.</description>
   </item>
   <item>
+    <title>카카오톡 ChatGPT Plus 2개월 무료, 필리핀 우회 결제, 비즈니스 플랜 셈법</title>
+    <link>https://chat.axwith.com/mag/resources/chatgpt-plus-kakao-promo-philippines-business.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/chatgpt-plus-kakao-promo-philippines-business.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Sun, 13 Sep 2026 12:00:00 +0900</pubDate>
+    <description>카카오톡 ChatGPT Plus 2개월 무료 조건, GPT-6 Astra가 Plus에서 열리는 범위, 필리핀 결제 우회의 가격 차이와 계정 정지·환불 규정, Business 플랜의 Codex 한도를 OpenAI 공식 자료로 확인했다.</description>
+  </item>
+  <item>
     <title>Claude Code·Codex·웹 챗 메모리 하나로 합치기: dhaa 세이브포인트 이식 실험</title>
     <link>https://chat.axwith.com/mag/workflow/cross-tool-ai-memory-dhaa-savepoint.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/cross-tool-ai-memory-dhaa-savepoint.html</guid>
@@ -235,13 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Wed, 02 Sep 2026 12:00:00 +0900</pubDate>
     <description>Anthropic Fable 5.1의 공식 성능과 가격, Claude Code 2.1.257 사용법을 확인하고 빠른 한도 소진 체감이 생기는 이유와 모델 비교법을 분석했다.</description>
-  </item>
-  <item>
-    <title>Claude Code와 OpenAI Codex, 코딩할 때 무엇이 더 좋은가</title>
-    <link>https://chat.axwith.com/mag/models/claude-code-vs-openai-codex.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-vs-openai-codex.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Wed, 02 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code와 OpenAI Codex 중 무엇이 더 좋은지 최신 모델, 가격, 벤치마크, 실사용 반응으로 비교한다. 내 코드베이스에서 승자를 가리는 재현 가능한 방법도 담았다.</description>
   </item>
 </channel></rss>
