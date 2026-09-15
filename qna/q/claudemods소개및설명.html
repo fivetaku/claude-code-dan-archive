@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>클로드코드의 신호등 표시는 무슨 의미인가요? — 클코단 Q&amp;A</title>
+<title>Claude Mods 소개 및 설명? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="팀플랜에서 클로드코드 감사로그를 볼 수 있는지, CLI로 사용해도 동일한지에 대한 질문이 있었다. 채팅 내역까지 볼 수 있다는 이야기가 있었지만, CLI 사용 시에는 못 본다고 알려진 것 같다는 의견으로 마무리됐다.">
-<link rel="canonical" href="https://chat.axwith.com/qna/q/클로드코드신호등표시질문.html">
-<meta property="og:title" content="클로드코드의 신호등 표시는 무슨 의미인가요?">
-<meta property="og:description" content="팀플랜에서 클로드코드 감사로그를 볼 수 있는지, CLI로 사용해도 동일한지에 대한 질문이 있었다. 채팅 내역까지 볼 수 있다는 이야기가 있었지만, CLI 사용 시에는 못 본다고 알려진 것 같다는 의견으로 마무리됐다.">
+<meta name="description" content="Claude Mods라는 새 기능/플러그인 개념이 소개됐다. Claude Code를 function hooks로 깊게 고쳐 특정 이벤트에서 검사·기록·차단·외부 도구 호출 같은 규칙을 끼워 넣을 수 있는 확장 장치로, 이미 클로드 안에서 테트리스를 돌">
+<link rel="canonical" href="https://chat.axwith.com/qna/q/claudemods소개및설명.html">
+<meta property="og:title" content="Claude Mods 소개 및 설명?">
+<meta property="og:description" content="Claude Mods라는 새 기능/플러그인 개념이 소개됐다. Claude Code를 function hooks로 깊게 고쳐 특정 이벤트에서 검사·기록·차단·외부 도구 호출 같은 규칙을 끼워 넣을 수 있는 확장 장치로, 이미 클로드 안에서 테트리스를 돌">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://chat.axwith.com/qna/q/클로드코드신호등표시질문.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "클로드코드의 신호등 표시는 무슨 의미인가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "팀플랜에서 클로드코드 감사로그를 볼 수 있는지, CLI로 사용해도 동일한지에 대한 질문이 있었다. 채팅 내역까지 볼 수 있다는 이야기가 있었지만, CLI 사용 시에는 못 본다고 알려진 것 같다는 의견으로 마무리됐다. 윈도우 사용자가 클로드코드 좌상단 신호등 아이콘 정체 질문 윈도우에서는 창 최대화/닫기 기능 버튼임을 확인 팀플랜 감사로그로 채팅 내역 확인 가능하다는 이야기가 있었음 CLI로 클로드코드를 쓸 때는 감사로그 확인이 안 되는 것 같다는 답"}}}</script>
+<meta property="og:url" content="https://chat.axwith.com/qna/q/claudemods소개및설명.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "Claude Mods 소개 및 설명?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "Claude Mods라는 새 기능/플러그인 개념이 소개됐다. Claude Code를 function hooks로 깊게 고쳐 특정 이벤트에서 검사·기록·차단·외부 도구 호출 같은 규칙을 끼워 넣을 수 있는 확장 장치로, 이미 클로드 안에서 테트리스를 돌리는 모드도 나왔다고 안내됐다. 참여자와의 대화로 Mods는 루틴 수행이 아니라 인터럽트 조건 충족 시 개입하는 규칙층이라는 점이 정리됐다. Claude Mods는 Claude Code를 function hooks로 깊게 수정하는 확장 장치 이미 Claude 안에서 테트리스를 돌리는 모드가 등장 커뮤니티 업데이트·기술 디테일은 깃허브 이슈에서 확인 가능 Mods는 작업 절차가 아니라 특정 조건에서 개입하는 인터럽트형 규칙층"}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -238,16 +238,16 @@ background:var(--surface);text-decoration:none}
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
-  <span class="catchip c-etc">요금·사용량</span>
-  <h1>클로드코드의 신호등 표시는 무슨 의미인가요?</h1>
-  <p class="sub">방에서 2번 논의된 질문입니다.</p>
+  <span class="catchip c-ask">트러블슈팅</span>
+  <h1>Claude Mods 소개 및 설명?</h1>
+  
 </header>
 <article class="qbody">
-  <p class="qanswer">팀플랜에서 클로드코드 감사로그를 볼 수 있는지, CLI로 사용해도 동일한지에 대한 질문이 있었다. 채팅 내역까지 볼 수 있다는 이야기가 있었지만, CLI 사용 시에는 못 본다고 알려진 것 같다는 의견으로 마무리됐다.</p>
-  <ul><li>윈도우 사용자가 클로드코드 좌상단 신호등 아이콘 정체 질문</li><li>윈도우에서는 창 최대화/닫기 기능 버튼임을 확인</li><li>팀플랜 감사로그로 채팅 내역 확인 가능하다는 이야기가 있었음</li><li>CLI로 클로드코드를 쓸 때는 감사로그 확인이 안 되는 것 같다는 답</li></ul>
+  <p class="qanswer">Claude Mods라는 새 기능/플러그인 개념이 소개됐다. Claude Code를 function hooks로 깊게 고쳐 특정 이벤트에서 검사·기록·차단·외부 도구 호출 같은 규칙을 끼워 넣을 수 있는 확장 장치로, 이미 클로드 안에서 테트리스를 돌리는 모드도 나왔다고 안내됐다. 참여자와의 대화로 Mods는 루틴 수행이 아니라 인터럽트 조건 충족 시 개입하는 규칙층이라는 점이 정리됐다.</p>
+  <ul><li>Claude Mods는 Claude Code를 function hooks로 깊게 수정하는 확장 장치</li><li>이미 Claude 안에서 테트리스를 돌리는 모드가 등장</li><li>커뮤니티 업데이트·기술 디테일은 깃허브 이슈에서 확인 가능</li><li>Mods는 작업 절차가 아니라 특정 조건에서 개입하는 인터럽트형 규칙층</li></ul>
 </article>
-<a class="srccard" href="../../s/2026-09-13-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-13 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecode최신업데이트소식.html">Claude Code 최신 업데이트 소식 아시는 분 계신가요?</a></li><li><a href="claude비즈니스요금제.html">Claude 비즈니스 요금제는 어떻게 구성되어 있나요?</a></li><li><a href="claude성능체감변화.html">Claude 성능이 예전보다 체감상 달라졌나요?</a></li><li><a href="claude구독중복결제.html">Claude 구독료가 중복으로 결제됐는데 어떻게 해결하나요?</a></li><li><a href="claude플랜한도.html">Claude 플랜별 사용 한도는 어떻게 다른가요?</a></li></ul></section>
+<a class="srccard" href="../../s/2026-09-15-0900.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-15 아카이브</span></a>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claude장애와529.html">Claude에서 529 오류가 뜨는 건 서버 장애 때문인가요?</a></li><li><a href="페이블대비오푸스사용후기.html">페이블 대신 오푸스를 써보니 실제로 어떤가요?</a></li><li><a href="클로드코드529오류.html">클로드 코드에서 529 오류가 자꾸 뜨는데 원인이 뭘까?</a></li><li><a href="에이전트게이트설계.html">에이전트 실행을 막는 게이트는 어떻게 설계하나요?</a></li><li><a href="인세인서치크롤링도구및백업권고.html">인세인서치 크롤링 도구는 백업을 어떻게 권장하나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>

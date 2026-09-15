@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>클로드코드의 신호등 표시는 무슨 의미인가요? — 클코단 Q&amp;A</title>
+<title>AI 작업 검증 방식 논의? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="팀플랜에서 클로드코드 감사로그를 볼 수 있는지, CLI로 사용해도 동일한지에 대한 질문이 있었다. 채팅 내역까지 볼 수 있다는 이야기가 있었지만, CLI 사용 시에는 못 본다고 알려진 것 같다는 의견으로 마무리됐다.">
-<link rel="canonical" href="https://chat.axwith.com/qna/q/클로드코드신호등표시질문.html">
-<meta property="og:title" content="클로드코드의 신호등 표시는 무슨 의미인가요?">
-<meta property="og:description" content="팀플랜에서 클로드코드 감사로그를 볼 수 있는지, CLI로 사용해도 동일한지에 대한 질문이 있었다. 채팅 내역까지 볼 수 있다는 이야기가 있었지만, CLI 사용 시에는 못 본다고 알려진 것 같다는 의견으로 마무리됐다.">
+<meta name="description" content="AI에게 작업을 맡긴 뒤 검증을 어떻게 하는지에 대한 질문에서 여러 방식이 공유됐다. dry run을 todo에 명시하거나 새 세션에서 파일경로만 주고 검토시키는 방법, 코드 직접 안 보고 자연어 요약만 읽는 방식, 에이전트 팀 단위로 작업시켜 모듈간">
+<link rel="canonical" href="https://chat.axwith.com/qna/q/ai작업검증방식논.html">
+<meta property="og:title" content="AI 작업 검증 방식 논의?">
+<meta property="og:description" content="AI에게 작업을 맡긴 뒤 검증을 어떻게 하는지에 대한 질문에서 여러 방식이 공유됐다. dry run을 todo에 명시하거나 새 세션에서 파일경로만 주고 검토시키는 방법, 코드 직접 안 보고 자연어 요약만 읽는 방식, 에이전트 팀 단위로 작업시켜 모듈간">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://chat.axwith.com/qna/q/클로드코드신호등표시질문.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "클로드코드의 신호등 표시는 무슨 의미인가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "팀플랜에서 클로드코드 감사로그를 볼 수 있는지, CLI로 사용해도 동일한지에 대한 질문이 있었다. 채팅 내역까지 볼 수 있다는 이야기가 있었지만, CLI 사용 시에는 못 본다고 알려진 것 같다는 의견으로 마무리됐다. 윈도우 사용자가 클로드코드 좌상단 신호등 아이콘 정체 질문 윈도우에서는 창 최대화/닫기 기능 버튼임을 확인 팀플랜 감사로그로 채팅 내역 확인 가능하다는 이야기가 있었음 CLI로 클로드코드를 쓸 때는 감사로그 확인이 안 되는 것 같다는 답"}}}</script>
+<meta property="og:url" content="https://chat.axwith.com/qna/q/ai작업검증방식논.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "AI 작업 검증 방식 논의?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "AI에게 작업을 맡긴 뒤 검증을 어떻게 하는지에 대한 질문에서 여러 방식이 공유됐다. dry run을 todo에 명시하거나 새 세션에서 파일경로만 주고 검토시키는 방법, 코드 직접 안 보고 자연어 요약만 읽는 방식, 에이전트 팀 단위로 작업시켜 모듈간 소통을 늘리는 방법 등이 나왔다. 결론적으로 AI가 부족한 게 아니라 니즈·정보·과거 실수(찐빠)를 종합한 컨텍스트가 부족한 게 문제라는 의견에 다수가 동의했다. dry run을 todo에 명시해두고 문제 생기면 이유를 설명받아 고치는 방식 새 세션에서 파일 경로만 주고 검토 요청하는 팁 에이전트 팀으로 모듈별 스폰 시 서브에이전트간 메시징도 가능 claude.md를 작게 유지하고 지침을 lazy loading하면 스폰 비용 절감 '찐빠'(계획대로 안 굴러간 실수) 방지엔 니즈·정보품질·과거 시행착오 종합이 핵심"}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -238,16 +238,16 @@ background:var(--surface);text-decoration:none}
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
-  <span class="catchip c-etc">요금·사용량</span>
-  <h1>클로드코드의 신호등 표시는 무슨 의미인가요?</h1>
-  <p class="sub">방에서 2번 논의된 질문입니다.</p>
+  <span class="catchip c-etc">기타</span>
+  <h1>AI 작업 검증 방식 논의?</h1>
+  
 </header>
 <article class="qbody">
-  <p class="qanswer">팀플랜에서 클로드코드 감사로그를 볼 수 있는지, CLI로 사용해도 동일한지에 대한 질문이 있었다. 채팅 내역까지 볼 수 있다는 이야기가 있었지만, CLI 사용 시에는 못 본다고 알려진 것 같다는 의견으로 마무리됐다.</p>
-  <ul><li>윈도우 사용자가 클로드코드 좌상단 신호등 아이콘 정체 질문</li><li>윈도우에서는 창 최대화/닫기 기능 버튼임을 확인</li><li>팀플랜 감사로그로 채팅 내역 확인 가능하다는 이야기가 있었음</li><li>CLI로 클로드코드를 쓸 때는 감사로그 확인이 안 되는 것 같다는 답</li></ul>
+  <p class="qanswer">AI에게 작업을 맡긴 뒤 검증을 어떻게 하는지에 대한 질문에서 여러 방식이 공유됐다. dry run을 todo에 명시하거나 새 세션에서 파일경로만 주고 검토시키는 방법, 코드 직접 안 보고 자연어 요약만 읽는 방식, 에이전트 팀 단위로 작업시켜 모듈간 소통을 늘리는 방법 등이 나왔다. 결론적으로 AI가 부족한 게 아니라 니즈·정보·과거 실수(찐빠)를 종합한 컨텍스트가 부족한 게 문제라는 의견에 다수가 동의했다.</p>
+  <ul><li>dry run을 todo에 명시해두고 문제 생기면 이유를 설명받아 고치는 방식</li><li>새 세션에서 파일 경로만 주고 검토 요청하는 팁</li><li>에이전트 팀으로 모듈별 스폰 시 서브에이전트간 메시징도 가능</li><li>claude.md를 작게 유지하고 지침을 lazy loading하면 스폰 비용 절감</li><li>&#x27;찐빠&#x27;(계획대로 안 굴러간 실수) 방지엔 니즈·정보품질·과거 시행착오 종합이 핵심</li></ul>
 </article>
-<a class="srccard" href="../../s/2026-09-13-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-13 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecode최신업데이트소식.html">Claude Code 최신 업데이트 소식 아시는 분 계신가요?</a></li><li><a href="claude비즈니스요금제.html">Claude 비즈니스 요금제는 어떻게 구성되어 있나요?</a></li><li><a href="claude성능체감변화.html">Claude 성능이 예전보다 체감상 달라졌나요?</a></li><li><a href="claude구독중복결제.html">Claude 구독료가 중복으로 결제됐는데 어떻게 해결하나요?</a></li><li><a href="claude플랜한도.html">Claude 플랜별 사용 한도는 어떻게 다른가요?</a></li></ul></section>
+<a class="srccard" href="../../s/2026-09-15-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-09-15 아카이브</span></a>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="gpt클로드구독고민.html">GPT랑 클로드 중 뭘 구독해야 할까요?</a></li><li><a href="오푸스5답변품질저하.html">웹에서 오푸스 응답 품질이 나빠졌다는 얘기 사실인가요?</a></li><li><a href="클로드신기능문.html">클로드의 새로운 기능은 어떤 것들이 있나요?</a></li><li><a href="클로드가파일지워버린사례.html">클로드가 파일을 지워버린 사례 있으신가요?</a></li><li><a href="인세인리서치소개.html">인세인리서치라는 게 뭔지 소개해줄 수 있나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>
