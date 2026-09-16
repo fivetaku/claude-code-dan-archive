@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 주간 한도 리셋 소문, 실제 변경은 따로 있었다 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code 주간 한도가 초기화된다는 소문을 공식 문서와 실제 변경 내역으로 검증했다. 25% 인상과 17% 감소가 동시에 맞는 이유도 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/claude-code-weekly-limit-reset.html">
+<meta property="og:title" content="Claude Code 주간 한도 리셋 소문, 실제 변경은 따로 있었다">
+<meta property="og:description" content="Claude Code 주간 한도가 초기화된다는 소문을 공식 문서와 실제 변경 내역으로 검증했다. 25% 인상과 17% 감소가 동시에 맞는 이유도 짚는다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/claude-code-weekly-limit-reset.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 주간 한도 리셋 소문, 실제 변경은 따로 있었다", "description": "Claude Code 주간 한도가 초기화된다는 소문을 공식 문서와 실제 변경 내역으로 검증했다. 25% 인상과 17% 감소가 동시에 맞는 이유도 짚는다.", "datePublished": "2026-09-16", "dateModified": "2026-09-16", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/claude-code-weekly-limit-reset.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Claude Code, 주간 한도, 사용량 리셋, Anthropic, Claude Max, AI 코딩 도구", "image": "https://chat.axwith.com/mag/hero/claude-code-weekly-limit-reset.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code 주간 한도는 9월 14일 자동 초기화됐나?", "acceptedAnswer": {"@type": "Answer", "text": "Anthropic의 공식 안내는 자동 초기화를 발표하지 않았다. 50% 프로모션이 끝나고, 프로모션 이전보다 25% 높은 영구 한도가 적용됐다."}}, {"@type": "Question", "name": "Claude Code 한도가 25% 늘었는데 왜 17% 줄었다고 하나?", "acceptedAnswer": {"@type": "Answer", "text": "기존 기준 100에서 새 한도 125로 보면 25% 증가다. 직전 프로모션 용량 150에서 125로 내려왔으므로 실제 체감치는 약 16.7% 감소다."}}, {"@type": "Question", "name": "Claude Code 남은 사용량과 초기화 시각은 어떻게 확인하나?", "acceptedAnswer": {"@type": "Answer", "text": "CLI에서 `/usage`를 실행해 현재 할당량을 확인할 수 있다. 공식 발표보다 계정에 표시되는 사용 비율과 갱신 시각을 작업 계획의 기준으로 삼아야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-weekly-limit-reset.png" alt="Claude Code 주간 한도 리셋 소문, 실제 변경은 따로 있었다" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Claude Code 주간 한도 리셋 소문, 실제 변경은 따로 있었다</h1>
+  <p class="sub">9월 14일 바뀐 것은 사용 기록 초기화가 아니라 프로모션 종료와 영구 한도 조정이었다</p>
+  <div class="meta"><span>2026-09-16</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Code 이용자들이 기다린 것은 새 모델만이 아니었다. 주간 한도가 곧 초기화되리라는 기대가 퍼졌고, 남은 용량을 미리 써야 할지 고민도 이어졌다. 공식 문서를 보면 9월 14일의 핵심은 ‘리셋’이 아니라 주간 한도의 크기가 바뀐 일이었다.</p>
+<h2>소문은 서로 다른 세 가지 변화를 하나로 묶었다</h2>
+<p>Claude Code에서 ‘리셋’은 보통 사용한 할당량이 다시 채워지는 일을 가리킨다. 사용자는 계정별 주기에 따라 한도가 돌아오는 시각을 확인할 수 있다. 한도 자체가 커지는 것과 사용 기록이 지워지는 것은 다르다.</p>
+<p>프로모션까지 겹치면서 표현은 더 혼란스러워졌다. Anthropic은 2026년 5월 13일부터 9월 13일까지 Claude Code의 주간 한도를 50% 높였다. 대상은 Pro, Max, Team과 기존 좌석형 Enterprise였고 5시간 한도는 바뀌지 않았다. ([support.claude.com](https://support.claude.com/en/articles/15910845-claude-code-may-august-2026-weekly-limits-promotion))</p>
+<p>이용자들이 말한 변화는 세 갈래였다. 계정에 원래 예정된 정기 초기화, 프로모션 종료, 새 영구 한도 적용이다. 새 모델 발표와 함께 별도 초기화가 올 수 있다는 기대도 있었지만 9월 14일 공식 안내에는 그런 약속이 없었다.</p>
+<h2>공식 발표는 초기화가 아니라 영구 한도 조정이었다</h2>
+<p>Anthropic 지원 문서는 프로모션이 9월 13일 오후 11시 59분 미국 태평양시간에 끝났다고 명시한다. 다음 날부터 주간 한도는 프로모션 이전보다 25% 높은 수준으로 바뀌었다. 별도 신청은 필요하지 않았으며 변경된 용량은 자동으로 반영됐다. ([support.claude.com](https://support.claude.com/en/articles/15910845-claude-code-may-august-2026-weekly-limits-promotion))</p>
+<p>문서에는 기존 사용량을 모두 지운다는 설명이 없다. 5시간 창과 주간 창을 동시에 새로 시작한다는 표현도 나오지 않는다. 프로모션 종료 시각을 모든 계정의 초기화 시각으로 해석할 근거가 부족한 셈이다.</p>
+<p>실제 초기화 이벤트는 보통 조건이 훨씬 구체적이다. OpenAI의 Codex 안내는 일회성 리셋이 5시간·주간 창을 갱신하고 다음 주간 초기화 날짜까지 바꾼다고 설명한다. 자동 적용인지 보관형 혜택인지도 구분한다. ([help.openai.com](https://help.openai.com/en/articles/20001498-how-banked-codex-resets-work?utm_source=openai))</p>
+<p>공식성이 불분명한 계정에서 ‘선물’이나 ‘리셋’을 암시했더라도 그대로 작업 계획에 반영하기는 어렵다. 제품 회사의 지원 문서나 계정 안의 사용량 화면에서도 같은 내용이 확인돼야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-weekly-limit-reset.png" alt="" loading="lazy"><h2>25% 인상인데 체감 용량은 약 17% 줄었다</h2>
+<p>이번 발표가 논쟁을 부른 이유는 비교 기준에 있다. 프로모션 이전 한도를 100으로 놓으면 여름 동안 제공된 용량은 150이었다. 9월 14일부터 적용된 영구 한도는 125다.</p>
+<p>100에서 125로 보면 25% 증가다. 하지만 사용자가 직전까지 누린 150과 비교하면 25가 줄었다. 25를 150으로 나누면 약 16.7%이므로 체감상 17% 감소라는 설명도 맞다. ([explainx.ai](https://explainx.ai/blog/anthropic-claude-code-limits-17-percent-cut-september-2026-august-2026))</p>
+<p>써본 사람들 사이에서는 장기간 이어진 임시 혜택이 사실상 기본 용량처럼 느껴졌다는 반응이 나왔다. 처음부터 기간이 정해진 혜택이었으므로 25%가 남은 것만으로도 개선이라는 의견도 있었다. 두 평가는 계산이 아니라 기준 시점에서 갈린다.</p>
+<p>개인 개발자와 소규모 팀에는 후자의 숫자보다 전자의 숫자가 더 직접적이다. 지난 몇 달 동안 150을 전제로 병렬 세션과 자동화 작업을 구성했다면 이제 같은 작업량을 125 안에 넣어야 한다. 구독료가 그대로여도 실제 주간 계획은 다시 계산해야 한다.</p>
+<h2>한도 소진 전 몰아쓰기는 리셋 시각이 보일 때만 통한다</h2>
+<p>“곧 초기화된다면 남은 용량을 다 쓰자”는 판단은 정상 초기화 시각을 확인했을 때만 성립한다. 프로모션 종료나 모델 출시가 그 자체로 초기화를 보장하지는 않는다. Claude Code에서는 `/usage`로 프로모션이 반영된 한도를 확인할 수 있다. ([support.claude.com](https://support.claude.com/en/articles/15910845-claude-code-may-august-2026-weekly-limits-promotion))</p>
+<p>한도는 단순한 메시지 횟수가 아니다. 대화가 길어질수록 이전 메시지와 읽은 파일이 매번 다시 포함된다. Opus 같은 무거운 모델과 복잡한 작업은 할당량을 더 빠르게 소진할 수 있다. ([support.claude.com](https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code))</p>
+<p>공식 가이드는 작업이 바뀔 때 `/clear`로 대화를 비우고 같은 작업을 이어갈 때 `/compact`로 맥락을 압축하라고 권한다. 어려운 설계는 Opus로 계획한 뒤 실행을 Sonnet으로 넘기는 방식도 소개한다. 무작정 요청을 늘리기보다는 남은 용량으로 완성할 수 있는 작업을 고르는 편이 안전하다. ([support.claude.com](https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code))</p>
+<h2>리셋 여부는 발표 문구보다 계정의 미터가 답한다</h2>
+<p>주간 한도 소문을 검증하려면 ‘증가’, ‘연장’, ‘초기화’를 따로 읽어야 한다. 증가나 연장은 할당량의 크기를 바꾼다. 초기화는 이미 소비한 비율과 다음 갱신 시각까지 건드린다.</p>
+<p>이번 공식 문서에서 확인된 것은 50% 임시 혜택의 종료와 25% 영구 증액이다. 모든 이용자의 주간 사용 기록을 9월 14일에 지웠다는 발표는 찾을 수 없었다. 새 용량이 적용됐다고 해서 지난 사용량까지 사라졌다고 볼 수는 없다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">주간 한도</span><span class="chip">사용량 리셋</span><span class="chip">Anthropic</span><span class="chip">Claude Max</span><span class="chip">AI 코딩 도구</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://support.claude.com/en/articles/15910845-claude-code-may-august-2026-weekly-limits-promotion" rel="nofollow noopener">https://support.claude.com/en/articles/15910845-claude-code-may-august-2026-week</a></li><li><a href="https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code" rel="nofollow noopener">https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claud</a></li><li><a href="https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-or-max-plan" rel="nofollow noopener">https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-or</a></li><li><a href="https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-work" rel="nofollow noopener">https://support.claude.com/en/articles/11647753-how-do-usage-and-length-limits-w</a></li><li><a href="https://www.mindstudio.ai/blog/claude-code-weekly-rate-limit-changes" rel="nofollow noopener">https://www.mindstudio.ai/blog/claude-code-weekly-rate-limit-changes</a></li><li><a href="https://help.openai.com/en/articles/20001498-how-banked-codex-resets-work" rel="nofollow noopener">https://help.openai.com/en/articles/20001498-how-banked-codex-resets-work</a></li><li><a href="https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-work-and-codex" rel="nofollow noopener">https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code 주간 한도는 9월 14일 자동 초기화됐나?</h2><p class="sum">Anthropic의 공식 안내는 자동 초기화를 발표하지 않았다. 50% 프로모션이 끝나고, 프로모션 이전보다 25% 높은 영구 한도가 적용됐다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code 한도가 25% 늘었는데 왜 17% 줄었다고 하나?</h2><p class="sum">기존 기준 100에서 새 한도 125로 보면 25% 증가다. 직전 프로모션 용량 150에서 125로 내려왔으므로 실제 체감치는 약 16.7% 감소다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code 남은 사용량과 초기화 시각은 어떻게 확인하나?</h2><p class="sum">CLI에서 `/usage`를 실행해 현재 할당량을 확인할 수 있다. 공식 발표보다 계정에 표시되는 사용 비율과 갱신 시각을 작업 계획의 기준으로 삼아야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-16-1330.html">2026-09-16 09-16 08:29~13:27</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
