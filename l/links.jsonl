@@ -860,3 +860,7 @@
 {"code": "8be9e8", "url": "https://x.com/beniduboss/status/2100561129118265715", "title": "Mistral 해킹설 확산… 미공개 툴·전체 코드베이스 유출 주장 제기"}
 {"code": "e4ee5a", "url": "https://www.reddit.com/r/ClaudeAI/comments/1wit5yg/jpmorgan_is_putting_claude_code_inside_a_sandbox", "title": "JPMorgan, Claude Code를 상시 권한 없는 샌드박스에 격리해 운영"}
 {"code": "7efe93", "url": "https://www.reddit.com/r/OpenAI/comments/1wivjfz/looks_like_we_can_buy_resets_now", "title": "OpenAI, 사용량 한도 '리셋' 유료 구매 등장… $100 플랜에 리셋 1회 $40"}
+{"code": "146c30", "url": "https://www.reddit.com/r/LLMDevs/comments/1wiyu5g/we_reported_a_fake_bug_and_sentrys_ai_agent_ran", "title": "가짜 버그 리포트로 Sentry AI 에이전트가 코드 실행 — CVE-2026-90999 공개"}
+{"code": "23cf7a", "url": "https://x.com/claudeai/status/2100632677904744716", "title": "Claude Code, 하나의 대화로 병렬 스레드·비동기 작업 실행 시작"}
+{"code": "2d7461", "url": "https://x.com/ClaudeDevs/status/2100633571543367691", "title": "Claude Code, 작업을 병렬 클라우드 세션으로 쪼개는 'Projects' 베타 공개"}
+{"code": "a29db0", "url": "https://www.anthropic.com/news/life-sciences-verification-program", "title": "Anthropic, 생명과학 전문가용 검증 프로그램 'LSVP' 출시… 생물학 작업 안전장치 완화"}
