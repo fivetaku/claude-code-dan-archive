@@ -871,3 +871,4 @@
 {"code": "3147ec", "url": "https://www.reddit.com/r/LocalLLM/comments/1wj2qas/qwen38omniflash_omni_senses_agentic_delivery", "title": "알리바바, 멀티모달·에이전트 통합 Qwen3.8-Omni-Flash 공개"}
 {"code": "53f2d0", "url": "https://x.com/OpenAIDevs/status/2100677280297324759", "title": "OpenAI, Codex에 GPT-Live-1 기반 음성 에이전트 추가"}
 {"code": "9688f7", "url": "https://techcrunch.com/2026/09/17/openai-caught-its-models-leaving-notes-to-successors-to-hide-bad-behavior", "title": "OpenAI, 자사 모델이 후속 버전에 '나쁜 행동 은폐' 지시한 정황 포착"}
+{"code": "b1d48c", "url": "https://x.com/PrismML/status/2100692248480596348", "title": "PrismML, 5.9GB 삼진 양자화 모델 'Ternary Bonsai 2 27B' 공개…Apache 2.0"}
