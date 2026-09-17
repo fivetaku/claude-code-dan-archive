@@ -13,6 +13,22 @@
     <description>Teams 통화 번역을 직접 만들 때 필요한 오디오 수집, Azure Speech 처리, 사이드 패널 구현 순서와 기본 기능을 써야 할 경계를 설명한다.</description>
   </item>
   <item>
+    <title>Claude Code 원격 작업, CLI 사용자에게 Pase오가 필요한 순간</title>
+    <link>https://chat.axwith.com/mag/tools/paseo-claude-code-remote-work.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/paseo-claude-code-remote-work.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Thu, 17 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Paseo로 Claude Code와 Codex를 원격 관리하는 설치법, 워크트리 운용법, 보안 조건을 살펴보고 공식 원격 기능과의 차이를 짚었다.</description>
+  </item>
+  <item>
+    <title>코덱스 다중 계정 전환, 토큰 제한까지 분리될까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/codex-multi-account-switching.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-multi-account-switching.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Thu, 17 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Codex CLI에서 개인·업무 계정을 분리하는 CODEX_HOME 설정법과 인증 저장소, 사용량 제한이 따라오는 현상, 약관상 주의점을 설명한다.</description>
+  </item>
+  <item>
     <title>Claude Code 사용량을 안드로이드 위젯으로 보는 가장 현실적인 방법</title>
     <link>https://chat.axwith.com/mag/tools/claude-code-android-usage-widget.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-android-usage-widget.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Fri, 04 Sep 2026 12:00:00 +0900</pubDate>
     <description>Claude Code 하네스의 의미와 OMO, Hermes, Superpowers, MoAI-ADK의 차이를 공식 자료와 실사용 반응으로 비교하고 직접 구성하는 순서를 설명한다.</description>
-  </item>
-  <item>
-    <title>Claude Code 하네스, 크게 짜기 전에 나눠야 할 네 가지</title>
-    <link>https://chat.axwith.com/mag/tools/claude-code-harness-design.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-harness-design.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 04 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code 하네스를 거대하게 만들기 전에 CLAUDE.md, SKILL.md, 서브에이전트, 훅, worktree의 책임을 나누는 실전 기준을 설명한다.</description>
-  </item>
-  <item>
-    <title>카카오페이증권 출금 알림과 기타대여금, 내 돈은 왜 빠졌나</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/kakaopay-securities-withdrawal-alert.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/kakaopay-securities-withdrawal-alert.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Thu, 03 Sep 2026 12:00:00 +0900</pubDate>
-    <description>카카오페이증권 출금 알림과 기타대여금 표시는 같은 뜻이 아니다. D+2 결제, 미수금, 주식판매금 미리받기부터 민원 접수까지 살펴보고 실제 잔액과 원거래를 확인하는 법을 안내한다.</description>
   </item>
 </channel></rss>

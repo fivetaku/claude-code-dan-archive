@@ -173,6 +173,8 @@
   <url><loc>https://chat.axwith.com/mag/workflow/claude-code-llm-wiki-rag.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/troubleshooting/teams-realtime-interpreter-build.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/tools/claude-code-android-usage-widget.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://chat.axwith.com/mag/tools/paseo-claude-code-remote-work.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://chat.axwith.com/mag/troubleshooting/codex-multi-account-switching.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/repos/</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/weekly/</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/feed.xml</loc><lastmod>2026-09-17</lastmod></url>
@@ -242,7 +244,9 @@
   <url><loc>https://chat.axwith.com/qna/q/codex사용량소진및리셋기대.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codex장애와추측.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codex초기설정.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/codex페이블운용.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/cursorgrok요금한도.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/devin에이전트연동.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/diff기반루틴.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/dx스크립트axllm문.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/egolite사용경험.html</loc><lastmod>2026-09-17</lastmod></url>
@@ -271,6 +275,7 @@
   <url><loc>https://chat.axwith.com/qna/q/gpt가격인하논쟁.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt로gif영상생성가능여부.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt루나무료공개소식.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/gpt사용량대시보드.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt클라우드세션여부질문.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt클로드구독고민.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt클코선택.html</loc><lastmod>2026-09-17</lastmod></url>
@@ -397,6 +402,7 @@
   <url><loc>https://chat.axwith.com/qna/q/바이브코딩입문도구추천.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/보고서용ppt제작서비스추천질문.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/볼타블루버블로입출금자동화.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/봇아키텍처제작.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/브라우저조작방식.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/비개발자파이썬자동화.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/비개발자하네스고민.html</loc><lastmod>2026-09-17</lastmod></url>
@@ -469,6 +475,7 @@
   <url><loc>https://chat.axwith.com/qna/q/추가ai추천.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/추론흔적보안논.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/카카오톡데이터연동.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/카카오톡봇제작.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/카톡대화요약.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/커서프로요금및클로드한도비교.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/컨텍스트엔지니어링.html</loc><lastmod>2026-09-17</lastmod></url>
@@ -516,6 +523,7 @@
   <url><loc>https://chat.axwith.com/qna/q/클로드세션제한관련대화.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드세션한도핸드오프관리.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드소넷한도질문.html</loc><lastmod>2026-09-17</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/클로드수식렌더링.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드신기능문.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드연동3d모델링툴공유.html</loc><lastmod>2026-09-17</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/클로드와gpt비교.html</loc><lastmod>2026-09-17</lastmod></url>
