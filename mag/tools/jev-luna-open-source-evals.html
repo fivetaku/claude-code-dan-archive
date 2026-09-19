@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jev 대기열 앞에서 Luna와 오픈소스로 먼저 검증하는 법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Jev는 문장 대신 확률이 붙은 결정을 반환한다. 대기열을 기다리기 전에 Claude Code와 Luna, 로컬 모델로 같은 설계를 검증하는 방법을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/jev-luna-open-source-evals.html">
+<meta property="og:title" content="Jev 대기열 앞에서 Luna와 오픈소스로 먼저 검증하는 법">
+<meta property="og:description" content="Jev는 문장 대신 확률이 붙은 결정을 반환한다. 대기열을 기다리기 전에 Claude Code와 Luna, 로컬 모델로 같은 설계를 검증하는 방법을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/jev-luna-open-source-evals.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Jev 대기열 앞에서 Luna와 오픈소스로 먼저 검증하는 법", "description": "Jev는 문장 대신 확률이 붙은 결정을 반환한다. 대기열을 기다리기 전에 Claude Code와 Luna, 로컬 모델로 같은 설계를 검증하는 방법을 정리했다.", "datePublished": "2026-09-19", "dateModified": "2026-09-19", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/jev-luna-open-source-evals.html"}, "articleSection": "도구·라이브러리", "keywords": "Jev, System One Model, Claude Code, GPT-5.6 Luna, AI 에이전트 평가, Structured Outputs, SemIf", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Jev는 일반 LLM과 무엇이 다른가요?", "acceptedAnswer": {"@type": "Answer", "text": "Jev는 긴 문장을 생성하지 않고 Choice, Score, Noul 형태의 결정을 반환한다. 후보가 정해진 라우팅과 평가에는 적합하지만 코드 작성이나 설명 생성에는 쓸 수 없다."}}, {"@type": "Question", "name": "Jev 초대 없이 시험할 방법이 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "TypeSafe는 초기 접근 대기열을 운영한다. Langfuse가 확인한 기준으로는 OpenRouter와 Vercel AI Gateway에서도 Jev를 시험할 수 있다."}}, {"@type": "Question", "name": "Luna를 Jev처럼 사용할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "Structured Outputs로 비슷한 인터페이스를 만들 수 있다. 다만 Luna가 생성한 자신감 수치는 보정된 선택 확률과 같지 않으므로 자체 평가 데이터가 필요하다."}}, {"@type": "Question", "name": "Jev의 오픈소스 대체재가 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "SemIf는 로컬 모델의 로짓을 읽어 선택지 확률을 만드는 브라우저 실험이다. Needle 3는 기기 내 도구 선택과 구조화 추출에 집중하며, 둘 다 Jev의 완전한 호환 구현은 아니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>Jev 대기열 앞에서 Luna와 오픈소스로 먼저 검증하는 법</h1>
+  <p class="sub">결정 전용 모델 Jev의 작동 방식부터 Claude Code 연결, Luna·SemIf·Needle 3 대안까지 살펴본다</p>
+  <div class="meta"><span>2026-09-19</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>TypeSafe AI의 Jev가 등장하자 개발자들의 질문은 기능보다 접근법에 쏠렸다. 초대를 기다려야 할까. 아니면 Luna나 오픈소스 모델로 같은 구조를 먼저 만들 수 있을까. 답은 모델 교체가 아니라 ‘결정 계층’을 먼저 분리하는 데 있다.</p>
+<h2>Jev는 답변 생성 대신 제한된 결정을 반환한다</h2>
+<p>TypeSafe AI는 2026년 9월 중순 Jev를 초기 공개했다. 회사는 Jev를 소프트웨어 내부 판단에 특화한 첫 ‘System One Model’로 설명한다. 입력 상태와 질문을 보내면 문장 대신 타입이 정해진 값과 확률을 돌려준다.</p>
+<p>인터페이스는 세 가지다. `Choice`는 지정된 후보 중 하나를 고른다. `Score`는 단계별 기준에 점수를 매긴다. `Noul`은 어떤 명제가 참일 확률을 0과 1 사이 값으로 반환한다. 여러 질문을 한 요청에 넣어 병렬 평가할 수도 있다.</p>
+<p>가령 Claude Code 에이전트의 실행 기록을 검사한다고 하자. 상태에는 사용자 요구, 도구 호출, 수정 파일, 테스트 결과를 넣는다. 질문에는 “사람 검토가 필요한가”, “실패 수준은 몇 단계인가”, “실패 유형은 무엇인가”를 각각 Noul, Score, Choice로 지정한다.</p>
+<pre><code>{
+  &quot;model&quot;: &quot;jev-latest&quot;,
+  &quot;state&quot;: {
+    &quot;task&quot;: &quot;결제 오류 수정&quot;,
+    &quot;tool_calls&quot;: [&quot;read_file&quot;, &quot;apply_patch&quot;, &quot;test&quot;],
+    &quot;test_result&quot;: &quot;2 failed&quot;
+  },
+  &quot;questions&quot;: {
+    &quot;needs_review&quot;: {
+      &quot;type&quot;: &quot;noul&quot;,
+      &quot;instructions&quot;: &quot;사람이 결과를 검토해야 하는가&quot;
+    },
+    &quot;failure_mode&quot;: {
+      &quot;type&quot;: &quot;choice&quot;,
+      &quot;instructions&quot;: &quot;가장 가까운 실패 유형은 무엇인가&quot;,
+      &quot;criteria&quot;: {
+        &quot;none&quot;: &quot;실패 없음&quot;,
+        &quot;test&quot;: &quot;테스트 실패&quot;,
+        &quot;scope&quot;: &quot;요청 범위를 벗어남&quot;
+      }
+    }
+  }
+}</code></pre>
+<p>Jev의 역할은 코드를 작성하는 에이전트를 대체하는 것이 아니다. 에이전트 앞에서는 작업을 분류하고 뒤에서는 결과를 판정한다. TypeSafe 문서도 라우팅, 복합 점수, 신뢰도 기반 분기를 핵심 패턴으로 제시한다.</p>
+<h2>Claude Code에서는 평가 하네스부터 붙일 수 있다</h2>
+<p>TypeSafe는 Python·JavaScript SDK와 Claude Code용 Agent Skill을 제공한다. 플러그인 마켓을 추가한 뒤 `typesafe@typesafe-ai`를 설치하면 API 구조와 질문 작성법을 에이전트 문맥에 넣을 수 있다. 직접 호출할 때는 `POST /v1/systemone`에 상태와 질문을 보낸다.</p>
+<p>실전 순서는 짧다. 먼저 성공과 실패가 분명한 과거 실행 기록을 JSONL로 모은다. 다음으로 한 질문에 한 판단만 담아 사람이 붙인 정답과 모델 결과를 비교한다. 마지막에는 신뢰도 구간별 행동을 코드로 고정한다.</p>
+<p>예를 들어 0.85 이상이면 자동 통과시키고 0.55부터 0.85까지는 검토 대기열로 보낼 수 있다. 그보다 낮으면 재질문하거나 다른 모델로 넘긴다. 기준값은 Jev의 예시를 복사하지 말고 자체 데이터로 정해야 한다.</p>
+<p>써본 사람들 사이에서는 질문을 잘게 나눌수록 결과를 다루기 쉬웠다는 반응이 나온다. 반대로 긴 로그 전체를 넣으면 중요한 단서가 묻힌다는 불만도 있다. 에이전트 기록을 요약하거나 관련 구간만 골라 상태로 전달하는 전처리가 필요하다.</p>
+<h2>Luna는 당장 쓸 수 있지만 같은 제품은 아니다</h2>
+<p>OpenAI의 GPT-5.6 Luna는 저비용·대량 처리용 범용 모델이다. 공식 문서 기준으로 Structured Outputs를 지원하며 입력 100만 토큰당 0.20달러와 출력 1.20달러다. 문장 생성, 추론, 도구 호출까지 맡길 수 있다는 점이 Jev와 다르다.</p>
+<p>Luna로 Jev형 흐름을 만들려면 JSON Schema에 `decision`, `confidence`, `reason` 같은 필드를 선언한다. Claude Code에는 작업 로그를 읽고 스키마에 맞춰 판정하는 스크립트를 만들도록 요청한다. 처음에는 Luna나 Gemini 계열로 데이터와 임계값을 검증한 뒤 Jev 호출부로 교체할 수 있다.</p>
+<p>다만 LLM이 스스로 적은 `confidence: 0.9`는 Jev가 반환하는 선택지 분포와 같지 않다. 스키마 준수는 출력 형태를 보장하지만 확률의 보정까지 보장하지 않는다. Luna는 판단 이유가 필요하거나 후보를 동적으로 만들어야 할 때 유리하다. Jev는 후보가 이미 정해진 반복 판단에 더 가까운 도구다.</p>
+<p>초기 접근권을 기다릴 필요도 줄었다. Langfuse가 확인한 경로에 따르면 Jev는 TypeSafe 대기열 외에 OpenRouter와 Vercel AI Gateway에서도 시험할 수 있다. 다만 운영에 넣기 전에는 모델 버전을 고정해야 한다. 임계값을 쓰는 평가기는 모델 변경만으로 통과 비율이 달라질 수 있다.</p>
+<h2>SemIf와 Needle 3는 다른 방식의 대안을 보여준다</h2>
+<p>Jev 공개 직후 독립 프로젝트 SemIf가 등장했다. 처음에는 OpenJev라는 이름을 썼지만 현재는 TypeSafe와 무관한 실험임을 밝히고 있다. Qwen3, MiniCPM 같은 로컬 모델의 선택지 로짓을 읽어 브라우저에서 확률 분포를 만드는 방식이다.</p>
+<p>재료는 상태 문장, 질문, 허용된 선택지다. 모델을 브라우저에 내려받아 선택지별 로짓만 정규화하면 토큰 단위 JSON 생성 없이 결과를 얻는다. 입력이 외부 서버로 나가지 않고 대기열도 없다.</p>
+<p>그러나 SemIf가 반환하는 값은 화면에 제시된 선택지 사이의 조건부 확률이다. 프로젝트도 이를 보정된 신뢰도로 주장하지 않는다. Jev 품질과 동등하다고 내세우지도 않는다. 로컬 분류기의 가능성을 검증하는 실험대에 가깝다.</p>
+<p>Cactus의 Needle 3도 주목할 만하다. 8~29MB 바이너리로 도구 선택과 구조화 추출을 기기 안에서 처리한다. Python 함수의 타입과 설명을 도구 정의로 쓰며 결과의 신뢰도가 기준보다 낮으면 호출을 보류할 수 있다. Jev의 범용 판정 API와 같지는 않지만 정해진 도구를 빠르게 고르는 에이전트에는 현실적인 대안이다.</p>
+<h2>모델보다 거부 경로를 설계해야 한다</h2>
+<p>Jev는 정해진 선택지 밖으로 답할 수 없다. `unknown`이나 `needs_review`를 만들지 않으면 가장 덜 틀린 후보를 고르게 된다. 이유를 생성하지 않으므로 감사 기록이나 고객 설명이 필요한 단계에는 범용 LLM을 함께 둬야 한다.</p>
+<p>TypeSafe의 속도와 비용 수치는 회사가 정한 System One 작업 기준이다. 독립된 장기 운영 자료는 아직 많지 않다. 빠른 분류가 필요한 개인 개발자라면 같은 데이터셋을 Jev, Luna, 로컬 모델에 돌려 정확도와 지연 시간을 직접 기록해야 한다.</p>
+<p>대기열은 핵심 장애물이 아니다. 오늘 만들 수 있는 부분은 `state → typed decision → confidence gate → human review`라는 네 단계다. 이 경계를 코드로 고정해 두면 Jev를 쓰든 Luna를 쓰든 다음 오픈소스 모델이 나오든 에이전트의 안전장치는 그대로 남는다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Jev</span><span class="chip">System One Model</span><span class="chip">Claude Code</span><span class="chip">GPT-5.6 Luna</span><span class="chip">AI 에이전트 평가</span><span class="chip">Structured Outputs</span><span class="chip">SemIf</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://typesafe.ai/" rel="nofollow noopener">https://typesafe.ai/</a></li><li><a href="https://docs.typesafe.ai/introduction" rel="nofollow noopener">https://docs.typesafe.ai/introduction</a></li><li><a href="https://docs.typesafe.ai/introduction/quickstart" rel="nofollow noopener">https://docs.typesafe.ai/introduction/quickstart</a></li><li><a href="https://docs.typesafe.ai/confidence" rel="nofollow noopener">https://docs.typesafe.ai/confidence</a></li><li><a href="https://docs.typesafe.ai/patterns" rel="nofollow noopener">https://docs.typesafe.ai/patterns</a></li><li><a href="https://langfuse.com/blog/2026-09-18-using-typesafes-jev-for-evals" rel="nofollow noopener">https://langfuse.com/blog/2026-09-18-using-typesafes-jev-for-evals</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-5.6-luna" rel="nofollow noopener">https://developers.openai.com/api/docs/models/gpt-5.6-luna</a></li><li><a href="https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/" rel="nofollow noopener">https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Jev는 일반 LLM과 무엇이 다른가요?</h2><p class="sum">Jev는 긴 문장을 생성하지 않고 Choice, Score, Noul 형태의 결정을 반환한다. 후보가 정해진 라우팅과 평가에는 적합하지만 코드 작성이나 설명 생성에는 쓸 수 없다.</p></article><article class="dcard"><div class="t">Q</div><h2>Jev 초대 없이 시험할 방법이 있나요?</h2><p class="sum">TypeSafe는 초기 접근 대기열을 운영한다. Langfuse가 확인한 기준으로는 OpenRouter와 Vercel AI Gateway에서도 Jev를 시험할 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>Luna를 Jev처럼 사용할 수 있나요?</h2><p class="sum">Structured Outputs로 비슷한 인터페이스를 만들 수 있다. 다만 Luna가 생성한 자신감 수치는 보정된 선택 확률과 같지 않으므로 자체 평가 데이터가 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>Jev의 오픈소스 대체재가 있나요?</h2><p class="sum">SemIf는 로컬 모델의 로짓을 읽어 선택지 확률을 만드는 브라우저 실험이다. Needle 3는 기기 내 도구 선택과 구조화 추출에 집중하며, 둘 다 Jev의 완전한 호환 구현은 아니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-19-1330.html">2026-09-19 09-19 11:59~13:20</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
