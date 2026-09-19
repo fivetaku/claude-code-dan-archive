@@ -927,3 +927,6 @@
 {"code": "760259", "url": "https://x.com/Mr_Salio/status/2101249397367488903", "title": "소문: DeepSeek V5 출시 임박설, 오픈 웨이트 유지하며 저비용·고성능 예고"}
 {"code": "1a1530", "url": "https://x.com/undefinedKi/status/2101300746398429237", "title": "Anthropic CLI 1.30.0, 'ant apply' 추가로 에이전트 전체를 파일로 관리"}
 {"code": "681bc4", "url": "https://x.com/kimmonismus/status/2101302810596016547", "title": "GPT-6 Astra, 2017년부터 미해결이던 투표이론 난제에 핵심 아이디어 제공"}
+{"code": "ce0baf", "url": "https://www.reddit.com/r/OpenAI/comments/1wkgkrz/i_benchmarked_jev_aginst_gpt56luna", "title": "확률 반환 특화 모델 'Jev', gpt-5.6-luna 벤치마크서 49개 중 42개 우세"}
+{"code": "cdad68", "url": "https://news.hada.io/topic?id=33945", "title": "OpenAI, 자체 LLM으로 첫 AI 가속기 'Jalapeño' 20개월 만에 설계"}
+{"code": "dfb844", "url": "https://x.com/godofprompt/status/2101321672133636199", "title": "칭화대 연구진, 텍스트 대신 KV-캐시 직접 전달하는 모델 간 소통법 'Cache-to-Cache' 공개"}
