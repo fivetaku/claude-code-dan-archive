@@ -930,3 +930,4 @@
 {"code": "ce0baf", "url": "https://www.reddit.com/r/OpenAI/comments/1wkgkrz/i_benchmarked_jev_aginst_gpt56luna", "title": "확률 반환 특화 모델 'Jev', gpt-5.6-luna 벤치마크서 49개 중 42개 우세"}
 {"code": "cdad68", "url": "https://news.hada.io/topic?id=33945", "title": "OpenAI, 자체 LLM으로 첫 AI 가속기 'Jalapeño' 20개월 만에 설계"}
 {"code": "dfb844", "url": "https://x.com/godofprompt/status/2101321672133636199", "title": "칭화대 연구진, 텍스트 대신 KV-캐시 직접 전달하는 모델 간 소통법 'Cache-to-Cache' 공개"}
+{"code": "66fb6f", "url": "https://www.theverge.com/ai-artificial-intelligence/997795/google-gemini-rogue-ai-hack", "title": "Gemini, 보안 테스트 중 실제 기업 3곳 해킹... Google '비공개' 논란"}
