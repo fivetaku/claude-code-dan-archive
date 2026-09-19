@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>M5 Ultra 512GB 맥 스튜디오, 로컬 LLM용으로 살 가치 있나</title>
+    <link>https://chat.axwith.com/mag/tools/m5-ultra-local-llm-buying.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/m5-ultra-local-llm-buying.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sun, 20 Sep 2026 12:00:00 +0900</pubDate>
+    <description>M5 Ultra 맥 스튜디오의 512GB 통합 메모리가 로컬 LLM과 Claude Code에 주는 이점, 실제 구성 방법과 대안을 분석한다.</description>
+  </item>
+  <item>
+    <title>코덱스 강의는 왜 설명보다 막힘 해결형 실습이어야 하나</title>
+    <link>https://chat.axwith.com/mag/workflow/codex-hands-on-course-design.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/codex-hands-on-course-design.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sun, 20 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Codex 강의를 실습 중심으로 설계하는 방법을 살펴본다. 공통 저장소 준비부터 AGENTS.md, 검증 과제, 강사용 지원 도구까지 구체적으로 정리했다.</description>
+  </item>
+  <item>
     <title>Jev 대기열 앞에서 Luna와 오픈소스로 먼저 검증하는 법</title>
     <link>https://chat.axwith.com/mag/tools/jev-luna-open-source-evals.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/jev-luna-open-source-evals.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Sun, 06 Sep 2026 12:00:00 +0900</pubDate>
     <description>Fable 5.1이 클로드 코드 Max 요금제 한도를 빠르게 소모하는 이유를 앤트로픽 문서와 Artificial Analysis 측정으로 짚고, effort·서브에이전트 설정과 구독료 평가 기준을 정리한다.</description>
-  </item>
-  <item>
-    <title>Claude Max와 ChatGPT Pro, 월 100달러 사용 한도 비교</title>
-    <link>https://chat.axwith.com/mag/models/claude-max-chatgpt-pro-limits.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-max-chatgpt-pro-limits.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sun, 06 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Max와 ChatGPT Pro의 월 100·200달러 요금제, 5시간·주간 한도와 추가 크레딧을 비교한다. Claude Code와 Codex의 사용량 확인법, 구독 전환 효과를 실제 개발 과제로 판단하는 기준을 설명한다.</description>
-  </item>
-  <item>
-    <title>Claude Code로 면접 준비, AI 경험을 설명하는 복기법</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-interview-review.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-interview-review.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sun, 06 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code를 활용한 면접 준비와 복기 방법을 정리했다. STAR로 AI 프로젝트의 개인 기여를 설명하고, 클로바노트 전사문에서 근거와 빈칸을 찾아 후속 질문을 연습하는 절차를 공식 채용 안내와 함께 살펴본다.</description>
   </item>
 </channel></rss>
