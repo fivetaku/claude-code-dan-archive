@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="GPT-6 Astra로 기획하고 Claude Fable 5.1로 코딩하는 역할분담 워크플로우를 구성하는 법과 비용, 한계를 분석한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/astra-fable-model-routing-workflow.html">
+<meta property="og:title" content="GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까">
+<meta property="og:description" content="GPT-6 Astra로 기획하고 Claude Fable 5.1로 코딩하는 역할분담 워크플로우를 구성하는 법과 비용, 한계를 분석한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/astra-fable-model-routing-workflow.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까", "description": "GPT-6 Astra로 기획하고 Claude Fable 5.1로 코딩하는 역할분담 워크플로우를 구성하는 법과 비용, 한계를 분석한다.", "datePublished": "2026-09-21", "dateModified": "2026-09-21", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/astra-fable-model-routing-workflow.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, Claude Fable 5.1, GPT-6 Astra, Codex, 멀티에이전트, 모델 라우팅", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "GPT-6 Astra와 Claude Fable 5.1을 Claude Code에서 함께 쓸 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code의 커스텀 서브에이전트는 Claude 계열 모델을 지정한다. Astra를 함께 쓰려면 Codex를 별도로 실행하거나 양쪽 API를 연결하는 오케스트레이터가 필요하다."}}, {"@type": "Question", "name": "모델별 역할분담은 항상 토큰 비용을 줄이나?", "acceptedAnswer": {"@type": "Answer", "text": "항상 그렇지는 않다. 각 모델에 전체 저장소와 대화를 중복 제공하면 더 비싸질 수 있으며, 짧고 고정된 인수인계 문서로 컨텍스트를 분리해야 효과가 난다."}}, {"@type": "Question", "name": "Astra와 Fable 사이에는 어떤 파일을 전달해야 하나?", "acceptedAnswer": {"@type": "Answer", "text": "기능 범위, 설계, 작업 목록, 완료 조건을 각각 문서로 고정하는 방식이 실용적이다. 구현 모델에는 결정이 끝난 내용만 전달하고, 검수 모델에는 diff와 테스트 결과를 함께 제공한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까</h1>
+  <p class="sub">기획과 구현을 서로 다른 모델에 맡기는 방식이 효과를 내는 조건과 실제 구성법을 살펴봤다.</p>
+  <div class="meta"><span>2026-09-21</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>GPT-6 Astra에게 기획과 디자인을 맡기고 Claude Fable 5.1이 코드를 작성하면 비용이 줄어들까. 최근 개발자들이 공유하는 모델 역할분담은 단순한 선호 문제가 아니다. 비싼 모델의 작업 범위를 어디서 끊을지, 다음 모델에는 어떤 상태를 넘길지가 핵심이다.</p>
+<h2>같은 가격인데 역할분담이 저렴하게 느껴지는 이유</h2>
+<p>OpenAI와 Anthropic의 공식 API 가격표를 보면 Astra와 Fable 5.1은 모두 입력 100만 토큰당 10달러, 출력 100만 토큰당 50달러다. 모델 이름만 바꾼다고 직접적인 가격 차익이 생기지는 않는다.</p>
+<p>그런데도 하나의 모델에 전 과정을 맡길 때보다 코인 소모가 적었다는 경험담이 나온다. 설계와 구현의 대화를 분리하면 각 세션이 읽는 기록이 짧아지기 때문이다. 구현 중 설계를 반복해서 토론하거나 긴 코드가 쌓인 대화에서 화면 구성을 다시 논의하는 낭비도 줄어든다.</p>
+<p>반대 상황도 있다. 두 모델에 저장소 전체를 각각 읽히고 긴 인수인계문까지 생성하면 입력 비용이 중복된다. 역할분담은 싼 모델을 조합하는 방법이라기보다 컨텍스트를 나누는 기술에 가깝다.</p>
+<h2>Astra는 결정문을 만들고 Fable은 코드로 검증한다</h2>
+<p>OpenAI는 2026년 9월 공개한 Astra를 소프트웨어 엔지니어링뿐 아니라 문서 작성, 브라우징, 컴퓨터 조작과 디자인 판단에 강한 모델로 소개했다. Anthropic은 Fable 5.1을 장시간 이어지는 에이전트형 코딩과 복잡한 추론에 맞춘 최상위 공개 모델로 설명한다.</p>
+<p>공식 설명을 업무 경계로 옮기면 조합이 선명해진다. Astra는 사용자 흐름, 화면 구조, 데이터 모델과 완료 조건을 정한다. Fable은 저장소를 탐색하고 파일을 수정해 테스트를 통과시킨다.</p>
+<p>써본 사람들 사이에서는 Astra가 큰 방향과 작업 구조를 빠르게 잡는다는 평가가 있다. Fable은 세부 지시를 오래 유지하면서 기존 코드의 맥락을 따르는 편이라는 반응도 나온다. 어느 모델이 항상 우월하다는 증거는 아니다. 프로젝트 종류에 따라 순위가 바뀐다.</p>
+<h2>두 CLI는 문서 네 장으로 연결할 수 있다</h2>
+<p>가장 단순한 구성은 Codex와 Claude Code를 같은 저장소에서 차례로 실행하는 방식이다. 두 모델이 자유롭게 대화를 이어가게 하지 말고 `SPEC.md`, `DESIGN.md`, `TASKS.md`, `ACCEPTANCE.md`를 계약서로 사용한다.</p>
+<p>먼저 Codex에서 Astra에게 사용자 요구를 분석하게 한다. 산출물은 기능 범위를 적은 `SPEC.md`, 화면과 컴포넌트 구조를 담은 `DESIGN.md`, 파일 단위로 작업을 나눈 `TASKS.md`다. 모호한 표현 대신 입력과 출력, 예외 상황, 완료 조건을 적게 해야 한다.</p>
+<p>다음으로 Claude Code에서 Fable 5.1에게 세 문서를 읽고 구현하도록 요청한다. 변경 전에 대상 파일 목록을 제시하고 작업마다 테스트나 빌드 명령을 실행하게 한다. 결과는 코드와 함께 실행 기록으로 남긴다.</p>
+<p>마지막 검수에는 `ACCEPTANCE.md`를 쓴다. Astra가 변경된 diff와 실행 결과를 요구사항별로 대조한 뒤 실패한 항목만 체크리스트로 기록한다. Fable은 체크되지 않은 항목만 수정한다. 이렇게 하면 두 모델이 같은 문제를 처음부터 다시 해석하는 일을 막을 수 있다.</p>
+<p>동시에 실행해야 한다면 별도 Git worktree가 안전하다. 기획 모델은 문서 브랜치만 수정하고 구현 모델은 코드 브랜치에서 작업하도록 나눈다. 동일 파일을 함께 고치게 하면 충돌 해결 비용이 역할분담의 이점을 삼킨다.</p>
+<h2>Claude Code의 서브에이전트만으로는 교차 모델 구성이 안 된다</h2>
+<p>Anthropic 공식 문서에 따르면 Claude Code의 커스텀 서브에이전트는 `.claude/agents/` 아래 마크다운 파일로 만든다. 각 파일의 프런트매터에서 설명과 도구 권한, 사용할 Claude 모델을 지정할 수 있다. 서브에이전트는 독립된 컨텍스트에서 조사나 테스트를 수행한 뒤 주 세션에 결과를 반환한다.</p>
+<p>여기서 지정하는 모델은 Claude 계열이다. Astra를 Claude Code 서브에이전트 이름으로 넣어 호출하는 기능은 아니다. Astra와 Fable을 함께 쓰려면 Codex와 Claude Code를 별도로 실행하거나 두 회사의 API를 호출하는 오케스트레이터가 필요하다.</p>
+<p>최근 모델별 역할 지정이 까다로워졌다는 불만은 이 경계와 관련이 있다. 제품에 내장된 팀 기능은 작업 목록과 메시지를 편하게 공유하지만 대개 자사 모델과 실행 환경 안에서 움직인다. 서로 다른 공급자를 섞으면 공유 메모리와 권한, 오류 복구, 비용 추적을 사용자가 다시 설계해야 한다.</p>
+<h2>비용은 모델 수보다 재작업 횟수가 좌우한다</h2>
+<p>Claude Code는 반복되는 시스템 지침과 대화 앞부분에 프롬프트 캐싱을 적용하며 컨텍스트가 커지면 자동 압축을 사용한다. Anthropic 가격표에서 Fable 5.1의 캐시 적중 입력은 일반 입력 가격의 2.5%다. OpenAI도 Astra의 캐시 입력을 일반 입력의 10%로 책정한다.</p>
+<p>고정된 설계 문서와 저장소 규칙을 프롬프트 앞부분에 두면 반복 비용을 낮출 수 있다. 반면 단계마다 문서를 전부 다시 쓰거나 두 모델에게 전체 구현을 각각 시키면 캐시보다 출력 비용이 커진다.</p>
+<p>개인 개발자와 소규모 팀에는 두 모델이 서로 토론하는 화려한 구성이 필수는 아니다. Astra가 결정문을 만들고 Fable이 구현한 뒤 Astra가 완료 조건만 검사하는 세 단계면 충분하다. 이 조합의 가치는 모델 두 개를 쓴다는 사실보다 설계 변경으로 코드 작업을 되돌리는 횟수를 줄이는 데서 결정된다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">Claude Fable 5.1</span><span class="chip">GPT-6 Astra</span><span class="chip">Codex</span><span class="chip">멀티에이전트</span><span class="chip">모델 라우팅</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://openai.com/index/gpt-6-astra/" rel="nofollow noopener">https://openai.com/index/gpt-6-astra/</a></li><li><a href="https://openai.com/index/gpt-6-astra-next-generation-work/" rel="nofollow noopener">https://openai.com/index/gpt-6-astra-next-generation-work/</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-6-astra" rel="nofollow noopener">https://developers.openai.com/api/docs/models/gpt-6-astra</a></li><li><a href="https://developers.openai.com/api/docs/pricing" rel="nofollow noopener">https://developers.openai.com/api/docs/pricing</a></li><li><a href="https://developers.openai.com/codex/guides/agents-md" rel="nofollow noopener">https://developers.openai.com/codex/guides/agents-md</a></li><li><a href="https://www.anthropic.com/news/claude-fable-5-1" rel="nofollow noopener">https://www.anthropic.com/news/claude-fable-5-1</a></li><li><a href="https://docs.anthropic.com/en/docs/about-claude/models" rel="nofollow noopener">https://docs.anthropic.com/en/docs/about-claude/models</a></li><li><a href="https://docs.anthropic.com/en/docs/about-claude/pricing" rel="nofollow noopener">https://docs.anthropic.com/en/docs/about-claude/pricing</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>GPT-6 Astra와 Claude Fable 5.1을 Claude Code에서 함께 쓸 수 있나?</h2><p class="sum">Claude Code의 커스텀 서브에이전트는 Claude 계열 모델을 지정한다. Astra를 함께 쓰려면 Codex를 별도로 실행하거나 양쪽 API를 연결하는 오케스트레이터가 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>모델별 역할분담은 항상 토큰 비용을 줄이나?</h2><p class="sum">항상 그렇지는 않다. 각 모델에 전체 저장소와 대화를 중복 제공하면 더 비싸질 수 있으며, 짧고 고정된 인수인계 문서로 컨텍스트를 분리해야 효과가 난다.</p></article><article class="dcard"><div class="t">Q</div><h2>Astra와 Fable 사이에는 어떤 파일을 전달해야 하나?</h2><p class="sum">기능 범위, 설계, 작업 목록, 완료 조건을 각각 문서로 고정하는 방식이 실용적이다. 구현 모델에는 결정이 끝난 내용만 전달하고, 검수 모델에는 diff와 테스트 결과를 함께 제공한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-08-1128-s.html">2026-09-08 09-08 10:03~11:27</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

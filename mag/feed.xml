@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>ChatGPT Pro 필리핀 페소 결제, 지역 요금인가 우회인가</title>
+    <link>https://chat.axwith.com/mag/resources/chatgpt-pro-peso-regional-pricing.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/chatgpt-pro-peso-regional-pricing.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Mon, 21 Sep 2026 12:00:00 +0900</pubDate>
+    <description>ChatGPT Pro의 필리핀 페소 결제가 실제 지역 요금인지 살펴보고, 통화 변경과 세금, 결제 거절, 계정 위험까지 공식 문서로 짚었다.</description>
+  </item>
+  <item>
+    <title>GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까</title>
+    <link>https://chat.axwith.com/mag/workflow/astra-fable-model-routing-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/astra-fable-model-routing-workflow.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Mon, 21 Sep 2026 12:00:00 +0900</pubDate>
+    <description>GPT-6 Astra로 기획하고 Claude Fable 5.1로 코딩하는 역할분담 워크플로우를 구성하는 법과 비용, 한계를 분석한다.</description>
+  </item>
+  <item>
     <title>M5 Ultra 512GB 맥 스튜디오, 로컬 LLM용으로 살 가치 있나</title>
     <link>https://chat.axwith.com/mag/tools/m5-ultra-local-llm-buying.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/m5-ultra-local-llm-buying.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Tue, 08 Sep 2026 12:00:00 +0900</pubDate>
     <description>Yjs와 pycrdt의 상태 벡터가 무엇을 기록하는지, 벡터 클록과 왜 용도가 다른지, 클라이언트 증가와 순번 공백에서 어떤 한계가 오는지 공식 문서와 이슈로 확인한다. Automerge 해시 헤드, Loro 프론티어와 비교.</description>
-  </item>
-  <item>
-    <title>Codex 주간 한도 리셋은 왜 예고 없이 오고 주기까지 바꾸나</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/codex-weekly-limit-reset-rules.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-weekly-limit-reset-rules.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Tue, 08 Sep 2026 12:00:00 +0900</pubDate>
-    <description>GPT-6 아스트라 출시 뒤 Codex 사용 한도가 며칠 새 여러 번 풀렸다. 리셋이 왜 사람마다 다른 시각에 오고 주간 주기까지 바꾸는지, 클로드 리셋과 무엇이 다른지 공식 문서와 실사용 경험으로 정리했다.</description>
-  </item>
-  <item>
-    <title>Claude Code에 영상 소리 듣게 하기: whisper.cpp 전사와 품질 검증</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-video-audio-whisper-transcription.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-video-audio-whisper-transcription.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Tue, 08 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code는 mp3·wav를 읽지 못한다. ffmpeg로 소리를 뽑고 whisper.cpp로 전사해 넘기는 절차, Whisper 환각 필터, WhisperX·Gemini 화자 분리, 전사와 청취 품질의 차이를 정리했다.</description>
   </item>
 </channel></rss>
