@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChatGPT Plus 토큰이 빨리 닳을 때, 모델 라우팅이 답인가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="ChatGPT Plus 사용량이 빠르게 줄어드는 원인을 짚고, Claude Code subagent와 DeepSeek·Ox Alpha를 작업별로 배치하는 실전 전략을 살펴본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/chatgpt-token-model-routing-guide.html">
+<meta property="og:title" content="ChatGPT Plus 토큰이 빨리 닳을 때, 모델 라우팅이 답인가">
+<meta property="og:description" content="ChatGPT Plus 사용량이 빠르게 줄어드는 원인을 짚고, Claude Code subagent와 DeepSeek·Ox Alpha를 작업별로 배치하는 실전 전략을 살펴본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/chatgpt-token-model-routing-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ChatGPT Plus 토큰이 빨리 닳을 때, 모델 라우팅이 답인가", "description": "ChatGPT Plus 사용량이 빠르게 줄어드는 원인을 짚고, Claude Code subagent와 DeepSeek·Ox Alpha를 작업별로 배치하는 실전 전략을 살펴본다.", "datePublished": "2026-09-22", "dateModified": "2026-09-22", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/chatgpt-token-model-routing-guide.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "ChatGPT Plus, Claude Code, 토큰 절약, 모델 라우팅, DeepSeek, Ox Alpha", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code에서 토큰을 가장 먼저 줄일 수 있는 방법은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "관련 없는 작업으로 넘어갈 때 `/clear`를 사용하고, 탐색 업무를 Haiku subagent로 분리하는 방법이 효과적이다. 복잡한 설계와 최종 검토에만 Opus를 쓰면 고비용 문맥의 반복 처리를 줄일 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>ChatGPT Plus 토큰이 빨리 닳을 때, 모델 라우팅이 답인가</h1>
+  <p class="sub">고성능 모델의 사용량 폭증을 줄이면서 수정 비용까지 통제하는 Claude Code 작업 분배법</p>
+  <div class="meta"><span>2026-09-22</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>ChatGPT Plus에서 복잡한 코딩 작업을 몇 번 돌렸을 뿐인데 사용량이 바닥났다는 경험이 늘고 있다. 그렇다면 싼 모델과 절약 플러그인을 붙이면 해결될까. 토큰 수보다 비싼 모델이 읽고 판단할 범위를 줄이는 게 핵심이다.</p>
+<h2>사용량은 메시지 수보다 작업 구조에 좌우된다</h2>
+<p>ChatGPT Plus의 월 구독료는 API 토큰을 일정량 사는 방식이 아니다. OpenAI의 설명에 따르면 Work와 Codex는 같은 사용량 풀을 공유한다. 모델과 추론 수준, 입출력 크기, 단계 수에 따라 소진량도 달라진다. 일부 계정에는 5시간 한도와 주간 한도가 함께 적용된다. ([help.openai.com](https://help.openai.com/en/articles/20001516-managing-usage-with%20...%20Usage%20tip%3A%20%E2%80%9CGPT-6%20Astra%20on%20low%20performs%20better%20than%20GPT-5.6%20Sol%20on%20high.))</p>
+<p>2026년 9월 공식 안내에 나온 Plus 기준 예상치는 GPT-6 Astra가 5시간당 5~45개 로컬 메시지다. GPT-5.6 Luna는 250~2,000개로 제시된다. 고성능 모델에 저장소 탐색부터 구현까지 모두 맡기면 체감 차이가 커질 수밖에 없다. 다만 해당 수치는 고정된 메시지 한도가 아니라 작업량 추정치다. ([help.openai.com](https://help.openai.com/en/articles/20001516-managing-usage-with%20...%20Usage%20tip%3A%20%E2%80%9CGPT-6%20Astra%20on%20low%20performs%20better%20than%20GPT-5.6%20Sol%20on%20high.))</p>
+<p>세션이 길어질수록 매 요청의 입력도 커진다. 코드 검색 결과와 테스트 로그뿐 아니라 실패한 시도까지 문맥에 남기 때문이다. Anthropic도 Claude Code 비용이 컨텍스트 크기에 따라 늘어난다고 설명하며 `/clear`, `/compact`, `/usage`를 관리 수단으로 제시한다. ([code.claude.com](https://code.claude.com/docs/ko/costs))</p>
+<h2>싼 모델은 탐색과 반복 작업에 배치해야 한다</h2>
+<p>모델 라우팅은 어려운 질문을 무조건 싼 모델에 넘기는 방식이 아니다. 파일 목록 수집, 심볼 검색, 로그 분류, 테스트 초안처럼 정답을 검사하기 쉬운 단계부터 분리해야 한다. 아키텍처 결정과 원인 불명의 버그, 최종 검토는 강한 모델이 맡는다.</p>
+<p>공급사의 안내도 이 구분과 비슷하다. OpenAI는 Luna를 추출·분류·짧은 수정에, Astra를 낯선 문제와 어려운 디버깅에 권한다. Anthropic은 대부분의 코딩에 Sonnet을 쓰되 복잡한 구조 판단과 다단계 추론에는 Opus를 남겨두라고 안내한다. 간단한 subagent에는 Haiku를 지정할 수 있다. ([help.openai.com](https://help.openai.com/en/articles/20001516-managing-usage-with%20...%20Usage%20tip%3A%20%E2%80%9CGPT-6%20Astra%20on%20low%20performs%20better%20than%20GPT-5.6%20Sol%20on%20high.))</p>
+<p>써본 사람들 사이에서는 저가 모델이 만든 패치를 고치느라 오히려 호출이 늘었다는 반응도 있다. 탐색과 보일러플레이트만 넘겼을 때는 품질 저하가 작았다는 경험도 나온다. 가격표보다 중요한 지표는 ‘작업 완료까지 든 총 호출’과 ‘사람이 다시 고친 시간’이다.</p>
+<h2>Claude Code에서는 세 단계로 작업을 나눈다</h2>
+<p>Claude Code에서는 `.claude/agents/` 아래에 Markdown 파일을 두어 프로젝트 전용 subagent를 만들 수 있다. YAML frontmatter의 `model`에는 `haiku`, `sonnet`, `opus` 같은 별칭을 지정하고, `tools`로 읽기 전용 권한만 줄 수도 있다. ([code.claude.com](https://code.claude.com/docs/ko/sub-agents))</p>
+<p>첫 단계는 `repo-scout.md`다. `model: haiku`, `tools: Read, Grep, Glob`를 넣고 관련 파일과 호출 관계, 기존 테스트, 불확실한 부분만 반환하게 한다. 산출물 형식을 파일 경로와 근거 중심으로 고정하면 상위 모델이 저장소 전체를 다시 훑는 일을 줄일 수 있다.</p>
+<pre><code>---
+name: repo-scout
+description: Finds relevant files and tests before implementation
+tools: Read, Grep, Glob
+model: haiku
+---
+Return relevant paths, symbols, tests, and unresolved questions.
+Do not edit files or propose code without file evidence.</code></pre>
+<p>두 번째 단계에서는 Sonnet이 조사 결과와 요구사항을 받아 구현한다. 요청할 때는 수정 허용 범위와 통과해야 할 테스트, 바꾸지 않을 인터페이스를 함께 적는다. 실패 로그 전체를 보내기보다는 실패한 테스트와 핵심 스택만 다시 전달하는 편이 낫다.</p>
+<p>Opus는 세 번째 단계에서만 부른다. 여러 파일에 걸친 설계 충돌과 보안 경계, 반복 실패의 근본 원인을 검토하게 한다. 단순 포맷 수정이나 테스트 재실행까지 Opus에 남겨두면 라우팅의 이점이 사라진다.</p>
+<h2>DeepSeek와 Ox Alpha는 외부 작업자로 쓸 수 있다</h2>
+<p>DeepSeek API는 2026년 9월 현재 DeepSeek-V4.1-Flash와 V4-Pro를 제공한다. 공식 가격표에 따르면 Flash의 입력 비용은 캐시 미적중 기준 100만 토큰당 0.15~0.30달러다. 출력은 0.60~1.20달러이며 시간대별로 가격이 다르다. 같은 앞부분을 반복하면 자동 컨텍스트 캐시도 적용된다. ([api-docs.deepseek.com](https://api-docs.deepseek.com/quick_start/pricing/?push_animated=1&amp;show_loading=0&amp;theme=light&amp;webview_progress_bar=1))</p>
+<p>Ox Alpha 웹사이트는 100만 토큰 컨텍스트와 무료 웹 채팅을 내세운다. 가입 없이 시험할 수 있지만 메시지는 응답 생성을 위해 상위 모델 API로 처리된다. 민감한 저장소를 통째로 넣기보다는 공개 코드 분석이나 재현 가능한 문제에 대한 두 번째 의견을 구할 때 적합하다. ([oxalpha.com](https://www.oxalpha.com/))</p>
+<p>두 도구를 Claude Code의 완전한 대체재로 볼 필요는 없다. 저가 모델에는 오류 로그 분류와 구현 계획 초안을 맡기고 결과를 `handoff.md` 같은 짧은 문서로 넘길 수 있다. Claude Code는 해당 문서와 실제 파일을 대조해 구현한다. 최종 판정자는 테스트 결과다.</p>
+<h2>절약 플러그인은 누락 비용까지 측정해야 한다</h2>
+<p>토큰 절약 플러그인은 긴 도구 출력과 오래된 문맥을 삭제하거나 압축한다. 제대로 작동하면 입력이 줄어든다. 하지만 관련 파일과 실패 원인까지 사라지면 모델은 같은 탐색을 반복한다. 중간에 멈추거나 잘못된 범위를 고치는 비용도 함께 계산해야 한다.</p>
+<p>우선 Claude Code의 기본 기능으로 문맥을 관리하는 편이 예측하기 쉽다. 작업이 바뀌면 `/clear`를 쓰고 `/compact Focus on test output and code changes`처럼 보존 대상을 지정한다. 세션마다 자동으로 들어가는 `CLAUDE.md`에는 필수 규칙만 남긴다. 특정 업무 지침은 호출할 때만 불러오는 skills로 옮길 수 있다. Anthropic은 `CLAUDE.md`를 약 200줄 이하로 유지하도록 권한다. ([code.claude.com](https://code.claude.com/docs/ko/costs))</p>
+<p>고성능 모델 하나로 모든 단계를 밀어붙이면 편하지만 사용량 변동이 크다. 반대로 싼 모델만 연결하면 검증과 재작업이 쌓인다. 실용적인 경계는 명확하다. 탐색은 싸게, 구현은 균형 있게, 되돌리기 어려운 판단은 비싸게 처리해야 한다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">ChatGPT Plus</span><span class="chip">Claude Code</span><span class="chip">토큰 절약</span><span class="chip">모델 라우팅</span><span class="chip">DeepSeek</span><span class="chip">Ox Alpha</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-work-and-codex" rel="nofollow noopener">https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-6-astra" rel="nofollow noopener">https://developers.openai.com/api/docs/models/gpt-6-astra</a></li><li><a href="https://code.claude.com/docs/ko/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/ko/sub-agents</a></li><li><a href="https://code.claude.com/docs/ko/costs" rel="nofollow noopener">https://code.claude.com/docs/ko/costs</a></li><li><a href="https://code.claude.com/docs/ko/model-config" rel="nofollow noopener">https://code.claude.com/docs/ko/model-config</a></li><li><a href="https://api-docs.deepseek.com/quick_start/pricing/" rel="nofollow noopener">https://api-docs.deepseek.com/quick_start/pricing/</a></li><li><a href="https://api-docs.deepseek.com/guides/kv_cache/" rel="nofollow noopener">https://api-docs.deepseek.com/guides/kv_cache/</a></li><li><a href="https://www.oxalpha.com/" rel="nofollow noopener">https://www.oxalpha.com/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 토큰을 가장 먼저 줄일 수 있는 방법은 무엇인가요?</h2><p class="sum">관련 없는 작업으로 넘어갈 때 `/clear`를 사용하고, 탐색 업무를 Haiku subagent로 분리하는 방법이 효과적이다. 복잡한 설계와 최종 검토에만 Opus를 쓰면 고비용 문맥의 반복 처리를 줄일 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-23-2200.html">2026-08-23 08-23 13:25~21:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
