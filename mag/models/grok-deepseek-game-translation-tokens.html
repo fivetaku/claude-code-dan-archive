@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grok·DeepSeek 토큰, 3MB 게임 번역은 왜 한도를 녹이나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="3MB 게임 텍스트가 Grok 한도를 빠르게 소진하는 이유를 짚고, DeepSeek API와 Claude Code를 활용한 분할 번역·비용 측정·검수 절차를 설명한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/grok-deepseek-game-translation-tokens.html">
+<meta property="og:title" content="Grok·DeepSeek 토큰, 3MB 게임 번역은 왜 한도를 녹이나">
+<meta property="og:description" content="3MB 게임 텍스트가 Grok 한도를 빠르게 소진하는 이유를 짚고, DeepSeek API와 Claude Code를 활용한 분할 번역·비용 측정·검수 절차를 설명한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/grok-deepseek-game-translation-tokens.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Grok·DeepSeek 토큰, 3MB 게임 번역은 왜 한도를 녹이나", "description": "3MB 게임 텍스트가 Grok 한도를 빠르게 소진하는 이유를 짚고, DeepSeek API와 Claude Code를 활용한 분할 번역·비용 측정·검수 절차를 설명한다.", "datePublished": "2026-09-21", "dateModified": "2026-09-21", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/grok-deepseek-game-translation-tokens.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Grok 토큰, DeepSeek API, Claude Code, 게임 번역, LLM 비용, 토큰 최적화", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "3MB 영어 텍스트는 대략 몇 토큰인가요?", "acceptedAnswer": {"@type": "Answer", "text": "파일 형식과 모델의 토크나이저에 따라 크게 달라 정확한 환산은 어렵습니다. 번역 전 실제 모델의 토큰 계산 기능으로 샘플을 측정하고, 한국어 출력과 지시문 비용까지 따로 더해야 합니다."}}, {"@type": "Question", "name": "DeepSeek 크레딧을 충전하면 Claude Code에서 쓸 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "DeepSeek가 제공하는 Anthropic 호환 API 주소와 키를 Claude Code 환경변수에 설정하면 됩니다. 인터페이스는 Claude Code지만 실제 응답과 요금은 선택한 DeepSeek 모델을 따릅니다."}}, {"@type": "Question", "name": "게임 텍스트를 한 번에 번역하면 왜 위험한가요?", "acceptedAnswer": {"@type": "Answer", "text": "긴 원문과 이전 응답이 후속 요청마다 다시 처리될 수 있고, 출력도 별도 토큰을 소비합니다. 문자열 ID를 유지한 작은 묶음으로 나누면 비용 측정, 실패 재시도와 자동 검수가 쉬워집니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Grok·DeepSeek 토큰, 3MB 게임 번역은 왜 한도를 녹이나</h1>
+  <p class="sub">파일 크기와 토큰은 어떻게 다르며, Claude Code에서 대용량 번역 비용을 통제하려면 무엇을 바꿔야 할까</p>
+  <div class="meta"><span>2026-09-21</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>3MB짜리 고전 게임의 영어 텍스트를 한국어로 옮겼더니 Grok 사용량이 바닥났다는 경험이 나왔다. 반면 같은 서비스를 오래 썼다는 평가도 있었다. 체감이 이렇게 다른 이유는 무엇일까. DeepSeek처럼 저렴한 API를 Claude Code에 연결하면 문제가 풀릴까.</p>
+<h2>3MB는 작지만 모델에는 작은 문서가 아니다</h2>
+<p>파일 탐색기에 보이는 용량은 토큰 수가 아니다. LLM은 텍스트를 단어와 부분 문자열, 문장부호 같은 단위로 쪼갠다. 같은 글도 모델의 토크나이저와 언어에 따라 토큰 수가 달라진다.</p>
+<p>영문 위주의 3MB 파일은 내용에 따라 수십만 토큰을 훌쩍 넘길 수 있다. 여기에 지시문과 용어집, 대화 이력, 한국어 출력까지 더해진다. 한국어처럼 영문과 분절 방식이 다른 언어는 출력 토큰도 별도로 측정해야 한다. 한국어 특화 토크나이저가 생성 안정성과 효율을 높일 수 있다는 연구도 나왔다. ([arxiv.org](https://arxiv.org/abs/2502.12560?utm_source=openai))</p>
+<p>컨텍스트 창과 사용량 한도도 구분해야 한다. 컨텍스트 창은 한 번의 요청에서 모델이 다룰 수 있는 범위다. 구독 한도는 일정 기간 제공되는 연산량에 가깝다. 큰 파일이 창 안에 들어가더라도 번역 결과를 길게 생성하면 사용량은 빠르게 줄 수 있다.</p>
+<p>현재 xAI 문서상 Grok 4.6의 컨텍스트는 50만 토큰이다. 입력은 100만 토큰당 2달러, 출력은 6달러다. 프롬프트가 20만 토큰을 넘으면 장문 요율이 적용된다. 소비자용 Grok의 막대와 API 과금은 별도 체계이므로 둘을 같은 ‘토큰 잔액’으로 해석하면 안 된다. ([docs.x.ai](https://docs.x.ai/developers/pricing))</p>
+<h2>한 번에 넣을수록 두 번째 요청부터 더 비싸진다</h2>
+<p>대용량 번역에서 가장 흔한 실수는 원문 전체를 대화에 붙인 뒤 수정 요청을 이어가는 방식이다. 두 번째 요청에는 원문과 이전 번역, 수정 지시가 다시 포함될 수 있다. 대화가 길어질수록 새 문장 몇 줄을 고칠 때도 거대한 과거 문맥을 읽힌다.</p>
+<p>써본 사람들 사이에서는 새 대화를 열었더니 사용량 감소가 완만해졌다는 반응이 나온다. 반면 초기 상태에서도 큰 폭으로 줄었다는 불만도 있다. 두 경험은 충돌하지 않는다. 선택한 모드와 출력 길이, 첨부 파일, 추론 강도, 누적 문맥이 다르면 요청 한 번의 연산량도 달라진다.</p>
+<p>xAI는 API 응답의 `usage` 객체에 입력·출력 토큰과 실제 청구 비용을 돌려준다. 여러 차례 이어진 대화의 비용은 요청별 값을 직접 합산해야 한다. 컨텍스트 압축은 다음 호출의 입력량을 줄이지만 압축 작업 자체도 토큰을 소비한다. ([docs.x.ai](https://docs.x.ai/developers/cost-tracking))</p>
+<p>그래서 사용량 막대만 바라보는 구독형 서비스보다 API가 대량 작업을 예측하기 쉽다. 일부를 먼저 번역한 뒤 입력 토큰과 출력 토큰, 재시도율을 기록하면 총비용의 범위를 잡을 수 있다.</p>
+<h2>게임 번역은 파일이 아니라 문자열 묶음으로 처리한다</h2>
+<p>실전에서는 원본 파일을 그대로 던지지 않는다. 먼저 JSON, CSV, PO 같은 구조에서 번역할 값만 추출한다. ID와 분기 코드, 제어문자, `{player_name}`이나 `%s` 같은 플레이스홀더는 별도 필드로 보호한다.</p>
+<p>다음 순서가 재현하기 쉽다.</p>
+<ol><li>원본을 복사하고 문자열마다 변하지 않는 ID를 붙인다.</li><li>등장인물명, 아이템명, 말투를 담은 용어집을 만든다.</li><li>작업량에 맞춰 묶음을 나눈다.</li><li>각 묶음에 ID와 원문을 넣고 `id`, `ko`, `note` 형식으로 받는다.</li><li>결과를 ID 기준으로 원래 파일에 병합한다.</li><li>플레이스홀더, 따옴표, 줄바꿈, 인코딩을 자동 검사한다.</li></ol>
+<p>묶음마다 새 요청을 보내되 이전 번역 전체를 대화 이력에 싣지 않는 것이 중요하다. 공통으로 필요한 용어집과 규칙만 앞부분에 고정하면 캐시도 활용하기 좋다. 실패한 묶음만 다시 보내므로 중간 중단에도 강하다.</p>
+<p>PO 파일이라면 GNU gettext의 `msgfmt --check` 계열 검사를 활용할 수 있다. 원문과 번역문의 형식 인자가 맞지 않으면 실행 전에 오류를 찾는다. 현지화 문서들도 `%s` 같은 변수를 번역 과정에서 바꾸지 말라고 명시한다. ([docs.translatehouse.org](https://docs.translatehouse.org/?utm_source=openai))</p>
+<h2>DeepSeek를 Claude Code에 연결하면 바뀌는 것</h2>
+<p>2026년 9월 21일 기준 DeepSeek 공식 API의 `deepseek-flash`는 100만 토큰 컨텍스트를 제공한다. Flash의 피크 요금은 입력 100만 토큰당 0.30달러, 출력 1.20달러다. 캐시 적중 입력은 0.006달러이며 비혼잡 시간에는 절반 요율이 적용된다. 충전액은 토큰 묶음이 아니라 이 사용료에서 차감되는 잔액이다. ([api-docs.deepseek.com](https://api-docs.deepseek.com/quick_start/pricing))</p>
+<p>Claude Code에 붙이는 절차도 공식 문서에 공개돼 있다. Claude Code를 설치한 뒤 `ANTHROPIC_BASE_URL`을 DeepSeek의 Anthropic 호환 주소로 설정한다. 이어 `ANTHROPIC_AUTH_TOKEN`과 모델 환경변수를 지정하고 프로젝트 폴더에서 `claude`를 실행하면 같은 터미널 인터페이스로 DeepSeek 모델을 호출한다. ([api-docs.deepseek.com](https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code))</p>
+<p>여기서 사용하는 것은 Claude 모델이 아니라 Claude Code라는 실행 도구다. 모델의 번역 품질과 지시 준수, 도구 호출 방식은 달라질 수 있다. 저렴한 모델로 초벌 번역을 만들고 중요한 대사나 UI만 상위 모델과 사람이 검수하는 구성이 현실적이다.</p>
+<p>Claude Code 자체는 Pro 월 20달러, Max 월 100달러와 200달러 요금제에 포함된다. Console 계정으로 쓰면 API 토큰 요금이 별도로 붙는다. 대화식 개발은 구독제가 편하지만 수백 개 묶음을 순차 처리하는 번역은 사용량을 기록할 수 있는 API 방식이 관리하기 쉽다. ([code.claude.com](https://code.claude.com/))</p>
+<h2>싼 모델보다 재번역이 적은 흐름이 오래 버틴다</h2>
+<p>저렴한 단가는 큰 파일 앞에서 매력적이다. 그러나 용어가 흔들리거나 태그가 깨지면 수정 요청과 재생성이 늘어난다. 번역료가 낮아도 검수 시간이 길어지면 개인 개발자에게는 더 비싼 선택이 된다.</p>
+<p>비교 기준은 ‘얼마를 충전했는가’가 아니다. 샘플 묶음의 총 토큰과 통과한 문자열 비율, 수정에 든 시간, 플레이스홀더 오류 수를 함께 봐야 한다. 같은 작업도 에이전트 실행 경로에 따라 토큰 소비가 크게 달라진다. 더 많이 쓴다고 정확도가 계속 오르지는 않는다는 연구 결과도 있다. ([arxiv.org](https://arxiv.org/abs/2604.22750?utm_source=openai))</p>
+<p>3MB 번역에서 먼저 사라지는 것은 크레딧이 아니라 작업 구조다. 원문 전체를 한 대화에 쌓으면 어떤 모델도 빠르게 무거워진다. 문자열을 추출해 작은 묶음으로 번역하고 요청별 비용과 검수 실패를 남기면 Grok과 DeepSeek의 차이도 막연한 체감이 아닌 계산 가능한 선택지가 된다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Grok 토큰</span><span class="chip">DeepSeek API</span><span class="chip">Claude Code</span><span class="chip">게임 번역</span><span class="chip">LLM 비용</span><span class="chip">토큰 최적화</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://docs.x.ai/developers/pricing" rel="nofollow noopener">https://docs.x.ai/developers/pricing</a></li><li><a href="https://docs.x.ai/developers/cost-tracking" rel="nofollow noopener">https://docs.x.ai/developers/cost-tracking</a></li><li><a href="https://docs.x.ai/developers/advanced-api-usage/context-compaction" rel="nofollow noopener">https://docs.x.ai/developers/advanced-api-usage/context-compaction</a></li><li><a href="https://api-docs.deepseek.com/quick_start/pricing/" rel="nofollow noopener">https://api-docs.deepseek.com/quick_start/pricing/</a></li><li><a href="https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code/" rel="nofollow noopener">https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code/</a></li><li><a href="https://claude.com/product/claude-code" rel="nofollow noopener">https://claude.com/product/claude-code</a></li><li><a href="https://arxiv.org/abs/2502.12560" rel="nofollow noopener">https://arxiv.org/abs/2502.12560</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11882797/" rel="nofollow noopener">https://pmc.ncbi.nlm.nih.gov/articles/PMC11882797/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>3MB 영어 텍스트는 대략 몇 토큰인가요?</h2><p class="sum">파일 형식과 모델의 토크나이저에 따라 크게 달라 정확한 환산은 어렵습니다. 번역 전 실제 모델의 토큰 계산 기능으로 샘플을 측정하고, 한국어 출력과 지시문 비용까지 따로 더해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>DeepSeek 크레딧을 충전하면 Claude Code에서 쓸 수 있나요?</h2><p class="sum">DeepSeek가 제공하는 Anthropic 호환 API 주소와 키를 Claude Code 환경변수에 설정하면 됩니다. 인터페이스는 Claude Code지만 실제 응답과 요금은 선택한 DeepSeek 모델을 따릅니다.</p></article><article class="dcard"><div class="t">Q</div><h2>게임 텍스트를 한 번에 번역하면 왜 위험한가요?</h2><p class="sum">긴 원문과 이전 응답이 후속 요청마다 다시 처리될 수 있고, 출력도 별도 토큰을 소비합니다. 문자열 ID를 유지한 작은 묶음으로 나누면 비용 측정, 실패 재시도와 자동 검수가 쉬워집니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-21-1137-s.html">2026-09-21 09-21 10:07~11:38</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
