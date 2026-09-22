@@ -1004,3 +1004,5 @@
 {"code": "9a22ad", "url": "https://www.reddit.com/r/LocalLLaMA/comments/1wmxfjs/qwen_4_announced_at_apsara_conference", "title": "알리바바, Apsara 컨퍼런스에서 Qwen 4 공식 발표"}
 {"code": "7d1f2a", "url": "https://www.reddit.com/r/LocalLLM/comments/1wmxqpv/alibaba_unveils_ai_chip_to_drive_20gw_of_data", "title": "알리바바, 자체 AI 칩 공개…2032년까지 20GW 데이터센터 구축 목표"}
 {"code": "f73d35", "url": "https://www.aitimes.com/news/articleView.html?idxno=215548", "title": "OpenAI·Anthropic, 모델 상호 스트레스 테스트 협정 논의…미공개 모델은 제외"}
+{"code": "06e38e", "url": "https://status.claude.com/incidents/7g1qpkyz5gxh", "title": "Claude, 다수 모델에서 오류율 급증 발생"}
+{"code": "12bcf7", "url": "https://x.com/cyrilXBT/status/2102261639433384069", "title": "ChatGPT 공동개발자, 의사결정 특화 모델 'Jev' 공개…10억 입력 토큰당 42달러, 출력은 무료"}
