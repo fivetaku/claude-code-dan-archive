@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>음성 AI가 API가 된 시대, 연구자는 무엇을 만들어야 하나</title>
+    <link>https://chat.axwith.com/mag/models/voice-ai-research-after-api.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/voice-ai-research-after-api.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Thu, 24 Sep 2026 12:00:00 +0900</pubDate>
+    <description>음성 AI API로 실시간 대화 서비스를 만드는 방법과 평가 절차를 살펴보고, 상용 모델 이후에도 남아 있는 연구 주제를 짚는다.</description>
+  </item>
+  <item>
+    <title>Claude Max 5x와 20x, 실제 사용 한도는 어떻게 측정할까</title>
+    <link>https://chat.axwith.com/mag/ops/measure-claude-max-usage.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/measure-claude-max-usage.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Thu, 24 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Max 5x와 20x의 가격 차이가 실제 작업량으로 이어지는지 검증하려면 서버 한도와 토큰 로그를 함께 측정해야 한다.</description>
+  </item>
+  <item>
     <title>AI 구독 리셋권, 코덱스와 클로드에서 다르게 쓰는 법</title>
     <link>https://chat.axwith.com/mag/troubleshooting/codex-claude-usage-reset-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-claude-usage-reset-guide.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Sun, 13 Sep 2026 12:00:00 +0900</pubDate>
     <description>로컬 LLM용 맥미니·맥북 구매를 고민하는 윈도우 사용자를 위해 Qwen3.8 계열별 메모리 요구량, 2026년 신형 맥 가격, 속도 실측, 서버용 절충안과 Claude Code 연결법을 정리했다.</description>
-  </item>
-  <item>
-    <title>GPT-6 아스트라를 오케스트레이터로 쓰면 안 되는 이유와 되는 조건</title>
-    <link>https://chat.axwith.com/mag/models/gpt-6-astra-orchestrator-or-subagent.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-6-astra-orchestrator-or-subagent.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sun, 13 Sep 2026 12:00:00 +0900</pubDate>
-    <description>GPT-6 아스트라를 오케스트레이터로 두고 루나·솔을 서브에이전트로 쓰는 구성과 페이블 5.1 아래 서브로 두는 구성을 비교한다. Codex config.toml·Claude Code 설정법, 추론 강도별 비용, 주간 한도 소진 사례를 정리했다.</description>
-  </item>
-  <item>
-    <title>챗GPT Pro 20x 필리핀 페소 결제 &#x27;필쫀쿠&#x27;, 19만 원이 나오는 구조와 대가</title>
-    <link>https://chat.axwith.com/mag/resources/chatgpt-pro-peso-checkout-price-risk.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/chatgpt-pro-peso-checkout-price-risk.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Sun, 13 Sep 2026 12:00:00 +0900</pubDate>
-    <description>챗GPT Pro 20x를 필리핀 페소로 결제하는 &#x27;필쫀쿠&#x27;의 원리와 절차를 정리했다. 필리핀 정가 9,990페소, 부가세 12%와 한국 부가세 10%의 차이, 카드 거절·국가 불일치 오류, OpenAI 약관 위반 위험까지 확인된 사실만 담았다.</description>
   </item>
 </channel></rss>

@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까 — 클코단 매거진</title>
+<title>음성 AI가 API가 된 시대, 연구자는 무엇을 만들어야 하나 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="Vercel, Railway, Hostinger VPS, OCI, AWS Lambda를 가격표만으로 고르지 않도록 상시 실행, 영속 저장소, 배포 절차, 직접 운영 부담까지 비교한다.">
-<link rel="canonical" href="https://chat.axwith.com/mag/ops/toy-project-hosting-choices.html">
-<meta property="og:title" content="토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까">
-<meta property="og:description" content="Vercel, Railway, Hostinger VPS, OCI, AWS Lambda를 가격표만으로 고르지 않도록 상시 실행, 영속 저장소, 배포 절차, 직접 운영 부담까지 비교한다.">
+<meta name="description" content="음성 AI API로 실시간 대화 서비스를 만드는 방법과 평가 절차를 살펴보고, 상용 모델 이후에도 남아 있는 연구 주제를 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/voice-ai-research-after-api.html">
+<meta property="og:title" content="음성 AI가 API가 된 시대, 연구자는 무엇을 만들어야 하나">
+<meta property="og:description" content="음성 AI API로 실시간 대화 서비스를 만드는 방법과 평가 절차를 살펴보고, 상용 모델 이후에도 남아 있는 연구 주제를 짚는다.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://chat.axwith.com/mag/ops/toy-project-hosting-choices.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까", "description": "Vercel, Railway, Hostinger VPS, OCI, AWS Lambda를 가격표만으로 고르지 않도록 상시 실행, 영속 저장소, 배포 절차, 직접 운영 부담까지 비교한다.", "datePublished": "2026-09-01", "dateModified": "2026-09-01", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/ops/toy-project-hosting-choices.html"}, "articleSection": "배포·운영", "keywords": "토이프로젝트 배포, Vercel, Railway, VPS, AWS Lambda, OCI", "image": "https://chat.axwith.com/mag/hero/toy-project-hosting-choices.png"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "토이프로젝트 백엔드는 Railway와 Vercel 중 어디가 나은가?", "acceptedAnswer": {"@type": "Answer", "text": "상시 실행 서버나 worker, 영속 Volume이 필요하면 Railway가 더 직접적이다. 정적 프런트와 짧은 Function 중심이며 비상업 개인 프로젝트라면 Vercel Hobby가 간단하다."}}, {"@type": "Question", "name": "Railway Hobby는 월 5달러로 비용이 제한되는가?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 월 5달러는 첫 5달러 사용량을 포함한 최소액이다. 초과 사용량은 청구되므로 별도의 hard limit과 사용량 확인이 필요하다."}}, {"@type": "Question", "name": "이미지 변환 결과를 서버 로컬 디스크에 저장해도 되는가?", "acceptedAnswer": {"@type": "Answer", "text": "Vercel Function과 Lambda의 로컬 공간은 임시이므로 영속 저장소로 쓰면 안 된다. 결과는 object storage에 두거나 Railway Volume, VPS 디스크처럼 영속 경로를 사용해야 한다."}}]}</script>
+<meta property="og:url" content="https://chat.axwith.com/mag/models/voice-ai-research-after-api.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "음성 AI가 API가 된 시대, 연구자는 무엇을 만들어야 하나", "description": "음성 AI API로 실시간 대화 서비스를 만드는 방법과 평가 절차를 살펴보고, 상용 모델 이후에도 남아 있는 연구 주제를 짚는다.", "datePublished": "2026-09-24", "dateModified": "2026-09-24", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/voice-ai-research-after-api.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "음성 AI, TTS, 실시간 음성 API, Claude Code, Voice Agent, 음성 모델 평가", "image": "https://chat.axwith.com/mag/hero/voice-ai-research-after-api.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "음성 AI 서비스를 만들려면 TTS 모델을 직접 학습해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "대부분의 시제품은 직접 학습하지 않아도 된다. 실시간 음성 API로 기준 제품을 만든 뒤, 고유한 화자나 특수 환경이 필요한 경우에만 학습을 검토하는 편이 효율적이다."}}, {"@type": "Question", "name": "실시간 음성 에이전트에서 가장 중요한 평가지표는 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "첫 오디오 응답까지의 지연시간과 잘못된 발화 종료 횟수를 함께 봐야 한다. 끼어들기 복구, 도구 호출 성공률, 소음 환경의 성능도 실제 사용성을 크게 좌우한다."}}, {"@type": "Question", "name": "Claude Code로 음성 AI 프로젝트를 어떻게 시작하나요?", "acceptedAnswer": {"@type": "Answer", "text": "마이크를 처리하는 클라이언트, API 세션 서버, 도구 호출 모듈, 음성 평가 스크립트로 나눠 구축한다. Claude Code는 이 코드와 테스트 하네스를 만들고, 실제 음성 추론은 Realtime 또는 Live API에 연결할 수 있다."}}]}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -226,41 +226,45 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
-<img class="artHero" src="https://chat.axwith.com/mag/hero/toy-project-hosting-choices.png" alt="토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까" loading="eager">
+<img class="artHero" src="https://chat.axwith.com/mag/hero/voice-ai-research-after-api.png" alt="음성 AI가 API가 된 시대, 연구자는 무엇을 만들어야 하나" loading="eager">
 <header>
-  <span class="catchip c-res">배포·운영</span>
-  <h1>토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까</h1>
-  <p class="sub">정적 프런트부터 이미지 변환과 상시 서버까지, 실행 방식·영속 저장·운영 책임으로 토이프로젝트 배포 선택지를 가른다</p>
-  <div class="meta"><span>2026-09-01</span><span>논의 <b>1</b>회 정리</span></div>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>음성 AI가 API가 된 시대, 연구자는 무엇을 만들어야 하나</h1>
+  <p class="sub">TTS 구현은 쉬워졌지만 끼어들기, 지연시간, 감정, 개인정보 문제는 아직 API 호출만으로 풀리지 않는다</p>
+  <div class="meta"><span>2026-09-24</span><span>논의 <b>1</b>회 정리</span></div>
 </header>
-<div class="artbody"><p>토이프로젝트를 만들고 나면 코드보다 먼저 막히는 곳이 배포다. AWS는 기능이 많지만 작은 서비스에선 설정과 비용 구조가 더 무겁게 느껴진다. Vercel, Railway, Hostinger VPS, OCI, Lambda, 집의 서브컴 가운데 무엇을 골라야 덜 후회할까.</p>
-<h2>트래픽보다 실행 방식과 저장 위치를 먼저 구분한다</h2>
-<p>방문자가 적다는 사실만으로 호스팅을 고를 수는 없다. 정적 페이지인지, 요청이 없어도 돌아갈 worker가 있는지, 변환한 이미지를 서버 디스크에 남겨야 하는지가 더 중요하다. 같은 월 5달러 안팎이어도 PaaS와 VPS가 맡아주는 범위가 다르다. 정적 파일과 짧은 API는 요청 때만 계산하는 플랫폼과 잘 맞는다. 반대로 큐 소비자, WebSocket, 긴 변환 작업은 상시 프로세스가 편하다. 업로드 파일은 다시 배포해도 남아야 하므로 임시 파일시스템과 영속 저장소를 구분해야 한다.</p>
-<h2>Vercel은 프런트엔드 배포를 가장 짧게 만든다</h2>
-<p>Vercel에선 GitHub·GitLab·Bitbucket 저장소를 가져오고 프레임워크 프리셋과 환경변수를 지정한 뒤 Deploy를 누르면 된다. 브랜치 push마다 Preview URL이 생기고 production branch 변경은 운영 배포로 이어진다. Next.js나 정적 사이트를 빠르게 공개하고 검토할 때 강점이 선명하다.</p>
-<p>공식 문서상 Hobby는 월 0달러지만 개인의 비상업 프로젝트용이다. 2026년 1월 갱신된 안내는 월 4 CPU-hours, 360 GB-hours 메모리, Function 100만 회를 포함한다고 설명한다. 한도를 넘으면 돈을 더 내고 계속 쓰는 방식이 아니라 기능이 멈출 수 있다.</p>
-<p>서버 디스크처럼 쓰면 문제가 생긴다. Vercel Function은 파일시스템이 읽기 전용이고 `/tmp` 500MB만 임시로 쓸 수 있다. Fluid Compute를 쓰는 새 프로젝트의 Function은 최대 300초지만 결과 파일은 Vercel Blob이나 외부 object storage로 보내야 한다. 써본 사람들 사이에서도 랜딩 페이지는 매우 편하지만 이미지 처리와 백엔드가 커지면 저장소를 분리한다는 반응이 많았다.</p>
-<img class="artInline" src="https://chat.axwith.com/mag/inline/toy-project-hosting-choices.png" alt="" loading="lazy"><h2>Railway는 상시 서버와 Git 배포 사이를 잇는다</h2>
-<p>Railway는 저장소를 연결하면 Railpack이 실행 환경을 만들고 새 커밋을 자동 배포한다. 저장소에 `Dockerfile`이 있으면 그 정의를 사용한다. Express, FastAPI, Django처럼 포트를 여는 서버와 백그라운드 worker를 한 프로젝트에서 운영하기 쉽다.</p>
-<p>Hobby의 5달러는 비용 상한이 아니다. Railway 가격 문서는 월 5달러가 첫 5달러 사용량을 포함한 최소액이며 8달러를 쓰면 총 8달러를 낸다고 명시한다.</p>
-<p>CPU, RAM, egress, Volume이 종량으로 더해지므로 hard limit을 직접 걸어야 예상 밖 지출을 차단할 수 있다.</p>
-<p>영속 파일이 필요하면 서비스에 Volume을 붙이고 경로를 정한다. 앱이 `./data`에 쓴다면 `/app/data`로 마운트하는 식이다. Hobby 기본 한도는 5GB이며 백업도 지원하지만 Volume을 붙인 서비스는 복제 확장이 제한되고 재배포 때 짧은 중단이 생길 수 있다. 가벼운 서버를 먼저 올리고 일주일간 Usage를 본 뒤 월 추정치를 잡으라는 Railway의 권고가 실용적이다.</p>
-<h2>이미지 변환은 호스팅보다 저장 흐름이 선택을 가른다</h2>
-<p>업로드 한 건을 받아 썸네일을 만들고 끝나는 작업이라면 Vercel Function이나 AWS Lambda가 가능하다. 입력은 object storage에 두고 함수가 임시 공간에서 변환한 뒤 결과를 다시 저장하는 순서다. Lambda는 월 100만 요청과 40만 GB-seconds의 무료 구간을 제공하며 `/tmp`를 512MB에서 10GB까지 설정할 수 있지만 한 번의 실행은 최대 15분이다.</p>
-<p>변환 큐를 계속 소비하거나 결과를 같은 디스크에 쌓는다면 Railway Volume이나 VPS가 단순하다. Railway에서는 웹 서비스와 worker를 나누고 둘이 object storage를 공유하는 구성이 확장에 유리하다.</p>
-<p>파일 수가 늘어날 가능성이 있으면 단일 Volume보다 bucket을 택해야 복제와 이전이 쉬워진다.</p>
-<p>완전 무료를 목표로 Render를 고르는 선택도 있다. 다만 공식 문서는 무료 웹 서비스가 15분 유휴 뒤 잠들고 로컬 파일은 재시작과 재배포 때 사라진다고 밝힌다. 무료 Postgres도 30일 뒤 만료되므로 장기 보관이 필요한 앱에는 별도 설계가 필요하다.</p>
-<h2>VPS와 서브컴은 싼 서버가 아니라 운영권을 산다</h2>
-<p>Hostinger의 미국 페이지는 KVM 1을 1 vCPU, RAM 4GB, NVMe 50GB로 표시한다. 할인가는 월 6.49달러지만 2년 갱신가는 11.99달러이며 선불 약정과 지역에 따라 달라진다. 같은 가격대에서 사양이 좋다는 의견은 이해되지만 Hostinger도 VPS를 self-managed로 규정한다.</p>
-<p>배포는 Docker 템플릿을 고르고 `docker-compose.yml`에 앱, 포트, 환경변수, volume, 재시작 정책을 적는 방식이 현실적이다. Git pull과 `docker compose up -d`로 갱신하고 OS 패치·SSL·방화벽·모니터링·복구는 직접 맡는다. 작은 팀에는 월 요금보다 이 관리 시간이 더 비쌀 수 있다.</p>
-<p>OCI Always Free는 home region에서 block volume 200GB와 object storage 20GB를 제공해 학습용 VM으로 매력적이다. 다만 무료 인스턴스 용량 부족, 유휴 자원 회수, Arm 호환성까지 감수해야 한다. 집의 서브컴도 큰 디스크와 장기 작업에는 좋지만 전원, 회선, 백업, 외부 노출을 모두 책임져야 한다.</p>
-<p>선택은 &quot;가장 싼 곳&quot;이 아니라 &quot;어떤 운영을 내가 맡을 것인가&quot;에서 갈린다. 프런트 배포는 Vercel, 상시 백엔드는 Railway, 이벤트 변환은 Lambda, 로컬 디스크와 서버 통제가 핵심이면 VPS나 서브컴이 답에 가까워진다. 토이프로젝트가 제품으로 자랄 때 가장 먼저 드러나는 비용은 CPU가 아니라 처음부터 섞어 둔 실행과 저장 구조다.</p></div>
+<div class="artbody"><p>음성 AI 시제품은 이제 며칠 안에도 만들 수 있다. 그렇다면 녹음과 모델 학습이 사라진 자리에서 연구자는 무엇을 파고들어야 할까. 답은 목소리 생성보다 대화가 실패하는 순간에 가까워지고 있다.</p>
+<h2>API는 음성 합성보다 앞뒤의 작업을 줄였다</h2>
+<p>과거 TTS 개발에서는 음성 데이터부터 직접 마련하는 일이 흔했다. NVIDIA의 Tacotron 2 연구는 약 24시간 분량의 단일 화자 데이터를 학습에 사용했다. Microsoft의 VALL-E는 3초 음성으로 처음 듣는 화자를 모사하는 방향까지 나아갔다. citeturn5search0turn5search1</p>
+<p>2026년 9월의 개발 환경은 다르다. OpenAI Realtime API와 Google Gemini Live API는 입력 음성을 받아 음성으로 응답하는 경로를 제공한다. 별도의 STT와 TTS를 연결하지 않고도 실시간 대화 시제품을 만들 수 있다. citeturn1search1turn2search0turn2search1</p>
+<p>개발자 커뮤니티에서도 변화는 선명했다. 예전에는 녹음, 정제, 학습이 프로젝트의 큰 부분이었다는 경험담이 나왔다. 지금은 API 연결과 프롬프트 설계만으로 작동하는 데모를 만들 수 있다는 의견이 많았다.</p>
+<p>다만 API가 없앤 것은 진입 비용이지 음성 대화의 난제가 아니다.</p>
+<h2>가장 어려운 문제는 사람이 언제 말을 끝냈는지 판단하는 일이다</h2>
+<p>텍스트 챗봇은 전송 버튼이 발화의 끝을 알려준다. 음성 대화에는 그런 경계가 없다. 짧은 침묵이 생각하는 시간인지 답변을 마친 것인지 시스템이 추정해야 한다.</p>
+<p>판단이 빠르면 사용자의 문장을 잘라 먹고, 늦으면 응답이 굼떠진다. 모델이 말하는 도중 사용자가 끼어들면 재생을 멈추고 새 문맥을 반영해야 한다. OpenAI 공식 가이드도 VAD, 끼어들기 처리, 지연시간을 음성 에이전트 설계의 핵심 요소로 다룬다. citeturn0search0turn1search1</p>
+<p>Kyutai의 Moshi는 두 개의 오디오 스트림을 함께 처리해 전이중 대화를 구현했다. τ-Voice와 Full-Duplex-Bench 같은 연구도 지연시간, 중첩 발화, 백채널 반응을 따로 측정한다. 기존 텍스트 평가만으로는 자연스러운 대화를 설명하기 어렵기 때문이다. citeturn1search3turn3search0turn3search2</p>
+<p>써본 사람들 사이에서는 첫 응답은 인상적이지만 긴 대화에서는 끼어들기와 문맥 유지가 흔들린다는 반응도 있다. 너무 민감한 VAD가 주변 소음에 반응하거나 문장 중간의 숨을 종료 신호로 처리한다는 불만도 나온다. 이런 문제는 음성 모델 하나를 교체한다고 모두 사라지지 않는다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/voice-ai-research-after-api.png" alt="" loading="lazy"><h2>Claude Code로 최소 실험 환경부터 만든다</h2>
+<p>가장 빠른 출발점은 기반 모델을 학습하는 일이 아니다. Claude Code에는 브라우저 클라이언트, 세션 서버, 도구 호출, 평가 스크립트를 각각 만들도록 맡길 수 있다. 실행 모델은 OpenAI Realtime이나 Gemini Live처럼 직접 음성을 처리하는 API로 정한다.</p>
+<p>브라우저의 `client.ts`는 마이크 입력과 출력 재생을 담당하고 `server.ts`는 인증정보를 숨긴 채 세션을 만든다. OpenAI는 브라우저 연결에 WebRTC를, 서버 중심 구성에는 WebSocket을 안내한다. Google Live API도 클라이언트와 직접 통신하거나 백엔드 프록시를 두는 구성을 지원한다. citeturn0search0turn2search0turn2search1</p>
+<p>`agent.ts`에는 역할, 말투, 응답 길이와 호출 가능한 도구를 넣는다. 예약 확인이나 검색 같은 함수는 음성 모델이 호출하되 실제 처리는 서버가 맡는다. 입력은 마이크 음성과 도구 결과이고, 산출물은 재생할 오디오와 이벤트 로그다.</p>
+<p>평가용 파일도 처음부터 필요하다. `eval/fixtures`에 침묵, 잡음, 말 고치기, 중간 끼어들기 음성을 넣는다. `metrics.jsonl`에는 발화 종료부터 첫 오디오까지 걸린 시간, 잘못 끊긴 횟수, 도구 호출 성공 여부를 기록한다. 이때 API 데모가 연구 가능한 하네스로 바뀐다.</p>
+<h2>좋은 연구 주제는 평균 품질이 아니라 실패 조건에서 나온다</h2>
+<p>VoiceBench는 음성 언어 모델을 지식, 명령 이행, 안전성 등 여러 축으로 평가한다. 최근 전이중 벤치마크는 여기에 응답 시점과 동시 발화까지 더한다. 단순히 자연스러운 음성을 골라내는 평가보다 실제 대화 구조에 가까워졌다. citeturn3search2turn3search3</p>
+<p>연구자는 같은 대본을 조용한 방과 카페 소음에서 실행할 수 있다. 말이 빠른 사용자와 긴 침묵을 두는 사용자, 한국어와 영어를 섞는 사용자도 비교한다. 평균 점수보다 어떤 조건에서 시스템이 상대의 말을 빼앗는지 기록해야 한다.</p>
+<p>감정과 영상도 독립된 축이다. Video-FDBench와 Moshi-Face 같은 연구는 얼굴 움직임과 음성을 함께 다루면서 말의 내용만으로 잡기 어려운 타이밍과 표현을 평가한다. 화면 속 인물이 입을 열려는 순간을 감지한다면 음성 에이전트가 먼저 말하는 실수를 줄일 수 있다. citeturn5search2turn5search3</p>
+<p>소규모 팀에는 이 접근이 특히 현실적이다. 범용 TTS를 새로 학습하기보다 특정 업무의 실패 데이터를 모을 수 있다. 상담 중 정정 발화, 교육 상황의 망설임, 고령 사용자의 긴 간격처럼 상용 데모가 놓치는 조건이 연구 자산이 된다.</p>
+<h2>감정 표현이 좋아질수록 개인정보 설계가 먼저 필요하다</h2>
+<p>음성은 문장보다 많은 정보를 품는다. 말투와 주변 소리에는 감정, 건강 상태, 생활환경을 추정할 단서가 섞일 수 있다. 사용자가 기계와 정서적인 대화를 시작하면 수집 범위도 기능 명령을 넘어서기 쉽다.</p>
+<p>NIST는 합성 콘텐츠 탐지 성능이 생성 방식과 데이터 조건에 따라 크게 달라진다고 설명한다. 음성 복제 기능을 붙였다는 이유만으로 탐지기를 안전장치처럼 믿기 어렵다. citeturn3search3</p>
+<p>그래서 하네스에는 삭제 경로도 들어가야 한다. 원본 음성을 저장할지, 전사문만 남길지, 로그를 언제 지울지 분리한다. 화자 모사에는 명시적 동의를 받고 생성 음성임을 알리는 절차도 제품 흐름에 넣어야 한다.</p>
+<p>API 시대의 연구 질문은 더 사람 같은 목소리를 만드는 데서 끝나지 않는다. 누가 말할 차례인지, 어떤 환경에서 판단이 무너지는지, 대화가 얼마나 노출돼도 되는지를 재현 가능하게 측정하는 일이 남았다. 상용 서비스가 아직 안정적으로 다루지 못하는 그 실패 지점이 지금 음성 AI 연구의 가장 구체적인 출발점이다.</p></div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
-<div class="chips"><span class="chip">토이프로젝트 배포</span><span class="chip">Vercel</span><span class="chip">Railway</span><span class="chip">VPS</span><span class="chip">AWS Lambda</span><span class="chip">OCI</span></div>
-<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://docs.railway.com/pricing" rel="nofollow noopener">https://docs.railway.com/pricing</a></li><li><a href="https://docs.railway.com/pricing/cost-control" rel="nofollow noopener">https://docs.railway.com/pricing/cost-control</a></li><li><a href="https://docs.railway.com/volumes" rel="nofollow noopener">https://docs.railway.com/volumes</a></li><li><a href="https://docs.railway.com/deployments/github-autodeploys" rel="nofollow noopener">https://docs.railway.com/deployments/github-autodeploys</a></li><li><a href="https://vercel.com/docs/plans/hobby" rel="nofollow noopener">https://vercel.com/docs/plans/hobby</a></li><li><a href="https://vercel.com/docs/git" rel="nofollow noopener">https://vercel.com/docs/git</a></li><li><a href="https://vercel.com/docs/functions/runtimes" rel="nofollow noopener">https://vercel.com/docs/functions/runtimes</a></li><li><a href="https://vercel.com/docs/functions/configuring-functions/duration" rel="nofollow noopener">https://vercel.com/docs/functions/configuring-functions/duration</a></li></ul></section>
-<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>토이프로젝트 백엔드는 Railway와 Vercel 중 어디가 나은가?</h2><p class="sum">상시 실행 서버나 worker, 영속 Volume이 필요하면 Railway가 더 직접적이다. 정적 프런트와 짧은 Function 중심이며 비상업 개인 프로젝트라면 Vercel Hobby가 간단하다.</p></article><article class="dcard"><div class="t">Q</div><h2>Railway Hobby는 월 5달러로 비용이 제한되는가?</h2><p class="sum">아니다. 월 5달러는 첫 5달러 사용량을 포함한 최소액이다. 초과 사용량은 청구되므로 별도의 hard limit과 사용량 확인이 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>이미지 변환 결과를 서버 로컬 디스크에 저장해도 되는가?</h2><p class="sum">Vercel Function과 Lambda의 로컬 공간은 임시이므로 영속 저장소로 쓰면 안 된다. 결과는 object storage에 두거나 Railway Volume, VPS 디스크처럼 영속 경로를 사용해야 한다.</p></article></div>
-<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="ai-product-real-estate-conversion-rate.html">AI로 만든 부동산 상품, 전환율이 안 오르는 진짜 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="vps-claude-code-always-on.html">VPS에서 클로드코드 24시간 돌리기, 맥미니와 뭐가 다른가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-github-outage-529-status-page.html">클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="local-ai-call-center-tco.html">콜센터 로컬 AI는 정말 월 비용을 없애는가, GPU 뒤의 TCO</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="measure-claude-max-usage.html">Claude Max 5x와 20x, 실제 사용 한도는 어떻게 측정할까</a></h3></div></article></section>
-<footer><span>원 아카이브: <a href="../../s/2026-09-01-1330.html">2026-09-01 09-01 08:51~13:04</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+<div class="chips"><span class="chip">음성 AI</span><span class="chip">TTS</span><span class="chip">실시간 음성 API</span><span class="chip">Claude Code</span><span class="chip">Voice Agent</span><span class="chip">음성 모델 평가</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://platform.openai.com/docs/guides/voice-agents" rel="nofollow noopener">https://platform.openai.com/docs/guides/voice-agents</a></li><li><a href="https://platform.openai.com/docs/guides/realtime" rel="nofollow noopener">https://platform.openai.com/docs/guides/realtime</a></li><li><a href="https://ai.google.dev/gemini-api/docs/live" rel="nofollow noopener">https://ai.google.dev/gemini-api/docs/live</a></li><li><a href="https://cloud.google.com/vertex-ai/generative-ai/docs/live-api" rel="nofollow noopener">https://cloud.google.com/vertex-ai/generative-ai/docs/live-api</a></li><li><a href="https://kyutai.org/Moshi.pdf" rel="nofollow noopener">https://kyutai.org/Moshi.pdf</a></li><li><a href="https://arxiv.org/abs/2603.02152" rel="nofollow noopener">https://arxiv.org/abs/2603.02152</a></li><li><a href="https://arxiv.org/abs/2503.04721" rel="nofollow noopener">https://arxiv.org/abs/2503.04721</a></li><li><a href="https://github.com/MatthewCYM/VoiceBench" rel="nofollow noopener">https://github.com/MatthewCYM/VoiceBench</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>음성 AI 서비스를 만들려면 TTS 모델을 직접 학습해야 하나요?</h2><p class="sum">대부분의 시제품은 직접 학습하지 않아도 된다. 실시간 음성 API로 기준 제품을 만든 뒤, 고유한 화자나 특수 환경이 필요한 경우에만 학습을 검토하는 편이 효율적이다.</p></article><article class="dcard"><div class="t">Q</div><h2>실시간 음성 에이전트에서 가장 중요한 평가지표는 무엇인가요?</h2><p class="sum">첫 오디오 응답까지의 지연시간과 잘못된 발화 종료 횟수를 함께 봐야 한다. 끼어들기 복구, 도구 호출 성공률, 소음 환경의 성능도 실제 사용성을 크게 좌우한다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code로 음성 AI 프로젝트를 어떻게 시작하나요?</h2><p class="sum">마이크를 처리하는 클라이언트, API 세션 서버, 도구 호출 모듈, 음성 평가 스크립트로 나눠 구축한다. Claude Code는 이 코드와 테스트 하네스를 만들고, 실제 음성 추론은 Realtime 또는 Live API에 연결할 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-23-1521-s.html">2026-09-23 09-23 14:50~15:21</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
 </div>
 </body>
 </html>
