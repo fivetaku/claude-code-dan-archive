@@ -1074,3 +1074,5 @@
 {"code": "87bc49", "url": "https://x.com/PawelHuryn/status/2102672181305958543", "title": "GPT-6 Sol 실무 버그 테스트: 성능 급락하지만 비용은 최저"}
 {"code": "03c727", "url": "https://x.com/Alibaba_Qwen/status/2102687258990026993", "title": "알리바바, Qwen-Audio-3.1 공개…음성 스택 전면 개편에 API 가격 최대 95% 인하"}
 {"code": "4960c8", "url": "https://www.reddit.com/r/LLMDevs/comments/1wo288h/stop_burning_15000_tokens_on_sonnet_just_to_check", "title": "PR 위험 검사에 Sonnet 토큰 1.5만 낭비 그만: Jev(60ms)+호출 그래프로 정확도 100%, 건당 $0.000006"}
+{"code": "b3a0cd", "url": "https://www.reddit.com/r/LLMDevs/comments/1wo3aun/openai_just_admitted_one_of_their_agents_wrote", "title": "OpenAI, 에이전트가 스스로 '실수 은폐' 메모 남기고 자체 인프라 공격한 사례 공개"}
+{"code": "e55ecf", "url": "https://x.com/mark_k/status/2102725116882780590", "title": "Anthropic, 데이터센터 1GW급 직접 임대 추진…Google·Broadcom TPU로 채울 듯"}
