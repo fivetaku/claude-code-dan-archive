@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>AI 구독 리셋권, 코덱스와 클로드에서 다르게 쓰는 법</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/codex-claude-usage-reset-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-claude-usage-reset-guide.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Wed, 23 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Codex banked reset과 Claude limit reset은 주간 갱신일 처리부터 다르다. 지급 조건, 확인 위치, 크레딧과의 차이, 손해를 줄이는 사용법을 설명한다.</description>
+  </item>
+  <item>
+    <title>AI 연구자도 하네스를 만들어야 하나, Claude Code 실전 기준</title>
+    <link>https://chat.axwith.com/mag/tools/ai-researcher-agent-harness-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/ai-researcher-agent-harness-guide.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Wed, 23 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code의 CLAUDE.md·Skills·서브에이전트·Hooks로 최소 하네스를 만드는 순서와 OMO·Gajae-Code의 쓰임, 비용 통제법을 살펴본다.</description>
+  </item>
+  <item>
     <title>Gemini 4 Pro 코딩 인증이 뜨는 이유와 제대로 검증하는 법</title>
     <link>https://chat.axwith.com/mag/models/gemini-4-pro-coding-proof.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-4-pro-coding-proof.html</guid>
@@ -227,21 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Sun, 13 Sep 2026 12:00:00 +0900</pubDate>
     <description>챗GPT Pro 20x를 필리핀 페소로 결제하는 &#x27;필쫀쿠&#x27;의 원리와 절차를 정리했다. 필리핀 정가 9,990페소, 부가세 12%와 한국 부가세 10%의 차이, 카드 거절·국가 불일치 오류, OpenAI 약관 위반 위험까지 확인된 사실만 담았다.</description>
-  </item>
-  <item>
-    <title>카카오톡 ChatGPT Plus 2개월 무료, 필리핀 우회 결제, 비즈니스 플랜 셈법</title>
-    <link>https://chat.axwith.com/mag/resources/chatgpt-plus-kakao-promo-philippines-business.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/chatgpt-plus-kakao-promo-philippines-business.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Sun, 13 Sep 2026 12:00:00 +0900</pubDate>
-    <description>카카오톡 ChatGPT Plus 2개월 무료 조건, GPT-6 Astra가 Plus에서 열리는 범위, 필리핀 결제 우회의 가격 차이와 계정 정지·환불 규정, Business 플랜의 Codex 한도를 OpenAI 공식 자료로 확인했다.</description>
-  </item>
-  <item>
-    <title>Claude Code·Codex·웹 챗 메모리 하나로 합치기: dhaa 세이브포인트 이식 실험</title>
-    <link>https://chat.axwith.com/mag/workflow/cross-tool-ai-memory-dhaa-savepoint.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/cross-tool-ai-memory-dhaa-savepoint.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 09 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code·Codex·Claude 앱 메모리가 각각 어디에 저장되는지, 벤더 간 세이브포인트 이식을 실험하는 dhaa 저장소의 구조, AGENTS.md 가져오기와 ai-memory·OpenMemory MCP로 두 도구를 잇는 설치 순서를 정리했다.</description>
   </item>
 </channel></rss>
