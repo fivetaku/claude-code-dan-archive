@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>서울 Claude Builder Summit, 5시간 해커톤인가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="서울 Claude Builder Summit의 실제 구성과 API 크레딧의 쓰임을 확인하고, 후속 Build Day와 해커톤에 참가할 때 준비할 작업 흐름을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/resources/seoul-claude-builder-summit-guide.html">
+<meta property="og:title" content="서울 Claude Builder Summit, 5시간 해커톤인가">
+<meta property="og:description" content="서울 Claude Builder Summit의 실제 구성과 API 크레딧의 쓰임을 확인하고, 후속 Build Day와 해커톤에 참가할 때 준비할 작업 흐름을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/resources/seoul-claude-builder-summit-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "서울 Claude Builder Summit, 5시간 해커톤인가", "description": "서울 Claude Builder Summit의 실제 구성과 API 크레딧의 쓰임을 확인하고, 후속 Build Day와 해커톤에 참가할 때 준비할 작업 흐름을 정리했다.", "datePublished": "2026-09-24", "dateModified": "2026-09-24", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/resources/seoul-claude-builder-summit-guide.html"}, "articleSection": "자료·링크 공유", "keywords": "Claude Builder Summit, Claude Code, Anthropic Korea, AI 해커톤, Claude API, API 크레딧", "image": "https://chat.axwith.com/mag/hero/seoul-claude-builder-summit-guide.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "서울 Claude Builder Summit은 해커톤인가요?", "acceptedAnswer": {"@type": "Answer", "text": "2025년 3월 행사는 발표, 기업 사례, 질의응답, 네트워킹 중심의 서밋이었다. 실제 제작 행사는 2026년 Claude Build Day와 Push to Prod Seoul 같은 별도 프로그램에서 진행됐다."}}, {"@type": "Question", "name": "행사에서 받은 Claude API 크레딧은 어디에 쓰나요?", "acceptedAnswer": {"@type": "Answer", "text": "일반적인 사용 크레딧은 Claude API, Workbench, Claude Code에 적용할 수 있다. 행사 크레딧은 지급 조직과 만료일, 적용 제품이 다를 수 있으므로 안내 메일과 Console Billing 화면을 확인해야 한다."}}, {"@type": "Question", "name": "5시간 AI 해커톤에서는 무엇부터 만들어야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "입력 하나와 결과 하나가 연결되는 핵심 사용자 흐름부터 완성해야 한다. 검증된 스택으로 화면과 API를 연결한 뒤 Claude 호출을 붙이고, 마지막에는 오류 처리와 짧은 시연을 준비하는 편이 안전하다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/seoul-claude-builder-summit-guide.png" alt="서울 Claude Builder Summit, 5시간 해커톤인가" loading="eager">
+<header>
+  <span class="catchip c-res">자료·링크 공유</span>
+  <h1>서울 Claude Builder Summit, 5시간 해커톤인가</h1>
+  <p class="sub">발표 행사와 제작 해커톤의 차이부터 API 크레딧, 네트워킹, 짧은 빌드 준비법까지 짚었다</p>
+  <div class="meta"><span>2026-09-24</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Builder Summit에 가면 5시간 동안 제품을 만들어야 할까. API 크레딧은 실제 개발에 얼마나 도움이 되며 현장 네트워킹은 누구에게 유효할까. 서울 행사의 기록과 2026년 후속 프로그램을 살펴보려면 ‘서밋’과 ‘빌드 행사’를 먼저 구분해야 한다.</p>
+<h2>서울 Builder Summit은 5시간 제작 행사가 아니었다</h2>
+<p>Anthropic 공식 페이지에 남아 있는 Seoul Builder Summit은 2025년 3월 19일 행사다. 시그니엘 서울에서 오후 2시 30분부터 7시까지 열렸으며 Coxwave가 공동 주최했다. 전체 운영 시간이 약 4시간 30분이라 ‘5시간 빌드’로 잘못 읽히기 쉽지만 공식 소개에는 현장 해커톤이 없다. ([anthropic.com](https://www.anthropic.com/events/seoul-builder-summit))</p>
+<p>프로그램의 중심은 Anthropic 리더십 발표와 국내 스타트업 사례였다. Claude의 프로덕션 활용법과 연구 동향, Mike Krieger와의 대화, 기업 패널이 이어졌다. 공식 페이지는 Coxwave, WRTN, LinqAlpha, KLleon 등을 참여 기업으로 안내했다. ([anthropic.com](https://www.anthropic.com/events/seoul-builder-summit))</p>
+<p>행사 이름의 ‘Builder’는 참가자가 그날 코드를 완성한다는 의미가 아니었다. 이미 Claude로 제품을 만들고 있거나 도입을 검토하는 창업자와 기술 책임자가 주요 대상이었다.</p>
+<h2>현장에서 얻는 것은 코드보다 제품 판단과 연결이었다</h2>
+<p>행사 안내에는 동료 창업자와 교류하고 Anthropic 연구·스타트업 팀에 질문하는 시간이 명시됐다. 보도된 일정에도 마지막 네트워킹 세션과 다과가 포함됐다. 참가 신청은 마감됐고 공식 페이지는 온라인 생중계를 대안으로 제시했다. 공식 페이지는 마감 뒤 온라인 생중계를 대안으로 제시했다. ([anthropic.com](https://www.anthropic.com/events/seoul-builder-summit))</p>
+<p>현장 경험을 나눈 사람들 사이에서는 발표 자체보다 세션 사이의 짧은 대화가 유용했다는 의견이 많았다. 다만 초대된 기업과 관계자가 많은 행사라 처음 참석한 개인 개발자는 대화를 시작하기 어렵다는 반응도 있었다.</p>
+<p>이런 형식에서는 막연한 자기소개보다 구체적인 질문이 효과적이다. ‘Claude를 쓰고 있다’고 말하기보다 입력 데이터, 모델 선택, 비용 병목, 평가 방법을 30초 안에 설명해야 한다. 화면 하나로 시연할 수 있는 프로토타입이나 저장소 구조도가 있으면 기술 대화로 넘어가기 쉽다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/seoul-claude-builder-summit-guide.png" alt="" loading="lazy"><h2>제공 크레딧은 금액보다 조건을 확인해야 한다</h2>
+<p>공동 주최 측의 사전 안내와 행사 보도에는 참가자 대상 Claude 크레딧 제공이 언급됐다. 그러나 공개된 공식 행사 페이지에는 금액과 만료일이 적혀 있지 않다. 특정 액수나 사용 기간을 당시 행사의 공통 조건으로 단정할 수 없는 이유다. ([kr.linkedin.com](https://kr.linkedin.com/posts/coxwave_koreabuildersummit-anthropic-coxwave-activity-7300339643579871233--uyb?utm_source=openai))</p>
+<p>현재 Claude Console의 사용 크레딧은 API, 플레이그라운드, Claude Code에 쓸 수 있다. 구매한 크레딧은 결제일로부터 1년 뒤 만료되지만 행사에서 받은 프로모션 크레딧에는 별도 조건이 붙을 수 있다. 잔액과 사용량은 Console의 Billing 화면에서 확인한다. ([support.anthropic.com](https://support.anthropic.com/en/articles/8977456-how-do-i-pay-for-my-api-usage?utm_source=openai))</p>
+<p>크레딧의 실질 가치는 프로젝트 구조에 달렸다. 제품이 Claude API를 계속 호출한다면 추론 비용을 줄여주는 운영 자금이 된다. 웹이나 앱에서 Claude와 대화하는 용도만 기대했다면 체감 가치는 낮을 수 있다. 써본 사람들 사이에서도 ‘초기 제품에는 유용하다’는 평가와 ‘현금성 혜택은 아니다’라는 불만이 함께 나온다.</p>
+<p>행사 등록 뒤에는 지급 방식, 사용할 조직과 워크스페이스, 만료일, 적용 제품 등 네 가지를 확인해야 한다. Claude 구독 한도와 API 크레딧은 같은 개념이 아니므로 둘을 섞어 계산하면 안 된다.</p>
+<h2>짧은 빌드에서는 완성 범위를 먼저 줄인다</h2>
+<p>2026년 서울에서는 Builder Summit과 다른 형식의 행사가 이어졌다. Anthropic은 6월 Claude Build Day에 국내 창업자와 개발자 100여 명이 참여했다고 밝혔다. 이어 Replit, 한국투자파트너스, 한국투자액셀러레이터와 Push to Prod Seoul을 열고 Claude Code로 제품을 만드는 해커톤을 진행했다. ([anthropic.com](https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem?utm_source=openai))</p>
+<p>이런 짧은 빌드에서는 새 기술을 많이 넣는 팀보다 하나의 사용자 흐름을 끝까지 연결한 팀이 유리하다. 시작 전에 `README.md`에 문제, 사용자, 입력, 기대 출력을 적는다. `CHECKPOINT.md`에는 완료한 작업과 다음 순서를 남겨 Claude Code가 같은 일을 반복하지 않게 한다.</p>
+<p>작업 순서는 단순해야 한다. 빈 저장소에 검증된 프레임워크를 설치한 뒤 가짜 데이터로 화면과 API부터 연결한다. 그다음 Anthropic SDK와 `ANTHROPIC_API_KEY`를 서버에 넣고 Messages API 호출 하나만 붙인다. 브라우저 코드에 키를 넣지 말고 백엔드 프록시를 거쳐야 한다. API 키는 Console에서 만들며 SDK는 환경변수에 저장된 키를 읽을 수 있다. ([platform.claude.com](https://platform.claude.com/docs/en/manage-claude/authentication?utm_source=openai))</p>
+<p>첫 산출물은 로그인이나 관리 화면이 아니다. 사용자가 값을 넣고 Claude의 결과를 받아 다시 행동하는 하나의 경로다. 남은 시간에는 오류 메시지, 로딩 상태, 데모 데이터, 2분짜리 시연 순서를 다듬는다. 멀티에이전트나 복잡한 MCP 연결은 그 경로가 완성된 뒤에 넣어야 한다.</p>
+<h2>서울 행사는 발표회에서 제작 현장으로 넓어졌다</h2>
+<p>2025년 Builder Summit은 Anthropic이 한국 시장과 처음 공식적으로 만나는 발표·교류 행사에 가까웠다. 2026년 6월에는 서울 사무소가 문을 열었다. Claude for Startups와 개발자 밋업, Build Day, Push to Prod도 함께 운영됐다. Anthropic은 2025년 9월 이후 국내 밋업에 수백 명이 참여했다고 밝혔다. ([anthropic.com](https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem?utm_source=openai))</p>
+<p>행사명만 보고 신청 여부를 정하면 형식을 오해하기 쉽다. Summit은 발표자와 참가자 구성을, Build Day는 실습 범위를, Hackathon은 제출물과 심사 조건을 먼저 읽어야 한다. 개인 개발자에게 Builder Summit은 제품 방향을 검증하는 자리였다. 후속 빌드 행사는 실제 작동물을 보여주는 무대로 바뀌었다.</p>
+<p>서울에서 열린 첫 Builder Summit의 핵심 산출물은 다섯 시간짜리 앱이 아니었다. 그날 만들어진 것은 Anthropic과 국내 빌더 사이의 접점이었다. 실제 제작 경쟁은 다음 단계의 행사에서 시작됐다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Builder Summit</span><span class="chip">Claude Code</span><span class="chip">Anthropic Korea</span><span class="chip">AI 해커톤</span><span class="chip">Claude API</span><span class="chip">API 크레딧</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.anthropic.com/events/seoul-builder-summit" rel="nofollow noopener">https://www.anthropic.com/events/seoul-builder-summit</a></li><li><a href="https://aimatters.co.kr/news-report/ai-news/16702/" rel="nofollow noopener">https://aimatters.co.kr/news-report/ai-news/16702/</a></li><li><a href="https://www.aitimes.com/news/articleView.html?idxno=168903" rel="nofollow noopener">https://www.aitimes.com/news/articleView.html?idxno=168903</a></li><li><a href="https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem" rel="nofollow noopener">https://www.anthropic.com/news/seoul-office-partnerships-korean-ai-ecosystem</a></li><li><a href="https://www.nextrise.co.kr/event/view?cf=0&amp;id=178&amp;p=2&amp;type=Title" rel="nofollow noopener">https://www.nextrise.co.kr/event/view?cf=0&amp;id=178&amp;p=2&amp;type=Title</a></li><li><a href="https://support.anthropic.com/en/articles/8977456-how-do-i-pay-for-my-api-usage" rel="nofollow noopener">https://support.anthropic.com/en/articles/8977456-how-do-i-pay-for-my-api-usage</a></li><li><a href="https://platform.claude.com/docs/en/manage-claude/authentication" rel="nofollow noopener">https://platform.claude.com/docs/en/manage-claude/authentication</a></li><li><a href="https://platform.claude.com/docs/en/api/overview" rel="nofollow noopener">https://platform.claude.com/docs/en/api/overview</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>서울 Claude Builder Summit은 해커톤인가요?</h2><p class="sum">2025년 3월 행사는 발표, 기업 사례, 질의응답, 네트워킹 중심의 서밋이었다. 실제 제작 행사는 2026년 Claude Build Day와 Push to Prod Seoul 같은 별도 프로그램에서 진행됐다.</p></article><article class="dcard"><div class="t">Q</div><h2>행사에서 받은 Claude API 크레딧은 어디에 쓰나요?</h2><p class="sum">일반적인 사용 크레딧은 Claude API, Workbench, Claude Code에 적용할 수 있다. 행사 크레딧은 지급 조직과 만료일, 적용 제품이 다를 수 있으므로 안내 메일과 Console Billing 화면을 확인해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>5시간 AI 해커톤에서는 무엇부터 만들어야 하나요?</h2><p class="sum">입력 하나와 결과 하나가 연결되는 핵심 사용자 흐름부터 완성해야 한다. 검증된 스택으로 화면과 API를 연결한 뒤 Claude 호출을 붙이고, 마지막에는 오류 처리와 짧은 시연을 준비하는 편이 안전하다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="dexa-vfx-remotion-hyperframes.html">모션 이펙트 214종을 코드로 가져오는 법, Remotion과 HyperFrames</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-ai-archive-magazine.html">오픈채팅 대화 AI 자동 아카이브·매거진, 어디까지 믿을 수 있나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-adoption-authority-bottleneck.html">AI 전환이 막히는 진짜 이유, 기술 아닌 권한 문제</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="seedance-25-unlimited-access.html">Seedance 2.5 무제한 이용처, 어디까지 진짜인가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="grok-annual-discount-eligibility.html">그록 SuperGrok 연간 구독 할인, 대상은 왜 갈렸나</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-23-1521-s.html">2026-09-23 09-23 14:50~15:21</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

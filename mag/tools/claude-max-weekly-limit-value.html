@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Max 5x·20x, 주간 한도까지 따지면 가성비가 달라진다 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Max의 5x·20x는 Pro 대비 세션 배율이다. 공개되지 않은 주간 한도와 Team, API 크레딧까지 비교해 실제 가성비를 판단한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/claude-max-weekly-limit-value.html">
+<meta property="og:title" content="Claude Max 5x·20x, 주간 한도까지 따지면 가성비가 달라진다">
+<meta property="og:description" content="Claude Max의 5x·20x는 Pro 대비 세션 배율이다. 공개되지 않은 주간 한도와 Team, API 크레딧까지 비교해 실제 가성비를 판단한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/claude-max-weekly-limit-value.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Max 5x·20x, 주간 한도까지 따지면 가성비가 달라진다", "description": "Claude Max의 5x·20x는 Pro 대비 세션 배율이다. 공개되지 않은 주간 한도와 Team, API 크레딧까지 비교해 실제 가성비를 판단한다.", "datePublished": "2026-09-24", "dateModified": "2026-09-24", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-max-weekly-limit-value.html"}, "articleSection": "도구·라이브러리", "keywords": "Claude Max, Claude Code, Claude 사용량, Claude 주간 한도, Anthropic 요금제, Team Premium", "image": "https://chat.axwith.com/mag/hero/claude-max-weekly-limit-value.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Max 20x는 Max 5x보다 주간 사용량도 네 배인가요?", "acceptedAnswer": {"@type": "Answer", "text": "공식 문서는 네 배 차이를 보장하지 않습니다. 20x와 5x는 Pro 대비 5시간 세션 한도의 배율이며, 별도로 적용되는 주간 한도의 정확한 수치는 공개되지 않았습니다."}}, {"@type": "Question", "name": "Claude Max 5x와 Team Premium 중 어느 플랜이 더 많은가요?", "acceptedAnswer": {"@type": "Answer", "text": "세션 기준으로 Max 5x는 Pro의 5배, Team Premium은 6.25배입니다. Team은 최소 두 좌석과 조직 관리 기능을 전제로 하므로 개인 이용자는 총비용과 필요한 기능을 함께 비교해야 합니다."}}, {"@type": "Question", "name": "Claude Code 사용량을 줄이는 가장 실용적인 방법은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "새 작업마다 `/clear`를 실행하고 긴 대화는 `/compact`로 줄이는 방법이 효과적입니다. 일상적인 구현은 Sonnet으로 처리하고, Opus는 어려운 설계나 디버깅에 제한해 쓰는 편이 낫습니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-max-weekly-limit-value.png" alt="Claude Max 5x·20x, 주간 한도까지 따지면 가성비가 달라진다" loading="eager">
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>Claude Max 5x·20x, 주간 한도까지 따지면 가성비가 달라진다</h1>
+  <p class="sub">다섯 시간 사용량과 주간 총량은 같은 배율이 아니다. Claude Code 이용자가 플랜을 고르는 기준을 다시 계산했다.</p>
+  <div class="meta"><span>2026-09-24</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Max 5x와 20x는 이름만 보면 계산이 간단하다. 하지만 Claude Code를 오래 돌리는 이용자는 다섯 시간 한도보다 주간 한도에서 먼저 멈추기도 한다. 그렇다면 월 100달러와 200달러의 차이는 실제 작업량에도 그대로 반영될까?</p>
+<h2>5x와 20x는 주간 총량을 뜻하지 않는다</h2>
+<p>Anthropic은 Max 5x를 Pro의 다섯 배, Max 20x를 스무 배 사용량으로 설명한다. 여기서 배율은 **5시간 단위 세션 한도**에 적용된다. 두 플랜 모두 별도의 주간 한도를 두지만 주간 토큰 수나 플랜 간 배율은 공개하지 않는다. ([support.claude.com](https://support.claude.com/en/articles/11049741-what-is-the-max-plan?subjects=product&amp;utm_source=openai))</p>
+<p>세션 한도는 연속 작업에서 발생하는 짧은 병목을 줄인다. 주간 한도는 계정별로 정해진 시점에 초기화되는 전체 작업량에 가까운 제약이다. Max 20x가 Max 5x보다 세션 용량은 네 배지만 주간 용량도 네 배라고 단정할 공식 근거는 없다.</p>
+<p>이 차이가 상위 플랜의 체감 가치를 흔든다. 긴 세션을 자주 끝내지 못했던 사람은 20x의 효과를 바로 느낀다. 이미 세션 한도보다 주간 한도에 자주 걸린다면 가격이 두 배로 올라도 작업 가능 시간이 그만큼 늘지 않을 수 있다.</p>
+<p>써본 사람들 사이에서도 20x는 세션 중단을 크게 줄였지만 주간 잔량은 예상보다 빨리 소진됐다는 반응이 나온다. 반대로 여러 저장소를 오가며 하루 종일 작업하는 이용자는 5x로 낮추면 며칠 안에 막힌다고 말한다. 작업 방식에 따라 같은 플랜의 평가가 갈리는 이유다.</p>
+<h2>‘Pro의 6.25배’는 Max 5x가 아니라 Team Premium이다</h2>
+<p>플랜 비교에서 자주 섞이는 숫자가 6.25배다. 공식 도움말에 따르면 Team Standard 좌석은 Pro의 1.25배, Team Premium은 6.25배의 세션 사용량을 제공한다. Max 5x의 공식 배율은 그대로 다섯 배다. ([support.claude.com](https://support.claude.com/en/articles/9266767-what-is-the-team-plan?r=0&amp;utm_source=openai))</p>
+<p>미국 기준 Team은 최소 두 좌석이 필요하다. Standard는 월 결제 시 좌석당 25달러, Premium은 125달러다. Team의 목적도 개인 사용량 확대에만 있지 않다. 중앙 결제와 관리자 제어, SSO, 조직 데이터 정책이 가격에 포함된다. ([claude.com](https://claude.com/blog/claude-team-updates?utm_source=openai))</p>
+<p>1인 개발자에게 Team Premium이 Max 5x보다 무조건 유리하다고 말하기 어려운 이유다. 최소 좌석 비용을 부담해야 하며 Team에도 공개되지 않은 주간 한도가 있다. 소규모 팀이라면 사용량보다 계정 관리와 조직용 보안이 필요한지 먼저 구분해야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-max-weekly-limit-value.png" alt="" loading="lazy"><h2>Claude Code는 대화 길이와 모델에 따라 한도를 다르게 태운다</h2>
+<p>Claude의 사용량은 메시지 개수로 계산되지 않는다. 현재 대화의 길이, 읽은 파일, 첨부 자료, 도구 호출, 모델과 작업 강도가 함께 영향을 준다. 웹과 데스크톱, 모바일, 대화형 Claude Code도 같은 구독 사용량 풀을 공유한다. ([claude.com](https://claude.com/pricing?_rsc=zbog7&amp;fcdaa149_sort_Plus+ancien=asc&amp;utm_source=openai))</p>
+<p>특히 긴 Claude Code 세션은 이전 대화와 프로젝트 문맥을 매 요청마다 다시 다룬다. Anthropic은 새 작업을 시작할 때 `/clear`를 쓰고 이어갈 문맥만 필요하면 `/compact`를 권한다. 일반 구현에는 Sonnet, 복잡한 설계와 디버깅에는 Opus를 쓰는 방식도 제시한다. Opus는 더 많은 할당량을 소비한다. ([support.claude.com](https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code?utm_source=openai))</p>
+<p>플랜을 비교하려면 느낌보다 같은 조건의 기록이 필요하다. Settings의 Usage 화면에서 작업 전후 세션·주간 비율을 적고 모델과 저장소를 고정한다. 새 작업마다 `/clear`를 실행한 뒤 구현, 테스트, 리팩터링처럼 작업 유형도 함께 남긴다.</p>
+<p>적어도 한 주 동안 이 기록을 모으면 병목이 드러난다. 다섯 시간 막대만 자주 차면 상위 Max가 맞다. 세션 잔량은 충분한데 주간 막대가 먼저 끝난다면 20x 업그레이드의 효과를 사전에 계산할 공식 수치는 없다.</p>
+<h2>월 200달러라면 Max 20x와 Max 5x 두 계정은 같지 않다</h2>
+<p>Max 5x 두 개가 Max 20x 하나보다 낫다는 계산도 등장한다. 비용은 모두 월 200달러지만 Anthropic은 복수 구독의 용량을 합산해 보장하지 않는다. 계정마다 기록과 프로젝트, 로그인 상태, 주간 초기화 시간이 갈리므로 하나의 10x 플랜처럼 작동하지도 않는다.</p>
+<p>Max 20x는 한 계정에서 Pro 대비 20배의 세션 한도를 제공한다. 병렬 에이전트와 긴 리팩터링을 돌릴 때 관리가 단순하다. 두 계정 방식은 한쪽 한도가 끝나도 다른 계정을 쓸 수 있지만 문맥을 옮기고 인증을 관리하는 비용이 생긴다.</p>
+<p>주간 배율이 공개되지 않은 상태에서는 어느 쪽이 더 많은 토큰을 준다고 확정할 수 없다. 두 계정 전략은 공식 가격표의 우위를 이용하는 방법이 아니라 불투명한 주간 제한을 운영으로 우회하려는 선택에 가깝다.</p>
+<h2>구독 한도를 넘는 작업은 사용 크레딧과 API로 분리할 수 있다</h2>
+<p>현재 Pro와 Max 이용자는 포함 한도를 다 쓰면 사용 크레딧을 켤 수 있다. 이후 작업은 표준 API 요금에 따라 과금된다. 갑작스러운 배포나 장애 대응 때문에 한 주 전체를 상위 플랜으로 바꾸는 대신 초과분만 결제할 수 있다. ([support.claude.com](https://support.claude.com/ko/articles/12429409-%EC%9C%A0%EB%A3%8C-claude-%ED%94%8C%EB%9E%9C%EC%9D%98-%EC%82%AC%EC%9A%A9-%ED%81%AC%EB%A0%88%EB%94%A7-%EA%B4%80%EB%A6%AC?utm_source=openai))</p>
+<p>Agent SDK와 `claude -p`는 현재도 구독 사용 한도에서 차감된다. ([support.claude.com](https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan?utm_source=openai))</p>
+<p>자동화가 많은 1인 사업자는 여기서 계산이 달라진다. 터미널에서 사람이 계속 대화한다면 세션과 주간 한도가 중요하다. 반복 실행을 Agent SDK로 옮겨도 현재는 구독 사용 한도에 포함된다.</p>
+<p>Claude Max의 가성비를 가르는 숫자는 플랜 이름의 5와 20이 아니다. 실제 질문은 작업이 다섯 시간 창에서 멈추는지, 주간 총량에서 멈추는지다. Anthropic이 주간 용량을 수치로 공개하지 않는 한 Usage 기록이 가격표보다 더 정확한 구매 기준으로 남는다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Max</span><span class="chip">Claude Code</span><span class="chip">Claude 사용량</span><span class="chip">Claude 주간 한도</span><span class="chip">Anthropic 요금제</span><span class="chip">Team Premium</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://support.claude.com/en/articles/11049741-what-is-the-max-plan" rel="nofollow noopener">https://support.claude.com/en/articles/11049741-what-is-the-max-plan</a></li><li><a href="https://claude.com/pricing" rel="nofollow noopener">https://claude.com/pricing</a></li><li><a href="https://support.claude.com/en/articles/9266767-what-is-the-team-plan" rel="nofollow noopener">https://support.claude.com/en/articles/9266767-what-is-the-team-plan</a></li><li><a href="https://claude.com/blog/claude-team-updates" rel="nofollow noopener">https://claude.com/blog/claude-team-updates</a></li><li><a href="https://support.claude.com/en/articles/9797557-usage-limit-best-practices" rel="nofollow noopener">https://support.claude.com/en/articles/9797557-usage-limit-best-practices</a></li><li><a href="https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code" rel="nofollow noopener">https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claud</a></li><li><a href="https://support.claude.com/ko/articles/12429409-%EC%9C%A0%EB%A3%8C-claude-%ED%94%8C%EB%9E%9C%EC%9D%98-%EC%82%AC%EC%9A%A9-%ED%81%AC%EB%A0%88%EB%94%A7-%EA%B4%80%EB%A6%AC" rel="nofollow noopener">https://support.claude.com/ko/articles/12429409-%EC%9C%A0%EB%A3%8C-claude-%ED%94</a></li><li><a href="https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-your-claude-plan" rel="nofollow noopener">https://support.claude.com/en/articles/15036540-use-the-claude-agent-sdk-with-yo</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Max 20x는 Max 5x보다 주간 사용량도 네 배인가요?</h2><p class="sum">공식 문서는 네 배 차이를 보장하지 않습니다. 20x와 5x는 Pro 대비 5시간 세션 한도의 배율이며, 별도로 적용되는 주간 한도의 정확한 수치는 공개되지 않았습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Max 5x와 Team Premium 중 어느 플랜이 더 많은가요?</h2><p class="sum">세션 기준으로 Max 5x는 Pro의 5배, Team Premium은 6.25배입니다. Team은 최소 두 좌석과 조직 관리 기능을 전제로 하므로 개인 이용자는 총비용과 필요한 기능을 함께 비교해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code 사용량을 줄이는 가장 실용적인 방법은 무엇인가요?</h2><p class="sum">새 작업마다 `/clear`를 실행하고 긴 대화는 `/compact`로 줄이는 방법이 효과적입니다. 일상적인 구현은 Sonnet으로 처리하고, Opus는 어려운 설계나 디버깅에 제한해 쓰는 편이 낫습니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-23-1800.html">2026-09-23 09-23 16:18~17:33</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
