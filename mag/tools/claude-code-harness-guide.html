@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -236,26 +238,26 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="artbody"><p>Claude Code를 잘 쓰려면 OMO·Superpowers·MoAI-ADK 같은 하네스부터 설치해야 할까. Claude Code 자체 기능이 빠르게 늘어난 지금, 이 질문은 도구 취향보다 작업 절차와 비용을 가르는 선택이 됐다. 핵심은 모델을 더 똑똑하게 만드는 도구를 찾는 일이 아니라, 반복해서 실패하는 지점을 어떤 구조로 막을지 정하는 데 있다.</p>
 <h2>Claude Code 자체가 이미 기본 하네스다</h2>
 <p>하네스는 모델을 둘러싸고 파일 읽기, 명령 실행, 권한 통제, 문맥 관리, 검증을 이어 주는 실행층이다. 같은 모델도 어떤 도구와 규칙을 받느냐에 따라 작업 경로가 달라진다. 다만 모든 차이를 하네스 효과로 돌리면 모델·프롬프트·저장소 상태가 섞인다.</p>
-<p>Anthropic 공식 문서는 Claude Code의 내장 도구만으로도 대부분의 코딩 작업을 처리한다고 설명한다. 확장 수단도 이미 세분돼 있다. `CLAUDE.md`는 프로젝트 규칙, Skills는 재사용 절차, subagents는 격리 작업, MCP는 외부 연결을 맡고, hooks는 특정 사건마다 반드시 실행할 동작을 담당한다.</p>
+<p>Anthropic 공식 문서는 Claude Code의 내장 도구만으로도 대부분의 코딩 작업을 처리한다고 설명한다. 확장 수단도 이미 세분돼 있다. <code>CLAUDE.md</code>는 프로젝트 규칙, Skills는 재사용 절차, subagents는 격리 작업, MCP는 외부 연결을 맡고, hooks는 특정 사건마다 반드시 실행할 동작을 담당한다.</p>
 <p>그래서 초보자의 첫 선택지는 &#x27;무설치&#x27;가 아니라 Claude Code 기본 하네스를 관찰하는 일이다. 한 저장소에서 계획, 수정, 테스트, 리뷰를 여러 번 돌려 봐야 부족한 부분이 드러난다. 처음부터 여러 묶음을 겹치면 어느 규칙이 속도와 품질을 바꿨는지 알기 어렵다.</p>
 <h2>OMO와 Hermes는 같은 종류의 대안이 아니다</h2>
-<p>OMO의 Claude Code판은 `lazyclaudecode` 저장소에서 배포되며, 설치 단위는 `omo@sisyphuslabs` 플러그인이다. 공식 저장소를 보면 규칙 주입, 수정 뒤 댓글 검사, LSP와 ast-grep MCP, 계획·리뷰 Skills, 여러 subagents를 한 묶음으로 제공한다. 장기 작업을 끝까지 이어 가거나 검증 절차를 강제하려는 사람에게 맞는다.</p>
+<p>OMO의 Claude Code판은 <code>lazyclaudecode</code> 저장소에서 배포되며, 설치 단위는 <code>omo@sisyphuslabs</code> 플러그인이다. 공식 저장소를 보면 규칙 주입, 수정 뒤 댓글 검사, LSP와 ast-grep MCP, 계획·리뷰 Skills, 여러 subagents를 한 묶음으로 제공한다. 장기 작업을 끝까지 이어 가거나 검증 절차를 강제하려는 사람에게 맞는다.</p>
 <p>OMO 계열은 OpenCode에서 출발해 Codex와 Claude Code용 판본으로 넓어졌다. 제품 이름보다 대상 런타임을 먼저 확인해야 하는 이유다. Claude Code판 설치 명령과 OpenCode용 설정을 섞으면 문서대로 작동하지 않을 수 있다.</p>
 <p>Nous Research 저장소는 Hermes Agent를 독립형 범용 에이전트로 소개한다. 대화 검색과 지속 메모리, 작업에서 Skill을 만드는 학습 루프, cron, 여러 메시징 채널을 갖췄다. 저장소 안의 집중 코딩이 목적이면 Claude Code와 OMO가 직접 비교 대상이지만, 서버에서 계속 돌며 알림과 반복 업무까지 맡기려면 Hermes가 후보가 된다.</p>
 <p>써본 사람들 사이에서도 이 구분은 선명했다. Hermes의 장기 실행과 메모리를 높이 평가하는 의견이 있는 반면, 순수 코딩은 전용 CLI가 낫다는 반응도 있었다. 같은 모델을 넣었다는 이유만으로 결과를 바로 비교하기 어렵다는 지적도 반복됐다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-harness-guide.png" alt="" loading="lazy"><h2>Superpowers와 MoAI-ADK는 절차의 강도가 다르다</h2>
-<p>Superpowers는 Jesse Vincent가 만든 오픈소스 Skills 프레임워크로, Anthropic 플러그인 카탈로그에도 올라와 있다. 브레인스토밍, 구현 계획, subagent 실행, 코드 리뷰, TDD, 체계적 디버깅을 조합한다. `/brainstorming`으로 요구를 다듬고 `/execute-plan`으로 검토 지점이 있는 구현을 돌리는 방식이다.</p>
+<p>Superpowers는 Jesse Vincent가 만든 오픈소스 Skills 프레임워크로, Anthropic 플러그인 카탈로그에도 올라와 있다. 브레인스토밍, 구현 계획, subagent 실행, 코드 리뷰, TDD, 체계적 디버깅을 조합한다. <code>/brainstorming</code>으로 요구를 다듬고 <code>/execute-plan</code>으로 검토 지점이 있는 구현을 돌리는 방식이다.</p>
 <p>작은 수정에도 전체 절차를 적용하면 부담이 커질 수 있다. 실사용 반응은 엇갈린다. 설계 누락과 테스트 공백을 줄였다는 의견이 많지만, 최신 Claude Code 기본 기능과 겹치며 시간과 토큰을 더 쓴다는 불만도 있다. 반복 작업에 필요한 Skill만 남기는 사용자가 생긴 배경이다.</p>
-<p>MoAI-ADK는 SPEC을 중심에 둔 더 큰 개발 하네스다. 공식 저장소의 흐름은 `/moai plan &quot;Add JWT login&quot;`으로 요구사항 문서를 만들고, `/moai run SPEC-AUTH-001`로 DDD·TDD 구현을 수행한 뒤, `/moai sync SPEC-AUTH-001`로 문서와 PR을 맞추는 순서다. 입력은 기능 요구이고 산출물은 SPEC, 코드·테스트, 동기화된 문서다.</p>
+<p>MoAI-ADK는 SPEC을 중심에 둔 더 큰 개발 하네스다. 공식 저장소의 흐름은 <code>/moai plan &quot;Add JWT login&quot;</code>으로 요구사항 문서를 만들고, <code>/moai run SPEC-AUTH-001</code>로 DDD·TDD 구현을 수행한 뒤, <code>/moai sync SPEC-AUTH-001</code>로 문서와 PR을 맞추는 순서다. 입력은 기능 요구이고 산출물은 SPEC, 코드·테스트, 동기화된 문서다.</p>
 <p>감사 기록이 필요한 팀이나 여러 세션을 잇는 작업에는 이 구조가 유리하지만, 검증 가능한 작은 기능을 빠르게 내는 1인 개발자라면 절차 비용이 산출물보다 커질 수 있다. &#x27;더 많은 기능&#x27;보다 작업 크기와 실패 비용이 선택 기준이 된다.</p>
 <h2>직접 만들 때는 네 파일에서 시작한다</h2>
-<p>바닥부터 하네스를 이해하려면 새 플랫폼을 만들 필요가 없다. 먼저 `CLAUDE.md`에 빌드 명령, 코드 규칙, 완료 조건만 적는다. 같은 지시를 거듭 붙여 넣게 되면 `.claude/skills/&lt;name&gt;/SKILL.md`로 옮긴다. Anthropic은 Skill 본문이 호출될 때만 문맥에 들어온다고 안내한다.</p>
-<p>독립 문맥이 필요한 조사나 리뷰는 `.claude/agents/&lt;name&gt;.md`의 subagent로 분리한다. 포맷터 실행이나 위험 명령 차단처럼 매번 같아야 하는 규칙만 `.claude/settings.json`의 hook으로 둔다. 입력은 실제 프로젝트의 반복 실패 사례이고, 산출물은 짧은 규칙 파일과 재현 가능한 실행 절차다.</p>
+<p>바닥부터 하네스를 이해하려면 새 플랫폼을 만들 필요가 없다. 먼저 <code>CLAUDE.md</code>에 빌드 명령, 코드 규칙, 완료 조건만 적는다. 같은 지시를 거듭 붙여 넣게 되면 <code>.claude/skills/&lt;name&gt;/SKILL.md</code>로 옮긴다. Anthropic은 Skill 본문이 호출될 때만 문맥에 들어온다고 안내한다.</p>
+<p>독립 문맥이 필요한 조사나 리뷰는 <code>.claude/agents/&lt;name&gt;.md</code>의 subagent로 분리한다. 포맷터 실행이나 위험 명령 차단처럼 매번 같아야 하는 규칙만 <code>.claude/settings.json</code>의 hook으로 둔다. 입력은 실제 프로젝트의 반복 실패 사례이고, 산출물은 짧은 규칙 파일과 재현 가능한 실행 절차다.</p>
 <p>그다음 대표 작업 하나를 정해 기본 Claude Code와 변경된 구성을 각각 실행한다. 완료 시간, 토큰, 테스트 결과, 사람이 고친 횟수를 함께 기록해야 한다. 공개 벤치마크 숫자를 자기 저장소의 답으로 가져오는 것보다 이 작은 비교가 낫다.</p>
 <p>이 과정에서 Superpowers의 디버깅 Skill만 가져오거나, MoAI-ADK의 SPEC 형식만 참고할 수 있다. 전체 설치와 완전한 자체 구축 사이에 체리픽이라는 실용적인 중간값이 있다.</p>
 <h2>설치보다 제거 가능성을 먼저 확인한다</h2>
-<p>Claude Code 공식 문서는 플러그인이 사용자 권한으로 임의 코드를 실행할 수 있다고 경고한다. 설치 전 저장소, hooks, MCP 서버, 업데이트 방식을 확인해야 한다. `/plugin` 상세 화면은 플러그인이 추가한 Skills, agents, hooks, MCP, LSP를 보여 주고, `/hooks`에서는 hook의 출처 파일과 실행 내용을 확인할 수 있다.</p>
-<p>제거는 `/plugin uninstall plugin-name@marketplace-name --scope project`처럼 설치 범위를 지정한다. 이후 `/reload-plugins`를 실행하거나 세션을 다시 열어야 이미 읽힌 구성까지 빠진다. 프로젝트 설정이 플러그인을 공유 활성화했다면 개인 비활성화와 프로젝트 전체 제거가 다르다.</p>
+<p>Claude Code 공식 문서는 플러그인이 사용자 권한으로 임의 코드를 실행할 수 있다고 경고한다. 설치 전 저장소, hooks, MCP 서버, 업데이트 방식을 확인해야 한다. <code>/plugin</code> 상세 화면은 플러그인이 추가한 Skills, agents, hooks, MCP, LSP를 보여 주고, <code>/hooks</code>에서는 hook의 출처 파일과 실행 내용을 확인할 수 있다.</p>
+<p>제거는 <code>/plugin uninstall plugin-name@marketplace-name --scope project</code>처럼 설치 범위를 지정한다. 이후 <code>/reload-plugins</code>를 실행하거나 세션을 다시 열어야 이미 읽힌 구성까지 빠진다. 프로젝트 설정이 플러그인을 공유 활성화했다면 개인 비활성화와 프로젝트 전체 제거가 다르다.</p>
 <p>하네스의 가치는 화려한 명령 수가 아니라 반복 실패를 줄였다는 관찰로 증명된다. 기본 Claude Code에서 불편이 아직 재현되지 않았다면 추가 하네스는 답이 아니다. 같은 실패가 쌓인 순간부터는 그 실패를 막는 가장 작은 Skill, hook, 또는 절차 묶음이 답이 된다.</p></div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">AI 에이전트 하네스</span><span class="chip">OMO</span><span class="chip">Superpowers</span><span class="chip">MoAI-ADK</span><span class="chip">Hermes Agent</span></div>

@@ -12,7 +12,7 @@
 <meta property="og:description" content="GPT-6 Astra로 기획하고 Claude Fable 5.1로 코딩하는 역할분담 워크플로우를 구성하는 법과 비용, 한계를 분석한다.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/mag/workflow/astra-fable-model-routing-workflow.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까", "description": "GPT-6 Astra로 기획하고 Claude Fable 5.1로 코딩하는 역할분담 워크플로우를 구성하는 법과 비용, 한계를 분석한다.", "datePublished": "2026-09-21", "dateModified": "2026-09-21", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/astra-fable-model-routing-workflow.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, Claude Fable 5.1, GPT-6 Astra, Codex, 멀티에이전트, 모델 라우팅", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까", "description": "GPT-6 Astra로 기획하고 Claude Fable 5.1로 코딩하는 역할분담 워크플로우를 구성하는 법과 비용, 한계를 분석한다.", "datePublished": "2026-09-21", "dateModified": "2026-09-21", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/astra-fable-model-routing-workflow.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, Claude Fable 5.1, GPT-6 Astra, Codex, 멀티에이전트, 모델 라우팅", "image": "https://chat.axwith.com/mag/hero/astra-fable-model-routing-workflow.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "GPT-6 Astra와 Claude Fable 5.1을 Claude Code에서 함께 쓸 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code의 커스텀 서브에이전트는 Claude 계열 모델을 지정한다. Astra를 함께 쓰려면 Codex를 별도로 실행하거나 양쪽 API를 연결하는 오케스트레이터가 필요하다."}}, {"@type": "Question", "name": "모델별 역할분담은 항상 토큰 비용을 줄이나?", "acceptedAnswer": {"@type": "Answer", "text": "항상 그렇지는 않다. 각 모델에 전체 저장소와 대화를 중복 제공하면 더 비싸질 수 있으며, 짧고 고정된 인수인계 문서로 컨텍스트를 분리해야 효과가 난다."}}, {"@type": "Question", "name": "Astra와 Fable 사이에는 어떤 파일을 전달해야 하나?", "acceptedAnswer": {"@type": "Answer", "text": "기능 범위, 설계, 작업 목록, 완료 조건을 각각 문서로 고정하는 방식이 실용적이다. 구현 모델에는 결정이 끝난 내용만 전달하고, 검수 모델에는 diff와 테스트 결과를 함께 제공한다."}}]}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -226,7 +228,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
-
+<img class="artHero" src="https://chat.axwith.com/mag/hero/astra-fable-model-routing-workflow.png" alt="GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까" loading="eager">
 <header>
   <span class="catchip c-flow">워크플로우·방법론</span>
   <h1>GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까</h1>
@@ -242,14 +244,14 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>OpenAI는 2026년 9월 공개한 Astra를 소프트웨어 엔지니어링뿐 아니라 문서 작성, 브라우징, 컴퓨터 조작과 디자인 판단에 강한 모델로 소개했다. Anthropic은 Fable 5.1을 장시간 이어지는 에이전트형 코딩과 복잡한 추론에 맞춘 최상위 공개 모델로 설명한다.</p>
 <p>공식 설명을 업무 경계로 옮기면 조합이 선명해진다. Astra는 사용자 흐름, 화면 구조, 데이터 모델과 완료 조건을 정한다. Fable은 저장소를 탐색하고 파일을 수정해 테스트를 통과시킨다.</p>
 <p>써본 사람들 사이에서는 Astra가 큰 방향과 작업 구조를 빠르게 잡는다는 평가가 있다. Fable은 세부 지시를 오래 유지하면서 기존 코드의 맥락을 따르는 편이라는 반응도 나온다. 어느 모델이 항상 우월하다는 증거는 아니다. 프로젝트 종류에 따라 순위가 바뀐다.</p>
-<h2>두 CLI는 문서 네 장으로 연결할 수 있다</h2>
-<p>가장 단순한 구성은 Codex와 Claude Code를 같은 저장소에서 차례로 실행하는 방식이다. 두 모델이 자유롭게 대화를 이어가게 하지 말고 `SPEC.md`, `DESIGN.md`, `TASKS.md`, `ACCEPTANCE.md`를 계약서로 사용한다.</p>
-<p>먼저 Codex에서 Astra에게 사용자 요구를 분석하게 한다. 산출물은 기능 범위를 적은 `SPEC.md`, 화면과 컴포넌트 구조를 담은 `DESIGN.md`, 파일 단위로 작업을 나눈 `TASKS.md`다. 모호한 표현 대신 입력과 출력, 예외 상황, 완료 조건을 적게 해야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/astra-fable-model-routing-workflow.png" alt="" loading="lazy"><h2>두 CLI는 문서 네 장으로 연결할 수 있다</h2>
+<p>가장 단순한 구성은 Codex와 Claude Code를 같은 저장소에서 차례로 실행하는 방식이다. 두 모델이 자유롭게 대화를 이어가게 하지 말고 <code>SPEC.md</code>, <code>DESIGN.md</code>, <code>TASKS.md</code>, <code>ACCEPTANCE.md</code>를 계약서로 사용한다.</p>
+<p>먼저 Codex에서 Astra에게 사용자 요구를 분석하게 한다. 산출물은 기능 범위를 적은 <code>SPEC.md</code>, 화면과 컴포넌트 구조를 담은 <code>DESIGN.md</code>, 파일 단위로 작업을 나눈 <code>TASKS.md</code>다. 모호한 표현 대신 입력과 출력, 예외 상황, 완료 조건을 적게 해야 한다.</p>
 <p>다음으로 Claude Code에서 Fable 5.1에게 세 문서를 읽고 구현하도록 요청한다. 변경 전에 대상 파일 목록을 제시하고 작업마다 테스트나 빌드 명령을 실행하게 한다. 결과는 코드와 함께 실행 기록으로 남긴다.</p>
-<p>마지막 검수에는 `ACCEPTANCE.md`를 쓴다. Astra가 변경된 diff와 실행 결과를 요구사항별로 대조한 뒤 실패한 항목만 체크리스트로 기록한다. Fable은 체크되지 않은 항목만 수정한다. 이렇게 하면 두 모델이 같은 문제를 처음부터 다시 해석하는 일을 막을 수 있다.</p>
+<p>마지막 검수에는 <code>ACCEPTANCE.md</code>를 쓴다. Astra가 변경된 diff와 실행 결과를 요구사항별로 대조한 뒤 실패한 항목만 체크리스트로 기록한다. Fable은 체크되지 않은 항목만 수정한다. 이렇게 하면 두 모델이 같은 문제를 처음부터 다시 해석하는 일을 막을 수 있다.</p>
 <p>동시에 실행해야 한다면 별도 Git worktree가 안전하다. 기획 모델은 문서 브랜치만 수정하고 구현 모델은 코드 브랜치에서 작업하도록 나눈다. 동일 파일을 함께 고치게 하면 충돌 해결 비용이 역할분담의 이점을 삼킨다.</p>
 <h2>Claude Code의 서브에이전트만으로는 교차 모델 구성이 안 된다</h2>
-<p>Anthropic 공식 문서에 따르면 Claude Code의 커스텀 서브에이전트는 `.claude/agents/` 아래 마크다운 파일로 만든다. 각 파일의 프런트매터에서 설명과 도구 권한, 사용할 Claude 모델을 지정할 수 있다. 서브에이전트는 독립된 컨텍스트에서 조사나 테스트를 수행한 뒤 주 세션에 결과를 반환한다.</p>
+<p>Anthropic 공식 문서에 따르면 Claude Code의 커스텀 서브에이전트는 <code>.claude/agents/</code> 아래 마크다운 파일로 만든다. 각 파일의 프런트매터에서 설명과 도구 권한, 사용할 Claude 모델을 지정할 수 있다. 서브에이전트는 독립된 컨텍스트에서 조사나 테스트를 수행한 뒤 주 세션에 결과를 반환한다.</p>
 <p>여기서 지정하는 모델은 Claude 계열이다. Astra를 Claude Code 서브에이전트 이름으로 넣어 호출하는 기능은 아니다. Astra와 Fable을 함께 쓰려면 Codex와 Claude Code를 별도로 실행하거나 두 회사의 API를 호출하는 오케스트레이터가 필요하다.</p>
 <p>최근 모델별 역할 지정이 까다로워졌다는 불만은 이 경계와 관련이 있다. 제품에 내장된 팀 기능은 작업 목록과 메시지를 편하게 공유하지만 대개 자사 모델과 실행 환경 안에서 움직인다. 서로 다른 공급자를 섞으면 공유 메모리와 권한, 오류 복구, 비용 추적을 사용자가 다시 설계해야 한다.</p>
 <h2>비용은 모델 수보다 재작업 횟수가 좌우한다</h2>

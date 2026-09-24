@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -244,9 +246,9 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>이 결과를 한국 기업 전체의 AI 도입률로 옮길 수는 없다. 특정 국가와 기간, 특정 표현을 포함한 공고를 분석했기 때문이다. 작은 서비스에서도 수집한 사이트가 어느 업종에 치우쳤는지에 따라 결과가 달라진다.</p>
 <p>가령 개발 업무 설명에 모델 학습이 적힌 경우와, 회사 소개에 AI 기업이라는 표현만 붙은 경우는 구분해야 한다. 업무상 활용 능력, 모델 개발 업무, 회사 홍보 문구를 별도 항목으로 분류하는 방식이 가능하다. 이때 분류 근거가 된 문장을 함께 저장해야 독자가 판단을 다시 확인할 수 있다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/ai-hiring-data-business.png" alt="" loading="lazy"><h2>Claude Code로 만들 때 입력과 산출물을 정하는 법</h2>
-<p>Greenhouse의 Job Board API는 첫 수집 경로를 구체화할 수 있는 공식 사례다. 문서에 따르면 공개 공고를 조회하는 GET 요청에는 인증이 필요하지 않는다. 공고 목록 요청에 `content=true`를 붙이면 본문과 부서, 사무소 정보도 포함된다.</p>
-<p>요청 경로는 `GET /v1/boards/{board_token}/jobs?content=true`다. 여기서 `board_token`은 대상 기업의 Greenhouse 채용 게시판을 가리킨다. 응답에는 공고 식별자, 제목, 수정 시각, 원문 주소 등이 들어온다. 공개 조회 기능과 상업적 재배포 허용은 별개이므로, 이용 범위는 따로 확인해야 한다.</p>
-<p>이를 이용한 최소 제품은 다음처럼 설계할 수 있다. 수집 대상 게시판 목록을 `companies.csv`에 넣고, 날짜별 응답을 JSON으로 보관한다. 같은 공고의 이전 기록과 새 기록을 비교한 뒤, AI 관련 업무와 요구 기술을 추출한다. 산출물은 기업별 신규 공고, 요구 기술 변경, 근거 문장, 원문 주소를 담은 보고서다.</p>
+<p>Greenhouse의 Job Board API는 첫 수집 경로를 구체화할 수 있는 공식 사례다. 문서에 따르면 공개 공고를 조회하는 GET 요청에는 인증이 필요하지 않는다. 공고 목록 요청에 <code>content=true</code>를 붙이면 본문과 부서, 사무소 정보도 포함된다.</p>
+<p>요청 경로는 <code>GET /v1/boards/{board_token}/jobs?content=true</code>다. 여기서 <code>board_token</code>은 대상 기업의 Greenhouse 채용 게시판을 가리킨다. 응답에는 공고 식별자, 제목, 수정 시각, 원문 주소 등이 들어온다. 공개 조회 기능과 상업적 재배포 허용은 별개이므로, 이용 범위는 따로 확인해야 한다.</p>
+<p>이를 이용한 최소 제품은 다음처럼 설계할 수 있다. 수집 대상 게시판 목록을 <code>companies.csv</code>에 넣고, 날짜별 응답을 JSON으로 보관한다. 같은 공고의 이전 기록과 새 기록을 비교한 뒤, AI 관련 업무와 요구 기술을 추출한다. 산출물은 기업별 신규 공고, 요구 기술 변경, 근거 문장, 원문 주소를 담은 보고서다.</p>
 <p>이 구성이 방에서 완성됐다는 제품을 그대로 재현한 것은 아니다. 공식 API를 바탕으로 제안하는 구현 예시일 뿐이다. Anthropic은 Claude Code가 파일을 읽고 수정하며 명령을 실행하는 개발 도구라고 설명한다. 수집기와 비교 코드를 만들 때 이 기능을 활용할 수 있다.</p>
 <p>개발 요청에는 입력 파일, API 경로, 저장 항목, 비교 기준을 명시하면 된다. 예를 들어 사라진 공고는 채용 완료가 아니라 목록에서 미확인된 상태로 기록하도록 요구한다. 결과 검증에서는 원문 일부와 추출 결과를 대조한다. 같은 데이터를 다시 처리했을 때 중복이 생기는지도 확인한다.</p>
 <h2>국내 데이터를 붙이면 수집 범위부터 달라진다</h2>

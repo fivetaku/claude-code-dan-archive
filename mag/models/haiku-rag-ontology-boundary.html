@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -248,7 +250,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <img class="artInline" src="https://chat.axwith.com/mag/inline/haiku-rag-ontology-boundary.png" alt="" loading="lazy"><h2>여러 문서를 잇는 질문에서 GraphRAG가 등장한다</h2>
 <p>문제는 답이 한 조각에 없을 때다. “전체 계약에서 반복되는 위험은 무엇인가”처럼 자료 전반을 묶는 질문은 유사도 검색만으로 빠뜨리기 쉽다. Microsoft Research의 GraphRAG 논문은 약 100만 토큰 규모 자료의 전체 맥락 질문에서 이 약점을 겨냥했다.</p>
 <p>GraphRAG는 원문에서 엔티티, 관계, 주장을 추출한다. 이어 관계망의 군집을 찾아 단계별 커뮤니티 요약과 임베딩을 만든다. 현재 공식 구현은 결과를 기본적으로 Parquet 테이블과 벡터 저장소에 남긴다.</p>
-<p>직접 시험하려면 텍스트 자료를 프로젝트 입력 폴더에 넣은 뒤 `graphrag init`으로 설정과 프롬프트를 만든다. `graphrag index`로 그래프와 요약을 생성한 뒤, 특정 인물 관계는 local search로 묻는다. 자료 전체의 주제를 물을 때는 global search를, 넓게 탐색한 뒤 세부로 좁힐 때는 DRIFT search를 쓴다.</p>
+<p>직접 시험하려면 텍스트 자료를 프로젝트 입력 폴더에 넣은 뒤 <code>graphrag init</code>으로 설정과 프롬프트를 만든다. <code>graphrag index</code>로 그래프와 요약을 생성한 뒤, 특정 인물 관계는 local search로 묻는다. 자료 전체의 주제를 물을 때는 global search를, 넓게 탐색한 뒤 세부로 좁힐 때는 DRIFT search를 쓴다.</p>
 <p>대가는 인덱싱 비용과 유지보수다.</p>
 <p>Microsoft 문서도 큰 작업 전 작은 자료와 저렴한 모델로 시험하라고 경고한다. 엔티티가 잘못 합쳐지거나 자료가 자주 바뀌면 재구축과 품질 점검이 늘어난다는 불만도 있다. 반복 평가에서 다중 문서 관계 질문이 계속 실패할 때만 넘어갈 근거가 생긴다.</p>
 <h2>GraphRAG를 온톨로지라고 부르면 설계가 흐려진다</h2>

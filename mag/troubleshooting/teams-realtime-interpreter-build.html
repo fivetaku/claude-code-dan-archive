@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -235,21 +237,21 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </header>
 <div class="artbody"><p>Microsoft Teams 통화에서 상대방의 말을 바로 번역하려면 무엇을 써야 할까. 기본 기능의 품질이 아쉬우면 외부 AI를 붙이고 싶어진다. 하지만 번역 모델보다 먼저 해결해야 할 문제는 회의 오디오에 안전하게 접근하는 일이다. 직접 구축하는 편이 실제로 이득인지 판단하려면 자막과 음성 통역, 별도 앱을 나눠 봐야 한다.</p>
 <h2>Teams에는 번역 자막과 음성 통역이 따로 있다</h2>
-<p>Teams의 기본 라이브 자막은 발화를 글자로 보여준다. Teams Premium의 라이브 번역 자막은 참가자가 원하는 언어로 자막을 바꾼다. Microsoft 문서에 따르면 회의 주최자가 적격 라이선스를 보유하면 참가자도 번역 자막을 이용할 수 있다. 관리자 정책에서 라이브 자막이나 전사를 꺼 두었다면 메뉴 자체가 나타나지 않는다. ([learn.microsoft.com](https://learn.microsoft.com/en-us/microsoftteams/meeting-transcription-captions))</p>
-<p>Interpreter agent는 여기서 한 단계 더 나간다. 상대방의 발화를 번역된 음성으로 들려준다. 지원 문서는 최대 9개 언어와 음성 모사 선택지를 안내한다. 사용자에게는 월별 통역 시간 한도가 적용된다. 통화가 잦다면 지원 언어뿐 아니라 남은 시간과 조직 정책도 확인해야 한다. ([support.microsoft.com](https://support.microsoft.com/?utm_source=openai))</p>
+<p>Teams의 기본 라이브 자막은 발화를 글자로 보여준다. Teams Premium의 라이브 번역 자막은 참가자가 원하는 언어로 자막을 바꾼다. Microsoft 문서에 따르면 회의 주최자가 적격 라이선스를 보유하면 참가자도 번역 자막을 이용할 수 있다. 관리자 정책에서 라이브 자막이나 전사를 꺼 두었다면 메뉴 자체가 나타나지 않는다. (<a href="https://learn.microsoft.com/en-us/microsoftteams/meeting-transcription-captions" target="_blank" rel="nofollow noopener">learn.microsoft.com</a>)</p>
+<p>Interpreter agent는 여기서 한 단계 더 나간다. 상대방의 발화를 번역된 음성으로 들려준다. 지원 문서는 최대 9개 언어와 음성 모사 선택지를 안내한다. 사용자에게는 월별 통역 시간 한도가 적용된다. 통화가 잦다면 지원 언어뿐 아니라 남은 시간과 조직 정책도 확인해야 한다. (<a href="https://support.microsoft.com/" target="_blank" rel="nofollow noopener">support.microsoft.com</a>)</p>
 <p>실제로 써본 사람들 사이에서는 고유명사와 기술 용어가 흔들리거나 빠른 대화에서 번역을 기다리게 된다는 불만도 나온다. 반면 짧은 정기회의에서는 별도 장비 없이 바로 켤 수 있어 편리하다. AI 통역은 전문 통역사를 완전히 대체하기보다 대화의 큰 맥락을 놓치지 않도록 돕는 도구에 가깝다.</p>
 <h2>외부 AI를 붙이면 오디오 수집부터 어려워진다</h2>
-<p>번역 과정 자체는 단순하다. 음성을 받아 텍스트로 바꾸고 번역한 뒤 자막이나 합성 음성으로 출력하면 된다. Azure Speech는 실시간 음성-텍스트와 음성-음성 번역을 제공하며 중간 결과와 확정 결과를 스트림으로 돌려준다. Speech SDK의 `PushAudioInputStream`이나 `PullAudioInputStream`을 사용하면 마이크 대신 외부 오디오 버퍼도 넣을 수 있다. ([learn.microsoft.com](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-translation))</p>
+<p>번역 과정 자체는 단순하다. 음성을 받아 텍스트로 바꾸고 번역한 뒤 자막이나 합성 음성으로 출력하면 된다. Azure Speech는 실시간 음성-텍스트와 음성-음성 번역을 제공하며 중간 결과와 확정 결과를 스트림으로 돌려준다. Speech SDK의 <code>PushAudioInputStream</code>이나 <code>PullAudioInputStream</code>을 사용하면 마이크 대신 외부 오디오 버퍼도 넣을 수 있다. (<a href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/speech-translation" target="_blank" rel="nofollow noopener">learn.microsoft.com</a>)</p>
 <p>문제는 Teams 사이드 패널이 회의 음성을 자동으로 넘겨주지 않는다는 점이다. 참가자 화면에 웹 앱을 띄우는 기능과 통화의 원시 오디오를 받는 기능은 별개다.</p>
 <p>시스템 출력음을 다시 마이크로 보내는 하드웨어 구성은 에코와 음질 저하가 생기기 쉽다. 장치마다 오디오 라우팅을 맞춰야 하므로 소규모 팀에는 유지비 부담이 더 크게 남는다.</p>
 <p>사용자가 허용한 브라우저 탭 오디오나 OS 루프백을 받는 개인용 보조 앱은 상대적으로 단순하다. 다만 운영체제와 브라우저에 따라 지원 범위가 다르고 회사 보안 정책이 화면·오디오 캡처를 막을 수 있다. 상대방의 발화를 외부 클라우드에 보낼 때는 회의 참가자의 동의와 데이터 보존 조건도 정해야 한다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/teams-realtime-interpreter-build.png" alt="" loading="lazy"><h2>사이드 AI를 만든다면 입력과 출력을 분리한다</h2>
-<p>가장 작은 구현은 Teams 웹 옆에 번역 자막 창을 두는 방식이다. 먼저 React나 일반 웹 앱으로 자막 UI를 만든다. 사용자가 선택한 오디오 스트림을 16kHz, 16비트, 모노 PCM으로 정규화한 뒤 Azure Speech SDK의 입력 스트림에 넣는다. `TranslationRecognizer`가 반환한 중간 번역은 흐린 글씨로 표시하고 확정 번역은 대화 기록으로 쌓는다.</p>
-<p>Teams 안에 넣고 싶다면 앱 매니페스트의 `configurableTabs`에 `meetingSidePanel` 컨텍스트를 선언한다. TeamsJS로 현재 프레임을 확인한 뒤 사이드 패널에는 번역문과 언어 선택기만 배치한다. Microsoft는 Node.js와 C#으로 만든 회의 사이드 패널 샘플도 제공한다. 데스크톱 Teams에서는 정식 지원되지만 웹 클라이언트의 회의 패널은 개발자 프리뷰 조건을 확인해야 한다. ([learn.microsoft.com](https://learn.microsoft.com/en-us/microsoftteams/platform/apps-in-teams-meetings/build-tabs-for-meeting))</p>
-<p>Claude Code에는 한 번에 전체 통역기를 요구하기보다 작업 경계를 나눠 주는 편이 낫다. `manifest.json`과 React 패널을 먼저 만들고 다음 단계에서 `audio-capture`, `speech-adapter`, `caption-store` 모듈을 각각 구현한다. 입력은 PCM 청크로, 산출물은 원문·번역문·확정 여부·타임스탬프를 담은 JSON 이벤트로 고정하면 번역 엔진을 교체하기 쉽다.</p>
+<p>가장 작은 구현은 Teams 웹 옆에 번역 자막 창을 두는 방식이다. 먼저 React나 일반 웹 앱으로 자막 UI를 만든다. 사용자가 선택한 오디오 스트림을 16kHz, 16비트, 모노 PCM으로 정규화한 뒤 Azure Speech SDK의 입력 스트림에 넣는다. <code>TranslationRecognizer</code>가 반환한 중간 번역은 흐린 글씨로 표시하고 확정 번역은 대화 기록으로 쌓는다.</p>
+<p>Teams 안에 넣고 싶다면 앱 매니페스트의 <code>configurableTabs</code>에 <code>meetingSidePanel</code> 컨텍스트를 선언한다. TeamsJS로 현재 프레임을 확인한 뒤 사이드 패널에는 번역문과 언어 선택기만 배치한다. Microsoft는 Node.js와 C#으로 만든 회의 사이드 패널 샘플도 제공한다. 데스크톱 Teams에서는 정식 지원되지만 웹 클라이언트의 회의 패널은 개발자 프리뷰 조건을 확인해야 한다. (<a href="https://learn.microsoft.com/en-us/microsoftteams/platform/apps-in-teams-meetings/build-tabs-for-meeting" target="_blank" rel="nofollow noopener">learn.microsoft.com</a>)</p>
+<p>Claude Code에는 한 번에 전체 통역기를 요구하기보다 작업 경계를 나눠 주는 편이 낫다. <code>manifest.json</code>과 React 패널을 먼저 만들고 다음 단계에서 <code>audio-capture</code>, <code>speech-adapter</code>, <code>caption-store</code> 모듈을 각각 구현한다. 입력은 PCM 청크로, 산출물은 원문·번역문·확정 여부·타임스탬프를 담은 JSON 이벤트로 고정하면 번역 엔진을 교체하기 쉽다.</p>
 <h2>회의 봇은 개인 도구가 아니라 제품 개발에 가깝다</h2>
-<p>모든 참가자의 음성을 안정적으로 받으려면 회의에 참여하는 미디어 봇이 필요하다. Microsoft Graph의 실시간 미디어 플랫폼은 봇이 Teams 통화의 음성·영상과 상호작용하도록 지원한다. 이 경로에는 C#과 .NET 중심의 별도 미디어 인프라, 앱 등록, 권한 승인, 서버 운영이 필요하다. 회의 로비 승인과 녹음 고지도 제품 흐름에 포함해야 한다. ([microsoftgraph.github.io](https://microsoftgraph.github.io/?utm_source=openai))</p>
-<p>Graph의 `callTranscript` API는 회의와 통화에 연결된 전사 자료를 읽는 데 유용하다. 그러나 생성된 전사를 가져오는 API이므로 대화 중 자막을 만들 원시 오디오 통로로 보면 안 된다. 회의 후 요약·검색에는 적합하지만 실시간 통역의 입력원은 아니다. ([learn.microsoft.com](https://learn.microsoft.com/en-us/graph/api/resources/calltranscript?view=graph-rest-1.0&amp;utm_source=openai))</p>
+<p>모든 참가자의 음성을 안정적으로 받으려면 회의에 참여하는 미디어 봇이 필요하다. Microsoft Graph의 실시간 미디어 플랫폼은 봇이 Teams 통화의 음성·영상과 상호작용하도록 지원한다. 이 경로에는 C#과 .NET 중심의 별도 미디어 인프라, 앱 등록, 권한 승인, 서버 운영이 필요하다. 회의 로비 승인과 녹음 고지도 제품 흐름에 포함해야 한다. (<a href="https://microsoftgraph.github.io/" target="_blank" rel="nofollow noopener">microsoftgraph.github.io</a>)</p>
+<p>Graph의 <code>callTranscript</code> API는 회의와 통화에 연결된 전사 자료를 읽는 데 유용하다. 그러나 생성된 전사를 가져오는 API이므로 대화 중 자막을 만들 원시 오디오 통로로 보면 안 된다. 회의 후 요약·검색에는 적합하지만 실시간 통역의 입력원은 아니다. (<a href="https://learn.microsoft.com/en-us/graph/api/resources/calltranscript?view=graph-rest-1.0" target="_blank" rel="nofollow noopener">learn.microsoft.com</a>)</p>
 <p>봇 방식은 통역 자체를 서비스로 판매하거나 여러 회의 플랫폼을 연결해야 할 때 적합하다. 한두 명이 해외 고객과의 통화를 이해하려는 목적이라면 개발 기간과 보안 검토가 절약되는 시간을 넘어설 가능성이 높다.</p>
 <h2>품질 문제는 번역 모델 하나로 해결되지 않는다</h2>
 <p>실시간 통역 품질은 음성 인식과 문장 분할, 번역, 출력 지연이 연달아 결정한다. 제품명이나 약어를 잘못 받아쓰면 뒤쪽 번역기를 바꿔도 회복하기 어렵다. 회의 전에 용어집을 넣어야 하는 이유다. 한 문장이 끝나기 전의 중간 결과와 확정 자막도 시각적으로 구분해야 한다.</p>

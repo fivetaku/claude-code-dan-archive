@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -237,7 +239,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <h2>방에 올라온 레포들이 실제로 하는 일</h2>
 <p>discord-mcp는 Claude Code나 Claude Desktop에서 Discord 서버를 관리할 수 있게 해주는 MCP 서버다. 메시지 송수신, 채널 생성, 역할 관리, 웹훅, 예약 이벤트까지 95개가 넘는 도구를 제공한다. npx 한 줄로 설치한 뒤 Discord 봇 토큰을 환경변수로 넣으면 바로 붙는다. 멤버 킥·밴·타임아웃 같은 권한 관리 도구도 포함돼 있어 대량 밴이나 멤버 정리처럼 되돌리기 어려운 작업은 기본적으로 미리보기부터 보여주도록 설계했다. 여러 디스코드 서버를 동시에 관리할 수 있다는 점도 특징이다.</p>
 <p>StyleGallery는 성격이 다르다.   디자인 결정을 코드로 남기고 싶은 개발자를 겨냥한 도구인 셈이다. 방에서 나온 다른 세팅 레포들과는 결이 다르다.</p>
-<p>oh-my-customcode는 oh-my-zsh 방식의 커스터마이징 프레임워크를 표방하며 50개 에이전트와 115개 스킬, 23개 규칙을 묶어 `npm install -g oh-my-customcode` 한 번으로 깔아준다. 다만 라이선스가 PolyForm Noncommercial이라 상업적 사용은 별도 협의가 필요하다. 방에서 세팅을 도와주는 레포로 소개된 ThisCode까지 포함하면 넷 다 &quot;내가 쓰던 걸 남과 나눈다&quot;는 동기에서 출발한 개인 프로젝트라는 공통점이 있다.</p>
+<p>oh-my-customcode는 oh-my-zsh 방식의 커스터마이징 프레임워크를 표방하며 50개 에이전트와 115개 스킬, 23개 규칙을 묶어 <code>npm install -g oh-my-customcode</code> 한 번으로 깔아준다. 다만 라이선스가 PolyForm Noncommercial이라 상업적 사용은 별도 협의가 필요하다. 방에서 세팅을 도와주는 레포로 소개된 ThisCode까지 포함하면 넷 다 &quot;내가 쓰던 걸 남과 나눈다&quot;는 동기에서 출발한 개인 프로젝트라는 공통점이 있다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/mcp-repo-trust-github-stars.png" alt="" loading="lazy"><h2>스타 100개, 근거 있는 숫자인가</h2>
 <p>문제는 스타 수가 실제로 뭘 증명하느냐다. 카네기멜런대 연구진이 2024년 발표한 분석에 따르면 15,835개 저장소, 27만 8천 개 계정이 가짜 스타 캠페인에 연루됐고, 이 캠페인에 해당하는 가짜 스타는 약 310만 개로 집계됐다. 스타를 사고파는 서비스는 개당 0.1달러에서 2달러 수준으로 형성돼 있다. 구글에 &quot;GitHub 스타 구매&quot;만 검색해도 며칠 안에 스타를 채워주겠다는 업체가 여럿 나온다. 스타는 원래 인기를 재는 지표일 뿐, 실제 사용량과는 상관관계가 약하다고 알려져 있다.</p>
 <p>실제 채택률과 스타 수가 어긋나는 사례도 이미 나왔다.  스타 100개라는 방의 기준은 그 자체로 틀린 규칙은 아니다. 다만 무엇을 걸러내려는지 스스로 되물어야 하는 지표이기도 하다.</p>
@@ -245,7 +247,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>Claude Code 도구를 모아놓은 대표적인 목록인 awesome-claude-code는 스타 4만 2천 개를 넘겼다. 정작 이 목록에 오르는 기준은 스타 수가 아니라 큐레이터가 직접 써보고 판단하는 편집 작업이다. 동작하지 않는 도구는 빼고 되는 도구는 실제 쓰임새를 붙여 태그를 단다.</p>
 <p>Anthropic이 운영하는 공식 플러그인 마켓플레이스는 또 다른 방식을 쓴다. 디렉터리에 추가되는 제출작은 기본 자동 검토를 거치고, 그중 품질과 안전성 관점의 추가 심사를 받은 플러그인에 &quot;Anthropic Verified&quot; 배지를 붙인다. 별점이 아니라 자동화된 검사와 추가 심사라는 이중 장치를 쓰는 셈이다. 방의 스타 100개 규칙과 비교하면 두 사례 모두 인기가 아니라 검증에 방점을 찍고 있다.</p>
 <h2>권한이 큰 도구일수록 별점보다 봐야 할 것</h2>
-<p>StyleGallery처럼 읽기 전용으로 동작하는 도구와, discord-mcp처럼 멤버를 밴하고 웹훅을 만들 수 있는 도구는 위험의 크기가 다르다. Discord 봇 토큰 하나가 유출되면 그 토큰에 부여된 권한 전체가 그대로 공격자 손에 넘어간다. MCP 생태계 전반에서도 이미 사고가 보고됐다. 보안 업체 미티가랩스는 악성 npm 패키지가 설치 후 스크립트로 `~/.claude.json` 파일을 고쳐써서 Claude Code의 MCP 트래픽을 공격자 서버로 우회시키는 공격 사슬을 확인했다. 2026년 초에는 Claude Code·Cursor·Windsurf를 노린 타이포스쿼팅 캠페인도 발견됐다. 정상적인 유틸리티로 위장한 패키지가 AI 코딩 도구 설정에 악성 MCP 서버를 주입해 비밀정보 탈취를 지시했다는 점이 특히 문제로 지적됐다.</p>
+<p>StyleGallery처럼 읽기 전용으로 동작하는 도구와, discord-mcp처럼 멤버를 밴하고 웹훅을 만들 수 있는 도구는 위험의 크기가 다르다. Discord 봇 토큰 하나가 유출되면 그 토큰에 부여된 권한 전체가 그대로 공격자 손에 넘어간다. MCP 생태계 전반에서도 이미 사고가 보고됐다. 보안 업체 미티가랩스는 악성 npm 패키지가 설치 후 스크립트로 <code>~/.claude.json</code> 파일을 고쳐써서 Claude Code의 MCP 트래픽을 공격자 서버로 우회시키는 공격 사슬을 확인했다. 2026년 초에는 Claude Code·Cursor·Windsurf를 노린 타이포스쿼팅 캠페인도 발견됐다. 정상적인 유틸리티로 위장한 패키지가 AI 코딩 도구 설정에 악성 MCP 서버를 주입해 비밀정보 탈취를 지시했다는 점이 특히 문제로 지적됐다.</p>
 <p>이런 배경에서 보면 방의 스타 100개 규칙은 허술해 보이지만 방향은 틀리지 않았다. 다만 스타 수보다 먼저 봐야 할 건 그 도구가 어떤 권한을 요구하는지, 토큰이나 환경변수를 어디까지 넘겨야 하는지, 그리고 깃허브 조직이나 배포자가 실제로 검증 가능한 계정인지다. discord-mcp처럼 강한 권한을 쓰는 도구일수록 별점보다 소스 코드를 한 번 열어보는 쪽이 빠르다.</p></div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">MCP 서버</span><span class="chip">Claude Code</span><span class="chip">GitHub 스타</span><span class="chip">디스코드 MCP</span><span class="chip">플러그인 마켓플레이스</span><span class="chip">오픈소스 보안</span></div>

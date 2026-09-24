@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -246,9 +248,9 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>써본 사람들 사이에서는 첫 응답은 인상적이지만 긴 대화에서는 끼어들기와 문맥 유지가 흔들린다는 반응도 있다. 너무 민감한 VAD가 주변 소음에 반응하거나 문장 중간의 숨을 종료 신호로 처리한다는 불만도 나온다. 이런 문제는 음성 모델 하나를 교체한다고 모두 사라지지 않는다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/voice-ai-research-after-api.png" alt="" loading="lazy"><h2>Claude Code로 최소 실험 환경부터 만든다</h2>
 <p>가장 빠른 출발점은 기반 모델을 학습하는 일이 아니다. Claude Code에는 브라우저 클라이언트, 세션 서버, 도구 호출, 평가 스크립트를 각각 만들도록 맡길 수 있다. 실행 모델은 OpenAI Realtime이나 Gemini Live처럼 직접 음성을 처리하는 API로 정한다.</p>
-<p>브라우저의 `client.ts`는 마이크 입력과 출력 재생을 담당하고 `server.ts`는 인증정보를 숨긴 채 세션을 만든다. OpenAI는 브라우저 연결에 WebRTC를, 서버 중심 구성에는 WebSocket을 안내한다. Google Live API도 클라이언트와 직접 통신하거나 백엔드 프록시를 두는 구성을 지원한다. citeturn0search0turn2search0turn2search1</p>
-<p>`agent.ts`에는 역할, 말투, 응답 길이와 호출 가능한 도구를 넣는다. 예약 확인이나 검색 같은 함수는 음성 모델이 호출하되 실제 처리는 서버가 맡는다. 입력은 마이크 음성과 도구 결과이고, 산출물은 재생할 오디오와 이벤트 로그다.</p>
-<p>평가용 파일도 처음부터 필요하다. `eval/fixtures`에 침묵, 잡음, 말 고치기, 중간 끼어들기 음성을 넣는다. `metrics.jsonl`에는 발화 종료부터 첫 오디오까지 걸린 시간, 잘못 끊긴 횟수, 도구 호출 성공 여부를 기록한다. 이때 API 데모가 연구 가능한 하네스로 바뀐다.</p>
+<p>브라우저의 <code>client.ts</code>는 마이크 입력과 출력 재생을 담당하고 <code>server.ts</code>는 인증정보를 숨긴 채 세션을 만든다. OpenAI는 브라우저 연결에 WebRTC를, 서버 중심 구성에는 WebSocket을 안내한다. Google Live API도 클라이언트와 직접 통신하거나 백엔드 프록시를 두는 구성을 지원한다. citeturn0search0turn2search0turn2search1</p>
+<p><code>agent.ts</code>에는 역할, 말투, 응답 길이와 호출 가능한 도구를 넣는다. 예약 확인이나 검색 같은 함수는 음성 모델이 호출하되 실제 처리는 서버가 맡는다. 입력은 마이크 음성과 도구 결과이고, 산출물은 재생할 오디오와 이벤트 로그다.</p>
+<p>평가용 파일도 처음부터 필요하다. <code>eval/fixtures</code>에 침묵, 잡음, 말 고치기, 중간 끼어들기 음성을 넣는다. <code>metrics.jsonl</code>에는 발화 종료부터 첫 오디오까지 걸린 시간, 잘못 끊긴 횟수, 도구 호출 성공 여부를 기록한다. 이때 API 데모가 연구 가능한 하네스로 바뀐다.</p>
 <h2>좋은 연구 주제는 평균 품질이 아니라 실패 조건에서 나온다</h2>
 <p>VoiceBench는 음성 언어 모델을 지식, 명령 이행, 안전성 등 여러 축으로 평가한다. 최근 전이중 벤치마크는 여기에 응답 시점과 동시 발화까지 더한다. 단순히 자연스러운 음성을 골라내는 평가보다 실제 대화 구조에 가까워졌다. citeturn3search2turn3search3</p>
 <p>연구자는 같은 대본을 조용한 방과 카페 소음에서 실행할 수 있다. 말이 빠른 사용자와 긴 침묵을 두는 사용자, 한국어와 영어를 섞는 사용자도 비교한다. 평균 점수보다 어떤 조건에서 시스템이 상대의 말을 빼앗는지 기록해야 한다.</p>

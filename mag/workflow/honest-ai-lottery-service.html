@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -241,9 +243,9 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>로또 매쓰처럼 최근 회차의 출현 빈도와 제외 조건을 조합하는 도구는 선택 과정을 구조화한다. 사용자는 최근 회차 출현 빈도를 살피고 포함할 번호와 제외할 번호를 정한 뒤 결과를 저장할 수 있다. 다만 이런 필터는 취향을 반영할 뿐 다음 추첨의 적중 확률을 높이지 않는다.</p>
 <p>AI라는 이름은 여기서 쉽게 과장된다. 여러 모델이 같은 번호를 추천했거나 설명이 정교하다는 사실도 확률 우위의 증거가 아니다.</p>
 <h2>번호는 난수로 확정하고 AI는 설명만 맡긴다</h2>
-<p>정직한 서비스라면 LLM에 &quot;당첨 번호를 예측하라&quot;고 시키지 않으며 번호 생성은 서버의 난수 기능으로 분리해야 한다. Python 공식 문서는 `secrets`가 운영체제가 제공하는 강한 난수원을 사용한다고 설명한다.</p>
-<p>구현 순서는 구체적이다. 사용자가 게임 수, 선호 번호, 제외 번호를 입력하면 서버가 범위와 중복을 검사한 뒤 `SystemRandom().sample(range(1, 46), 6)` 같은 방식으로 여섯 개를 중복 없이 뽑아 정렬한다.</p>
-<p>서버는 확정 조합, 생성 시각, 알고리즘 버전, 요청 ID를 먼저 저장한다. 그다음 Claude API에 번호를 보내 이름과 짧은 설명만 생성하게 한다. Claude의 Structured Outputs는 `output_config.format`에 JSON Schema를 지정해 결과 형식을 고정할 수 있다.</p>
+<p>정직한 서비스라면 LLM에 &quot;당첨 번호를 예측하라&quot;고 시키지 않으며 번호 생성은 서버의 난수 기능으로 분리해야 한다. Python 공식 문서는 <code>secrets</code>가 운영체제가 제공하는 강한 난수원을 사용한다고 설명한다.</p>
+<p>구현 순서는 구체적이다. 사용자가 게임 수, 선호 번호, 제외 번호를 입력하면 서버가 범위와 중복을 검사한 뒤 <code>SystemRandom().sample(range(1, 46), 6)</code> 같은 방식으로 여섯 개를 중복 없이 뽑아 정렬한다.</p>
+<p>서버는 확정 조합, 생성 시각, 알고리즘 버전, 요청 ID를 먼저 저장한다. 그다음 Claude API에 번호를 보내 이름과 짧은 설명만 생성하게 한다. Claude의 Structured Outputs는 <code>output_config.format</code>에 JSON Schema를 지정해 결과 형식을 고정할 수 있다.</p>
 <p>Claude Code로 만든다면 난수 모듈, 입력 검증, 기록 저장, 설명 API를 별도 파일로 나누면 된다. AI가 돌려준 번호가 원본과 다르면 설명을 버리고 고정 문구를 표시한다. 화면에는 생성 방식과 공식 확률도 함께 보여준다.</p>
 <p>핵심 번호 생성에는 API 비용이 들지 않는다. 모델 호출은 ‘균형형 조합’, ‘기념일 제외형’처럼 결과를 읽기 쉽게 설명할 때만 필요하다. AI 장애가 나도 번호 생성과 확률 고지는 계속 작동해야 한다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/honest-ai-lottery-service.png" alt="" loading="lazy"><h2>결제 이유는 적중률보다 반복 사용 경험에서 나온다</h2>

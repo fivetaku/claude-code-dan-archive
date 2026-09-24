@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -239,30 +241,30 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>팩의 핵심은 문서를 많이 넣는 데 있지 않다. 원문과 파싱 결과에 안정적인 ID, 출처, 시각, 해시를 붙인다. 추출한 개념과 관계는 각각의 근거로 다시 추적할 수 있어야 한다.</p>
 <p>Microsoft Research가 공개한 GraphRAG도 비슷한 문제에서 출발했다. 일반 벡터 RAG는 가까운 문단을 찾지만 자료 전체의 관계를 묻는 질문에는 약하다. GraphRAG는 개체와 관계를 그래프로 만들고 연결된 군집을 요약해 전역 질문을 처리한다. OpenCrab은 여기에 재사용 가능한 배포 단위를 더한다. 질문은 &quot;모델이 무엇을 아는가&quot;에서 &quot;어떤 근거 구조를 모델에 공급했는가&quot;로 옮겨간다.</p>
 <h2>크롤링은 검색창 대신 mission.json에서 시작한다</h2>
-<p>CrabHarness는 수집 전에 `mission.json`을 작성하도록 설계됐다. 대상 사이트나 저장소, 허용 범위, 깊이, 최대 분량, 속도 제한을 먼저 고정한다. 필요한 증거와 통과 기준도 같은 파일에 넣는다.</p>
-<p>공개 예제는 `crabharness plan missions/examples/github-trending-harvest.json`으로 실행 계획을 확인한다. `crabharness delegate ...`는 Codex 작업자에게 전달할 명령을 보여준다. 실제 수집은 `crabharness run ...`으로 시작한다.</p>
+<p>CrabHarness는 수집 전에 <code>mission.json</code>을 작성하도록 설계됐다. 대상 사이트나 저장소, 허용 범위, 깊이, 최대 분량, 속도 제한을 먼저 고정한다. 필요한 증거와 통과 기준도 같은 파일에 넣는다.</p>
+<p>공개 예제는 <code>crabharness plan missions/examples/github-trending-harvest.json</code>으로 실행 계획을 확인한다. <code>crabharness delegate ...</code>는 Codex 작업자에게 전달할 명령을 보여준다. 실제 수집은 <code>crabharness run ...</code>으로 시작한다.</p>
 <p>실행 폴더에는 동결된 미션, Codex 위임 정보, 로그, 수집 번들, 검증 리포트가 남는다. 통과하면 OpenCrab용 노드·엣지 promotion package도 생성된다. 실패한 URL과 파서 오류까지 증거로 보존하는 구조다.</p>
 <p>여기에는 주의할 제한도 있다.</p>
 <p>현재 공개 코드의 의미 점수는 키워드 휴리스틱이며 LLM 평가 연동은 예정 상태다. &quot;검증됨&quot;이라는 표시는 사람이 기대하는 의미 품질과 같지 않다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/opencrab-ontology-pack-workflow.png" alt="" loading="lazy"><h2>팩의 품질은 관계를 원문까지 되짚을 수 있느냐로 갈린다</h2>
 <p>LocalCrab의 공장 흐름은 수집, 파싱, 증거 인덱싱, 그래프 추출, 정규화로 이어진다. 이후 Neo4j에서 참조 무결성을 확인하고 그래프를 다시 내보낸다. 마지막 산출물은 OpenCrab Pack v1 ZIP이다.</p>
-<p>ZIP에는 `manifest.json`, `graph/nodes.jsonl`, `graph/edges.jsonl`이 들어간다. `evidence/index.jsonl`과 `quality/report.json`도 필수다. 재현용 Cypher와 예시 질문, 커뮤니티 요약도 포함한다.</p>
+<p>ZIP에는 <code>manifest.json</code>, <code>graph/nodes.jsonl</code>, <code>graph/edges.jsonl</code>이 들어간다. <code>evidence/index.jsonl</code>과 <code>quality/report.json</code>도 필수다. 재현용 Cypher와 예시 질문, 커뮤니티 요약도 포함한다.</p>
 <p>공식 규격은 근거 없는 노드나 엣지를 승격하지 못하게 한다. 문서에 이유·개정·적용 제외 정보가 있으면 관계에도 보존해야 한다. 단순한 문서 요약보다 준비가 오래 걸리는 이유다. 써본 사람들 사이에서는 관계형 질문이 선명해졌다는 평가가 있다. 반면 개체 중복, 별칭 통합, 스키마 변경이 가장 큰 유지비라는 반응도 반복된다. 자료가 작고 단순하면 일반 RAG보다 무거울 수 있다.</p>
 <h2>Codex는 수집하고 Claude Code는 MCP로 팩을 꺼내 쓴다</h2>
 <p>방에서 공유된 역할 분담은 공개 구조와 맞는다. CrabHarness는 Codex 작업자에게 크롤링을 위임한다. Claude Code는 LocalCrab을 MCP 서버로 등록해 완성된 지식을 조회한다.</p>
-<p>설치는 저장소에서 `pip install -e &quot;.[dev]&quot;`로 진행한다. `opencrab serve`를 실행한 뒤 `opencrab status`와 `opencrab manifest`로 상태를 확인한다. `opencrab query &quot;질문&quot;`은 로컬 조회 경로를 시험한다.</p>
-<p>Claude Code 연결 명령은 `claude mcp add opencrab -- opencrab serve`다. MCP는 모델과 외부 데이터·도구를 잇는 공개 프로토콜이다. 같은 팩을 여러 작업에서 다시 쓰는 접점이 된다.</p>
-<p>1인 사업자라면 제품, 고객, 경쟁사 자료를 미션별로 분리할 수 있다. 소규모 팀은 `manifest.json`의 버전과 출처 범위를 함께 검토할 수 있다.</p>
+<p>설치는 저장소에서 <code>pip install -e &quot;.[dev]&quot;</code>로 진행한다. <code>opencrab serve</code>를 실행한 뒤 <code>opencrab status</code>와 <code>opencrab manifest</code>로 상태를 확인한다. <code>opencrab query &quot;질문&quot;</code>은 로컬 조회 경로를 시험한다.</p>
+<p>Claude Code 연결 명령은 <code>claude mcp add opencrab -- opencrab serve</code>다. MCP는 모델과 외부 데이터·도구를 잇는 공개 프로토콜이다. 같은 팩을 여러 작업에서 다시 쓰는 접점이 된다.</p>
+<p>1인 사업자라면 제품, 고객, 경쟁사 자료를 미션별로 분리할 수 있다. 소규모 팀은 <code>manifest.json</code>의 버전과 출처 범위를 함께 검토할 수 있다.</p>
 <p>프롬프트를 복사하는 대신 지식 변경 이력을 관리하는 방식이다.</p>
 <h2>SVG는 팩을 곧장 그리지 않고 명세와 컴파일을 거친다</h2>
 <p>OpenCrab 자체는 로고 생성기가 아니다. 온톨로지팩과 여러 스킬을 조합해 SVG까지 만들었다는 경험도 방에서 나왔다. 다만 사용한 로고 스킬과 품질 비교 자료는 공개 정보로 확인되지 않았다.</p>
 <p>로고 산출물의 근거를 끝까지 추적할 수 있게 만드는 별도 파이프라인을 붙였다는 설명도 있었다.</p>
-<p> 산출물은 SVG와 QA 리포트다. `validate` 명령으로 XML, ID, 출처 연결을 다시 검사한다.</p>
+<p> 산출물은 SVG와 QA 리포트다. <code>validate</code> 명령으로 XML, ID, 출처 연결을 다시 검사한다.</p>
 <p>브라우저에서 넓은 화면과 좁은 화면을 모두 렌더링해야 작업이 끝난다. 글자 충돌, 잘림, 대비, 확대 가독성도 직접 본다. 로고 사례의 핵심은 모델 조합보다 조사 근거가 명세와 검수까지 끊기지 않는 제작선에 있다.</p></div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">OpenCrab</span><span class="chip">온톨로지팩</span><span class="chip">Claude Code</span><span class="chip">Codex</span><span class="chip">GraphRAG</span><span class="chip">MCP</span><span class="chip">Semantic SVG</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/AlexAI-MCP/OpenCrab" rel="nofollow noopener">https://github.com/AlexAI-MCP/OpenCrab</a></li><li><a href="https://github.com/AlexAI-MCP/OpenCrab/blob/main/crabharness/README.md" rel="nofollow noopener">https://github.com/AlexAI-MCP/OpenCrab/blob/main/crabharness/README.md</a></li><li><a href="https://github.com/AlexAI-MCP/OpenCrab/blob/main/docs/localcrab-factory-workflow.md" rel="nofollow noopener">https://github.com/AlexAI-MCP/OpenCrab/blob/main/docs/localcrab-factory-workflow</a></li><li><a href="https://github.com/AlexAI-MCP/OpenCrab/blob/main/docs/opencrab-pack-v1.md" rel="nofollow noopener">https://github.com/AlexAI-MCP/OpenCrab/blob/main/docs/opencrab-pack-v1.md</a></li><li><a href="https://github.com/AlexAI-MCP/OpenCrab/blob/main/docs/localcrab-opencrab-relationship.md" rel="nofollow noopener">https://github.com/AlexAI-MCP/OpenCrab/blob/main/docs/localcrab-opencrab-relatio</a></li><li><a href="https://github.com/AlexAI-MCP/semantic-svg/blob/main/README.md" rel="nofollow noopener">https://github.com/AlexAI-MCP/semantic-svg/blob/main/README.md</a></li><li><a href="https://docs.anthropic.com/en/docs/mcp" rel="nofollow noopener">https://docs.anthropic.com/en/docs/mcp</a></li><li><a href="https://docs.anthropic.com/en/docs/claude-code/cli-usage" rel="nofollow noopener">https://docs.anthropic.com/en/docs/claude-code/cli-usage</a></li></ul></section>
-<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>OpenCrab 온톨로지팩은 일반 RAG와 무엇이 다른가?</h2><p class="sum">일반 RAG가 주로 유사한 문단을 찾는다면 OpenCrab 팩은 개념·관계·근거를 그래프로 묶는다. 각 노드와 엣지를 원문 증거까지 추적하도록 규격화한 점이 다르다.</p></article><article class="dcard"><div class="t">Q</div><h2>OpenCrab을 Claude Code에 어떻게 연결하나?</h2><p class="sum">LocalCrab을 설치하고 `opencrab serve`를 실행한다. 이후 `claude mcp add opencrab -- opencrab serve`로 MCP 서버를 등록하고 상태와 쿼리 경로를 확인한다.</p></article><article class="dcard"><div class="t">Q</div><h2>OpenCrab만으로 로고 SVG를 만들 수 있나?</h2><p class="sum">OpenCrab은 지식팩을 만들고 조회하는 도구이며 로고 생성기 자체는 아니다. 공개된 Semantic SVG를 쓰면 팩 스냅샷을 ArtifactSpec으로 변환해 SVG와 QA 리포트를 만들 수 있다.</p></article></div>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>OpenCrab 온톨로지팩은 일반 RAG와 무엇이 다른가?</h2><p class="sum">일반 RAG가 주로 유사한 문단을 찾는다면 OpenCrab 팩은 개념·관계·근거를 그래프로 묶는다. 각 노드와 엣지를 원문 증거까지 추적하도록 규격화한 점이 다르다.</p></article><article class="dcard"><div class="t">Q</div><h2>OpenCrab을 Claude Code에 어떻게 연결하나?</h2><p class="sum">LocalCrab을 설치하고 <code>opencrab serve</code>를 실행한다. 이후 <code>claude mcp add opencrab -- opencrab serve</code>로 MCP 서버를 등록하고 상태와 쿼리 경로를 확인한다.</p></article><article class="dcard"><div class="t">Q</div><h2>OpenCrab만으로 로고 SVG를 만들 수 있나?</h2><p class="sum">OpenCrab은 지식팩을 만들고 조회하는 도구이며 로고 생성기 자체는 아니다. 공개된 Semantic SVG를 쓰면 팩 스냅샷을 ArtifactSpec으로 변환해 SVG와 QA 리포트를 만들 수 있다.</p></article></div>
 <h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
 <footer><span>원 아카이브: <a href="../../s/2026-08-10-1330.html">2026-08-10 08-10 09:13~13:13</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
 </div>

@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -238,12 +240,12 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>끼리끼리 README는 입력 뒤 2~3개 질문을 거쳐 팀을 만든다고 설명한다. 플러그인이 작업 의도와 설치 환경을 먼저 읽어 리서치, 개발, 분석, 콘텐츠, 제품 가운데 프리셋을 고른다. 같은 문장을 넣어도 환경과 답변에 따라 구성이 달라질 수 있다.</p>
 <p>리서치는 기본적으로 리더와 리서처 둘로 시작한다. 개발은 리더와 개발자 둘, 콘텐츠는 작성자와 검토자를 붙인다. 프리셋은 완성된 조직도가 아니라 출발점이다.</p>
 <p>방에서 고정 구성을 활용하자는 의견이 나온 이유는 이해하기 쉽다. 같은 역할과 검토 순서를 쓰면 판단 기준을 반복하기 편하다. 그러나 저장소는 동일한 결론이나 정확도를 보장하지 않는다. 모델 버전과 입력 맥락이 달라지면 결과도 바뀔 수 있다.</p>
-<p>고정 팀은 실행 후 따로 저장해야 생긴다. 사용자가 저장에 동의하면 구성이 `.kkirikkiri/shared/saved-teams/` 아래에 남는다. 다음 세션에서 `/kkirikkiri use the research team from last time`처럼 불러올 수 있다. 잘 맞은 개별 에이전트는 `.claude/agents/`에 저장해 다른 프로젝트에서 재사용한다.</p>
+<p>고정 팀은 실행 후 따로 저장해야 생긴다. 사용자가 저장에 동의하면 구성이 <code>.kkirikkiri/shared/saved-teams/</code> 아래에 남는다. 다음 세션에서 <code>/kkirikkiri use the research team from last time</code>처럼 불러올 수 있다. 잘 맞은 개별 에이전트는 <code>.claude/agents/</code>에 저장해 다른 프로젝트에서 재사용한다.</p>
 <h2>설치부터 report.md까지 네 번의 입력으로 이어진다</h2>
-<p>먼저 Claude Code에서 `/plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git`를 실행한다. 이어 `/plugin install kkirikkiri@gptaku-plugins`로 플러그인을 설치한다. Anthropic은 외부 플러그인을 설치하기 전에 코드와 포함된 서버를 신뢰할 수 있는지 확인하라고 안내한다.</p>
-<p>Agent Teams를 쓰려면 `~/.claude/settings.json`의 `env`에 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`을 넣는다. 그다음 프로젝트 폴더에서 `/kkirikkiri 리서치 팀 만들어줘`처럼 목적을 적는다. Node.js는 외부 CLI 연동에 필요하다. tmux는 분할 화면을 볼 때만 선택 사항이다.</p>
-<p>플러그인은 Codex CLI, Antigravity CLI의 `agy`, gajae-code의 `gjc`, 기존 `.claude/agents/`를 찾는다.  최근 계열은 외부 작업자 후보를 Codex, agy, gjc로 정리했다. 외부 CLI가 없어도 Claude만으로 실행할 수 있다.</p>
-<p>사용자는 짧은 인터뷰에 답하고 제안된 역할과 실행 방식을 확인한다. Agent Teams 경로를 고르면 프로젝트에 세션별 폴더가 생긴다. `TEAM_PLAN.md`에는 목표와 담당을, `TEAM_PROGRESS.md`에는 진행 상태를 기록한다. `TEAM_FINDINGS.md`는 발견과 실패한 접근을 남긴다. `report.md`가 최종 결과를 모은다.</p>
+<p>먼저 Claude Code에서 <code>/plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git</code>를 실행한다. 이어 <code>/plugin install kkirikkiri@gptaku-plugins</code>로 플러그인을 설치한다. Anthropic은 외부 플러그인을 설치하기 전에 코드와 포함된 서버를 신뢰할 수 있는지 확인하라고 안내한다.</p>
+<p>Agent Teams를 쓰려면 <code>~/.claude/settings.json</code>의 <code>env</code>에 <code>CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1</code>을 넣는다. 그다음 프로젝트 폴더에서 <code>/kkirikkiri 리서치 팀 만들어줘</code>처럼 목적을 적는다. Node.js는 외부 CLI 연동에 필요하다. tmux는 분할 화면을 볼 때만 선택 사항이다.</p>
+<p>플러그인은 Codex CLI, Antigravity CLI의 <code>agy</code>, gajae-code의 <code>gjc</code>, 기존 <code>.claude/agents/</code>를 찾는다.  최근 계열은 외부 작업자 후보를 Codex, agy, gjc로 정리했다. 외부 CLI가 없어도 Claude만으로 실행할 수 있다.</p>
+<p>사용자는 짧은 인터뷰에 답하고 제안된 역할과 실행 방식을 확인한다. Agent Teams 경로를 고르면 프로젝트에 세션별 폴더가 생긴다. <code>TEAM_PLAN.md</code>에는 목표와 담당을, <code>TEAM_PROGRESS.md</code>에는 진행 상태를 기록한다. <code>TEAM_FINDINGS.md</code>는 발견과 실패한 접근을 남긴다. <code>report.md</code>가 최종 결과를 모은다.</p>
 <p>입력은 한 문장이지만 산출물은 계획, 작업 기록, 근거, 보고서로 나뉜다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-kkirikkiri-agent-team.png" alt="" loading="lazy"><h2>Agent Teams와 Workflow는 같은 병렬 실행이 아니다</h2>
 <p>Claude Code 자체도 자연어로 Agent Teams를 만들 수 있다. Anthropic 공식 문서에 따르면 팀원은 각자 독립 컨텍스트를 쓰고 공유 작업 목록과 메시지로 협업한다. 그러므로 &quot;한 문장으로 팀 생성&quot;만 끼리끼리의 독점 기능은 아니다.</p>
@@ -251,10 +253,10 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>Agent Teams는 서로 질문하고 반박해야 하는 조사와 디버깅에 맞는다. Anthropic은 독립 모듈 개발과 여러 관점의 리뷰도 강한 사례로 든다. 반대로 순차 작업, 같은 파일 수정, 의존성이 많은 작업에는 단일 세션이나 subagent가 낫다고 명시한다.</p>
 <p>끼리끼리의 Workflow는 대량의 독립 작업을 정해진 순서로 흘려보내는 쪽이다. 최신 Claude Code의 Dynamic Workflows도 JavaScript로 병렬 실행과 교차검증을 구성한다. 팀원 대화가 필요하면 Agent Teams, 반복 가능한 팬아웃이면 Workflow라는 구분이 핵심이다.</p>
 <h2>일관성은 역할 이름보다 기록과 완료 조건에서 나온다</h2>
-<p>같은 팀 이름만 유지해도 기준이 자동으로 고정되지는 않는다. 역할 카드에 담당 범위, 사용 도구, 실패 조건, 산출물 형식을 적어야 한다. `CLAUDE.md`에는 파일 규칙과 테스트 명령을 분명히 두는 편이 좋다. 각 에이전트가 프로젝트 규칙을 따로 읽기 때문이다.</p>
+<p>같은 팀 이름만 유지해도 기준이 자동으로 고정되지는 않는다. 역할 카드에 담당 범위, 사용 도구, 실패 조건, 산출물 형식을 적어야 한다. <code>CLAUDE.md</code>에는 파일 규칙과 테스트 명령을 분명히 두는 편이 좋다. 각 에이전트가 프로젝트 규칙을 따로 읽기 때문이다.</p>
 <p>직접 운용해 본 사람들 사이에서는 역할보다 작업 경계가 중요하다는 반응이 많다. 한 에이전트에는 한 기능, 한 파일 묶음, 한 가설처럼 독립된 소유권을 주라는 조언이다. 팀원이 같은 파일을 만지면 덮어쓰기가 생길 수 있다는 Anthropic의 경고와도 맞는다.</p>
 <p>판단형 작업은 반대 관점을 일부러 넣을 때 팀의 의미가 커진다. 예를 들어 리서처 둘이 같은 자료를 나누는 대신, 한쪽은 근거를 세우고 다른 쪽은 반례를 찾게 할 수 있다. 리더는 두 결과를 합치기 전에 불일치와 미확인 항목을 검사한다. 이런 프로토콜이 고정돼야 다음 실행과 비교할 수 있다.</p>
-<p>`TEAM_FINDINGS.md`에 실패 경로까지 남기는 이유도 여기에 있다. 새 팀원이 결론만 읽으면 같은 실수를 되풀이할 수 있다. 판단의 재현성은 사람 구성이 아니라 판단 과정의 흔적에서 나온다.</p>
+<p><code>TEAM_FINDINGS.md</code>에 실패 경로까지 남기는 이유도 여기에 있다. 새 팀원이 결론만 읽으면 같은 실수를 되풀이할 수 있다. 판단의 재현성은 사람 구성이 아니라 판단 과정의 흔적에서 나온다.</p>
 <h2>작은 팀에는 세 명으로 시작할 이유가 있다</h2>
 <p>Agent Teams는 팀원마다 별도 컨텍스트를 사용한다. Anthropic은 토큰 사용이 팀원 수에 따라 늘고 조율 비용도 커진다고 밝힌다. 공식 권장은 대개 3~5명부터 시작한다. 다만 작고 명확한 팀이 더 낫다는 쪽이다.</p>
 <p>써본 사람들 사이에서도 단순 병렬 작업은 subagent가 싸고 빠르다는 불만이 반복된다. 팀 간 메시지와 대기, 상태 복구가 실제 작업보다 길어질 수 있다는 것이다. 반면 여러 가설을 서로 깨뜨리거나 긴 조사를 분리할 때는 추가 비용을 받아들일 만하다는 의견도 있다.</p>

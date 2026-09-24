@@ -12,7 +12,7 @@
 <meta property="og:description" content="Claude Code와 Codex 계정 전환을 자동화할 때 Mobius, OpenCodex, CLIProxyAPI 중 무엇을 골라야 하는지 설치 방식과 유지보수 범위까지 비교한다.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/mag/tools/claude-code-account-proxy.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 계정 전환 프록시, 직접 만들까 기존 도구를 쓸까", "description": "Claude Code와 Codex 계정 전환을 자동화할 때 Mobius, OpenCodex, CLIProxyAPI 중 무엇을 골라야 하는지 설치 방식과 유지보수 범위까지 비교한다.", "datePublished": "2026-09-18", "dateModified": "2026-09-18", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-code-account-proxy.html"}, "articleSection": "도구·라이브러리", "keywords": "Claude Code, OpenCodex, Mobius, CLIProxyAPI, 계정 전환, AI 프록시, MCP", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 계정 전환 프록시, 직접 만들까 기존 도구를 쓸까", "description": "Claude Code와 Codex 계정 전환을 자동화할 때 Mobius, OpenCodex, CLIProxyAPI 중 무엇을 골라야 하는지 설치 방식과 유지보수 범위까지 비교한다.", "datePublished": "2026-09-18", "dateModified": "2026-09-18", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/claude-code-account-proxy.html"}, "articleSection": "도구·라이브러리", "keywords": "Claude Code, OpenCodex, Mobius, CLIProxyAPI, 계정 전환, AI 프록시, MCP", "image": "https://chat.axwith.com/mag/hero/claude-code-account-proxy.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Mobius와 OpenCodex의 가장 큰 차이는 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "Mobius는 Claude Code와 Codex의 로그인 계정을 전환하는 macOS 도구다. OpenCodex는 여러 모델 공급자와 계정 풀을 공통 요청 경로로 연결하는 로컬 프록시다."}}, {"@type": "Question", "name": "Claude Code 계정 자동 전환기를 직접 만들어도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "기술적으로 가능하지만 자격증명 복구, 로그 형식 변경, 실행 중 세션 충돌까지 관리해야 한다. 사용량 제한을 우회하려는 구성은 서비스 약관에 어긋날 수 있으므로 계정 용도와 정책을 먼저 확인해야 한다."}}, {"@type": "Question", "name": "OpenCodex에 장기 메모리를 연결하려면 어떻게 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "메모리 데이터베이스를 별도 MCP 서버로 만들고 Claude Code와 Codex 클라이언트에 등록하는 구성이 단순하다. 프록시와 기억 저장소를 분리하면 도구를 교체해도 메모리를 유지할 수 있다."}}]}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -226,7 +228,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
-
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-account-proxy.png" alt="Claude Code 계정 전환 프록시, 직접 만들까 기존 도구를 쓸까" loading="eager">
 <header>
   <span class="catchip c-tool">도구·라이브러리</span>
   <h1>Claude Code 계정 전환 프록시, 직접 만들까 기존 도구를 쓸까</h1>
@@ -235,30 +237,30 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </header>
 <div class="artbody"><p>Claude Code나 Codex의 사용 한도에 닿을 때마다 로그인 계정을 바꾸다 보면 금세 자동화하고 싶어진다. 다만 필요한 것이 계정 전환인지, 여러 모델을 하나의 API로 묶는 프록시인지부터 구분해야 한다. 이 차이를 놓치면 작은 편의 기능을 만들려다 인증과 장애 복구까지 떠안게 된다.</p>
 <h2>계정 전환기와 모델 프록시는 해결하는 문제가 다르다</h2>
-<p>Mobius는 macOS 메뉴바에서 Claude Code와 Codex 계정을 전환하는 도구다. 등록한 계정의 사용량과 리셋 시각을 보여주며, 한도가 소진되면 다음 계정으로 이동한다. 기본 계정의 한도가 복구된 뒤 다시 돌아가는 흐름도 지원한다. ([github.com](https://github.com/chussum/mobius))</p>
-<p>OpenCodex의 범위는 더 넓다. Codex의 Responses API와 Claude의 Messages API를 다른 모델 공급자의 형식으로 변환하는 로컬 데몬이다. 모델 라우팅부터 웹 대시보드, 계정 풀, 요청 기록, 서비스 자동 시작까지 한꺼번에 다룬다. ([github.com](https://github.com/groeponline/opencodex))</p>
+<p>Mobius는 macOS 메뉴바에서 Claude Code와 Codex 계정을 전환하는 도구다. 등록한 계정의 사용량과 리셋 시각을 보여주며, 한도가 소진되면 다음 계정으로 이동한다. 기본 계정의 한도가 복구된 뒤 다시 돌아가는 흐름도 지원한다. (<a href="https://github.com/chussum/mobius" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>OpenCodex의 범위는 더 넓다. Codex의 Responses API와 Claude의 Messages API를 다른 모델 공급자의 형식으로 변환하는 로컬 데몬이다. 모델 라우팅부터 웹 대시보드, 계정 풀, 요청 기록, 서비스 자동 시작까지 한꺼번에 다룬다. (<a href="https://github.com/groeponline/opencodex" target="_blank" rel="nofollow noopener">github.com</a>)</p>
 <p>개인 계정과 회사 계정을 오가는 불편만 없애려는 목적에는 Mobius가 더 가깝다. Claude Code의 인터페이스로 Gemini나 Ollama까지 호출하거나 여러 앱에서 공통 주소를 쓰려면 OpenCodex 같은 프록시가 맞다. 두 제품을 같은 체급으로 비교하면 OpenCodex는 불필요하게 무겁고, Mobius는 부족하게 느껴질 수 있다.</p>
 <h2>Mobius는 전환 상태를 로컬에서 관리한다</h2>
-<p>Mobius를 쓰려면 macOS 14 이상과 `claude` 또는 `codex` CLI가 필요하다. 릴리스의 DMG를 설치한 뒤 메뉴바에서 계정을 추가한다. Codex 계정은 터미널에서 `codex login`을 실행하면 등록된다. 카드 순서에 따라 기본 계정과 대체 계정의 우선순위가 정해진다.</p>
-<p>자동 전환의 핵심 입력은 로컬 세션 로그다. Mobius 문서에 따르면 Claude Code의 JSONL 로그에서 한도 이벤트를 찾고 Codex 로그에서는 구조화된 사용량 정보를 읽는다. 전환에 실패하면 이전 상태로 되돌린다. 짧은 시간에 계정이 연달아 바뀌는 현상을 막기 위한 대기 시간도 둔다. ([github.com](https://github.com/chussum/mobius))</p>
+<p>Mobius를 쓰려면 macOS 14 이상과 <code>claude</code> 또는 <code>codex</code> CLI가 필요하다. 릴리스의 DMG를 설치한 뒤 메뉴바에서 계정을 추가한다. Codex 계정은 터미널에서 <code>codex login</code>을 실행하면 등록된다. 카드 순서에 따라 기본 계정과 대체 계정의 우선순위가 정해진다.</p>
+<p>자동 전환의 핵심 입력은 로컬 세션 로그다. Mobius 문서에 따르면 Claude Code의 JSONL 로그에서 한도 이벤트를 찾고 Codex 로그에서는 구조화된 사용량 정보를 읽는다. 전환에 실패하면 이전 상태로 되돌린다. 짧은 시간에 계정이 연달아 바뀌는 현상을 막기 위한 대기 시간도 둔다. (<a href="https://github.com/chussum/mobius" target="_blank" rel="nofollow noopener">github.com</a>)</p>
 <p>구현 범위가 작다는 것이 이 구조의 장점이다. 반면 macOS 자격증명 저장소와 각 CLI의 내부 파일 형식에 의존한다. Claude Desktop 연동도 비공식 저장 구조를 사용하므로 업데이트 뒤 깨질 수 있다고 프로젝트가 직접 밝히고 있다.</p>
 <p>써본 사람들 사이에서는 메뉴바에서 사용량을 확인하는 방식이 편하다는 반응이 있다. 자동 전환보다는 알림만 받고 직접 계정을 고르는 편이 예측하기 쉽다는 의견도 나온다. 회사와 개인 작업의 경계를 엄격히 나눠야 한다면 자동화보다 수동 전환이 안전할 수 있다.</p>
-<h2>OpenCodex는 계정보다 요청 경로를 통합한다</h2>
-<p>OpenCodex의 기본 설치 순서는 구체적이다. Node.js 18 이상에서 `npm install -g @groeponline/opencodex`를 실행한 다음 `ocx init`으로 설정 파일과 Codex 연결을 만든다. 이어 `ocx start`를 실행하면 로컬 10100 포트에 프록시와 대시보드가 열린다. ([github.com](https://github.com/groeponline/opencodex))</p>
-<p>대시보드에서 공급자를 추가하고 API 키나 OAuth를 연결하면 모델 목록을 읽어 온다. 이후 `provider/model` 형식으로 모델을 고르거나 기본 공급자에 맡긴다. macOS는 launchd, Linux는 systemd, Windows는 작업 스케줄러나 서비스로 데몬을 유지할 수 있다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-account-proxy.png" alt="" loading="lazy"><h2>OpenCodex는 계정보다 요청 경로를 통합한다</h2>
+<p>OpenCodex의 기본 설치 순서는 구체적이다. Node.js 18 이상에서 <code>npm install -g @groeponline/opencodex</code>를 실행한 다음 <code>ocx init</code>으로 설정 파일과 Codex 연결을 만든다. 이어 <code>ocx start</code>를 실행하면 로컬 10100 포트에 프록시와 대시보드가 열린다. (<a href="https://github.com/groeponline/opencodex" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>대시보드에서 공급자를 추가하고 API 키나 OAuth를 연결하면 모델 목록을 읽어 온다. 이후 <code>provider/model</code> 형식으로 모델을 고르거나 기본 공급자에 맡긴다. macOS는 launchd, Linux는 systemd, Windows는 작업 스케줄러나 서비스로 데몬을 유지할 수 있다.</p>
 <p>계정 풀은 새 세션을 사용량이 낮은 계정으로 보낸다. 이미 시작된 대화는 처음 선택한 계정에 고정해 중간 전환으로 문맥이 흔들리지 않도록 한다. 429 응답에는 대기 상태를 적용하고 인증 실패는 재로그인이 필요한 계정으로 표시한다.</p>
 <p>기능이 많은 만큼 관리 대상도 늘어난다. 설정 파일과 백그라운드 서비스, 공급자 어댑터, 모델 별칭, 요청 로그가 생긴다. 실제 사용자 중에는 한 주소로 여러 모델을 연결할 수 있다는 점을 높이 평가하는 이들이 있다. 반면 클라이언트의 시스템 지침과 도구 스키마가 함께 전달돼 네이티브 CLI보다 지연과 사용량이 커졌다는 경험도 공유된다.</p>
-<p>여러 자체 앱에 OpenAI·Claude 호환 주소를 제공하려는 목적이라면 CLIProxyAPI도 비교 대상이다. 이 프로젝트는 OpenAI, Gemini, Claude, Codex 호환 인터페이스와 복수 CLI 계정을 제공하며 데스크톱 관리 앱도 별도로 둔다. ([github.com](https://github.com/router-for-me/CLIProxyAPI?utm_source=openai))</p>
+<p>여러 자체 앱에 OpenAI·Claude 호환 주소를 제공하려는 목적이라면 CLIProxyAPI도 비교 대상이다. 이 프로젝트는 OpenAI, Gemini, Claude, Codex 호환 인터페이스와 복수 CLI 계정을 제공하며 데스크톱 관리 앱도 별도로 둔다. (<a href="https://github.com/router-for-me/CLIProxyAPI" target="_blank" rel="nofollow noopener">github.com</a>)</p>
 <h2>직접 만들면 인증보다 상태 복구가 어려워진다</h2>
 <p>최소한의 전환기는 계정별 자격증명 사본을 저장하고 활성 파일이나 키체인을 교체한 뒤 CLI를 실행하면 된다. 실제 서비스로 쓰려면 이야기가 달라진다. 파일 쓰기 도중 실패했을 때의 원자적 복구부터 실행 중 세션의 토큰 갱신, 한도 리셋 시각, 프로세스 충돌, 로그 형식 변경까지 모두 처리해야 한다.</p>
-<p>프록시까지 만들면 `/v1/responses`와 `/v1/messages` 처리에 스트리밍, 도구 호출, 이미지 입력, 오류 코드 변환이 더해진다. 계정별 동시성 제한과 세션 고정도 필요하다.</p>
+<p>프록시까지 만들면 <code>/v1/responses</code>와 <code>/v1/messages</code> 처리에 스트리밍, 도구 호출, 이미지 입력, 오류 코드 변환이 더해진다. 계정별 동시성 제한과 세션 고정도 필요하다.</p>
 <p>그래도 직접 만들어야 하는 경우는 명확하다. 사내 인증 체계가 따로 있거나 감사 로그와 공급자 선택 규칙을 기존 도구로 표현할 수 없을 때다. 이 경우에도 프로토콜 변환기를 새로 작성하기보다는 OpenCodex나 CLIProxyAPI를 기반으로 정책 계층만 붙이는 편이 변경 범위를 줄인다.</p>
 <h2>메모리는 프록시 안보다 MCP 경계에 두는 편이 낫다</h2>
-<p>OpenCodex 데몬에 장기 메모리를 붙이자는 아이디어는 매력적이다. 그러나 프록시는 요청 전달과 인증 상태에 집중하고 기억은 별도 MCP 서버로 분리해야 교체하기 쉽다. MCP는 AI 애플리케이션을 파일, 데이터베이스, 도구와 연결하는 공개 표준이며 여러 클라이언트가 같은 서버를 사용할 수 있다. ([modelcontextprotocol.io](https://modelcontextprotocol.io/))</p>
+<p>OpenCodex 데몬에 장기 메모리를 붙이자는 아이디어는 매력적이다. 그러나 프록시는 요청 전달과 인증 상태에 집중하고 기억은 별도 MCP 서버로 분리해야 교체하기 쉽다. MCP는 AI 애플리케이션을 파일, 데이터베이스, 도구와 연결하는 공개 표준이며 여러 클라이언트가 같은 서버를 사용할 수 있다. (<a href="https://modelcontextprotocol.io/" target="_blank" rel="nofollow noopener">modelcontextprotocol.io</a>)</p>
 <p>프로젝트 기록을 저장할 데이터베이스를 정한 뒤 검색·추가·수정 도구를 MCP 서버로 노출하고, Claude Code와 Codex에 각각 등록하면 된다. 프록시가 바뀌어도 메모리 저장소는 남는다. 계정 토큰과 대화 기억 역시 서로 다른 저장 위치와 권한으로 분리할 수 있다.</p>
 <h2>마지막 기준은 기능 수가 아니라 신뢰 경계다</h2>
 <p>프록시와 전환기는 OAuth 토큰이나 CLI 자격증명을 다룬다. 저장 위치와 파일 권한, 로그의 민감정보 제거, 삭제 동작을 소스와 문서에서 확인해야 한다. 개인 장비에서만 쓸지, LAN에 열지, 팀원이 공유할지에 따라서도 선택이 달라진다.</p>
-<p>약관은 자동화 범위에도 제한을 둔다. Anthropic 소비자 약관은 계정 자격증명을 다른 사람과 공유하지 못하게 한다. OpenAI 이용약관은 계정 공유와 사용 제한 우회를 금지한다. Mobius 역시 한도를 늘리려고 여러 개인 계정을 순환하는 사용은 약관에 어긋날 수 있다고 경고한다. ([anthropic.com](https://www.anthropic.com/legal/consumer-terms))</p>
+<p>약관은 자동화 범위에도 제한을 둔다. Anthropic 소비자 약관은 계정 자격증명을 다른 사람과 공유하지 못하게 한다. OpenAI 이용약관은 계정 공유와 사용 제한 우회를 금지한다. Mobius 역시 한도를 늘리려고 여러 개인 계정을 순환하는 사용은 약관에 어긋날 수 있다고 경고한다. (<a href="https://www.anthropic.com/legal/consumer-terms" target="_blank" rel="nofollow noopener">anthropic.com</a>)</p>
 <p>계정 두 개을 편하게 구분하는 문제라면 Mobius급 전환기로 충분하다. 모델과 앱을 하나의 엔드포인트로 묶어야 할 때만 OpenCodex급 데몬이 값을 한다. 직접 개발을 선택할 기준은 코드가 짧은지가 아니다. 기존 도구가 담지 못하는 신뢰 정책이 실제로 존재하는지가 더 중요하다.</p></div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">OpenCodex</span><span class="chip">Mobius</span><span class="chip">CLIProxyAPI</span><span class="chip">계정 전환</span><span class="chip">AI 프록시</span><span class="chip">MCP</span></div>

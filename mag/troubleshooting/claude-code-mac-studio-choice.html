@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -244,7 +246,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>로컬 하드웨어가 맡는 일은 따로 있다. 저장소 검색, 패키지 설치, 빌드, 테스트, Docker, 브라우저 자동화가 그 대상이다. 큰 모노레포를 여러 갈래로 컴파일하거나 테스트 서버를 동시에 띄우면 CPU와 RAM, SSD가 체감 차이를 만든다. 텍스트 수정과 가벼운 웹 작업이 대부분이면 Mac Studio의 GPU 상당 부분은 쉬게 된다.</p>
 <p>이번 커뮤니티 논의에서는 비개발자가 여러 세션을 오래 쓸 때 상위 데스크톱이 마음을 편하게 한다는 의견이 많았다. 구매 뒤 아쉬움을 줄이는 기준으로는 이해할 수 있다. 그러나 Claude Code만 놓고 보면 고사양 GPU는 응답 품질을 사는 비용이 아니다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-mac-studio-choice.png" alt="" loading="lazy"><h2>로컬 LLM을 함께 돌리는 순간 선택 기준이 뒤집힌다</h2>
-<p>MLX LM은 Apple Silicon에서 모델 생성과 미세조정을 지원한다. MLX는 CPU와 GPU가 같은 물리 메모리에 접근하도록 설계됐다. 설치는 `pip install mlx-lm`, 첫 확인은 `mlx_lm.chat`로 시작한다. `--model`에 Hugging Face의 MLX 호환 모델을 넣으면 모델 파일을 받아 로컬에서 대화할 수 있다.</p>
+<p>MLX LM은 Apple Silicon에서 모델 생성과 미세조정을 지원한다. MLX는 CPU와 GPU가 같은 물리 메모리에 접근하도록 설계됐다. 설치는 <code>pip install mlx-lm</code>, 첫 확인은 <code>mlx_lm.chat</code>로 시작한다. <code>--model</code>에 Hugging Face의 MLX 호환 모델을 넣으면 모델 파일을 받아 로컬에서 대화할 수 있다.</p>
 <p>여기서는 메모리 용량이 입장권이다. MLX Community의 Llama 3.3 70B 4비트 파일은 39.7GB, Qwen3.5 122B-A10B 4비트는 69.6GB다. 파일 크기는 가중치 규모일 뿐 실제 실행 메모리와 같지 않다.</p>
 <p>양자화한 가중치와 KV 캐시, macOS가 쓸 공간까지 96GB 안에 들어오지 않으면 Ultra의 빠른 대역폭도 쓸 수 없다. MLX LM 문서도 RAM에 비해 큰 모델은 느려질 수 있고 긴 문맥의 캐시는 더 많은 메모리를 쓴다고 설명한다.</p>
 <p>반대로 원하는 모델과 문맥이 96GB에 넉넉히 들어가면 Ultra의 1.2TB/s 대역폭과 64코어 GPU가 유리할 가능성이 크다. 써본 사람들 사이에서는 큰 모델을 위해 128GB를 고르겠다는 반응과, 이미 들어가는 모델을 더 빠르게 돌리려고 Ultra를 택하겠다는 반응이 갈렸다. 출하 전 제품인 만큼 이 판단은 사양에 근거한 예상이며 실측 결론은 아니다.</p>
@@ -252,8 +254,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>Anthropic은 병렬 세션마다 별도 Git worktree를 쓰는 방식을 안내한다. 예를 들어 기능 개발, 테스트 수정, 문서 작업을 각 브랜치와 디렉터리에 나누면 같은 파일을 덮어쓰는 충돌을 줄일 수 있다. 각 세션이 빌드와 테스트를 함께 돌릴 때만 로컬 CPU와 메모리 요구가 빠르게 커진다.</p>
 <p>세션 수가 늘면 구독 한도도 함께 소모한다. Anthropic 도움말에 따르면 웹, Claude Code, IDE의 활동은 같은 계정 사용량에 합산된다. Mac Studio를 사도 이 병목은 바뀌지 않는다. 새 하드웨어보다 worktree 분리와 테스트 자원 배분이 먼저인 이유다.</p>
 <h2>VPS와 Claude Code 웹은 고정 자산 없이 병렬 작업을 늘린다</h2>
-<p>VPS에서는 Ubuntu 20.04 이상과 4GB 이상 RAM을 준비한다. 저장소를 복제한 뒤 Claude Code를 설치하면 된다. VS Code Remote-SSH로 원격 폴더를 열면 명령과 확장 기능도 서버에서 실행된다. 세션별 worktree와 `tmux`를 나누면 노트북을 닫아도 빌드와 에이전트 작업을 이어갈 수 있다.</p>
-<p>직접 서버를 관리하기 싫다면 `claude --cloud`로 Anthropic 관리 VM에 독립 작업을 보낼 수 있다. 공식 문서는 여러 cloud 세션을 동시에 만들 수 있다고 안내한다. 다만 비밀키와 저장소 권한, 월 사용료, 네트워크 장애를 관리해야 한다. Apple Silicon 전용 빌드와 MLX 로컬 추론도 일반 VPS가 대신하지 못한다.</p>
+<p>VPS에서는 Ubuntu 20.04 이상과 4GB 이상 RAM을 준비한다. 저장소를 복제한 뒤 Claude Code를 설치하면 된다. VS Code Remote-SSH로 원격 폴더를 열면 명령과 확장 기능도 서버에서 실행된다. 세션별 worktree와 <code>tmux</code>를 나누면 노트북을 닫아도 빌드와 에이전트 작업을 이어갈 수 있다.</p>
+<p>직접 서버를 관리하기 싫다면 <code>claude --cloud</code>로 Anthropic 관리 VM에 독립 작업을 보낼 수 있다. 공식 문서는 여러 cloud 세션을 동시에 만들 수 있다고 안내한다. 다만 비밀키와 저장소 권한, 월 사용료, 네트워크 장애를 관리해야 한다. Apple Silicon 전용 빌드와 MLX 로컬 추론도 일반 VPS가 대신하지 못한다.</p>
 <p>그래서 M5 Max 128GB와 M5 Ultra 96GB의 승자는 하나가 아니다. 96GB를 넘는 로컬 모델이 목표면 Max의 용량이 우선이다. 모델이 96GB 안에 들면서 처리 속도와 빌드 병렬성이 중요하면 Ultra가 맞다. Claude Code만 여러 개 띄우려면 Mac Studio는 AI 구독을 빠르게 만들지 않는다. 그 에이전트가 실행할 로컬 작업을 빠르게 만드는 장비다.</p></div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">Mac Studio</span><span class="chip">M5 Max</span><span class="chip">M5 Ultra</span><span class="chip">로컬 LLM</span><span class="chip">MLX</span><span class="chip">VPS</span></div>

@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -237,7 +239,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>Claude Code와 GPT 계열 Codex 중 무엇이 코딩에 더 나을까. 질문은 단순하다. 하지만 2026년 9월의 답은 모델 이름 하나로 끝나지 않는다. 이 기사는 업무 감각과 치명적 실수라는 두 체감을 실제 선택 기준으로 바꾼다.</p>
 <p>Claude와 GPT는 모델 계열이다. Claude Code와 OpenAI Codex는 모델이 파일을 읽고 명령을 실행하게 만드는 에이전트 도구다. 같은 모델도 권한, 도구, 추론 예산, 입력 맥락에 따라 다른 결과를 낸다.</p>
 <p>현재 Anthropic은 Claude Fable 5.1, Opus 5, Sonnet 5, Haiku 4.5를 제공한다. OpenAI는 GPT-5.6 Sol, Terra, Luna를 복잡도와 비용에 따라 나눈다. 두 회사 모두 최신 상위 모델에 100만 토큰급 API 컨텍스트를 제공한다.</p>
-<p>사용법은 닮았다. 프로젝트 폴더에서 `claude` 또는 `codex`를 실행하고 목표를 적는다. 도구는 저장소를 탐색하고 파일을 고친 뒤 테스트를 돌린다. Claude Code는 `CLAUDE.md`, 스킬, 훅, MCP로 작업 규칙을 확장하고, Codex는 모델과 reasoning effort, 샌드박스 권한, 리뷰 단계를 선택할 수 있다.</p>
+<p>사용법은 닮았다. 프로젝트 폴더에서 <code>claude</code> 또는 <code>codex</code>를 실행하고 목표를 적는다. 도구는 저장소를 탐색하고 파일을 고친 뒤 테스트를 돌린다. Claude Code는 <code>CLAUDE.md</code>, 스킬, 훅, MCP로 작업 규칙을 확장하고, Codex는 모델과 reasoning effort, 샌드박스 권한, 리뷰 단계를 선택할 수 있다.</p>
 <p>그래서 &quot;클로드가 센스 있다&quot;는 말은 모델만 평가하지 않는다. 프롬프트 해석, 맥락 수집, 도구 호출, 수정 범위까지 합친 경험이다.</p>
 <h2>공개 점수는 한 줄 순위를 허락하지 않는다</h2>
 <p>2026년 공개 PR 7,156건을 분석한 MSR 연구는 작업 종류가 수락률에 크게 작용한다고 밝혔다. Codex는 모든 과제 유형에서 고르게 높은 수락률을 보였다. Claude Code는 기능과 문서 작업에서 앞섰다. 다만 Claude의 일부 항목은 표본이 적었고 사용자와 저장소 차이도 통제되지 않았다.</p>

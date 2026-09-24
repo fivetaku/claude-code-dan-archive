@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -238,22 +240,22 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>공유된 패스트캠퍼스 세미나 안내도 최신 기능 소개보다 FAQ와 플러그인 활용에 무게를 뒀다. 저녁 세미나에서 GPTaku Plugin을 간단히 다루고, 다시보기는 강의 수강생에게만 제공한다는 내용이었다.</p>
 <p>이런 구성은 현재 Claude Code의 확장 방식과 맞물린다. FastCampus 강의 페이지도 커스텀 플러그인 설치와 Skills 제작을 입문 과정의 핵심 단계로 제시한다. 새 기능을 구경하는 데서 멈추지 않고, 반복 업무를 직접 묶어 쓰는 방향이다.</p>
 <p>Anthropic 공식 문서는 플러그인을 Skills·에이전트·Hooks·MCP 서버 등을 담는 배포 단위로 정의한다. GPTaku Plugins도 하나의 거대한 기능이 아니다. 조사, 기획, 디자인 분석, 코드 검토처럼 목적이 다른 플러그인을 한 마켓플레이스에서 제공한다.</p>
-<p>질문은 `GPTaku를 설치할까`보다 `내가 반복해서 막히는 작업이 무엇인가`에 가깝다.</p>
+<p>질문은 <code>GPTaku를 설치할까</code>보다 <code>내가 반복해서 막히는 작업이 무엇인가</code>에 가깝다.</p>
 <h2>마켓 등록과 플러그인 설치는 서로 다른 단계다</h2>
-<p>GPTaku Plugins는 Anthropic 공식 마켓플레이스가 아니다. `fivetaku/gptaku_plugins`가 공개한 제3자 Claude Code 마켓플레이스다. 공식 마켓과 같은 설치 구조를 쓰지만, Anthropic이 기능을 보증하지는 않는다.</p>
+<p>GPTaku Plugins는 Anthropic 공식 마켓플레이스가 아니다. <code>fivetaku/gptaku_plugins</code>가 공개한 제3자 Claude Code 마켓플레이스다. 공식 마켓과 같은 설치 구조를 쓰지만, Anthropic이 기능을 보증하지는 않는다.</p>
 <p>설치는 Claude Code 안에서 세 단계로 진행한다. 먼저 아래 명령으로 마켓플레이스 목록을 등록한다.</p>
-<p>`/plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git`</p>
-<p>이 명령만으로 개별 도구가 설치되지는 않는다. 공개 웹페이지 조사에 쓰는 `insane-search`를 선택했다면 다음 명령을 실행한다.</p>
-<p>`/plugin install insane-search@gptaku-plugins`</p>
-<p>현재 세션에 변경 내용을 반영하려면 `/reload-plugins`를 실행한다. Anthropic 공식 문서도 마켓 등록과 개별 설치를 별도 단계로 설명한다. 플러그인이 보이지 않을 때는 `/plugin`의 Installed·Errors 화면과 `/doctor`를 확인할 수 있다.</p>
+<p><code>/plugin marketplace add https://github.com/fivetaku/gptaku_plugins.git</code></p>
+<p>이 명령만으로 개별 도구가 설치되지는 않는다. 공개 웹페이지 조사에 쓰는 <code>insane-search</code>를 선택했다면 다음 명령을 실행한다.</p>
+<p><code>/plugin install insane-search@gptaku-plugins</code></p>
+<p>현재 세션에 변경 내용을 반영하려면 <code>/reload-plugins</code>를 실행한다. Anthropic 공식 문서도 마켓 등록과 개별 설치를 별도 단계로 설명한다. 플러그인이 보이지 않을 때는 <code>/plugin</code>의 Installed·Errors 화면과 <code>/doctor</code>를 확인할 수 있다.</p>
 <p>설치 범위도 정해야 한다. user 범위는 개인의 모든 프로젝트, project 범위는 저장소 협업자, local 범위는 해당 저장소의 현재 사용자에게 적용된다. 개인 개발자는 local 또는 user 범위로 시험하고, 팀 공유는 코드 검토 뒤 project 범위를 택하는 편이 안전하다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-gptaku-plugins-guide.png" alt="" loading="lazy"><h2>작업의 입력과 산출물로 플러그인을 고른다</h2>
-<p>웹 조사가 자주 막힌다면 `insane-search`가 가장 단순한 출발점이다. 마켓 등록과 설치를 마친 뒤 `Reddit에서 Claude Code 플러그인 반응을 찾아 요약해줘`처럼 자연어로 요청한다. 플러그인은 일반 접근부터 공개 API·리더·브라우저 방식까지 순차적으로 시도하도록 설계됐다.</p>
+<p>웹 조사가 자주 막힌다면 <code>insane-search</code>가 가장 단순한 출발점이다. 마켓 등록과 설치를 마친 뒤 <code>Reddit에서 Claude Code 플러그인 반응을 찾아 요약해줘</code>처럼 자연어로 요청한다. 플러그인은 일반 접근부터 공개 API·리더·브라우저 방식까지 순차적으로 시도하도록 설계됐다.</p>
 <p>산출물은 접근 가능한 공개 자료를 모은 요약이다. 로그인 권한이나 유료 콘텐츠를 새로 얻어주는 도구는 아니다. 제작자는 별도 API 키 없이 사용할 수 있다고 설명하지만, 대상 사이트의 정책과 접근 조건은 그대로 남는다.</p>
-<p>아이디어를 개발 문서로 바꾸려면 `show-me-the-prd`가 맞는다. 해당 플러그인을 설치한 뒤 `/show-me-the-prd 사진 정리 앱을 만들고 싶다`처럼 입력한다. 이어지는 질문에 사용자와 문제, 핵심 기능, 제약을 답하면 문서가 만들어진다.</p>
+<p>아이디어를 개발 문서로 바꾸려면 <code>show-me-the-prd</code>가 맞는다. 해당 플러그인을 설치한 뒤 <code>/show-me-the-prd 사진 정리 앱을 만들고 싶다</code>처럼 입력한다. 이어지는 질문에 사용자와 문제, 핵심 기능, 제약을 답하면 문서가 만들어진다.</p>
 <p>프로젝트 설명에 명시된 산출물은 PRD, 데이터 모델, 단계별 계획, AI 프로젝트 사양이다. 막연한 아이디어를 바로 구현시키는 대신, Claude Code가 읽을 작업 재료부터 만든다. 생성된 문서는 확정 계약이 아니므로 가정과 범위를 사용자가 다시 확인해야 한다.</p>
-<p>공식 문서만 근거로 기술 질문에 답하게 하려면 `docs-guide`가 더 적합하다. 넓은 주제를 출처와 함께 조사하려면 `insane-research`, 웹사이트 CSS를 분석하려면 `insane-design`을 고른다. PRD 이후 실행 계약은 `goaljaby`, 병렬 개발은 `pumasi`나 `kkirikkiri`가 맡는다.</p>
-<p>외부 조건도 선택 기준이다. GPTaku 저장소에 따르면 `nopal`은 Google 계정과 `gws` 로그인이 필요하다. `insane-review`는 로그인된 ChatGPT Plus·Pro 웹 세션, `pumasi`는 Codex CLI를 요구한다. 설치 전에 각 저장소의 입력·산출물·의존성을 확인해야 하는 이유다.</p>
+<p>공식 문서만 근거로 기술 질문에 답하게 하려면 <code>docs-guide</code>가 더 적합하다. 넓은 주제를 출처와 함께 조사하려면 <code>insane-research</code>, 웹사이트 CSS를 분석하려면 <code>insane-design</code>을 고른다. PRD 이후 실행 계약은 <code>goaljaby</code>, 병렬 개발은 <code>pumasi</code>나 <code>kkirikkiri</code>가 맡는다.</p>
+<p>외부 조건도 선택 기준이다. GPTaku 저장소에 따르면 <code>nopal</code>은 Google 계정과 <code>gws</code> 로그인이 필요하다. <code>insane-review</code>는 로그인된 ChatGPT Plus·Pro 웹 세션, <code>pumasi</code>는 Codex CLI를 요구한다. 설치 전에 각 저장소의 입력·산출물·의존성을 확인해야 하는 이유다.</p>
 <h2>Skills와 MCP를 이미 쓴다면 역할부터 나눠야 한다</h2>
 <p>Anthropic은 Skills를 재사용할 지식과 절차로 설명한다. MCP는 데이터베이스나 Slack 같은 외부 서비스에 도구 접근을 제공한다. Hooks는 파일 수정이나 세션 종료 같은 사건에 자동으로 반응한다.</p>
 <p>플러그인은 이 요소들을 설치 가능한 묶음으로 배포한다. 기존 MCP 위에 사용 절차를 담은 Skill을 얹거나, 편집 뒤 검사를 실행하는 Hook을 함께 넣을 수 있다. 그래서 플러그인과 MCP를 경쟁 제품처럼 비교하면 선택이 꼬인다.</p>
@@ -261,13 +263,13 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>공식 문서에 따르면 모델이 호출할 수 있는 Skill은 이름과 설명을 매 요청의 컨텍스트에 싣는다. 본문 전체는 실제 호출할 때 로드된다. 수동 호출만 허용하면 평소 컨텍스트 비용을 줄일 수 있다.</p>
 <h2>플러그인의 편리함은 신뢰 검토를 대신하지 않는다</h2>
 <p>Anthropic은 플러그인과 마켓플레이스가 사용자 권한으로 임의 코드를 실행할 수 있다고 경고한다. MCP 서버와 실행 스크립트, Hooks도 플러그인에 포함될 수 있다. 공개 저장소라는 사실만으로 안전성이 자동 확인되지는 않는다.</p>
-<p>설치 전에는 `.claude-plugin/marketplace.json`에서 실제 소스 위치를 확인해야 한다. 개별 저장소에서는 `SKILL.md`, 실행 스크립트, Hooks, 외부 CLI와 인증 요구를 살핀다. 업무용 저장소라면 파일 쓰기와 외부 전송 경로도 검토 대상이다.</p>
+<p>설치 전에는 <code>.claude-plugin/marketplace.json</code>에서 실제 소스 위치를 확인해야 한다. 개별 저장소에서는 <code>SKILL.md</code>, 실행 스크립트, Hooks, 외부 CLI와 인증 요구를 살핀다. 업무용 저장소라면 파일 쓰기와 외부 전송 경로도 검토 대상이다.</p>
 <p>최근 Claude Code는 플러그인 의존성 정리와 HTTPS 소스 선호 설정을 추가했다. 사용하지 않은 플러그인을 찾는 관리 화면도 강화됐다. 확장 생태계가 커지면서 설치보다 제거와 추적이 중요한 기능이 됐다.</p>
 <p>GPTaku Plugins의 강점은 Claude Code에 새로운 모델을 넣는 데 있지 않다. 조사와 문서화, 검토처럼 반복되는 절차를 이름 있는 작업으로 고정한다. FAQ 중심 세미나가 짚은 핵심도 여기에 있다. 업데이트를 얼마나 아는지가 아니라, 자주 막히는 한 작업을 재현 가능한 흐름으로 바꿀 수 있는지가 활용 수준을 가른다.</p></div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">GPTaku Plugins</span><span class="chip">Claude Code 플러그인</span><span class="chip">Agent Skills</span><span class="chip">MCP</span><span class="chip">바이브코딩</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://fastcampus.co.kr/biz_online_claudecode" rel="nofollow noopener">https://fastcampus.co.kr/biz_online_claudecode</a></li><li><a href="https://github.com/fivetaku/gptaku_plugins" rel="nofollow noopener">https://github.com/fivetaku/gptaku_plugins</a></li><li><a href="https://github.com/fivetaku/gptaku_plugins/blob/main/.claude-plugin/marketplace.json" rel="nofollow noopener">https://github.com/fivetaku/gptaku_plugins/blob/main/.claude-plugin/marketplace.</a></li><li><a href="https://github.com/fivetaku/insane-search" rel="nofollow noopener">https://github.com/fivetaku/insane-search</a></li><li><a href="https://github.com/fivetaku/show-me-the-prd" rel="nofollow noopener">https://github.com/fivetaku/show-me-the-prd</a></li><li><a href="https://code.claude.com/docs/en/discover-plugins" rel="nofollow noopener">https://code.claude.com/docs/en/discover-plugins</a></li><li><a href="https://code.claude.com/docs/en/plugins-reference" rel="nofollow noopener">https://code.claude.com/docs/en/plugins-reference</a></li><li><a href="https://code.claude.com/docs/en/features-overview" rel="nofollow noopener">https://code.claude.com/docs/en/features-overview</a></li></ul></section>
-<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins는 Anthropic 공식 플러그인인가요?</h2><p class="sum">아니다. `fivetaku/gptaku_plugins`가 배포하는 제3자 Claude Code 마켓플레이스다. Claude Code의 공식 플러그인 형식을 사용하지만 Anthropic의 기능 보증을 의미하지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins는 어떻게 설치하나요?</h2><p class="sum">Claude Code에서 마켓플레이스를 등록한 뒤 원하는 플러그인을 별도로 설치한다. 설치 후 `/reload-plugins`를 실행하면 현재 세션에 변경 사항을 반영할 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins 중 무엇부터 설치해야 하나요?</h2><p class="sum">공개 웹 조사가 자주 막히면 `insane-search`, 아이디어를 제품 문서로 만들려면 `show-me-the-prd`가 적합하다. 여러 개를 한꺼번에 설치하기보다 반복하는 작업 하나에 맞춰 선택하는 편이 낫다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins 사용에 API 키가 필요한가요?</h2><p class="sum">제작자 설명상 다수의 플러그인은 추가 API 키 없이 작동한다. 다만 `nopal`, `insane-review`, `pumasi`처럼 외부 로그인이나 별도 CLI가 필요한 예외가 있다.</p></article></div>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins는 Anthropic 공식 플러그인인가요?</h2><p class="sum">아니다. <code>fivetaku/gptaku_plugins</code>가 배포하는 제3자 Claude Code 마켓플레이스다. Claude Code의 공식 플러그인 형식을 사용하지만 Anthropic의 기능 보증을 의미하지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins는 어떻게 설치하나요?</h2><p class="sum">Claude Code에서 마켓플레이스를 등록한 뒤 원하는 플러그인을 별도로 설치한다. 설치 후 <code>/reload-plugins</code>를 실행하면 현재 세션에 변경 사항을 반영할 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins 중 무엇부터 설치해야 하나요?</h2><p class="sum">공개 웹 조사가 자주 막히면 <code>insane-search</code>, 아이디어를 제품 문서로 만들려면 <code>show-me-the-prd</code>가 적합하다. 여러 개를 한꺼번에 설치하기보다 반복하는 작업 하나에 맞춰 선택하는 편이 낫다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPTaku Plugins 사용에 API 키가 필요한가요?</h2><p class="sum">제작자 설명상 다수의 플러그인은 추가 API 키 없이 작동한다. 다만 <code>nopal</code>, <code>insane-review</code>, <code>pumasi</code>처럼 외부 로그인이나 별도 CLI가 필요한 예외가 있다.</p></article></div>
 <h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="dexa-vfx-remotion-hyperframes.html">모션 이펙트 214종을 코드로 가져오는 법, Remotion과 HyperFrames</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-ai-archive-magazine.html">오픈채팅 대화 AI 자동 아카이브·매거진, 어디까지 믿을 수 있나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-adoption-authority-bottleneck.html">AI 전환이 막히는 진짜 이유, 기술 아닌 권한 문제</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="seedance-25-unlimited-access.html">Seedance 2.5 무제한 이용처, 어디까지 진짜인가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="grok-annual-discount-eligibility.html">그록 SuperGrok 연간 구독 할인, 대상은 왜 갈렸나</a></h3></div></article></section>
 <footer><span>원 아카이브: <a href="../../s/2026-08-25-2200.html">2026-08-25 08-25 17:25~21:43</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
 </div>

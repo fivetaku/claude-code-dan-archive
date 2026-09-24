@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -240,18 +242,18 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>클라우드 Claude Code와 가벼운 CRUD 개발이 중심이라면 24GB는 합리적이다. 반면 세션 여러 개와 브라우저, 로컬 데이터베이스, 컨테이너를 늘 켜둔다면 32GB가 대기 시간을 줄이는 보험에 가깝다.</p>
 <h2>Docker를 어디서 돌리느냐가 8GB 차이를 바꾼다</h2>
 <p>Docker Desktop 공식 설정에서 Mac용 Linux VM의 기본 메모리 한도는 호스트 RAM의 50%다. 24GB Mac이라면 설정상 최대 12GB가 VM 몫이 될 수 있다. 실제 사용량은 컨테이너 구성에 따라 달라진다. 유휴 VM을 멈추는 Resource Saver는 호스트 사용량을 2GB 이상 줄인다고 Docker가 안내한다. 다만 컨테이너가 계속 도는 개발 환경에서는 절약 효과가 제한된다. 메모리 한도를 무작정 키우기보다 필요한 서비스만 올리는 편이 먼저다.</p>
-<p>방 논의에서 나온 “Docker 서버를 분리하자”는 방법도 공식 지원 경로가 있다. Linux 서버에 SSH 접근을 만든 뒤 `docker context create --docker host=ssh://user@server devbox`를 실행한다. 이어 `docker context use devbox`로 빌드와 컨테이너를 원격 엔진에 보낸다.</p>
+<p>방 논의에서 나온 “Docker 서버를 분리하자”는 방법도 공식 지원 경로가 있다. Linux 서버에 SSH 접근을 만든 뒤 <code>docker context create --docker host=ssh://user@server devbox</code>를 실행한다. 이어 <code>docker context use devbox</code>로 빌드와 컨테이너를 원격 엔진에 보낸다.</p>
 <p>이 구성은 가벼운 Air를 편집기와 Claude Code 단말로 남긴다.</p>
 <p>개인 개발자에게는 24GB Air와 기존 서버 조합이 32GB 업그레이드보다 실용적일 수 있다. 네트워크 지연과 서버 보안 관리가 새 비용으로 붙는다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-macbook-air-memory-guide.png" alt="" loading="lazy"><h2>로컬 LLM을 넣으면 32GB의 의미가 달라진다</h2>
 <p>Ollama는 Apple Silicon의 통합 메모리를 모델과 컨텍스트 캐시에 사용한다. 공식 문서는 24~48GiB 구간에서 기본 컨텍스트를 32K로 잡는다. 웹 검색과 코딩 에이전트에는 최소 64K 컨텍스트를 권한다. 길이를 늘리면 메모리도 더 든다. 2026년 Ollama의 MLX 미리보기에서 Qwen3.5-35B-A3B 코딩 모델은 32GB를 초과한 통합 메모리를 요구했다. 32GB Air를 샀다고 해당 구성의 권장선을 충족하는 것은 아니다. 운영체제와 개발 도구가 같은 메모리 풀을 나눠 쓰기 때문이다.</p>
-<p>직접 시험할 때는 작은 모델부터 `ollama run &lt;model&gt;`로 실행한다. `ollama ps`에서 적재 상태를 본다. Activity Monitor의 메모리 압력과 Swap Used를 함께 기록한다. 평소 프로젝트와 브라우저를 그대로 연 상태에서 저장소 탐색, 테스트 생성, 수정 작업을 차례로 시켜야 한다.</p>
+<p>직접 시험할 때는 작은 모델부터 <code>ollama run &lt;model&gt;</code>로 실행한다. <code>ollama ps</code>에서 적재 상태를 본다. Activity Monitor의 메모리 압력과 Swap Used를 함께 기록한다. 평소 프로젝트와 브라우저를 그대로 연 상태에서 저장소 탐색, 테스트 생성, 수정 작업을 차례로 시켜야 한다.</p>
 <p>써본 사람들 사이에서도 평가는 갈린다. 24GB에서는 작은 모델도 긴 에이전트 작업이 답답하다는 반응이 있는 반면, 32GB Air에서 강한 양자화와 짧은 컨텍스트로 일상 작업을 처리했다는 경험도 있다. 공통점은 클라우드 최상위 모델을 완전히 대체하기 어렵다는 점이다.</p>
 <h2>Air와 Pro의 차이는 순간 속도보다 지속 부하다</h2>
 <p>M5 Air는 팬이 없는 완전 무소음 설계다. 짧은 코드 실행과 일반 웹 개발에는 장점이 크다. 장시간 컴파일, 영상 인코딩, 로컬 추론처럼 열이 계속 나는 작업에서는 능동 냉각이 있는 Pro가 유리하다. 여러 리뷰의 멀티코어 벤치마크에서 M5 Air는 같은 M5의 14인치 Pro보다 낮은 점수를 보였다. 단일 시험이 모든 개발 작업을 대표하지는 않는다. 그래도 팬리스 Air가 지속 부하에서 전력을 낮춘다는 방향은 확인된다.</p>
 <p>중고 M1 Pro·Max가 대안으로 거론되는 이유는 최신 CPU 점수만이 아니다. Apple 사양상 M1 Pro는 최대 32GB와 200GB/s, M1 Max는 최대 64GB와 400GB/s 메모리 대역폭을 지원한다. M5 Air의 153GB/s보다 로컬 추론에 유리한 여지가 있다.</p>
 <p>대신 중고는 배터리 상태, 무게, 남은 지원 기간을 감수한다.</p>
-<p>Apple은 거래 전에 Activation Lock 해제를 확인하도록 안내한다. 판매자가 `Find My`에서 기기를 제거하지 못하면 값싼 사양도 선택지에서 제외해야 한다.</p>
+<p>Apple은 거래 전에 Activation Lock 해제를 확인하도록 안내한다. 판매자가 <code>Find My</code>에서 기기를 제거하지 못하면 값싼 사양도 선택지에서 제외해야 한다.</p>
 <h2>24GB와 32GB는 미래 계획이 아니라 오늘의 동시 작업으로 고른다</h2>
 <p>현재 업무가 Claude Code, IDE, 브라우저, 소수 컨테이너라면 24GB Air가 질문에 가장 곧은 답이다. Docker를 원격으로 옮길 수 있다면 여유는 더 커진다. 휴대성이 중요하면 13인치 선택도 자연스럽다.</p>
 <p>32GB Air는 컨테이너와 세션을 자주 겹치거나, 작은 로컬 모델을 실험하려는 사람에게 맞는다. 다만 본격적인 로컬 LLM이 구매 이유라면 8GB 추가만으로 해결됐다고 보면 안 된다. 48GB 이상 Pro·Max, 중고 M1 Max, 별도 추론 서버가 더 정확한 비교 대상이다.</p>

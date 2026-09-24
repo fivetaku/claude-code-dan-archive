@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -233,7 +235,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
   <p class="sub">대기시간과 구독료 비교를 넘어, 품질을 유지한 업무 한 건의 총비용으로 AX 성과를 측정하는 법</p>
   <div class="meta"><span>2026-09-05</span><span>논의 <b>1</b>회 정리</span></div>
 </header>
-<div class="artbody"><p>AI 콜센터는 대기시간을 줄이고 Claude Code는 코딩 시간을 줄인다. 하지만 빠른 응답과 비싼 요금제만 비교하면 AX의 실제 수익성은 확인되지 않는다. 지금 필요한 질문은 하나다. **품질을 유지한 완료 업무 한 건의 총비용이 정말 낮아졌는가.**</p>
+<div class="artbody"><p>AI 콜센터는 대기시간을 줄이고 Claude Code는 코딩 시간을 줄인다. 하지만 빠른 응답과 비싼 요금제만 비교하면 AX의 실제 수익성은 확인되지 않는다. 지금 필요한 질문은 하나다. <strong>품질을 유지한 완료 업무 한 건의 총비용이 정말 낮아졌는가.</strong></p>
 <h2>절감률은 ROI의 출발점일 뿐이다</h2>
 <p>클코단 대화에서는 경영진이 절감률과 24시간 대응을 선호한다는 의견이 나왔다. 월간 인건비 감소액도 보고하기 쉬운 숫자다. 절감액만으로 투자 효과를 판단하면 구축비와 운영비가 빠진다. 그게 문제다.</p>
 <p>ROI의 분자는 순편익이다. 인건비 절감, 추가 매출, 이탈 방지액을 더한 뒤 모델·통합·평가·보안·교육 비용을 뺀다. 그 값을 총투자액으로 나누면 된다. 상담 한 건이나 배포 한 건처럼 반복되는 단위로 계산해야 규모가 커질 때의 변화도 보인다.</p>
@@ -246,7 +248,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>그래서 대기시간·평균처리시간과 함께 첫 문의 해결률, 재접촉률, 사람 전환률, 고객 만족도를 묶어야 한다. 24시간 응답도 해결까지 끝났을 때만 성과다. 답변은 빨랐지만 사람이 다시 처리했다면 비용이 두 번 든다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/ai-roi-cost-per-outcome.png" alt="" loading="lazy"><h2>Claude Code 요금은 완료 작업당 비용으로 비교한다</h2>
 <p>고가 AI 요금제가 개발자 채용이나 외주보다 저렴할 수 있다는 의견은 조건부로 맞다. 비교 단위가 월 구독료와 월급이면 판단이 흔들린다. Claude Code를 쓴 기능의 완료시간, 검토시간, 재작업, 장애 비용까지 합쳐야 한다.</p>
-<p>Anthropic의 Claude Code 비용 문서는 API 사용자가 `/cost`로 세션 비용을 확인할 수 있다고 안내한다. 조직은 분석 대시보드에서 사용량과 비용을 살핀다. 개인 개발자는 작업별로 세션을 나누고 시작·종료 시각과 비용을 이슈에 기록하면 최소한의 원가표가 나온다.</p>
+<p>Anthropic의 Claude Code 비용 문서는 API 사용자가 <code>/cost</code>로 세션 비용을 확인할 수 있다고 안내한다. 조직은 분석 대시보드에서 사용량과 비용을 살핀다. 개인 개발자는 작업별로 세션을 나누고 시작·종료 시각과 비용을 이슈에 기록하면 최소한의 원가표가 나온다.</p>
 <p>비용 장부에는 네 항목이 필요하다. 구독료와 API 요금은 직접비다. 프롬프트 작성과 검토는 노동비, 되돌린 변경과 장애는 실패비다. 보안 검토나 외부 모델 사용 제한 때문에 생긴 지연도 프로젝트 비용에 포함한다.</p>
 <p>생산성 근거도 한 방향이 아니다. GitHub의 통제 실험에서는 Copilot 사용자가 정해진 코딩 과제를 55.8% 빨리 끝냈다. 반면 METR의 2025년 무작위 연구에서는 익숙한 오픈소스 저장소를 다룬 숙련 개발자 16명이 AI 도구 사용 시 평균 19% 느려졌다. 도구명과 과제는 다르지만 구독만으로 절감률을 가정하면 안 된다는 경고는 같다.</p>
 <p>써본 사람들 사이에서는 큰 작업을 한 세션에 몰아넣으면 비용과 맥락 관리가 어려워진다는 반응도 있다. 반대로 반복 수정과 테스트를 맡길 때 요금이 아깝지 않다는 평가도 나온다. 그만큼 업무 유형별로 나눠 측정해야 한다.</p>
@@ -258,7 +260,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>작은 팀은 거창한 AX 대시보드가 필요 없다. 스프레드시트에 업무 유형, AI 사용 여부, 시간, 직접비, 재작업, 품질 결과를 한 줄씩 기록하면 된다. 표본이 적을수록 평균 하나보다 중앙값과 실패 사례를 함께 보는 편이 안전하다.</p>
 <h2>자동화가 만든 여유를 어디에 썼는지가 남는다</h2>
 <p>전사 AX의 성과는 몇 퍼센트를 줄였다는 보고에서 멈추지 않는다. 줄어든 대기시간이 고객 유지로 이어졌는지, 확보된 개발 시간이 출시를 앞당겼는지 연결해야 한다. 절감 효과가 작다면 프로젝트를 중단하거나 적용 범위를 좁히는 판단도 성과 관리에 포함된다.</p>
-<p>AI 콜센터와 Claude Code는 사람을 몇 명 대체했는지로만 평가하기 어렵다. 초보자의 역량을 끌어올리거나, 숙련자의 익숙한 흐름을 방해할 수 있기 때문이다. 다음 AX 보고서에서 가장 중요한 숫자는 자동화율이 아니다. **같은 품질의 결과 한 건을 만드는 데 실제로 얼마가 들었는가**다.</p></div>
+<p>AI 콜센터와 Claude Code는 사람을 몇 명 대체했는지로만 평가하기 어렵다. 초보자의 역량을 끌어올리거나, 숙련자의 익숙한 흐름을 방해할 수 있기 때문이다. 다음 AX 보고서에서 가장 중요한 숫자는 자동화율이 아니다. <strong>같은 품질의 결과 한 건을 만드는 데 실제로 얼마가 들었는가</strong>다.</p></div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">AI 콜센터</span><span class="chip">AX</span><span class="chip">생성형 AI ROI</span><span class="chip">개발 생산성</span><span class="chip">비용 절감</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.nber.org/papers/w31161" rel="nofollow noopener">https://www.nber.org/papers/w31161</a></li><li><a href="https://doi.org/10.1093/qje/qjae044" rel="nofollow noopener">https://doi.org/10.1093/qje/qjae044</a></li><li><a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/" rel="nofollow noopener">https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-third</a></li><li><a href="https://www.reuters.com/business/retail-consumer/klarna-ceo-says-company-will-use-humans-offer-vip-customer-service-2025-05-08/" rel="nofollow noopener">https://www.reuters.com/business/retail-consumer/klarna-ceo-says-company-will-us</a></li><li><a href="https://docs.anthropic.com/en/docs/claude-code/costs" rel="nofollow noopener">https://docs.anthropic.com/en/docs/claude-code/costs</a></li><li><a href="https://github.blog/news-insights/research/research-quantifying-github-copilots-impact-on-developer-productivity-and-happiness/" rel="nofollow noopener">https://github.blog/news-insights/research/research-quantifying-github-copilots-</a></li><li><a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/" rel="nofollow noopener">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</a></li><li><a href="https://www.nist.gov/itl/ai-risk-management-framework" rel="nofollow noopener">https://www.nist.gov/itl/ai-risk-management-framework</a></li></ul></section>

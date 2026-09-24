@@ -12,7 +12,7 @@
 <meta property="og:description" content="Jev는 문장 대신 확률이 붙은 결정을 반환한다. 대기열을 기다리기 전에 Claude Code와 Luna, 로컬 모델로 같은 설계를 검증하는 방법을 정리했다.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/mag/tools/jev-luna-open-source-evals.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Jev 대기열 앞에서 Luna와 오픈소스로 먼저 검증하는 법", "description": "Jev는 문장 대신 확률이 붙은 결정을 반환한다. 대기열을 기다리기 전에 Claude Code와 Luna, 로컬 모델로 같은 설계를 검증하는 방법을 정리했다.", "datePublished": "2026-09-19", "dateModified": "2026-09-19", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/jev-luna-open-source-evals.html"}, "articleSection": "도구·라이브러리", "keywords": "Jev, System One Model, Claude Code, GPT-5.6 Luna, AI 에이전트 평가, Structured Outputs, SemIf", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Jev 대기열 앞에서 Luna와 오픈소스로 먼저 검증하는 법", "description": "Jev는 문장 대신 확률이 붙은 결정을 반환한다. 대기열을 기다리기 전에 Claude Code와 Luna, 로컬 모델로 같은 설계를 검증하는 방법을 정리했다.", "datePublished": "2026-09-19", "dateModified": "2026-09-19", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/jev-luna-open-source-evals.html"}, "articleSection": "도구·라이브러리", "keywords": "Jev, System One Model, Claude Code, GPT-5.6 Luna, AI 에이전트 평가, Structured Outputs, SemIf", "image": "https://chat.axwith.com/mag/hero/jev-luna-open-source-evals.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Jev는 일반 LLM과 무엇이 다른가요?", "acceptedAnswer": {"@type": "Answer", "text": "Jev는 긴 문장을 생성하지 않고 Choice, Score, Noul 형태의 결정을 반환한다. 후보가 정해진 라우팅과 평가에는 적합하지만 코드 작성이나 설명 생성에는 쓸 수 없다."}}, {"@type": "Question", "name": "Jev 초대 없이 시험할 방법이 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "TypeSafe는 초기 접근 대기열을 운영한다. Langfuse가 확인한 기준으로는 OpenRouter와 Vercel AI Gateway에서도 Jev를 시험할 수 있다."}}, {"@type": "Question", "name": "Luna를 Jev처럼 사용할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "Structured Outputs로 비슷한 인터페이스를 만들 수 있다. 다만 Luna가 생성한 자신감 수치는 보정된 선택 확률과 같지 않으므로 자체 평가 데이터가 필요하다."}}, {"@type": "Question", "name": "Jev의 오픈소스 대체재가 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "SemIf는 로컬 모델의 로짓을 읽어 선택지 확률을 만드는 브라우저 실험이다. Needle 3는 기기 내 도구 선택과 구조화 추출에 집중하며, 둘 다 Jev의 완전한 호환 구현은 아니다."}}]}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -226,7 +228,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
-
+<img class="artHero" src="https://chat.axwith.com/mag/hero/jev-luna-open-source-evals.png" alt="Jev 대기열 앞에서 Luna와 오픈소스로 먼저 검증하는 법" loading="eager">
 <header>
   <span class="catchip c-tool">도구·라이브러리</span>
   <h1>Jev 대기열 앞에서 Luna와 오픈소스로 먼저 검증하는 법</h1>
@@ -236,7 +238,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="artbody"><p>TypeSafe AI의 Jev가 등장하자 개발자들의 질문은 기능보다 접근법에 쏠렸다. 초대를 기다려야 할까. 아니면 Luna나 오픈소스 모델로 같은 구조를 먼저 만들 수 있을까. 답은 모델 교체가 아니라 ‘결정 계층’을 먼저 분리하는 데 있다.</p>
 <h2>Jev는 답변 생성 대신 제한된 결정을 반환한다</h2>
 <p>TypeSafe AI는 2026년 9월 중순 Jev를 초기 공개했다. 회사는 Jev를 소프트웨어 내부 판단에 특화한 첫 ‘System One Model’로 설명한다. 입력 상태와 질문을 보내면 문장 대신 타입이 정해진 값과 확률을 돌려준다.</p>
-<p>인터페이스는 세 가지다. `Choice`는 지정된 후보 중 하나를 고른다. `Score`는 단계별 기준에 점수를 매긴다. `Noul`은 어떤 명제가 참일 확률을 0과 1 사이 값으로 반환한다. 여러 질문을 한 요청에 넣어 병렬 평가할 수도 있다.</p>
+<p>인터페이스는 세 가지다. <code>Choice</code>는 지정된 후보 중 하나를 고른다. <code>Score</code>는 단계별 기준에 점수를 매긴다. <code>Noul</code>은 어떤 명제가 참일 확률을 0과 1 사이 값으로 반환한다. 여러 질문을 한 요청에 넣어 병렬 평가할 수도 있다.</p>
 <p>가령 Claude Code 에이전트의 실행 기록을 검사한다고 하자. 상태에는 사용자 요구, 도구 호출, 수정 파일, 테스트 결과를 넣는다. 질문에는 “사람 검토가 필요한가”, “실패 수준은 몇 단계인가”, “실패 유형은 무엇인가”를 각각 Noul, Score, Choice로 지정한다.</p>
 <pre><code>{
   &quot;model&quot;: &quot;jev-latest&quot;,
@@ -263,14 +265,14 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 }</code></pre>
 <p>Jev의 역할은 코드를 작성하는 에이전트를 대체하는 것이 아니다. 에이전트 앞에서는 작업을 분류하고 뒤에서는 결과를 판정한다. TypeSafe 문서도 라우팅, 복합 점수, 신뢰도 기반 분기를 핵심 패턴으로 제시한다.</p>
 <h2>Claude Code에서는 평가 하네스부터 붙일 수 있다</h2>
-<p>TypeSafe는 Python·JavaScript SDK와 Claude Code용 Agent Skill을 제공한다. 플러그인 마켓을 추가한 뒤 `typesafe@typesafe-ai`를 설치하면 API 구조와 질문 작성법을 에이전트 문맥에 넣을 수 있다. 직접 호출할 때는 `POST /v1/systemone`에 상태와 질문을 보낸다.</p>
+<p>TypeSafe는 Python·JavaScript SDK와 Claude Code용 Agent Skill을 제공한다. 플러그인 마켓을 추가한 뒤 <code>typesafe@typesafe-ai</code>를 설치하면 API 구조와 질문 작성법을 에이전트 문맥에 넣을 수 있다. 직접 호출할 때는 <code>POST /v1/systemone</code>에 상태와 질문을 보낸다.</p>
 <p>실전 순서는 짧다. 먼저 성공과 실패가 분명한 과거 실행 기록을 JSONL로 모은다. 다음으로 한 질문에 한 판단만 담아 사람이 붙인 정답과 모델 결과를 비교한다. 마지막에는 신뢰도 구간별 행동을 코드로 고정한다.</p>
 <p>예를 들어 0.85 이상이면 자동 통과시키고 0.55부터 0.85까지는 검토 대기열로 보낼 수 있다. 그보다 낮으면 재질문하거나 다른 모델로 넘긴다. 기준값은 Jev의 예시를 복사하지 말고 자체 데이터로 정해야 한다.</p>
 <p>써본 사람들 사이에서는 질문을 잘게 나눌수록 결과를 다루기 쉬웠다는 반응이 나온다. 반대로 긴 로그 전체를 넣으면 중요한 단서가 묻힌다는 불만도 있다. 에이전트 기록을 요약하거나 관련 구간만 골라 상태로 전달하는 전처리가 필요하다.</p>
-<h2>Luna는 당장 쓸 수 있지만 같은 제품은 아니다</h2>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/jev-luna-open-source-evals.png" alt="" loading="lazy"><h2>Luna는 당장 쓸 수 있지만 같은 제품은 아니다</h2>
 <p>OpenAI의 GPT-5.6 Luna는 저비용·대량 처리용 범용 모델이다. 공식 문서 기준으로 Structured Outputs를 지원하며 입력 100만 토큰당 0.20달러와 출력 1.20달러다. 문장 생성, 추론, 도구 호출까지 맡길 수 있다는 점이 Jev와 다르다.</p>
-<p>Luna로 Jev형 흐름을 만들려면 JSON Schema에 `decision`, `confidence`, `reason` 같은 필드를 선언한다. Claude Code에는 작업 로그를 읽고 스키마에 맞춰 판정하는 스크립트를 만들도록 요청한다. 처음에는 Luna나 Gemini 계열로 데이터와 임계값을 검증한 뒤 Jev 호출부로 교체할 수 있다.</p>
-<p>다만 LLM이 스스로 적은 `confidence: 0.9`는 Jev가 반환하는 선택지 분포와 같지 않다. 스키마 준수는 출력 형태를 보장하지만 확률의 보정까지 보장하지 않는다. Luna는 판단 이유가 필요하거나 후보를 동적으로 만들어야 할 때 유리하다. Jev는 후보가 이미 정해진 반복 판단에 더 가까운 도구다.</p>
+<p>Luna로 Jev형 흐름을 만들려면 JSON Schema에 <code>decision</code>, <code>confidence</code>, <code>reason</code> 같은 필드를 선언한다. Claude Code에는 작업 로그를 읽고 스키마에 맞춰 판정하는 스크립트를 만들도록 요청한다. 처음에는 Luna나 Gemini 계열로 데이터와 임계값을 검증한 뒤 Jev 호출부로 교체할 수 있다.</p>
+<p>다만 LLM이 스스로 적은 <code>confidence: 0.9</code>는 Jev가 반환하는 선택지 분포와 같지 않다. 스키마 준수는 출력 형태를 보장하지만 확률의 보정까지 보장하지 않는다. Luna는 판단 이유가 필요하거나 후보를 동적으로 만들어야 할 때 유리하다. Jev는 후보가 이미 정해진 반복 판단에 더 가까운 도구다.</p>
 <p>초기 접근권을 기다릴 필요도 줄었다. Langfuse가 확인한 경로에 따르면 Jev는 TypeSafe 대기열 외에 OpenRouter와 Vercel AI Gateway에서도 시험할 수 있다. 다만 운영에 넣기 전에는 모델 버전을 고정해야 한다. 임계값을 쓰는 평가기는 모델 변경만으로 통과 비율이 달라질 수 있다.</p>
 <h2>SemIf와 Needle 3는 다른 방식의 대안을 보여준다</h2>
 <p>Jev 공개 직후 독립 프로젝트 SemIf가 등장했다. 처음에는 OpenJev라는 이름을 썼지만 현재는 TypeSafe와 무관한 실험임을 밝히고 있다. Qwen3, MiniCPM 같은 로컬 모델의 선택지 로짓을 읽어 브라우저에서 확률 분포를 만드는 방식이다.</p>
@@ -278,9 +280,9 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>그러나 SemIf가 반환하는 값은 화면에 제시된 선택지 사이의 조건부 확률이다. 프로젝트도 이를 보정된 신뢰도로 주장하지 않는다. Jev 품질과 동등하다고 내세우지도 않는다. 로컬 분류기의 가능성을 검증하는 실험대에 가깝다.</p>
 <p>Cactus의 Needle 3도 주목할 만하다. 8~29MB 바이너리로 도구 선택과 구조화 추출을 기기 안에서 처리한다. Python 함수의 타입과 설명을 도구 정의로 쓰며 결과의 신뢰도가 기준보다 낮으면 호출을 보류할 수 있다. Jev의 범용 판정 API와 같지는 않지만 정해진 도구를 빠르게 고르는 에이전트에는 현실적인 대안이다.</p>
 <h2>모델보다 거부 경로를 설계해야 한다</h2>
-<p>Jev는 정해진 선택지 밖으로 답할 수 없다. `unknown`이나 `needs_review`를 만들지 않으면 가장 덜 틀린 후보를 고르게 된다. 이유를 생성하지 않으므로 감사 기록이나 고객 설명이 필요한 단계에는 범용 LLM을 함께 둬야 한다.</p>
+<p>Jev는 정해진 선택지 밖으로 답할 수 없다. <code>unknown</code>이나 <code>needs_review</code>를 만들지 않으면 가장 덜 틀린 후보를 고르게 된다. 이유를 생성하지 않으므로 감사 기록이나 고객 설명이 필요한 단계에는 범용 LLM을 함께 둬야 한다.</p>
 <p>TypeSafe의 속도와 비용 수치는 회사가 정한 System One 작업 기준이다. 독립된 장기 운영 자료는 아직 많지 않다. 빠른 분류가 필요한 개인 개발자라면 같은 데이터셋을 Jev, Luna, 로컬 모델에 돌려 정확도와 지연 시간을 직접 기록해야 한다.</p>
-<p>대기열은 핵심 장애물이 아니다. 오늘 만들 수 있는 부분은 `state → typed decision → confidence gate → human review`라는 네 단계다. 이 경계를 코드로 고정해 두면 Jev를 쓰든 Luna를 쓰든 다음 오픈소스 모델이 나오든 에이전트의 안전장치는 그대로 남는다.</p></div>
+<p>대기열은 핵심 장애물이 아니다. 오늘 만들 수 있는 부분은 <code>state → typed decision → confidence gate → human review</code>라는 네 단계다. 이 경계를 코드로 고정해 두면 Jev를 쓰든 Luna를 쓰든 다음 오픈소스 모델이 나오든 에이전트의 안전장치는 그대로 남는다.</p></div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Jev</span><span class="chip">System One Model</span><span class="chip">Claude Code</span><span class="chip">GPT-5.6 Luna</span><span class="chip">AI 에이전트 평가</span><span class="chip">Structured Outputs</span><span class="chip">SemIf</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://typesafe.ai/" rel="nofollow noopener">https://typesafe.ai/</a></li><li><a href="https://docs.typesafe.ai/introduction" rel="nofollow noopener">https://docs.typesafe.ai/introduction</a></li><li><a href="https://docs.typesafe.ai/introduction/quickstart" rel="nofollow noopener">https://docs.typesafe.ai/introduction/quickstart</a></li><li><a href="https://docs.typesafe.ai/confidence" rel="nofollow noopener">https://docs.typesafe.ai/confidence</a></li><li><a href="https://docs.typesafe.ai/patterns" rel="nofollow noopener">https://docs.typesafe.ai/patterns</a></li><li><a href="https://langfuse.com/blog/2026-09-18-using-typesafes-jev-for-evals" rel="nofollow noopener">https://langfuse.com/blog/2026-09-18-using-typesafes-jev-for-evals</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-5.6-luna" rel="nofollow noopener">https://developers.openai.com/api/docs/models/gpt-5.6-luna</a></li><li><a href="https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/" rel="nofollow noopener">https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/</a></li></ul></section>

@@ -12,7 +12,7 @@
 <meta property="og:description" content="Gemini 4 Pro는 현재 공식 제품 목록에 없다. Gemini CLI와 Claude Code의 코딩 결과를 모델명, 프롬프트, 테스트, 개입 횟수로 검증하는 방법을 살펴본다.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/mag/models/gemini-4-pro-coding-proof.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini 4 Pro 코딩 인증이 뜨는 이유와 제대로 검증하는 법", "description": "Gemini 4 Pro는 현재 공식 제품 목록에 없다. Gemini CLI와 Claude Code의 코딩 결과를 모델명, 프롬프트, 테스트, 개입 횟수로 검증하는 방법을 살펴본다.", "datePublished": "2026-09-22", "dateModified": "2026-09-22", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/gemini-4-pro-coding-proof.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Gemini 4 Pro, Gemini CLI, Claude Code, AI 코딩, 바이브 코딩, 코딩 에이전트", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini 4 Pro 코딩 인증이 뜨는 이유와 제대로 검증하는 법", "description": "Gemini 4 Pro는 현재 공식 제품 목록에 없다. Gemini CLI와 Claude Code의 코딩 결과를 모델명, 프롬프트, 테스트, 개입 횟수로 검증하는 방법을 살펴본다.", "datePublished": "2026-09-22", "dateModified": "2026-09-22", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/gemini-4-pro-coding-proof.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Gemini 4 Pro, Gemini CLI, Claude Code, AI 코딩, 바이브 코딩, 코딩 에이전트", "image": "https://chat.axwith.com/mag/hero/gemini-4-pro-coding-proof.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Gemini 4 Pro는 공식 출시된 모델인가요?", "acceptedAnswer": {"@type": "Answer", "text": "2026년 9월 22일 기준 Google의 공식 모델 카드와 Gemini API 가격표에는 Gemini 4 Pro가 없다. 공개된 Pro 계열 모델은 Gemini 3.1 Pro Preview이므로 실제 모델 ID를 확인해야 한다."}}, {"@type": "Question", "name": "Gemini CLI와 Claude Code를 공정하게 비교하려면 어떻게 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "동일한 저장소 커밋, 요구사항, 최초 프롬프트를 제공해야 한다. CLI 버전과 모델 ID, 추가 개입 횟수, 테스트 로그, 최종 diff도 함께 기록하는 편이 좋다."}}, {"@type": "Question", "name": "AI 코딩 모델 테스트에 그림판이 적합한 이유는 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "선 그리기는 쉽지만 객체 선택, 이동, 부분 지우기, undo·redo에는 좌표 계산과 상태 관리가 필요하다. 겉으로 완성된 화면과 실제로 견고한 구현을 구분하기 좋은 과제다."}}]}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -226,7 +228,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
-
+<img class="artHero" src="https://chat.axwith.com/mag/hero/gemini-4-pro-coding-proof.png" alt="Gemini 4 Pro 코딩 인증이 뜨는 이유와 제대로 검증하는 법" loading="eager">
 <header>
   <span class="catchip c-model">AI 모델·프롬프트</span>
   <h1>Gemini 4 Pro 코딩 인증이 뜨는 이유와 제대로 검증하는 법</h1>
@@ -235,21 +237,21 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </header>
 <div class="artbody"><p>“Gemini 4 Pro만으로 만들었다”고 쓰면 개발자들의 관심을 끌 수 있을까. AI 코딩 도구를 둘러싼 경쟁이 거세지면서 모델 이름 자체가 콘텐츠의 제목이 됐다. 그러나 지금 물어야 할 것은 어느 진영이 이겼느냐가 아니다. 그 결과물을 누가 다시 실행해도 확인할 수 있느냐다.</p>
 <h2>Gemini 4 Pro는 아직 공식 모델명이 아니다</h2>
-<p>2026년 9월 22일 기준, Google DeepMind의 모델 카드 목록에는 Gemini 3.1 Pro와 Gemini 3.8 Flash 등이 올라와 있다. Gemini 4 Pro라는 공개 모델은 없다. Gemini API 가격표에서 확인되는 Pro 계열 최신 모델도 `gemini-3.1-pro-preview`다.</p>
+<p>2026년 9월 22일 기준, Google DeepMind의 모델 카드 목록에는 Gemini 3.1 Pro와 Gemini 3.8 Flash 등이 올라와 있다. Gemini 4 Pro라는 공개 모델은 없다. Gemini API 가격표에서 확인되는 Pro 계열 최신 모델도 <code>gemini-3.1-pro-preview</code>다.</p>
 <p>따라서 지금 “Gemini 4 Pro로 코딩했다”는 문구를 공식 제품 사용 기록으로 받아들이기는 어렵다. 내부 시험판이나 차기 모델을 추측한 표현일 수 있지만 Google이 공개한 모델 ID와 연결되지 않는다. 모델 선택 화면이나 API 응답, CLI 세션에 찍힌 정확한 이름을 함께 제시해야 검증할 수 있는 정보가 된다.</p>
 <p>이름의 혼선 자체는 관심을 끄는 재료다. 커뮤니티 대화에서도 새로운 Gemini의 소감을 묻는 질문이 곧 Claude나 다른 코딩 모델과의 비교 농담으로 번졌다. 특정 도구만 사용했다는 선언이 반대편 사용자의 확인 욕구를 자극한다는 의견도 많았다.</p>
 <h2>모델보다 실행 도구가 결과를 크게 바꾼다</h2>
 <p>Gemini로 코딩한다는 말에는 여러 작업 방식이 포함된다. 채팅창에서 코드를 복사할 수도 있고 Google AI Studio에서 앱을 생성할 수도 있다. Gemini Code Assist의 에이전트 모드나 터미널용 Gemini CLI도 선택지다.</p>
-<p>Gemini CLI는 프로젝트 파일을 읽고 수정하며 셸 명령과 웹 검색을 실행하는 오픈소스 에이전트다. `GEMINI.md`에 프로젝트 규칙을 저장하고 `@src/`처럼 경로를 지정해 문맥을 넣을 수 있다. MCP 연결과 비대화형 실행도 지원한다. 2026년 9월 15일 나온 안정판 0.60.0은 확장 기능 동의 절차와 샌드박스 경계 검사를 강화했다.</p>
+<p>Gemini CLI는 프로젝트 파일을 읽고 수정하며 셸 명령과 웹 검색을 실행하는 오픈소스 에이전트다. <code>GEMINI.md</code>에 프로젝트 규칙을 저장하고 <code>@src/</code>처럼 경로를 지정해 문맥을 넣을 수 있다. MCP 연결과 비대화형 실행도 지원한다. 2026년 9월 15일 나온 안정판 0.60.0은 확장 기능 동의 절차와 샌드박스 경계 검사를 강화했다.</p>
 <p>Claude Code도 파일 편집과 셸 실행, MCP, 비대화형 출력 기능을 갖춘 터미널 에이전트다. 같은 Gemini 모델이라도 AI Studio와 Gemini CLI에서 결과가 다를 수 있다. 같은 Claude 모델 역시 채팅과 Claude Code에서 작업 완주율이 달라질 수 있다. 모델의 추론 능력과 에이전트의 파일 탐색·도구 호출·오류 복구 능력을 나눠서 봐야 한다.</p>
 <p>써본 사람들 사이에서는 Gemini가 긴 문맥을 읽고 작은 기능을 빠르게 만드는 데 유용하다는 반응이 있다. 대규모 수정에서는 응답이 느려지거나 연결 재시도와 과도한 파일 변경 때문에 작업이 끊긴다는 불만도 나온다. 어느 쪽도 모델명만으로 설명되지는 않는다.</p>
-<h2>그림판 과제는 한 번에 만든 화면보다 버그가 중요하다</h2>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/gemini-4-pro-coding-proof.png" alt="" loading="lazy"><h2>그림판 과제는 한 번에 만든 화면보다 버그가 중요하다</h2>
 <p>AI 코딩 모델을 비교하려면 결과가 눈에 보이면서도 내부 구현을 속이기 어려운 과제가 좋다. 벡터 그림판은 이 조건에 잘 맞는다. 자유곡선만 그리는 앱은 간단하다. 하지만 객체 선택과 이동, 부분 지우기, 실행 취소까지 넣으면 데이터 구조와 좌표 계산이 드러난다.</p>
-<p>빈 저장소에서 Vite와 React, TypeScript로 시작한다고 하자. `requirements.md`에는 자유곡선·직선·사각형·원·폴리라인, 색상과 굵기 변경, 객체 선택과 이동, z-order, undo·redo를 적는다. 각 도형은 Canvas에 바로 굽지 않고 객체 배열이나 SVG 요소로 보존하도록 요구한다.</p>
+<p>빈 저장소에서 Vite와 React, TypeScript로 시작한다고 하자. <code>requirements.md</code>에는 자유곡선·직선·사각형·원·폴리라인, 색상과 굵기 변경, 객체 선택과 이동, z-order, undo·redo를 적는다. 각 도형은 Canvas에 바로 굽지 않고 객체 배열이나 SVG 요소로 보존하도록 요구한다.</p>
 <p>부분 지우기는 특히 좋은 함정이다. 배경색 선을 위에 덮는 방식은 겉보기에는 성공한다. 그러나 원본 객체를 옮기면 지웠던 선이 다시 나타난다. 화면 캡처 한 장으로는 발견하기 어렵다.</p>
-<p>프롬프트에는 “기능 구현 후 테스트를 실행하고 실패 원인을 고쳐라”를 넣는다. 산출물은 소스 코드, 실행 명령, 테스트 결과, 남은 결함 목록이다. Gemini CLI 공식 가이드도 편집 뒤 `npm test` 같은 명령으로 결과를 확인하도록 안내한다.</p>
+<p>프롬프트에는 “기능 구현 후 테스트를 실행하고 실패 원인을 고쳐라”를 넣는다. 산출물은 소스 코드, 실행 명령, 테스트 결과, 남은 결함 목록이다. Gemini CLI 공식 가이드도 편집 뒤 <code>npm test</code> 같은 명령으로 결과를 확인하도록 안내한다.</p>
 <h2>비교 게시물에는 프롬프트보다 실행 기록이 더 필요하다</h2>
-<p>재현 가능한 비교는 두 도구에 같은 커밋과 같은 요구사항을 제공하는 데서 시작한다. Gemini CLI는 프로젝트 폴더에서 `gemini`를 실행하고 Claude Code는 같은 위치에서 `claude`를 실행한다. 모델 자동 선택을 썼다면 그 사실도 기록해야 한다.</p>
+<p>재현 가능한 비교는 두 도구에 같은 커밋과 같은 요구사항을 제공하는 데서 시작한다. Gemini CLI는 프로젝트 폴더에서 <code>gemini</code>를 실행하고 Claude Code는 같은 위치에서 <code>claude</code>를 실행한다. 모델 자동 선택을 썼다면 그 사실도 기록해야 한다.</p>
 <p>공개할 항목은 여섯 가지면 충분하다. CLI 버전과 실제 모델 ID, 시작 커밋, 최초 프롬프트, 사람이 추가로 개입한 횟수, 테스트 로그와 최종 diff다. 소요 시간만 재서는 오래 고민해 정확히 고친 실행과 빠르게 오답을 만든 실행을 구별하지 못한다.</p>
 <p>한 번의 성공을 모델 전체의 성능으로 확대해서도 안 된다. 같은 과제를 새 세션에서 세 차례 이상 실행하면 결과의 편차를 볼 수 있다. 기능별 통과 여부를 나누고 빌드 실패와 런타임 오류, 회귀 버그를 별도로 세면 자극적인 승패표보다 훨씬 쓸모 있는 자료가 된다.</p>
 <h2>바이럴 데모와 실제 생산성은 다른 질문이다</h2>

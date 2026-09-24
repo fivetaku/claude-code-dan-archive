@@ -13,12 +13,12 @@
     <description>음성 AI API로 실시간 대화 서비스를 만드는 방법과 평가 절차를 살펴보고, 상용 모델 이후에도 남아 있는 연구 주제를 짚는다.</description>
   </item>
   <item>
-    <title>서울 Claude Builder Summit, 5시간 해커톤인가</title>
+    <title>서울 Claude Fable 5.1 Build Day, 5시간 빌드의 실제 구조</title>
     <link>https://chat.axwith.com/mag/resources/seoul-claude-builder-summit-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/seoul-claude-builder-summit-guide.html</guid>
     <category>자료·링크 공유</category>
     <pubDate>Thu, 24 Sep 2026 12:00:00 +0900</pubDate>
-    <description>서울 Claude Builder Summit의 실제 구성과 API 크레딧의 쓰임을 확인하고, 후속 Build Day와 해커톤에 참가할 때 준비할 작업 흐름을 정리했다.</description>
+    <description>서울 Claude Fable 5.1 Build Day의 일정과 참가 방식, API 크레딧 계산법을 분석하고 짧은 시간에 작동하는 데모를 만드는 준비법을 정리했다.</description>
   </item>
   <item>
     <title>Claude Max 5x와 20x, 실제 사용 한도는 어떻게 측정할까</title>

@@ -218,6 +218,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 .artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
 .artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
 .artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
 .artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
 .secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
 </style>
@@ -245,8 +247,8 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>검사 통과도 완성품 인증은 아니다. 연구진은 검증기가 SPICE 기능, EMI·EMC, 열 성능을 평가하지 않는다고 선을 그었다. 2026년 HWE-Bench에서도 300개 보드 과제를 정적 검사와 LTspice로 평가했다. 다만 최고 모델의 전체 설계 통과율은 8.15%였다. 데이터시트를 주는 것만으로 암묵적인 물리 조건까지 복원되지는 않았다.</p>
 <img class="artInline" src="https://chat.axwith.com/mag/inline/ai-human-readable-schematic-automation.png" alt="" loading="lazy"><h2>Claude Code와 SKiDL로 다루는 현실적인 작업 순서</h2>
 <p>개인 개발자나 작은 팀은 보드 전체를 한 번에 생성하기보다 변환 과정을 잘게 나누는 편이 재현하기 쉽다. 먼저 검증된 reference schematic, 정확한 부품 번호, 데이터시트, BOM을 모은다. 전원부·센서부·MCU처럼 기능 블록을 나누고 금지 연결과 필수 핀 상태를 문서로 적는다. 다음으로 Claude Code에 SKiDL용 Python 작성을 맡길 수 있다.</p>
-<p>`Part`에 값과 footprint를 넣고 `Net`과 핀으로 연결하며 반복 회로는 계층 블록으로 만든다. SKiDL의 ERC를 실행한 뒤 netlist와 편집 가능한 KiCad schematic을 생성한다. 입력은 요구사항과 부품 데이터이고, 산출물은 Python 소스, netlist, schematic 초안이다.</p>
-<p>생성된 도면은 reference schematic과 나란히 놓고 신호 방향, 전원 분리, 대칭, net label, 교차선을 검토한다. KiCad로 넘긴 뒤 clearance, track width, differential pair, 허용 층, keepout을 `.kicad_dru`에 기록한다. `kicad-cli pcb drc`에서 schematic parity와 위반 시 종료 코드를 켜면 CI에서도 누락을 막을 수 있다.</p>
+<p><code>Part</code>에 값과 footprint를 넣고 <code>Net</code>과 핀으로 연결하며 반복 회로는 계층 블록으로 만든다. SKiDL의 ERC를 실행한 뒤 netlist와 편집 가능한 KiCad schematic을 생성한다. 입력은 요구사항과 부품 데이터이고, 산출물은 Python 소스, netlist, schematic 초안이다.</p>
+<p>생성된 도면은 reference schematic과 나란히 놓고 신호 방향, 전원 분리, 대칭, net label, 교차선을 검토한다. KiCad로 넘긴 뒤 clearance, track width, differential pair, 허용 층, keepout을 <code>.kicad_dru</code>에 기록한다. <code>kicad-cli pcb drc</code>에서 schematic parity와 위반 시 종료 코드를 켜면 CI에서도 누락을 막을 수 있다.</p>
 <p>써본 사람들 사이에서는 부품 후보와 데이터시트 확인에는 도움이 됐다는 반응이 있었다. 다만 한 번의 지시로 생산 가능한 보드를 얻기는 어려웠다는 반응도 있었다. Flux 역시 공식 문서에서 AI가 schematic을 이해하고 승인 아래 수정한다고 설명한다. AI를 설계 책임자보다 구조화된 초안 작성자와 추가 검토자로 두는 사용법이 현재 기능과 맞는다.</p>
 <h2>NPU·SoC 보드는 규칙의 양부터 다르다</h2>
 <p>고속 다층 보드는 연결 수만 늘어난 단순 회로가 아니다. stackup, impedance, 반환 전류 경로, differential pair 길이, via, 전원 무결성, 열, 기구 간섭이 서로 영향을 준다. NVIDIA Research는 PCB 자동화의 장벽으로 높은 밀도와 설계마다 다른 규칙을 꼽았다.</p>
