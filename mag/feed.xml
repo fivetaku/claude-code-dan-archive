@@ -21,6 +21,22 @@
     <description>Codex의 5시간·주간 한도는 언제 초기화될까. 비공식 리셋 예측의 한계를 짚고 자동·저장형·구매형 리셋과 크레딧의 차이를 설명한다.</description>
   </item>
   <item>
+    <title>클로드 사용 한도는 왜 다르게 느껴질까, 연구자 Team 플랜의 실제 조건</title>
+    <link>https://chat.axwith.com/mag/models/claude-limits-scientist-team-plan.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-limits-scientist-team-plan.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Fri, 25 Sep 2026 12:00:00 +0900</pubDate>
+    <description>클로드 사용량이 사람마다 다르게 느껴지는 이유를 설명하고, 연구자용 Claude Team 플랜의 대상·가격·좌석 운영·비용 관리 방법을 정리했다.</description>
+  </item>
+  <item>
+    <title>B300 100장을 굴리면 무엇을 배우나, GPU보다 희소한 운영 경험</title>
+    <link>https://chat.axwith.com/mag/tools/b300-large-cluster-operations.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/b300-large-cluster-operations.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Fri, 25 Sep 2026 12:00:00 +0900</pubDate>
+    <description>B300 100장 운용이 왜 희소한 경험인지 전력·네트워크·스케줄링·관측·체크포인트 관점에서 살펴보고, 네이버 보안 AI 사업의 공식 GPU 규모도 확인했다.</description>
+  </item>
+  <item>
     <title>음성 AI가 API가 된 시대, 연구자는 무엇을 만들어야 하나</title>
     <link>https://chat.axwith.com/mag/models/voice-ai-research-after-api.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/voice-ai-research-after-api.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Thu, 17 Sep 2026 12:00:00 +0900</pubDate>
     <description>Paseo로 Claude Code와 Codex를 원격 관리하는 설치법, 워크트리 운용법, 보안 조건을 살펴보고 공식 원격 기능과의 차이를 짚었다.</description>
-  </item>
-  <item>
-    <title>코덱스 다중 계정 전환, 토큰 제한까지 분리될까</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/codex-multi-account-switching.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-multi-account-switching.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Thu, 17 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Codex CLI에서 개인·업무 계정을 분리하는 CODEX_HOME 설정법과 인증 저장소, 사용량 제한이 따라오는 현상, 약관상 주의점을 설명한다.</description>
-  </item>
-  <item>
-    <title>Claude Code 사용량을 안드로이드 위젯으로 보는 가장 현실적인 방법</title>
-    <link>https://chat.axwith.com/mag/tools/claude-code-android-usage-widget.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-android-usage-widget.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Thu, 17 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code의 5시간·7일 사용량을 안드로이드 홈 화면에 표시하는 구조를 설명한다. Glance 앱, Cloudflare, Tailscale의 역할과 Codex 통합 한계도 다룬다.</description>
   </item>
 </channel></rss>

@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B300 100장을 굴리면 무엇을 배우나, GPU보다 희소한 운영 경험 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="B300 100장 운용이 왜 희소한 경험인지 전력·네트워크·스케줄링·관측·체크포인트 관점에서 살펴보고, 네이버 보안 AI 사업의 공식 GPU 규모도 확인했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/b300-large-cluster-operations.html">
+<meta property="og:title" content="B300 100장을 굴리면 무엇을 배우나, GPU보다 희소한 운영 경험">
+<meta property="og:description" content="B300 100장 운용이 왜 희소한 경험인지 전력·네트워크·스케줄링·관측·체크포인트 관점에서 살펴보고, 네이버 보안 AI 사업의 공식 GPU 규모도 확인했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/b300-large-cluster-operations.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "B300 100장을 굴리면 무엇을 배우나, GPU보다 희소한 운영 경험", "description": "B300 100장 운용이 왜 희소한 경험인지 전력·네트워크·스케줄링·관측·체크포인트 관점에서 살펴보고, 네이버 보안 AI 사업의 공식 GPU 규모도 확인했다.", "datePublished": "2026-09-25", "dateModified": "2026-09-25", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/b300-large-cluster-operations.html"}, "articleSection": "도구·라이브러리", "keywords": "NVIDIA B300, Blackwell Ultra, GPU 클러스터, DGX B300, Slurm, NCCL, 분산학습", "image": "https://chat.axwith.com/mag/hero/b300-large-cluster-operations.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "NVIDIA B300 100장을 운영하려면 서버가 몇 대 필요한가?", "acceptedAnswer": {"@type": "Answer", "text": "DGX B300은 한 시스템에 GPU 8장을 탑재한다. DGX 단위로 구성하면 12대는 96장, 13대는 104장이므로 실제 설계는 서버와 랙 단위로 맞춘다."}}, {"@type": "Question", "name": "B300과 GB300 NVL72의 차이는 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "B300은 Blackwell Ultra GPU를 가리키며 DGX B300 같은 서버에 탑재된다. GB300 NVL72는 Grace CPU와 B300 GPU 72장을 NVLink로 연결한 액체냉각 랙 스케일 시스템이다."}}, {"@type": "Question", "name": "대규모 GPU 클러스터 운영에서 가장 중요한 기술은 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "Slurm 또는 Kubernetes 기반 스케줄링, NCCL 네트워크 진단, DCGM 관측, 분산 체크포인트와 자동 복구가 핵심이다. GPU 사용률보다 장애를 격리하고 학습을 재개하는 능력이 중요하다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/b300-large-cluster-operations.png" alt="B300 100장을 굴리면 무엇을 배우나, GPU보다 희소한 운영 경험" loading="eager">
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>B300 100장을 굴리면 무엇을 배우나, GPU보다 희소한 운영 경험</h1>
+  <p class="sub">Blackwell Ultra 대규모 클러스터에서 진짜 어려운 일은 계산이 아니라 장애를 찾고 복구하는 운영이다</p>
+  <div class="meta"><span>2026-09-25</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>개인 프로젝트에 NVIDIA B300 100장이 주어진다면 그 경험만으로도 경쟁력이 될까. 커뮤니티에서는 고성능 GPU를 대규모로 운영한 이력이 모델 개발 경험보다 희소할 수 있다는 의견이 나왔다. 답을 찾으려면 GPU 성능보다 100장이 동시에 실패하는 방식을 살펴봐야 한다.</p>
+<h2>B300 100장은 서버 100대가 아니다</h2>
+<p>NVIDIA DGX B300 한 대에는 Blackwell Ultra GPU 8장과 2.1TB GPU 메모리가 들어간다. 시스템 한 대의 소비전력은 약 14kW이고 크기는 10U다. DGX 구성을 따르면 12대는 96장, 13대는 104장이 된다. 따라서 ‘정확히 100장’보다 랙과 노드 단위로 설계하게 된다. (<a href="https://www.nvidia.com/ko-kr/data-center/dgx-b300/" target="_blank" rel="nofollow noopener">nvidia.com</a>)</p>
+<p>DGX B300 13대만 계산해도 장비 전력은 약 182kW다. 여기에는 냉각과 네트워크, 스토리지, 관리 서버의 전력이 빠져 있다. GPU를 확보하는 순간 프로젝트는 머신러닝 실험이 아니라 데이터센터 운영 문제가 된다.</p>
+<p>랙 스케일 제품인 GB300 NVL72를 보면 이 차이가 더 선명하다. GPU 72장을 하나의 NVLink 도메인으로 묶고 랙당 최대 142kW의 전력을 사용한다. 누수 감지 장치와 여덟 개의 전원 선반까지 기본 설계에 포함된다. (<a href="https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory/latest/components.html" target="_blank" rel="nofollow noopener">docs.nvidia.com</a>)</p>
+<p>100장을 운영한 경력이 희소한 이유는 비싼 카드를 만졌기 때문이 아니다. 전력과 냉각, 패브릭, 드라이버, 학습 코드를 하나의 시스템으로 다뤄야 하기 때문이다.</p>
+<h2>네이버 사례의 공식 숫자는 B200 4천장이다</h2>
+<p>논의 과정에서는 네이버가 보안 모델에 GPU 3천장을 쓴다는 이야기가 나왔다. 하지만 2026년 9월 3일 네이버 공식 발표에 적힌 규모와 기종은 다르다. 네이버클라우드는 보유한 B200 4천장을 선제 투입하고 LG의 H200 256장과 정부 제공 물량 256장을 별도로 활용한다고 밝혔다. B300 3천장으로 확인된 사업은 아니다. (<a href="https://navercorp.com/media/pressReleasesDetail?seq=10034628" target="_blank" rel="nofollow noopener">navercorp.com</a>)</p>
+<p>목표는 하이퍼클로바X와 엑사원을 기반으로 700B급 MoE 보안 모델 두 개를 병렬 개발하는 것이다. 약 830TB의 데이터를 사용해 전력·금융·통신·방위산업 등 일곱 분야에서 검증할 계획이다. 폐쇄망 운용도 개발 범위에 포함됐다. (<a href="https://navercorp.com/media/pressReleasesDetail?seq=10034628" target="_blank" rel="nofollow noopener">navercorp.com</a>)</p>
+<p>중요한 숫자는 4천장만이 아니다. 서로 다른 기반 모델과 데이터 흐름을 분리한 채 대규모 작업 두 개를 같은 일정 안에 끝내야 한다. 전용 자원을 받더라도 실험 우선순위와 장애 격리, 체크포인트 보존 문제는 사라지지 않는다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/b300-large-cluster-operations.png" alt="" loading="lazy"><h2>대규모 운용은 네 단계로 진행된다</h2>
+<p>실제 작업은 장비 등록과 검증부터 시작한다. 노드별 GPU·NIC·NVLink 토폴로지와 드라이버 버전을 맞춘다. 그런 다음 DCGM과 NCCL 진단으로 GPU 간 통신과 노드 간 대역폭을 검사한다. NVIDIA NCCL은 작업 시작 전에 P2P 경로와 InfiniBand 대역폭을 확인하는 진단 기능을 제공한다. (<a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/diagnostics.html" target="_blank" rel="nofollow noopener">docs.nvidia.com</a>)</p>
+<p>다음 단계에서는 작업 실행 환경을 고정한다. NVIDIA의 B300 SuperPOD 구조는 사전학습에 Slurm을, Kubernetes 워크로드에는 NVIDIA Run:AI를 제시한다. 학습 코드와 CUDA 라이브러리는 컨테이너 이미지로 묶는다. 데이터 경로·노드 수·GPU 수·병렬화 설정은 작업 파일에 남긴다. (<a href="https://docs.nvidia.com/dgx-superpod/reference-architecture/scalable-infrastructure-b300/latest/management-servers.html" target="_blank" rel="nofollow noopener">docs.nvidia.com</a>)</p>
+<p>세 번째 단계에서는 작은 규모로 통신 경로를 검증한다. 단일 노드에서 시작해 2개, 4개 노드로 늘리면서 처리량과 손실 곡선을 비교한다. 써본 사람들 사이에서는 처음부터 전체 클러스터를 점유하면 느린 노드 하나와 NCCL 설정 오류를 구분하기 어렵다는 반응이 많다.</p>
+<p>마지막은 복구 설계다. 대규모 학습에서는 모델 가중치뿐 아니라 옵티마이저 상태와 메타데이터도 여러 노드에 나눠 저장한다. NVIDIA NeMo의 분산 체크포인트는 작업 상태를 여러 GPU나 노드에 나눠 저장한다. (<a href="https://docs.nvidia.com/nemo-framework/user-guide/26.02/nemotoolkit/checkpoints/dist_ckpt.html" target="_blank" rel="nofollow noopener">docs.nvidia.com</a>)</p>
+<h2>GPU 사용률보다 먼저 봐야 할 기록이 있다</h2>
+<p>운영 화면에 GPU 사용률 100%가 떠도 클러스터가 건강하다고 단정할 수는 없다. 온도와 전력 제한, ECC 오류, NVLink 재전송, 네트워크 대역폭, 작업별 처리량을 함께 봐야 한다. DCGM Exporter는 이런 정보를 Prometheus로 보낸다. 이를 이용하면 GPU와 NVSwitch 상태를 지속적으로 감시할 수 있다. (<a href="https://docs.nvidia.com/datacenter/dcgm/latest/installation/index.html" target="_blank" rel="nofollow noopener">docs.nvidia.com</a>)</p>
+<p>운영자의 실력은 장애가 났을 때 드러난다. 특정 노드를 빼고 작업을 재개했는지, 체크포인트가 실제로 복원됐는지, 느린 rank를 찾아냈는지를 기록해야 한다. 정상 실행 한 번보다 복구 시간과 재현 절차가 더 강한 경력 자료가 된다.</p>
+<p>개인 개발자나 소규모 팀이 B300 100장을 직접 확보할 가능성은 낮다. 그래도 이 운영 방식은 2개 노드나 단기 클라우드 환경에서도 연습할 수 있다. 컨테이너 이미지와 Slurm 작업 파일, DCGM 대시보드, 분산 체크포인트, 장애 보고서를 한 묶음으로 남기면 규모가 커져도 같은 절차를 확장할 수 있다.</p>
+<h2>희소한 경험은 장비 수가 아니라 실패를 통제한 증거다</h2>
+<p>B300 100장을 제공받는 일은 분명 드문 기회다. 다만 GPU를 할당받아 학습 명령만 실행했다면 희소성은 장비 소유자에게 남는다. 용량 계획부터 패브릭 검증, 스케줄링, 관측, 장애 복구까지 책임졌다면 이야기는 달라진다.</p>
+<p>대규모 GPU 경력에서 물어야 할 것은 ‘몇 장을 썼나’가 아니다. ‘한 장이 멈췄을 때 나머지 99장의 시간을 얼마나 지켰나’다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">NVIDIA B300</span><span class="chip">Blackwell Ultra</span><span class="chip">GPU 클러스터</span><span class="chip">DGX B300</span><span class="chip">Slurm</span><span class="chip">NCCL</span><span class="chip">분산학습</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.nvidia.com/ko-kr/data-center/dgx-b300/" rel="nofollow noopener">https://www.nvidia.com/ko-kr/data-center/dgx-b300/</a></li><li><a href="https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory/latest/components.html" rel="nofollow noopener">https://docs.nvidia.com/enterprise-reference-architectures/nvl72-ai-factory/late</a></li><li><a href="https://navercorp.com/media/pressReleasesDetail?seq=10034628" rel="nofollow noopener">https://navercorp.com/media/pressReleasesDetail?seq=10034628</a></li><li><a href="https://docs.nvidia.com/mission-control/docs/systems-administration-guide/2.1.0/overview.html" rel="nofollow noopener">https://docs.nvidia.com/mission-control/docs/systems-administration-guide/2.1.0/</a></li><li><a href="https://docs.nvidia.com/dgx-superpod/reference-architecture/scalable-infrastructure-b300/latest/management-servers.html" rel="nofollow noopener">https://docs.nvidia.com/dgx-superpod/reference-architecture/scalable-infrastruct</a></li><li><a href="https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/diagnostics.html" rel="nofollow noopener">https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/troubleshooting/diagno</a></li><li><a href="https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/dcgm-multinode-diagnostics.html" rel="nofollow noopener">https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/dcgm-multinode-diagnos</a></li><li><a href="https://docs.nvidia.com/nemo-framework/user-guide/26.02/nemotoolkit/checkpoints/dist_ckpt.html" rel="nofollow noopener">https://docs.nvidia.com/nemo-framework/user-guide/26.02/nemotoolkit/checkpoints/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>NVIDIA B300 100장을 운영하려면 서버가 몇 대 필요한가?</h2><p class="sum">DGX B300은 한 시스템에 GPU 8장을 탑재한다. DGX 단위로 구성하면 12대는 96장, 13대는 104장이므로 실제 설계는 서버와 랙 단위로 맞춘다.</p></article><article class="dcard"><div class="t">Q</div><h2>B300과 GB300 NVL72의 차이는 무엇인가?</h2><p class="sum">B300은 Blackwell Ultra GPU를 가리키며 DGX B300 같은 서버에 탑재된다. GB300 NVL72는 Grace CPU와 B300 GPU 72장을 NVLink로 연결한 액체냉각 랙 스케일 시스템이다.</p></article><article class="dcard"><div class="t">Q</div><h2>대규모 GPU 클러스터 운영에서 가장 중요한 기술은 무엇인가?</h2><p class="sum">Slurm 또는 Kubernetes 기반 스케줄링, NCCL 네트워크 진단, DCGM 관측, 분산 체크포인트와 자동 복구가 핵심이다. GPU 사용률보다 장애를 격리하고 학습을 재개하는 능력이 중요하다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-26-1159-s.html">2026-08-26 08-26 10:39~11:59</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
