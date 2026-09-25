@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ox Alpha는 무엇이었나, Claude Code 대체 모델의 실제 가치 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Ox Alpha로 알려진 GLM-5.3-Flash의 성능과 가격, Claude Code 연동 방법을 살펴보고 개인 개발자가 실제 프로젝트에 쓸 만한지 평가한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html">
+<meta property="og:title" content="Ox Alpha는 무엇이었나, Claude Code 대체 모델의 실제 가치">
+<meta property="og:description" content="Ox Alpha로 알려진 GLM-5.3-Flash의 성능과 가격, Claude Code 연동 방법을 살펴보고 개인 개발자가 실제 프로젝트에 쓸 만한지 평가한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Ox Alpha는 무엇이었나, Claude Code 대체 모델의 실제 가치", "description": "Ox Alpha로 알려진 GLM-5.3-Flash의 성능과 가격, Claude Code 연동 방법을 살펴보고 개인 개발자가 실제 프로젝트에 쓸 만한지 평가한다.", "datePublished": "2026-09-26", "dateModified": "2026-09-26", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Ox Alpha, GLM-5.3-Flash, Claude Code, OpenRouter, 코딩 에이전트, Z.ai", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Ox Alpha는 지금도 무료인가요?", "acceptedAnswer": {"@type": "Answer", "text": "Ox Alpha라는 무료 스텔스 시험은 끝났고 정체는 GLM-5.3-Flash로 공개됐다. OpenRouter에서는 현재 유료 토큰 가격이 표시되므로 호출 전에 최신 가격을 확인해야 한다."}}, {"@type": "Question", "name": "Ox Alpha를 Claude Code에서 어떻게 사용하나요?", "acceptedAnswer": {"@type": "Answer", "text": "OpenRouter API 키와 Anthropic 호환 베이스 URL을 설정한 뒤 모델 ID를 `z-ai/glm-5.3-flash`로 지정한다. 보조 모델과 서브에이전트도 같은 ID로 매핑해야 의도하지 않은 Claude 호출을 줄일 수 있다."}}, {"@type": "Question", "name": "GLM-5.3-Flash가 Claude를 대체할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "긴 코드 탐색과 검증 가능한 구현 작업에는 유력한 저비용 대안이다. 다만 Claude Code의 일부 도구 기능은 비 Anthropic 모델에서 다르게 작동하므로 전면 전환보다 프로젝트별 비교가 적합하다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Ox Alpha는 무엇이었나, Claude Code 대체 모델의 실제 가치</h1>
+  <p class="sub">무료 스텔스 모델의 정체는 GLM-5.3-Flash였다. 성능 수치와 연동법, 실전 한계를 다시 확인했다.</p>
+  <div class="meta"><span>2026-09-26</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Ox Alpha를 Claude Code에 연결하면 값비싼 프런티어 모델을 대신할 수 있을까. 무료 스텔스 모델로 등장했던 정체는 밝혀졌다. 다만 답은 모델 이름보다 벤치마크 조건과 에이전트 호환성에 달려 있다.</p>
+<h2>Ox Alpha는 GLM-5.3-Flash의 공개 시험이었다</h2>
+<p>Ox Alpha는 2026년 8월 20일 OpenRouter에 등장했다. 당시 모델 ID는 <code>stealth/ox-alpha</code>였으며 개발사 이름은 공개되지 않았다. 104만8576토큰 컨텍스트와 텍스트·이미지·영상 입력을 지원했고 무료로 제공됐다.</p>
+<p>Z.ai는 8월 26일 Ox Alpha가 GLM-5.3-Flash였다고 공식 발표했다. 익명 배포 기간에는 OpenRouter와 OpenCode의 실제 트래픽으로 모델과 추론 인프라를 시험했다고 설명했다. 현재는 옛 스텔스 ID보다 <code>z-ai/glm-5.3-flash</code>를 쓰는 편이 안전하다.</p>
+<p>GLM-5.3-Flash는 전체 3200억 개, 활성 180억 개 매개변수를 가진 MoE 모델이다. 선형 어텐션과 희소 어텐션을 결합했으며 가중치는 MIT 라이선스로 공개됐다. 직접 구동할 수는 있지만 기본 FP8 체크포인트만 약 306GiB여서 개인용 GPU 한 장에 올릴 모델은 아니다.</p>
+<p>무료 체험으로 화제를 모았지만 현재 OpenRouter 가격표에는 입력 100만 토큰당 0.075달러, 출력은 0.25달러로 표시돼 있다. 여전히 저렴하다. 그러나 ‘영구 무료 Claude Code’라는 초기 설명은 더 이상 정확하지 않다.</p>
+<h2>80% 성능이라는 평가는 작은 표본에서 나왔다</h2>
+<p>Ox Alpha를 유명하게 만든 수치는 코딩 과제 성공률 80%였다. 그러나 해당 시험은 DeepSWE 과제 10개 중 8개를 해결한 소규모 실행이었다. 한 문제만 달라져도 점수가 10%포인트 움직이기 때문에 전체 순위로 해석하기 어렵다.</p>
+<p>공개된 별도 평가 저장소에서는 DeepSWE v1.1의 113개 과제를 실행해 73개를 통과했고 64.6%를 기록했다. Z.ai의 자체 평가도 DeepSWE v1.1에서 63.4점이었다. 재현 가능한 범위는 80%라는 첫인상보다 60%대 중반에 가깝다.</p>
+<p>제조사 평가에서 Terminal Bench 2.1은 84.3점, 도구 사용을 측정하는 Toolathlon Verified는 78.4점이었다. 모두 Z.ai가 공개한 수치다. 다른 회사 모델과 비교하려면 하네스와 추론 설정도 함께 확인해야 한다. GLM-5.3-Flash는 <code>reasoning_effort</code>를 지정하지 않을 경우 <code>max</code>로 작동하므로 시간과 출력 토큰도 늘어난다.</p>
+<p>사용자들 사이에서는 긴 코드 리뷰와 여러 파일을 잇는 수정에 강하다는 반응이 나온다. 반면 단순 작업에서도 오래 추론하거나 도구 호출 중 오류가 나서 작업이 멈춘다는 경험도 있다. 강한 모델이 곧 안정적인 코딩 에이전트라는 뜻은 아니다.</p>
+<h2>Claude Code에는 OpenRouter의 Anthropic 호환 API로 연결한다</h2>
+<p>Claude Code는 모델 자체가 아니라 파일 읽기, 편집, 셸 실행을 묶은 에이전트 하네스다. OpenRouter가 Anthropic Messages 호환 엔드포인트를 제공하므로 백엔드를 GLM-5.3-Flash로 바꿀 수 있다. 별도 프록시는 필요하지 않다.</p>
+<p>다음 환경변수를 같은 터미널에서 설정한 뒤 <code>claude</code>를 실행한다.</p>
+<pre><code>export OPENROUTER_API_KEY=&quot;sk-or-...&quot;
+export ANTHROPIC_BASE_URL=&quot;https://openrouter.ai/api&quot;
+export ANTHROPIC_AUTH_TOKEN=&quot;$OPENROUTER_API_KEY&quot;
+export ANTHROPIC_API_KEY=&quot;&quot;
+export ANTHROPIC_MODEL=&quot;z-ai/glm-5.3-flash&quot;
+export ANTHROPIC_DEFAULT_OPUS_MODEL=&quot;z-ai/glm-5.3-flash&quot;
+export ANTHROPIC_DEFAULT_SONNET_MODEL=&quot;z-ai/glm-5.3-flash&quot;
+export ANTHROPIC_DEFAULT_HAIKU_MODEL=&quot;z-ai/glm-5.3-flash&quot;
+export ANTHROPIC_DEFAULT_FABLE_MODEL=&quot;z-ai/glm-5.3-flash&quot;
+export CLAUDE_CODE_SUBAGENT_MODEL=&quot;z-ai/glm-5.3-flash&quot;
+claude</code></pre>
+<p>베이스 URL 끝에는 <code>/v1</code>을 붙이지 않는다. 기존 Anthropic 로그인이 남아 있다면 <code>/logout</code> 후 다시 실행한다. <code>/status</code>에서는 OpenRouter 주소를 확인한다. 모든 기본 모델과 서브에이전트에 같은 ID를 지정하지 않으면 보조 작업이 유료 Claude 모델로 넘어갈 수 있다.</p>
+<p>OpenRouter 역시 Claude Code와 비 Anthropic 모델의 조합을 완전히 보장하지 않는다. 지연 로딩 도구 같은 Claude 전용 동작은 400 오류를 일으킬 수 있다. MCP가 많거나 서브에이전트를 자주 쓰는 프로젝트라면 작은 과제부터 실행해 도구 호출을 검증해야 한다.</p>
+<h2>100만 토큰보다 중요한 것은 작업을 끝내는 방식이다</h2>
+<p>긴 컨텍스트가 저장소 전체를 무조건 넣어도 된다는 뜻은 아니다. 파일이 늘수록 입력 비용이 커지고 주의도 분산된다. 개인 개발자는 독립된 worktree에서 실제 이슈 하나를 맡긴 뒤 수정 파일과 테스트 결과를 비교하는 방식으로 평가할 수 있다.</p>
+<p>먼저 버그 재현 절차와 관련 디렉터리, 실행할 테스트 명령을 준다. 이후 원인 조사, 수정, 테스트 실행, diff 검토를 차례로 요구한다. 산출물은 설명문이 아니라 통과한 테스트와 검토 가능한 패치여야 한다.</p>
+<p>Ox Alpha 시절에는 제공자가 프롬프트와 응답을 보관한다고 OpenRouter가 명시했다. 현재는 개발사가 공개됐지만 호출 경로별 데이터 정책은 따로 확인해야 한다. 고객 저장소나 비밀키가 든 파일은 가격과 관계없이 외부 모델에 보내지 않는 편이 맞다.</p>
+<h2>Claude Code의 전면 대체보다 병렬 작업용 모델에 가깝다</h2>
+<p>GLM-5.3-Flash는 저렴한 장문 코딩 모델로서 경쟁력이 충분하다. 반복적인 테스트 작성, 대규모 코드 탐색, 초안 리팩터링처럼 검증 가능한 작업에서는 비용 면에서도 유리하다. 오픈 가중치라 특정 API 사업자에게만 묶이지 않는다는 장점도 있다.</p>
+<p>다만 Claude Code의 시스템 프롬프트와 도구 설계는 Claude에 맞춰 발전했다. 모델 점수가 비슷하더라도 도구 선택과 오류 복구에서는 차이가 생긴다. Ox Alpha가 남긴 가장 유용한 답은 ‘무료라서 바꾼다’가 아니다. 같은 이슈를 두 작업 공간에 맡기고 어느 쪽 패치가 실제 테스트를 통과하는지 확인하라는 것이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Ox Alpha</span><span class="chip">GLM-5.3-Flash</span><span class="chip">Claude Code</span><span class="chip">OpenRouter</span><span class="chip">코딩 에이전트</span><span class="chip">Z.ai</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://openrouter.ai/stealth/ox-alpha" rel="nofollow noopener">https://openrouter.ai/stealth/ox-alpha</a></li><li><a href="https://openrouter.ai/z-ai/glm-5.3-flash" rel="nofollow noopener">https://openrouter.ai/z-ai/glm-5.3-flash</a></li><li><a href="https://autoclaw.z.ai/blog/model/glm-5.3-flash/" rel="nofollow noopener">https://autoclaw.z.ai/blog/model/glm-5.3-flash/</a></li><li><a href="https://z.ai/blog/glm-built-its-inference-infrastructure" rel="nofollow noopener">https://z.ai/blog/glm-built-its-inference-infrastructure</a></li><li><a href="https://huggingface.co/zai-org/GLM-5.3-Flash" rel="nofollow noopener">https://huggingface.co/zai-org/GLM-5.3-Flash</a></li><li><a href="https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration" rel="nofollow noopener">https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration</a></li><li><a href="https://github.com/jyeric/ox-alpha-deepswe/blob/main/README.md" rel="nofollow noopener">https://github.com/jyeric/ox-alpha-deepswe/blob/main/README.md</a></li><li><a href="https://github.com/vllm-project/recipes/blob/main/models/zai-org/GLM-5.3-Flash.yaml" rel="nofollow noopener">https://github.com/vllm-project/recipes/blob/main/models/zai-org/GLM-5.3-Flash.y</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Ox Alpha는 지금도 무료인가요?</h2><p class="sum">Ox Alpha라는 무료 스텔스 시험은 끝났고 정체는 GLM-5.3-Flash로 공개됐다. OpenRouter에서는 현재 유료 토큰 가격이 표시되므로 호출 전에 최신 가격을 확인해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>Ox Alpha를 Claude Code에서 어떻게 사용하나요?</h2><p class="sum">OpenRouter API 키와 Anthropic 호환 베이스 URL을 설정한 뒤 모델 ID를 <code>z-ai/glm-5.3-flash</code>로 지정한다. 보조 모델과 서브에이전트도 같은 ID로 매핑해야 의도하지 않은 Claude 호출을 줄일 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>GLM-5.3-Flash가 Claude를 대체할 수 있나요?</h2><p class="sum">긴 코드 탐색과 검증 가능한 구현 작업에는 유력한 저비용 대안이다. 다만 Claude Code의 일부 도구 기능은 비 Anthropic 모델에서 다르게 작동하므로 전면 전환보다 프로젝트별 비교가 적합하다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-25-2200.html">2026-08-25 08-25 17:25~21:43</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

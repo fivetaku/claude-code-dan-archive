@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Ox Alpha는 무엇이었나, Claude Code 대체 모델의 실제 가치</title>
+    <link>https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Ox Alpha로 알려진 GLM-5.3-Flash의 성능과 가격, Claude Code 연동 방법을 살펴보고 개인 개발자가 실제 프로젝트에 쓸 만한지 평가한다.</description>
+  </item>
+  <item>
+    <title>Claude Code 한도 뒤 Max 업그레이드, 사용량도 리셋될까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-upgrade-limit-reset.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-upgrade-limit-reset.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code의 5시간·주간 한도 구조와 Pro·Max 업그레이드 효과를 살펴보고, 한도에 막혔을 때 바로 쓸 수 있는 대안을 정리했다.</description>
+  </item>
+  <item>
     <title>밈 검색 서비스, 1초대 응답과 최신 짤을 함께 잡는 설계</title>
     <link>https://chat.axwith.com/mag/workflow/fast-fresh-meme-search.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/fast-fresh-meme-search.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Fri, 18 Sep 2026 12:00:00 +0900</pubDate>
     <description>Slack·Notion·Gmail·Google Drive를 RAG로 연결하고 동기화 상태, 출처, 권한, 학습 기록을 보여주는 AI 지식 대시보드 구축법을 살펴본다.</description>
-  </item>
-  <item>
-    <title>Microsoft Teams 실시간 통역, 직접 구축할 가치가 있는가</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/teams-realtime-interpreter-build.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/teams-realtime-interpreter-build.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Thu, 17 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Teams 통화 번역을 직접 만들 때 필요한 오디오 수집, Azure Speech 처리, 사이드 패널 구현 순서와 기본 기능을 써야 할 경계를 설명한다.</description>
-  </item>
-  <item>
-    <title>Claude Code 원격 작업, CLI 사용자에게 Pase오가 필요한 순간</title>
-    <link>https://chat.axwith.com/mag/tools/paseo-claude-code-remote-work.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/paseo-claude-code-remote-work.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Thu, 17 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Paseo로 Claude Code와 Codex를 원격 관리하는 설치법, 워크트리 운용법, 보안 조건을 살펴보고 공식 원격 기능과의 차이를 짚었다.</description>
   </item>
 </channel></rss>
