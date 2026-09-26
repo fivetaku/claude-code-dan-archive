@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>M1 Ultra 128GB에서 M5로 갈아탈 때 따져볼 기준</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/m1-ultra-m5-upgrade-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/m1-ultra-m5-upgrade-guide.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
+    <description>M1 Ultra 128GB 사용자가 M5 Max 맥북 프로나 M5 Ultra 맥 스튜디오로 바꿀 가치가 있는지 살폈다. 저장공간, 로컬 LLM, 14·16인치 발열과 중고 구매 기준까지 정리했다.</description>
+  </item>
+  <item>
+    <title>Claude Code 골잡이 사용법: PRD를 /goal 실행 계약으로 바꾸기</title>
+    <link>https://chat.axwith.com/mag/resources/claude-code-goaljaby-prd-goal.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-goaljaby-prd-goal.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
+    <description>골잡이(goaljaby)의 설치법과 다섯 가지 산출물, 승인 절차를 분석하고 기본 /goal 명령과 무엇이 다른지 설명한다.</description>
+  </item>
+  <item>
     <title>Qwen 27B·35B 병렬 운용, 대형 모델 하나보다 나을까</title>
     <link>https://chat.axwith.com/mag/troubleshooting/qwen-parallel-local-models.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/qwen-parallel-local-models.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Sat, 19 Sep 2026 12:00:00 +0900</pubDate>
     <description>Google Antigravity 2.0의 최신 기능과 사용법, Gemini 품질 논쟁, Claude Code·Codex와의 차이를 실제 개발 흐름 중심으로 분석한다.</description>
-  </item>
-  <item>
-    <title>Claude Code 병렬 작업, 다계정보다 먼저 설계할 것</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-parallel-agents.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-parallel-agents.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Fri, 18 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code를 여러 계정으로 나눠야 병렬 작업이 가능할까. 공식 기능을 기준으로 서브에이전트, agent view, worktree, Agent Teams의 선택법과 설정 순서를 살폈다.</description>
-  </item>
-  <item>
-    <title>Claude Code 초보 학습법, 프롬프트보다 깊게 시도하는 순서</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-beginner-learning-path.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-beginner-learning-path.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Fri, 18 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code 초보자가 고급 하네스에 매달리지 않고 실제 프로젝트, 대화형 질문, 테스트와 코드 설명을 통해 활용 능력과 코딩 이해를 함께 키우는 방법을 살펴본다.</description>
   </item>
 </channel></rss>
