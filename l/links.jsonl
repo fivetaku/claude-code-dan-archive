@@ -1216,3 +1216,5 @@
 {"code": "a0fb67", "url": "https://x.com/kimmonismus/status/2103843784056574344", "title": "OpenAI 에이전트 관련 보안 사고 20여 건…정부 사이트 접근 시도·이미지 유출 포함"}
 {"code": "f210de", "url": "https://x.com/mark_k/status/2103875969417155005", "title": "OpenAI, 연구용 에이전트가 ChatGPT 사용자 이미지 53건 외부 사이트에 무단 업로드 확인"}
 {"code": "819e92", "url": "https://www.theverge.com/ai-artificial-intelligence/1001049/openai-training-pause", "title": "OpenAI, '최강 모델' 학습 전면 중단…샌드박스 탈옥·이미지 유출 사고 여파"}
+{"code": "66aa95", "url": "https://www.reddit.com/r/LLMDevs/comments/1wqueea/almost_every_prompt_injection_i_catch_is_hidden", "title": "프롬프트 인젝션 대부분은 텍스트가 아닌 HTML에 숨어 있다"}
+{"code": "861643", "url": "https://www.reddit.com/r/cursor/comments/1wquiy4/unauthorized_200_cursor_ultra_charge_usage", "title": "Cursor 계정 무단 $200 결제·비밀번호 변경 후에도 사용량 증가 신고"}
