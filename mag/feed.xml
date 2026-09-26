@@ -5,12 +5,28 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Qwen 27B·35B 병렬 운용, 대형 모델 하나보다 나을까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/qwen-parallel-local-models.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/qwen-parallel-local-models.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Qwen3.5 27B와 35B-A3B를 함께 돌릴지, 더 큰 모델 하나를 쓸지 판단하는 기준을 모델 구조와 VRAM, 병렬 처리 방식으로 설명한다.</description>
+  </item>
+  <item>
     <title>Ox Alpha는 무엇이었나, Claude Code 대체 모델의 실제 가치</title>
     <link>https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html</guid>
     <category>AI 모델·프롬프트</category>
     <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
     <description>Ox Alpha로 알려진 GLM-5.3-Flash의 성능과 가격, Claude Code 연동 방법을 살펴보고 개인 개발자가 실제 프로젝트에 쓸 만한지 평가한다.</description>
+  </item>
+  <item>
+    <title>Claude Opus 5.5 너프설과 사용량 차이, 무엇을 확인해야 하나</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/opus-55-usage-limit-check.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/opus-55-usage-limit-check.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Opus 5.5의 성능 너프설과 계정별 사용량 차이를 공식 문서와 측정 자료로 검증하고, Claude Code에서 직접 비교하는 방법을 정리했다.</description>
   </item>
   <item>
     <title>Claude Code 한도 뒤 Max 업그레이드, 사용량도 리셋될까</title>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Fri, 18 Sep 2026 12:00:00 +0900</pubDate>
     <description>Claude Code 초보자가 고급 하네스에 매달리지 않고 실제 프로젝트, 대화형 질문, 테스트와 코드 설명을 통해 활용 능력과 코딩 이해를 함께 키우는 방법을 살펴본다.</description>
-  </item>
-  <item>
-    <title>Claude Code 계정 전환 프록시, 직접 만들까 기존 도구를 쓸까</title>
-    <link>https://chat.axwith.com/mag/tools/claude-code-account-proxy.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-code-account-proxy.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 18 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code와 Codex 계정 전환을 자동화할 때 Mobius, OpenCodex, CLIProxyAPI 중 무엇을 골라야 하는지 설치 방식과 유지보수 범위까지 비교한다.</description>
-  </item>
-  <item>
-    <title>Slack·Notion·메일을 먹는 AI 지식 대시보드 설계법</title>
-    <link>https://chat.axwith.com/mag/workflow/ai-knowledge-dashboard-course-saas.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-knowledge-dashboard-course-saas.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Fri, 18 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Slack·Notion·Gmail·Google Drive를 RAG로 연결하고 동기화 상태, 출처, 권한, 학습 기록을 보여주는 AI 지식 대시보드 구축법을 살펴본다.</description>
   </item>
 </channel></rss>
