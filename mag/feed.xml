@@ -13,6 +13,22 @@
     <description>M1 Ultra 128GB 사용자가 M5 Max 맥북 프로나 M5 Ultra 맥 스튜디오로 바꿀 가치가 있는지 살폈다. 저장공간, 로컬 LLM, 14·16인치 발열과 중고 구매 기준까지 정리했다.</description>
   </item>
   <item>
+    <title>실시간 통역툴 서버로 Fly.io를 고를 때 따질 것</title>
+    <link>https://chat.axwith.com/mag/ops/flyio-realtime-interpreter-server.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/flyio-realtime-interpreter-server.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
+    <description>실시간 통역툴을 Fly.io에 배포하는 방법과 비용 구조를 살펴본다. Cloudflare·Hostinger와 비교하고 동시 통화량에 맞춘 서버 선택 기준도 제시한다.</description>
+  </item>
+  <item>
+    <title>Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code로 MVP를 만들 때 필요한 설계 범위와 CLAUDE.md, Plan Mode, 검증 기준, 작은 스키마 변경을 연결하는 단계별 개발법을 살펴본다.</description>
+  </item>
+  <item>
     <title>Claude Code 골잡이 사용법: PRD를 /goal 실행 계약으로 바꾸기</title>
     <link>https://chat.axwith.com/mag/resources/claude-code-goaljaby-prd-goal.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-goaljaby-prd-goal.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Sat, 19 Sep 2026 12:00:00 +0900</pubDate>
     <description>OpenAI가 GPT Pro 20x 신규 가입과 업그레이드를 일시 중단했다. 기존 구독자의 갱신 조건과 실제 사용량 구조, 대안을 공식 문서로 확인했다.</description>
-  </item>
-  <item>
-    <title>EXAONE Chemical Agent와 DDU, 개인이 무료로 쓸 수 있나</title>
-    <link>https://chat.axwith.com/mag/models/exaone-chemical-agent-ddu-access.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/exaone-chemical-agent-ddu-access.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sat, 19 Sep 2026 12:00:00 +0900</pubDate>
-    <description>EXAONE Chemical Agent와 Deep Document Understanding의 작동 방식과 최신 적용 사례, 개인 무료 이용 가능 여부를 공식 자료로 정리했다.</description>
-  </item>
-  <item>
-    <title>Antigravity 2.0, Gemini 성능이 아쉬워도 쓸 이유가 있나</title>
-    <link>https://chat.axwith.com/mag/models/antigravity-2-gemini-review.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/antigravity-2-gemini-review.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sat, 19 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Google Antigravity 2.0의 최신 기능과 사용법, Gemini 품질 논쟁, Claude Code·Codex와의 차이를 실제 개발 흐름 중심으로 분석한다.</description>
   </item>
 </channel></rss>

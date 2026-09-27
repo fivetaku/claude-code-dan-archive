@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code로 MVP를 만들 때 필요한 설계 범위와 CLAUDE.md, Plan Mode, 검증 기준, 작은 스키마 변경을 연결하는 단계별 개발법을 살펴본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html">
+<meta property="og:title" content="Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나">
+<meta property="og:description" content="Claude Code로 MVP를 만들 때 필요한 설계 범위와 CLAUDE.md, Plan Mode, 검증 기준, 작은 스키마 변경을 연결하는 단계별 개발법을 살펴본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나", "description": "Claude Code로 MVP를 만들 때 필요한 설계 범위와 CLAUDE.md, Plan Mode, 검증 기준, 작은 스키마 변경을 연결하는 단계별 개발법을 살펴본다.", "datePublished": "2026-09-27", "dateModified": "2026-09-27", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, MVP 개발, Plan Mode, CLAUDE.md, AI 코딩, 점진적 설계", "image": "https://chat.axwith.com/mag/hero/claude-code-mvp-planning-workflow.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code에서 작은 기능도 항상 Plan Mode를 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "오타 수정이나 변수명 변경처럼 수정 범위를 한 문장으로 설명할 수 있다면 바로 구현해도 된다. 여러 파일, 업무 규칙, 데이터 변경이 얽히면 Plan Mode로 탐색과 구현을 분리하는 편이 안전하다."}}, {"@type": "Question", "name": "MVP용 CLAUDE.md에는 무엇을 넣어야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "빌드·테스트 명령, 코드 배치 규칙, 핵심 업무 제약, 완료 전 검증 절차를 넣는다. 상세 SOP와 일회성 기획은 별도 문서나 Skill로 분리해야 매 세션의 문맥을 낭비하지 않는다."}}, {"@type": "Question", "name": "AI가 만든 MVP의 완료 여부는 어떻게 판단하나요?", "acceptedAnswer": {"@type": "Answer", "text": "기능 목록보다 검증할 가정과 KPI를 먼저 정한다. 인수 조건을 테스트나 관찰 가능한 결과로 만들고, Claude Code가 실행한 검사 결과와 실제 사용자 반응을 함께 확인한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-mvp-planning-workflow.png" alt="Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나</h1>
+  <p class="sub">완벽한 명세와 무계획 코딩 사이에서, 업무 맥락을 보존하며 작은 기능을 검증하는 실전 흐름</p>
+  <div class="meta"><span>2026-09-27</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Code가 구현 속도를 높일수록 설계는 더 중요해진다. 다만 모든 요구사항과 미래 구조를 먼저 확정하려 하면 AI의 속도도 사라진다. 그렇다면 MVP를 시작하기 전에 무엇을 고정하고, 무엇을 구현 과정에서 바꿔야 할까.</p>
+<h2>설계 범위는 문서 분량보다 검증할 위험이 결정한다</h2>
+<p>MVP는 완성품의 축소판이 아니다. 가장 불확실한 가정을 적은 비용으로 확인하는 작동 가능한 제품이다. SVPG는 제품 위험을 가치, 사용성, 구현 가능성, 사업 적합성으로 나눈다. GOV.UK 서비스 매뉴얼도 가장 위험한 가정을 시험할 만큼만 프로토타입을 만들라고 권한다.</p>
+<p>Claude Code를 쓸 때도 위험부터 한 문장으로 적어야 한다. 고객이 기능을 원하는지 모른다면 사용 흐름을 검증한다. 외부 API가 불안하다면 연동 경로부터 시험하고, 복잡한 승인 규칙이 문제라면 화면보다 판정 로직을 먼저 만든다.</p>
+<p>커뮤니티에서는 목적과 현장 맥락을 충분히 전달해야 한다는 의견이 많았다. 처음부터 전체 아키텍처를 완성하려 들면 수정 비용만 커진다는 지적도 나왔다. 두 관점은 충돌하지 않는다. 목적과 제약은 일찍 고정하되 구현 구조는 학습에 맞춰 움직이면 된다.</p>
+<h2>SOP와 KPI를 코드가 검증할 수 있는 조건으로 바꾼다</h2>
+<p>Claude Code는 조직의 암묵지를 알지 못한다. 담당자가 어떤 순서로 판단하는지, 예외를 누가 승인하는지, 실패가 무엇인지 입력해야 한다. 현업의 SOP와 KPI는 배경 설명이 아니라 기능의 경계이자 테스트 조건이다.</p>
+<p>환불 승인 도구를 예로 들면 <code>docs/problem.md</code>에 사용자, 현재 절차, 해결할 병목, 제외 범위를 적는다. <code>docs/sop.md</code>에는 입력 자료, 처리 순서, 승인 권한, 예외 상황을 기록한다. <code>docs/metrics.md</code>에는 처리 시간, 재작업률, 오류율처럼 관찰할 지표를 둔다. 목표 수치는 Claude가 만들게 하지 말고 업무 책임자가 채워야 한다.</p>
+<p>기능 단위 요구사항은 <code>SPEC.md</code>로 옮긴다. Atlassian은 사용자 스토리가 사용자와 목적을 설명하고 인수 조건은 성공 상태를 검증할 수 있게 만든다고 설명한다. Martin Fowler가 소개한 Given-When-Then 형식을 쓰면 SOP를 테스트로 바꾸기 쉽다.</p>
+<p>조건은 다음과 같이 좁힐 수 있다. 유효한 주문이 있고 담당자가 정책 범위 안의 환불을 요청하면 시스템은 승인 결과와 판단 근거를 저장해야 한다. 권한 밖의 금액이면 승인하지 않고 상위 담당자에게 넘겨야 한다. 이 정도면 Claude Code가 구현과 테스트를 같은 목표에 맞출 수 있다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-mvp-planning-workflow.png" alt="" loading="lazy"><h2>CLAUDE.md에는 변하지 않는 규칙만 남긴다</h2>
+<p>Anthropic 공식 가이드는 <code>/init</code>으로 초기 <code>CLAUDE.md</code>를 만들고 계속 다듬으라고 안내한다. 이 파일은 매 세션마다 읽히므로 빌드 명령, 테스트 방법, 폴더 경계, 특별한 코딩 규칙을 넣는 곳이다. 긴 업무 매뉴얼과 자주 바뀌는 기획서는 별도 문서나 Skill로 분리하는 편이 낫다.</p>
+<p>MVP 저장소라면 <code>CLAUDE.md</code>에 네 종류만 남겨도 충분하다. 사용 중인 실행·검사 명령, 현재 아키텍처의 경계, 반드시 지켜야 할 업무 규칙, 작업 완료 전에 돌릴 검증 절차다. <code>결제 코드는 services/payments 밖에서 작성하지 않는다</code>처럼 구체적으로 써야 한다.</p>
+<p>써본 사람들 사이에서는 거대한 지침 파일이 오히려 중요한 규칙을 묻어버린다는 반응도 있다. Anthropic 역시 짧고 구체적인 지침을 권한다. 코드에서 바로 알아낼 수 있는 내용은 빼라고도 설명한다. 현황과 다음 작업까지 모두 <code>CLAUDE.md</code>에 누적하는 방식은 빠르게 한계에 닿는다.</p>
+<h2>Plan Mode에서는 전체 제품이 아니라 다음 조각을 설계한다</h2>
+<p>Anthropic이 권하는 기본 흐름은 탐색, 계획, 구현, 검증이다. <code>claude --permission-mode plan</code>으로 시작하거나 세션에서 Plan Mode를 켜면 Claude는 파일을 읽고 계획을 세우되 수정하지 않는다. 여러 파일을 바꾸거나 낯선 영역을 건드릴 때 특히 유용하다.</p>
+<p>첫 프롬프트에서는 구현을 맡기지 않는다. <code>docs/problem.md</code>, <code>docs/sop.md</code>, <code>docs/metrics.md</code>를 읽고 기존 코드에서 관련 흐름을 찾게 한다. 이어 빠진 업무 규칙을 질문하고 이번 단계에서 수정할 파일과 테스트를 제안하게 한다. 계획에 범위 밖 항목도 명시하면 기능이 새는 일을 줄일 수 있다.</p>
+<p>승인한 뒤에는 하나의 세로 조각만 구현한다. 입력부터 저장과 결과 표시까지 사용자가 가치를 확인할 수 있는 작은 흐름이어야 한다. 화면 전체를 만든 뒤 API를 붙이는 수평 분할보다 피드백을 빨리 얻는다.</p>
+<p>작업 지시는 <code>이 계획의 첫 조각만 구현하고, 인수 조건을 테스트로 작성한 뒤 실행 결과를 보여줘</code>처럼 준다. Anthropic 가이드는 테스트, 빌드, 린터, 화면 비교처럼 Claude가 읽을 수 있는 검증 수단을 제공하라고 강조한다. 반복 검사가 필요하면 <code>PostToolUse</code> hook으로 편집 뒤 포매터나 테스트를 실행할 수도 있다.</p>
+<h2>유연한 아키텍처는 추상화보다 작은 변경에서 나온다</h2>
+<p>변경 가능성에 대비한다며 범용 플러그인 구조나 복잡한 계층부터 만들 필요는 없다. Fowler의 YAGNI 원칙은 확인되지 않은 미래 기능을 미리 구현하지 말라고 한다. 그렇다고 코드를 바꾸기 쉽게 만드는 리팩터링과 자동화 테스트까지 생략하라는 뜻은 아니다.</p>
+<p>스키마에도 같은 기준을 적용한다. 처음부터 모든 속성을 담는 거대한 JSON 필드를 만드는 대신 현재 흐름에 필요한 명확한 테이블을 만든다. 변경은 작은 마이그레이션 파일로 남겨 애플리케이션 코드와 함께 버전 관리한다. 진화형 데이터베이스 설계는 큰 개편보다 작고 연속적인 마이그레이션을 권한다.</p>
+<p>실제 작업 루프는 짧다. 업무 문서에서 위험 하나를 고른 뒤 Plan Mode로 관련 코드를 탐색한다. <code>SPEC.md</code>에 한 조각의 인수 조건을 적고 구현과 테스트를 진행한다. 사용 결과가 KPI를 움직였는지 확인한 다음 문서와 스키마를 고쳐 다음 조각으로 넘어간다.</p>
+<p>Claude Code 시대의 설계는 미래를 모두 맞히는 작업이 아니다. 다음 실험이 틀렸을 때 무엇을 배울지 정하고 코드와 데이터가 그 학습을 견디게 만드는 일이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">MVP 개발</span><span class="chip">Plan Mode</span><span class="chip">CLAUDE.md</span><span class="chip">AI 코딩</span><span class="chip">점진적 설계</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/best-practices" rel="nofollow noopener">https://code.claude.com/docs/en/best-practices</a></li><li><a href="https://code.claude.com/docs/en/memory" rel="nofollow noopener">https://code.claude.com/docs/en/memory</a></li><li><a href="https://code.claude.com/docs/en/hooks-guide" rel="nofollow noopener">https://code.claude.com/docs/en/hooks-guide</a></li><li><a href="https://agilemanifesto.org/principles" rel="nofollow noopener">https://agilemanifesto.org/principles</a></li><li><a href="https://www.svpg.com/four-big-risks/" rel="nofollow noopener">https://www.svpg.com/four-big-risks/</a></li><li><a href="https://www.gov.uk/service-manual/agile-delivery/how-the-alpha-phase-works" rel="nofollow noopener">https://www.gov.uk/service-manual/agile-delivery/how-the-alpha-phase-works</a></li><li><a href="https://www.atlassian.com/agile/project-management/user-stories" rel="nofollow noopener">https://www.atlassian.com/agile/project-management/user-stories</a></li><li><a href="https://martinfowler.com/bliki/GivenWhenThen.html" rel="nofollow noopener">https://martinfowler.com/bliki/GivenWhenThen.html</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 작은 기능도 항상 Plan Mode를 써야 하나요?</h2><p class="sum">오타 수정이나 변수명 변경처럼 수정 범위를 한 문장으로 설명할 수 있다면 바로 구현해도 된다. 여러 파일, 업무 규칙, 데이터 변경이 얽히면 Plan Mode로 탐색과 구현을 분리하는 편이 안전하다.</p></article><article class="dcard"><div class="t">Q</div><h2>MVP용 CLAUDE.md에는 무엇을 넣어야 하나요?</h2><p class="sum">빌드·테스트 명령, 코드 배치 규칙, 핵심 업무 제약, 완료 전 검증 절차를 넣는다. 상세 SOP와 일회성 기획은 별도 문서나 Skill로 분리해야 매 세션의 문맥을 낭비하지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI가 만든 MVP의 완료 여부는 어떻게 판단하나요?</h2><p class="sum">기능 목록보다 검증할 가정과 KPI를 먼저 정한다. 인수 조건을 테스트나 관찰 가능한 결과로 만들고, Claude Code가 실행한 검사 결과와 실제 사용자 반응을 함께 확인한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-27-1330.html">2026-09-27 09-27 10:00~13:20</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
