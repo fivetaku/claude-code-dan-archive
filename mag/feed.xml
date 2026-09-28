@@ -13,6 +13,22 @@
     <description>젠스파크 SecondBrain Note의 녹음 버튼이 작동하지 않을 때 점검할 방법과 하자 접수, 반품, 환불 절차를 공식 문서 중심으로 설명한다.</description>
   </item>
   <item>
+    <title>키쫀쿠 5.5는 무제한일까, Claude Opus 프로모션의 실제 조건</title>
+    <link>https://chat.axwith.com/mag/models/claude-opus-55-usage-reset.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-opus-55-usage-reset.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Opus 5.5 출시 뒤 퍼진 무제한 사용설과 신규 계정 조건을 검증했다. 모델 선택, 사용량 리셋, 만료일 확인법도 설명한다.</description>
+  </item>
+  <item>
+    <title>Claude Opus 5.5, 느린데도 다시 구독할 만큼 좋아졌나</title>
+    <link>https://chat.axwith.com/mag/models/claude-opus-55-subscription-return.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-opus-55-subscription-return.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Opus 5.5의 성능, 응답 속도, Max 5x 한도와 리셋 구조를 분석했다. GPT Pro와 역할을 나눠 구독할 가치가 있는지도 살펴본다.</description>
+  </item>
+  <item>
     <title>세레브라스가 Claude Code를 빠르게 할까, 속도와 요금의 관계</title>
     <link>https://chat.axwith.com/mag/models/cerebras-claude-code-speed-cost.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/cerebras-claude-code-speed-cost.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sun, 20 Sep 2026 12:00:00 +0900</pubDate>
     <description>가세오는 기존 Claude Code 세션을 Paseo에 등록하는 연결 도구다. 설치 과정과 세션 탐색 방식, 공식 Remote Control과의 차이를 분석했다.</description>
-  </item>
-  <item>
-    <title>코덱스 강의는 왜 설명보다 막힘 해결형 실습이어야 하나</title>
-    <link>https://chat.axwith.com/mag/workflow/codex-hands-on-course-design.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/codex-hands-on-course-design.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sun, 20 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Codex 강의를 실습 중심으로 설계하는 방법을 살펴본다. 공통 저장소 준비부터 AGENTS.md, 검증 과제, 강사용 지원 도구까지 구체적으로 정리했다.</description>
-  </item>
-  <item>
-    <title>Claude Code 할루시네이션, 긴 프롬프트보다 검증 루프가 먼저다</title>
-    <link>https://chat.axwith.com/mag/models/claude-code-hallucination-verification-loop.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-hallucination-verification-loop.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sun, 20 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code의 할루시네이션은 지시 항목을 늘리는 것만으로 막기 어렵다. 맥락 고정, CLAUDE.md 관리, 테스트와 출처 검증을 연결하는 실전 흐름을 살펴본다.</description>
   </item>
 </channel></rss>
