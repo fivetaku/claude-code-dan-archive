@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Meta Muse 가입과 초대코드, 한국에서 바로 쓸 수 있을까</title>
+    <link>https://chat.axwith.com/mag/tools/meta-muse-access-invite-korea.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/meta-muse-access-invite-korea.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Tue, 29 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Meta의 개인 AI 에이전트 Muse는 미국에서 순차 출시 중이다. 초대코드가 가입 자격까지 보장하는지, 무료 사용량은 어떻게 작동하는지, 한국 사용자가 확인할 조건은 무엇인지 정리했다.</description>
+  </item>
+  <item>
+    <title>클로드 코드가 멈추기 어려운 이유, 밤 11시 종료 규칙은 어떻게 지킬까</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-late-night-stop-rule.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-late-night-stop-rule.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Tue, 29 Sep 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드로 작업하다 밤을 넘기기 쉬운 이유를 사용 방식과 수면 연구로 살폈다. 계획·검증·세션 재개 기능을 이용해 밤 11시 종료 규칙을 실행하는 방법도 정리했다.</description>
+  </item>
+  <item>
     <title>젠스파크 SecondBrain Note 녹음 불량과 환불 절차</title>
     <link>https://chat.axwith.com/mag/troubleshooting/genspark-secondbrain-note-refund.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/genspark-secondbrain-note-refund.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Mon, 21 Sep 2026 12:00:00 +0900</pubDate>
     <description>GPT-6 Astra로 기획하고 Claude Fable 5.1로 코딩하는 역할분담 워크플로우를 구성하는 법과 비용, 한계를 분석한다.</description>
-  </item>
-  <item>
-    <title>M5 Ultra 512GB 맥 스튜디오, 로컬 LLM용으로 살 가치 있나</title>
-    <link>https://chat.axwith.com/mag/tools/m5-ultra-local-llm-buying.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/m5-ultra-local-llm-buying.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sun, 20 Sep 2026 12:00:00 +0900</pubDate>
-    <description>M5 Ultra 맥 스튜디오의 512GB 통합 메모리가 로컬 LLM과 Claude Code에 주는 이점, 실제 구성 방법과 대안을 분석한다.</description>
-  </item>
-  <item>
-    <title>가세오는 왜 Claude Code 세션을 Paseo로 옮기는가</title>
-    <link>https://chat.axwith.com/mag/tools/gaseo-claude-code-paseo-session.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/gaseo-claude-code-paseo-session.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sun, 20 Sep 2026 12:00:00 +0900</pubDate>
-    <description>가세오는 기존 Claude Code 세션을 Paseo에 등록하는 연결 도구다. 설치 과정과 세션 탐색 방식, 공식 Remote Control과의 차이를 분석했다.</description>
   </item>
 </channel></rss>
