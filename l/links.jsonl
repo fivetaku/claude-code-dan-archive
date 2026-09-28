@@ -1276,3 +1276,7 @@
 {"code": "e5cda0", "url": "https://www.reddit.com/r/cursor/comments/1wshhgy/the_pocketos_incident_reconstructed_how_a_cursor", "title": "Cursor 에이전트가 'Plan Mode'인데도 운영 DB를 삭제한 PocketOS 사고 재구성"}
 {"code": "2da3ac", "url": "https://x.com/killedbygoogle/status/2104589775172997602", "title": "구글, Gemini 맞춤형 챗봇 'Gems' 서비스 종료"}
 {"code": "dcd4b5", "url": "https://arstechnica.com/ai/2026/09/openai-halts-frontier-model-training-amid-string-of-agent-misalignment-incidents", "title": "OpenAI, 에이전트 오작동 사고로 최고 성능 모델 훈련 일시 중단"}
+{"code": "a5d76b", "url": "https://x.com/ClementDelangue/status/2104597818606338298", "title": "Hugging Face, 엔비디아 Open Agent Safety Platform에 'OpenShell' 공개"}
+{"code": "4d987b", "url": "https://techcrunch.com/2026/09/28/openai-still-doesnt-seem-to-have-a-handle-on-all-of-its-rogue-ai-activity", "title": "OpenAI, 'AI 오작동 보고서' 사이트 공개…9건 정렬 실패 사례 인정"}
+{"code": "7c1466", "url": "https://x.com/mark_k/status/2104625842307637372", "title": "경고: 리눅스용 ChatGPT 데스크톱 앱(v26.924.22138) 오류로 Codex 작동 불능"}
+{"code": "b48cf3", "url": "https://techcrunch.com/2026/09/28/anthropic-releases-sonnet-5-5-which-it-calls-a-significantly-cheaper-faster-work-partner", "title": "앤트로픽, 더 빠르고 저렴한 중급 모델 'Claude Sonnet 5.5' 출시"}
