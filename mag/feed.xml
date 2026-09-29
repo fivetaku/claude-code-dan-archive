@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>ChatGPT Pro 200 사용량 축소, 기존 구독자는 언제 영향을 받나</title>
+    <link>https://chat.axwith.com/mag/models/chatgpt-pro-200-usage-change.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/chatgpt-pro-200-usage-change.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Wed, 30 Sep 2026 12:00:00 +0900</pubDate>
+    <description>ChatGPT Pro 200의 사용량 축소는 더 이상 소문만은 아니다. 기존 구독자의 적용 시점, Codex와 이미지 생성의 한도 차이, 해지와 환불 조건을 공식 안내로 확인했다.</description>
+  </item>
+  <item>
+    <title>Claude Code에서 Astra로 갈아탈까: Fable 5.1·Opus 5.5 코딩 비교</title>
+    <link>https://chat.axwith.com/mag/models/astra-fable-opus-coding-comparison.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/astra-fable-opus-coding-comparison.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Wed, 30 Sep 2026 12:00:00 +0900</pubDate>
+    <description>GPT-6 Astra, Claude Fable 5.1, Opus 5.5의 공식 가격과 코딩 평가를 대조했다. Claude Code와 Codex를 오갈 때 결과물·비용·작업 환경을 함께 비교하는 방법도 담았다.</description>
+  </item>
+  <item>
     <title>Meta Muse 가입과 초대코드, 한국에서 바로 쓸 수 있을까</title>
     <link>https://chat.axwith.com/mag/tools/meta-muse-access-invite-korea.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/meta-muse-access-invite-korea.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Tue, 22 Sep 2026 12:00:00 +0900</pubDate>
     <description>ChatGPT Plus 사용량이 빠르게 줄어드는 원인을 짚고, Claude Code subagent와 DeepSeek·Ox Alpha를 작업별로 배치하는 실전 전략을 살펴본다.</description>
-  </item>
-  <item>
-    <title>show-me-the-prd와 골잡이, PRD를 실제 구현으로 잇는 법</title>
-    <link>https://chat.axwith.com/mag/tools/prd-goaljaby-claude-code-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/prd-goaljaby-claude-code-workflow.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Mon, 21 Sep 2026 12:00:00 +0900</pubDate>
-    <description>show-me-the-prd로 PRD 묶음을 만들고 골잡이로 검증·복구·진행 문서를 구성해 Claude Code의 /goal 실행까지 연결하는 과정을 살펴본다.</description>
-  </item>
-  <item>
-    <title>Grok·DeepSeek 토큰, 3MB 게임 번역은 왜 한도를 녹이나</title>
-    <link>https://chat.axwith.com/mag/models/grok-deepseek-game-translation-tokens.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/grok-deepseek-game-translation-tokens.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 21 Sep 2026 12:00:00 +0900</pubDate>
-    <description>3MB 게임 텍스트가 Grok 한도를 빠르게 소진하는 이유를 짚고, DeepSeek API와 Claude Code를 활용한 분할 번역·비용 측정·검수 절차를 설명한다.</description>
   </item>
 </channel></rss>
