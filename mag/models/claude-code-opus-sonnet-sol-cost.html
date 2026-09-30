@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code 모델 조합, Opus 5.5와 Sonnet 5.5 중 무엇을 주력으로 쓸까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code에서 Opus 5.5와 Sonnet 5.5를 어떻게 나눠 쓸지 살폈다. GPT-6.1 Sol의 API 가격과 Codex Pro 500의 구독료가 실제 선택에 어떤 영향을 주는지도 짚었다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html">
+<meta property="og:title" content="Claude Code 모델 조합, Opus 5.5와 Sonnet 5.5 중 무엇을 주력으로 쓸까">
+<meta property="og:description" content="Claude Code에서 Opus 5.5와 Sonnet 5.5를 어떻게 나눠 쓸지 살폈다. GPT-6.1 Sol의 API 가격과 Codex Pro 500의 구독료가 실제 선택에 어떤 영향을 주는지도 짚었다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code 모델 조합, Opus 5.5와 Sonnet 5.5 중 무엇을 주력으로 쓸까", "description": "Claude Code에서 Opus 5.5와 Sonnet 5.5를 어떻게 나눠 쓸지 살폈다. GPT-6.1 Sol의 API 가격과 Codex Pro 500의 구독료가 실제 선택에 어떤 영향을 주는지도 짚었다.", "datePublished": "2026-10-01", "dateModified": "2026-10-01", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Claude Code, Opus 5.5, Sonnet 5.5, GPT-6.1 Sol, Codex, AI 코딩 비용", "image": "https://chat.axwith.com/mag/hero/claude-code-opus-sonnet-sol-cost.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code에서 Opus 5.5와 Sonnet 5.5를 어떻게 바꾸나요?", "acceptedAnswer": {"@type": "Answer", "text": "세션에서 `/model opus` 또는 `/model sonnet`을 입력하면 된다. 사용 중인 제공자에 따라 별칭이 가리키는 실제 버전이 다를 수 있으므로 선택 화면에서 모델명을 확인하는 편이 정확하다."}}, {"@type": "Question", "name": "GPT-6.1 Sol을 쓰려면 Codex Pro 500이 필요한가요?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. OpenAI는 GPT-6.1 Sol을 Plus를 포함한 여러 요금제에 제공한다고 안내한다. Pro 500의 차별점은 더 높은 포함 사용량과 출시 시점의 GPT-6 Astra Ultrafast 권한이다."}}, {"@type": "Question", "name": "Sonnet 5.5가 Opus 5.5보다 항상 저렴한가요?", "acceptedAnswer": {"@type": "Answer", "text": "기본 API 입력·출력 토큰 단가는 Sonnet 5.5가 절반이다. 하지만 작업별 토큰 사용량, 캐시, 재시도 횟수에 따라 완료 비용의 차이는 달라진다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-opus-sonnet-sol-cost.png" alt="Claude Code 모델 조합, Opus 5.5와 Sonnet 5.5 중 무엇을 주력으로 쓸까" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Claude Code 모델 조합, Opus 5.5와 Sonnet 5.5 중 무엇을 주력으로 쓸까</h1>
+  <p class="sub">Opus 5.5의 느린 응답이 아쉽다면 모델을 바꿔야 할까. Sonnet 5.5와 GPT-6.1 Sol의 가격, 작업 방식, 구독 조건을 함께 따졌다.</p>
+  <div class="meta"><span>2026-10-01</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Opus 5.5가 더 오래 생각하는데 수정은 더 늘었다면 Claude Code의 주력 모델을 바꿔야 할까. Sonnet 5.5와 GPT-6.1 Sol까지 선택지에 들어온 지금은 모델 단가보다 한 작업을 끝내는 데 드는 시간과 재작업이 중요하다.</p>
+<h2>Opus 5.5가 느리다는 경험과 공식 평가는 다르다</h2>
+<p>클코단에서는 Opus 5.5를 쓸 때 답을 기다리는 시간이 길어지고 결과를 다시 손보는 경우도 늘었다는 의견이 나왔다. 체감은 무시할 수 없다. 그렇다고 모델 전반의 성능이 떨어졌다고 단정할 근거도 없다. Anthropic은 Opus 5.5를 복잡하고 열린 과제에서 판단력이 필요한 모델로 소개한다. 회사가 공개한 초기 평가 역시 이전 Opus 대비 개선에 무게를 둔다. (<a href="https://www.anthropic.com/claude-opus-5-5?campaign=19995287&amp;trk=public_post_comment-text" target="_blank" rel="nofollow noopener">anthropic.com</a>)</p>
+<p>기다림에는 모델 이름 외의 변수도 있다. Claude Code에서는 effort 수준에 따라 모델이 답을 내기 전 쓰는 추론량이 달라진다. Anthropic 문서에 따르면 Opus 5.5와 Sonnet 5.5는 확장 사고를 끌 수 없지만 단순한 작업에는 <code>/effort</code>로 수준을 낮출 수 있다. 같은 모델이라도 작업 범위와 설정을 확인하지 않으면 속도 경험을 비교하기 어렵다. (<a href="https://code.claude.com/docs/en/costs" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>써본 사람들 사이에서는 Sonnet 5.5만으로 충분하다는 반응과 까다로운 판단에서는 Opus가 낫다는 반응이 함께 나온다. 방에서 제기된 불만도 그 사이에 놓인다. 더 강한 모델을 계속 켜둔다고 작업이 더 빨리 끝나는 것은 아니다.</p>
+<h2>Sonnet을 주력으로 둘 때도 작업을 가려야 한다</h2>
+<p> Anthropic은 버그 수정처럼 범위가 분명한 일상 작업에는 Sonnet을, 지속적인 판단이 필요한 복잡한 작업에는 Opus를 권한다. 회사 발표에는 이전 Sonnet 대비 출력 속도 개선이 제시됐다. 해당 수치는 Anthropic의 비교 결과이지 모든 저장소에서 보장되는 대기시간은 아니다. (<a href="https://www.anthropic.com/claude-sonnet-5-5" target="_blank" rel="nofollow noopener">anthropic.com</a>)</p>
+<p>가격 차이는 분명하다. Anthropic의 기본 API 요금에는 Sonnet과 Opus 사이에 차이가 있다.  긴 세션에서 무엇이 캐시로 처리되는지에 따라 실제 청구액의 차이가 단순히 두 배가 되지는 않는다. 구독 한도와 API 청구액도 같은 지표가 아니다. (<a href="https://www.anthropic.com/claude-sonnet-5-5" target="_blank" rel="nofollow noopener">anthropic.com</a>)</p>
+<p>개인 개발자라면 주력을 정할 때 대표 작업 세 개면 충분하다. 범위가 작은 버그 수정, 여러 파일에 걸친 변경, 원인이 불분명한 실패를 각각 골라 같은 테스트와 완료 조건을 적는다. Sonnet으로 먼저 구현해 테스트를 통과시킨 뒤 위험한 변경의 계획이나 결과 검토에 Opus를 투입해 비교할 수 있다. 이 순서는 우열에 대한 공식 보증이 아니라 재작업을 확인하기 위한 실험 설계다. Claude Code에서는 세션 중 <code>/model sonnet</code>과 <code>/model opus</code>로 모델을 바꿀 수 있다. (<a href="https://code.claude.com/docs/en/model-config" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-opus-sonnet-sol-cost.png" alt="" loading="lazy"><h2>모델을 섞으면 어디서 무엇이 실행되는지 확인해야 한다</h2>
+<p>방에서는 Sonnet보다 GPT-6.1 Sol을 주력으로 두고 Opus를 보완적으로 쓰자는 의견도 나왔다. 가능한 조합이지만 Sol은 Claude Code의 Sonnet 별칭이 아니다. Claude Code의 <code>/model sonnet</code>은 Anthropic API 사용 시 Sonnet 5.5를, <code>/model opus</code>는 Opus 5.5를 가리킨다. 다른 제공자를 거치면 같은 별칭이 더 오래된 버전을 선택할 수도 있다. 비교 기록에는 서비스와 실제 모델명을 함께 남겨야 한다. (<a href="https://code.claude.com/docs/en/model-config" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>Sol을 비교하려면 같은 작업 지시와 테스트를 Codex에도 건네는 편이 명료하다. 예를 들어 실패하는 테스트, 관련 파일 범위, 바꿔서는 안 되는 동작을 적고 두 도구에 각각 요청한다. 산출물에서는 통과한 테스트뿐 아니라 변경 파일, 불필요한 수정, 사람이 고친 횟수까지 확인한다. Claude Code 안에서 모델을 바꾸는 일과 Codex에서 별도 실행한 결과를 비교하는 일은 구별해야 한다.</p>
+<p>  숫자는 Sonnet 5.5와 같지만 토큰 사용량이나 작업 완료율까지 같다는 의미는 아니다. 두 회사의 발표 자료에 실린 성능 수치도 평가 조건이 달라 단일 순위표처럼 읽기 어렵다. (<a href="https://developers.openai.com/api/docs/models/gpt-6.1-sol" target="_blank" rel="nofollow noopener">developers.openai.com</a>)</p>
+<h2>월 구독료는 모델 단가와 별도로 판단해야 한다</h2>
+<p>Codex Pro 500에 대한 방의 반응은 개인이 매달 내기에는 부담스럽다는 쪽이었다.  GPT-6.1 Sol을 쓰려면 반드시 Pro 500이 필요한 것은 아니다.  (<a href="https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers" target="_blank" rel="nofollow noopener">help.openai.com</a>)</p>
+<p>특히 Ultrafast를 Sol의 기본 속도와 혼동하면 지출 판단이 흐려진다.   Pro 500의 월액을 Sol의 토큰 단가와 나란히 놓고 어느 쪽이 싸다고 계산할 수도 없다. 하나는 포함 사용량이 있는 구독료이고 다른 하나는 API 사용량에 따른 가격이다. (<a href="https://openai.com/index/devday-2026-recap/" target="_blank" rel="nofollow noopener">openai.com</a>)</p>
+<p>작은 팀에는 모델 성능보다 반복 작업의 양이 먼저 비용을 가른다. OpenAI는 Codex에서 작업의 길이, 추론 설정, 도구 사용량에 따라 한도 소모가 달라진다고 설명한다. Claude Code에서는 <code>/usage</code>로 사용 현황을 볼 수 있다. 두 도구를 비교할 때는 구독료와 초과 사용액을 따로 기록해야 한다. 그래야 한쪽의 포함 사용량을 다른 쪽의 API 요금과 잘못 견주지 않는다. (<a href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan" target="_blank" rel="nofollow noopener">help.openai.com</a>)</p>
+<h2>주력 모델은 완료된 변경으로 결정된다</h2>
+<p>Opus가 필요한 순간은 어려워 보이는 요청을 처음 받았을 때만이 아니다. Sonnet이나 Sol이 변경을 마쳤어도 테스트가 가리키지 못하는 위험이 남을 수 있다. 반대로 명확한 수정에 Opus를 계속 쓰면서 답을 기다리고 같은 검사를 반복한다면 높은 모델 등급이 작업 시간을 줄여주지 못한다.</p>
+<p>같은 저장소의 같은 과제를 맡긴 뒤 기록할 값은 네 가지다. 첫 결과까지 걸린 시간, 테스트 통과 여부, 사람이 다시 요청한 횟수, 사용량이다. Claude Code의 <code>/usage</code>와 Codex의 <code>/status</code>는 각각 사용 현황을 확인하는 출발점이 된다. 비교가 끝난 뒤에야 방에서 나온 ‘Sol 주력·Opus 보완’이나 ‘Sonnet 주력·Opus 보완’이 자기 작업에도 맞는지 알 수 있다. 비싼 모델의 필요성은 이름보다 그 모델을 썼을 때 사라진 재작업에서 드러난다. (<a href="https://code.claude.com/docs/en/commands" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">Opus 5.5</span><span class="chip">Sonnet 5.5</span><span class="chip">GPT-6.1 Sol</span><span class="chip">Codex</span><span class="chip">AI 코딩 비용</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.anthropic.com/claude-opus-5-5" rel="nofollow noopener">https://www.anthropic.com/claude-opus-5-5</a></li><li><a href="https://www.anthropic.com/claude-sonnet-5-5" rel="nofollow noopener">https://www.anthropic.com/claude-sonnet-5-5</a></li><li><a href="https://code.claude.com/docs/en/model-config" rel="nofollow noopener">https://code.claude.com/docs/en/model-config</a></li><li><a href="https://code.claude.com/docs/en/costs" rel="nofollow noopener">https://code.claude.com/docs/en/costs</a></li><li><a href="https://code.claude.com/docs/en/commands" rel="nofollow noopener">https://code.claude.com/docs/en/commands</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-6.1-sol" rel="nofollow noopener">https://developers.openai.com/api/docs/models/gpt-6.1-sol</a></li><li><a href="https://developers.openai.com/api/docs/guides/model-selection" rel="nofollow noopener">https://developers.openai.com/api/docs/guides/model-selection</a></li><li><a href="https://openai.com/index/devday-2026-recap/" rel="nofollow noopener">https://openai.com/index/devday-2026-recap/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 Opus 5.5와 Sonnet 5.5를 어떻게 바꾸나요?</h2><p class="sum">세션에서 <code>/model opus</code> 또는 <code>/model sonnet</code>을 입력하면 된다. 사용 중인 제공자에 따라 별칭이 가리키는 실제 버전이 다를 수 있으므로 선택 화면에서 모델명을 확인하는 편이 정확하다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPT-6.1 Sol을 쓰려면 Codex Pro 500이 필요한가요?</h2><p class="sum">아니다. OpenAI는 GPT-6.1 Sol을 Plus를 포함한 여러 요금제에 제공한다고 안내한다. Pro 500의 차별점은 더 높은 포함 사용량과 출시 시점의 GPT-6 Astra Ultrafast 권한이다.</p></article><article class="dcard"><div class="t">Q</div><h2>Sonnet 5.5가 Opus 5.5보다 항상 저렴한가요?</h2><p class="sum">기본 API 입력·출력 토큰 단가는 Sonnet 5.5가 절반이다. 하지만 작업별 토큰 사용량, 캐시, 재시도 횟수에 따라 완료 비용의 차이는 달라진다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-30-1330.html">2026-09-30 09-30 10:26~13:20</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

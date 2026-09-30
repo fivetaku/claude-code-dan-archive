@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>JEV를 코딩 에이전트에 붙이면 비용이 줄까: omo-jev-plugin의 실험과 한계</title>
+    <link>https://chat.axwith.com/mag/models/jev-omo-plugin-agent-cost-test.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/jev-omo-plugin-agent-cost-test.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
+    <description>JEV가 코딩 에이전트의 작은 판단을 맡으면 비용이 줄어들까? omo-jev-plugin의 설치·설정과 코드 탐색 실험을 살펴보고, 절감 수치를 읽을 때 놓치기 쉬운 조건을 짚는다.</description>
+  </item>
+  <item>
+    <title>Claude Code 모델 조합, Opus 5.5와 Sonnet 5.5 중 무엇을 주력으로 쓸까</title>
+    <link>https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code에서 Opus 5.5와 Sonnet 5.5를 어떻게 나눠 쓸지 살폈다. GPT-6.1 Sol의 API 가격과 Codex Pro 500의 구독료가 실제 선택에 어떤 영향을 주는지도 짚었다.</description>
+  </item>
+  <item>
     <title>저가 ChatGPT 공유구독, 이미지 생성용으로만 쓰면 괜찮을까</title>
     <link>https://chat.axwith.com/mag/resources/shared-chatgpt-image-subscription-risks.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/shared-chatgpt-image-subscription-risks.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Thu, 24 Sep 2026 12:00:00 +0900</pubDate>
     <description>Claude Max의 5x·20x는 Pro 대비 세션 배율이다. 공개되지 않은 주간 한도와 Team, API 크레딧까지 비교해 실제 가성비를 판단한다.</description>
-  </item>
-  <item>
-    <title>AI 구독 리셋권, 코덱스와 클로드에서 다르게 쓰는 법</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/codex-claude-usage-reset-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/codex-claude-usage-reset-guide.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Wed, 23 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Codex banked reset과 Claude limit reset은 주간 갱신일 처리부터 다르다. 지급 조건, 확인 위치, 크레딧과의 차이, 손해를 줄이는 사용법을 설명한다.</description>
-  </item>
-  <item>
-    <title>AI 연구자도 하네스를 만들어야 하나, Claude Code 실전 기준</title>
-    <link>https://chat.axwith.com/mag/tools/ai-researcher-agent-harness-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/ai-researcher-agent-harness-guide.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Wed, 23 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code의 CLAUDE.md·Skills·서브에이전트·Hooks로 최소 하네스를 만드는 순서와 OMO·Gajae-Code의 쓰임, 비용 통제법을 살펴본다.</description>
   </item>
 </channel></rss>
