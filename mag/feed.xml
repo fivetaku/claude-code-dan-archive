@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>저가 ChatGPT 공유구독, 이미지 생성용으로만 쓰면 괜찮을까</title>
+    <link>https://chat.axwith.com/mag/resources/shared-chatgpt-image-subscription-risks.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/shared-chatgpt-image-subscription-risks.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Wed, 30 Sep 2026 12:00:00 +0900</pubDate>
+    <description>저가 ChatGPT 공유구독을 이미지 생성용으로 시험해도 될까? 공식 계정 공유 정책, 이미지 생성 한도, 대화 기록 노출 가능성, Codex 사용 조건을 비교했다.</description>
+  </item>
+  <item>
+    <title>OMO JEV 플러그인은 탐색 비용을 얼마나 줄일까: 설치부터 실험 결과까지</title>
+    <link>https://chat.axwith.com/mag/tools/omo-jev-plugin-code-search-cost.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/omo-jev-plugin-code-search-cost.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Wed, 30 Sep 2026 12:00:00 +0900</pubDate>
+    <description>OMO JEV 플러그인의 설치·설정 방법과 실험적 코드 검색의 작동 방식을 살폈다. 저장소의 비용 비교가 입증한 범위와 실제 사용 전 확인할 제약도 짚는다.</description>
+  </item>
+  <item>
     <title>ChatGPT Pro 200 사용량 축소, 기존 구독자는 언제 영향을 받나</title>
     <link>https://chat.axwith.com/mag/models/chatgpt-pro-200-usage-change.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/chatgpt-pro-200-usage-change.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Wed, 23 Sep 2026 12:00:00 +0900</pubDate>
     <description>Claude Code의 CLAUDE.md·Skills·서브에이전트·Hooks로 최소 하네스를 만드는 순서와 OMO·Gajae-Code의 쓰임, 비용 통제법을 살펴본다.</description>
-  </item>
-  <item>
-    <title>Gemini 4 Pro 코딩 인증이 뜨는 이유와 제대로 검증하는 법</title>
-    <link>https://chat.axwith.com/mag/models/gemini-4-pro-coding-proof.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-4-pro-coding-proof.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Tue, 22 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Gemini 4 Pro는 현재 공식 제품 목록에 없다. Gemini CLI와 Claude Code의 코딩 결과를 모델명, 프롬프트, 테스트, 개입 횟수로 검증하는 방법을 살펴본다.</description>
-  </item>
-  <item>
-    <title>ChatGPT Plus 토큰이 빨리 닳을 때, 모델 라우팅이 답인가</title>
-    <link>https://chat.axwith.com/mag/models/chatgpt-token-model-routing-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/chatgpt-token-model-routing-guide.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Tue, 22 Sep 2026 12:00:00 +0900</pubDate>
-    <description>ChatGPT Plus 사용량이 빠르게 줄어드는 원인을 짚고, Claude Code subagent와 DeepSeek·Ox Alpha를 작업별로 배치하는 실전 전략을 살펴본다.</description>
   </item>
 </channel></rss>

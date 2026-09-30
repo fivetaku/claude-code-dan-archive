@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OMO JEV 플러그인은 탐색 비용을 얼마나 줄일까: 설치부터 실험 결과까지 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="OMO JEV 플러그인의 설치·설정 방법과 실험적 코드 검색의 작동 방식을 살폈다. 저장소의 비용 비교가 입증한 범위와 실제 사용 전 확인할 제약도 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/omo-jev-plugin-code-search-cost.html">
+<meta property="og:title" content="OMO JEV 플러그인은 탐색 비용을 얼마나 줄일까: 설치부터 실험 결과까지">
+<meta property="og:description" content="OMO JEV 플러그인의 설치·설정 방법과 실험적 코드 검색의 작동 방식을 살폈다. 저장소의 비용 비교가 입증한 범위와 실제 사용 전 확인할 제약도 짚는다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/omo-jev-plugin-code-search-cost.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "OMO JEV 플러그인은 탐색 비용을 얼마나 줄일까: 설치부터 실험 결과까지", "description": "OMO JEV 플러그인의 설치·설정 방법과 실험적 코드 검색의 작동 방식을 살폈다. 저장소의 비용 비교가 입증한 범위와 실제 사용 전 확인할 제약도 짚는다.", "datePublished": "2026-09-30", "dateModified": "2026-09-30", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/omo-jev-plugin-code-search-cost.html"}, "articleSection": "도구·라이브러리", "keywords": "OMO, Jev, omo-jev-plugin, AI 코딩 에이전트, 토큰 비용, 코드 검색", "image": "https://chat.axwith.com/mag/hero/omo-jev-plugin-code-search-cost.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "OMO JEV 플러그인을 설치하면 토큰이 자동으로 줄어드나요?", "acceptedAnswer": {"@type": "Answer", "text": "자동 절감은 확인되지 않았다. 저장소가 공개한 19.4%는 한 저장소의 특정 코드 탐색 과제에서 측정한 총비용 차이다."}}, {"@type": "Question", "name": "jev_code_search는 어떻게 사용하나요?", "acceptedAnswer": {"@type": "Answer", "text": "신뢰된 Git 프로젝트에서 `experimentalCodeSearch`를 켜고 새 세션을 시작한다. 도구에 자연어 질문과 선택적인 프로젝트 내부 경로를 주면 관련 코드의 경로·줄 번호·발췌를 반환한다."}}, {"@type": "Question", "name": "omo-jev-plugin을 Claude Code에 바로 설치할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "저장소의 설치 명령은 OmO 또는 senpi용 `omo install npm:omo-jev-plugin`이다. Claude Code용 직접 설치 방법으로 안내돼 있지는 않다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/omo-jev-plugin-code-search-cost.png" alt="OMO JEV 플러그인은 탐색 비용을 얼마나 줄일까: 설치부터 실험 결과까지" loading="eager">
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>OMO JEV 플러그인은 탐색 비용을 얼마나 줄일까: 설치부터 실험 결과까지</h1>
+  <p class="sub">에이전트의 다음 행동을 고르는 Jev와 코드 검색 도구를 구분하고, 공개 실험이 보여준 절감 범위를 살폈다.</p>
+  <div class="meta"><span>2026-09-30</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>OMO에 JEV를 붙이면 토큰을 덜 쓸까? 에이전트가 코드를 찾느라 여러 파일을 읽는 작업이라면 궁금할 만하다. 공개된 omo-jev-plugin의 설정과 실험 결과를 따라가며 무엇이 줄었고, 무엇은 아직 확인되지 않았는지 살폈다.</p>
+<h2>Jev는 코드를 작성하는 대신 다음 선택을 돕는다</h2>
+<p>OmO는 여러 모델과 도구를 활용해 작업을 진행하는 에이전트다. 현재 OmO 문서는 OpenCode용 플러그인과 독립 실행형 OmO Native를 구분한다. omo-jev-plugin의 설치 안내는 <code>omo</code> 명령을 쓰는 OmO 또는 senpi 환경을 대상으로 한다. Claude Code에 같은 명령으로 설치하는 플러그인은 아니다. (<a href="https://github.com/code-yeongyu/oh-my-openagent" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>플러그인이 연결하는 Jev는 TypeSafe의 판단 모델이다. TypeSafe 문서에 따르면 Jev는 텍스트를 받아 선택과 점수 같은 구조화된 판단을 반환한다. 플러그인은 이 판단을 바탕으로 스킬과 다음 도구가 적합한지 살피고, 반복되는 실패나 완료 가능성을 에이전트에 알린다. Jev가 직접 도구를 실행하거나 기존 권한 검사를 대신하지는 않는다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<p>‘JEV를 붙이면 절약된다’는 말은 두 기능으로 나눠 봐야 한다. 일반 판단 기능은 에이전트가 다음 행동을 고를 때 짧은 제안을 더한다. 저장소의 비용 비교는 그 기능 전체가 아니라 별도로 켜는 실험적 코드 검색을 대상으로 했다. 방에서도 탐색이 많은 작업에 기대를 걸었지만, 모든 작업의 사용량이 줄었다는 검증으로 읽을 수는 없다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<h2>설치 후에는 제안 모드와 공급자 키를 확인한다</h2>
+<p>저장소 README가 안내하는 설치 명령은 <code>omo install npm:omo-jev-plugin</code>이다. 처음 로드하면 <code>~/.omo/jev-plugin.jsonc</code>가 생성되고 <code>advise</code> 모드가 지정된다. 선택한 공급자의 API 키도 설정해야 판단 요청이 나간다. 키가 없으면 플러그인은 경고를 표시하고 판단 API를 호출하지 않는다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<p>기본 공급자는 Jev 호환 API다. 설정 파일의 <code>provider.jev_compatible.apiKey</code>에 키를 넣거나 OmO 실행 프로세스에 <code>TYPESAFE_API_KEY</code>를 제공할 수 있다. OpenRouter의 Span-01 Lite도 선택할 수 있다. 다만 README는 두 공급자가 같은 방식으로 선택·점수를 계산하지 않는다고 명시한다. 공급자만 바꾸고 결과가 같을 것이라 기대해서는 안 된다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<p>작동 범위는 모드에 따라 다르다. <code>shadow</code>는 판단을 기록하지만 에이전트 행동은 바꾸지 않는다. <code>advise</code>는 스킬과 도구 후보 등을 제안한다. <code>act</code>는 별도로 활성화한 경우에 한해 호출 차단, 모델 선택 같은 동작까지 적용한다. 기존 설정에서 모드를 생략하면 <code>off</code>로 해석된다. 설치 뒤에는 실제 모드와 키 상태를 함께 확인해야 한다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.ko.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/omo-jev-plugin-code-search-cost.png" alt="" loading="lazy"><h2>탐색 실험은 어떤 입력과 결과를 비교했나</h2>
+<p>비용 비교에 쓰인 <code>jev_code_search</code>는 기본적으로 꺼져 있다. 신뢰된 Git 프로젝트에서 설정 파일에 <code>&quot;experimentalCodeSearch&quot;: true</code>를 넣고 새 세션을 시작하면 등록된다. 질문 문장과 선택적인 프로젝트 내부 경로를 입력하면 관련 파일의 경로·줄 번호·코드 발췌를 돌려준다. 답을 작성하거나 파일을 수정하는 도구는 아니다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<p>세션 만료를 검사하는 위치를 찾는다면 질문과 <code>src</code> 같은 검색 범위를 전달하는 식이다. Jev가 관련 코드 구간을 고르면 OmO는 반환된 원문을 근거로 후속 조사를 이어갈 수 있다. 검색 대상은 Git이 추적하거나 무시하지 않은 소스 파일이다. 후보가 48개를 넘으면 경로를 더 좁혀야 하며, 파일 전체를 빠짐없이 읽는 검색도 아니다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.ko.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<p>저장소 README의 실험은 한 저장소에서 여러 파일에 걸친 동작을 추적하는 동일한 질문을 사용했다. <code>openai/gpt-6-sol</code>로 일반 검색과 Jev 검색을 각각 다섯 번 실행했고 양쪽 모두 다섯 번 코드 근거를 찾았다. 공개된 5회 총비용은 일반 검색 0.327948달러, Jev 검색 0.264182달러다. 후자에는 Jev 사용료 추정치 0.004038달러가 포함돼 있다. 차이는 19.4%였다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.ko.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<p>이 숫자는 ‘OMO 전체 토큰 19.4% 절감’과 다르다. README가 비교한 지표는 해당 조사 과제의 총비용이다. 표에는 호스트 모델 비용과 Jev 추정 비용이 나뉘어 있다. 실행 시간 단축이나 다른 저장소에서의 재현도 증명하지 않는다. TypeSafe가 게시한 Jev 1.13 요금은 입력 100만 토큰당 0.042달러로, 실험의 Jev 비용 계산에 사용됐다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<h2>비용표 밖에서 판단할 조건들</h2>
+<p>코드 검색을 켜면 파일 경로와 일부 소스 내용이 선택한 판단 공급자로 전송된다. README는 경로 필터가 코드 안의 비밀값까지 찾아내지는 못한다고 경고한다. 비공개 프로젝트를 다루는 소규모 팀이라면 절감액을 따지기 전에 전송 가능한 코드인지 판단해야 한다. 키를 프로젝트별 설정 파일에 적었다면 그 파일을 공유하지 않도록 주의할 필요도 있다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<p>일반 판단 기능도 요청 일부와 도구·스킬 후보 정보를 공급자에게 보낸다. 도구 결과 본문은 기본적으로 전송하지 않지만 관련 옵션을 켜면 전송 범위가 넓어진다. README에 따르면 상세 텔레메트리는 기본 활성화돼 있다. <code>&quot;telemetry&quot;: { &quot;detailed&quot;: false }</code>로 상세 수집을 끌 수 있으나 세션 이벤트와 공통 메타데이터 수집까지 중단되지는 않는다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<p>써본 사람들 사이에는 OmO의 여러 에이전트가 복잡한 일에 도움이 된다는 반응과 단순한 일에는 토큰 소비가 부담스럽다는 반응이 함께 있다. 어느 쪽도 이 플러그인의 절감률을 입증하지는 않는다. 방에서 제기된 효율 기대를 검증하려면 같은 저장소와 과제에서 검색 방식뿐 아니라 성공 여부·총비용·소요 시간을 함께 비교해야 한다. (<a href="https://www.reddit.com/r/opencodeCLI/comments/1vv6r6h/have_anyone_still_using_ohmyopenagent_opencode/" target="_blank" rel="nofollow noopener">reddit.com</a>)</p>
+<h2>탐색이 적은 작업에도 이득이 남을까</h2>
+<p>정확한 기호나 경로를 이미 안다면 README는 일반 <code>grep</code>과 <code>read</code>를 쓰라고 권한다. 작은 수정에까지 Jev 검색을 끼워 넣는다면 추가 판단 요청이 그만한 값어치를 하는지 따져야 한다. 반대로 여러 파일의 연결 관계를 찾아야 하는 조사는 공개 실험과 조건이 가깝다. 개인 개발자에게 중요한 차이는 플러그인 설치 여부보다 자신이 반복하는 작업의 형태다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p>
+<p><code>shadow</code> 모드의 <code>/jev-shadow-report</code>는 추천 도구와 실제 첫 도구, 연속 오류 등을 집계한다. 그러나 README는 그 기록이 Jev를 적용했을 때 호출이 줄어든다는 인과적 증거는 아니라고 못 박는다. 현재 공개된 근거는 한 탐색 과제에서의 비용 절감이다. 다음에 확인할 것은 더 다양한 과제에서 같은 품질을 유지하면서 비용과 시간을 함께 줄이는가다. (<a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" target="_blank" rel="nofollow noopener">raw.githubusercontent.com</a>)</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">OMO</span><span class="chip">Jev</span><span class="chip">omo-jev-plugin</span><span class="chip">AI 코딩 에이전트</span><span class="chip">토큰 비용</span><span class="chip">코드 검색</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/brianhong-dev/omo-jev-plugin" rel="nofollow noopener">https://github.com/brianhong-dev/omo-jev-plugin</a></li><li><a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md" rel="nofollow noopener">https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.md</a></li><li><a href="https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.ko.md" rel="nofollow noopener">https://raw.githubusercontent.com/brianhong-dev/omo-jev-plugin/main/README.ko.md</a></li><li><a href="https://docs.typesafe.ai/models" rel="nofollow noopener">https://docs.typesafe.ai/models</a></li><li><a href="https://omo.dev/docs" rel="nofollow noopener">https://omo.dev/docs</a></li><li><a href="https://openrouter.ai/respan" rel="nofollow noopener">https://openrouter.ai/respan</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>OMO JEV 플러그인을 설치하면 토큰이 자동으로 줄어드나요?</h2><p class="sum">자동 절감은 확인되지 않았다. 저장소가 공개한 19.4%는 한 저장소의 특정 코드 탐색 과제에서 측정한 총비용 차이다.</p></article><article class="dcard"><div class="t">Q</div><h2>jev_code_search는 어떻게 사용하나요?</h2><p class="sum">신뢰된 Git 프로젝트에서 <code>experimentalCodeSearch</code>를 켜고 새 세션을 시작한다. 도구에 자연어 질문과 선택적인 프로젝트 내부 경로를 주면 관련 코드의 경로·줄 번호·발췌를 반환한다.</p></article><article class="dcard"><div class="t">Q</div><h2>omo-jev-plugin을 Claude Code에 바로 설치할 수 있나요?</h2><p class="sum">저장소의 설치 명령은 OmO 또는 senpi용 <code>omo install npm:omo-jev-plugin</code>이다. Claude Code용 직접 설치 방법으로 안내돼 있지는 않다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-29-2200.html">2026-09-29 09-29 21:19~21:48</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
