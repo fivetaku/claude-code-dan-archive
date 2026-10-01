@@ -13,12 +13,28 @@
     <description>JEV가 코딩 에이전트의 작은 판단을 맡으면 비용이 줄어들까? omo-jev-plugin의 설치·설정과 코드 탐색 실험을 살펴보고, 절감 수치를 읽을 때 놓치기 쉬운 조건을 짚는다.</description>
   </item>
   <item>
+    <title>하나투어 웍스AI 16억 토큰, 전사 에이전트 성과는 어떻게 읽어야 하나</title>
+    <link>https://chat.axwith.com/mag/ops/hanatour-worksai-token-agent-metrics.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/hanatour-worksai-token-agent-metrics.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
+    <description>하나투어의 웍스AI 16억 토큰은 월간 사용량이 아니라 누적치다. 전사 도입 규모와 에이전트 기능을 확인하고, 토큰·이용률·업무 성과를 구분해 읽는 방법을 짚는다.</description>
+  </item>
+  <item>
     <title>Claude Code 모델 조합, Opus 5.5와 Sonnet 5.5 중 무엇을 주력으로 쓸까</title>
     <link>https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html</guid>
     <category>AI 모델·프롬프트</category>
     <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
     <description>Claude Code에서 Opus 5.5와 Sonnet 5.5를 어떻게 나눠 쓸지 살폈다. GPT-6.1 Sol의 API 가격과 Codex Pro 500의 구독료가 실제 선택에 어떤 영향을 주는지도 짚었다.</description>
+  </item>
+  <item>
+    <title>AX와 DX의 차이: 클로드코드로 반복 업무를 바꾸는 기준</title>
+    <link>https://chat.axwith.com/mag/workflow/ax-dx-claude-code-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ax-dx-claude-code-workflow.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
+    <description>AX와 DX는 별개의 순서표가 아니다. 클로드코드로 고객 요청을 분류하는 예시를 통해 디지털 기록이 어떻게 AI의 입력이 되고, 어디까지 자동화할지 설명한다.</description>
   </item>
   <item>
     <title>저가 ChatGPT 공유구독, 이미지 생성용으로만 쓰면 괜찮을까</title>
@@ -227,21 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Thu, 24 Sep 2026 12:00:00 +0900</pubDate>
     <description>서울 Claude Fable 5.1 Build Day의 일정과 참가 방식, API 크레딧 계산법을 분석하고 짧은 시간에 작동하는 데모를 만드는 준비법을 정리했다.</description>
-  </item>
-  <item>
-    <title>Claude Max 5x와 20x, 실제 사용 한도는 어떻게 측정할까</title>
-    <link>https://chat.axwith.com/mag/ops/measure-claude-max-usage.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/measure-claude-max-usage.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Thu, 24 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Max 5x와 20x의 가격 차이가 실제 작업량으로 이어지는지 검증하려면 서버 한도와 토큰 로그를 함께 측정해야 한다.</description>
-  </item>
-  <item>
-    <title>Claude Max 5x·20x, 주간 한도까지 따지면 가성비가 달라진다</title>
-    <link>https://chat.axwith.com/mag/tools/claude-max-weekly-limit-value.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/claude-max-weekly-limit-value.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Thu, 24 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Max의 5x·20x는 Pro 대비 세션 배율이다. 공개되지 않은 주간 한도와 Team, API 크레딧까지 비교해 실제 가성비를 판단한다.</description>
   </item>
 </channel></rss>

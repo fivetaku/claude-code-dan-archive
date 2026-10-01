@@ -225,6 +225,8 @@
   <url><loc>https://chat.axwith.com/mag/tools/omo-jev-plugin-code-search-cost.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/models/jev-omo-plugin-agent-cost-test.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://chat.axwith.com/mag/ops/hanatour-worksai-token-agent-metrics.html</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://chat.axwith.com/mag/workflow/ax-dx-claude-code-workflow.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/repos/</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/weekly/</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/feed.xml</loc><lastmod>2026-10-01</lastmod></url>
@@ -304,6 +306,7 @@
   <url><loc>https://chat.axwith.com/qna/q/codexsolwork문서작업.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codextcodexauth소개.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codex사용량소진및리셋기대.html</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/codex의figma접근.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codex장애와추측.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codex초기설정.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codex페이블운용.html</loc><lastmod>2026-10-01</lastmod></url>
@@ -332,6 +335,7 @@
   <url><loc>https://chat.axwith.com/qna/q/gpt2omo오픈소스공유.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt56성능저하체감.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt56컨텍스트길.html</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/gpt61sol가격.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gptclaude동시관리하네스질문.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gptcodex주간한도갑작스런리셋.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/gpt가격인하논쟁.html</loc><lastmod>2026-10-01</lastmod></url>
@@ -379,6 +383,7 @@
   <url><loc>https://chat.axwith.com/qna/q/opus5지식컷오프추정.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/opusfable5모델사용전략.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/opus계획과sol리뷰.html</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/opus너프토큰리셋.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/opus모션그래픽제작.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/opus버전비교.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/opus성능한도.html</loc><lastmod>2026-10-01</lastmod></url>
@@ -456,6 +461,7 @@
   <url><loc>https://chat.axwith.com/qna/q/레거시마이그레이션에아스트라과다사용.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/로그인세션탈취로사용량소진경고.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/로컬ai하드웨어.html</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/로컬모델코딩전망.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/루나모델오선택.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/룰기반라우팅.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/매출db연동에mcp가필요한.html</loc><lastmod>2026-10-01</lastmod></url>
@@ -469,6 +475,7 @@
   <url><loc>https://chat.axwith.com/qna/q/면접녹음요약.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/면접스토리설계.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/명함db자동화.html</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/모델구독조합고민.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델버전잡담.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델벤치와실무.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델별효율적사용전략.html</loc><lastmod>2026-10-01</lastmod></url>
@@ -476,6 +483,7 @@
   <url><loc>https://chat.axwith.com/qna/q/모델사용감과루머.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델선택과토큰예산.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델오케스트레이션.html</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/모델조합가성비.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델조합전략오푸스소넷.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델지시이해도.html</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모바일vps작업환경.html</loc><lastmod>2026-10-01</lastmod></url>

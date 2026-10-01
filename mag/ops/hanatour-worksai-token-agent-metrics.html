@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하나투어 웍스AI 16억 토큰, 전사 에이전트 성과는 어떻게 읽어야 하나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="하나투어의 웍스AI 16억 토큰은 월간 사용량이 아니라 누적치다. 전사 도입 규모와 에이전트 기능을 확인하고, 토큰·이용률·업무 성과를 구분해 읽는 방법을 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/ops/hanatour-worksai-token-agent-metrics.html">
+<meta property="og:title" content="하나투어 웍스AI 16억 토큰, 전사 에이전트 성과는 어떻게 읽어야 하나">
+<meta property="og:description" content="하나투어의 웍스AI 16억 토큰은 월간 사용량이 아니라 누적치다. 전사 도입 규모와 에이전트 기능을 확인하고, 토큰·이용률·업무 성과를 구분해 읽는 방법을 짚는다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/ops/hanatour-worksai-token-agent-metrics.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "하나투어 웍스AI 16억 토큰, 전사 에이전트 성과는 어떻게 읽어야 하나", "description": "하나투어의 웍스AI 16억 토큰은 월간 사용량이 아니라 누적치다. 전사 도입 규모와 에이전트 기능을 확인하고, 토큰·이용률·업무 성과를 구분해 읽는 방법을 짚는다.", "datePublished": "2026-10-01", "dateModified": "2026-10-01", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/ops/hanatour-worksai-token-agent-metrics.html"}, "articleSection": "배포·운영", "keywords": "하나투어, 웍스AI, 기업 AX, AI 에이전트, 토큰 사용량, Claude Code", "image": "https://chat.axwith.com/mag/hero/hanatour-worksai-token-agent-metrics.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "하나투어 웍스AI의 16억 토큰은 월간 사용량인가요?", "acceptedAnswer": {"@type": "Answer", "text": "아닙니다. 하나투어는 2026년 8월 보도자료에서 7월 11일까지의 누적 사용량이라고 밝혔습니다. 같은 기간 호출 횟수는 약 14만 회입니다."}}, {"@type": "Question", "name": "토큰 사용량이 많으면 AI 에이전트 성과도 큰가요?", "acceptedAnswer": {"@type": "Answer", "text": "토큰은 AI가 처리한 입력과 출력의 양을 보여주지만, 업무가 정확히 끝났는지는 보여주지 않습니다. 반복 이용률, 결과물 채택률, 검토·수정에 든 시간을 함께 봐야 합니다."}}, {"@type": "Question", "name": "웍스AI에서 업무 에이전트는 어떻게 만드나요?", "acceptedAnswer": {"@type": "Answer", "text": "공식 가이드에 따르면 모델을 고르고 역할과 출력 형식을 프롬프트에 적은 뒤, 필요한 경우 참고 파일과 도구를 연결합니다. 도구 없이 요약·초안 작성용으로 사용할 수도 있습니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/hanatour-worksai-token-agent-metrics.png" alt="하나투어 웍스AI 16억 토큰, 전사 에이전트 성과는 어떻게 읽어야 하나" loading="eager">
+<header>
+  <span class="catchip c-res">배포·운영</span>
+  <h1>하나투어 웍스AI 16억 토큰, 전사 에이전트 성과는 어떻게 읽어야 하나</h1>
+  <p class="sub">누적 사용량을 월간 수치로 읽으면 평가가 달라진다. 호출 횟수와 실제 업무 결과를 함께 살펴봤다.</p>
+  <div class="meta"><span>2026-10-01</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>기업이 AI를 전사에 도입했다고 말할 때, 토큰 사용량은 성과의 증거가 될까. 하나투어의 웍스AI 사례를 두고 클코단에서는 사용 규모와 에이전트의 실질적 역할에 의문을 제기하는 의견이 많았다. 공개된 수치와 기능을 다시 확인해보면 먼저 측정 기간부터 바로잡아야 한다.</p>
+<h2>16억 토큰은 한 달치가 아니라 누적치다</h2>
+<p>하나투어가 2026년 8월 13일 발표한 16억 토큰은 <strong>월간 사용량이 아니다</strong>. 회사 보도자료에 따르면 웍스AI를 전사에 도입한 뒤 <strong>7월 11일까지 누적된 사용량</strong>이다. 같은 기간 호출은 약 14만 회였고, 회사가 밝힌 회당 평균은 약 1만1000토큰이다. 도입 3개월 만의 임직원 이용률은 약 72%로 발표됐다. (<a href="https://www.hanatourcompany.com/kr/newsroom/news/view?idx=3192" target="_blank" rel="nofollow noopener">hanatourcompany.com</a>)</p>
+<p>월 16억 토큰을 쓴 그룹사라고 생각하면 숫자가 작다는 반응이 나올 수 있다. 그러나 공개 자료의 기준은 한 달이 아니라 도입 후 누적 기간이다. 발표에는 개인별 사용 분포, 부서별 반복 이용률, 에이전트별 호출량이 없다. 16억이라는 총합만으로는 일부 직원에게 사용이 집중됐는지, 조직 전반에서 꾸준히 썼는지 가릴 수 없다.</p>
+<p>클코단에서는 개인의 Claude Code 사용 경험과 비교해 기업 수치가 낮다는 의견도 나왔다. 비교 자체는 흥미롭지만 두 환경의 요청 한 건은 같은 작업 단위가 아니다. 앤트로픽은 Claude Code 세션에 파일 맥락, 도구 호출, 여러 차례의 추론이 포함돼 일반 채팅보다 토큰을 많이 쓸 수 있다고 설명한다. 기업의 문서 요약 호출과 코딩 세션을 총토큰만으로 비교하면 작업의 차이가 사라진다. (<a href="https://support.claude.com/en/articles/14782391-claude-enterprise-consumption-guide" target="_blank" rel="nofollow noopener">support.claude.com</a>)</p>
+<h2>이용률과 에이전트 성과는 서로 다른 숫자다</h2>
+<p>72%는 임직원 이용률을 보여준다. 그들이 같은 기능을 계속 썼는지, 산출물이 검토를 통과했는지는 알 수 없다. 하나투어는 문서 요약·데이터 분석·기획서 작성에 웍스AI를 사용한다고 밝혔다. 직원이 만든 맞춤형 기능으로는 여행 일정표 작성, 고객만족도와 VOC 분석, 여행 상품 수요 분석을 제시했다. (<a href="https://www.hanatourcompany.com/kr/newsroom/news/view?idx=3192" target="_blank" rel="nofollow noopener">hanatourcompany.com</a>)</p>
+<p>회사가 제시한 ‘근로시간 231일 절감’도 측정값의 성격을 구분해야 한다. 하나투어 설명에 따르면 대화 한 건당 5분을 아낀다고 가정한 뒤 실제 업무 기여도를 30%로 조정해 계산했다. 직원의 작업 시간을 전후로 직접 측정한 결과로 읽어서는 안 된다. 토큰은 처리량, 이용률은 접근 범위, 절감 시간은 가정에 따른 추정치다. (<a href="https://www.hanatourcompany.com/kr/newsroom/news/view?idx=3192" target="_blank" rel="nofollow noopener">hanatourcompany.com</a>)</p>
+<p>그렇다고 주간 업무 요약이나 사내 규정 안내를 하찮은 과제로 치부할 근거도 없다. 반복 질문에 답하느라 지원 부서가 쓰던 시간을 줄였다면 조직에는 쓸모가 있다. 다만 효과를 판단하려면 같은 질문에 얼마나 정확히 답했는지, 담당자에게 다시 넘어간 건은 몇 개인지 알아야 한다. 클코단의 의문은 사용량보다 <strong>과제의 적합성과 지속 사용 여부</strong>에 가까웠다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/hanatour-worksai-token-agent-metrics.png" alt="" loading="lazy"><h2>‘에이전트’라는 이름보다 수행 단계를 확인해야 한다</h2>
+<p>웍스AI의 공식 가이드는 역할을 미리 지정한 대화 도구도 에이전트라고 부른다. 도구를 연결하지 않아도 요약과 초안 작성에 쓸 수 있다. Notion이나 일정·메일 도구를 연결하면 외부 정보를 조회하거나 작업을 수행할 수도 있다. ‘에이전트’라는 명칭만으로 자율 실행 수준을 짐작하기 어려운 이유다. (<a href="https://wrks.ai/guides/agent/00-create-agent.html" target="_blank" rel="nofollow noopener">wrks.ai</a>)</p>
+<p>앤트로픽의 기술 문서는 미리 정한 경로를 따르는 워크플로와 모델이 도구 사용 및 다음 단계를 선택하는 에이전트를 구분한다. 직원이 자료를 붙여 넣고 요약문을 받는 경우와 필요한 자료를 찾고 결과를 점검하는 경우는 운영 위험도 다르다.</p>
+<p>하나투어 발표에는 맞춤형 기능의 종류가 나와 있지만 각 기능이 어느 단계까지 스스로 실행하는지는 공개돼 있지 않다. 단순해 보인다는 평가도, 완전한 자율 에이전트라는 평가도 여기서 멈춰야 한다. (<a href="https://www.anthropic.com/engineering/building-effective-agents?via=aitoolhunt" target="_blank" rel="nofollow noopener">anthropic.com</a>)</p>
+<p>고객용 H-AI와 내부 업무용 웍스AI도 구별할 필요가 있다. 하나투어는 H-AI를 여행 기획부터 상담까지 다루는 고객 서비스로 소개한다. 16억 토큰 발표는 임직원이 쓰는 웍스AI에 관한 것이다. 두 제품의 사용량을 하나의 에이전트 실적으로 합쳐 읽을 근거는 없다. (<a href="https://www.hanatourcompany.com/kr/business/ai-service" target="_blank" rel="nofollow noopener">hanatourcompany.com</a>)</p>
+<h2>작은 팀이라면 한 업무를 만들어 비교할 수 있다</h2>
+<p>공개된 웍스AI 가이드는 제작 순서를 구체적으로 보여준다. ‘나만의 에이전트’에서 만들기를 선택하고 모델과 이름을 정한 뒤 역할·제약·출력 형식을 프롬프트에 적는다. 필요한 참고 파일을 올리고 도구를 선택하면 해당 설정으로 대화할 수 있다. 팀 에이전트는 부서 구성원에게 공유할 수 있으며, 공식 에이전트의 공개에는 관리자 검토 절차가 있다. 이 설명은 <strong>제품 사용법</strong>이지 하나투어가 특정 기능을 만든 실제 순서라는 뜻은 아니다. (<a href="https://wrks.ai/guides/agent/00-create-agent.html" target="_blank" rel="nofollow noopener">wrks.ai</a>)</p>
+<p>가령 소규모 여행팀이 일정표 초안을 시험한다면 출발일·예산·동행 조건을 입력으로 고정할 수 있다. 상품 조건표를 참고 파일로 넣고 출력에는 일자별 일정과 확인이 필요한 항목을 분리하도록 정한다. 결과물은 사람이 원본 조건표와 대조한다. 같은 요청을 도구 없는 초안 작성과 자료 조회를 허용한 방식으로 각각 처리하면 어느 단계에서 정확도와 비용이 달라지는지 확인할 수 있다. 이는 하나투어의 내부 설계를 재현한 사례가 아니라 공개 가이드로 구성할 수 있는 검증 방식이다. (<a href="https://wrks.ai/guides/agent/00-create-agent.html" target="_blank" rel="nofollow noopener">wrks.ai</a>)</p>
+<p>Claude Code로 자체 도구를 만드는 팀에도 비교 기준은 같다. 요청 횟수 옆에 입력·출력·캐시 토큰, 실제 비용, 검토 후 채택된 결과를 함께 남겨야 한다. 앤트로픽의 사용량 문서는 캐시에서 읽은 입력과 새 입력을 구별한다. 같은 토큰 총량이라도 구성에 따라 비용이 달라질 수 있다. 실사용자들 사이에서도 긴 작업의 소모를 걱정하는 한편 결과물 단위로 비용을 보자는 반응이 있다. (<a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching?_bhlid=44b6a1b689fab6535cd6a5b4832b355c52b84738&amp;fcdaa149_sort_date=desc" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<h2>다음 발표에서 필요한 것은 더 큰 숫자가 아니다</h2>
+<p>하나투어 사례는 전사 이용률과 여러 업무 적용 사례를 공개했다. 하지만 공개 정보만으로는 기능별 재사용률이나 결과 품질을 판단할 수 없다. 기업의 보안과 승인 절차가 작업 범위를 제한할 수 있다는 클코단의 의견은 고려할 만하다. 그 제약 아래서도 무엇이 실제로 완료됐는지는 별도로 확인해야 한다.</p>
+<p>16억 토큰이 적은가보다 더 날카로운 질문은 따로 있다. <strong>14만 번의 호출 가운데 어떤 업무가 반복됐고, 그 결과를 사람이 얼마나 고쳐야 했는가.</strong> 그 답이 나오기 전까지 토큰은 전사 AI의 활동량을 보여줄 뿐 에이전트가 일을 끝냈다는 증거가 되지는 않는다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">하나투어</span><span class="chip">웍스AI</span><span class="chip">기업 AX</span><span class="chip">AI 에이전트</span><span class="chip">토큰 사용량</span><span class="chip">Claude Code</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.hanatourcompany.com/kr/newsroom/news/view?idx=3192" rel="nofollow noopener">https://www.hanatourcompany.com/kr/newsroom/news/view?idx=3192</a></li><li><a href="https://www.hanatourcompany.com/kr/business/ai-service" rel="nofollow noopener">https://www.hanatourcompany.com/kr/business/ai-service</a></li><li><a href="https://wrks.ai/guides/agent/00-create-agent.html" rel="nofollow noopener">https://wrks.ai/guides/agent/00-create-agent.html</a></li><li><a href="https://www.anthropic.com/engineering/building-effective-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/building-effective-agents</a></li><li><a href="https://support.claude.com/en/articles/14782391-claude-enterprise-consumption-guide" rel="nofollow noopener">https://support.claude.com/en/articles/14782391-claude-enterprise-consumption-gu</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" rel="nofollow noopener">https://platform.claude.com/docs/en/build-with-claude/prompt-caching</a></li><li><a href="https://platform.claude.com/docs/en/manage-claude/usage-cost-api" rel="nofollow noopener">https://platform.claude.com/docs/en/manage-claude/usage-cost-api</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>하나투어 웍스AI의 16억 토큰은 월간 사용량인가요?</h2><p class="sum">아닙니다. 하나투어는 2026년 8월 보도자료에서 7월 11일까지의 누적 사용량이라고 밝혔습니다. 같은 기간 호출 횟수는 약 14만 회입니다.</p></article><article class="dcard"><div class="t">Q</div><h2>토큰 사용량이 많으면 AI 에이전트 성과도 큰가요?</h2><p class="sum">토큰은 AI가 처리한 입력과 출력의 양을 보여주지만, 업무가 정확히 끝났는지는 보여주지 않습니다. 반복 이용률, 결과물 채택률, 검토·수정에 든 시간을 함께 봐야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>웍스AI에서 업무 에이전트는 어떻게 만드나요?</h2><p class="sum">공식 가이드에 따르면 모델을 고르고 역할과 출력 형식을 프롬프트에 적은 뒤, 필요한 경우 참고 파일과 도구를 연결합니다. 도구 없이 요약·초안 작성용으로 사용할 수도 있습니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="ai-product-real-estate-conversion-rate.html">AI로 만든 부동산 상품, 전환율이 안 오르는 진짜 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="vps-claude-code-always-on.html">VPS에서 클로드코드 24시간 돌리기, 맥미니와 뭐가 다른가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-github-outage-529-status-page.html">클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="local-ai-call-center-tco.html">콜센터 로컬 AI는 정말 월 비용을 없애는가, GPU 뒤의 TCO</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="toy-project-hosting-choices.html">토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-01-1330.html">2026-10-01 10-01 10:05~13:17</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
