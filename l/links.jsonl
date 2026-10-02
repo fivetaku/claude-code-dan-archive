@@ -1511,3 +1511,5 @@
 {"code": "d4e305", "url": "https://blogs.nvidia.com/blog/local-ai-dgx-spark-64gb-sync", "title": "NVIDIA, 로컬 AI 개발용 'DGX Spark 64GB' 이달 출시"}
 {"code": "82ec21", "url": "https://x.com/huggingface/status/2106034221005312448", "title": "Hugging Face, 동일 모델도 하네스에 따라 점수 62% vs 33%…'멀티 하네스 RL' 가이드 공개"}
 {"code": "7f2e36", "url": "https://x.com/testingcatalog/status/2106041553806336167", "title": "Gemini Desktop, 모든 파일·앱 접근 가능한 '전체 권한' 모드 포착"}
+{"code": "abcdbc", "url": "https://x.com/cursor_ai/status/2106066782155157603", "title": "Cursor 'Rollouts' 출시: 회귀 감지→문제 PR 추적→클라우드 에이전트 자동 수정"}
+{"code": "9f2dde", "url": "https://www.anthropic.com/news/claude-frontier-academy", "title": "앤스로픽, 1억 달러 투입해 'Claude Frontier Academy' 출범—엔지니어 1만 명 양성"}
