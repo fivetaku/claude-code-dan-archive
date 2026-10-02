@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Devin 에이전트 연동? — 클코단 Q&amp;A</title>
+<title>Devin 에이전트는 어떻게 연동하나요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="Devin이 Claude·Codex에 설정한 에이전트를 그대로 쓰는지 묻자, AGENTS.md 같은 지시 자산을 읽어 운용 방식이 이어질 수 있지만 실행 환경과 권한은 Devin 규칙을 따르므로 완전한 복제는 아니라는 설명이 나왔다. 참여자들은 Dev">
 <link rel="canonical" href="https://chat.axwith.com/qna/q/devin에이전트연동.html">
-<meta property="og:title" content="Devin 에이전트 연동?">
+<meta property="og:title" content="Devin 에이전트는 어떻게 연동하나요?">
 <meta property="og:description" content="Devin이 Claude·Codex에 설정한 에이전트를 그대로 쓰는지 묻자, AGENTS.md 같은 지시 자산을 읽어 운용 방식이 이어질 수 있지만 실행 환경과 권한은 Devin 규칙을 따르므로 완전한 복제는 아니라는 설명이 나왔다. 참여자들은 Dev">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/qna/q/devin에이전트연동.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "Devin 에이전트 연동?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "Devin이 Claude·Codex에 설정한 에이전트를 그대로 쓰는지 묻자, AGENTS.md 같은 지시 자산을 읽어 운용 방식이 이어질 수 있지만 실행 환경과 권한은 Devin 규칙을 따르므로 완전한 복제는 아니라는 설명이 나왔다. 참여자들은 Devin CLI를 통해 기존 Codex·Claude 에이전트 설정을 활용할 수 있다는 사용 경험을 공유했다. SWE-2를 엔드포인트로 연결해 사용하려는 사례, 이벤트성 무제한 사용 언급, 안정적으로 유지 중인 기존 프로젝트에는 적용이 부담스럽다는 의견도 나왔다. AGENTS.md 등의 지시 파일은 Devin에서 재활용될 수 있다는 설명이 나왔다. 실행 환경과 권한 체계는 Devin 측 규칙을 별도로 따른다고 정리됐다. Devin CLI 설치 후 기존 Codex·Claude 에이전트 자산을 활용했다는 경험담이 공유됐다. SWE-2를 연결해 집중적으로 시험하려는 사례가 나왔다. 기존에 안정적으로 운영 중인 프로젝트에는 변경 위험 때문에 적용을 망설이는 의견이 있었다."}}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "Devin 에이전트는 어떻게 연동하나요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "Devin이 Claude·Codex에 설정한 에이전트를 그대로 쓰는지 묻자, AGENTS.md 같은 지시 자산을 읽어 운용 방식이 이어질 수 있지만 실행 환경과 권한은 Devin 규칙을 따르므로 완전한 복제는 아니라는 설명이 나왔다. 참여자들은 Devin CLI를 통해 기존 Codex·Claude 에이전트 설정을 활용할 수 있다는 사용 경험을 공유했다. SWE-2를 엔드포인트로 연결해 사용하려는 사례, 이벤트성 무제한 사용 언급, 안정적으로 유지 중인 기존 프로젝트에는 적용이 부담스럽다는 의견도 나왔다. AGENTS.md 등의 지시 파일은 Devin에서 재활용될 수 있다는 설명이 나왔다. 실행 환경과 권한 체계는 Devin 측 규칙을 별도로 따른다고 정리됐다. Devin CLI 설치 후 기존 Codex·Claude 에이전트 자산을 활용했다는 경험담이 공유됐다. SWE-2를 연결해 집중적으로 시험하려는 사례가 나왔다. 기존에 안정적으로 운영 중인 프로젝트에는 변경 위험 때문에 적용을 망설이는 의견이 있었다."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -239,7 +239,7 @@ background:var(--surface);text-decoration:none}
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
   <span class="catchip c-res">MCP·연동</span>
-  <h1>Devin 에이전트 연동?</h1>
+  <h1>Devin 에이전트는 어떻게 연동하나요?</h1>
   
 </header>
 <article class="qbody">

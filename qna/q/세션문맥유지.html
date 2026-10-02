@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>세션 문맥 유지? — 클코단 Q&amp;A</title>
+<title>세션이 바뀌어도 문맥을 유지하려면 어떻게 하나요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="새 세션마다 기획안용 MD를 업데이트하고 다시 읽히는 과정이 번거롭다는 고민이 제기됐다. `/resume` 사용 가능성이 제안됐고, 이전 세션 맥락을 새 세션에서도 질의할 수 있게 해 주는 claude-mem 저장소가 공유됐다. agy를 사용하면 일부">
 <link rel="canonical" href="https://chat.axwith.com/qna/q/세션문맥유지.html">
-<meta property="og:title" content="세션 문맥 유지?">
+<meta property="og:title" content="세션이 바뀌어도 문맥을 유지하려면 어떻게 하나요?">
 <meta property="og:description" content="새 세션마다 기획안용 MD를 업데이트하고 다시 읽히는 과정이 번거롭다는 고민이 제기됐다. `/resume` 사용 가능성이 제안됐고, 이전 세션 맥락을 새 세션에서도 질의할 수 있게 해 주는 claude-mem 저장소가 공유됐다. agy를 사용하면 일부">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/qna/q/세션문맥유지.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "세션 문맥 유지?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "새 세션마다 기획안용 MD를 업데이트하고 다시 읽히는 과정이 번거롭다는 고민이 제기됐다. `/resume` 사용 가능성이 제안됐고, 이전 세션 맥락을 새 세션에서도 질의할 수 있게 해 주는 claude-mem 저장소가 공유됐다. agy를 사용하면 일부 자동화가 가능하다는 의견도 나왔다. 수동 MD 갱신과 새 세션 문맥 복구의 번거로움이 문제로 제기됐다. `/resume`으로 이전 작업을 이어갈 수 있다는 제안이 나왔다. claude-mem을 사용하면 새 세션에서 이전 진행 상황을 바로 물을 수 있다고 소개됐다. agy로 일정 수준의 자동화를 할 수 있다는 경험이 공유됐다."}}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "세션이 바뀌어도 문맥을 유지하려면 어떻게 하나요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "새 세션마다 기획안용 MD를 업데이트하고 다시 읽히는 과정이 번거롭다는 고민이 제기됐다. `/resume` 사용 가능성이 제안됐고, 이전 세션 맥락을 새 세션에서도 질의할 수 있게 해 주는 claude-mem 저장소가 공유됐다. agy를 사용하면 일부 자동화가 가능하다는 의견도 나왔다. 수동 MD 갱신과 새 세션 문맥 복구의 번거로움이 문제로 제기됐다. `/resume`으로 이전 작업을 이어갈 수 있다는 제안이 나왔다. claude-mem을 사용하면 새 세션에서 이전 진행 상황을 바로 물을 수 있다고 소개됐다. agy로 일정 수준의 자동화를 할 수 있다는 경험이 공유됐다."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -239,7 +239,7 @@ background:var(--surface);text-decoration:none}
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
   <span class="catchip c-flow">워크플로우·하네스</span>
-  <h1>세션 문맥 유지?</h1>
+  <h1>세션이 바뀌어도 문맥을 유지하려면 어떻게 하나요?</h1>
   
 </header>
 <article class="qbody">

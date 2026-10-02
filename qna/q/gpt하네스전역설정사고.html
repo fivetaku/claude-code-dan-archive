@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GPT 하네스 전역 설정 사고? — 클코단 Q&amp;A</title>
+<title>GPT 하네스 전역 설정을 잘못했을 때 어떻게 복구하나요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="프로젝트 하네스 범위 설정을 잘못해서 GPT를 켤 때 모든 신규 세션에 하네스가 적용되어버린 문제가 보고됐다. 전역 config.toml에 하네스 MCP가 필수 서버로 등록되고 전역 hooks.json에 모든 도구 호출 후크가 걸려있는데 range 항">
 <link rel="canonical" href="https://chat.axwith.com/qna/q/gpt하네스전역설정사고.html">
-<meta property="og:title" content="GPT 하네스 전역 설정 사고?">
+<meta property="og:title" content="GPT 하네스 전역 설정을 잘못했을 때 어떻게 복구하나요?">
 <meta property="og:description" content="프로젝트 하네스 범위 설정을 잘못해서 GPT를 켤 때 모든 신규 세션에 하네스가 적용되어버린 문제가 보고됐다. 전역 config.toml에 하네스 MCP가 필수 서버로 등록되고 전역 hooks.json에 모든 도구 호출 후크가 걸려있는데 range 항">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/qna/q/gpt하네스전역설정사고.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "GPT 하네스 전역 설정 사고?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "프로젝트 하네스 범위 설정을 잘못해서 GPT를 켤 때 모든 신규 세션에 하네스가 적용되어버린 문제가 보고됐다. 전역 config.toml에 하네스 MCP가 필수 서버로 등록되고 전역 hooks.json에 모든 도구 호출 후크가 걸려있는데 range 항목이 없다는 상황이었고, .codex에서 직접 수정하라는 조언이 나왔다. 하네스 범위 설정 오류로 모든 신규 세션에 적용되는 사고 발생 전역 config.toml·hooks.json에 잘못 등록된 상태 확인 .codex 설정에서 직접 수정하라는 조언을 받음"}}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "GPT 하네스 전역 설정을 잘못했을 때 어떻게 복구하나요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "프로젝트 하네스 범위 설정을 잘못해서 GPT를 켤 때 모든 신규 세션에 하네스가 적용되어버린 문제가 보고됐다. 전역 config.toml에 하네스 MCP가 필수 서버로 등록되고 전역 hooks.json에 모든 도구 호출 후크가 걸려있는데 range 항목이 없다는 상황이었고, .codex에서 직접 수정하라는 조언이 나왔다. 하네스 범위 설정 오류로 모든 신규 세션에 적용되는 사고 발생 전역 config.toml·hooks.json에 잘못 등록된 상태 확인 .codex 설정에서 직접 수정하라는 조언을 받음"}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -239,7 +239,7 @@ background:var(--surface);text-decoration:none}
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
   <span class="catchip c-flow">워크플로우·하네스</span>
-  <h1>GPT 하네스 전역 설정 사고?</h1>
+  <h1>GPT 하네스 전역 설정을 잘못했을 때 어떻게 복구하나요?</h1>
   
 </header>
 <article class="qbody">

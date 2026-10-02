@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>클로드 모델별 크롤링·라우팅 전략? — 클코단 Q&amp;A</title>
+<title>클로드 모델별 크롤링과 라우팅 전략은 어떻게 세우나요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="오푸스·페이블·소넷·하이쿠의 크롤링 성능 차이를 묻는 질문에, 웹서치 자체는 차이가 없고 도구 호출 프롬프트와 결과 후처리에서 차이가 난다는 답이 나왔다. 웹페치 콜링은 소넷으로 라우팅하고 도구 호출·후처리만 상위 모델로 처리하면 토큰을 아끼면서 결과">
 <link rel="canonical" href="https://chat.axwith.com/qna/q/클로드모델별크롤링라우팅전략.html">
-<meta property="og:title" content="클로드 모델별 크롤링·라우팅 전략?">
+<meta property="og:title" content="클로드 모델별 크롤링과 라우팅 전략은 어떻게 세우나요?">
 <meta property="og:description" content="오푸스·페이블·소넷·하이쿠의 크롤링 성능 차이를 묻는 질문에, 웹서치 자체는 차이가 없고 도구 호출 프롬프트와 결과 후처리에서 차이가 난다는 답이 나왔다. 웹페치 콜링은 소넷으로 라우팅하고 도구 호출·후처리만 상위 모델로 처리하면 토큰을 아끼면서 결과">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/qna/q/클로드모델별크롤링라우팅전략.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "클로드 모델별 크롤링·라우팅 전략?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "오푸스·페이블·소넷·하이쿠의 크롤링 성능 차이를 묻는 질문에, 웹서치 자체는 차이가 없고 도구 호출 프롬프트와 결과 후처리에서 차이가 난다는 답이 나왔다. 웹페치 콜링은 소넷으로 라우팅하고 도구 호출·후처리만 상위 모델로 처리하면 토큰을 아끼면서 결과물도 좋아진다는 결론으로 정리됐다. 모델 간 웹서치 자체 성능 차이는 크지 않음 도구 호출 프롬프트/후처리 품질에서 모델별 차이가 발생 웹페치 툴 콜링은 소넷으로 라우팅해 토큰 절약 전략 제시"}}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "클로드 모델별 크롤링과 라우팅 전략은 어떻게 세우나요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "오푸스·페이블·소넷·하이쿠의 크롤링 성능 차이를 묻는 질문에, 웹서치 자체는 차이가 없고 도구 호출 프롬프트와 결과 후처리에서 차이가 난다는 답이 나왔다. 웹페치 콜링은 소넷으로 라우팅하고 도구 호출·후처리만 상위 모델로 처리하면 토큰을 아끼면서 결과물도 좋아진다는 결론으로 정리됐다. 모델 간 웹서치 자체 성능 차이는 크지 않음 도구 호출 프롬프트/후처리 품질에서 모델별 차이가 발생 웹페치 툴 콜링은 소넷으로 라우팅해 토큰 절약 전략 제시"}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -239,7 +239,7 @@ background:var(--surface);text-decoration:none}
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
   <span class="catchip c-model">모델 선택</span>
-  <h1>클로드 모델별 크롤링·라우팅 전략?</h1>
+  <h1>클로드 모델별 크롤링과 라우팅 전략은 어떻게 세우나요?</h1>
   
 </header>
 <article class="qbody">
