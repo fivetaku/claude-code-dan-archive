@@ -5,6 +5,30 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Claude Code와 Opus 5.5로 15초 제품 모션그래픽 만드는 법</title>
+    <link>https://chat.axwith.com/mag/models/claude-code-product-motion-graphics.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-product-motion-graphics.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Fri, 02 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Opus 5.5에 제품 소개 영상을 맡긴 사례를 출발점으로, Claude Code와 Remotion에서 실제 에셋을 배치하고 음악에 맞춰 렌더링하는 과정을 짚는다.</description>
+  </item>
+  <item>
+    <title>태아보험 추천 AI, 클로드코드로 만들 때 어디까지 가능할까</title>
+    <link>https://chat.axwith.com/mag/models/claude-code-prenatal-insurance-ai-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-prenatal-insurance-ai-guide.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Fri, 02 Oct 2026 12:00:00 +0900</pubDate>
+    <description>태아보험 보장 내역과 예산을 입력받아 선택지를 보여주는 AI는 어떻게 만들까. 클로드코드로 구현할 비교 흐름과 상품 데이터의 한계, 추천 서비스의 법적 경계를 살폈다.</description>
+  </item>
+  <item>
+    <title>금융권의 Amazon Bedrock 도입, Claude Code 개발자는 무엇을 만들어야 하나</title>
+    <link>https://chat.axwith.com/mag/resources/bedrock-finance-claude-code-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/bedrock-finance-claude-code-workflow.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Fri, 02 Oct 2026 12:00:00 +0900</pubDate>
+    <description>금융권이 Amazon Bedrock으로 내부 문서 챗봇을 만드는 방법을 실제 사례로 살폈다. Claude Code의 Bedrock 연결 설정, 문서 검색과 출처 표시, 권한·로그·비용 검토까지 짚는다.</description>
+  </item>
+  <item>
     <title>JEV를 코딩 에이전트에 붙이면 비용이 줄까: omo-jev-plugin의 실험과 한계</title>
     <link>https://chat.axwith.com/mag/models/jev-omo-plugin-agent-cost-test.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/jev-omo-plugin-agent-cost-test.html</guid>
@@ -219,29 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Fri, 25 Sep 2026 12:00:00 +0900</pubDate>
     <description>클로드 사용량이 사람마다 다르게 느껴지는 이유를 설명하고, 연구자용 Claude Team 플랜의 대상·가격·좌석 운영·비용 관리 방법을 정리했다.</description>
-  </item>
-  <item>
-    <title>B300 100장을 굴리면 무엇을 배우나, GPU보다 희소한 운영 경험</title>
-    <link>https://chat.axwith.com/mag/tools/b300-large-cluster-operations.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/b300-large-cluster-operations.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 25 Sep 2026 12:00:00 +0900</pubDate>
-    <description>B300 100장 운용이 왜 희소한 경험인지 전력·네트워크·스케줄링·관측·체크포인트 관점에서 살펴보고, 네이버 보안 AI 사업의 공식 GPU 규모도 확인했다.</description>
-  </item>
-  <item>
-    <title>음성 AI가 API가 된 시대, 연구자는 무엇을 만들어야 하나</title>
-    <link>https://chat.axwith.com/mag/models/voice-ai-research-after-api.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/voice-ai-research-after-api.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Thu, 24 Sep 2026 12:00:00 +0900</pubDate>
-    <description>음성 AI API로 실시간 대화 서비스를 만드는 방법과 평가 절차를 살펴보고, 상용 모델 이후에도 남아 있는 연구 주제를 짚는다.</description>
-  </item>
-  <item>
-    <title>서울 Claude Fable 5.1 Build Day, 5시간 빌드의 실제 구조</title>
-    <link>https://chat.axwith.com/mag/resources/seoul-claude-builder-summit-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/seoul-claude-builder-summit-guide.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Thu, 24 Sep 2026 12:00:00 +0900</pubDate>
-    <description>서울 Claude Fable 5.1 Build Day의 일정과 참가 방식, API 크레딧 계산법을 분석하고 짧은 시간에 작동하는 데모를 만드는 준비법을 정리했다.</description>
   </item>
 </channel></rss>

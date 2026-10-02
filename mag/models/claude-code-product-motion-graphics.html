@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code와 Opus 5.5로 15초 제품 모션그래픽 만드는 법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Opus 5.5에 제품 소개 영상을 맡긴 사례를 출발점으로, Claude Code와 Remotion에서 실제 에셋을 배치하고 음악에 맞춰 렌더링하는 과정을 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/claude-code-product-motion-graphics.html">
+<meta property="og:title" content="Claude Code와 Opus 5.5로 15초 제품 모션그래픽 만드는 법">
+<meta property="og:description" content="Opus 5.5에 제품 소개 영상을 맡긴 사례를 출발점으로, Claude Code와 Remotion에서 실제 에셋을 배치하고 음악에 맞춰 렌더링하는 과정을 짚는다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/claude-code-product-motion-graphics.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code와 Opus 5.5로 15초 제품 모션그래픽 만드는 법", "description": "Opus 5.5에 제품 소개 영상을 맡긴 사례를 출발점으로, Claude Code와 Remotion에서 실제 에셋을 배치하고 음악에 맞춰 렌더링하는 과정을 짚는다.", "datePublished": "2026-10-02", "dateModified": "2026-10-02", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/claude-code-product-motion-graphics.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Claude Code, Opus 5.5, Remotion, 제품 소개 영상, 모션그래픽, 영상 제작", "image": "https://chat.axwith.com/mag/hero/claude-code-product-motion-graphics.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code만으로 제품 소개 영상을 만들 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code로 Remotion 프로젝트의 장면 코드와 렌더링 과정을 작성할 수 있습니다. 실제 스크린샷·로고·음악 파일을 준비하고 출력 영상을 검수해야 합니다."}}, {"@type": "Question", "name": "Opus 5.5 영상 제작에 Remotion이 필수인가요?", "acceptedAnswer": {"@type": "Answer", "text": "필수는 아닙니다. Remotion은 화면과 타이밍을 코드로 수정하며 MP4로 렌더링하는 한 가지 경로이고, 공유된 사례가 실제로 어떤 도구를 썼는지는 확인되지 않았습니다."}}, {"@type": "Question", "name": "음악에 모션을 맞추려면 프롬프트에 무엇을 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "음악 파일과 함께 컷 전환, 강조 동작, 로고 등장 시점을 초나 프레임으로 지정하세요. 렌더링한 뒤 소리를 들으며 어긋난 구간을 수정해야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-product-motion-graphics.png" alt="Claude Code와 Opus 5.5로 15초 제품 모션그래픽 만드는 법" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Claude Code와 Opus 5.5로 15초 제품 모션그래픽 만드는 법</h1>
+  <p class="sub">스크린샷과 로고를 넣은 제품 소개 영상을 만들 때, 긴 프롬프트보다 먼저 정해야 할 재료와 제작 순서를 살핀다.</p>
+  <div class="meta"><span>2026-10-02</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>제품 스크린샷 몇 장과 로고를 주고 Claude Code에 15초짜리 소개 영상을 맡길 수 있을까. Opus 5.5로 완성도 높은 결과를 얻었다는 경험이 공유되면서 한 번의 지시로 어디까지 만들 수 있는지가 관심사가 됐다. 하지만 모델 이름보다 중요한 건 실제 제품 화면과 장면의 길이, 음악의 박자를 작업물에 어떻게 고정하느냐다.</p>
+<h2>한 번에 잘 나온 영상에서 확인할 수 없는 것</h2>
+<p>공유된 사례의 요청은 구체적이었다. 실제 제품 스크린샷과 로고를 쓰고 움직임을 음악에 맞추되, 임시 시연물처럼 보이지 않게 해달라는 내용이었다. 결과가 좋았다는 반응도 있었다. 다만 완성 파일과 프로젝트 구성은 확인되지 않아 어떤 렌더러를 썼는지 단정할 수 없다.</p>
+<p>HTML과 타이포그래피를 움직여 영상을 만든 듯하다는 추측은 기술적으로 가능한 설명이다. Remotion은 React 컴포넌트를 프레임별 화면으로 렌더링하며 장면의 크기·프레임률·총 프레임 수를 <code>Composition</code>에 지정한다. 그렇다고 그 사례가 실제로 Remotion을 썼다고 볼 수는 없다. (<a href="https://www.remotion.dev/docs/the-fundamentals" target="_blank" rel="nofollow noopener">remotion.dev</a>)</p>
+<p>Opus 5.5가 새로 나온 모델이라는 점은 확인된다. Anthropic은 2026년 9월 22일 모델을 발표했고 Claude Code에서도 사용할 수 있다고 안내한다. 다만 발표 자료의 코딩 성능이나 토큰 가격이 15초 영상의 완성도, 제작 시간, 총비용까지 보증하지는 않는다. 영상 작업에는 렌더링과 에셋 제작이 별도로 들어갈 수 있다. (<a href="https://www.anthropic.com/claude-opus-5-5?campaign=19995287&amp;trk=public_post_comment-text" target="_blank" rel="nofollow noopener">anthropic.com</a>)</p>
+<h2>재료를 먼저 고정하면 제품 화면을 지킬 수 있다</h2>
+<p>이 사례를 재현 가능한 작업으로 바꾸려면 프롬프트보다 파일 목록이 먼저다. 예를 들어 <code>logo.png</code>, <code>dashboard.png</code>, <code>feature.png</code>, 사용 허가를 받은 <code>music.mp3</code>를 준비한다. 스크린샷에 고객 정보나 테스트 계정이 보이지 않는지도 확인한다. 실제 제품 화면을 보여주려는 영상이라면 존재하지 않는 UI를 새로 그리지 말라는 조건도 명시해야 한다.</p>
+<p>Remotion 공식 안내는 Node.js와 코딩 에이전트를 준비한 뒤 새 프로젝트를 만들도록 설명한다. <code>npx create-video --yes --blank --no-tailwind my-video</code>로 시작해 프로젝트에서 의존성을 설치하고 <code>npx remotion skills add</code>를 실행하는 순서다. Claude Code용 Remotion 플러그인을 설치하는 별도 경로도 있다. 두 경로 모두 영상 편집 기능을 Claude Code에 알려줄 뿐 브랜드 에셋을 대신 마련해주지는 않는다. (<a href="https://convert.remotion.dev/docs/ai/coding-agents" target="_blank" rel="nofollow noopener">convert.remotion.dev</a>)</p>
+<p>파일은 프로젝트의 <code>public/</code> 폴더에 두고 코드에서 <code>staticFile(&#x27;logo.png&#x27;)</code>처럼 참조할 수 있다. 이때 경로에 <code>public/</code>을 다시 쓰거나 컴퓨터의 절대경로를 넣으면 안 된다. 작업 디렉터리를 통째로 읽히기보다 필요한 화면만 따로 모으면 에이전트가 사용할 재료도 분명해진다. (<a href="https://cloudrun.remotion.dev/docs/staticfile-relative-paths" target="_blank" rel="nofollow noopener">cloudrun.remotion.dev</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-product-motion-graphics.png" alt="" loading="lazy"><h2>15초를 장면과 프레임으로 나눠 지시한다</h2>
+<p>“전문 쇼릴처럼”은 분위기는 전하지만 편집 기준이 되지는 않는다. 0~3초에 제품 이름, 3~8초에 핵심 화면, 8~12초에 기능 변화, 12~15초에 로고를 보여주는 식으로 장면표부터 쓸 수 있다. 각 구간에 쓸 스크린샷과 화면을 얼마나 오래 멈춰 읽게 할지도 적는다. 초 단위 배치는 예시이므로 제품에 맞게 바꿔야 한다.</p>
+<p>30fps로 만들면 15초는 450프레임이다. Claude Code에는 준비한 파일로 장면별 React 컴포넌트를 만들고 각 장면의 시작 프레임과 지속 시간을 지정해달라고 요청한다. 산출물은 막연한 ‘AI 영상’이 아니라 수정 가능한 프로젝트 코드와 렌더링된 영상 파일이다. Remotion은 프로젝트 미리보기와 CLI 렌더링을 지원하므로 특정 장면만 고쳐 다시 출력할 수도 있다. (<a href="https://www.remotion.dev/docs/the-fundamentals" target="_blank" rel="nofollow noopener">remotion.dev</a>)</p>
+<p>금지할 동작도 프롬프트에 넣는다. 로고를 변형하지 말 것, 화면의 버튼 문구를 바꾸지 말 것, 스크린샷을 읽기 어려울 만큼 빠르게 넘기지 말 것. 화려한 전환보다 사용자가 실제로 무엇을 보게 되는지가 제품 소개 영상의 성패를 가른다.</p>
+<h2>음악 동기화는 감상이 아니라 타임라인으로 검수한다</h2>
+<p>음악과 모션을 맞춰달라는 요청만으로 모든 컷이 박자에 붙지는 않는다. 음악 파일을 프로젝트에 넣고 시작·전환·강조·마지막 로고가 등장할 시점을 초 또는 프레임으로 적어줘야 한다. Remotion은 이미지와 오디오의 타임라인 위치를 조정할 수 있다. 렌더링 후에는 소리를 켜고 컷 전환과 강조 동작을 다시 확인해야 한다. (<a href="https://www.remotion.dev/docs/timing" target="_blank" rel="nofollow noopener">remotion.dev</a>)</p>
+<p>써본 사람들 사이에서는 코드로 장면을 빠르게 구성할 수 있어 편리하다는 반응과 박자·가독성을 손으로 다시 다듬어야 한다는 반응이 함께 나온다. 공유된 사례에서 음악 관련 단어의 오탈자가 결과를 크게 해치지 않았다는 의견도 있었다. 이를 오탈자를 허용하는 제작법으로 받아들이기보다 중요한 조건을 파일과 타임라인에 남기는 편이 검수하기 쉽다.</p>
+<p>개인 개발자나 작은 팀에는 수정 단위가 남는다는 점이 실익이다. 기능 화면이 바뀌어도 영상을 처음부터 다시 요청할 필요 없이 해당 스크린샷과 장면만 교체할 수 있다. 반대로 음악 사용 권한과 화면 속 정보까지 모델이 판단해줄 것이라 기대해선 안 된다.</p>
+<h2>Opus, Sol, Astra 비교는 같은 결과물로 해야 한다</h2>
+<p>공유된 대화에는 Opus의 결과를 기준으로 Sol·Astra에게도 제작을 맡기고 Luna로 검토해보자는 구상이 있었다. 비교가 실행됐는지, 어느 쪽이 더 나았는지는 확인되지 않았다. 모델별 영상을 견주려면 같은 원본 스크린샷, 음악, 장면표, 출력 규격을 제공해야 한다. 한 모델에만 더 긴 수정 시간을 주면 결과 차이를 모델 능력으로 해석하기 어렵다.</p>
+<p>비교 항목으로는 제품 화면의 정확성, 읽을 시간, 전환 시점, 음악과의 어긋남, 수정에 필요한 작업량을 잡을 수 있다. 생성 영상 서비스도 대안이다. Runway의 제품 영상 안내는 실제 제품 이미지를 참조 자료로 주고 장면별 이미지를 확인한 뒤 움직임을 만들도록 권한다. 실사에 가까운 장면이 목표라면 이 경로를 비교할 만하다. 정확한 UI와 문구를 계속 고쳐야 한다면 코드 기반 편집이 더 직접적인 선택지다. (<a href="https://dev.runwayml.com/learn/generate-product-videos" target="_blank" rel="nofollow noopener">dev.runwayml.com</a>)</p>
+<p>한 번의 좋은 결과는 출발점이다. 같은 에셋으로 다시 만들고 한 장면을 고쳐도 품질이 유지되는지 확인해야 15초 영상이 반복 가능한 제작 방식인지 판단할 수 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">Opus 5.5</span><span class="chip">Remotion</span><span class="chip">제품 소개 영상</span><span class="chip">모션그래픽</span><span class="chip">영상 제작</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.anthropic.com/claude-opus-5-5" rel="nofollow noopener">https://www.anthropic.com/claude-opus-5-5</a></li><li><a href="https://www.remotion.dev/docs/the-fundamentals" rel="nofollow noopener">https://www.remotion.dev/docs/the-fundamentals</a></li><li><a href="https://www.remotion.dev/docs/ai/claude-code-plugin" rel="nofollow noopener">https://www.remotion.dev/docs/ai/claude-code-plugin</a></li><li><a href="https://www.remotion.dev/docs/ai/coding-agents" rel="nofollow noopener">https://www.remotion.dev/docs/ai/coding-agents</a></li><li><a href="https://www.remotion.dev/docs/staticfile-relative-paths" rel="nofollow noopener">https://www.remotion.dev/docs/staticfile-relative-paths</a></li><li><a href="https://www.remotion.dev/docs/timing" rel="nofollow noopener">https://www.remotion.dev/docs/timing</a></li><li><a href="https://www.remotion.dev/docs/cli/render" rel="nofollow noopener">https://www.remotion.dev/docs/cli/render</a></li><li><a href="https://dev.runwayml.com/learn/generate-product-videos" rel="nofollow noopener">https://dev.runwayml.com/learn/generate-product-videos</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code만으로 제품 소개 영상을 만들 수 있나요?</h2><p class="sum">Claude Code로 Remotion 프로젝트의 장면 코드와 렌더링 과정을 작성할 수 있습니다. 실제 스크린샷·로고·음악 파일을 준비하고 출력 영상을 검수해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Opus 5.5 영상 제작에 Remotion이 필수인가요?</h2><p class="sum">필수는 아닙니다. Remotion은 화면과 타이밍을 코드로 수정하며 MP4로 렌더링하는 한 가지 경로이고, 공유된 사례가 실제로 어떤 도구를 썼는지는 확인되지 않았습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>음악에 모션을 맞추려면 프롬프트에 무엇을 써야 하나요?</h2><p class="sum">음악 파일과 함께 컷 전환, 강조 동작, 로고 등장 시점을 초나 프레임으로 지정하세요. 렌더링한 뒤 소리를 들으며 어긋난 구간을 수정해야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-29-2200.html">2026-09-29 09-29 21:19~21:48</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
