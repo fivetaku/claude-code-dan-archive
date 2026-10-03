@@ -21,6 +21,22 @@
     <description>SAP PP·PM과 Oracle·MES 중 어느 경력이 유리할까. 생산·설비·현장 데이터가 이어지는 업무를 기준으로 두 제안을 비교하고, 연봉과 산업 전망에서 확인되지 않은 부분도 구분한다.</description>
   </item>
   <item>
+    <title>모두의 창업 선정 연락이 늦다면? 멘토기관 심사와 서류 준비</title>
+    <link>https://chat.axwith.com/mag/workflow/modoo-startup-selection-mentor-documents.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/modoo-startup-selection-mentor-documents.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 03 Oct 2026 12:00:00 +0900</pubDate>
+    <description>모두의 창업 선정 연락이 늦으면 탈락일까? 2026년 2차 공고를 바탕으로 멘토기관의 1라운드 평가, 자격 증빙 기한, 후속 사업계획서와 IR 준비를 구분해 설명한다.</description>
+  </item>
+  <item>
+    <title>클로드코드 도입이 막히는 이유, 보안 승인보다 먼저 바꿔야 할 것</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-enterprise-adoption-barriers.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-enterprise-adoption-barriers.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 03 Oct 2026 12:00:00 +0900</pubDate>
+    <description>클로드코드를 조직에 도입할 때 승인 절차와 보안 통제만 풀면 충분할까? 공식 배포 문서와 조직 연구를 바탕으로 작은 업무 실험, 권한 설계, 성과 측정 방법을 짚는다.</description>
+  </item>
+  <item>
     <title>Claude Code와 Opus 5.5로 15초 제품 모션그래픽 만드는 법</title>
     <link>https://chat.axwith.com/mag/models/claude-code-product-motion-graphics.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-product-motion-graphics.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
     <description>Claude Opus 5.5의 성능 너프설과 계정별 사용량 차이를 공식 문서와 측정 자료로 검증하고, Claude Code에서 직접 비교하는 방법을 정리했다.</description>
-  </item>
-  <item>
-    <title>Claude Code 한도 뒤 Max 업그레이드, 사용량도 리셋될까</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-upgrade-limit-reset.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-upgrade-limit-reset.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code의 5시간·주간 한도 구조와 Pro·Max 업그레이드 효과를 살펴보고, 한도에 막혔을 때 바로 쓸 수 있는 대안을 정리했다.</description>
-  </item>
-  <item>
-    <title>밈 검색 서비스, 1초대 응답과 최신 짤을 함께 잡는 설계</title>
-    <link>https://chat.axwith.com/mag/workflow/fast-fresh-meme-search.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/fast-fresh-meme-search.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Fri, 25 Sep 2026 12:00:00 +0900</pubDate>
-    <description>밈 검색 서비스의 속도와 품질을 함께 높이는 데이터 수집, OCR·임베딩 색인, 최신성 랭킹, 이미지 전송과 성능 측정 방법을 살펴본다.</description>
   </item>
 </channel></rss>
