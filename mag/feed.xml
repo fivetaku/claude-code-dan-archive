@@ -5,6 +5,30 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Codex 오케스트레이터와 워커 모델 조합, 한도까지 따져 고르는 법</title>
+    <link>https://chat.axwith.com/mag/models/codex-orchestrator-worker-model-limits.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/codex-orchestrator-worker-model-limits.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 04 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Codex에서 오케스트레이터와 워커에 서로 다른 모델을 배치할 때 무엇이 달라질까. Astra·Sol의 역할, Fast와 High의 차이, 한도 확인법을 공식 문서와 실사용 경험으로 정리했다.</description>
+  </item>
+  <item>
+    <title>Claude Code의 Opus가 느리고 둔해졌나: 성능 저하 체감을 검증하는 법</title>
+    <link>https://chat.axwith.com/mag/models/claude-code-opus-quality-slowdown-check.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-opus-quality-slowdown-check.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 04 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code에서 Opus가 예전보다 느리고 둔하다는 체감이 나왔다. Anthropic이 확인한 품질 문제의 원인을 살펴보고, 모델 버전과 노력 수준을 고정해 직접 비교하는 방법을 설명한다.</description>
+  </item>
+  <item>
+    <title>Claude Code로 만든 타로·사주 서비스, 광고비보다 먼저 검증할 것</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-fortune-service-marketing.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-fortune-service-marketing.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sun, 04 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code로 타로·사주 서비스를 만들었다면 다음 과제는 고객 확보다. 타깃별 랜딩페이지 제작 순서, 광고 실험 설계, 결제 전환과 비용을 함께 읽는 방법을 살펴본다.</description>
+  </item>
+  <item>
     <title>사람인 API 승인이 늦을 때 채용공고 서비스를 만드는 방법</title>
     <link>https://chat.axwith.com/mag/troubleshooting/saramin-api-approval-job-data-alternatives.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/saramin-api-approval-job-data-alternatives.html</guid>
@@ -219,29 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
     <description>골잡이(goaljaby)의 설치법과 다섯 가지 산출물, 승인 절차를 분석하고 기본 /goal 명령과 무엇이 다른지 설명한다.</description>
-  </item>
-  <item>
-    <title>Qwen 27B·35B 병렬 운용, 대형 모델 하나보다 나을까</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/qwen-parallel-local-models.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/qwen-parallel-local-models.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Qwen3.5 27B와 35B-A3B를 함께 돌릴지, 더 큰 모델 하나를 쓸지 판단하는 기준을 모델 구조와 VRAM, 병렬 처리 방식으로 설명한다.</description>
-  </item>
-  <item>
-    <title>Ox Alpha는 무엇이었나, Claude Code 대체 모델의 실제 가치</title>
-    <link>https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Ox Alpha로 알려진 GLM-5.3-Flash의 성능과 가격, Claude Code 연동 방법을 살펴보고 개인 개발자가 실제 프로젝트에 쓸 만한지 평가한다.</description>
-  </item>
-  <item>
-    <title>Claude Opus 5.5 너프설과 사용량 차이, 무엇을 확인해야 하나</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/opus-55-usage-limit-check.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/opus-55-usage-limit-check.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sat, 26 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Opus 5.5의 성능 너프설과 계정별 사용량 차이를 공식 문서와 측정 자료로 검증하고, Claude Code에서 직접 비교하는 방법을 정리했다.</description>
   </item>
 </channel></rss>

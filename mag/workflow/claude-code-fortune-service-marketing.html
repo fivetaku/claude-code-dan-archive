@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code로 만든 타로·사주 서비스, 광고비보다 먼저 검증할 것 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code로 타로·사주 서비스를 만들었다면 다음 과제는 고객 확보다. 타깃별 랜딩페이지 제작 순서, 광고 실험 설계, 결제 전환과 비용을 함께 읽는 방법을 살펴본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-fortune-service-marketing.html">
+<meta property="og:title" content="Claude Code로 만든 타로·사주 서비스, 광고비보다 먼저 검증할 것">
+<meta property="og:description" content="Claude Code로 타로·사주 서비스를 만들었다면 다음 과제는 고객 확보다. 타깃별 랜딩페이지 제작 순서, 광고 실험 설계, 결제 전환과 비용을 함께 읽는 방법을 살펴본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/claude-code-fortune-service-marketing.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code로 만든 타로·사주 서비스, 광고비보다 먼저 검증할 것", "description": "Claude Code로 타로·사주 서비스를 만들었다면 다음 과제는 고객 확보다. 타깃별 랜딩페이지 제작 순서, 광고 실험 설계, 결제 전환과 비용을 함께 읽는 방법을 살펴본다.", "datePublished": "2026-10-04", "dateModified": "2026-10-04", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/claude-code-fortune-service-marketing.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, 타로 서비스, 사주 서비스, 랜딩페이지, 광고 실험, GA4", "image": "https://chat.axwith.com/mag/hero/claude-code-fortune-service-marketing.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code로 타로·사주 서비스 랜딩페이지를 어떻게 만드나요?", "acceptedAnswer": {"@type": "Answer", "text": "상품의 가격·제공 결과·전달 조건을 `offer.md`에 쓰고, 타깃별 고민을 별도 파일에 정리합니다. Claude Code에 구성안을 먼저 요청한 뒤 페이지를 구현하고, 모바일 화면과 결제 경로를 직접 확인합니다."}}, {"@type": "Question", "name": "타로·사주 서비스 광고는 어떤 전환을 측정해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "광고 클릭과 페이지 방문을 결제 시작, 결제 완료와 구분해 기록해야 합니다. 실제 수익성을 판단할 때는 결제 금액에서 광고비뿐 아니라 수수료·환불·제공 비용도 고려합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-fortune-service-marketing.png" alt="Claude Code로 만든 타로·사주 서비스, 광고비보다 먼저 검증할 것" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>Claude Code로 만든 타로·사주 서비스, 광고비보다 먼저 검증할 것</h1>
+  <p class="sub">타로·사주 서비스를 빠르게 만드는 시대, 고객이 선택하는 이유를 랜딩페이지와 결제 데이터로 검증하는 방법</p>
+  <div class="meta"><span>2026-10-04</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Code로 타로·사주 서비스를 만들었다면, 광고를 시작하기 전에 무엇을 검증해야 할까? 제작 속도가 빨라질수록 비슷한 서비스를 마주한 고객이 이 서비스를 선택할 이유가 중요해진다. 이 글은 랜딩페이지를 만드는 순서부터 광고비와 실제 결제를 대조하는 방법까지 따라간다.</p>
+<h2>서비스보다 구매할 이유를 먼저 적는다</h2>
+<p>클코단 논의에서는 타로·사주 서비스를 만드는 일과 고객을 확보하는 일을 별개로 봐야 한다는 의견이 나왔다. 비슷한 선택지가 많다고 느끼는 시장에서는 노출만 늘려서는 부족하다는 판단이다. 다만 시장 규모나 경쟁 서비스 수를 조사한 대화는 아니므로, 과밀 여부를 확정된 통계처럼 말할 수는 없다.</p>
+<p>검증할 질문은 더 작고 구체적이다. ‘연애 고민을 짧게 정리하고 싶은 사람’과 ‘사주 풀이를 처음 구매하는 사람’이 같은 설명을 보고 결제할까? 두 고객에게 모두 ‘정확한 운세’만 강조하면 무엇을 받고 얼마를 내는지조차 구별하기 어렵다.</p>
+<p>페이지를 만들기 전, 각 고객에게 보여줄 약속을 한 장씩 써볼 수 있다. 대상 고객, 다루는 질문, 제공 결과, 가격, 전달 시점, 환불 안내를 분리해 적는다. 타로나 사주 풀이의 정확도를 입증하지 못했다면 결과를 보장하는 문구도 넣지 않는다. 이 문서는 광고 문구와 실제 상품 설명이 서로 다른 말을 하지 않도록 잡아주는 기준이 된다.</p>
+<h2>Claude Code에는 화면보다 입력 자료를 먼저 준다</h2>
+<p>방 논의에서 제안된 과제는 타깃별 랜딩페이지를 여러 개 설계하는 일이었다. 이를 제작 절차로 옮기려면 먼저 <code>offer.md</code>에 앞서 정한 상품 조건을 적는다. <code>audience-a.md</code>와 <code>audience-b.md</code>에는 각 고객의 질문과 구매 전 우려를 따로 적는다. 이 파일들은 이미 존재하는 방의 결과물이 아니라, 독자가 직접 만들 수 있는 작업 예시다.</p>
+<p>프로젝트 폴더에서 Claude Code를 실행한 뒤 세 파일을 읽게 한다. 첫 요청은 코딩이 아니라 두 페이지의 구성안이다. 예를 들어 ‘상품 조건은 바꾸지 말고, 고객별 제목·설명 순서·자주 묻는 질문만 달리한 화면 계획을 제시해줘’라고 요청한다. 구성안을 검토한 다음에야 <code>/landing-a</code>와 <code>/landing-b</code>를 구현하게 한다. Claude Code 공식 문서도 작업 전에 코드베이스를 살피고 계획한 뒤 구현과 검증을 거치는 방식을 안내한다. (<a href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>산출물은 예쁜 화면 두 장으로 끝나지 않는다. 모바일에서 가격과 구매 버튼이 보이는지, 결제 버튼이 올바른 화면으로 가는지 확인해야 한다. 제공하지 않는 상담 방식이나 처리 시간을 AI가 문구에 덧붙이지 않았는지도 사람이 읽어야 한다. 랜딩페이지를 만들어본 사람들 사이에서도 초안 이후의 문구와 상호작용은 손질이 필요하다는 반응이 있다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-fortune-service-marketing.png" alt="" loading="lazy"><h2>광고 클릭과 결제를 다른 사건으로 기록한다</h2>
+<p>노출을 늘리고 구매 확률을 높이자는 방의 제안은 측정 항목을 나누면 실행 가능해진다. 광고가 보여진 횟수와 클릭 수는 유입을 설명한다. 페이지 방문, 결제 시작, 결제 완료를 보면 방문 이후 어디에서 멈추는지 알 수 있다. 클릭이 늘었는데 구매가 그대로라면 광고 예산을 올리기 전에 페이지와 상품 제안을 다시 살펴야 한다.</p>
+<p>GA4 공식 문서는 웹사이트의 행동을 이벤트로 측정하며, 전자상거래 흐름에 <code>begin_checkout</code>과 <code>purchase</code>를 사용한다. 구현 예시에서는 결제 시작 시점과 구매 확정 시점을 구분한다. 구매 이벤트에는 실제 거래 금액과 거래 식별자를 연결해 중복 집계 여부까지 시험한다. 이벤트가 찍힌다는 사실만으로 올바른 매출이 기록됐다고 가정하지 않는다. (<a href="https://developers.google.com/analytics/devguides/collection/ga4/events" target="_blank" rel="nofollow noopener">developers.google.com</a>)</p>
+<p>어느 광고에서 들어왔는지도 남겨야 한다. Google Analytics는 광고 링크에 <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>을 붙여 캠페인별 유입을 구분하도록 안내한다. 두 페이지로 향하는 링크의 이름을 일관되게 정하고 구매까지 이어지는지 확인한다. Google Ads의 랜딩페이지 보고서에서는 광고가 보낸 URL별 성과도 살필 수 있다. (<a href="https://support.google.com/analytics/answer/10917952?hl=en" target="_blank" rel="nofollow noopener">support.google.com</a>)</p>
+<h2>여러 페이지를 만들되 한 번에 하나만 바꾼다</h2>
+<p>타깃별 페이지를 동시에 내놓는 것과 무엇이 효과를 냈는지 알아내는 것은 다르다. 고객층, 광고 영상, 가격, 페이지 제목을 한꺼번에 바꾸면 결과의 원인을 분리하기 어렵다. Google Ads는 실험 목표를 정하고 한 번에 한 변수만 시험하라고 안내한다. 광고 실험 기능은 원래 캠페인과 변경안을 비교할 수 있다. (<a href="https://support.google.com/google-ads/answer/7281575?hl=en" target="_blank" rel="nofollow noopener">support.google.com</a>)</p>
+<p>가령 같은 고객층에 같은 광고를 보여주고 도착 페이지만 바꿔볼 수 있다. 처음에는 가격을 그대로 둔 채 첫 화면의 설명 순서만 달리한다. 광고 문구와 타깃까지 바꾸고 싶다면 별도 실험으로 넘긴다. 방에서 나온 ‘여러 랜딩페이지’ 제안은 페이지를 많이 만드는 목표보다 어떤 고객에게 어떤 설명이 통하는지 묻는 실험으로 좁힐 때 유용하다.</p>
+<p>표본이 적은 초기 서비스라면 작은 차이를 승리로 선언하지 않는 편이 낫다. Google Ads 실험 안내도 결과를 판정할 데이터가 부족할 수 있다고 설명한다. 실제 써본 사람들 사이에서도 적은 예산의 테스트는 클릭보다 구매 같은 최종 행동을 읽기 어렵다는 불만이 있다. 이때는 수치를 과장하기보다 방문자가 어느 단계에서 멈췄는지와 들어온 질문을 함께 기록할 수 있다. (<a href="https://support.google.com/google-ads/answer/6318747?hl=en_USl" target="_blank" rel="nofollow noopener">support.google.com</a>)</p>
+<h2>광고비보다 매출이 큰데도 손해일 수 있다</h2>
+<p>방에서는 광고에 쓴 돈보다 더 벌 수 있는지가 기준으로 제시됐다. 개인 개발자나 작은 팀에게 필요한 출발점이지만, 매출과 이익은 구분해야 한다. 결제 수수료, 환불, 풀이를 제공하는 데 드는 비용을 빼기 전이라면 광고비보다 매출이 커도 남는 돈은 없을 수 있다. Google Ads도 광고 효과를 판단할 때 매출뿐 아니라 비용을 반영한 투자수익을 살피도록 설명한다. (<a href="https://support.google.com/google-ads/answer/1722066?hl=en" target="_blank" rel="nofollow noopener">support.google.com</a>)</p>
+<p>실험 기록에는 페이지별 광고비, 결제 건수, 결제 금액을 함께 둔다. 환불과 제공 비용을 반영해 실제로 남은 금액도 적는다. 무료 풀이를 제공한다면 무료 체험 신청을 매출로 세지 않는다. 숫자가 적을 때는 한 건의 구매가 결과를 크게 흔든다는 점도 표시해야 한다.</p>
+<p>아이디어에 비해 실행이 더디다는 고민에는 또 다른 기능 제안이 답이 되지 않는다. 이번 실험의 산출물을 고객 설명 두 개, 작동하는 결제 경로 하나, 신뢰할 수 있는 구매 기록으로 한정하면 어떨까. 그 자료가 쌓여야 다음 광고가 필요한지, 아니면 상품의 약속부터 바꿔야 하는지 판단할 수 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">타로 서비스</span><span class="chip">사주 서비스</span><span class="chip">랜딩페이지</span><span class="chip">광고 실험</span><span class="chip">GA4</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/quickstart" rel="nofollow noopener">https://code.claude.com/docs/en/quickstart</a></li><li><a href="https://code.claude.com/docs/en/best-practices" rel="nofollow noopener">https://code.claude.com/docs/en/best-practices</a></li><li><a href="https://developers.google.com/analytics/devguides/collection/ga4/events" rel="nofollow noopener">https://developers.google.com/analytics/devguides/collection/ga4/events</a></li><li><a href="https://developers.google.com/analytics/devguides/collection/ga4/reference/events" rel="nofollow noopener">https://developers.google.com/analytics/devguides/collection/ga4/reference/event</a></li><li><a href="https://support.google.com/analytics/answer/10917952?hl=en" rel="nofollow noopener">https://support.google.com/analytics/answer/10917952?hl=en</a></li><li><a href="https://support.google.com/google-ads/answer/7543502/evaluate-the-performance-of-your-landing-pages?hl=en" rel="nofollow noopener">https://support.google.com/google-ads/answer/7543502/evaluate-the-performance-of</a></li><li><a href="https://support.google.com/google-ads/answer/7281575?hl=en" rel="nofollow noopener">https://support.google.com/google-ads/answer/7281575?hl=en</a></li><li><a href="https://support.google.com/google-ads/answer/10682377?hl=en" rel="nofollow noopener">https://support.google.com/google-ads/answer/10682377?hl=en</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code로 타로·사주 서비스 랜딩페이지를 어떻게 만드나요?</h2><p class="sum">상품의 가격·제공 결과·전달 조건을 <code>offer.md</code>에 쓰고, 타깃별 고민을 별도 파일에 정리합니다. Claude Code에 구성안을 먼저 요청한 뒤 페이지를 구현하고, 모바일 화면과 결제 경로를 직접 확인합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>타로·사주 서비스 광고는 어떤 전환을 측정해야 하나요?</h2><p class="sum">광고 클릭과 페이지 방문을 결제 시작, 결제 완료와 구분해 기록해야 합니다. 실제 수익성을 판단할 때는 결제 금액에서 광고비뿐 아니라 수수료·환불·제공 비용도 고려합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-04-0900.html">2026-10-04 10-03 21:52~10-04 08:48</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
