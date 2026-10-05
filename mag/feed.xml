@@ -13,6 +13,22 @@
     <description>OpenAI DevDay 2026 발표를 공식 자료로 확인했다. Pro 요금제 변경, Codex Cloud와 CLI, Agents API의 이용 조건과 개발자가 실제로 시도할 작업을 짚는다.</description>
   </item>
   <item>
+    <title>Cursor에서 GPT Pro를 쓰는 프록시, 툴 호출까지 통과할까</title>
+    <link>https://chat.axwith.com/mag/workflow/cursor-gpt-pro-proxy-tool-calls.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/cursor-gpt-pro-proxy-tool-calls.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Cursor용 GPT Pro 프록시는 응답을 연결하는 것만으로 완성되지 않는다. 공식 구독 경로와 API의 차이, OpenCodex의 역할, 툴 호출·긴 작업 테스트 방법을 살펴본다.</description>
+  </item>
+  <item>
+    <title>ChatGPT 구독 환불, 결제 직후라면 어디서 어떻게 요청하나</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/chatgpt-subscription-refund-request-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/chatgpt-subscription-refund-request-guide.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate>
+    <description>ChatGPT를 잘못 구독했거나 예상 밖의 요금이 청구됐다면 결제 경로부터 확인해야 한다. 공식 도움말을 바탕으로 환불 채팅 접수법, 한국 거주자 조건, 구독 취소와의 차이를 정리했다.</description>
+  </item>
+  <item>
     <title>챗봇 호출량이 늘 때 무료 API보다 먼저 따져야 할 것</title>
     <link>https://chat.axwith.com/mag/ops/chatbot-traffic-cost-response-quality.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/chatbot-traffic-cost-response-quality.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
     <description>세레브라스 추론이 빠른 이유와 Claude Code 적용 가능성을 분석한다. OpenAI의 실제 도입 사례와 고속 모드 요금, 구독 사용량이 빨리 줄어드는 원인도 함께 짚었다.</description>
-  </item>
-  <item>
-    <title>M1 Ultra 128GB에서 M5로 갈아탈 때 따져볼 기준</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/m1-ultra-m5-upgrade-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/m1-ultra-m5-upgrade-guide.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
-    <description>M1 Ultra 128GB 사용자가 M5 Max 맥북 프로나 M5 Ultra 맥 스튜디오로 바꿀 가치가 있는지 살폈다. 저장공간, 로컬 LLM, 14·16인치 발열과 중고 구매 기준까지 정리했다.</description>
-  </item>
-  <item>
-    <title>실시간 통역툴 서버로 Fly.io를 고를 때 따질 것</title>
-    <link>https://chat.axwith.com/mag/ops/flyio-realtime-interpreter-server.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/flyio-realtime-interpreter-server.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
-    <description>실시간 통역툴을 Fly.io에 배포하는 방법과 비용 구조를 살펴본다. Cloudflare·Hostinger와 비교하고 동시 통화량에 맞춘 서버 선택 기준도 제시한다.</description>
   </item>
 </channel></rss>
