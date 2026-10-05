@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>insane-search로 네이버 쇼핑 커넥트 상품을 찾을 때 확인할 것 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="insane-search로 쇼핑 커넥트 상품을 조사할 수 있을까? 공개 페이지 수집과 제휴 상품 확인의 차이, 삭제된 기능, Claude Code로 후보를 정리하는 순서를 살폈다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/insane-search-shopping-connect-sourcing.html">
+<meta property="og:title" content="insane-search로 네이버 쇼핑 커넥트 상품을 찾을 때 확인할 것">
+<meta property="og:description" content="insane-search로 쇼핑 커넥트 상품을 조사할 수 있을까? 공개 페이지 수집과 제휴 상품 확인의 차이, 삭제된 기능, Claude Code로 후보를 정리하는 순서를 살폈다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/insane-search-shopping-connect-sourcing.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "insane-search로 네이버 쇼핑 커넥트 상품을 찾을 때 확인할 것", "description": "insane-search로 쇼핑 커넥트 상품을 조사할 수 있을까? 공개 페이지 수집과 제휴 상품 확인의 차이, 삭제된 기능, Claude Code로 후보를 정리하는 순서를 살폈다.", "datePublished": "2026-10-06", "dateModified": "2026-10-06", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/insane-search-shopping-connect-sourcing.html"}, "articleSection": "도구·라이브러리", "keywords": "insane-search, Claude Code, 네이버 쇼핑 커넥트, 상품 소싱, 크롤링, 블로그 제휴", "image": "https://chat.axwith.com/mag/hero/insane-search-shopping-connect-sourcing.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "insane-search가 쇼핑 커넥트 제휴 상품을 자동으로 찾아주나요?", "acceptedAnswer": {"@type": "Answer", "text": "공개 상품 페이지를 읽어 후보를 조사하는 데 쓸 수 있습니다. 제휴 등록과 링크 발급 가능 여부는 브랜드 커넥트의 ‘상품 찾기’에서 별도로 확인해야 합니다."}}, {"@type": "Question", "name": "insane-search 구버전에는 어떤 기능이 있었나요?", "acceptedAnswer": {"@type": "Answer", "text": "프로젝트 변경 이력에 따르면 내부·비공개 API 발굴 기능과 사이트별 레시피가 0.14.0에서 제거됐습니다. 구버전 보관이 제거된 수집 방식의 사용 허가를 뜻하지는 않습니다."}}, {"@type": "Question", "name": "쇼핑 커넥트 링크를 블로그에 넣을 때 무엇을 표시해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "네이버 가이드는 링크를 통한 판매로 수수료를 받을 수 있다는 경제적 이해관계를 표시하도록 안내합니다. 상품 설명과 링크도 발행 전에 다시 확인해야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/insane-search-shopping-connect-sourcing.png" alt="insane-search로 네이버 쇼핑 커넥트 상품을 찾을 때 확인할 것" loading="eager">
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>insane-search로 네이버 쇼핑 커넥트 상품을 찾을 때 확인할 것</h1>
+  <p class="sub">크롤링이 성공해도 제휴 가능한 상품과 발행할 콘텐츠는 따로 확인해야 한다. 플러그인 변경 이력부터 공식 상품 탐색 절차까지 짚었다.</p>
+  <div class="meta"><span>2026-10-06</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>insane-search로 상품 정보를 모으면 네이버 쇼핑 커넥트의 블로그 소싱까지 자동화할 수 있을까? 크롤링에 성공했다는 경험담 뒤에는 플러그인 기능 변경과 제휴 상품 확인이라는 별개의 문제가 남는다. 공개 페이지를 읽는 일부터 발행할 상품을 고르는 일까지 어디를 자동화할 수 있는지 살펴봤다.</p>
+<h2>크롤링 성공과 제휴 상품 확보는 다른 단계다</h2>
+<p>커뮤니티에서는 insane-search로 쇼핑 블로그용 상품 자료를 모았다는 경험이 공유됐다. 수집이 어려워진 사이트가 늘었다는 의견도 있었다. 자료를 쌓고 정리하는 작업은 Comet보다 Claude Code가 낫다는 선호도 나왔다. 어느 사이트에서 어떤 항목을 얼마나 수집했는지는 확인되지 않았다.</p>
+<p>네이버 브랜드 커넥트 고객센터에 따르면 쇼핑 커넥트의 ‘상품 찾기’에는 판매자가 제휴 대상으로 등록한 상품이 표시된다. 네이버 쇼핑에서 검색되는 모든 상품이 여기에 들어오는 것은 아니다. 공개 상품 페이지에서 이름과 가격을 읽더라도 해당 상품의 제휴 링크를 발급할 수 있다는 보장은 없다. (<a href="https://help.naver.com/service/30027/contents/24103?lang=ko&amp;osType=COMMONOS" target="_blank" rel="nofollow noopener">help.naver.com</a>)</p>
+<p>쇼핑 커넥트는 크리에이터가 상품 전용 링크를 발급하고 그 링크를 통한 판매 실적에 따라 수수료를 받는 구조다. 수수료는 상품마다 달라질 수 있다. 소싱 목록에는 검색 결과의 인기 순위뿐 아니라 실제 링크 발급 가능 여부와 제휴 조건도 중요하다. (<a href="https://brandconnect.naver.com/about/creator" target="_blank" rel="nofollow noopener">brandconnect.naver.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/insane-search-shopping-connect-sourcing.png" alt="" loading="lazy"><h2>insane-search에서 없어진 기능은 무엇인가</h2>
+<p>insane-search는 Claude Code가 공개 웹페이지를 읽지 못할 때 다른 접근 경로를 시도하는 플러그인이다. 저장소의 현재 안내에 따르면 공개 엔드포인트와 피드, 브라우저 방식 등을 단계적으로 시도한다. 로그인이나 유료 접근이 필요한 페이지에서는 멈추도록 설계됐다고도 밝힌다. (<a href="https://github.com/fivetaku/insane-search/blob/main/README.ko.md" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>변경 이력에는 중요한 경계가 있다. 개발자는 2026년 8월 6일 공개한 0.14.0에서 내부·비공개 API 발굴 기능과 사이트별 레시피를 제거했다. 변경 이력에는 범위를 공식 공개 API, 피드, 메타데이터와 범용 접근 방식으로 좁혔다고 적혀 있다. ‘예전에는 되던 수집이 이제 안 된다’는 이야기를 모든 사이트의 차단 강화로만 해석할 수 없는 이유다. (<a href="https://github.com/fivetaku/insane-search/blob/main/CHANGELOG.md" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>다만 저장소의 한국어 소개에는 내부 JSON API를 찾는다는 이전 설명도 남아 있다. 현재 기능을 판단할 때는 이 문구보다 삭제 항목을 구체적으로 적은 변경 이력을 기준으로 읽는 편이 정확하다. 구버전을 보관하자는 커뮤니티 의견은 작업 환경을 기록하자는 취지로 이해할 수 있지만, 구버전으로 제거된 수집 방식을 계속 써도 된다는 근거는 아니다. (<a href="https://github.com/fivetaku/insane-search/blob/main/README.ko.md" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>써본 사람들 사이에서는 막힌 페이지에 재시도 경로가 생기는 점을 반기면서도 수집 도구를 완전한 브라우저 작업이나 대량 수집의 대체재로 여기지 않는 반응이 있다. 플러그인 개발자 역시 자동 접근의 허용 여부와 사이트 약관 준수는 사용자 책임이라고 명시한다. 공개 페이지라고 해서 자동 수집까지 허용된다고 단정할 수는 없다. (<a href="https://github.com/fivetaku/insane-search/blob/main/DISCLAIMER.md" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<h2>후보 목록은 어떻게 만들고 검증하나</h2>
+<p>작업은 두 갈래로 나누는 게 명확하다. 먼저 Claude Code에서 개발자가 안내한 마켓플레이스를 추가하고 <code>insane-search@gptaku-plugins</code>를 설치한다. 관심 상품군의 공개 페이지를 읽어 상품명, 확인한 페이지 주소, 표시 가격, 확인 시각을 후보 목록으로 정리하도록 요청한다. 플러그인은 접근과 읽기를 돕지만 쇼핑 커넥트의 제휴 자격을 판정하지는 않는다. (<a href="https://github.com/fivetaku/insane-search/blob/main/README.ko.md" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>다음에는 브랜드 커넥트의 ‘쇼핑 커넥트 &gt; 상품 찾기’에서 후보를 직접 검색한다. 목록에 있는 상품만 링크 발급 가능 여부와 표시된 조건을 확인해 남긴다. 네이버 고객센터가 안내하는 링크 발급 장소도 이 메뉴다. 공개 검색 결과의 상품명과 제휴 상품의 이름이 비슷하다면 같은 상품인지 판매 정보까지 대조해야 한다. (<a href="https://help.naver.com/service/30027/contents/24103?lang=ko&amp;osType=COMMONOS" target="_blank" rel="nofollow noopener">help.naver.com</a>)</p>
+<p>이때 Claude Code에 넣을 입력은 검증을 마친 후보 목록이다. 예를 들어 <code>상품명·공개 페이지 주소·확인 날짜·커넥트 등록 확인 여부·발급한 링크</code> 열을 가진 CSV를 준비한다. Claude Code에는 중복 상품을 묶고 등록 여부가 비어 있는 행을 따로 표시하며 블로그 글감 후보표를 만들도록 요청할 수 있다. 빈칸을 추정으로 채우지 말고 ‘미확인’으로 남기게 하는 것이 핵심이다.</p>
+<p>Comet보다 Claude Code가 낫다는 의견도 이 지점에서 의미가 있다. 어느 도구가 데이터를 더 정확하게 수집한다는 검증 결과는 아니다. 다만 CSV처럼 검토 가능한 산출물을 남기면 후보를 고른 근거와 이후 수정 내역을 확인하기 쉽다. 수집 결과를 곧바로 발행 원고로 취급하지 않을 수 있다.</p>
+<h2>수집한 가격과 제휴 링크는 어떻게 다뤄야 하나</h2>
+<p>상품 자료는 빨리 낡는다. 후보를 모은 시점의 가격과 판매 상태를 발행 시점의 사실처럼 쓰면 오류가 생길 수 있다. 블로그 글에는 확인한 상품 정보만 반영하고 링크는 쇼핑 커넥트에서 발급한 것을 사용해야 한다. 네이버는 링크 변조, 게시물과 무관한 상품 연결, 과장되거나 잘못된 상품 설명을 제재 대상 행위로 안내한다. (<a href="https://help.naver.com/service/30027/contents/22312?lang=ko" target="_blank" rel="nofollow noopener">help.naver.com</a>)</p>
+<p>제휴 사실도 빠뜨릴 수 없다. 네이버의 링크 삽입 가이드는 판매에 따른 수수료를 받을 수 있다는 경제적 이해관계를 콘텐츠에 표시하도록 안내한다. 공정거래위원회 역시 판매 실적에 따라 대가를 받는 추천글을 경제적 이해관계 공개가 필요한 사례로 설명했다. 상품 후보표의 마지막 검토 항목에 링크와 광고 표시를 함께 두어야 하는 이유다. (<a href="https://help.naver.com/service/30027/contents/24104" target="_blank" rel="nofollow noopener">help.naver.com</a>)</p>
+<p>공식 데이터 경로를 대안으로 생각했다면 날짜도 확인해야 한다. 네이버 개발자센터는 기존 검색 ‘쇼핑’ API의 종료 적용일을 2026년 7월 31일로 공지했다. 반면 쇼핑인사이트 API 문서는 분야별·키워드별 검색 클릭 추이를 제공한다고 설명한다. 클릭 추이와 쇼핑 커넥트 제휴 가능 상품 목록은 서로 다른 데이터다. (<a href="https://developers.naver.com/notice/article/32564" target="_blank" rel="nofollow noopener">developers.naver.com</a>)</p>
+<p>insane-search가 맡을 수 있는 일은 공개 자료에서 후보를 찾는 데까지다. 실제 발행 가능한 목록은 쇼핑 커넥트의 등록 상품, 발급 링크, 최신 상품 정보가 결정한다. 크롤링이 한 번 성공했다는 경험보다 중요한 기록은 후보가 그 검증 단계를 통과했는지 여부다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">insane-search</span><span class="chip">Claude Code</span><span class="chip">네이버 쇼핑 커넥트</span><span class="chip">상품 소싱</span><span class="chip">크롤링</span><span class="chip">블로그 제휴</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/fivetaku/insane-search/blob/main/README.ko.md" rel="nofollow noopener">https://github.com/fivetaku/insane-search/blob/main/README.ko.md</a></li><li><a href="https://github.com/fivetaku/insane-search/blob/main/CHANGELOG.md" rel="nofollow noopener">https://github.com/fivetaku/insane-search/blob/main/CHANGELOG.md</a></li><li><a href="https://github.com/fivetaku/insane-search/blob/main/DISCLAIMER.md" rel="nofollow noopener">https://github.com/fivetaku/insane-search/blob/main/DISCLAIMER.md</a></li><li><a href="https://brandconnect.naver.com/about/creator" rel="nofollow noopener">https://brandconnect.naver.com/about/creator</a></li><li><a href="https://help.naver.com/service/30027/contents/24103?lang=ko&amp;osType=COMMONOS" rel="nofollow noopener">https://help.naver.com/service/30027/contents/24103?lang=ko&amp;osType=COMMONOS</a></li><li><a href="https://help.naver.com/service/30027/contents/24104" rel="nofollow noopener">https://help.naver.com/service/30027/contents/24104</a></li><li><a href="https://help.naver.com/service/30027/contents/24100?lang=ko&amp;osType=COMMONOS" rel="nofollow noopener">https://help.naver.com/service/30027/contents/24100?lang=ko&amp;osType=COMMONOS</a></li><li><a href="https://help.naver.com/service/30027/contents/22312?lang=ko" rel="nofollow noopener">https://help.naver.com/service/30027/contents/22312?lang=ko</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>insane-search가 쇼핑 커넥트 제휴 상품을 자동으로 찾아주나요?</h2><p class="sum">공개 상품 페이지를 읽어 후보를 조사하는 데 쓸 수 있습니다. 제휴 등록과 링크 발급 가능 여부는 브랜드 커넥트의 ‘상품 찾기’에서 별도로 확인해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>insane-search 구버전에는 어떤 기능이 있었나요?</h2><p class="sum">프로젝트 변경 이력에 따르면 내부·비공개 API 발굴 기능과 사이트별 레시피가 0.14.0에서 제거됐습니다. 구버전 보관이 제거된 수집 방식의 사용 허가를 뜻하지는 않습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>쇼핑 커넥트 링크를 블로그에 넣을 때 무엇을 표시해야 하나요?</h2><p class="sum">네이버 가이드는 링크를 통한 판매로 수수료를 받을 수 있다는 경제적 이해관계를 표시하도록 안내합니다. 상품 설명과 링크도 발행 전에 다시 확인해야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-08-1330.html">2026-08-08 08-08 08:12~13:19</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
