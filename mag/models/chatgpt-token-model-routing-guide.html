@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ChatGPT Plus 토큰이 빨리 닳을 때, 모델 라우팅이 답인가 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="ChatGPT Plus 사용량이 빠르게 줄어드는 원인을 짚고, Claude Code subagent와 DeepSeek·Ox Alpha를 작업별로 배치하는 실전 전략을 살펴본다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/models/chatgpt-token-model-routing-guide.html">
 <meta property="og:title" content="ChatGPT Plus 토큰이 빨리 닳을 때, 모델 라우팅이 답인가">
@@ -226,7 +225,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/chatgpt-token-model-routing-guide.png" alt="ChatGPT Plus 토큰이 빨리 닳을 때, 모델 라우팅이 답인가" loading="eager">
 <header>
@@ -265,7 +264,7 @@ Do not edit files or propose code without file evidence.</code></pre>
 <p>토큰 절약 플러그인은 긴 도구 출력과 오래된 문맥을 삭제하거나 압축한다. 제대로 작동하면 입력이 줄어든다. 하지만 관련 파일과 실패 원인까지 사라지면 모델은 같은 탐색을 반복한다. 중간에 멈추거나 잘못된 범위를 고치는 비용도 함께 계산해야 한다.</p>
 <p>우선 Claude Code의 기본 기능으로 문맥을 관리하는 편이 예측하기 쉽다. 작업이 바뀌면 <code>/clear</code>를 쓰고 <code>/compact Focus on test output and code changes</code>처럼 보존 대상을 지정한다. 세션마다 자동으로 들어가는 <code>CLAUDE.md</code>에는 필수 규칙만 남긴다. 특정 업무 지침은 호출할 때만 불러오는 skills로 옮길 수 있다. Anthropic은 <code>CLAUDE.md</code>를 약 200줄 이하로 유지하도록 권한다. (<a href="https://code.claude.com/docs/ko/costs" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
 <p>고성능 모델 하나로 모든 단계를 밀어붙이면 편하지만 사용량 변동이 크다. 반대로 싼 모델만 연결하면 검증과 재작업이 쌓인다. 실용적인 경계는 명확하다. 탐색은 싸게, 구현은 균형 있게, 되돌리기 어려운 판단은 비싸게 처리해야 한다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
 <div class="chips"><span class="chip">ChatGPT Plus</span><span class="chip">Claude Code</span><span class="chip">토큰 절약</span><span class="chip">모델 라우팅</span><span class="chip">DeepSeek</span><span class="chip">Ox Alpha</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-work-and-codex" rel="nofollow noopener">https://help.openai.com/en/articles/20001516-managing-usage-with-gpt-6-astra-in-</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-6-astra" rel="nofollow noopener">https://developers.openai.com/api/docs/models/gpt-6-astra</a></li><li><a href="https://code.claude.com/docs/ko/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/ko/sub-agents</a></li><li><a href="https://code.claude.com/docs/ko/costs" rel="nofollow noopener">https://code.claude.com/docs/ko/costs</a></li><li><a href="https://code.claude.com/docs/ko/model-config" rel="nofollow noopener">https://code.claude.com/docs/ko/model-config</a></li><li><a href="https://api-docs.deepseek.com/quick_start/pricing/" rel="nofollow noopener">https://api-docs.deepseek.com/quick_start/pricing/</a></li><li><a href="https://api-docs.deepseek.com/guides/kv_cache/" rel="nofollow noopener">https://api-docs.deepseek.com/guides/kv_cache/</a></li><li><a href="https://www.oxalpha.com/" rel="nofollow noopener">https://www.oxalpha.com/</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 토큰을 가장 먼저 줄일 수 있는 방법은 무엇인가요?</h2><p class="sum">관련 없는 작업으로 넘어갈 때 <code>/clear</code>를 사용하고, 탐색 업무를 Haiku subagent로 분리하는 방법이 효과적이다. 복잡한 설계와 최종 검토에만 Opus를 쓰면 고비용 문맥의 반복 처리를 줄일 수 있다.</p></article></div>

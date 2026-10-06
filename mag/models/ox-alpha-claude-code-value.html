@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ox Alpha는 무엇이었나, Claude Code 대체 모델의 실제 가치 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="Ox Alpha로 알려진 GLM-5.3-Flash의 성능과 가격, Claude Code 연동 방법을 살펴보고 개인 개발자가 실제 프로젝트에 쓸 만한지 평가한다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/models/ox-alpha-claude-code-value.html">
 <meta property="og:title" content="Ox Alpha는 무엇이었나, Claude Code 대체 모델의 실제 가치">
@@ -226,7 +225,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 
 <header>
@@ -269,7 +268,7 @@ claude</code></pre>
 <h2>Claude Code의 전면 대체보다 병렬 작업용 모델에 가깝다</h2>
 <p>GLM-5.3-Flash는 저렴한 장문 코딩 모델로서 경쟁력이 충분하다. 반복적인 테스트 작성, 대규모 코드 탐색, 초안 리팩터링처럼 검증 가능한 작업에서는 비용 면에서도 유리하다. 오픈 가중치라 특정 API 사업자에게만 묶이지 않는다는 장점도 있다.</p>
 <p>다만 Claude Code의 시스템 프롬프트와 도구 설계는 Claude에 맞춰 발전했다. 모델 점수가 비슷하더라도 도구 선택과 오류 복구에서는 차이가 생긴다. Ox Alpha가 남긴 가장 유용한 답은 ‘무료라서 바꾼다’가 아니다. 같은 이슈를 두 작업 공간에 맡기고 어느 쪽 패치가 실제 테스트를 통과하는지 확인하라는 것이다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
 <div class="chips"><span class="chip">Ox Alpha</span><span class="chip">GLM-5.3-Flash</span><span class="chip">Claude Code</span><span class="chip">OpenRouter</span><span class="chip">코딩 에이전트</span><span class="chip">Z.ai</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://openrouter.ai/stealth/ox-alpha" rel="nofollow noopener">https://openrouter.ai/stealth/ox-alpha</a></li><li><a href="https://openrouter.ai/z-ai/glm-5.3-flash" rel="nofollow noopener">https://openrouter.ai/z-ai/glm-5.3-flash</a></li><li><a href="https://autoclaw.z.ai/blog/model/glm-5.3-flash/" rel="nofollow noopener">https://autoclaw.z.ai/blog/model/glm-5.3-flash/</a></li><li><a href="https://z.ai/blog/glm-built-its-inference-infrastructure" rel="nofollow noopener">https://z.ai/blog/glm-built-its-inference-infrastructure</a></li><li><a href="https://huggingface.co/zai-org/GLM-5.3-Flash" rel="nofollow noopener">https://huggingface.co/zai-org/GLM-5.3-Flash</a></li><li><a href="https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration" rel="nofollow noopener">https://openrouter.ai/docs/cookbook/coding-agents/claude-code-integration</a></li><li><a href="https://github.com/jyeric/ox-alpha-deepswe/blob/main/README.md" rel="nofollow noopener">https://github.com/jyeric/ox-alpha-deepswe/blob/main/README.md</a></li><li><a href="https://github.com/vllm-project/recipes/blob/main/models/zai-org/GLM-5.3-Flash.yaml" rel="nofollow noopener">https://github.com/vllm-project/recipes/blob/main/models/zai-org/GLM-5.3-Flash.y</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Ox Alpha는 지금도 무료인가요?</h2><p class="sum">Ox Alpha라는 무료 스텔스 시험은 끝났고 정체는 GLM-5.3-Flash로 공개됐다. OpenRouter에서는 현재 유료 토큰 가격이 표시되므로 호출 전에 최신 가격을 확인해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>Ox Alpha를 Claude Code에서 어떻게 사용하나요?</h2><p class="sum">OpenRouter API 키와 Anthropic 호환 베이스 URL을 설정한 뒤 모델 ID를 <code>z-ai/glm-5.3-flash</code>로 지정한다. 보조 모델과 서브에이전트도 같은 ID로 매핑해야 의도하지 않은 Claude 호출을 줄일 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>GLM-5.3-Flash가 Claude를 대체할 수 있나요?</h2><p class="sum">긴 코드 탐색과 검증 가능한 구현 작업에는 유력한 저비용 대안이다. 다만 Claude Code의 일부 도구 기능은 비 Anthropic 모델에서 다르게 작동하므로 전면 전환보다 프로젝트별 비교가 적합하다.</p></article></div>

@@ -93,30 +93,6 @@
     <description>Claude Code로 타로·사주 서비스를 만들었다면 다음 과제는 고객 확보다. 타깃별 랜딩페이지 제작 순서, 광고 실험 설계, 결제 전환과 비용을 함께 읽는 방법을 살펴본다.</description>
   </item>
   <item>
-    <title>사람인 API 승인이 늦을 때 채용공고 서비스를 만드는 방법</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/saramin-api-approval-job-data-alternatives.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/saramin-api-approval-job-data-alternatives.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sat, 03 Oct 2026 12:00:00 +0900</pubDate>
-    <description>사람인 API 신청 뒤 답이 없다면 거절로 판단해야 할까? 공식 승인 절차와 제공 필드를 확인하고, 고용24 API 및 공고 직접 수집을 비교해 공모전 시제품의 구현 순서를 짚는다.</description>
-  </item>
-  <item>
-    <title>SAP PP·PM과 Oracle MES 경력, 어느 쪽이 오래 남을까</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/sap-oracle-mes-career-choice.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/sap-oracle-mes-career-choice.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sat, 03 Oct 2026 12:00:00 +0900</pubDate>
-    <description>SAP PP·PM과 Oracle·MES 중 어느 경력이 유리할까. 생산·설비·현장 데이터가 이어지는 업무를 기준으로 두 제안을 비교하고, 연봉과 산업 전망에서 확인되지 않은 부분도 구분한다.</description>
-  </item>
-  <item>
-    <title>모두의 창업 선정 연락이 늦다면? 멘토기관 심사와 서류 준비</title>
-    <link>https://chat.axwith.com/mag/workflow/modoo-startup-selection-mentor-documents.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/modoo-startup-selection-mentor-documents.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sat, 03 Oct 2026 12:00:00 +0900</pubDate>
-    <description>모두의 창업 선정 연락이 늦으면 탈락일까? 2026년 2차 공고를 바탕으로 멘토기관의 1라운드 평가, 자격 증빙 기한, 후속 사업계획서와 IR 준비를 구분해 설명한다.</description>
-  </item>
-  <item>
     <title>클로드코드 도입이 막히는 이유, 보안 승인보다 먼저 바꿔야 할 것</title>
     <link>https://chat.axwith.com/mag/workflow/claude-code-enterprise-adoption-barriers.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-enterprise-adoption-barriers.html</guid>
@@ -131,22 +107,6 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Fri, 02 Oct 2026 12:00:00 +0900</pubDate>
     <description>Opus 5.5에 제품 소개 영상을 맡긴 사례를 출발점으로, Claude Code와 Remotion에서 실제 에셋을 배치하고 음악에 맞춰 렌더링하는 과정을 짚는다.</description>
-  </item>
-  <item>
-    <title>태아보험 추천 AI, 클로드코드로 만들 때 어디까지 가능할까</title>
-    <link>https://chat.axwith.com/mag/models/claude-code-prenatal-insurance-ai-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-prenatal-insurance-ai-guide.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Fri, 02 Oct 2026 12:00:00 +0900</pubDate>
-    <description>태아보험 보장 내역과 예산을 입력받아 선택지를 보여주는 AI는 어떻게 만들까. 클로드코드로 구현할 비교 흐름과 상품 데이터의 한계, 추천 서비스의 법적 경계를 살폈다.</description>
-  </item>
-  <item>
-    <title>금융권의 Amazon Bedrock 도입, Claude Code 개발자는 무엇을 만들어야 하나</title>
-    <link>https://chat.axwith.com/mag/resources/bedrock-finance-claude-code-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/bedrock-finance-claude-code-workflow.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Fri, 02 Oct 2026 12:00:00 +0900</pubDate>
-    <description>금융권이 Amazon Bedrock으로 내부 문서 챗봇을 만드는 방법을 실제 사례로 살폈다. Claude Code의 Bedrock 연결 설정, 문서 검색과 출처 표시, 권한·로그·비용 검토까지 짚는다.</description>
   </item>
   <item>
     <title>JEV를 코딩 에이전트에 붙이면 비용이 줄까: omo-jev-plugin의 실험과 한계</title>
@@ -179,14 +139,6 @@
     <category>워크플로우·방법론</category>
     <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
     <description>AX와 DX는 별개의 순서표가 아니다. 클로드코드로 고객 요청을 분류하는 예시를 통해 디지털 기록이 어떻게 AI의 입력이 되고, 어디까지 자동화할지 설명한다.</description>
-  </item>
-  <item>
-    <title>저가 ChatGPT 공유구독, 이미지 생성용으로만 쓰면 괜찮을까</title>
-    <link>https://chat.axwith.com/mag/resources/shared-chatgpt-image-subscription-risks.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/shared-chatgpt-image-subscription-risks.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Wed, 30 Sep 2026 12:00:00 +0900</pubDate>
-    <description>저가 ChatGPT 공유구독을 이미지 생성용으로 시험해도 될까? 공식 계정 공유 정책, 이미지 생성 한도, 대화 기록 노출 가능성, Codex 사용 조건을 비교했다.</description>
   </item>
   <item>
     <title>OMO JEV 플러그인은 탐색 비용을 얼마나 줄일까: 설치부터 실험 결과까지</title>
@@ -243,5 +195,53 @@
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 29 Sep 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드로 작업하다 밤을 넘기기 쉬운 이유를 사용 방식과 수면 연구로 살폈다. 계획·검증·세션 재개 기능을 이용해 밤 11시 종료 규칙을 실행하는 방법도 정리했다.</description>
+  </item>
+  <item>
+    <title>Kiro 월말 0원 업그레이드, 키쫀쿠의 원리와 위험</title>
+    <link>https://chat.axwith.com/mag/models/claude-opus-55-usage-reset.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-opus-55-usage-reset.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Kiro Power와 Pro Max가 월말에 0달러로 표시되는 이유를 공식 결제 규칙으로 계산하고, 해지 시점과 모델 배수, 계정 정지 위험을 점검한다.</description>
+  </item>
+  <item>
+    <title>Claude Opus 5.5, 느린데도 다시 구독할 만큼 좋아졌나</title>
+    <link>https://chat.axwith.com/mag/models/claude-opus-55-subscription-return.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-opus-55-subscription-return.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Opus 5.5의 성능, 응답 속도, Max 5x 한도와 리셋 구조를 분석했다. GPT Pro와 역할을 나눠 구독할 가치가 있는지도 살펴본다.</description>
+  </item>
+  <item>
+    <title>세레브라스가 Claude Code를 빠르게 할까, 속도와 요금의 관계</title>
+    <link>https://chat.axwith.com/mag/models/cerebras-claude-code-speed-cost.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/cerebras-claude-code-speed-cost.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
+    <description>세레브라스 추론이 빠른 이유와 Claude Code 적용 가능성을 분석한다. OpenAI의 실제 도입 사례와 고속 모드 요금, 구독 사용량이 빨리 줄어드는 원인도 함께 짚었다.</description>
+  </item>
+  <item>
+    <title>실시간 통역툴 서버로 Fly.io를 고를 때 따질 것</title>
+    <link>https://chat.axwith.com/mag/ops/flyio-realtime-interpreter-server.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/flyio-realtime-interpreter-server.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
+    <description>실시간 통역툴을 Fly.io에 배포하는 방법과 비용 구조를 살펴본다. Cloudflare·Hostinger와 비교하고 동시 통화량에 맞춘 서버 선택 기준도 제시한다.</description>
+  </item>
+  <item>
+    <title>Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나</title>
+    <link>https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code로 MVP를 만들 때 필요한 설계 범위와 CLAUDE.md, Plan Mode, 검증 기준, 작은 스키마 변경을 연결하는 단계별 개발법을 살펴본다.</description>
+  </item>
+  <item>
+    <title>Claude Code 골잡이 사용법: PRD를 /goal 실행 계약으로 바꾸기</title>
+    <link>https://chat.axwith.com/mag/resources/claude-code-goaljaby-prd-goal.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-goaljaby-prd-goal.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
+    <description>골잡이(goaljaby)의 설치법과 다섯 가지 산출물, 승인 절차를 분석하고 기본 /goal 명령과 무엇이 다른지 설명한다.</description>
   </item>
 </channel></rss>

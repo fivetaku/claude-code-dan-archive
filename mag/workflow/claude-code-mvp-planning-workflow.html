@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="Claude Code로 MVP를 만들 때 필요한 설계 범위와 CLAUDE.md, Plan Mode, 검증 기준, 작은 스키마 변경을 연결하는 단계별 개발법을 살펴본다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html">
 <meta property="og:title" content="Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나">
@@ -226,7 +225,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-mvp-planning-workflow.png" alt="Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나" loading="eager">
 <header>
@@ -259,7 +258,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>스키마에도 같은 기준을 적용한다. 처음부터 모든 속성을 담는 거대한 JSON 필드를 만드는 대신 현재 흐름에 필요한 명확한 테이블을 만든다. 변경은 작은 마이그레이션 파일로 남겨 애플리케이션 코드와 함께 버전 관리한다. 진화형 데이터베이스 설계는 큰 개편보다 작고 연속적인 마이그레이션을 권한다.</p>
 <p>실제 작업 루프는 짧다. 업무 문서에서 위험 하나를 고른 뒤 Plan Mode로 관련 코드를 탐색한다. <code>SPEC.md</code>에 한 조각의 인수 조건을 적고 구현과 테스트를 진행한다. 사용 결과가 KPI를 움직였는지 확인한 다음 문서와 스키마를 고쳐 다음 조각으로 넘어간다.</p>
 <p>Claude Code 시대의 설계는 미래를 모두 맞히는 작업이 아니다. 다음 실험이 틀렸을 때 무엇을 배울지 정하고 코드와 데이터가 그 학습을 견디게 만드는 일이다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">MVP 개발</span><span class="chip">Plan Mode</span><span class="chip">CLAUDE.md</span><span class="chip">AI 코딩</span><span class="chip">점진적 설계</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/best-practices" rel="nofollow noopener">https://code.claude.com/docs/en/best-practices</a></li><li><a href="https://code.claude.com/docs/en/memory" rel="nofollow noopener">https://code.claude.com/docs/en/memory</a></li><li><a href="https://code.claude.com/docs/en/hooks-guide" rel="nofollow noopener">https://code.claude.com/docs/en/hooks-guide</a></li><li><a href="https://agilemanifesto.org/principles" rel="nofollow noopener">https://agilemanifesto.org/principles</a></li><li><a href="https://www.svpg.com/four-big-risks/" rel="nofollow noopener">https://www.svpg.com/four-big-risks/</a></li><li><a href="https://www.gov.uk/service-manual/agile-delivery/how-the-alpha-phase-works" rel="nofollow noopener">https://www.gov.uk/service-manual/agile-delivery/how-the-alpha-phase-works</a></li><li><a href="https://www.atlassian.com/agile/project-management/user-stories" rel="nofollow noopener">https://www.atlassian.com/agile/project-management/user-stories</a></li><li><a href="https://martinfowler.com/bliki/GivenWhenThen.html" rel="nofollow noopener">https://martinfowler.com/bliki/GivenWhenThen.html</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 작은 기능도 항상 Plan Mode를 써야 하나요?</h2><p class="sum">오타 수정이나 변수명 변경처럼 수정 범위를 한 문장으로 설명할 수 있다면 바로 구현해도 된다. 여러 파일, 업무 규칙, 데이터 변경이 얽히면 Plan Mode로 탐색과 구현을 분리하는 편이 안전하다.</p></article><article class="dcard"><div class="t">Q</div><h2>MVP용 CLAUDE.md에는 무엇을 넣어야 하나요?</h2><p class="sum">빌드·테스트 명령, 코드 배치 규칙, 핵심 업무 제약, 완료 전 검증 절차를 넣는다. 상세 SOP와 일회성 기획은 별도 문서나 Skill로 분리해야 매 세션의 문맥을 낭비하지 않는다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI가 만든 MVP의 완료 여부는 어떻게 판단하나요?</h2><p class="sum">기능 목록보다 검증할 가정과 KPI를 먼저 정한다. 인수 조건을 테스트나 관찰 가능한 결과로 만들고, Claude Code가 실행한 검사 결과와 실제 사용자 반응을 함께 확인한다.</p></article></div>

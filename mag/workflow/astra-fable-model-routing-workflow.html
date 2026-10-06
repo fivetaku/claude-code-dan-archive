@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="GPT-6 Astra로 기획하고 Claude Fable 5.1로 코딩하는 역할분담 워크플로우를 구성하는 법과 비용, 한계를 분석한다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/workflow/astra-fable-model-routing-workflow.html">
 <meta property="og:title" content="GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까">
@@ -226,7 +225,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/astra-fable-model-routing-workflow.png" alt="GPT-6 Astra와 Claude Fable 역할분담, 비용을 줄일까" loading="eager">
 <header>
@@ -258,7 +257,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>Claude Code는 반복되는 시스템 지침과 대화 앞부분에 프롬프트 캐싱을 적용하며 컨텍스트가 커지면 자동 압축을 사용한다. Anthropic 가격표에서 Fable 5.1의 캐시 적중 입력은 일반 입력 가격의 2.5%다. OpenAI도 Astra의 캐시 입력을 일반 입력의 10%로 책정한다.</p>
 <p>고정된 설계 문서와 저장소 규칙을 프롬프트 앞부분에 두면 반복 비용을 낮출 수 있다. 반면 단계마다 문서를 전부 다시 쓰거나 두 모델에게 전체 구현을 각각 시키면 캐시보다 출력 비용이 커진다.</p>
 <p>개인 개발자와 소규모 팀에는 두 모델이 서로 토론하는 화려한 구성이 필수는 아니다. Astra가 결정문을 만들고 Fable이 구현한 뒤 Astra가 완료 조건만 검사하는 세 단계면 충분하다. 이 조합의 가치는 모델 두 개를 쓴다는 사실보다 설계 변경으로 코드 작업을 되돌리는 횟수를 줄이는 데서 결정된다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">Claude Fable 5.1</span><span class="chip">GPT-6 Astra</span><span class="chip">Codex</span><span class="chip">멀티에이전트</span><span class="chip">모델 라우팅</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://openai.com/index/gpt-6-astra/" rel="nofollow noopener">https://openai.com/index/gpt-6-astra/</a></li><li><a href="https://openai.com/index/gpt-6-astra-next-generation-work/" rel="nofollow noopener">https://openai.com/index/gpt-6-astra-next-generation-work/</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-6-astra" rel="nofollow noopener">https://developers.openai.com/api/docs/models/gpt-6-astra</a></li><li><a href="https://developers.openai.com/api/docs/pricing" rel="nofollow noopener">https://developers.openai.com/api/docs/pricing</a></li><li><a href="https://developers.openai.com/codex/guides/agents-md" rel="nofollow noopener">https://developers.openai.com/codex/guides/agents-md</a></li><li><a href="https://www.anthropic.com/news/claude-fable-5-1" rel="nofollow noopener">https://www.anthropic.com/news/claude-fable-5-1</a></li><li><a href="https://docs.anthropic.com/en/docs/about-claude/models" rel="nofollow noopener">https://docs.anthropic.com/en/docs/about-claude/models</a></li><li><a href="https://docs.anthropic.com/en/docs/about-claude/pricing" rel="nofollow noopener">https://docs.anthropic.com/en/docs/about-claude/pricing</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>GPT-6 Astra와 Claude Fable 5.1을 Claude Code에서 함께 쓸 수 있나?</h2><p class="sum">Claude Code의 커스텀 서브에이전트는 Claude 계열 모델을 지정한다. Astra를 함께 쓰려면 Codex를 별도로 실행하거나 양쪽 API를 연결하는 오케스트레이터가 필요하다.</p></article><article class="dcard"><div class="t">Q</div><h2>모델별 역할분담은 항상 토큰 비용을 줄이나?</h2><p class="sum">항상 그렇지는 않다. 각 모델에 전체 저장소와 대화를 중복 제공하면 더 비싸질 수 있으며, 짧고 고정된 인수인계 문서로 컨텍스트를 분리해야 효과가 난다.</p></article><article class="dcard"><div class="t">Q</div><h2>Astra와 Fable 사이에는 어떤 파일을 전달해야 하나?</h2><p class="sum">기능 범위, 설계, 작업 목록, 완료 조건을 각각 문서로 고정하는 방식이 실용적이다. 구현 모델에는 결정이 끝난 내용만 전달하고, 검수 모델에는 diff와 테스트 결과를 함께 제공한다.</p></article></div>

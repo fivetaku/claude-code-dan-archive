@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Code로 만든 그늘로, 복제 논쟁보다 중요한 실행의 조건 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="Claude Code와 Codex로 만든 그늘로의 실제 제작 순서와 공공데이터 전처리, Shadowmap·직방과의 차이, 출시 뒤 정확도와 책임의 한계를 짚었다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/resources/claude-code-shade-route-app.html">
 <meta property="og:title" content="Claude Code로 만든 그늘로, 복제 논쟁보다 중요한 실행의 조건">
@@ -226,7 +225,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-shade-route-app.png" alt="Claude Code로 만든 그늘로, 복제 논쟁보다 중요한 실행의 조건" loading="eager">
 <header>
@@ -260,7 +259,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>그늘 지도는 현실의 근사치다. 새 건물이나 가지치기된 나무가 데이터에 늦게 반영될 수 있다. 구름, 공사 가림막, 건물 출입 제한도 계산과 실제 보행을 어긋나게 한다. 공식 사이트도 방범시설 정보가 현장과 다를 수 있고 안전을 보장하지 않는다고 밝힌다.</p>
 <p>써본 사람들 사이에서는 반려견 산책과 유모차 이동에 도움이 됐다는 반응이 있었다. 동시에 색 구분처럼 작은 UX 문제가 경로 이해를 막는다는 지적도 나왔다. 생활 밀착형 앱은 알고리즘보다 현장 피드백에서 더 빨리 완성도가 드러난다.</p>
 <p>시기와 질투로 모든 비판을 설명하면 검증할 질문까지 놓친다. 반대로 비슷한 해외 도구가 있다는 이유로 국내 데이터 통합과 배포를 지우면 제품의 핵심 노동을 놓친다. 그늘로가 남긴 판단은 더 분명하다. 바이브코딩 시대의 경쟁력은 최초의 발상이 아니라, 불균일한 현실 데이터를 책임질 수 있는 작동하는 서비스다.</p></div>
-<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">Codex</span><span class="chip">그늘로</span><span class="chip">바이브코딩</span><span class="chip">공공데이터</span><span class="chip">그늘길</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://ttubeok.com/" rel="nofollow noopener">https://ttubeok.com/</a></li><li><a href="https://toss.im/apps-in-toss/blog/geuneulro" rel="nofollow noopener">https://toss.im/apps-in-toss/blog/geuneulro</a></li><li><a href="https://www.donga.com/news/amp/all/20260807/134438956/4" rel="nofollow noopener">https://www.donga.com/news/amp/all/20260807/134438956/4</a></li><li><a href="https://news.sbs.co.kr/news/endPage.do?cooper=SBSNEWSEND&amp;news_id=N1008692149" rel="nofollow noopener">https://news.sbs.co.kr/news/endPage.do?cooper=SBSNEWSEND&amp;news_id=N1008692149</a></li><li><a href="https://company.zigbang.com/what-we-do/real-estate-service" rel="nofollow noopener">https://company.zigbang.com/what-we-do/real-estate-service</a></li><li><a href="https://shadowmap.org/" rel="nofollow noopener">https://shadowmap.org/</a></li><li><a href="https://www.who.int/europe/news-room/fact-sheets/item/keepcool-in-the-heat" rel="nofollow noopener">https://www.who.int/europe/news-room/fact-sheets/item/keepcool-in-the-heat</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>그늘로 앱은 어떻게 그늘길을 찾나요?</h2><p class="sum">출발 시각의 태양 고도와 방향, 건물 형태·높이, 지원 지역의 가로수 데이터를 결합해 그림자를 계산합니다. 최단 경로와 그늘이 많은 경로를 비교해 보여줍니다.</p></article><article class="dcard"><div class="t">Q</div><h2>그늘로는 Claude Code만으로 만들었나요?</h2><p class="sum">공개 인터뷰에 따르면 Claude Code와 Codex를 함께 사용했습니다. 기획과 하위 구현 작업을 나눴지만, 공공데이터 수집·전처리와 지역별 품질 조정은 개발자가 직접 다뤘습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Shadowmap이나 직방 일조량 기능과 무엇이 다른가요?</h2><p class="sum">Shadowmap과 직방은 특정 장소나 건물의 시간별 일조를 분석하는 데 무게가 있습니다. 그늘로는 출발 시각과 이동 방향을 반영해 보행 경로와 대중교통 좌석을 추천합니다.</p></article></div>
