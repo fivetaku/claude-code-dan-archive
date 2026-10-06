@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>한국어 AI 음성, 실시간 대화와 TTS 중 무엇을 골라야 할까</title>
+    <link>https://chat.axwith.com/mag/models/korean-ai-voice-realtime-tts-comparison.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/korean-ai-voice-realtime-tts-comparison.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Wed, 07 Oct 2026 12:00:00 +0900</pubDate>
+    <description>한국어 음성 서비스를 만들거나 내레이션을 제작할 때 실시간 음성 모델과 TTS는 어떻게 다를까. 주요 업체의 지원 범위와 비용 구조, 직접 품질을 검증하는 방법을 살폈다.</description>
+  </item>
+  <item>
+    <title>Codex와 GPT-6 Astra가 50% 빨라졌다는데 왜 작업은 여전히 느릴까</title>
+    <link>https://chat.axwith.com/mag/tools/codex-astra-speed-task-latency.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/codex-astra-speed-task-latency.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Wed, 07 Oct 2026 12:00:00 +0900</pubDate>
+    <description>OpenAI는 GPT-6 Astra와 GPT-6.1 Sol의 기본 텍스트 생성 속도가 약 50% 높아졌다고 밝혔다. Codex 작업이 여전히 느리게 느껴지는 이유와 모델·속도 설정별 사용량 차이를 살폈다.</description>
+  </item>
+  <item>
     <title>전 직원이 AI를 쓰면 AX 성공일까: 역량 평가와 성과 검증법</title>
     <link>https://chat.axwith.com/mag/troubleshooting/verify-ai-transformation-outcomes.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/verify-ai-transformation-outcomes.html</guid>
@@ -227,21 +243,5 @@
     <category>배포·운영</category>
     <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
     <description>실시간 통역툴을 Fly.io에 배포하는 방법과 비용 구조를 살펴본다. Cloudflare·Hostinger와 비교하고 동시 통화량에 맞춘 서버 선택 기준도 제시한다.</description>
-  </item>
-  <item>
-    <title>Claude Code로 MVP 만들 때 설계는 어디까지 해야 하나</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-mvp-planning-workflow.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code로 MVP를 만들 때 필요한 설계 범위와 CLAUDE.md, Plan Mode, 검증 기준, 작은 스키마 변경을 연결하는 단계별 개발법을 살펴본다.</description>
-  </item>
-  <item>
-    <title>Claude Code 골잡이 사용법: PRD를 /goal 실행 계약으로 바꾸기</title>
-    <link>https://chat.axwith.com/mag/resources/claude-code-goaljaby-prd-goal.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/claude-code-goaljaby-prd-goal.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
-    <description>골잡이(goaljaby)의 설치법과 다섯 가지 산출물, 승인 절차를 분석하고 기본 /goal 명령과 무엇이 다른지 설명한다.</description>
   </item>
 </channel></rss>

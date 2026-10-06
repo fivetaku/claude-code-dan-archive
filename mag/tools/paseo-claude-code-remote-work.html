@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Code 원격 작업, CLI 사용자에게 Pase오가 필요한 순간 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="Paseo로 Claude Code와 Codex를 원격 관리하는 설치법, 워크트리 운용법, 보안 조건을 살펴보고 공식 원격 기능과의 차이를 짚었다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/tools/paseo-claude-code-remote-work.html">
 <meta property="og:title" content="Claude Code 원격 작업, CLI 사용자에게 Pase오가 필요한 순간">
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/paseo-claude-code-remote-work.png" alt="Claude Code 원격 작업, CLI 사용자에게 Pase오가 필요한 순간" loading="eager">
 <header>
@@ -262,7 +263,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>실사용자들은 외출 중 진행 상황을 보고 승인할 수 있다는 점을 높게 평가한다. 반면 업데이트가 잦은 도구답게 간헐적인 UI 문제와 provider별 기능 차이가 불편하다는 반응도 있다. 하위 에이전트가 막혔을 때 세부 상태를 파악하기 어렵다는 경험도 나온다.</p>
 <p>터미널 한두 개로 충분하고 Claude Code만 쓴다면 공식 Remote Control이 더 짧은 경로다. 기존 CLI 습관을 버릴 필요도 없다. Paseo 안에서도 터미널을 열고 <code>claude</code>나 <code>codex</code>를 그대로 실행할 수 있다.</p>
 <p>선택이 달라지는 지점은 세션이 아니라 작업을 관리하기 시작할 때다. 세 기능을 별도 worktree에서 돌리고 Claude와 Codex를 역할별로 나누며 이동 중 권한 요청과 diff를 확인한다면 Paseo는 GUI 장식이 아니다. 그때부터 관리해야 할 대상은 대화창이 아니라 여러 작업의 생명주기다.</p></div>
-
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Paseo</span><span class="chip">Claude Code</span><span class="chip">Codex CLI</span><span class="chip">코딩 에이전트</span><span class="chip">Git worktree</span><span class="chip">원격 개발</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://paseo.sh/docs" rel="nofollow noopener">https://paseo.sh/docs</a></li><li><a href="https://paseo.sh/docs/cli" rel="nofollow noopener">https://paseo.sh/docs/cli</a></li><li><a href="https://paseo.sh/docs/workspaces" rel="nofollow noopener">https://paseo.sh/docs/workspaces</a></li><li><a href="https://paseo.sh/docs/worktrees" rel="nofollow noopener">https://paseo.sh/docs/worktrees</a></li><li><a href="https://paseo.sh/docs/connectivity" rel="nofollow noopener">https://paseo.sh/docs/connectivity</a></li><li><a href="https://paseo.sh/docs/security" rel="nofollow noopener">https://paseo.sh/docs/security</a></li><li><a href="https://paseo.sh/docs/claude-code" rel="nofollow noopener">https://paseo.sh/docs/claude-code</a></li><li><a href="https://paseo.sh/docs/codex" rel="nofollow noopener">https://paseo.sh/docs/codex</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Paseo를 쓰면 Claude Code를 다시 설치해야 하나요?</h2><p class="sum">Paseo가 실행될 컴퓨터에 Claude Code CLI가 설치되고 로그인돼 있어야 합니다. Paseo는 기존 CLI와 인증을 사용하며 Claude Code 자체를 포함하지 않습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Paseo와 Claude Code Remote Control의 차이는 무엇인가요?</h2><p class="sum">Remote Control은 실행 중인 Claude Code 세션을 다른 기기에서 이어 쓰는 공식 기능입니다. Paseo는 Claude Code뿐 아니라 Codex 등 여러 provider와 workspace, worktree를 한 인터페이스에서 관리합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Paseo로 여러 코딩 에이전트를 안전하게 병렬 실행하려면 어떻게 하나요?</h2><p class="sum">작업마다 Git worktree 기반 workspace를 만들고 provider 권한을 제한하는 편이 좋습니다. 원격 daemon에는 비밀번호를 설정하고 relay, VPN 또는 SSH처럼 암호화된 연결을 사용해야 합니다.</p></article></div>

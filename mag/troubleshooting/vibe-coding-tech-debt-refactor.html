@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>바이브코딩 기술부채, 리뷰 반복 대신 리팩토링해야 하는 이유 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="서버 데몬이 데이터 변환 중 계속 실패하는데 적대적 리뷰를 반복해도 못 잡는다면, 리뷰가 아니라 설계 문제일 수 있다. 언제 리팩토링·재설계로 넘어가야 하는지 조사와 실제 경험을 엮어 짚는다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/vibe-coding-tech-debt-refactor.html">
 <meta property="og:title" content="바이브코딩 기술부채, 리뷰 반복 대신 리팩토링해야 하는 이유">
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/vibe-coding-tech-debt-refactor.png" alt="바이브코딩 기술부채, 리뷰 반복 대신 리팩토링해야 하는 이유" loading="eager">
 <header>
@@ -260,7 +261,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>같은 리뷰 도구가 같은 파일에서 세 번 이상 비슷한 지적을 반복한다면 그 자체를 신호로 삼을 만하다. 프롬프트를 더 정교하게 다듬기보다 그 파일이 속한 모듈의 설계를 다시 열어보는 편이 비용이 덜 든다. 방에서 공유된 경험도 이 판단과 같은 방향을 가리켰다.</p>
 <p>새 기능을 바이브코딩으로 빠르게 붙이기 전에 플랜 모드든 별도 스펙 문서든, 코드를 쓰기 전 단계를 하나 끼워 넣는 편이 낫다. 인력이 적을수록 쌓인 기술부채를 나중에 되짚어 이해할 사람도 적다는 점에서, 초기 설계 투자의 효과는 팀 규모가 작을수록 오히려 크다.</p>
 <p>적대적 리뷰를 세 라운드째 돌리고도 같은 데몬이 같은 자리에서 죽는다면, 네 번째 리뷰보다 설계 문서를 다시 펴보는 쪽이 더 짧은 경로였다는 게 이번 사례가 남긴 판단이다.</p></div>
-
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">적대적 리뷰</span><span class="chip">바이브코딩</span><span class="chip">기술부채</span><span class="chip">리팩토링</span><span class="chip">클로드 코드</span><span class="chip">코드 리뷰</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.gitclear.com/ai_assistant_code_quality_2025_research" rel="nofollow noopener">https://www.gitclear.com/ai_assistant_code_quality_2025_research</a></li><li><a href="https://stackoverflow.blog/2026/02/18/closing-the-developer-ai-trust-gap/" rel="nofollow noopener">https://stackoverflow.blog/2026/02/18/closing-the-developer-ai-trust-gap/</a></li><li><a href="https://survey.stackoverflow.co/2025/ai/" rel="nofollow noopener">https://survey.stackoverflow.co/2025/ai/</a></li><li><a href="https://agileforall.com/ward-cunninghams-debt-metaphor-isnt-a-metaphor/" rel="nofollow noopener">https://agileforall.com/ward-cunninghams-debt-metaphor-isnt-a-metaphor/</a></li><li><a href="https://code.claude.com/docs/en/best-practices" rel="nofollow noopener">https://code.claude.com/docs/en/best-practices</a></li><li><a href="https://techdebt.best/rewrite-vs-refactor/" rel="nofollow noopener">https://techdebt.best/rewrite-vs-refactor/</a></li><li><a href="https://arxiv.org/pdf/2607.07980" rel="nofollow noopener">https://arxiv.org/pdf/2607.07980</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>적대적 리뷰란 무엇인가?</h2><p class="sum">코드를 작성한 AI 에이전트와는 별도로 리뷰어 역할을 맡은 AI 에이전트가 그 결과물을 공격적으로 검증하는 방식이다. 로직 오류·보안 문제·예외 상황을 잡아내는 게 목적이며, 표준·풀 구성 등 여러 구현이 커뮤니티 도구로 공유돼 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>코드 리뷰를 반복해도 버그가 계속 나오면 무엇을 먼저 봐야 하나?</h2><p class="sum">같은 파일이나 같은 실패 지점에서 지적이 반복되는지부터 확인해야 한다. 반복된다면 리뷰의 문제가 아니라 그 코드가 속한 모듈의 설계 자체가 잘못됐을 가능성이 크므로, 리뷰보다 리팩토링이나 재설계를 검토하는 편이 낫다.</p></article><article class="dcard"><div class="t">Q</div><h2>리팩토링과 재작성 중 무엇을 골라야 하나?</h2><p class="sum">비즈니스 로직은 타당한데 코드 품질만 나쁘다면 리팩토링으로 충분하다. 로직 자체가 잘못됐거나 구조가 매 변경마다 저항한다면 재작성을 검토해야 하지만, 재작성은 실패율이 높다는 업계 추정이 있어 비용을 넉넉히 잡아야 한다.</p></article></div>

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Code 바이브코딩 표준화, 프롬프트보다 검증을 고정하라 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="Claude Code로 바이브코딩을 표준화할 때 모델·프롬프트 통일만으로 부족한 이유와 CLAUDE.md, 훅, 검증 스크립트, CI를 연결해 재현성과 품질을 관리하는 방법을 설명한다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-vibe-coding-standardization.html">
 <meta property="og:title" content="Claude Code 바이브코딩 표준화, 프롬프트보다 검증을 고정하라">
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-vibe-coding-standardization.png" alt="Claude Code 바이브코딩 표준화, 프롬프트보다 검증을 고정하라" loading="eager">
 <header>
@@ -257,7 +258,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>평가는 두 패치의 문자 일치율이 아니라 수용 조건 통과율로 한다. 대표 과제를 반복 실행해 기능 테스트, 보안 검사, 재작업 여부, 시간과 비용을 기록한다. 모델이나 하네스를 바꿀 때는 같은 과제 묶음으로 전후 분포를 비교해야 한다. 한 번 성공한 데모는 운영 표준의 증거가 아니다.</p>
 <p>써본 사람들 사이에서는 긴 <code>CLAUDE.md</code>가 중요한 규칙을 희석한다는 불만도 있다. 짧은 불변 규칙은 문서에 둔다. 반드시 지킬 조건은 훅과 CI로 옮겼더니 관리가 쉬워졌다는 반응이 함께 나온다. 테스트를 먼저 실패시킨다. AI가 만든 테스트도 코드처럼 검토해야 한다는 팁도 반복된다.</p>
 <p>개인 개발자와 소규모 팀에도 이 구분은 실용적이다. 하네스를 전사 제품처럼 만들 필요는 없다. 하나의 검증 스크립트와 보호 훅, 독립 CI만 있어도 모델 교체 비용이 줄어든다. 바이브코딩의 표준은 같은 답을 복제하는 문서가 아니라, 다른 답이 나와도 같은 품질선을 통과하게 만드는 실행 체계다.</p></div>
-
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">바이브코딩</span><span class="chip">CLAUDE.md</span><span class="chip">Claude Code Hooks</span><span class="chip">개발 표준화</span><span class="chip">AI 코딩 에이전트</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/configuration" rel="nofollow noopener">https://code.claude.com/docs/en/configuration</a></li><li><a href="https://code.claude.com/docs/en/admin-setup" rel="nofollow noopener">https://code.claude.com/docs/en/admin-setup</a></li><li><a href="https://code.claude.com/docs/en/hooks" rel="nofollow noopener">https://code.claude.com/docs/en/hooks</a></li><li><a href="https://code.claude.com/docs/en/hooks-guide" rel="nofollow noopener">https://code.claude.com/docs/en/hooks-guide</a></li><li><a href="https://code.claude.com/docs/en/headless" rel="nofollow noopener">https://code.claude.com/docs/en/headless</a></li><li><a href="https://www.anthropic.com/engineering/building-effective-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/building-effective-agents</a></li><li><a href="https://discovery.ucl.ac.uk/id/eprint/10198256/" rel="nofollow noopener">https://discovery.ucl.ac.uk/id/eprint/10198256/</a></li><li><a href="https://arxiv.org/abs/2602.07150" rel="nofollow noopener">https://arxiv.org/abs/2602.07150</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code에서 같은 프롬프트를 쓰면 같은 코드가 나오나요?</h2><p class="sum">보장되지 않는다. 모델과 effort를 고정해도 도구 호출, 저장소 상태, 누적 문맥과 추론 경로가 달라져 다른 패치가 나올 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>바이브코딩 표준화에서 가장 먼저 고정할 것은 무엇인가요?</h2><p class="sum">완료 조건과 이를 검사하는 단일 검증 명령을 먼저 고정한다. 이후 <code>CLAUDE.md</code>, 권한, 훅, CI가 같은 기준을 실행하도록 연결한다.</p></article><article class="dcard"><div class="t">Q</div><h2>CLAUDE.md만으로 팀 개발 규칙을 강제할 수 있나요?</h2><p class="sum"><code>CLAUDE.md</code>는 프로젝트 문맥과 지침을 공유하는 데 적합하지만 강제 장치는 아니다. 금지 행동과 테스트 통과처럼 반드시 지킬 조건은 권한 규칙, command 훅, CI로 집행해야 한다.</p></article></div>

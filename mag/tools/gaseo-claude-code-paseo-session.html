@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>가세오는 왜 Claude Code 세션을 Paseo로 옮기는가 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="가세오는 기존 Claude Code 세션을 Paseo에 등록하는 연결 도구다. 설치 과정과 세션 탐색 방식, 공식 Remote Control과의 차이를 분석했다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/tools/gaseo-claude-code-paseo-session.html">
 <meta property="og:title" content="가세오는 왜 Claude Code 세션을 Paseo로 옮기는가">
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/gaseo-claude-code-paseo-session.png" alt="가세오는 왜 Claude Code 세션을 Paseo로 옮기는가" loading="eager">
 <header>
@@ -262,7 +263,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>가세오가 유용한 순간은 분명하다. 작업은 습관대로 터미널에서 시작했지만 이후에는 휴대전화에서 질문에 답하거나 다른 컴퓨터에서 진행 상황을 확인해야 할 때다. 세션 내용을 다시 설명하거나 Paseo에서 새 대화를 만드는 대신 <code>/gaseo</code> 한 번으로 기존 문맥을 이어간다.</p>
 <p>설치 전에는 세 가지를 확인해야 한다. Claude Code CLI가 정상 작동해야 하고 Paseo 데몬이 떠 있어야 하며 사용 중인 터미널에서 <code>paseo status</code>가 성공해야 한다. 원격 연결에는 Paseo의 종단간 암호화 릴레이나 로컬 네트워크, 별도 VPN 같은 경로를 선택할 수 있다.</p>
 <p>가세오는 대형 오케스트레이터가 아니다. 모델을 바꾸거나 작업을 병렬화하는 대신 사용자가 이미 만든 대화를 올바른 관리 화면에 등록한다. 공식 원격 기능이 생긴 뒤에도 가세오가 남기는 질문은 선명하다. 개발 도구의 경쟁력은 더 많은 에이전트를 띄우는 데만 있지 않다. 지금 작업 중인 세션을 다음 화면으로 얼마나 손실 없이 넘기느냐에도 달려 있다.</p></div>
-
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">가세오</span><span class="chip">Claude Code</span><span class="chip">Paseo</span><span class="chip">코딩 에이전트</span><span class="chip">Claude Code 플러그인</span><span class="chip">원격 개발</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/fivetaku/gaseo" rel="nofollow noopener">https://github.com/fivetaku/gaseo</a></li><li><a href="https://paseo.sh/docs" rel="nofollow noopener">https://paseo.sh/docs</a></li><li><a href="https://paseo.sh/docs/claude-code" rel="nofollow noopener">https://paseo.sh/docs/claude-code</a></li><li><a href="https://paseo.sh/docs/cli" rel="nofollow noopener">https://paseo.sh/docs/cli</a></li><li><a href="https://paseo.sh/docs/connectivity" rel="nofollow noopener">https://paseo.sh/docs/connectivity</a></li><li><a href="https://paseo.sh/docs/security" rel="nofollow noopener">https://paseo.sh/docs/security</a></li><li><a href="https://docs.anthropic.com/en/docs/claude-code/remote-control" rel="nofollow noopener">https://docs.anthropic.com/en/docs/claude-code/remote-control</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>가세오로 Claude Code 세션을 Paseo에 등록하는 방법은?</h2><p class="sum">Claude Code에서 가세오가 포함된 플러그인 마켓플레이스를 추가하고 <code>/plugin install gaseo</code>를 실행한 뒤 재시작한다. Paseo 데몬이 실행 중인 상태에서 작업 세션에 <code>/gaseo</code>를 입력하면 된다.</p></article><article class="dcard"><div class="t">Q</div><h2>가세오는 Claude Code 대화 기록을 복사하나?</h2><p class="sum">저장소 설명상 대화 파일을 복사하지 않는다. Paseo에 Claude Code 세션 ID를 가리키는 레코드를 만들어 기존 기록을 이어서 사용한다.</p></article><article class="dcard"><div class="t">Q</div><h2>가세오와 Claude Code Remote Control의 차이는 무엇인가?</h2><p class="sum">Remote Control은 Claude Code 세션을 공식 모바일·웹 화면에서 잇는 기능이다. 가세오는 기존 세션을 여러 코딩 에이전트를 관리하는 Paseo 워크플로에 편입하는 데 초점을 둔다.</p></article></div>

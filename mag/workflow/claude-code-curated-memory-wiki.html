@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Code 기업 메모리, 문서 30개보다 큐레이션이 먼저다 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="회사 문서를 Claude Code에 전부 넣지 않고 CLAUDE.md, Auto Memory, RAG, MCP로 선별 연결하는 방법과 권한 경계 설계를 정리했다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-curated-memory-wiki.html">
 <meta property="og:title" content="Claude Code 기업 메모리, 문서 30개보다 큐레이션이 먼저다">
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-curated-memory-wiki.png" alt="Claude Code 기업 메모리, 문서 30개보다 큐레이션이 먼저다" loading="eager">
 <header>
@@ -258,7 +259,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>운영 지표는 문서 개수가 아니라 실패 원인을 보여줘야 한다. 정답 문서가 검색됐는지, 만료 문서가 섞였는지, 권한 밖 자료가 후보에 올랐는지 기록한다. 대표 질문 세트를 두고 색인 갱신 전후의 답과 출처를 비교한다.</p>
 <p>정답 본문과 접근 가능한 역할도 대표 질문에 함께 기록한다. 검색 실패와 생성 실패를 나누면 어느 층을 고쳐야 할지 드러난다. 정기 점검에서는 사용되지 않은 항목과 오래된 요약을 제거한다.</p>
 <p>현장에서는 상시 규칙, 장기 지식, 이번 작업 상태를 분리한 뒤 혼선이 줄었다는 의견이 반복된다. 반드시 지켜야 할 절차는 메모리에 맡기지 않고 훅이나 자동 검사로 옮겼다는 팁도 있다. 좋은 기업 메모리는 많이 기억하는 위키가 아니라, 지금 필요한 사실만 안전하게 꺼내고 틀린 기억을 빨리 버리는 시스템이다.</p></div>
-
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">CLAUDE.md</span><span class="chip">Auto Memory</span><span class="chip">RAG</span><span class="chip">MCP</span><span class="chip">소형 LLM</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/memory" rel="nofollow noopener">https://code.claude.com/docs/en/memory</a></li><li><a href="https://code.claude.com/docs/en/mcp" rel="nofollow noopener">https://code.claude.com/docs/en/mcp</a></li><li><a href="https://code.claude.com/docs/en/permissions" rel="nofollow noopener">https://code.claude.com/docs/en/permissions</a></li><li><a href="https://code.claude.com/docs/en/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/en/sub-agents</a></li><li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agent</a></li><li><a href="https://www.anthropic.com/engineering/contextual-retrieval" rel="nofollow noopener">https://www.anthropic.com/engineering/contextual-retrieval</a></li><li><a href="https://aclanthology.org/2024.tacl-1.9/" rel="nofollow noopener">https://aclanthology.org/2024.tacl-1.9/</a></li><li><a href="https://papers.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html" rel="nofollow noopener">https://papers.neurips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code의 CLAUDE.md는 몇 줄이 적당한가?</h2><p class="sum">Anthropic 공식 문서는 파일당 200줄 미만을 목표로 권한다. 모든 참고 자료를 넣기보다 상시 규칙과 색인만 남기고, 세부 내용은 경로별 rules나 Skill로 분리하는 편이 낫다.</p></article><article class="dcard"><div class="t">Q</div><h2>소형 LLM 위키를 만들 때 RAG가 꼭 필요한가?</h2><p class="sum">지식 묶음이 작고 안정적이면 전체 입력이나 Markdown 색인으로도 시작할 수 있다. 문서가 자주 바뀌거나 권한별 검색이 필요하면 RAG와 MCP를 붙이는 편이 관리하기 쉽다.</p></article><article class="dcard"><div class="t">Q</div><h2>에이전트별 문서 접근 범위는 CLAUDE.md로 막을 수 있나?</h2><p class="sum">CLAUDE.md는 행동 지침이지 보안 장치가 아니다. Claude Code permissions와 sandbox, MCP 서버 인증, 원본 데이터 권한 검증을 함께 적용해야 한다.</p></article></div>

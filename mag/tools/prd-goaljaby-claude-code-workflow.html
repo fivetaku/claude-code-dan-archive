@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>show-me-the-prd와 골잡이, PRD를 실제 구현으로 잇는 법 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="show-me-the-prd로 PRD 묶음을 만들고 골잡이로 검증·복구·진행 문서를 구성해 Claude Code의 /goal 실행까지 연결하는 과정을 살펴본다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/tools/prd-goaljaby-claude-code-workflow.html">
 <meta property="og:title" content="show-me-the-prd와 골잡이, PRD를 실제 구현으로 잇는 법">
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/prd-goaljaby-claude-code-workflow.png" alt="show-me-the-prd와 골잡이, PRD를 실제 구현으로 잇는 법" loading="eager">
 <header>
@@ -262,7 +263,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <h2>PRD가 실행 문서가 되려면 실패 조건부터 적어야 한다</h2>
 <p>show-me-the-prd만 사용하면 제품의 모습과 개발 순서가 선명해진다. 골잡이까지 연결하면 테스트 방법, 범위 잠금, 재시도 한도와 진행 기록이 추가된다. 두 도구의 역할은 겹치지 않는다. 앞쪽은 사람의 모호한 생각을 구조화한다. 뒤쪽은 그 구조를 <code>/goal</code>이 판정할 조건으로 번역한다.</p>
 <p>다만 문서 체인이 코드 품질을 보장하지는 않는다. 잘못 고른 데이터 모델이나 허술한 테스트도 자동으로 반복될 수 있다. 이 과정의 성패를 가르는 질문은 “PRD를 얼마나 자세히 썼는가”가 아니다. 실패했을 때 멈추고 수정해야 할 신호를 문서 안에 얼마나 분명히 넣었는가다.</p></div>
-
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">show-me-the-prd</span><span class="chip">골잡이</span><span class="chip">goaljaby</span><span class="chip">PRD</span><span class="chip">Agent Skills</span><span class="chip">바이브코딩</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/fivetaku/show-me-the-prd" rel="nofollow noopener">https://github.com/fivetaku/show-me-the-prd</a></li><li><a href="https://github.com/fivetaku/goaljaby" rel="nofollow noopener">https://github.com/fivetaku/goaljaby</a></li><li><a href="https://code.claude.com/docs/en/goal" rel="nofollow noopener">https://code.claude.com/docs/en/goal</a></li><li><a href="https://code.claude.com/docs/en/skills" rel="nofollow noopener">https://code.claude.com/docs/en/skills</a></li><li><a href="https://code.claude.com/docs/en/plugins" rel="nofollow noopener">https://code.claude.com/docs/en/plugins</a></li><li><a href="https://code.claude.com/docs/en/worktrees" rel="nofollow noopener">https://code.claude.com/docs/en/worktrees</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>show-me-the-prd와 골잡이는 무엇이 다른가요?</h2><p class="sum">show-me-the-prd는 아이디어를 PRD, 데이터 모델, 단계 계획, AI용 프로젝트 명세로 정리한다. 골잡이는 그 문서에 검증 조건과 복구 규칙을 붙여 Claude Code의 <code>/goal</code> 실행 형식으로 바꾼다.</p></article><article class="dcard"><div class="t">Q</div><h2>골잡이 없이 PRD만 Claude Code에 주면 안 되나요?</h2><p class="sum">직접 구현을 요청할 수는 있다. 다만 종료를 판정할 검사법, 수정 금지 범위, 실패 뒤 재시도 규칙을 PRD에 별도로 명시해야 장시간 실행의 이탈을 줄일 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>여러 Claude Code 작업을 병렬 실행해도 되나요?</h2><p class="sum">가능하지만 동일한 작업 디렉터리를 함께 수정하면 충돌할 수 있다. 공식 worktree 기능으로 세션별 파일과 브랜치를 분리하고, 결과를 검토한 뒤 병합하는 편이 안전하다.</p></article></div>

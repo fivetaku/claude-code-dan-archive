@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="클로드코드처럼 파일에 장기 기억을 쌓는 에이전트가 늘면서 메모리 붕괴 사례가 늘고 있다. 최신 arXiv 연구와 클코단 실사용 경험으로 원인과 대안을 짚었다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/workflow/ai-agent-memory-collapse.html">
 <meta property="og:title" content="AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가">
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/ai-agent-memory-collapse.png" alt="AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가" loading="eager">
 <header>
@@ -247,7 +248,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>메모리 벤더 mem0가 올해 4월 내놓은 토큰 효율 알고리즘은 시간·다중홉 질의에서 정확도를 큰 폭으로 끌어올리면서도 검색 호출당 토큰 사용량을 전체 컨텍스트 방식 대비 크게 줄였다고 발표했다. 방향은 뚜렷하다. 모든 걸 다 기억하는 게 아니라, 무엇을 남기고 무엇을 지울지 판단하는 능력이 메모리 시스템의 핵심 경쟁력이 됐다. 실무에서 확인되는 패턴도 비슷하다. 작업 후 요약 에이전트가 배운 것을 추출하면, 사람이 그 내용을 장기 기억에 커밋할지 검토하는 게이트를 거친 뒤에야 별도의 메모리 기록 에이전트가 이를 저장한다. 이 휴먼인더루프 게이트는 메모리 포이즈닝 위험에 대한 현실적인 대응으로 꼽힌다.</p>
 <h2>결론: 큐레이션은 결국 사람의 몫이다</h2>
 <p>클코단 논의는 도서관 비유로 정리됐다. 데이터가 아무리 많아도 실제로 꺼내 쓰는 건 극소수이므로, 무엇을 서가에 남기고 무엇을 폐기할지 정하는 큐레이션이 핵심이라는 것이다. 레거시 데이터인지 아닌지는 정해진 규칙이 아니라 실제 피드백과 사람의 검토, 즉 휴먼인더루프 기준으로만 판단할 수 있다는 결론에 이르렀다. 이는 논문이 확인한 &quot;정리 자체는 성능을 보장하지 않는다&quot;는 결과, 그리고 챗GPT·기업 지식관리 도구가 마주한 &quot;오래된 기억이 답을 오염시킨다&quot;는 문제와도 맞닿아 있다. 파일에 기억을 쌓는 방식 자체는 당분간 계속되겠지만, 그 파일을 누가, 어떤 기준으로 솎아낼지에 대한 답은 아직 사람의 판단 밖으로 완전히 넘어가지 못했다.</p></div>
-
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">에이전트 메모리</span><span class="chip">클로드코드</span><span class="chip">CLAUDE.md</span><span class="chip">파일시스템 메모리</span><span class="chip">메모리 포이즈닝</span><span class="chip">컨텍스트 엔지니어링</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>파일시스템 기반 메모리란 무엇인가?</h2><p class="sum">에이전트가 대화가 끝나도 알게 된 정보를 마크다운 파일 등에 직접 쓰고 읽으며 세션 간에 이어가는 방식이다. 앤트로픽의 메모리 툴, 클로드코드의 CLAUDE.md·MEMORY.md 분리 구조가 대표적 사례다.</p></article><article class="dcard"><div class="t">Q</div><h2>메모리 파일은 왜 시간이 지나면 무너지나?</h2><p class="sum">arXiv 2607.26637 연구에 따르면 가장 강력한 관리 에이전트를 제외하곤 시간이 지날수록 정리 상태가 무너졌고, 정리된 저장소조차 실제 답변 품질을 끌어올리지는 못했다. 사람이 주기적으로 큐레이팅하지 않으면 몇 달 안에 못 쓰게 된다는 현업 보고도 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>개인이나 조직이 메모리를 온톨로지로 체계화하면 되지 않나?</h2><p class="sum">온톨로지는 택소노미보다 구축·유지 비용이 훨씬 커 전문 지식 엔지니어가 따로 필요하고, 관계가 늘어날수록 유지보수 부담이 커져 개인이나 소규모 조직이 감당하기 어렵다는 게 중론이다.</p></article></div>

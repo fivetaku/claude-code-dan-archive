@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="Claude Code 단일 세션, 서브에이전트, Agent Teams의 차이를 공식 문서와 실사용 반응으로 비교하고 통제 가능한 하네스의 실전 구성 순서까지 설명한다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/workflow/claude-code-agent-team-guide.html">
 <meta property="og:title" content="Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준">
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-agent-team-guide.png" alt="Claude Code 서브에이전트와 Agent Teams, 세션 셋을 합칠 기준" loading="eager">
 <header>
@@ -255,7 +256,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <h2>에이전트를 늘리기 전에 실패 비용을 계산한다</h2>
 <p>병렬화는 무료가 아니다. Anthropic 비용 문서는 팀원이 계획 모드로 움직일 때 Agent Teams가 표준 세션보다 약 7배 많은 토큰을 쓸 수 있다고 밝힌다. 팀원마다 컨텍스트가 있고, 활동 중인 팀원은 종료 전까지 토큰을 소비한다. 개인 개발자와 소규모 팀에는 속도보다 재작업 비용이 더 큰 작업만 팀으로 넘길 이유가 생긴다.</p>
 <p>복수 에이전트가 유리한 단위는 서로 독립적이며 결과를 합쳐 검증할 수 있어야 한다. 리뷰를 구현과 분리하고, 파일 소유권을 나누고, 실제 테스트를 종료 조건으로 묶으면 에이전트 수가 품질로 이어질 여지가 생긴다. 세션 세 개를 한 팀으로 바꾸는 핵심은 더 많은 대화가 아니라, 충돌하지 않는 책임과 실패를 멈추는 장치다.</p></div>
-
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">Claude Code</span><span class="chip">서브에이전트</span><span class="chip">Agent Teams</span><span class="chip">Claude Code 훅</span><span class="chip">Claude Code 스킬</span><span class="chip">worktree</span></div>
 <section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/agent-teams" rel="nofollow noopener">https://code.claude.com/docs/en/agent-teams</a></li><li><a href="https://code.claude.com/docs/en/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/en/sub-agents</a></li><li><a href="https://code.claude.com/docs/en/agents" rel="nofollow noopener">https://code.claude.com/docs/en/agents</a></li><li><a href="https://code.claude.com/docs/en/hooks-guide" rel="nofollow noopener">https://code.claude.com/docs/en/hooks-guide</a></li><li><a href="https://code.claude.com/docs/en/slash-commands" rel="nofollow noopener">https://code.claude.com/docs/en/slash-commands</a></li><li><a href="https://code.claude.com/docs/en/worktrees" rel="nofollow noopener">https://code.claude.com/docs/en/worktrees</a></li><li><a href="https://code.claude.com/docs/en/costs" rel="nofollow noopener">https://code.claude.com/docs/en/costs</a></li><li><a href="https://code.claude.com/docs/en/changelog" rel="nofollow noopener">https://code.claude.com/docs/en/changelog</a></li></ul></section>
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code 서브에이전트와 Agent Teams는 무엇이 다른가?</h2><p class="sum">서브에이전트는 독립 작업을 수행한 뒤 호출자에게 결과를 반환한다. Agent Teams의 팀원은 별도 컨텍스트와 공유 작업 목록을 쓰며 서로 직접 메시지를 보낸다.</p></article><article class="dcard"><div class="t">Q</div><h2>여러 Claude Code 세션이 같은 파일을 수정해도 안전한가?</h2><p class="sum">같은 체크아웃을 함께 수정하면 충돌 위험이 있다. 세션별로 <code>claude --worktree</code>를 쓰거나 커스텀 서브에이전트에 <code>isolation: worktree</code>를 설정하는 편이 안전하다.</p></article><article class="dcard"><div class="t">Q</div><h2>훅만으로 서브에이전트의 행동을 완전히 통제할 수 있나?</h2><p class="sum">훅은 명령 차단과 완료 검증에 강하지만 설계 판단 전체를 대신하지는 않는다. <code>CLAUDE.md</code>, 스킬, 도구 권한, 성공·중단 조건을 함께 구성해야 한다.</p></article></div>

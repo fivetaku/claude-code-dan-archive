@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한국어 AI 음성, 실시간 대화와 TTS 중 무엇을 골라야 할까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="한국어 음성 서비스를 만들거나 내레이션을 제작할 때 실시간 음성 모델과 TTS는 어떻게 다를까. 주요 업체의 지원 범위와 비용 구조, 직접 품질을 검증하는 방법을 살폈다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/korean-ai-voice-realtime-tts-comparison.html">
+<meta property="og:title" content="한국어 AI 음성, 실시간 대화와 TTS 중 무엇을 골라야 할까">
+<meta property="og:description" content="한국어 음성 서비스를 만들거나 내레이션을 제작할 때 실시간 음성 모델과 TTS는 어떻게 다를까. 주요 업체의 지원 범위와 비용 구조, 직접 품질을 검증하는 방법을 살폈다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/korean-ai-voice-realtime-tts-comparison.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "한국어 AI 음성, 실시간 대화와 TTS 중 무엇을 골라야 할까", "description": "한국어 음성 서비스를 만들거나 내레이션을 제작할 때 실시간 음성 모델과 TTS는 어떻게 다를까. 주요 업체의 지원 범위와 비용 구조, 직접 품질을 검증하는 방법을 살폈다.", "datePublished": "2026-10-07", "dateModified": "2026-10-07", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/korean-ai-voice-realtime-tts-comparison.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "한국어 TTS, 음성 AI, speech-to-speech, 실시간 음성, ElevenLabs, Gemini TTS, OpenAI TTS", "image": "https://chat.axwith.com/mag/hero/korean-ai-voice-realtime-tts-comparison.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Speech-to-speech와 STT→TTS 방식은 어떻게 다른가요?", "acceptedAnswer": {"@type": "Answer", "text": "Speech-to-speech는 음성 입력과 음성 응답을 실시간 세션에서 다룹니다. STT→TTS 방식은 중간에 텍스트가 남아 답변을 확인·수정하거나 각 모델을 교체하기 쉽습니다."}}, {"@type": "Question", "name": "OpenAI TTS는 한국어를 지원하나요?", "acceptedAnswer": {"@type": "Answer", "text": "공식 지원 언어에 한국어가 포함됩니다. 다만 OpenAI는 제공 음성이 영어에 최적화됐다고 밝혀, 실제 한국어 대본으로 발음과 억양을 확인해야 합니다."}}, {"@type": "Question", "name": "한국어 내레이션에 ElevenLabs와 Gemini TTS 중 무엇이 더 좋나요?", "acceptedAnswer": {"@type": "Answer", "text": "두 업체 모두 한국어를 지원하지만, 어느 쪽이 더 자연스러운지는 목소리와 대본에 따라 달라집니다. 같은 문장으로 발음, 긴 구간의 일관성, 재생성 비용을 비교하는 편이 정확합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/korean-ai-voice-realtime-tts-comparison.png" alt="한국어 AI 음성, 실시간 대화와 TTS 중 무엇을 골라야 할까" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>한국어 AI 음성, 실시간 대화와 TTS 중 무엇을 골라야 할까</h1>
+  <p class="sub">Speech-to-speech와 STT→TTS의 차이부터 OpenAI·Google·ElevenLabs의 한국어 음성을 비교할 때 확인할 점까지</p>
+  <div class="meta"><span>2026-10-07</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>한국어 AI 음성을 고를 때 먼저 따질 것은 ‘잘 말하는가’보다 ‘무엇을 해야 하는가’다. 대화 상대가 말을 끊으면 즉시 반응해야 하는 서비스와 정해진 대본을 정확히 읽어야 하는 영상은 출발점이 다르다. 클코단에서도 직접 음성을 처리하는 방식과 STT→TTS 방식의 차이, 자연스러운 한국어 목소리를 어디서 찾을지가 함께 논의됐다.</p>
+<h2>대화할 음성과 대본을 읽을 음성은 구조가 다르다</h2>
+<p>STT→언어 모델→TTS 파이프라인은 사용자의 말을 문자로 바꾸고 답변 문장을 만든 뒤 다시 음성으로 합성한다. 중간 문장을 검사하거나 고치기 쉽고, 각 단계를 다른 업체의 모델로 교체할 수도 있다. 반면 speech-to-speech 방식의 Realtime API는 한 세션에서 입력 음성을 해석하고 음성으로 답하며 끼어들기까지 처리한다. OpenAI는 단계별 제어가 중요한 작업에는 체인 방식을, 음성 대화와 도구 사용을 한 세션에서 다룰 때는 Realtime 방식을 제시한다. (<a href="https://developers.openai.com/api/docs/guides/voice-agents" target="_blank" rel="nofollow noopener">developers.openai.com</a>)</p>
+<p>실시간이라는 이름이 반드시 직접 음성 처리만을 뜻하지는 않는다. STT와 TTS를 이어 붙여도 각 단계의 결과를 스트리밍하면 대기 시간을 줄일 수 있다. 대신 발화가 잘못 인식됐는지, 답변 생성이 늦는지, 합성 음성이 부자연스러운지 따로 확인해야 한다. 고객 응대처럼 답변 문구를 기록·수정해야 한다면 이처럼 단계를 나눠 확인할 수 있는 점이 오히려 장점이다. (<a href="https://developers.openai.com/api/docs/guides/voice-agents" target="_blank" rel="nofollow noopener">developers.openai.com</a>)</p>
+<p>완성된 한국어 대본을 영상에 붙일 때는 입력 음성이 없으므로 STT도 speech-to-speech도 필요 없다. 비교할 것은 TTS 모델과 목소리다. Google 역시 정해진 문장을 읽는 TTS와 자유로운 실시간 대화를 위한 Live API를 다른 용도로 설명한다. (<a href="https://ai.google.dev/gemini-api/docs/speech-generation.md" target="_blank" rel="nofollow noopener">ai.google.dev</a>)</p>
+<h2>GPT TTS의 한국어가 아쉽다는 체감은 어떻게 봐야 하나</h2>
+<p>방에서는 GPT TTS의 한국어 발화가 기대만큼 자연스럽지 않았다는 의견이 나왔다. 다만 특정 모델·목소리·대본을 같은 조건에서 비교한 결과는 아니므로 제품 전체의 품질 판정으로 옮길 수 없다. OpenAI 공식 문서는 TTS 지원 언어에 한국어를 포함하면서도 제공 음성은 현재 영어에 맞춰 최적화됐다고 명시한다. 한국어 지원 여부와 한국어 화자의 귀에 자연스러운지는 다른 질문이다. (<a href="https://developers.openai.com/api/docs/guides/text-to-speech" target="_blank" rel="nofollow noopener">developers.openai.com</a>)</p>
+<p>OpenAI의 <code>gpt-4o-mini-tts</code>는 텍스트를 음성으로 만드는 모델이다. 같은 업체의 실시간 음성 모델을 써보고 받은 인상으로 이 TTS 모델까지 평가해서는 안 된다. 짧은 안내문이라면 숫자, 영문 상표, 조사와 문장 끝 억양이 섞인 실제 문구를 들어봐야 한다. ‘안녕하세요’ 한 문장이 매끄럽다고 서비스의 모든 한국어 문장이 매끄러운 것은 아니다. (<a href="https://developers.openai.com/api/docs/guides/text-to-speech" target="_blank" rel="nofollow noopener">developers.openai.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/korean-ai-voice-realtime-tts-comparison.png" alt="" loading="lazy"><h2>ElevenLabs와 Google, 최신 모델 이름부터 확인해야 한다</h2>
+<p>ElevenLabs는 한국어를 지원한다. 하지만 지원 목록에 있다는 사실만으로 모든 목소리의 한국어 억양이 자연스럽다고 보장할 수는 없다. 업체 설명에 따르면 발음과 억양에는 선택한 목소리의 영향이 크다. Eleven Multilingual v2는 긴 음성의 안정성을, Eleven v4는 표현력을, v4 Turbo는 낮은 지연 시간을 앞세운다. 한국어 내레이션이라면 모델뿐 아니라 한국어에 어울리는 목소리도 골라야 한다. (<a href="https://elevenlabs.io/docs/help-center/product/core-capabilities/text-to-speech/what-languages-can-the-ai-speak" target="_blank" rel="nofollow noopener">elevenlabs.io</a>)</p>
+<p>Google AI Studio에서 TTS를 써봤다는 외부 참고 자료에는 Gemini 3.1 Flash TTS 사용 경험이 담겼다. 그러나 Google의 2026년 9월 출시 안내는 새 작업에 Gemini 3.8 Flash TTS 또는 3.8 Flash-Lite TTS를 사용하도록 안내한다. 두 모델 모두 한국어를 지원한다. Google은 전자를 표현력과 긴 대본에, 후자를 처리량과 비용 효율이 중요한 작업에 배치한다. 예전 체험담의 모델 이름을 현재 선택지로 그대로 옮기면 비교 출발점부터 달라진다. (<a href="https://ai.google.dev/gemini-api/docs/changelog?release=09-18-2026" target="_blank" rel="nofollow noopener">ai.google.dev</a>)</p>
+<p>표현력만 높인다고 해결되는 것도 아니다. 짧은 음성은 생동감이 있어도 여러 조각을 이어 붙이면 목소리의 세기나 말투가 달라져 거슬린다는 사용 경험이 있다. 긴 영상에서 같은 화자가 계속 말해야 한다면 가장 마음에 든 한 문장보다 서로 떨어진 대본 구간을 연달아 생성해 일관성을 들어보는 편이 낫다. (<a href="https://elevenlabs.io/docs/overview/models?trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="nofollow noopener">elevenlabs.io</a>)</p>
+<h2>가성비는 문자 수와 대화 시간을 나눠 계산한다</h2>
+<p>ElevenLabs의 TTS API 가격표는 모델별 입력 문자 1,000자 기준으로 제시된다. Google Gemini TTS는 입력 텍스트와 출력 오디오 토큰을 구분해 과금한다. 실시간 대화에서는 듣는 음성과 내보내는 음성, 세션이 유지되는 방식까지 비용에 영향을 준다. 서로 다른 단위의 가격표에서 숫자 하나만 떼어 ‘가장 싼 모델’을 고를 수 없는 이유다. (<a href="https://elevenlabs.io/pricing/api" target="_blank" rel="nofollow noopener">elevenlabs.io</a>)</p>
+<p>특히 Google의 Live API는 대화가 이어질 때 기존 맥락을 다시 처리해 턴당 비용이 커질 수 있다고 설명한다. ElevenLabs는 API 가격표에 단기 할인도 표시하고 있다. 오래 운영할 서비스라면 할인 가격만으로 예산을 짜지 말아야 한다. 개인 개발자나 작은 팀에는 ‘대본 1,000자당 재생 가능한 결과물 비용’과 ‘완료된 대화 1건당 비용’이 각각 더 쓸모 있는 기준이다. (<a href="https://ai.google.dev/gemini-api/docs/live-api/best-practices" target="_blank" rel="nofollow noopener">ai.google.dev</a>)</p>
+<h2>같은 한국어 문장으로 무엇을 검증할까</h2>
+<p>내레이션을 비교할 때는 실제 사용할 대본에서 짧은 안내, 긴 설명, 숫자·영문 혼용, 감정이 필요한 문장을 뽑는다. 같은 문장을 OpenAI TTS, ElevenLabs, Gemini TTS에 넣고 목소리와 모델명을 기록한다. 처음 생성한 결과뿐 아니라 고쳐 쓴 문장을 다시 만들었을 때의 발음, 문장 연결, 제작 비용까지 살펴야 한다. 목소리를 바꿔가며 나온 최고 결과 한 개만 비교하면 재현하기 어려운 선택이 된다. (<a href="https://developers.openai.com/api/docs/guides/text-to-speech" target="_blank" rel="nofollow noopener">developers.openai.com</a>)</p>
+<p>대화형 서비스라면 동일한 질문을 마이크로 넣고 응답 시작 시간, 중간에 말을 끊었을 때의 처리, 잘못 들은 고유명사의 수정 경로를 기록한다. 체인 방식에서는 STT 기록과 최종 대답 문장을 따로 검토할 수 있다. 직접 음성 처리 방식에서는 실제 대화가 얼마나 자연스럽게 이어지는지가 핵심이다. 한국어 AI 음성의 선택은 단일 품질 순위가 아니라 고정 대본의 발음과 일관성을 살 것인지, 끊김 없는 대화 경험을 살 것인지에서 갈린다. (<a href="https://developers.openai.com/api/docs/guides/voice-agents" target="_blank" rel="nofollow noopener">developers.openai.com</a>)</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">한국어 TTS</span><span class="chip">음성 AI</span><span class="chip">speech-to-speech</span><span class="chip">실시간 음성</span><span class="chip">ElevenLabs</span><span class="chip">Gemini TTS</span><span class="chip">OpenAI TTS</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://developers.openai.com/api/docs/guides/voice-agents" rel="nofollow noopener">https://developers.openai.com/api/docs/guides/voice-agents</a></li><li><a href="https://developers.openai.com/api/docs/guides/text-to-speech" rel="nofollow noopener">https://developers.openai.com/api/docs/guides/text-to-speech</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-4o-mini-tts" rel="nofollow noopener">https://developers.openai.com/api/docs/models/gpt-4o-mini-tts</a></li><li><a href="https://openai.github.io/openai-agents-python/voice/pipeline/" rel="nofollow noopener">https://openai.github.io/openai-agents-python/voice/pipeline/</a></li><li><a href="https://ai.google.dev/gemini-api/docs/speech-generation" rel="nofollow noopener">https://ai.google.dev/gemini-api/docs/speech-generation</a></li><li><a href="https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts" rel="nofollow noopener">https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash-tts</a></li><li><a href="https://ai.google.dev/gemini-api/docs/changelog" rel="nofollow noopener">https://ai.google.dev/gemini-api/docs/changelog</a></li><li><a href="https://ai.google.dev/gemini-api/docs/pricing" rel="nofollow noopener">https://ai.google.dev/gemini-api/docs/pricing</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Speech-to-speech와 STT→TTS 방식은 어떻게 다른가요?</h2><p class="sum">Speech-to-speech는 음성 입력과 음성 응답을 실시간 세션에서 다룹니다. STT→TTS 방식은 중간에 텍스트가 남아 답변을 확인·수정하거나 각 모델을 교체하기 쉽습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>OpenAI TTS는 한국어를 지원하나요?</h2><p class="sum">공식 지원 언어에 한국어가 포함됩니다. 다만 OpenAI는 제공 음성이 영어에 최적화됐다고 밝혀, 실제 한국어 대본으로 발음과 억양을 확인해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>한국어 내레이션에 ElevenLabs와 Gemini TTS 중 무엇이 더 좋나요?</h2><p class="sum">두 업체 모두 한국어를 지원하지만, 어느 쪽이 더 자연스러운지는 목소리와 대본에 따라 달라집니다. 같은 문장으로 발음, 긴 구간의 일관성, 재생성 비용을 비교하는 편이 정확합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-06-0900.html">2026-10-06 10-05 17:50~10-06 08:46</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

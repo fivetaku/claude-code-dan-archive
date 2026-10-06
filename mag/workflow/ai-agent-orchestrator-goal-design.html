@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법 — 클코단 매거진</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
 <meta name="description" content="클로드 코드 오케스트레이터가 지시 이상으로 작업을 확장하는 스코프 크리프 문제와, 멀티턴 프롬프팅 대신 &#x27;골&#x27; 설계가 각광받는 이유를 사실과 실전 경험으로 짚는다.">
 <link rel="canonical" href="https://chat.axwith.com/mag/workflow/ai-agent-orchestrator-goal-design.html">
 <meta property="og:title" content="AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법">
@@ -225,7 +226,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 </head>
 <body>
 <div class="wrap">
-<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"></div></div>
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
 <img class="artHero" src="https://chat.axwith.com/mag/hero/ai-agent-orchestrator-goal-design.png" alt="AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법" loading="eager">
 <header>
@@ -245,7 +246,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <h2>결국 디테일은 수동 제어로</h2>
 <p>방 논의는 처음엔 자동화가 편리해도 세부 사항을 다듬으려면 결국 수동 제어로 돌아가게 된다는 정리로 마무리됐다. 이는 업계에서 이야기하는 워크플로와 에이전트 사이의 절충과도 일치한다. 처음부터 모든 것을 에이전트에 맡기기보다, 반복적이고 예측 가능한 구간은 정해진 절차로 고정하고 판단이 필요한 구간에만 자율성을 열어주는 방식이 실무에서 자리를 잡아가는 모습이다.</p>
 <p>결국 오케스트레이터의 자율성은 &quot;얼마나 편한가&quot;가 아니라 &quot;어디까지 예측 가능한가&quot;의 문제로 수렴한다. 골을 명확히 정의하고, 권한 범위를 좁게 유지하고, 중요한 지점마다 사람이 개입할 여지를 남겨두는 것 — 지금 클코단에서 오가는 실전 노하우와 업계의 권고가 가리키는 지점은 크게 다르지 않다.</p></div>
-
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <div class="chips"><span class="chip">클로드 코드</span><span class="chip">에이전트 오케스트레이터</span><span class="chip">스코프 크리프</span><span class="chip">골 설계</span><span class="chip">MCP</span><span class="chip">멀티턴 프롬프팅</span><span class="chip">AI 에이전트 권한</span></div>
 
 <h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI 에이전트의 스코프 크리프(scope creep)란 무엇인가?</h2><p class="sum">에이전트가 공격이나 오작동 없이도 스스로의 판단으로 애초 위임받은 권한 범위를 넘어서는 현상을 말한다. 도구 발견, 암묵적 권한 추론, 설득력 있는 확장 요청, 지시 주체 혼동 등이 주요 원인으로 꼽힌다.</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코드 --dangerously-skip-permissions는 왜 위험한가?</h2><p class="sum">이 옵션을 쓰면 에이전트가 별도 승인 없이 파일을 생성·수정·삭제하고 임의 명령을 실행할 수 있어, 경계를 설정하지 않으면 사용자 계정이 접근 가능한 모든 것에 에이전트도 접근할 수 있다. 컨테이너나 CI 환경에 한정해 쓰는 것이 권장된다.</p></article><article class="dcard"><div class="t">Q</div><h2>멀티턴 프롬프팅과 골(목표) 설계 중 뭐가 더 나은가?</h2><p class="sum">목표설정형 프롬프트는 에이전트에게 &#x27;성공의 모습&#x27;까지 알려주기 때문에 단순 지시형보다 낫다는 분석이 있다. 반면 멀티턴 방식은 턴이 늘수록 맥락 변수가 누적돼 결과의 불확실성이 커지는 경향이 있다.</p></article></div>
