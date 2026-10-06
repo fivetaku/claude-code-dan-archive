@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>전 직원이 AI를 쓰면 AX 성공일까: 역량 평가와 성과 검증법</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/verify-ai-transformation-outcomes.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/verify-ai-transformation-outcomes.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Tue, 06 Oct 2026 12:00:00 +0900</pubDate>
+    <description>전사 AI 도입을 AX 성공으로 판단할 수 있을까? AI 역량 평가 도구의 한계부터 Claude Code 활용 사례, 업무 성과와 위험을 함께 검증하는 방법까지 짚는다.</description>
+  </item>
+  <item>
     <title>Orca 원격 서버로 Claude Code 세션을 여러 기기에서 이어 쓰는 법</title>
     <link>https://chat.axwith.com/mag/tools/orca-remote-claude-code-sessions.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/orca-remote-claude-code-sessions.html</guid>
@@ -19,6 +27,14 @@
     <category>도구·라이브러리</category>
     <pubDate>Tue, 06 Oct 2026 12:00:00 +0900</pubDate>
     <description>insane-search로 쇼핑 커넥트 상품을 조사할 수 있을까? 공개 페이지 수집과 제휴 상품 확인의 차이, 삭제된 기능, Claude Code로 후보를 정리하는 순서를 살폈다.</description>
+  </item>
+  <item>
+    <title>Grok 유료 구독인데 왜 또 결제하라고 할까: 한도와 환불 확인법</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/grok-subscription-limits-refund-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/grok-subscription-limits-refund-guide.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Tue, 06 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Grok 유료 이용 중 다시 결제하라는 화면이 뜨는 이유는 하나가 아니다. 구독 등급, 계정 연결, 주간 사용량을 구분하고 환불 요청 경로를 정리했다.</description>
   </item>
   <item>
     <title>OpenAI DevDay 2026에서 실제로 나온 것: Pro 소식과 Codex 변화</title>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 29 Sep 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드로 작업하다 밤을 넘기기 쉬운 이유를 사용 방식과 수면 연구로 살폈다. 계획·검증·세션 재개 기능을 이용해 밤 11시 종료 규칙을 실행하는 방법도 정리했다.</description>
-  </item>
-  <item>
-    <title>젠스파크 SecondBrain Note 녹음 불량과 환불 절차</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/genspark-secondbrain-note-refund.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/genspark-secondbrain-note-refund.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
-    <description>젠스파크 SecondBrain Note의 녹음 버튼이 작동하지 않을 때 점검할 방법과 하자 접수, 반품, 환불 절차를 공식 문서 중심으로 설명한다.</description>
-  </item>
-  <item>
-    <title>Kiro 월말 0원 업그레이드, 키쫀쿠의 원리와 위험</title>
-    <link>https://chat.axwith.com/mag/models/claude-opus-55-usage-reset.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-opus-55-usage-reset.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Kiro Power와 Pro Max가 월말에 0달러로 표시되는 이유를 공식 결제 규칙으로 계산하고, 해지 시점과 모델 배수, 계정 정지 위험을 점검한다.</description>
   </item>
 </channel></rss>

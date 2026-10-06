@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grok 유료 구독인데 왜 또 결제하라고 할까: 한도와 환불 확인법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Grok 유료 이용 중 다시 결제하라는 화면이 뜨는 이유는 하나가 아니다. 구독 등급, 계정 연결, 주간 사용량을 구분하고 환불 요청 경로를 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/grok-subscription-limits-refund-guide.html">
+<meta property="og:title" content="Grok 유료 구독인데 왜 또 결제하라고 할까: 한도와 환불 확인법">
+<meta property="og:description" content="Grok 유료 이용 중 다시 결제하라는 화면이 뜨는 이유는 하나가 아니다. 구독 등급, 계정 연결, 주간 사용량을 구분하고 환불 요청 경로를 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/grok-subscription-limits-refund-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Grok 유료 구독인데 왜 또 결제하라고 할까: 한도와 환불 확인법", "description": "Grok 유료 이용 중 다시 결제하라는 화면이 뜨는 이유는 하나가 아니다. 구독 등급, 계정 연결, 주간 사용량을 구분하고 환불 요청 경로를 정리했다.", "datePublished": "2026-10-06", "dateModified": "2026-10-06", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/grok-subscription-limits-refund-guide.html"}, "articleSection": "질문·트러블슈팅", "keywords": "Grok, SuperGrok, X Premium+, Grok 사용 한도, Grok 환불, AI 구독", "image": "https://chat.axwith.com/mag/hero/grok-subscription-limits-refund-guide.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "X Premium+를 구독하면 SuperGrok을 별도로 결제해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "X는 Premium+ 혜택에 SuperGrok 접근을 포함한다고 안내한다. grok.com에서 혜택이 보이지 않으면 추가 결제에 앞서 구매한 X 계정과 Grok 계정의 연결 상태를 확인해야 한다."}}, {"@type": "Question", "name": "SuperGrok을 결제했는데 추가 결제 안내가 뜨는 이유는 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "계정·앱에서 구독을 인식하지 못했거나 주간 사용 한도를 소진했을 수 있다. 구독 활성 상태와 ‘Settings → Usage’의 잔량을 각각 확인하면 두 경우를 구분하는 데 도움이 된다."}}, {"@type": "Question", "name": "Grok 구독 환불은 어디에 요청하나요?", "acceptedAnswer": {"@type": "Answer", "text": "xAI 안내상 grok.com 또는 Google Play에서 산 SuperGrok은 xAI에, App Store에서 산 구독은 Apple에 요청한다. X Premium+ 구매 건은 X의 환불 정책과 접수 경로를 확인해야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/grok-subscription-limits-refund-guide.png" alt="Grok 유료 구독인데 왜 또 결제하라고 할까: 한도와 환불 확인법" loading="eager">
+<header>
+  <span class="catchip c-ask">질문·트러블슈팅</span>
+  <h1>Grok 유료 구독인데 왜 또 결제하라고 할까: 한도와 환불 확인법</h1>
+  <p class="sub">X Premium+와 SuperGrok의 관계부터 추가 결제 안내, 주간 사용량, 구매 경로별 환불 창구까지 확인한다.</p>
+  <div class="meta"><span>2026-10-06</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Grok에 돈을 냈는데 다시 결제하라는 화면이 뜬다면 구독 혜택이 사라진 걸까. 클코단에서 나온 추가 결제·한도·환불 불만을 출발점으로 공식 안내에서 확인되는 원인과 확인되지 않는 주장을 나눠 봤다.</p>
+<h2>X Premium과 Premium+는 Grok 혜택이 다르다</h2>
+<p>구독 이름부터 확인해야 한다. X 도움말은 Premium에 Grok 사용 한도 확대를, Premium+에는 SuperGrok 접근을 명시한다. 둘 다 유료라고 해서 같은 Grok 이용권을 가진 것은 아니다. X에서 산 구독과 grok.com에서 직접 산 SuperGrok은 결제·관리 경로도 다르다. (<a href="https://help.x.com/en/using-x/x-premium?error=error_code" target="_blank" rel="nofollow noopener">help.x.com</a>)</p>
+<p>상위 구독을 이미 결제했는데 별도 상품을 권유받았다는 경험담은 여기서 더 복잡해진다. X의 현재 설명에 따르면 Premium+에는 SuperGrok 접근이 포함된다. 그렇다고 모든 사용에 추가 비용이 없다는 뜻은 아니다. 어느 화면에서 어떤 기능을 쓰다가 안내가 나왔는지부터 확인해야 한다.</p>
+<p>X 계정으로 산 Premium+를 grok.com에서 쓰려면 계정 연결 상태도 중요하다. xAI 안내에 따르면 Grok의 ‘Settings → Account’에서 X 계정을 연결하면 구독 상태에 따른 혜택을 받을 수 있다. 구매 계정과 로그인 계정이 다르면 유료 혜택이 보이지 않을 수 있다. 같은 서비스에 두 번 결제했다고 판단하기 전에 X·Apple·Google 중 어느 방식으로 로그인했는지 대조해야 한다. (<a href="https://docs.x.ai/grok/faq" target="_blank" rel="nofollow noopener">docs.x.ai</a>)</p>
+<h2>다시 결제하라는 화면에는 서로 다른 원인이 있다</h2>
+<p>이미 활성화된 구독인데도 ‘활성화’나 ‘업그레이드’ 안내가 반복된다면 정상적인 상태가 아니다. xAI는 앱과 스토어의 구독 상태를 확인한 뒤 앱 업데이트·재시작·재로그인 등을 시도하라고 안내한다. 캐시를 지우거나 재설치하는 방법도 제시한다. X 연동 구독이라면 연결한 X 계정이 결제 계정과 같은지도 확인해야 한다. (<a href="https://docs.x.ai/grok/faq" target="_blank" rel="nofollow noopener">docs.x.ai</a>)</p>
+<p>사용량을 다 쓴 뒤 나타난 결제 안내라면 이야기가 다르다. xAI는 주간 한도를 소진한 뒤 추가 사용 크레딧을 사거나 상위 요금제로 전환할 수 있다고 설명한다. 화면의 ‘업그레이드’ 버튼만으로는 계정 인식 오류인지 한도 소진인지 판단할 수 없다. 설정의 Usage 화면과 결제 내역을 함께 봐야 한다. (<a href="https://docs.x.ai/grok/faq" target="_blank" rel="nofollow noopener">docs.x.ai</a>)</p>
+<p>써본 사람들 사이에서도 유료 이용 중 제한 화면을 마주치는 일이 기대와 다르다는 반응이 있다. 클코단에서는 추가 결제 요구가 거듭된다는 불만이 나왔다. 다만 제공된 대화만으로는 각 사례의 구독 등급이나 사용량을 확인할 수 없다. 반복 안내를 곧바로 중복 청구나 상품 하자로 단정할 수 없는 까닭이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/grok-subscription-limits-refund-guide.png" alt="" loading="lazy"><h2>주간 한도로 바뀐 뒤 사용량을 읽는 법</h2>
+<p>xAI 공식 FAQ는 2026년 6월부터 유료 이용자의 사용량 체계를 주간 공유 한도로 전환한다고 설명한다. 이전처럼 Chat, Imagine, Voice 등의 일일 한도를 따로 보는 대신 여러 기능이 하나의 주간 사용량을 나눠 쓴다. 채팅 한 번과 고화질 영상 생성, 긴 코딩 작업은 소모량도 같지 않아 대화 횟수만으로는 남은 사용량을 예측하기 어렵다. (<a href="https://docs.x.ai/grok/faq" target="_blank" rel="nofollow noopener">docs.x.ai</a>)</p>
+<p>확인 위치는 웹과 앱의 ‘Settings → Usage’다. xAI에 따르면 여기서 사용 비율, 기능별 내역, 다음 초기화 시각, 추가 크레딧 잔액을 볼 수 있다. 유료 한도를 소진하면 해당 기능은 초기화 전까지 멈추지만 Chat과 Voice에는 별도로 초기화되는 무료 한도가 남는다. 추가 크레딧은 웹에서 구매할 수 있으며 자동 충전에는 금액과 월별 상한을 설정할 수 있다. (<a href="https://docs.x.ai/grok/faq" target="_blank" rel="nofollow noopener">docs.x.ai</a>)</p>
+<p>작업을 혼자 맡는 개발자에게 이 차이는 비용보다 일정 문제로 먼저 나타날 수 있다. 긴 코딩 작업과 이미지·영상 생성을 같은 주에 몰아서 쓰면 한 기능의 이용이 다른 기능에 남은 몫을 줄인다. 결제 안내가 떴을 때는 즉시 상위 상품을 사기보다 Usage 화면의 소모 내역과 초기화 시각을 비교해야 한다.</p>
+<h2>환불액이 달랐다면 구매 경로와 거래 내역을 나눠 봐야 한다</h2>
+<p>환불 과정에서 예상보다 적은 금액을 받았다는 이야기도 있었다. 그러나 대화에는 구매처, 원래 결제액, 환불 승인액을 대조할 자료가 없다. 공제가 실제로 어떤 항목에서 발생했는지, 일반적인 정책인지도 확인되지 않는다. 구독 취소, 요금제 변경에 따른 잔액 처리, 환불은 서로 다른 거래다.</p>
+<p>X Premium+를 X에서 결제했다면 X의 정책부터 적용된다. X는 법에서 요구하는 경우 등을 제외하면 Premium 구독료를 원칙적으로 환불하지 않는다고 안내한다. 웹에서 상위 등급으로 바꾸면 기존 구독의 남은 가치가 새 요금에 반영된다. iOS와 Android의 등급 변경 처리 방식은 또 다르며 취소만으로 이미 낸 금액이 돌아오지도 않는다. (<a href="https://help.x.com/en/using-x/x-premium-faq" target="_blank" rel="nofollow noopener">help.x.com</a>)</p>
+<p>반대로 grok.com이나 Google Play에서 구매한 SuperGrok의 환불은 xAI가 접수·심사한다고 공식 FAQ에 적혀 있다. App Store 구매분은 Apple에 요청해야 한다. xAI는 승인된 환불이 보통 원래 결제 수단으로 5~10영업일 안에 지급된다고 설명하지만 요청만으로 승인이 보장되지는 않는다. X Premium의 환불 창구를 SuperGrok 구매 건에 사용해서도 안 된다. (<a href="https://docs.x.ai/grok/faq" target="_blank" rel="nofollow noopener">docs.x.ai</a>)</p>
+<p>청구서에서 상품명과 구매처를 먼저 찾고 요금제 변경 기록과 실제 환불 입금액을 별도로 대조해야 한다. 이 세 기록이 없으면 ‘공제’가 미환불 구독료인지, 등급 변경 때 반영된 잔액인지조차 가르기 어렵다. 금액 차이를 문의할 때도 추측한 사유보다 각 거래의 처리 내역을 확인해 달라고 요청하는 편이 정확하다.</p>
+<h2>고객지원이 답하지 않을 때 남겨야 할 질문</h2>
+<p>문의 요지에 답을 듣지 못하고 상담이 끝났다는 경험도 공유됐다. X는 Premium 문의 채널에서 자동 응답 챗봇이 부정확한 정보를 줄 수 있다고 스스로 경고한다. 그 챗봇이 환불을 처리하지도 않는다. 한 번의 대화가 끝난 것과 환불 심사가 끝난 것을 혼동해서는 안 된다. (<a href="https://help.x.com/en/using-x/x-premium-faq" target="_blank" rel="nofollow noopener">help.x.com</a>)</p>
+<p>문의 내용은 ‘왜 결제를 또 시키나’보다 구체적이어야 한다. 결제한 상품, 구매처, 결제일, 로그인 방식, 안내가 뜬 기능, Usage에 표시된 잔량을 구분해 적을 수 있다. 계정 인식 문제라면 활성 구독이 어느 계정에 연결됐는지 묻는다. 한도 문제라면 어떤 사용량이 소진됐는지, 환불 문제라면 청구·승인·입금액 각각의 처리 상태를 요청한다.</p>
+<p>Grok의 추가 결제 화면은 하나의 답으로 설명되지 않는다. 공식 문서만으로 확인할 수 있는 경계는 분명하다. Premium과 Premium+의 혜택은 다르고 SuperGrok에도 주간 한도가 있으며 환불 담당은 구매처에 따라 갈린다. 그 경계를 확인한 뒤에도 활성 구독에 맞지 않는 안내가 계속된다면 남는 질문은 더 결제할지가 아니라 이미 산 혜택이 왜 적용되지 않았는지다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Grok</span><span class="chip">SuperGrok</span><span class="chip">X Premium+</span><span class="chip">Grok 사용 한도</span><span class="chip">Grok 환불</span><span class="chip">AI 구독</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://help.x.com/en/using-x/x-premium" rel="nofollow noopener">https://help.x.com/en/using-x/x-premium</a></li><li><a href="https://docs.x.ai/grok/faq" rel="nofollow noopener">https://docs.x.ai/grok/faq</a></li><li><a href="https://help.x.com/en/using-x/x-premium-faq" rel="nofollow noopener">https://help.x.com/en/using-x/x-premium-faq</a></li><li><a href="https://help.x.com/en/forms/refund/x-refund-request" rel="nofollow noopener">https://help.x.com/en/forms/refund/x-refund-request</a></li><li><a href="https://support.google.com/googleplay/answer/7018481" rel="nofollow noopener">https://support.google.com/googleplay/answer/7018481</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>X Premium+를 구독하면 SuperGrok을 별도로 결제해야 하나요?</h2><p class="sum">X는 Premium+ 혜택에 SuperGrok 접근을 포함한다고 안내한다. grok.com에서 혜택이 보이지 않으면 추가 결제에 앞서 구매한 X 계정과 Grok 계정의 연결 상태를 확인해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>SuperGrok을 결제했는데 추가 결제 안내가 뜨는 이유는 무엇인가요?</h2><p class="sum">계정·앱에서 구독을 인식하지 못했거나 주간 사용 한도를 소진했을 수 있다. 구독 활성 상태와 ‘Settings → Usage’의 잔량을 각각 확인하면 두 경우를 구분하는 데 도움이 된다.</p></article><article class="dcard"><div class="t">Q</div><h2>Grok 구독 환불은 어디에 요청하나요?</h2><p class="sum">xAI 안내상 grok.com 또는 Google Play에서 산 SuperGrok은 xAI에, App Store에서 산 구독은 Apple에 요청한다. X Premium+ 구매 건은 X의 환불 정책과 접수 경로를 확인해야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-09-29-1330.html">2026-09-29 09-29 11:43~13:18</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
