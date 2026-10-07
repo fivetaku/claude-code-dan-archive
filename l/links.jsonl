@@ -1661,3 +1661,9 @@
 {"code": "083b4a", "url": "https://arstechnica.com/ai/2026/10/mistral-says-le-chonk-can-challenge-the-best-ai-models", "title": "Mistral(미스트랄), 1조 파라미터 오픈 모델 'Le Chonk' 공개…\"최고 모델과 경쟁\""}
 {"code": "7b9bb0", "url": "https://x.com/0xdoug/status/2107832360527913445", "title": "OpenAI(오픈AI) Problem #109 갱신: 정수 곱셈 복잡도 κ=2⁻⁷⁸로 추가 단축, 이전 대비 5.7억 배 개선"}
 {"code": "046a2c", "url": "https://x.com/AnatoliKopadze/status/2107888869911736762", "title": "Anthropic(앤트로픽), 부트스트랩 스타트업에 Claude(클로드) Team 1년 무료 제공 프로그램 개방"}
+{"code": "c2d8e1", "url": "https://www.reddit.com/r/Anthropic/comments/1x03e2l/haiku_55_is_released", "title": "Anthropic(앤트로픽), 경량·고속 모델 'Claude Haiku 5.5(클로드 하이쿠 5.5)' 출시"}
+{"code": "4a32ff", "url": "https://techcrunch.com/2026/10/07/chatgpt-is-getting-a-lot-more-visual-with-the-launch-of-a-new-interface", "title": "[속보] OpenAI(오픈AI), GPT-6(지피티 6)와 대화형 시각 인터페이스 'Intelligent UI' 공개"}
+{"code": "9c7dd4", "url": "https://www.theverge.com/tech/1007113/microsoft-windows-copilot-ai-control-search-hybrid-intelligence", "title": "MS Copilot(코파일럿), 윈도우 로컬 파일 접근·OS 작업 실행 권한 확대"}
+{"code": "d9511e", "url": "https://x.com/thegenioo/status/2107896041702105451", "title": "Claude Sonnet 5.5(클로드 소넷 5.5) 캐시 읽기 가격 100만 토큰당 $0.20→$0.10 인하"}
+{"code": "05290b", "url": "https://x.com/cursor_ai/status/2107897245282799864", "title": "Cursor(커서), Claude Haiku 5.5(클로드 하이쿠 5.5) 지원 시작"}
+{"code": "df3e85", "url": "https://x.com/satyanadella/status/2107898018112647313", "title": "MS, 윈도우에 온디바이스 코딩 모델 'MAI-Code-1.1 Flash' 탑재…GitHub Copilot(깃허브 코파일럿) 로컬 처리 지원"}
