@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>출퇴근 공부는 언제 도움이 될까: 환승길 독서와 OPIc 말하기의 차이</title>
+    <link>https://chat.axwith.com/mag/workflow/commute-study-opic-speaking-practice.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/commute-study-opic-speaking-practice.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 08 Oct 2026 12:00:00 +0900</pubDate>
+    <description>환승과 혼잡 때문에 출퇴근 공부가 어려운 직장인을 위해 독서·팟캐스트·OPIc 연습의 역할을 나눴다. 분산 학습, 읽기 중단, 말하기 평가와 수면 연구를 바탕으로 이동 시간의 쓰임을 살핀다.</description>
+  </item>
+  <item>
+    <title>AI TOP 100 신청 후 준비법: 올해는 문제 풀이보다 에이전트 제작</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/ai-top-100-agent-preparation.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/ai-top-100-agent-preparation.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Thu, 08 Oct 2026 12:00:00 +0900</pubDate>
+    <description>AI TOP 100은 AI 제품 사용량 순위가 아니라 활용 역량 경진대회다. 올해 예선은 가상 인물 인터뷰를 바탕으로 AI 에이전트를 제작한다. 접수 상태와 이전 문제 활용법을 확인했다.</description>
+  </item>
+  <item>
     <title>한국어 AI 음성, 실시간 대화와 TTS 중 무엇을 골라야 할까</title>
     <link>https://chat.axwith.com/mag/models/korean-ai-voice-realtime-tts-comparison.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/korean-ai-voice-realtime-tts-comparison.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 29 Sep 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드로 작업하다 밤을 넘기기 쉬운 이유를 사용 방식과 수면 연구로 살폈다. 계획·검증·세션 재개 기능을 이용해 밤 11시 종료 규칙을 실행하는 방법도 정리했다.</description>
-  </item>
-  <item>
-    <title>Kiro 월말 0원 업그레이드, 키쫀쿠의 원리와 위험</title>
-    <link>https://chat.axwith.com/mag/models/claude-opus-55-usage-reset.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-opus-55-usage-reset.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Kiro Power와 Pro Max가 월말에 0달러로 표시되는 이유를 공식 결제 규칙으로 계산하고, 해지 시점과 모델 배수, 계정 정지 위험을 점검한다.</description>
-  </item>
-  <item>
-    <title>Claude Opus 5.5, 느린데도 다시 구독할 만큼 좋아졌나</title>
-    <link>https://chat.axwith.com/mag/models/claude-opus-55-subscription-return.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-opus-55-subscription-return.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Opus 5.5의 성능, 응답 속도, Max 5x 한도와 리셋 구조를 분석했다. GPT Pro와 역할을 나눠 구독할 가치가 있는지도 살펴본다.</description>
   </item>
 </channel></rss>

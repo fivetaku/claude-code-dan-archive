@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI TOP 100 신청 후 준비법: 올해는 문제 풀이보다 에이전트 제작 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="AI TOP 100은 AI 제품 사용량 순위가 아니라 활용 역량 경진대회다. 올해 예선은 가상 인물 인터뷰를 바탕으로 AI 에이전트를 제작한다. 접수 상태와 이전 문제 활용법을 확인했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/ai-top-100-agent-preparation.html">
+<meta property="og:title" content="AI TOP 100 신청 후 준비법: 올해는 문제 풀이보다 에이전트 제작">
+<meta property="og:description" content="AI TOP 100은 AI 제품 사용량 순위가 아니라 활용 역량 경진대회다. 올해 예선은 가상 인물 인터뷰를 바탕으로 AI 에이전트를 제작한다. 접수 상태와 이전 문제 활용법을 확인했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/ai-top-100-agent-preparation.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI TOP 100 신청 후 준비법: 올해는 문제 풀이보다 에이전트 제작", "description": "AI TOP 100은 AI 제품 사용량 순위가 아니라 활용 역량 경진대회다. 올해 예선은 가상 인물 인터뷰를 바탕으로 AI 에이전트를 제작한다. 접수 상태와 이전 문제 활용법을 확인했다.", "datePublished": "2026-10-08", "dateModified": "2026-10-08", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/ai-top-100-agent-preparation.html"}, "articleSection": "질문·트러블슈팅", "keywords": "AI TOP 100, AI 에이전트, AI 경진대회, 예선 준비, AI Harness, 카카오임팩트", "image": "https://chat.axwith.com/mag/hero/ai-top-100-agent-preparation.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI TOP 100 신청 확인 메일이 오지 않으면 어떻게 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "공식 FAQ는 먼저 이메일 스팸함을 확인하도록 안내합니다. 확인 메일이나 알림톡이 없다면 공식 사이트에 안내된 운영사무국으로 문의할 수 있습니다."}}, {"@type": "Question", "name": "2026년 AI TOP 100 예선에서 무엇을 제출하나요?", "acceptedAnswer": {"@type": "Answer", "text": "공식 안내상 가상 인물과의 인터뷰를 바탕으로 AI 에이전트를 제작해 제출합니다. 세부 평가 기준은 공개되지 않았으며, 예선은 10월 31일 다섯 시간 동안 진행될 예정입니다."}}, {"@type": "Question", "name": "지난해 AI TOP 100 문제를 지금도 풀어볼 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "지난 문제의 지문은 공개돼 있지만, 직접 접속해 풀던 챌린지 사이트는 2026년 9월 운영을 종료했습니다. 공개 지문을 활용해 자료 확인과 출력 검증 과정을 따로 연습할 수 있습니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-top-100-agent-preparation.png" alt="AI TOP 100 신청 후 준비법: 올해는 문제 풀이보다 에이전트 제작" loading="eager">
+<header>
+  <span class="catchip c-ask">질문·트러블슈팅</span>
+  <h1>AI TOP 100 신청 후 준비법: 올해는 문제 풀이보다 에이전트 제작</h1>
+  <p class="sub">접수 확인부터 공개 문제 복기까지, 달라진 예선 방식에 맞춰 무엇을 연습해야 하는지 짚었다.</p>
+  <div class="meta"><span>2026-10-08</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI TOP 100에 신청했다면 지난해 문제부터 다시 풀면 될까? 올해 대회는 정답을 빠르게 제출하는 방식에서 AI 에이전트를 만들어 작동시키는 방식으로 바뀌었다. 접수 확인 방법, 공개 문제의 쓰임, 제한 시간에 맞춘 준비법을 구분해 살펴봤다. (<a href="https://aitop100.org/" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<h2>접수 메일보다 먼저 확인할 것은 신청 완료 여부</h2>
+<p>AI TOP 100은 인기 AI 제품 100개를 나열한 순위표가 아니다. 카카오임팩트가 운영하는 AI 활용 역량 경진대회다. 지난해에는 약 3,000명이 온라인 예선에 참가했고 100명이 본선에 올랐다. 올해도 온라인 예선을 거쳐 본선 참가자 100명을 선발한다. (<a href="https://aitop100.org/about" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<p>신청을 둘러싼 질문은 현실적이다. 방에서도 접수 확인 메시지가 왔는지, 선착순 신청을 마쳤는지가 먼저 화제였다. 공식 FAQ에 따르면 신청서를 제출하면 입력한 이메일로 확인 메일이 발송되고 연락처로 알림톡이 간다. 메시지가 없다면 스팸함을 확인하고 운영사무국에 문의하도록 안내한다. 제출한 신청서는 원칙적으로 수정하거나 다시 낼 수 없다. (<a href="https://aitop100.org/" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<p>공식 사이트에는 현재 ‘참가 신청이 마감되었습니다’라고 표시돼 있다. 안내된 접수 종료일은 10월 21일이지만 선착순 마감 조건도 명시돼 있다. 10월 8일 현재 신청 버튼이 닫힌 상태다. 예정된 종료일만 보고 접수가 가능하다고 판단해서는 안 된다. 이미 신청했다면 확인 메시지와 등록한 이메일부터 살펴야 한다. (<a href="https://aitop100.org/" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-top-100-agent-preparation.png" alt="" loading="lazy"><h2>지난해 기출이 알려주는 것과 알려주지 못하는 것</h2>
+<p>지난 문제를 풀어보라는 방의 조언에는 근거가 있다. 카카오가 공개한 2025년 예선에는 메뉴판 분석, 영상 사실 확인, 시뮬레이션, PDF의 숨은 글자 찾기 등이 있었다. 본선의 인수인계 문제는 흩어진 업무 기록을 조사한 뒤 지정된 <code>template.md</code> 형식으로 문서를 완성하도록 했다. 질문에 그럴듯하게 답하는 것만으로는 부족한 과제들이다. (<a href="https://brunch.co.kr/%40andkakao/322" target="_blank" rel="nofollow noopener">brunch.co.kr</a>)</p>
+<p>가령 PDF 문제를 연습한다면 파일의 보이는 페이지와 추출된 텍스트를 각각 확인할 수 있다. 숨은 문장을 찾은 뒤에는 원본에서 위치를 대조하고 요구한 단어 수와 제출 형식을 검사한다. 인수인계 문제라면 자료에서 날짜·업무·근거를 먼저 분리한 다음 <code>template.md</code>의 항목에 맞춰 채운다. 출처가 없는 내용은 추측으로 채우기보다 빈칸으로 남기는 편이 정확하다. 두 연습 모두 공개된 문제 지문을 바탕으로 한 방법이며 올해 문제를 예측한 것은 아니다. (<a href="https://brunch.co.kr/%40andkakao/322" target="_blank" rel="nofollow noopener">brunch.co.kr</a>)</p>
+<p>그 공개 문제를 풀던 챌린지 사이트는 더 이상 운영되지 않는다. 공식 소개 페이지는 2026년 9월 운영을 마쳤다고 밝힌다. 예전 체험 사이트 접속에 시간을 쓰기보다 공개된 지문을 읽고 자신이 가진 도구로 입력·검증·출력 과정을 재현하는 편이 낫다. (<a href="https://aitop100.org/about" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<h2>올해 예선은 ‘답안’이 아니라 에이전트를 제출한다</h2>
+<p>기출의 한계는 대회 형식이 달라졌다는 데 있다. 공식 안내에 따르면 올해 참가자는 AX 전문가 역할을 맡는다. 가상의 인물들과 인터뷰해 문제를 파악하고 그에 맞는 AI 에이전트를 제작해 제출한다. 주최 측은 지난해와 올해 학생 대상 대회가 빠르고 정확한 문제 풀이였다면 이번에는 문제 정의와 단서 조합, 제작한 에이전트의 실제 작동을 심사한다고 설명한다. 구체적인 평가 기준은 공개하지 않았다. (<a href="https://aitop100.org/" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<p>방에서는 에이전트 하네스를 짜야 하는지, 프롬프트에 집중해야 하는지를 두고 의견이 갈렸다. 프롬프트도 필요하다. 하지만 둘 중 하나를 고르는 질문만으로는 올해 과제를 담기 어렵다. 카카오의 대회 소개는 올해 봄 학생 대회에서 문제를 나누고 도구에 역할을 배분하며 결과를 검증하는 ‘AI Harness’를 강조한다. 다만 올해 예선에 특정 프레임워크나 복잡한 하네스가 필수라는 발표는 없다. (<a href="https://aitop100.org/about" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<p>연습에서는 짧은 상담 상황을 직접 만들어볼 수 있다. 가상의 의뢰인이 반복 업무 때문에 곤란하다고 가정하고 인터뷰로 입력 자료·원하는 결과·실패하면 안 되는 조건을 확인한다. 그다음 인터뷰 내용을 요구사항으로 정리해 AI 도구가 처리할 단계와 사람이 확인할 단계를 나눈다. 마지막으로 다른 사례를 넣어 작동을 시험하고 결과를 고친다. 이런 순서는 공식 문제의 정답이 아니라 발표된 과제를 시간 안에 연습하기 위한 모의 절차다. (<a href="https://aitop100.org/" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<h2>다섯 시간에는 제작과 검증 시간을 함께 넣어야 한다</h2>
+<p>공식 일정상 온라인 예선은 10월 31일 오전 10시부터 오후 3시까지, 총 다섯 시간이다. 신청자는 등록한 이메일로 안내받은 예선 사이트에 접속해 최종 결과물인 AI 에이전트를 제출한다. 결과 발표 예정일은 11월 4일이며 본선은 11월 21일 오프라인으로 진행된다. 본선의 진행 방식과 준비물은 진출자에게 별도로 안내된다. (<a href="https://aitop100.org/" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<p>방에서 제한 시간 안의 응답 품질을 중시한 의견은 여전히 유효하다. 다만 올해는 마지막 답변의 문장만 다듬다가 제출할 에이전트의 시험을 놓칠 수 있다. 모의 연습에서는 인터뷰에서 확인한 조건을 적고 작은 기능을 먼저 만든 뒤 조건을 바꾼 입력으로 다시 시험해볼 만하다. 인터뷰 답변에 없는 요구를 에이전트가 임의로 만들어내는지도 확인해야 한다. 주최 측이 실제 상황에서의 작동을 심사한다고 밝힌 만큼 이 검증은 장식이 아니다. (<a href="https://aitop100.org/" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<p>도구 선택에는 별도 제한이 없지만 전 과정은 개인전이다. 공식 FAQ는 PC와 크롬 브라우저를 권장하고 예선에 공용 네트워크 환경을 사용하는 것을 원칙적으로 금지한다. 카카오 계정과 카카오톡 계정의 연동도 문제 풀이에 필요하다. 개인 개발자나 소규모 팀에서 일하는 참가자라도 대회에서는 동료에게 제작을 나눠 맡길 수 없다. 평소 쓰던 도구로 혼자 입력을 확인하고 제작하고 시험하는 흐름을 익혀야 하는 이유다. (<a href="https://aitop100.org/" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p>
+<p>지난해 기출은 데이터에서 근거를 찾고 결과를 검수하는 연습 자료다. 올해의 질문은 그다음에 있다. 인터뷰로 파악한 문제를 에이전트의 동작으로 옮겼을 때 처음 듣는 조건 앞에서도 제대로 일하는가. (<a href="https://aitop100.org/about" target="_blank" rel="nofollow noopener">aitop100.org</a>)</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">AI TOP 100</span><span class="chip">AI 에이전트</span><span class="chip">AI 경진대회</span><span class="chip">예선 준비</span><span class="chip">AI Harness</span><span class="chip">카카오임팩트</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://aitop100.org/" rel="nofollow noopener">https://aitop100.org/</a></li><li><a href="https://aitop100.org/about" rel="nofollow noopener">https://aitop100.org/about</a></li><li><a href="https://www.kakaocorp.com/page/detail/11816" rel="nofollow noopener">https://www.kakaocorp.com/page/detail/11816</a></li><li><a href="https://brunch.co.kr/@andkakao/322" rel="nofollow noopener">https://brunch.co.kr/@andkakao/322</a></li><li><a href="https://brunch.co.kr/@andkakao/325" rel="nofollow noopener">https://brunch.co.kr/@andkakao/325</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI TOP 100 신청 확인 메일이 오지 않으면 어떻게 하나요?</h2><p class="sum">공식 FAQ는 먼저 이메일 스팸함을 확인하도록 안내합니다. 확인 메일이나 알림톡이 없다면 공식 사이트에 안내된 운영사무국으로 문의할 수 있습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>2026년 AI TOP 100 예선에서 무엇을 제출하나요?</h2><p class="sum">공식 안내상 가상 인물과의 인터뷰를 바탕으로 AI 에이전트를 제작해 제출합니다. 세부 평가 기준은 공개되지 않았으며, 예선은 10월 31일 다섯 시간 동안 진행될 예정입니다.</p></article><article class="dcard"><div class="t">Q</div><h2>지난해 AI TOP 100 문제를 지금도 풀어볼 수 있나요?</h2><p class="sum">지난 문제의 지문은 공개돼 있지만, 직접 접속해 풀던 챌린지 사이트는 2026년 9월 운영을 종료했습니다. 공개 지문을 활용해 자료 확인과 출력 검증 과정을 따로 연습할 수 있습니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-07-1800.html">2026-10-07 10-07 16:44~21:17</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
