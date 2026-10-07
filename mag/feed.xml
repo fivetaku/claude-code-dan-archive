@@ -13,6 +13,22 @@
     <description>한국어 음성 서비스를 만들거나 내레이션을 제작할 때 실시간 음성 모델과 TTS는 어떻게 다를까. 주요 업체의 지원 범위와 비용 구조, 직접 품질을 검증하는 방법을 살폈다.</description>
   </item>
   <item>
+    <title>오픈채팅 AI 봇은 왜 엉뚱하게 답할까: 호출부터 가드레일까지 검증하는 법</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/group-chat-bot-mention-safety-testing.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/group-chat-bot-mention-safety-testing.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Wed, 07 Oct 2026 12:00:00 +0900</pubDate>
+    <description>오픈채팅방 AI 봇이 사람처럼 대화하다가 문장을 되풀이하거나 엉뚱하게 답하는 이유를 살핀다. 멘션 판별, 대화 문맥, 거절 정책, 정보 노출을 각각 어떻게 검증할지도 정리했다.</description>
+  </item>
+  <item>
+    <title>OpenAI DOTS 클라우드 컴퓨터에서 파일이 사라졌다면, 작업 데이터는 어디에 둬야 하나</title>
+    <link>https://chat.axwith.com/mag/ops/dots-cloud-computer-file-backup.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/dots-cloud-computer-file-backup.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Wed, 07 Oct 2026 12:00:00 +0900</pubDate>
+    <description>DOTS 사용 중 클라우드 작업 파일을 잃었다는 경험이 공유됐다. 공식 문서로 확인한 파일 보관 방식과 작업 검토 기능을 바탕으로, 모델링 결과를 안전하게 남기는 방법을 살핀다.</description>
+  </item>
+  <item>
     <title>Codex와 GPT-6 Astra가 50% 빨라졌다는데 왜 작업은 여전히 느릴까</title>
     <link>https://chat.axwith.com/mag/tools/codex-astra-speed-task-latency.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/codex-astra-speed-task-latency.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
     <description>Claude Opus 5.5의 성능, 응답 속도, Max 5x 한도와 리셋 구조를 분석했다. GPT Pro와 역할을 나눠 구독할 가치가 있는지도 살펴본다.</description>
-  </item>
-  <item>
-    <title>세레브라스가 Claude Code를 빠르게 할까, 속도와 요금의 관계</title>
-    <link>https://chat.axwith.com/mag/models/cerebras-claude-code-speed-cost.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/cerebras-claude-code-speed-cost.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 28 Sep 2026 12:00:00 +0900</pubDate>
-    <description>세레브라스 추론이 빠른 이유와 Claude Code 적용 가능성을 분석한다. OpenAI의 실제 도입 사례와 고속 모드 요금, 구독 사용량이 빨리 줄어드는 원인도 함께 짚었다.</description>
-  </item>
-  <item>
-    <title>실시간 통역툴 서버로 Fly.io를 고를 때 따질 것</title>
-    <link>https://chat.axwith.com/mag/ops/flyio-realtime-interpreter-server.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/flyio-realtime-interpreter-server.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Sun, 27 Sep 2026 12:00:00 +0900</pubDate>
-    <description>실시간 통역툴을 Fly.io에 배포하는 방법과 비용 구조를 살펴본다. Cloudflare·Hostinger와 비교하고 동시 통화량에 맞춘 서버 선택 기준도 제시한다.</description>
   </item>
 </channel></rss>

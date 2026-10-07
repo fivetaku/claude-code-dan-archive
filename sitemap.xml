@@ -238,6 +238,8 @@
   <url><loc>https://chat.axwith.com/mag/troubleshooting/grok-subscription-limits-refund-guide.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/tools/codex-astra-speed-task-latency.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/models/korean-ai-voice-realtime-tts-comparison.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://chat.axwith.com/mag/troubleshooting/group-chat-bot-mention-safety-testing.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://chat.axwith.com/mag/ops/dots-cloud-computer-file-backup.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/repos/</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/weekly/</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/mag/feed.xml</loc><lastmod>2026-10-07</lastmod></url>
@@ -314,9 +316,11 @@
   <url><loc>https://chat.axwith.com/qna/q/clawhwp스킬공유.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/cli앱과파세오.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/cli입문질문.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/codexastra속도평.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codexdesktop멀티모델커스.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codexsolwork문서작업.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codextcodexauth소개.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/codex병렬cpu병목.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codex사용량소진및리셋기대.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codex의figma접근.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/codex장애와추측.html</loc><lastmod>2026-10-07</lastmod></url>
@@ -495,6 +499,7 @@
   <url><loc>https://chat.axwith.com/qna/q/모델별효율적사용전략.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델분업워크플로우.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델사용감과루머.html</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://chat.axwith.com/qna/q/모델선택과라우팅.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델선택과토큰예산.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델오케스트레이션.html</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://chat.axwith.com/qna/q/모델조합가성비.html</loc><lastmod>2026-10-07</lastmod></url>
