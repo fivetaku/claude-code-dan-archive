@@ -1633,3 +1633,7 @@
 {"code": "ecc073", "url": "https://arstechnica.com/ai/2026/10/openai-will-watermark-chatgpt-outputs-by-default-but-only-in-the-eu", "title": "OpenAI, EU에서 ChatGPT 출력물에 기본 워터마크 적용—EU 외 지역은 기본 꺼짐"}
 {"code": "5bb34b", "url": "https://x.com/mitchellh/status/2107577887159386152", "title": "Mitchell Hashimoto, 프로그램 상태를 터미널에 알리는 범용 표준 제안"}
 {"code": "0f0909", "url": "https://x.com/OpenAI/status/2107596713791767021", "title": "OpenAI(오픈AI), 미공개 내부 프런티어 모델이 도출한 수학 연구 결과 대거 공개"}
+{"code": "a58515", "url": "https://developers.openai.com/api/docs/guides/decisions", "title": "OpenAI(오픈AI) 'Decisions API' 퍼블릭 베타 — gpt-6-luna 전용, Responses 대비 10배 빠른 판단"}
+{"code": "5a84c2", "url": "https://x.com/ChrisGPT/status/2107599877270044692", "title": "OpenAI(오픈AI) 미공개 모델, '준 리만 가설' 증명했다는 주장…Lean 형식화 함께 공개"}
+{"code": "dc5f2e", "url": "https://x.com/imjustnewatai/status/2107601711032373333", "title": "OpenAI(오픈AI), AI가 작성한 수학 논문 722편 공개…외부 검증은 아직"}
+{"code": "ecd457", "url": "https://cursor.com/changelog/remote-control-local-agents", "title": "Cursor(커서) iOS 앱, 로컬 에이전트 원격 제어 기능 추가"}
