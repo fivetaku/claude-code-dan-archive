@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capsomnia로 맥북 덮고 장시간 작업하기, VPS 없이 어디까지 가능한가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Capsomnia는 맥북 덮개를 닫아도 로컬 작업이 계속되도록 잠자기를 막는다. 설치와 작동 확인 방법, caffeinate와의 차이, 핫스팟·전원·발열 때문에 VPS를 완전히 대체할 수 없는 이유를 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/capsomnia-macbook-closed-lid-long-running-jobs.html">
+<meta property="og:title" content="Capsomnia로 맥북 덮고 장시간 작업하기, VPS 없이 어디까지 가능한가">
+<meta property="og:description" content="Capsomnia는 맥북 덮개를 닫아도 로컬 작업이 계속되도록 잠자기를 막는다. 설치와 작동 확인 방법, caffeinate와의 차이, 핫스팟·전원·발열 때문에 VPS를 완전히 대체할 수 없는 이유를 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/capsomnia-macbook-closed-lid-long-running-jobs.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Capsomnia로 맥북 덮고 장시간 작업하기, VPS 없이 어디까지 가능한가", "description": "Capsomnia는 맥북 덮개를 닫아도 로컬 작업이 계속되도록 잠자기를 막는다. 설치와 작동 확인 방법, caffeinate와의 차이, 핫스팟·전원·발열 때문에 VPS를 완전히 대체할 수 없는 이유를 정리했다.", "datePublished": "2026-10-09", "dateModified": "2026-10-09", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/capsomnia-macbook-closed-lid-long-running-jobs.html"}, "articleSection": "도구·라이브러리", "keywords": "Capsomnia, 맥북 잠자기 방지, 맥북 덮개 닫고 작업, macOS, caffeinate, 장시간 로컬 작업", "image": "https://chat.axwith.com/mag/hero/capsomnia-macbook-closed-lid-long-running-jobs.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Capsomnia를 켜면 맥북 덮개를 닫아도 작업이 계속되나요?", "acceptedAnswer": {"@type": "Answer", "text": "Caps Lock을 켜면 Capsomnia가 시스템 잠자기를 막아 로컬 작업이 이어지도록 한다. 전원 단절이나 실행 중인 프로그램의 오류까지 막지는 못한다."}}, {"@type": "Question", "name": "caffeinate와 Capsomnia는 무엇이 다른가요?", "acceptedAnswer": {"@type": "Answer", "text": "`caffeinate`는 주로 유휴 상태의 잠자기를 막는다. Capsomnia는 덮개를 닫은 맥북의 작업을 유지하는 용도로 잠자기 설정을 제어한다."}}, {"@type": "Question", "name": "Capsomnia를 하루 종일 켜 둬도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "자동 종료 타이머는 최대 24시간으로 설정할 수 있지만, 지속 실행 시간이 보장되는 것은 아니다. 안정적인 전원과 통풍을 확보하고 배터리 상태를 확인해야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/capsomnia-macbook-closed-lid-long-running-jobs.png" alt="Capsomnia로 맥북 덮고 장시간 작업하기, VPS 없이 어디까지 가능한가" loading="eager">
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>Capsomnia로 맥북 덮고 장시간 작업하기, VPS 없이 어디까지 가능한가</h1>
+  <p class="sub">Caps Lock으로 잠자기를 막는 설정부터 배터리·발열·네트워크 한계까지, 장시간 로컬 작업의 조건을 살폈다.</p>
+  <div class="meta"><span>2026-10-09</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>맥북에서 긴 작업을 시작한 뒤 덮개를 닫으면 돌아왔을 때도 작업이 진행돼 있을까. 클코단에서는 Capsomnia로 VPS 없이 작업을 이어갈 수 있다는 기대가 나왔다. 핫스팟을 쓰며 오래 켜 두면 배터리에 부담이 가지 않을지 묻는 의견도 있었다. 답은 잠자기 방지 기능보다 작업을 떠받치는 조건에 달려 있다.</p>
+<h2>Capsomnia가 막는 것은 작업 종료가 아니라 시스템 잠자기다</h2>
+<p>Capsomnia는 Caps Lock을 켜면 맥북의 시스템 잠자기를 막고 끄면 평소 동작으로 되돌리는 macOS 메뉴 막대 앱이다. 개발 프로젝트 설명에 따르면 덮개를 닫아도 로컬 프로세스를 계속 실행하도록 만들어졌다. 기본 설정에서는 덮개를 닫을 때 화면은 꺼지지만 실행 중인 작업은 이어진다. (<a href="https://github.com/fuji-mak/Capsomnia" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>Apple 개발 문서는 일반적인 유휴 상태 잠자기 방지 요청으로는 덮개를 닫았을 때의 잠자기까지 막지 못한다고 명시한다. KeepingYouAwake 역시 <code>caffeinate</code>를 감싼 앱이며, 자체 설명에서 덮개를 닫은 맥북을 깨워 두지는 않는다고 밝힌다. Capsomnia는 별도의 권한 있는 보조 프로그램으로 <code>pmset</code>의 잠자기 설정을 바꿔 이 문제를 다룬다. (<a href="https://developer.apple.com/documentation/iokit/kiopmassertiontypepreventuseridlesystemsleep" target="_blank" rel="nofollow noopener">developer.apple.com</a>)</p>
+<p>다만 Capsomnia가 중단된 작업을 재시작하거나 실패한 명령을 복구하지는 않는다. 클코단에서 언급된 “컴퓨터가 멈추면 작업도 끊긴다”는 걱정 중 잠자기 때문에 생기는 부분을 줄이는 앱이다. 전원이 끊기거나 작업 프로그램 자체가 종료되는 문제까지 해결하지는 않는다.</p>
+<h2>설치한 뒤에는 덮개를 닫기 전에 상태를 확인한다</h2>
+<p>공식 GitHub 저장소의 Releases에서 <code>Capsomnia.pkg</code>를 받아 설치할 수 있다. 배포 패키지는 Apple silicon 맥과 macOS 14 이상을 요구하며 설치할 때 관리자 권한이 필요하다. Intel 맥은 macOS 13.5 이상에서 소스 설치 경로가 별도로 안내돼 있다. 패키지는 앱과 잠자기 제어용 보조 프로그램을 설치하고 로그인 시 앱이 시작되도록 설정한다. (<a href="https://github.com/fuji-mak/Capsomnia" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>사용 순서는 짧다. 로컬 터미널에서 작업을 시작하고 Caps Lock을 켠다. 메뉴 막대의 상태를 확인한 뒤 덮개를 닫으면 된다. 작업이 끝나면 Caps Lock을 꺼서 평소 잠자기 동작으로 돌린다. Capsomnia 설명서는 터미널의 <code>pmset -g | grep SleepDisabled</code>로 현재 설정을 점검하는 방법도 제공한다. (<a href="https://github.com/fuji-mak/Capsomnia" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>장시간 켜 둘 생각이라면 자동 종료 타이머가 유용하다. 설정 가능한 시간은 사용자 지정 기준 최대 24시간이다. 시간이 만료되면 앱이 잠자기 방지를 해제하고, 덮개가 닫혀 있으면 맥을 잠자게 한다. 다만 작업 완료를 감지해 종료하는 기능은 아니다. 예상보다 오래 걸릴 작업에 짧은 타이머를 걸면 실행 중에 맥이 잠들 수 있다. (<a href="https://github.com/fuji-mak/Capsomnia" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>화면을 원격으로 조작할 계획이라면 설정도 달라진다. 기본 동작은 덮개를 닫을 때 화면을 재우는 방식이다. ‘Keep display awake’를 켜야 원격 화면 작업을 위한 디스플레이 세션을 유지한다. 터미널 작업만 돌리는 경우와 화면을 원격 조작하는 경우를 구분해야 한다. (<a href="https://github.com/fuji-mak/Capsomnia" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/capsomnia-macbook-closed-lid-long-running-jobs.png" alt="" loading="lazy"><h2>핫스팟을 켜 둔 24시간은 잠자기 방지만으로 보장되지 않는다</h2>
+<p>클코단에서는 핫스팟에 연결한 채 하루 동안 작업을 지속했다는 경험이 공유됐다. 가능한 사용 사례이지만 모든 맥북과 네트워크에서 같은 시간이 보장된다는 근거는 아니다. Capsomnia가 제어하는 대상은 맥의 잠자기다. 핫스팟의 연결 상태나 통신 품질은 별개다. 개발 프로젝트도 중요한 작업에 이 앱만 의존하지 말고 백업을 마련하라고 당부한다. (<a href="https://github.com/fuji-mak/Capsomnia" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>VPS와의 차이도 여기서 선명해진다. Capsomnia를 쓴다면 파일과 실행 환경은 계속 내 맥북에 있다. 자리를 옮기는 동안에도 그 맥북의 전원, 네트워크, 실행 중인 프로그램이 모두 유지돼야 한다. 개인 개발자에게는 서버를 새로 마련하지 않고 로컬 작업을 이어갈 선택지가 생긴다. 그렇다고 무인 작업의 실패 지점까지 사라지지는 않는다.</p>
+<p>실사용 반응에서도 덮개를 닫은 뒤 정말 실행이 이어지는지, 배터리로 얼마나 버티는지가 관심사로 거듭 등장한다. 클코단에서도 같은 질문이 나왔다. 짧은 작업으로 먼저 동작을 확인한 뒤 시간을 늘리는 편이 곧바로 하루짜리 작업을 맡기는 것보다 결과를 판별하기 쉽다.</p>
+<h2>배터리와 발열은 ‘계속 켜 두기’의 비용이다</h2>
+<p>Capsomnia 개발 프로젝트는 덮개를 닫고 잠자기를 막으면 열과 배터리 소모가 늘 수 있다고 경고한다. Apple도 맥북을 통풍이 되는 단단한 표면에 두고 침구처럼 열이 갇히는 곳에서 사용하지 말라고 안내한다. 이동 중 가방 안에 넣은 맥북을 계속 실행하는 상황을 책상 위에서 덮개만 닫는 상황과 같게 취급할 수는 없다. (<a href="https://github.com/fuji-mak/Capsomnia" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>배터리 상태가 걱정된다면 막연히 수명을 추측하기보다 시스템 설정의 배터리 상태와 사용 기록을 확인할 수 있다. Apple의 배터리 설정에는 최대 용량, 최근 에너지 사용량, 최적화된 배터리 충전 등 기종에 따라 이용 가능한 항목이 나온다. 안정적인 전원을 확보하더라도 환기는 따로 챙겨야 한다. Capsomnia 역시 충분한 공기 흐름과 안정적인 전원을 사용 조건으로 적고 있다. (<a href="https://support.apple.com/guide/mac-help/change-battery-settings-mchlfc3b7879/mac" target="_blank" rel="nofollow noopener">support.apple.com</a>)</p>
+<h2>다른 잠자기 방지 앱과 비교할 기준은 덮개와 화면이다</h2>
+<p>맥북을 열어 둔 채 잠시 자리를 비우는 작업이라면 <code>caffeinate</code>나 KeepingYouAwake로도 목적을 달성할 수 있다. 덮개를 닫아야 한다면 비교 기준이 달라진다. Amphetamine은 별도의 Closed-Display Mode를 제공한다. Capsomnia는 Caps Lock 상태를 물리적인 스위치로 쓰는 방식이다. 같은 ‘잠자기 방지’ 앱이라도 덮개를 닫았을 때의 동작은 같지 않다. (<a href="https://github.com/newmarcel/KeepingYouAwake?ref=localhost" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>Capsomnia는 긴 로컬 작업을 시작할 때 켜고 돌아와서 끄는 동작이 분명하다. 반면 계속 켜 두는 운용에서는 배터리와 열, 네트워크, 작업 자체의 실패 가능성을 사용자가 떠안는다. VPS 없이 가능한가라는 질문에 이 앱이 주는 답은 ‘맥북이 잠드는 문제는 다룰 수 있다’는 것이다. 밤새 맡길 작업이라면 잠들지 않은 맥북에서 작업이 실패했을 때 어디서 다시 시작할 수 있는지도 따져야 한다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Capsomnia</span><span class="chip">맥북 잠자기 방지</span><span class="chip">맥북 덮개 닫고 작업</span><span class="chip">macOS</span><span class="chip">caffeinate</span><span class="chip">장시간 로컬 작업</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/fuji-mak/Capsomnia" rel="nofollow noopener">https://github.com/fuji-mak/Capsomnia</a></li><li><a href="https://developer.apple.com/documentation/iokit/kiopmassertiontypepreventuseridlesystemsleep" rel="nofollow noopener">https://developer.apple.com/documentation/iokit/kiopmassertiontypepreventuseridl</a></li><li><a href="https://github.com/newmarcel/KeepingYouAwake" rel="nofollow noopener">https://github.com/newmarcel/KeepingYouAwake</a></li><li><a href="https://apps.apple.com/us/app/amphetamine/id937984704" rel="nofollow noopener">https://apps.apple.com/us/app/amphetamine/id937984704</a></li><li><a href="https://support.apple.com/en-la/102336" rel="nofollow noopener">https://support.apple.com/en-la/102336</a></li><li><a href="https://support.apple.com/guide/mac-help/change-battery-settings-mchlfc3b7879/mac" rel="nofollow noopener">https://support.apple.com/guide/mac-help/change-battery-settings-mchlfc3b7879/ma</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Capsomnia를 켜면 맥북 덮개를 닫아도 작업이 계속되나요?</h2><p class="sum">Caps Lock을 켜면 Capsomnia가 시스템 잠자기를 막아 로컬 작업이 이어지도록 한다. 전원 단절이나 실행 중인 프로그램의 오류까지 막지는 못한다.</p></article><article class="dcard"><div class="t">Q</div><h2>caffeinate와 Capsomnia는 무엇이 다른가요?</h2><p class="sum"><code>caffeinate</code>는 주로 유휴 상태의 잠자기를 막는다. Capsomnia는 덮개를 닫은 맥북의 작업을 유지하는 용도로 잠자기 설정을 제어한다.</p></article><article class="dcard"><div class="t">Q</div><h2>Capsomnia를 하루 종일 켜 둬도 되나요?</h2><p class="sum">자동 종료 타이머는 최대 24시간으로 설정할 수 있지만, 지속 실행 시간이 보장되는 것은 아니다. 안정적인 전원과 통풍을 확보하고 배터리 상태를 확인해야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-08-1800.html">2026-10-08 10-08 15:00~17:41</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

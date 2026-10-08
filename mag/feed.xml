@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Kordoc은 어디에 쓰나: HWP 문서를 읽고 채우고 비교하는 방법</title>
+    <link>https://chat.axwith.com/mag/tools/kordoc-hwp-document-automation-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/kordoc-hwp-document-automation-guide.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Fri, 09 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Kordoc의 HWP·HWPX·PDF 파싱, OCR, 양식 채우기, 문서 비교 기능을 실제 명령과 함께 설명한다. MCP 연결 방법과 서식 검증이 필요한 지점도 짚었다.</description>
+  </item>
+  <item>
+    <title>Capsomnia로 맥북 덮고 장시간 작업하기, VPS 없이 어디까지 가능한가</title>
+    <link>https://chat.axwith.com/mag/tools/capsomnia-macbook-closed-lid-long-running-jobs.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/capsomnia-macbook-closed-lid-long-running-jobs.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Fri, 09 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Capsomnia는 맥북 덮개를 닫아도 로컬 작업이 계속되도록 잠자기를 막는다. 설치와 작동 확인 방법, caffeinate와의 차이, 핫스팟·전원·발열 때문에 VPS를 완전히 대체할 수 없는 이유를 정리했다.</description>
+  </item>
+  <item>
     <title>출퇴근 공부는 언제 도움이 될까: 환승길 독서와 OPIc 말하기의 차이</title>
     <link>https://chat.axwith.com/mag/workflow/commute-study-opic-speaking-practice.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/commute-study-opic-speaking-practice.html</guid>
@@ -227,21 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Tue, 29 Sep 2026 12:00:00 +0900</pubDate>
     <description>Claude 첫 달 50% 할인 메일은 누구에게 적용될까? 공식 안내를 바탕으로 기존 구독자의 자격, Claude Code 사용 범위, 자동 갱신과 환불 절차를 살폈다.</description>
-  </item>
-  <item>
-    <title>Claude Code에서 Opus 5.5와 Sonnet 5.5, 어떤 작업에 써야 할까</title>
-    <link>https://chat.axwith.com/mag/models/claude-code-opus-sonnet-model-choice.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-opus-sonnet-model-choice.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Tue, 29 Sep 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code에서 Opus 5.5와 Sonnet 5.5를 고를 때 확인할 가격, effort, 작업당 비용을 정리했다. 워커 모델을 지정하고 같은 과제로 비교하는 방법도 담았다.</description>
-  </item>
-  <item>
-    <title>클로드 코드가 멈추기 어려운 이유, 밤 11시 종료 규칙은 어떻게 지킬까</title>
-    <link>https://chat.axwith.com/mag/workflow/claude-code-late-night-stop-rule.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/claude-code-late-night-stop-rule.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 29 Sep 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드로 작업하다 밤을 넘기기 쉬운 이유를 사용 방식과 수면 연구로 살폈다. 계획·검증·세션 재개 기능을 이용해 밤 11시 종료 규칙을 실행하는 방법도 정리했다.</description>
   </item>
 </channel></rss>
