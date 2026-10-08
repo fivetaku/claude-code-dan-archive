@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ChatGPT랑 Claude 중에 어떤 게 더 나은가요? — 클코단 Q&amp;A</title>
+<title>윈도우에서 CLI를 호출할 때 발생하는 오류를 어떻게 해결하나요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="비개발자·영업/리서치 기준으로 ChatGPT와 Claude 중 뭐가 나은지 질문이 올라옴. ChatGPT Pro 5x $100과 Claude Max 5x $110 요금제 가격을 비교하며 부가세 포함 시 둘 다 비슷한 금액이라는 점이 언급됨. 부가세 공">
-<link rel="canonical" href="https://chat.axwith.com/qna/q/chatgptvsclaude비교.html">
-<meta property="og:title" content="ChatGPT랑 Claude 중에 어떤 게 더 나은가요?">
-<meta property="og:description" content="비개발자·영업/리서치 기준으로 ChatGPT와 Claude 중 뭐가 나은지 질문이 올라옴. ChatGPT Pro 5x $100과 Claude Max 5x $110 요금제 가격을 비교하며 부가세 포함 시 둘 다 비슷한 금액이라는 점이 언급됨. 부가세 공">
+<meta name="description" content="윈도우 데스크톱 앱이 설치한 실행 파일을 CLI처럼 호출할 때 api_error가 발생하는 문제를 다뤘다. 최신 exe를 자동 탐색하고 여러 요청을 묶어 하이쿠에 보내며 실패 사유를 반환하는 파이썬 코드가 공유됐다. 앱 내부용 exe를 CLI 용도로 ">
+<link rel="canonical" href="https://chat.axwith.com/qna/q/윈도우cli호출오류.html">
+<meta property="og:title" content="윈도우에서 CLI를 호출할 때 발생하는 오류를 어떻게 해결하나요?">
+<meta property="og:description" content="윈도우 데스크톱 앱이 설치한 실행 파일을 CLI처럼 호출할 때 api_error가 발생하는 문제를 다뤘다. 최신 exe를 자동 탐색하고 여러 요청을 묶어 하이쿠에 보내며 실패 사유를 반환하는 파이썬 코드가 공유됐다. 앱 내부용 exe를 CLI 용도로 ">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://chat.axwith.com/qna/q/chatgptvsclaude비교.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "ChatGPT랑 Claude 중에 어떤 게 더 나은가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "비개발자·영업/리서치 기준으로 ChatGPT와 Claude 중 뭐가 나은지 질문이 올라옴. ChatGPT Pro 5x $100과 Claude Max 5x $110 요금제 가격을 비교하며 부가세 포함 시 둘 다 비슷한 금액이라는 점이 언급됨. 부가세 공제 목적으로 사업자 등록하는 게 도움이 될지 논의가 이어짐. 비개발자/노코딩/영업·리서치 목적 기준 비교 질문 두 요금제 모두 부가세 포함 시 약 $110로 유사 부가세 공제만을 위한 사업자 등록 여부가 후속 논의로 이어짐(세금계산서 주제로 연결됨) GPT와 Claude를 순차적으로 활용하는 작업 인계 방식이 언급됐다. GPT에서 막힌 일을 Claude가 해결하는 경험이 공유됐다."}}}</script>
+<meta property="og:url" content="https://chat.axwith.com/qna/q/윈도우cli호출오류.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "윈도우에서 CLI를 호출할 때 발생하는 오류를 어떻게 해결하나요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "윈도우 데스크톱 앱이 설치한 실행 파일을 CLI처럼 호출할 때 api_error가 발생하는 문제를 다뤘다. 최신 exe를 자동 탐색하고 여러 요청을 묶어 하이쿠에 보내며 실패 사유를 반환하는 파이썬 코드가 공유됐다. 앱 내부용 exe를 CLI 용도로 쓰는 방식은 업데이트에 취약할 수 있고, exe 미발견을 명시 처리해야 한다는 의견이 나왔다. 매 발화 전 처리라면 90초 타임아웃은 지나치게 길며, 짧게 실패 처리하고 원래 흐름으로 복귀하는 설계가 권장됐다. 앱이 포함한 claude.exe 호출 시 api_error가 발생했다고 했다. 실행 파일의 최신 경로 탐색, 배치 요청, 실패 사유 반환 구조를 검토했다. cli()가 실행 파일을 찾지 못한 경우를 별도로 처리하는 편이 낫다는 지적이 나왔다. 앱 전용 실행 파일을 비공식 CLI로 쓰는 구조는 업데이트에 따라 깨질 수 있다. 라우팅 전단의 짧은 처리에는 긴 타임아웃보다 빠른 폴백이 적합하다는 의견이 제시됐다."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -238,16 +238,16 @@ background:var(--surface);text-decoration:none}
 <div class="wrap">
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
-  <span class="catchip c-model">모델 선택</span>
-  <h1>ChatGPT랑 Claude 중에 어떤 게 더 나은가요?</h1>
-  <p class="sub">방에서 3번 논의된 질문입니다.</p>
+  <span class="catchip c-ask">트러블슈팅</span>
+  <h1>윈도우에서 CLI를 호출할 때 발생하는 오류를 어떻게 해결하나요?</h1>
+  
 </header>
 <article class="qbody">
-  <p class="qanswer">비개발자·영업/리서치 기준으로 ChatGPT와 Claude 중 뭐가 나은지 질문이 올라옴. ChatGPT Pro 5x $100과 Claude Max 5x $110 요금제 가격을 비교하며 부가세 포함 시 둘 다 비슷한 금액이라는 점이 언급됨. 부가세 공제 목적으로 사업자 등록하는 게 도움이 될지 논의가 이어짐.</p>
-  <ul><li>비개발자/노코딩/영업·리서치 목적 기준 비교 질문</li><li>두 요금제 모두 부가세 포함 시 약 $110로 유사</li><li>부가세 공제만을 위한 사업자 등록 여부가 후속 논의로 이어짐(세금계산서 주제로 연결됨)</li><li>GPT와 Claude를 순차적으로 활용하는 작업 인계 방식이 언급됐다.</li><li>GPT에서 막힌 일을 Claude가 해결하는 경험이 공유됐다.</li></ul>
+  <p class="qanswer">윈도우 데스크톱 앱이 설치한 실행 파일을 CLI처럼 호출할 때 api_error가 발생하는 문제를 다뤘다. 최신 exe를 자동 탐색하고 여러 요청을 묶어 하이쿠에 보내며 실패 사유를 반환하는 파이썬 코드가 공유됐다. 앱 내부용 exe를 CLI 용도로 쓰는 방식은 업데이트에 취약할 수 있고, exe 미발견을 명시 처리해야 한다는 의견이 나왔다. 매 발화 전 처리라면 90초 타임아웃은 지나치게 길며, 짧게 실패 처리하고 원래 흐름으로 복귀하는 설계가 권장됐다.</p>
+  <ul><li>앱이 포함한 claude.exe 호출 시 api_error가 발생했다고 했다.</li><li>실행 파일의 최신 경로 탐색, 배치 요청, 실패 사유 반환 구조를 검토했다.</li><li>cli()가 실행 파일을 찾지 못한 경우를 별도로 처리하는 편이 낫다는 지적이 나왔다.</li><li>앱 전용 실행 파일을 비공식 CLI로 쓰는 구조는 업데이트에 따라 깨질 수 있다.</li><li>라우팅 전단의 짧은 처리에는 긴 타임아웃보다 빠른 폴백이 적합하다는 의견이 제시됐다.</li></ul>
 </article>
-<a class="srccard" href="../../s/2026-10-08-0900.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-10-08 아카이브</span></a>
-<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="fablegpt모델비교.html">Fable이랑 GPT 모델은 성능 차이가 얼마나 나나요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li></ul></section>
+<a class="srccard" href="../../s/2026-10-08-1800.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-10-08 아카이브</span></a>
+<section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claude장애와529.html">Claude에서 529 오류가 뜨는 건 서버 장애 때문인가요?</a></li><li><a href="클로드코드구독전환문.html">클로드코드 구독을 전환하려면 어떻게 해야 하나요?</a></li><li><a href="페이블대비오푸스사용후기.html">페이블 대신 오푸스를 써보니 실제로 어떤가요?</a></li><li><a href="클로드코드529오류.html">클로드 코드에서 529 오류가 자꾸 뜨는데 원인이 뭘까?</a></li><li><a href="에이전트게이트설계.html">에이전트 실행을 막는 게이트는 어떻게 설계하나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
 <a href="../../p/about.html">소개</a> · <a href="../../p/privacy.html">개인정보처리방침</a> · <a href="../../p/contact.html">문의</a> · <a href="../../">아카이브</a></footer>

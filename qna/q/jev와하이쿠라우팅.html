@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ChatGPT랑 Claude 중에 어떤 게 더 나은가요? — 클코단 Q&amp;A</title>
+<title>JEV와 하이쿠 모델의 라우팅은 어떻게 설정하나요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="비개발자·영업/리서치 기준으로 ChatGPT와 Claude 중 뭐가 나은지 질문이 올라옴. ChatGPT Pro 5x $100과 Claude Max 5x $110 요금제 가격을 비교하며 부가세 포함 시 둘 다 비슷한 금액이라는 점이 언급됨. 부가세 공">
-<link rel="canonical" href="https://chat.axwith.com/qna/q/chatgptvsclaude비교.html">
-<meta property="og:title" content="ChatGPT랑 Claude 중에 어떤 게 더 나은가요?">
-<meta property="og:description" content="비개발자·영업/리서치 기준으로 ChatGPT와 Claude 중 뭐가 나은지 질문이 올라옴. ChatGPT Pro 5x $100과 Claude Max 5x $110 요금제 가격을 비교하며 부가세 포함 시 둘 다 비슷한 금액이라는 점이 언급됨. 부가세 공">
+<meta name="description" content="매 발화마다 라우팅이나 스킬 실행 전 짧은 판단 단계를 넣기 위해 하이쿠 CLI 사용을 검토했다. 로컬 환경에서는 프로세스 기동만 약 1.9초가 걸리고, 이 단계가 라우터 전단이라 비동기 처리도 어렵다는 제약이 나왔다. JEV는 TypeSafe AI의">
+<link rel="canonical" href="https://chat.axwith.com/qna/q/jev와하이쿠라우팅.html">
+<meta property="og:title" content="JEV와 하이쿠 모델의 라우팅은 어떻게 설정하나요?">
+<meta property="og:description" content="매 발화마다 라우팅이나 스킬 실행 전 짧은 판단 단계를 넣기 위해 하이쿠 CLI 사용을 검토했다. 로컬 환경에서는 프로세스 기동만 약 1.9초가 걸리고, 이 단계가 라우터 전단이라 비동기 처리도 어렵다는 제약이 나왔다. JEV는 TypeSafe AI의">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://chat.axwith.com/qna/q/chatgptvsclaude비교.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "ChatGPT랑 Claude 중에 어떤 게 더 나은가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "비개발자·영업/리서치 기준으로 ChatGPT와 Claude 중 뭐가 나은지 질문이 올라옴. ChatGPT Pro 5x $100과 Claude Max 5x $110 요금제 가격을 비교하며 부가세 포함 시 둘 다 비슷한 금액이라는 점이 언급됨. 부가세 공제 목적으로 사업자 등록하는 게 도움이 될지 논의가 이어짐. 비개발자/노코딩/영업·리서치 목적 기준 비교 질문 두 요금제 모두 부가세 포함 시 약 $110로 유사 부가세 공제만을 위한 사업자 등록 여부가 후속 논의로 이어짐(세금계산서 주제로 연결됨) GPT와 Claude를 순차적으로 활용하는 작업 인계 방식이 언급됐다. GPT에서 막힌 일을 Claude가 해결하는 경험이 공유됐다."}}}</script>
+<meta property="og:url" content="https://chat.axwith.com/qna/q/jev와하이쿠라우팅.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "JEV와 하이쿠 모델의 라우팅은 어떻게 설정하나요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "매 발화마다 라우팅이나 스킬 실행 전 짧은 판단 단계를 넣기 위해 하이쿠 CLI 사용을 검토했다. 로컬 환경에서는 프로세스 기동만 약 1.9초가 걸리고, 이 단계가 라우터 전단이라 비동기 처리도 어렵다는 제약이 나왔다. JEV는 TypeSafe AI의 System One 모델로, 텍스트 대신 타입이 지정된 확률적 결정을 반환해 자동화와 AI 에이전트 검증에 쓰는 도구로 소개됐다. 기본 판단은 가벼운 결정 모델·규칙으로 처리하고 애매한 경우만 하이쿠로 넘기는 하이브리드 방향이 논의됐지만, 상시 프로세스 대기와 직접 API 호출의 실현 조건은 추가 검토가 필요하다. 하이쿠를 매 발화 전 라우팅 판단에 넣는 방안을 검토했다. PC 환경에서 CLI 기동 시간만 약 1.9초라고 했다. 프로세스 재사용과 API 직접 호출은 기동 비용을 줄이는 방안으로 언급됐다. 라우터 앞단이라 결과를 나중에 반영하는 비동기 방식은 어렵다는 제약이 제시됐다. JEV는 타입 지정 확률적 결정을 반환하는 System One 모델로 공유됐다."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -239,14 +239,14 @@ background:var(--surface);text-decoration:none}
 <div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a href="../../mag/"><b>매거진</b><i></i></a><a class="on" href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
   <span class="catchip c-model">모델 선택</span>
-  <h1>ChatGPT랑 Claude 중에 어떤 게 더 나은가요?</h1>
-  <p class="sub">방에서 3번 논의된 질문입니다.</p>
+  <h1>JEV와 하이쿠 모델의 라우팅은 어떻게 설정하나요?</h1>
+  
 </header>
 <article class="qbody">
-  <p class="qanswer">비개발자·영업/리서치 기준으로 ChatGPT와 Claude 중 뭐가 나은지 질문이 올라옴. ChatGPT Pro 5x $100과 Claude Max 5x $110 요금제 가격을 비교하며 부가세 포함 시 둘 다 비슷한 금액이라는 점이 언급됨. 부가세 공제 목적으로 사업자 등록하는 게 도움이 될지 논의가 이어짐.</p>
-  <ul><li>비개발자/노코딩/영업·리서치 목적 기준 비교 질문</li><li>두 요금제 모두 부가세 포함 시 약 $110로 유사</li><li>부가세 공제만을 위한 사업자 등록 여부가 후속 논의로 이어짐(세금계산서 주제로 연결됨)</li><li>GPT와 Claude를 순차적으로 활용하는 작업 인계 방식이 언급됐다.</li><li>GPT에서 막힌 일을 Claude가 해결하는 경험이 공유됐다.</li></ul>
+  <p class="qanswer">매 발화마다 라우팅이나 스킬 실행 전 짧은 판단 단계를 넣기 위해 하이쿠 CLI 사용을 검토했다. 로컬 환경에서는 프로세스 기동만 약 1.9초가 걸리고, 이 단계가 라우터 전단이라 비동기 처리도 어렵다는 제약이 나왔다. JEV는 TypeSafe AI의 System One 모델로, 텍스트 대신 타입이 지정된 확률적 결정을 반환해 자동화와 AI 에이전트 검증에 쓰는 도구로 소개됐다. 기본 판단은 가벼운 결정 모델·규칙으로 처리하고 애매한 경우만 하이쿠로 넘기는 하이브리드 방향이 논의됐지만, 상시 프로세스 대기와 직접 API 호출의 실현 조건은 추가 검토가 필요하다.</p>
+  <ul><li>하이쿠를 매 발화 전 라우팅 판단에 넣는 방안을 검토했다.</li><li>PC 환경에서 CLI 기동 시간만 약 1.9초라고 했다.</li><li>프로세스 재사용과 API 직접 호출은 기동 비용을 줄이는 방안으로 언급됐다.</li><li>라우터 앞단이라 결과를 나중에 반영하는 비동기 방식은 어렵다는 제약이 제시됐다.</li><li>JEV는 타입 지정 확률적 결정을 반환하는 System One 모델로 공유됐다.</li></ul>
 </article>
-<a class="srccard" href="../../s/2026-10-08-0900.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-10-08 아카이브</span></a>
+<a class="srccard" href="../../s/2026-10-08-1800.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-10-08 아카이브</span></a>
 <section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="모델오케스트레이션.html">여러 모델을 함께 오케스트레이션하려면 어떻게 해야 하나요?</a></li><li><a href="claudecodecodex컨텍스.html">Claude Code와 Codex 사이에 컨텍스트를 공유할 수 있나요?</a></li><li><a href="orca멀티에이전트.html">Orca 멀티 에이전트는 어떻게 쓰는 게 효과적일까요?</a></li><li><a href="fablegpt모델비교.html">Fable이랑 GPT 모델은 성능 차이가 얼마나 나나요?</a></li><li><a href="hermesagent및봇플랫폼조합.html">Hermes agent를 봇 플랫폼과 어떻게 조합하나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
