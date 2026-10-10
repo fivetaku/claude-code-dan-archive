@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>온프레미스 OpenCode, 사내 개발팀의 구현 담당으로 쓸 만한가</title>
+    <link>https://chat.axwith.com/mag/ops/onprem-opencode-development-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/onprem-opencode-development-workflow.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Sun, 11 Oct 2026 12:00:00 +0900</pubDate>
+    <description>온프레미스 오픈웨이트 모델에 OpenCode를 연결해 PRD 작성, 구현, 검증을 나누는 방법과 실제 운영에서 마주치는 지연 시간·도구 호출·모델 성능 문제를 정리했다.</description>
+  </item>
+  <item>
+    <title>고사양 맥북 대신 맥 미니·맥 스튜디오를 원격으로 쓸 수 있을까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/macbook-vs-remote-mac-desktop.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/macbook-vs-remote-mac-desktop.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 11 Oct 2026 12:00:00 +0900</pubDate>
+    <description>고사양 맥북과 맥 미니·맥 스튜디오 원격 구성의 선택 기준을 살폈다. 통합 메모리, 실제 작업 위치, 화면 공유의 제약과 구매 전 확인할 항목을 정리했다.</description>
+  </item>
+  <item>
     <title>SK하이닉스 AI 해커톤 2026, 예선에서 무엇을 준비해야 하나</title>
     <link>https://chat.axwith.com/mag/workflow/sk-hynix-ai-hackathon-preparation.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/sk-hynix-ai-hackathon-preparation.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Wed, 30 Sep 2026 12:00:00 +0900</pubDate>
     <description>OMO JEV 플러그인의 설치·설정 방법과 실험적 코드 검색의 작동 방식을 살폈다. 저장소의 비용 비교가 입증한 범위와 실제 사용 전 확인할 제약도 짚는다.</description>
-  </item>
-  <item>
-    <title>ChatGPT Pro 200 사용량 축소, 기존 구독자는 언제 영향을 받나</title>
-    <link>https://chat.axwith.com/mag/models/chatgpt-pro-200-usage-change.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/chatgpt-pro-200-usage-change.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Wed, 30 Sep 2026 12:00:00 +0900</pubDate>
-    <description>ChatGPT Pro 200의 사용량 축소는 더 이상 소문만은 아니다. 기존 구독자의 적용 시점, Codex와 이미지 생성의 한도 차이, 해지와 환불 조건을 공식 안내로 확인했다.</description>
-  </item>
-  <item>
-    <title>Claude Code에서 Astra로 갈아탈까: Fable 5.1·Opus 5.5 코딩 비교</title>
-    <link>https://chat.axwith.com/mag/models/astra-fable-opus-coding-comparison.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/astra-fable-opus-coding-comparison.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Wed, 30 Sep 2026 12:00:00 +0900</pubDate>
-    <description>GPT-6 Astra, Claude Fable 5.1, Opus 5.5의 공식 가격과 코딩 평가를 대조했다. Claude Code와 Codex를 오갈 때 결과물·비용·작업 환경을 함께 비교하는 방법도 담았다.</description>
   </item>
 </channel></rss>
