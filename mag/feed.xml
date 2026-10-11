@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Qwen 27B 1비트 로컬 모델은 실무에 쓸 만한가: 속도와 품질을 가르는 조건</title>
+    <link>https://chat.axwith.com/mag/models/qwen-27b-one-bit-local-use.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-27b-one-bit-local-use.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 12 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Qwen 27B를 1비트로 줄여 로컬에서 돌리면 실무에도 쓸 수 있을까? 양자화 품질과 메모리, oMLX의 캐싱 효과, 클라우드 모델과 비교할 때 확인할 기준을 정리했다.</description>
+  </item>
+  <item>
+    <title>그록 구독할 가치 있나: X 실시간 검색과 이미지·영상 생성의 쓰임새</title>
+    <link>https://chat.axwith.com/mag/models/grok-subscription-search-imagine-value.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/grok-subscription-search-imagine-value.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 12 Oct 2026 12:00:00 +0900</pubDate>
+    <description>그록 구독을 고민한다면 X Premium과 SuperGrok의 차이부터 확인해야 한다. 실시간 반응 조사, Imagine 제작, 코딩 작업에서 무료 사용과 유료 사용의 경계를 살펴봤다.</description>
+  </item>
+  <item>
     <title>온프레미스 OpenCode, 사내 개발팀의 구현 담당으로 쓸 만한가</title>
     <link>https://chat.axwith.com/mag/ops/onprem-opencode-development-workflow.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/onprem-opencode-development-workflow.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
     <description>Claude Code에서 Opus 5.5와 Sonnet 5.5를 어떻게 나눠 쓸지 살폈다. GPT-6.1 Sol의 API 가격과 Codex Pro 500의 구독료가 실제 선택에 어떤 영향을 주는지도 짚었다.</description>
-  </item>
-  <item>
-    <title>AX와 DX의 차이: 클로드코드로 반복 업무를 바꾸는 기준</title>
-    <link>https://chat.axwith.com/mag/workflow/ax-dx-claude-code-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ax-dx-claude-code-workflow.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
-    <description>AX와 DX는 별개의 순서표가 아니다. 클로드코드로 고객 요청을 분류하는 예시를 통해 디지털 기록이 어떻게 AI의 입력이 되고, 어디까지 자동화할지 설명한다.</description>
-  </item>
-  <item>
-    <title>OMO JEV 플러그인은 탐색 비용을 얼마나 줄일까: 설치부터 실험 결과까지</title>
-    <link>https://chat.axwith.com/mag/tools/omo-jev-plugin-code-search-cost.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/omo-jev-plugin-code-search-cost.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Wed, 30 Sep 2026 12:00:00 +0900</pubDate>
-    <description>OMO JEV 플러그인의 설치·설정 방법과 실험적 코드 검색의 작동 방식을 살폈다. 저장소의 비용 비교가 입증한 범위와 실제 사용 전 확인할 제약도 짚는다.</description>
   </item>
 </channel></rss>

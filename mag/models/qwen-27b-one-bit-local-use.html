@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qwen 27B 1비트 로컬 모델은 실무에 쓸 만한가: 속도와 품질을 가르는 조건 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Qwen 27B를 1비트로 줄여 로컬에서 돌리면 실무에도 쓸 수 있을까? 양자화 품질과 메모리, oMLX의 캐싱 효과, 클라우드 모델과 비교할 때 확인할 기준을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/qwen-27b-one-bit-local-use.html">
+<meta property="og:title" content="Qwen 27B 1비트 로컬 모델은 실무에 쓸 만한가: 속도와 품질을 가르는 조건">
+<meta property="og:description" content="Qwen 27B를 1비트로 줄여 로컬에서 돌리면 실무에도 쓸 수 있을까? 양자화 품질과 메모리, oMLX의 캐싱 효과, 클라우드 모델과 비교할 때 확인할 기준을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/qwen-27b-one-bit-local-use.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Qwen 27B 1비트 로컬 모델은 실무에 쓸 만한가: 속도와 품질을 가르는 조건", "description": "Qwen 27B를 1비트로 줄여 로컬에서 돌리면 실무에도 쓸 수 있을까? 양자화 품질과 메모리, oMLX의 캐싱 효과, 클라우드 모델과 비교할 때 확인할 기준을 정리했다.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/qwen-27b-one-bit-local-use.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Qwen 27B, 로컬 LLM, 1비트 양자화, GGUF, llama.cpp, oMLX", "image": "https://chat.axwith.com/mag/hero/qwen-27b-one-bit-local-use.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Qwen 27B 1비트 모델은 원본 모델과 성능이 같은가요?", "acceptedAnswer": {"@type": "Answer", "text": "같다고 가정할 수 없습니다. ‘1비트’로 묶이는 양자화 방식도 서로 다르며, 방에서 사용한 정확한 파일과 비교 시험 결과는 확인되지 않았습니다."}}, {"@type": "Question", "name": "로컬 모델의 속도는 무엇을 재야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "첫 응답까지의 시간과 출력 속도를 구분해 재야 합니다. 실무 비교라면 재시도와 사람의 수정까지 포함한 작업 완료 시간도 필요합니다."}}, {"@type": "Question", "name": "oMLX를 쓰면 Qwen 모델의 답변 품질도 좋아지나요?", "acceptedAnswer": {"@type": "Answer", "text": "oMLX의 캐싱은 반복 입력을 처리하는 시간을 줄이는 기능입니다. 그 기능만으로 모델의 답변 정확도가 높아지는 것은 아닙니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/qwen-27b-one-bit-local-use.png" alt="Qwen 27B 1비트 로컬 모델은 실무에 쓸 만한가: 속도와 품질을 가르는 조건" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Qwen 27B 1비트 로컬 모델은 실무에 쓸 만한가: 속도와 품질을 가르는 조건</h1>
+  <p class="sub">구동 성공과 작업 성공은 다르다. 초저비트 양자화, 긴 문맥, 로컬 추론 서버가 실제 사용성을 어떻게 바꾸는지 살폈다.</p>
+  <div class="meta"><span>2026-10-12</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Qwen 27B를 1비트로 줄여 로컬에서 돌렸다는 경험은 흥미롭다. 하지만 모델이 실행된다는 사실만으로 작업을 맡길 수 있는지는 알 수 없다. 로컬 모델은 실무 도구인가, 아니면 구동 자체가 더 재미있는 실험인가?</p>
+<h2>‘Qwen 27B 1비트’라는 말부터 구분해야 한다</h2>
+<p>클코단에서는 Qwen 27B의 초저비트 버전을 구동해봤다는 이야기가 나왔다. 직접 돌려보는 재미에 공감하는 의견과 프론티어 모델을 대신하기에는 부족하다는 의견이 갈렸다. 다만 대화에 정확한 모델 세대와 양자화 파일명은 없다. 특정 제품의 성능 평가로 확대할 근거는 없는 셈이다.</p>
+<p>양자화는 모델의 가중치를 더 적은 비트로 저장해 메모리 부담을 줄이는 방식이다. 여기서 ‘1비트’는 파일을 확인하기 전까지 정확한 사양이 아니다. llama.cpp의 양자화 목록만 봐도 Q1_0은 가중치당 1.125비트, IQ1_S는 1.56비트로 표기된다. 같은 1비트 계열이라는 소개만으로 두 파일의 크기와 품질을 같다고 취급할 수 없다. (<a href="https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/quantize.cpp" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>처음부터 저비트 구조로 학습한 모델과 학습을 마친 Qwen을 나중에 압축한 모델도 다르다. 마이크로소프트의 BitNet 자료는 자사 모델을 처음부터 저비트 방식으로 학습했다고 명시한다. Qwen 27B의 양자화 파일을 BitNet과 동일한 방식으로 만들어진 ‘네이티브 1비트 모델’이라고 부르면 안 되는 이유다. (<a href="https://github.com/microsoft/BitNet" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<h2>모델이 들어가는 것과 문맥이 들어가는 것은 다르다</h2>
+<p>압축한 가중치가 메모리에 들어가도 작업은 끝나지 않는다. 대화와 입력 내용을 처리하는 캐시, 실행 프로그램, 운영체제에도 공간이 필요하다. 특히 긴 문서를 넣거나 도구를 여러 차례 호출하면 처음의 짧은 질문과는 메모리 조건이 달라진다. 개인 개발자가 모델 파일 크기만 보고 장비 적합성을 판단하기 어려운 이유다.</p>
+<p>Qwen이 공개한 Qwen3.8-27B의 기본 문맥 길이는 26만 2144토큰이다. 이 수치는 로컬 컴퓨터에서 언제나 그 길이를 쾌적하게 처리한다는 보증이 아니다. 참고로 Ollama가 제공하는 Qwen3.5 27B 항목은 다운로드 크기를 약 17~20GB로 표시한다. 세대와 배포 형식이 다른 수치이므로 방에서 언급된 1비트 파일의 실제 크기를 대신하지는 않는다. (<a href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="nofollow noopener">huggingface.co</a>)</p>
+<p>실행을 재현하려면 모델 이름보다 파일과 설정을 먼저 기록해야 한다. GGUF 파일을 쓴다면 배포 저장소에서 양자화 종류를 고르고 llama.cpp의 <code>llama-server</code>에 파일 경로와 문맥 길이를 지정할 수 있다. 같은 질문을 각 설정에 입력한 뒤 답변뿐 아니라 첫 응답까지의 시간, 메모리 사용량, 작업 완료 여부를 남긴다. llama.cpp 문서는 GGUF 모델 실행과 서버의 문맥 길이 설정을 안내한다. (<a href="https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/qwen-27b-one-bit-local-use.png" alt="" loading="lazy"><h2>빠른 출력이 곧 빠른 작업 완료는 아니다</h2>
+<p>로컬 모델의 인상은 추론 서버에 따라서도 바뀐다. Apple Silicon용 oMLX는 모델을 제공하는 서버로, 반복해서 등장하는 입력 앞부분을 KV 캐시에 보관한다. 프로젝트 지침처럼 같은 내용이 다시 들어오면 앞부분을 재계산하는 부담을 줄일 수 있다. 여러 요청을 함께 처리하는 기능과 토큰 생성·입력 처리 속도를 따로 측정하는 화면도 제공한다. (<a href="https://github.com/jundot/omlx" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>그렇다고 캐싱이 모델의 추론 능력을 높여주지는 않는다. 반복 입력에서 얻는 시간 절약과 처음 보는 문제를 정확히 푸는 능력은 서로 다른 항목이다. 제공된 사용 사례에는 oMLX에서 빠른 출력 속도를 관찰했다는 경험도 담겨 있다. 해당 수치를 다른 컴퓨터나 모델에서도 얻는 성능으로 일반화할 수는 없다.</p>
+<p>실사용에서도 평가는 엇갈린다. 써본 사람들 사이에는 작은 작업은 맡길 만하지만 긴 코딩 과정에서는 응답 지연과 반복적인 추론이 부담스럽다는 반응이 있다. 반대로 도구 연결과 작업 범위를 조정하니 유용해졌다는 의견도 나온다. 어느 쪽도 모든 Qwen 27B 양자화 파일에 적용되는 판정은 아니다.</p>
+<h2>프론티어 모델과 비교할 때 빠뜨리기 쉬운 조건</h2>
+<p>클코단의 회의론은 한 번 생성한 문장의 품질보다 작업 전반의 신뢰도를 묻는 의견에 가깝다. 코드 작업이라면 지시를 이해하고 필요한 파일을 고른 뒤 도구를 호출해 오류를 수정해야 한다. 처음 답이 그럴듯해도 뒤의 단계에서 막히면 사람의 확인 시간이 늘어난다.</p>
+<p>한편 로컬 모델 전체를 ‘장난감’으로 묶기도 어렵다. Qwen이 공개한 Qwen3.8-27B의 평가표는 Terminal Bench 2.1에서 73.0점, 비교 대상으로 제시한 Opus 4.6 Max에서 78.2점을 기록했다. 같은 표의 다른 코딩 시험에서는 순서가 달라진다. 다만 이 결과는 Qwen의 평가 조건에서 얻은 점수다. 방에서 사용한 미확인 1비트 파일의 점수도, 개별 개발자의 프로젝트 완료율도 아니다. (<a href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="nofollow noopener">huggingface.co</a>)</p>
+<p>공정한 비교에는 같은 입력과 성공 기준이 필요하다. 예를 들어 이미 테스트가 있는 저장소에서 함수 하나를 고치게 하고 양쪽 모델에 동일한 지침과 파일 접근 범위를 준다. 이어 테스트 통과, 잘못 바꾼 파일, 재시도 횟수, 사람이 수정한 시간을 함께 비교한다. 출력 토큰 속도만 재면 클라우드 모델의 대기 시간은 보이지만 실패를 복구하는 데 든 시간은 빠진다.</p>
+<h2>개인 개발자의 선택은 작업 단위에서 갈린다</h2>
+<p>로컬 실행의 이점은 모델 선택과 실행 환경을 직접 통제할 수 있다는 점이다. 반복 입력이 많은 작업에는 캐싱도 도움이 될 수 있다. 반면 기기의 메모리가 부족하거나 긴 문맥이 꼭 필요하다면 더 강한 압축은 품질 손실을 감수하게 만들 수 있다. 1비트 구동 성공을 실무 도입의 최종 근거로 삼기 어려운 까닭이다.</p>
+<p>작은 팀이라면 같은 Qwen 27B에서 양자화 수준만 바꿔 비교하는 편이 질문에 더 정확히 답한다. 1비트 계열, 메모리에 여유를 둔 상위 비트 파일, 기존에 쓰던 클라우드 모델에 같은 일을 시켜본다. 한 번의 멋진 결과보다 열 번의 수정 요청에서 몇 번을 끝냈는지가 유용하다.</p>
+<p>로컬 모델이 장난감인지 묻는 질문에는 모델 이름 하나로 답할 수 없다. 방의 구동 경험은 실행 가능성을 보여주지만 품질 평가는 남겨둔다. 그 간극을 메우는 값은 초당 토큰 수가 아니라 정해둔 작업을 사람의 추가 수정 없이 마친 비율이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Qwen 27B</span><span class="chip">로컬 LLM</span><span class="chip">1비트 양자화</span><span class="chip">GGUF</span><span class="chip">llama.cpp</span><span class="chip">oMLX</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://huggingface.co/Qwen/Qwen3.8-27B" rel="nofollow noopener">https://huggingface.co/Qwen/Qwen3.8-27B</a></li><li><a href="https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/quantize.cpp" rel="nofollow noopener">https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/quantize.cpp</a></li><li><a href="https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md" rel="nofollow noopener">https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md</a></li><li><a href="https://github.com/ggml-org/llama.cpp/blob/master/docs/models.md" rel="nofollow noopener">https://github.com/ggml-org/llama.cpp/blob/master/docs/models.md</a></li><li><a href="https://github.com/jundot/omlx" rel="nofollow noopener">https://github.com/jundot/omlx</a></li><li><a href="https://github.com/microsoft/BitNet" rel="nofollow noopener">https://github.com/microsoft/BitNet</a></li><li><a href="https://github.com/huggingface/transformers/blob/main/docs/source/en/model_doc/bitnet.md" rel="nofollow noopener">https://github.com/huggingface/transformers/blob/main/docs/source/en/model_doc/b</a></li><li><a href="https://ollama.com/library/qwen3.5" rel="nofollow noopener">https://ollama.com/library/qwen3.5</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Qwen 27B 1비트 모델은 원본 모델과 성능이 같은가요?</h2><p class="sum">같다고 가정할 수 없습니다. ‘1비트’로 묶이는 양자화 방식도 서로 다르며, 방에서 사용한 정확한 파일과 비교 시험 결과는 확인되지 않았습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>로컬 모델의 속도는 무엇을 재야 하나요?</h2><p class="sum">첫 응답까지의 시간과 출력 속도를 구분해 재야 합니다. 실무 비교라면 재시도와 사람의 수정까지 포함한 작업 완료 시간도 필요합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>oMLX를 쓰면 Qwen 모델의 답변 품질도 좋아지나요?</h2><p class="sum">oMLX의 캐싱은 반복 입력을 처리하는 시간을 줄이는 기능입니다. 그 기능만으로 모델의 답변 정확도가 높아지는 것은 아닙니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-11-1800.html">2026-10-11 10-11 13:20~17:47</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
