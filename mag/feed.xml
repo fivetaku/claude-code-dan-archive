@@ -21,6 +21,14 @@
     <description>그록 구독을 고민한다면 X Premium과 SuperGrok의 차이부터 확인해야 한다. 실시간 반응 조사, Imagine 제작, 코딩 작업에서 무료 사용과 유료 사용의 경계를 살펴봤다.</description>
   </item>
   <item>
+    <title>중학생과 Claude가 검증한 루퍼트 문제, AI 증명은 믿을 수 있나</title>
+    <link>https://chat.axwith.com/mag/models/claude-rupert-proof-verification.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-rupert-proof-verification.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Mon, 12 Oct 2026 12:00:00 +0900</pubDate>
+    <description>중학생이 Claude와 함께 rhombicosidodecahedron의 루퍼트 성질 부재를 증명한 사례를 통해 구간 연산, 공개 코드, 독립 검증의 의미를 살펴본다.</description>
+  </item>
+  <item>
     <title>온프레미스 OpenCode, 사내 개발팀의 구현 담당으로 쓸 만한가</title>
     <link>https://chat.axwith.com/mag/ops/onprem-opencode-development-workflow.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/onprem-opencode-development-workflow.html</guid>
@@ -235,13 +243,5 @@
     <category>배포·운영</category>
     <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
     <description>하나투어의 웍스AI 16억 토큰은 월간 사용량이 아니라 누적치다. 전사 도입 규모와 에이전트 기능을 확인하고, 토큰·이용률·업무 성과를 구분해 읽는 방법을 짚는다.</description>
-  </item>
-  <item>
-    <title>Claude Code 모델 조합, Opus 5.5와 Sonnet 5.5 중 무엇을 주력으로 쓸까</title>
-    <link>https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-opus-sonnet-sol-cost.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code에서 Opus 5.5와 Sonnet 5.5를 어떻게 나눠 쓸지 살폈다. GPT-6.1 Sol의 API 가격과 Codex Pro 500의 구독료가 실제 선택에 어떤 영향을 주는지도 짚었다.</description>
   </item>
 </channel></rss>

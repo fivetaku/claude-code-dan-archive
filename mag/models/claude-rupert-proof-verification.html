@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>중학생과 Claude가 검증한 루퍼트 문제, AI 증명은 믿을 수 있나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="중학생이 Claude와 함께 rhombicosidodecahedron의 루퍼트 성질 부재를 증명한 사례를 통해 구간 연산, 공개 코드, 독립 검증의 의미를 살펴본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/claude-rupert-proof-verification.html">
+<meta property="og:title" content="중학생과 Claude가 검증한 루퍼트 문제, AI 증명은 믿을 수 있나">
+<meta property="og:description" content="중학생이 Claude와 함께 rhombicosidodecahedron의 루퍼트 성질 부재를 증명한 사례를 통해 구간 연산, 공개 코드, 독립 검증의 의미를 살펴본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/claude-rupert-proof-verification.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "중학생과 Claude가 검증한 루퍼트 문제, AI 증명은 믿을 수 있나", "description": "중학생이 Claude와 함께 rhombicosidodecahedron의 루퍼트 성질 부재를 증명한 사례를 통해 구간 연산, 공개 코드, 독립 검증의 의미를 살펴본다.", "datePublished": "2026-10-12", "dateModified": "2026-10-12", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/claude-rupert-proof-verification.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "AI 수학, 컴퓨터 보조 증명, 루퍼트 성질, rhombicosidodecahedron, 구간 연산, 수학 연구, Claude", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "루퍼트 성질이란 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "입체에 구멍을 뚫고 같은 모양의 복제본을 통과시킬 수 있는지를 묻는 기하학적 성질이다. 정육면체는 루퍼트 성질을 가지지만 rhombicosidodecahedron은 갖지 않는다는 증명이 제시됐다."}}, {"@type": "Question", "name": "이번 증명은 동료심사를 마쳤나?", "acceptedAnswer": {"@type": "Answer", "text": "공개 프리프린트와 GitHub 저장소가 있지만, 확인된 자료만으로는 동료심사를 거친 최종 학술지 논문이라고 볼 수 없다. 공개 코드와 독립 재현은 검토에 필요한 자료이지, 학계의 최종 승인과 같은 의미는 아니다."}}, {"@type": "Question", "name": "AI가 수학 증명을 대신한 것인가?", "acceptedAnswer": {"@type": "Answer", "text": "Claude는 아이디어 탐색, 코드 작성, 문서화에 참여했지만 문제 선택과 방향 설정, 오류 점검은 사람이 맡았다. 실제 증명의 신뢰성은 AI의 설명보다 구간 연산과 공개 인증 자료가 결정한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>중학생과 Claude가 검증한 루퍼트 문제, AI 증명은 믿을 수 있나</h1>
+  <p class="sub">12.3 million개 구간을 검사한 컴퓨터 보조 증명과 독립 연구가 AI 수학의 검증 조건을 묻는다</p>
+  <div class="meta"><span>2026-10-12</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI가 수학 문제를 풀었다는 소식은 이제 낯설지 않다. 하지만 이번 사례의 핵심은 답을 냈다는 데 있지 않다. 한 학생이 Claude와 함께 정다면체의 통과 가능성을 부정하는 컴퓨터 보조 증명을 제시하고 공개 코드와 계산 결과까지 내놓았다는 점이다. 이 증명을 독자는 어디까지 믿어도 될까.</p>
+<h2>문제의 이름은 루퍼트 성질이다</h2>
+<p>루퍼트 성질은 같은 모양의 입체를 다른 복제본에 뚫은 구멍으로 통과시킬 수 있는지를 묻는다. 구멍을 내고도 바깥 입체가 하나로 남아 있어야 한다. 17세기 Prince Rupert가 정육면체를 두고 내기를 벌였다는 일화에서 이름이 붙었다.</p>
+<p>정육면체는 기울이면 통과할 수 있다. 한 방향에서 본 그림자가 다른 방향의 그림자를 넉넉히 감싸기 때문이다. 작은 그림자를 통로의 단면으로 만들면 복제본을 통로 안으로 밀어 넣을 수 있다. 이 관점은 루퍼트 문제를 3차원 물체의 그림자와 2차원 투영 문제로 바꾼다.</p>
+<p>이번 사례의 대상은 rhombicosidodecahedron이다. 한국어로는 보통 마름모십이이십면체라고 부르지만 rhombic triacontahedron과는 다른 입체다. 이 아르키메데스 입체는 정삼각형 20개, 정사각형 30개, 정오각형 12개로 이뤄져 모두 62개의 면을 가진다.</p>
+<h2>오래된 추측이 계산 문제로 바뀐 과정</h2>
+<p>2021년 Jakob Steininger와 Sergey Yurkevich는 루퍼트 문제를 대수적 좌표를 가진 다면체에 대해 알고리즘으로 판정할 수 있다고 설명했다. 두 연구자는 여러 입체의 통과 경로를 계산했고 rhombicosidodecahedron은 루퍼트 성질이 없을 가능성이 높다고 추측했다.</p>
+<p>당시에는 추측일 뿐이었다. 가능한 회전이 무한히 많다. 컴퓨터가 통과 경로를 찾지 못했다는 사실만으로는 통과 불가능을 증명할 수 없다. Quanta Magazine이 소개한 것처럼 연구자들은 이 입체를 오랫동안 계산했지만 발견된 경로는 없었다.</p>
+<p>2025년에는 Steininger와 Yurkevich가 Noperthedron이라는 별도 입체를 제시했다. 이 입체는 자기 복제본을 통과시킬 수 없다는 최초의 명시적 반례였다. 그 결과 모든 볼록 다면체가 루퍼트 성질을 가진다는 오래된 믿음은 깨졌고 다음 후보로 rhombicosidodecahedron이 남았다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-rupert-proof-verification.png" alt="" loading="lazy"><h2>Claude는 증명을 어떻게 도왔나</h2>
+<p>공개된 설명에 따르면 연구자는 먼저 입체의 좌표와 회전 조건을 정리했다. Claude는 수학적 아이디어를 제안하고 계산 코드와 논문 초안을 작성하는 데 참여했다. 연구자는 문제를 고르고 각 단계의 방향을 결정했으며 결과를 다시 확인했다.</p>
+<p>증명의 계산 구조는 단순한 숫자 대입이 아니다. 가능한 두 입체의 방향을 매개변수 공간의 영역으로 나눈 뒤 각 영역에서 그림자가 서로 들어맞을 수 있는지 검사한다. 넓은 영역에서 조건이 성립하지 않으면 해당 영역을 제거한다. 애매한 영역은 더 작은 상자로 쪼개 다시 확인한다.</p>
+<p>여기서 사용한 방식이 branch-and-bound와 구간 연산이다. 구간 연산은 하나의 근삿값만 계산하지 않고 가능한 값의 하한과 상한을 함께 계산한다. 계산 결과가 조건을 위반하는 범위 전체를 포함하면 그 영역을 안전하게 제외할 수 있다. 반올림 오차가 우연히 통과 조건을 만들어내는 일을 막는 장치다.</p>
+<p>공개 저장소의 설명에는 최종 검사가 약 1,230만 개의 작은 영역을 다뤘다고 적혀 있다. √5가 들어가는 정확한 구조는 Q(√5)에서 처리했으며 코드와 결과 파일도 함께 공개됐다. 다만 이 수치는 연구자가 공개한 재현 자료에 근거한 것이지 동료심사를 거친 공식 학술지 결과라는 뜻은 아니다.</p>
+<h2>계산이 많다고 곧 증명이 되는 것은 아니다</h2>
+<p>컴퓨터 보조 증명은 계산량보다 인증 구조가 중요하다. 구간 연산의 원리가 올바른지, 영역을 빠짐없이 덮었는지, 특이한 경계 사례를 놓치지 않았는지 확인해야 한다. 프로그램이 실행됐다는 사실만으로 수학적 명제가 자동 확정되지는 않는다.</p>
+<p>이번 작업은 이 문제를 의식한 흔적을 보인다. 저장소에는 좌표의 정확한 표현, 구간 계산 코드, 결과 목록, 일부 구조적 주장의 정확 연산 검사가 분리돼 있다. 같은 결과를 다른 방식으로 점검하는 독립 구현과 재검사 기록도 포함됐다. 이런 자료가 있으면 독자는 논문의 문장만 읽는 데서 그치지 않고 실제 검증 경로를 따라갈 수 있다.</p>
+<p>구간 연산 자체는 새로운 기술이 아니다. 수치 오차를 보장된 범위 안에 가두는 방법으로 컴퓨터 보조 증명과 기하학적 branch-and-bound에 오래 사용돼 왔다. 정사각형 포장 문제나 복잡한 기하 최적화에서도 같은 계열의 검증법이 활용됐다.</p>
+<p>Claude의 역할을 평가할 때도 기준을 나눠야 한다. 모델이 새로운 정리를 제안했는지와 제안된 정리가 실제로 검증 가능한 계산 구조로 구현됐는지는 다른 질문이다. 후자의 판단은 공개 코드와 인증서, 독립 재현, 전문가 검토에 달려 있다.</p>
+<h2>같은 결론을 낸 독립 연구가 의미하는 것</h2>
+<p>AI를 사용한 작업만 있는 것은 아니다. 비슷한 시기에 Bence Hervay도 rhombicosidodecahedron이 루퍼트 성질을 갖지 않는다는 별도의 컴퓨터 보조 증명을 공개했다고 밝혔다. 그의 접근은 대칭으로 줄인 공간을 다루고 Q(√5)의 정확 연산과 192,696개 영역으로 구성된 인증서를 사용했다고 설명한다.</p>
+<p>두 결과는 계산 방식과 작업 과정이 다르다. 한쪽은 Claude와의 반복적인 아이디어·코드 작성 과정을 강조한다. 다른 쪽은 사람이 설계한 증명과 효율적인 인증 구조를 강조한다. 같은 명제를 다른 경로로 확인하면 한 프로그램의 오류나 특정 구현에 대한 의존성을 줄일 수 있다.</p>
+<p>다만 두 결과가 공개됐다는 사실이 곧 학계의 최종 판정을 뜻하지는 않는다. 프리프린트와 저장소는 검토 가능한 출발점이지만 동료심사와 독립 연구자의 재현은 별도의 단계다. 방 논의에서도 이 사례를 실생활 제품보다 계산 검증, CAD, 로봇 충돌 판정과 연결해 보는 의견이 많았다. 그런 연결은 타당하지만 이번 증명이 곧바로 산업용 안전성을 입증한 것은 아니다.</p>
+<h2>개인 개발자에게 남는 실험 방법</h2>
+<p>이 사례에서 따라 할 수 있는 부분은 AI에게 “증명해 달라”고 한 문장으로 끝나지 않는다. 먼저 문제를 투영 조건이나 부등식으로 바꾸고 입력 좌표와 대칭을 명시해야 한다. 그다음 탐색 코드와 검증 코드를 분리한다. 근삿값을 찾는 단계와 오차를 보장하는 단계도 구분해야 한다.</p>
+<p>실험자는 작은 테스트 입체로 알고리즘을 검증한 뒤 대상 문제로 확장할 수 있다. 예를 들어 정육면체처럼 통과 경로가 알려진 입체를 먼저 넣어 양성 결과를 확인하고 간단한 비통과 사례로 음성 결과를 점검하는 식이다. 결과 파일에는 실행 환경, 입력 데이터, 영역 개수, 실패 영역, 재실행 방법을 남겨야 한다.</p>
+<p>이 순서에서 AI는 탐색 공간을 줄이는 아이디어를 내거나 반복적인 코드를 작성하는 데 유용하다. 하지만 최종 판단은 모델의 설명이 아니라 모든 경우를 덮는 계산과 사람이 읽을 수 있는 검증 기록에서 나온다.</p>
+<p>이번 루퍼트 문제는 AI가 수학자를 대체했다는 이야기에 가깝지 않다. 오히려 사람이 고른 문제를 AI가 여러 방향으로 밀어보고 사람이 틀린 부분을 찾아 고친 뒤 마지막에 공개된 계산 증명을 남기는 연구 방식에 가깝다. 앞으로 더 중요한 질문은 AI가 답을 냈는지가 아니라 그 답을 다른 사람이 다시 실행하고 반박할 수 있는 형태로 남겼는지일 것이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">AI 수학</span><span class="chip">컴퓨터 보조 증명</span><span class="chip">루퍼트 성질</span><span class="chip">rhombicosidodecahedron</span><span class="chip">구간 연산</span><span class="chip">수학 연구</span><span class="chip">Claude</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://doi.org/10.5281/zenodo.23159625" rel="nofollow noopener">https://doi.org/10.5281/zenodo.23159625</a></li><li><a href="https://github.com/swiri0921-bit/rhombicosidodecahedron-not-rupert" rel="nofollow noopener">https://github.com/swiri0921-bit/rhombicosidodecahedron-not-rupert</a></li><li><a href="https://arxiv.org/abs/2112.13754" rel="nofollow noopener">https://arxiv.org/abs/2112.13754</a></li><li><a href="https://www.quantamagazine.org/first-shape-found-that-cant-pass-through-itself-20251024/" rel="nofollow noopener">https://www.quantamagazine.org/first-shape-found-that-cant-pass-through-itself-2</a></li><li><a href="https://epubs.siam.org/doi/10.1137/1.9780898717716.ch11" rel="nofollow noopener">https://epubs.siam.org/doi/10.1137/1.9780898717716.ch11</a></li><li><a href="https://www.dfki.de/en/web/research/projects-and-publications/publication/1999" rel="nofollow noopener">https://www.dfki.de/en/web/research/projects-and-publications/publication/1999</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>루퍼트 성질이란 무엇인가?</h2><p class="sum">입체에 구멍을 뚫고 같은 모양의 복제본을 통과시킬 수 있는지를 묻는 기하학적 성질이다. 정육면체는 루퍼트 성질을 가지지만 rhombicosidodecahedron은 갖지 않는다는 증명이 제시됐다.</p></article><article class="dcard"><div class="t">Q</div><h2>이번 증명은 동료심사를 마쳤나?</h2><p class="sum">공개 프리프린트와 GitHub 저장소가 있지만, 확인된 자료만으로는 동료심사를 거친 최종 학술지 논문이라고 볼 수 없다. 공개 코드와 독립 재현은 검토에 필요한 자료이지, 학계의 최종 승인과 같은 의미는 아니다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI가 수학 증명을 대신한 것인가?</h2><p class="sum">Claude는 아이디어 탐색, 코드 작성, 문서화에 참여했지만 문제 선택과 방향 설정, 오류 점검은 사람이 맡았다. 실제 증명의 신뢰성은 AI의 설명보다 구간 연산과 공개 인증 자료가 결정한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-12-1330.html">2026-10-12 10-12 08:56~13:12</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
