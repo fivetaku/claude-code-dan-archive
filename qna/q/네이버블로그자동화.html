@@ -6,13 +6,13 @@
 <title>네이버 블로그 자동화는 어떻게 하는 건가요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="네이버 블로그 포스팅 자동화 사례가 있는지 질문이 나왔다. 네이버 측 AI 연동 관련 서비스가 있었던 것 같다는 언급은 있었지만 구체적인 서비스명이나 구현 방법은 확인되지 않았다. 질문자는 우선 Claude Code에 물어보겠다고 했다.">
+<meta name="description" content="Claude in Chrome을 이용해 로그인된 네이버에서 블로그 작성 작업을 시킬 수 있는지 논의됐다. 크롬 확장 패널에서 실행하고 네이버 접근 권한과 로그인 상태를 준비해야 하며, 로그인·캡차·2차 인증은 직접 처리해야 한다. 스마트에디터나 이미지">
 <link rel="canonical" href="https://chat.axwith.com/qna/q/네이버블로그자동화.html">
 <meta property="og:title" content="네이버 블로그 자동화는 어떻게 하는 건가요?">
-<meta property="og:description" content="네이버 블로그 포스팅 자동화 사례가 있는지 질문이 나왔다. 네이버 측 AI 연동 관련 서비스가 있었던 것 같다는 언급은 있었지만 구체적인 서비스명이나 구현 방법은 확인되지 않았다. 질문자는 우선 Claude Code에 물어보겠다고 했다.">
+<meta property="og:description" content="Claude in Chrome을 이용해 로그인된 네이버에서 블로그 작성 작업을 시킬 수 있는지 논의됐다. 크롬 확장 패널에서 실행하고 네이버 접근 권한과 로그인 상태를 준비해야 하며, 로그인·캡차·2차 인증은 직접 처리해야 한다. 스마트에디터나 이미지">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/qna/q/네이버블로그자동화.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "네이버 블로그 자동화는 어떻게 하는 건가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "네이버 블로그 포스팅 자동화 사례가 있는지 질문이 나왔다. 네이버 측 AI 연동 관련 서비스가 있었던 것 같다는 언급은 있었지만 구체적인 서비스명이나 구현 방법은 확인되지 않았다. 질문자는 우선 Claude Code에 물어보겠다고 했다. 네이버 블로그 포스팅 자동화 경험자가 있는지 질문이 나왔다. 네이버의 AI 연동 관련 서비스가 언급됐으나 구체적인 정보는 나오지 않았다. 질문자는 코드 도구에 직접 구현 방법을 물어보기로 했다."}}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "네이버 블로그 자동화는 어떻게 하는 건가요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "Claude in Chrome을 이용해 로그인된 네이버에서 블로그 작성 작업을 시킬 수 있는지 논의됐다. 크롬 확장 패널에서 실행하고 네이버 접근 권한과 로그인 상태를 준비해야 하며, 로그인·캡차·2차 인증은 직접 처리해야 한다. 스마트에디터나 이미지 업로드에서 막힐 수 있어 초안 작성과 임시저장부터 시도하고 발행은 직접 확인하는 방식이 안전하다는 결론이다. 네이버 블로그 포스팅 자동화 경험자가 있는지 질문이 나왔다. 네이버의 AI 연동 관련 서비스가 언급됐으나 구체적인 정보는 나오지 않았다. 질문자는 코드 도구에 직접 구현 방법을 물어보기로 했다. Claude 앱이나 일반 웹 채팅창에서는 크롬 화면을 직접 조작할 수 없을 수 있다. Claude in Chrome 확장을 설치하고 크롬 옆 패널에서 작업을 요청해야 한다."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -240,13 +240,13 @@ background:var(--surface);text-decoration:none}
 <header>
   <span class="catchip c-flow">워크플로우·하네스</span>
   <h1>네이버 블로그 자동화는 어떻게 하는 건가요?</h1>
-  
+  <p class="sub">방에서 2번 논의된 질문입니다.</p>
 </header>
 <article class="qbody">
-  <p class="qanswer">네이버 블로그 포스팅 자동화 사례가 있는지 질문이 나왔다. 네이버 측 AI 연동 관련 서비스가 있었던 것 같다는 언급은 있었지만 구체적인 서비스명이나 구현 방법은 확인되지 않았다. 질문자는 우선 Claude Code에 물어보겠다고 했다.</p>
-  <ul><li>네이버 블로그 포스팅 자동화 경험자가 있는지 질문이 나왔다.</li><li>네이버의 AI 연동 관련 서비스가 언급됐으나 구체적인 정보는 나오지 않았다.</li><li>질문자는 코드 도구에 직접 구현 방법을 물어보기로 했다.</li></ul>
+  <p class="qanswer">Claude in Chrome을 이용해 로그인된 네이버에서 블로그 작성 작업을 시킬 수 있는지 논의됐다. 크롬 확장 패널에서 실행하고 네이버 접근 권한과 로그인 상태를 준비해야 하며, 로그인·캡차·2차 인증은 직접 처리해야 한다. 스마트에디터나 이미지 업로드에서 막힐 수 있어 초안 작성과 임시저장부터 시도하고 발행은 직접 확인하는 방식이 안전하다는 결론이다.</p>
+  <ul><li>네이버 블로그 포스팅 자동화 경험자가 있는지 질문이 나왔다.</li><li>네이버의 AI 연동 관련 서비스가 언급됐으나 구체적인 정보는 나오지 않았다.</li><li>질문자는 코드 도구에 직접 구현 방법을 물어보기로 했다.</li><li>Claude 앱이나 일반 웹 채팅창에서는 크롬 화면을 직접 조작할 수 없을 수 있다.</li><li>Claude in Chrome 확장을 설치하고 크롬 옆 패널에서 작업을 요청해야 한다.</li></ul>
 </article>
-<a class="srccard" href="../../s/2026-08-19-1608-s.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-19 아카이브</span></a>
+<a class="srccard" href="../../s/2026-10-12-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-10-12 아카이브</span></a>
 <section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="세션분할과서브에이전트.html">세션을 나눠서 서브에이전트로 쓰는 게 나을까요?</a></li><li><a href="클로드코드하네스.html">클로드 코드 하네스가 정확히 무엇인가요?</a></li><li><a href="에이전트로글쓰기워크플로우.html">에이전트로 글쓰기 워크플로우는 어떻게 짜나요?</a></li><li><a href="에이전트메모리관리논쟁.html">에이전트 메모리는 어떻게 관리하는 게 맞을까요?</a></li><li><a href="연구자동화파이프라인.html">연구 과정을 자동화하는 파이프라인은 어떻게 만드나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
