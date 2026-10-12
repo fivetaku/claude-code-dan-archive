@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>아파트 임장, 현장 사진과 실거래가를 함께 읽는 집사냥 방법</title>
+    <link>https://chat.axwith.com/mag/workflow/apartment-field-visit-data-checklist.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/apartment-field-visit-data-checklist.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Tue, 13 Oct 2026 12:00:00 +0900</pubDate>
+    <description>아파트 임장에서 무엇을 보고 어떻게 기록해야 할까. 현장 사진과 생활 동선을 실거래가·관리비·학교 정보와 대조하고, ‘집사냥’ 기록을 만드는 순서를 정리했다.</description>
+  </item>
+  <item>
     <title>Qwen 27B 1비트 로컬 모델은 실무에 쓸 만한가: 속도와 품질을 가르는 조건</title>
     <link>https://chat.axwith.com/mag/models/qwen-27b-one-bit-local-use.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-27b-one-bit-local-use.html</guid>
@@ -235,13 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
     <description>JEV가 코딩 에이전트의 작은 판단을 맡으면 비용이 줄어들까? omo-jev-plugin의 설치·설정과 코드 탐색 실험을 살펴보고, 절감 수치를 읽을 때 놓치기 쉬운 조건을 짚는다.</description>
-  </item>
-  <item>
-    <title>하나투어 웍스AI 16억 토큰, 전사 에이전트 성과는 어떻게 읽어야 하나</title>
-    <link>https://chat.axwith.com/mag/ops/hanatour-worksai-token-agent-metrics.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/hanatour-worksai-token-agent-metrics.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Thu, 01 Oct 2026 12:00:00 +0900</pubDate>
-    <description>하나투어의 웍스AI 16억 토큰은 월간 사용량이 아니라 누적치다. 전사 도입 규모와 에이전트 기능을 확인하고, 토큰·이용률·업무 성과를 구분해 읽는 방법을 짚는다.</description>
   </item>
 </channel></rss>
