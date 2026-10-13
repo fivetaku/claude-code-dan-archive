@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>개인 AI 봇을 카카오톡에 붙일 수 있을까: 오픈채팅·채널·텔레그램의 차이 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="카카오톡 오픈채팅 봇, 채널 챗봇, 나에게 메시지 보내기는 서로 다른 기능이다. 개인 AI 에이전트를 연결할 때 가능한 경로와 텔레그램 봇의 구현 순서를 비교한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/ops/personal-ai-bot-kakaotalk-telegram-bridge.html">
+<meta property="og:title" content="개인 AI 봇을 카카오톡에 붙일 수 있을까: 오픈채팅·채널·텔레그램의 차이">
+<meta property="og:description" content="카카오톡 오픈채팅 봇, 채널 챗봇, 나에게 메시지 보내기는 서로 다른 기능이다. 개인 AI 에이전트를 연결할 때 가능한 경로와 텔레그램 봇의 구현 순서를 비교한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/ops/personal-ai-bot-kakaotalk-telegram-bridge.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "개인 AI 봇을 카카오톡에 붙일 수 있을까: 오픈채팅·채널·텔레그램의 차이", "description": "카카오톡 오픈채팅 봇, 채널 챗봇, 나에게 메시지 보내기는 서로 다른 기능이다. 개인 AI 에이전트를 연결할 때 가능한 경로와 텔레그램 봇의 구현 순서를 비교한다.", "datePublished": "2026-10-13", "dateModified": "2026-10-13", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/ops/personal-ai-bot-kakaotalk-telegram-bridge.html"}, "articleSection": "배포·운영", "keywords": "개인 AI 봇, 카카오톡 챗봇, 오픈채팅 API, 텔레그램 봇, OMO, OpenCode", "image": "https://chat.axwith.com/mag/hero/personal-ai-bot-kakaotalk-telegram-bridge.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "OMO를 설치하면 카카오톡 봇을 바로 쓸 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "아니요. OMO는 에이전트 하네스이며 카카오톡 메시지를 수신하는 통로를 제공하지 않습니다. 원하는 채팅 형태에 맞는 공식 연결 방식과 브리지를 별도로 마련해야 합니다."}}, {"@type": "Question", "name": "카카오톡 나에게 메시지 보내기로 AI와 대화할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "나에게 보내기는 개발자 앱에서 본인 채팅으로 메시지를 발송하는 기능입니다. 그 기능만으로 사용자의 답장을 에이전트 입력으로 받는 대화형 봇이 되지는 않습니다."}}, {"@type": "Question", "name": "개인용 텔레그램 AI 봇은 어떻게 연결하나요?", "acceptedAnswer": {"@type": "Answer", "text": "BotFather에서 봇을 만들고, `getUpdates` 또는 웹훅으로 메시지를 받는 브리지를 만듭니다. 허용한 채팅의 입력만 에이전트에 전달하고 결과를 `sendMessage`로 돌려줍니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/personal-ai-bot-kakaotalk-telegram-bridge.png" alt="개인 AI 봇을 카카오톡에 붙일 수 있을까: 오픈채팅·채널·텔레그램의 차이" loading="eager">
+<header>
+  <span class="catchip c-res">배포·운영</span>
+  <h1>개인 AI 봇을 카카오톡에 붙일 수 있을까: 오픈채팅·채널·텔레그램의 차이</h1>
+  <p class="sub">OMO 같은 에이전트를 휴대전화에서 쓰고 싶을 때, 카카오톡의 어떤 기능이 실제로 연결 통로가 되는지 살펴봤다.</p>
+  <div class="meta"><span>2026-10-13</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI 에이전트를 컴퓨터 밖에서도 부르고 싶다면 익숙한 카카오톡부터 떠올리기 쉽다. 하지만 ‘카카오톡에 봇을 붙인다’는 말에는 오픈채팅 참여, 채널 응대, 자기 자신에게 알림 보내기가 뒤섞여 있다. 개인용 에이전트를 대화로 제어하려면 실제로 열려 있는 경로는 무엇일까?</p>
+<h2>OMO를 설치해도 메시지 통로가 생기지는 않는다</h2>
+<p>커뮤니티에서는 OMO가 무엇인지 묻는 질문이 개인 봇 이야기로 이어졌다. OMO는 oh-my-opencode라는 이름으로 알려진 에이전트 하네스다. 현재 프로젝트 문서는 Oh My OpenAgent라는 이름도 사용하며, 여러 에이전트와 도구를 조율하는 기능을 설명한다. 하네스를 쓴다고 해서 카카오톡 메시지를 받거나 보낼 권한이 생기지는 않는다. (<a href="https://omo.dev/docs" target="_blank" rel="nofollow noopener">omo.dev</a>)</p>
+<p>휴대전화에서 작업을 지시하려면 입구와 실행부를 나눠야 한다. 메신저가 요청을 받고, 브리지 서버가 보낸 사람과 명령을 확인한 뒤 에이전트에 전달한다. 실행 결과를 다시 메신저 형식에 맞춰 돌려줘야 대화가 완성된다. 방에서도 카카오톡을 에이전트 자체가 아니라 연결 화면으로 보는 의견이 나왔다.</p>
+<p>이 구분은 OMO를 쓰지 않아도 같다. 백엔드가 OpenCode든 직접 만든 API든, 메신저가 제공하는 수신·응답 방식에 맞춰야 한다. 먼저 확인할 것은 모델 성능이 아니라 원하는 채팅방에 공식 연결 경로가 있는지다.</p>
+<h2>오픈채팅과 카카오톡 채널은 다른 출입구다</h2>
+<p>여럿이 모인 오픈채팅방에 봇 계정을 넣고 모든 발화를 읽는 모습부터 상상하기 쉽다. 그러나 카카오디벨로퍼스의 공개 메시지 문서는 오픈채팅방의 대화를 받아 처리하는 범용 봇 API를 안내하지 않는다. 과거 카카오 공식 개발자 게시판에서도 오픈채팅 API는 제공하지 않는다고 답했다. 공개 문서와 답변만으로 향후 제공 여부까지 단정할 수는 없지만, 현재 구현 계획을 그 API에 기대기는 어렵다. (<a href="https://devtalk.kakao.com/t/api/98309" target="_blank" rel="nofollow noopener">devtalk.kakao.com</a>)</p>
+<p>공식적으로 문서화된 대화형 경로는 카카오톡 <strong>채널 챗봇</strong>이다. 사용자가 채널 봇에 말을 걸면 설정한 블록에 연결된 스킬 서버가 HTTP POST로 요청을 받는다. 서버는 사용자 발화 등이 담긴 JSON을 읽고 응답 JSON을 반환한다. 카카오비즈니스 가이드는 스킬 서버 등록, 블록 연결, 테스트와 채널 배포 절차를 각각 설명한다. (<a href="https://business.kakao.com/info/chatbot/" target="_blank" rel="nofollow noopener">business.kakao.com</a>)</p>
+<p>따라서 채널 챗봇은 고객이나 구성원이 채널에 질문하는 서비스에 맞는다. 이미 운영 중인 오픈채팅방의 발화를 같은 방식으로 가져오는 기능은 아니다. 방에서 오픈채팅용 봇과 개인 봇의 설계가 다르다는 의견이 나온 이유도 여기에 있다. 어느 방에서 대화할지 결정하면 사용할 수 있는 연결 방식부터 달라진다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/personal-ai-bot-kakaotalk-telegram-bridge.png" alt="" loading="lazy"><h2>‘나에게 보내기’는 개인 비서와 어디가 다른가</h2>
+<p>카카오톡 메시지 API에는 자기 자신에게 메시지를 보내는 기능이 있다. 카카오의 튜토리얼은 개발자 앱을 만들고, 카카오 로그인을 설정한 뒤 메시지 전송 동의를 거쳐 템플릿을 발송하는 순서를 제시한다. 자동화 작업이 끝났다는 결과를 ‘나와의 채팅’으로 받는 용도라면 이 경로가 유용하다. (<a href="https://developers.kakao.com/docs/ko/tutorial/custom-msg-template" target="_blank" rel="nofollow noopener">developers.kakao.com</a>)</p>
+<p>다만 <strong>발송 API가 곧 대화 수신 API는 아니다.</strong> 나에게 보낸 메시지에 사용자가 답장했다고 해서 그 답장이 개발자 앱의 에이전트로 전달되는 경로가 제공되는 것은 아니다. 카카오의 친구 메시지 기능도 자유로운 봇 발송 수단과는 다르다. 카카오 공식 튜토리얼은 사용자가 서비스 안에서 친구를 선택하는 흐름을 설명하며, 서비스가 사용자에게 자동 발송하는 용도가 아니라고 명시한다. (<a href="https://developers.kakao.com/docs/ko/tutorial/message" target="_blank" rel="nofollow noopener">developers.kakao.com</a>)</p>
+<p>개인 개발자에게는 여기서 실용적인 선택지가 갈린다. 필요한 게 작업 완료 알림이면 ‘나에게 보내기’를 검토할 수 있다. 카카오톡 안에서 질문을 입력하고 답을 받으려면 채널 챗봇의 사용 흐름을 검토해야 한다. 일반 개인 채팅이나 오픈채팅을 채널 챗봇과 같은 것으로 취급하면 설계가 처음부터 어긋난다.</p>
+<h2>텔레그램으로 개인 봇을 만들 때의 실제 순서</h2>
+<p>개인 대화형 봇이 목표라면 텔레그램은 입구가 더 명확하다. 공식 안내에 따르면 BotFather에서 봇을 만들고 토큰을 받은 뒤 Bot API로 메시지를 주고받는다. 입력은 <code>getUpdates</code>로 가져오거나 <code>setWebhook</code>으로 받을 수 있다. 두 방식을 동시에 쓰지는 않으며, 답장은 <code>sendMessage</code>로 보낸다. (<a href="https://core.telegram.org/bots/tutorial" target="_blank" rel="nofollow noopener">core.telegram.org</a>)</p>
+<p>구현 순서는 구체적이다. 개인 채팅에서 보낸 텍스트를 수신하고, 허용한 사용자와 채팅인지 확인한다. 브리지는 그 텍스트를 에이전트의 입력으로 넘긴다. 응답에서 사용자에게 보여줄 부분만 추려 원래 채팅에 보낸다. 입력은 채팅 메시지이고, 산출물은 에이전트의 답변이나 작업 상태다. 직접 서버를 운영한다면 처음에는 폴링으로 입출력을 시험하고, 외부에서 받을 주소가 필요할 때 웹훅을 검토할 수 있다.</p>
+<p>OpenCode를 실행부로 택하는 경우에는 공식 문서의 <code>opencode serve</code>가 HTTP 서버를 제공한다. 문서에는 세션 생성과 세션에 메시지를 보내는 API도 명시돼 있다. 브리지가 세션을 만들고 메시지를 전달한 다음 응답을 텔레그램으로 돌려주는 구성이 가능하다. 이것은 공식 기능을 조합한 <strong>구현 경로</strong>이지, OMO 설치만으로 완성되는 기능은 아니다. (<a href="https://dev.opencode.ai/docs/server/" target="_blank" rel="nofollow noopener">dev.opencode.ai</a>)</p>
+<p>써본 사람들 사이에서는 휴대전화로 작업 상태를 확인하는 편리함과 긴 작업의 진행 상황을 채팅 화면에 제대로 보여주기 어렵다는 반응이 함께 나온다. 그래서 답변 한 줄만 돌려주는 봇과 세션·진행 상태까지 보여주는 원격 클라이언트는 필요한 작업량이 다르다.</p>
+<h2>대화 상대가 늘어나면 권한 설계도 바뀐다</h2>
+<p>개인 봇에서는 허용할 채팅을 좁히는 일이 먼저다. 텔레그램 공식 문서는 봇 토큰을 가진 사람이 봇을 제어할 수 있다고 경고한다. OpenCode 서버 문서도 기본 접속 주소가 로컬이며, 서버를 보호할 인증 설정을 제공한다고 안내한다. 메신저 명령을 곧바로 파일 수정이나 셸 실행에 연결한다면 사용자 확인과 도구 권한을 브리지에서 분리해야 한다. (<a href="https://core.telegram.org/bots/features?roistat_visit=3080792" target="_blank" rel="nofollow noopener">core.telegram.org</a>)</p>
+<p>그룹에서는 문제가 달라진다. 텔레그램 봇은 기본적으로 Privacy Mode를 사용해 관련 명령과 답장 위주로 수신한다. 모든 발화를 읽도록 바꾸는 일은 기능뿐 아니라 참여자의 기대에도 영향을 준다. 반면 카카오톡 채널 챗봇은 채널에 말을 건 사용자를 응대하는 구조다. 두 방식 모두 ‘메신저에 붙였다’고 부를 수 있지만, 누가 봇에게 말을 거는지부터 다르다. (<a href="https://core.telegram.org/bots/features?roistat_visit=3080792" target="_blank" rel="nofollow noopener">core.telegram.org</a>)</p>
+<p>방의 질문을 구현 조건으로 바꾸면 답은 선명해진다. 오픈채팅 참여 봇, 채널 응대 봇, 혼자 쓰는 원격 에이전트는 같은 프로젝트가 아니다. 개인 작업을 대화로 제어하려는 경우, 카카오톡에 얼마나 익숙한지보다 <strong>입력을 공식적으로 받을 수 있는가</strong>가 첫 번째 갈림길이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">개인 AI 봇</span><span class="chip">카카오톡 챗봇</span><span class="chip">오픈채팅 API</span><span class="chip">텔레그램 봇</span><span class="chip">OMO</span><span class="chip">OpenCode</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://omo.dev/docs" rel="nofollow noopener">https://omo.dev/docs</a></li><li><a href="https://devtalk.kakao.com/t/api/98309" rel="nofollow noopener">https://devtalk.kakao.com/t/api/98309</a></li><li><a href="https://developers.kakao.com/docs/ko/kakaotalk-message/common" rel="nofollow noopener">https://developers.kakao.com/docs/ko/kakaotalk-message/common</a></li><li><a href="https://business.kakao.com/info/chatbot/" rel="nofollow noopener">https://business.kakao.com/info/chatbot/</a></li><li><a href="https://kakaobusiness.gitbook.io/main/tool/chatbot/skill_guide/make_skill" rel="nofollow noopener">https://kakaobusiness.gitbook.io/main/tool/chatbot/skill_guide/make_skill</a></li><li><a href="https://kakaobusiness.gitbook.io/main/tool/chatbot/skill_guide/answer_json_format" rel="nofollow noopener">https://kakaobusiness.gitbook.io/main/tool/chatbot/skill_guide/answer_json_forma</a></li><li><a href="https://developers.kakao.com/docs/ko/tutorial/custom-msg-template" rel="nofollow noopener">https://developers.kakao.com/docs/ko/tutorial/custom-msg-template</a></li><li><a href="https://developers.kakao.com/docs/ko/kakaotalk-message/rest-api" rel="nofollow noopener">https://developers.kakao.com/docs/ko/kakaotalk-message/rest-api</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>OMO를 설치하면 카카오톡 봇을 바로 쓸 수 있나요?</h2><p class="sum">아니요. OMO는 에이전트 하네스이며 카카오톡 메시지를 수신하는 통로를 제공하지 않습니다. 원하는 채팅 형태에 맞는 공식 연결 방식과 브리지를 별도로 마련해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>카카오톡 나에게 메시지 보내기로 AI와 대화할 수 있나요?</h2><p class="sum">나에게 보내기는 개발자 앱에서 본인 채팅으로 메시지를 발송하는 기능입니다. 그 기능만으로 사용자의 답장을 에이전트 입력으로 받는 대화형 봇이 되지는 않습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>개인용 텔레그램 AI 봇은 어떻게 연결하나요?</h2><p class="sum">BotFather에서 봇을 만들고, <code>getUpdates</code> 또는 웹훅으로 메시지를 받는 브리지를 만듭니다. 허용한 채팅의 입력만 에이전트에 전달하고 결과를 <code>sendMessage</code>로 돌려줍니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="ai-product-real-estate-conversion-rate.html">AI로 만든 부동산 상품, 전환율이 안 오르는 진짜 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="vps-claude-code-always-on.html">VPS에서 클로드코드 24시간 돌리기, 맥미니와 뭐가 다른가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-github-outage-529-status-page.html">클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="local-ai-call-center-tco.html">콜센터 로컬 AI는 정말 월 비용을 없애는가, GPU 뒤의 TCO</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="toy-project-hosting-choices.html">토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-13-1330.html">2026-10-13 10-13 11:08~13:19</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
