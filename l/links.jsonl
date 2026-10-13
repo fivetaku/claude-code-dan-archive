@@ -1841,3 +1841,5 @@
 {"code": "8b0463", "url": "https://deepmind.google/blog/gemini-4-argon-for-robotics", "title": "Google DeepMind(구글 딥마인드), 로보틱스용 Gemini 4(제미나이 4) Argon 공개…물리 추론 ERQA 87%"}
 {"code": "d1059c", "url": "https://x.com/demishassabis/status/2110041008100843835", "title": "Google(구글), 지식 작업·코딩 특화 Gemini 4(제미나이 4) Argon 공개"}
 {"code": "545356", "url": "https://x.com/AnthropicAI/status/2110047081414987957", "title": "Anthropic(앤트로픽), Git 버리고 자체 버전 관리 시스템 구축…에이전트 코딩 규모 대응"}
+{"code": "550c4c", "url": "https://huggingface.co/blog/LiquidAI/lfm25-24b-a2b", "title": "Liquid AI, 131K 컨텍스트 지원 온디바이스 추론 모델 'LFM2.5-24B-A2B' 공개"}
+{"code": "d59d95", "url": "https://techcrunch.com/2026/10/13/pluto-security-raises-42m-as-ai-gives-enterprise-security-teams-a-new-headache", "title": "AI 보안 스타트업 Pluto Security, 4,200만 달러 투자 유치"}
