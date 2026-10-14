@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Gemini 4 Argon, Antigravity에서 실제로 쓸 수 있나</title>
+    <link>https://chat.axwith.com/mag/models/gemini-4-argon-antigravity-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-4-argon-antigravity-guide.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Wed, 14 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Gemini 4 Argon이 Antigravity에 추가됐지만 IDE에서는 아직 쓸 수 없다. 지원 요금제와 CLI·확장 기능, 테스트 방법을 확인한다.</description>
+  </item>
+  <item>
+    <title>Claude의 Microsoft 365 권한이 달라졌다면 확인할 것들</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-microsoft-365-connector-permissions.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-microsoft-365-connector-permissions.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Wed, 14 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Claude의 Microsoft 365 연결에 쓰기 권한이 추가된 배경을 공식 문서로 확인했다. 실제 승인 범위와 도구 활성화 상태를 구분하고, Teams 파일 접근 문제를 진단하는 순서를 정리했다.</description>
+  </item>
+  <item>
     <title>AI 활용 역량은 도구 숙련인가, 문제를 고르는 판단력인가</title>
     <link>https://chat.axwith.com/mag/workflow/ai-skills-domain-expertise-work.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-skills-domain-expertise-work.html</guid>
@@ -227,21 +243,5 @@
     <category>배포·운영</category>
     <pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate>
     <description>커뮤니티 챗봇의 사용량이 늘었을 때 무료 API나 Nemotron으로 옮기면 해결될까. 과금 방식, 무료 서비스의 조건, 원치 않는 요청을 줄이는 운영 방법을 구분했다.</description>
-  </item>
-  <item>
-    <title>Codex 오케스트레이터와 워커 모델 조합, 한도까지 따져 고르는 법</title>
-    <link>https://chat.axwith.com/mag/models/codex-orchestrator-worker-model-limits.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/codex-orchestrator-worker-model-limits.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sun, 04 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Codex에서 오케스트레이터와 워커에 서로 다른 모델을 배치할 때 무엇이 달라질까. Astra·Sol의 역할, Fast와 High의 차이, 한도 확인법을 공식 문서와 실사용 경험으로 정리했다.</description>
-  </item>
-  <item>
-    <title>Claude Code의 Opus가 느리고 둔해졌나: 성능 저하 체감을 검증하는 법</title>
-    <link>https://chat.axwith.com/mag/models/claude-code-opus-quality-slowdown-check.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-opus-quality-slowdown-check.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sun, 04 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code에서 Opus가 예전보다 느리고 둔하다는 체감이 나왔다. Anthropic이 확인한 품질 문제의 원인을 살펴보고, 모델 버전과 노력 수준을 고정해 직접 비교하는 방법을 설명한다.</description>
   </item>
 </channel></rss>

@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gemini 4 Argon, Antigravity에서 실제로 쓸 수 있나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Gemini 4 Argon이 Antigravity에 추가됐지만 IDE에서는 아직 쓸 수 없다. 지원 요금제와 CLI·확장 기능, 테스트 방법을 확인한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/gemini-4-argon-antigravity-guide.html">
+<meta property="og:title" content="Gemini 4 Argon, Antigravity에서 실제로 쓸 수 있나">
+<meta property="og:description" content="Gemini 4 Argon이 Antigravity에 추가됐지만 IDE에서는 아직 쓸 수 없다. 지원 요금제와 CLI·확장 기능, 테스트 방법을 확인한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/gemini-4-argon-antigravity-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gemini 4 Argon, Antigravity에서 실제로 쓸 수 있나", "description": "Gemini 4 Argon이 Antigravity에 추가됐지만 IDE에서는 아직 쓸 수 없다. 지원 요금제와 CLI·확장 기능, 테스트 방법을 확인한다.", "datePublished": "2026-10-14", "dateModified": "2026-10-14", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/gemini-4-argon-antigravity-guide.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Gemini 4 Argon, Google Antigravity, AI 코딩, 에이전트 개발, Gemini API, Antigravity CLI", "image": "https://chat.axwith.com/mag/hero/gemini-4-argon-antigravity-guide.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Gemini 4 Argon은 Antigravity IDE에서 사용할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "현재 Google 문서 기준으로 Gemini 4 Argon은 Antigravity IDE에서 제공되지 않습니다. Antigravity 2.0, Antigravity CLI, IDE extensions에서 사용할 수 있습니다."}}, {"@type": "Question", "name": "Gemini 4 Argon은 어떤 요금제에서 쓸 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "Antigravity에서는 Google AI Ultra와 Enterprise에 제공됩니다. API와 AI Studio는 별도의 접근·과금 체계를 사용합니다."}}, {"@type": "Question", "name": "Gemini 4 Argon을 코딩에 어떻게 테스트하면 좋나요?", "acceptedAnswer": {"@type": "Answer", "text": "작은 저장소에서 재현 가능한 버그 수정 과제를 맡기고, 수정 파일과 테스트 결과, 브라우저 동작을 기록하세요. Gemini 3.8 Flash와 같은 과제를 비교하면 실제 생산성 차이를 확인하기 쉽습니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/gemini-4-argon-antigravity-guide.png" alt="Gemini 4 Argon, Antigravity에서 실제로 쓸 수 있나" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Gemini 4 Argon, Antigravity에서 실제로 쓸 수 있나</h1>
+  <p class="sub">Gemini 4 Argon의 성능보다 중요한 접근 조건과 실제 개발 작업에서의 활용법을 정리했다.</p>
+  <div class="meta"><span>2026-10-14</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Gemini 4 Argon이 공개되면서 개발자들의 관심이 성능표에서 실제 작업 환경으로 옮겨가고 있다. 복잡한 코딩과 장시간 에이전트 작업을 맡길 수 있다는 설명은 많지만, 어떤 경로로 접근할 수 있고 기존 Gemini 모델과 무엇을 비교해야 하는지는 따로 확인해야 한다. 이 글은 Argon을 Antigravity에서 사용할 때 필요한 조건과 현실적인 검증 방법을 정리한다.</p>
+<h2>Argon은 긴 작업을 겨냥한 Gemini 4 모델이다</h2>
+<p>Google DeepMind는 Gemini 4 Argon을 소프트웨어 엔지니어링, 법률·금융 같은 지식 업무, 사이버보안에 맞춘 추론 모델로 소개했다. 입력과 출력을 합친 컨텍스트 한도는 최대 100만 토큰이며, Gemini API 문서에는 일반 호출의 최대 출력과 장시간 디코드 모드가 구분돼 있다. (<a href="https://deepmind.google/models/model-cards/gemini-4-argon/" target="_blank" rel="nofollow noopener">deepmind.google</a>)</p>
+<p>이 숫자는 한 번에 긴 코드를 넣을 수 있다는 뜻만은 아니다. 여러 파일을 읽고 계획을 세운 뒤 수정하고, 테스트 결과를 다시 반영하는 작업에서 앞부분의 맥락을 유지할 여지가 커진다는 의미에 가깝다. 다만 긴 컨텍스트가 긴 작업의 성공을 보장하지는 않는다. 초반의 잘못된 판단이 뒤 단계까지 이어질 수 있어 중간 검증이 필요하다.</p>
+<p>Google이 공개한 모델 카드와 출시 자료는 Argon의 벤치마크 우위를 강조한다. 모델 카드에는 에이전트 코딩, 컴퓨터 사용, 과학·수학, 장문 맥락, 사이버보안 등 여러 평가 영역이 포함돼 있다. 하지만 공개 시험의 점수와 개인 프로젝트에서의 성공률은 같은 지표가 아니다. (<a href="https://deepmind.google/models/model-cards/gemini-4-argon/" target="_blank" rel="nofollow noopener">deepmind.google</a>)</p>
+<h2>Antigravity에서는 요금제와 제품 버전이 갈린다</h2>
+<p>방에서 가장 먼저 확인된 사실은 Argon이 모든 Google 계정에 열려 있지 않다는 점이었다. Antigravity 문서의 모델 표에 따르면 Gemini 4 Argon은 Google AI Ultra와 Enterprise에서 제공된다. Free, Google AI Plus, Google AI Pro에는 표시되지 않는다. (<a href="https://www.antigravity.google/docs/models/" target="_blank" rel="nofollow noopener">antigravity.google</a>)</p>
+<p>접근 조건만 맞추면 어디서나 같은 방식으로 쓸 수 있는 것도 아니다. Google Antigravity의 시작 안내와 IDE 문서는 Gemini 4 Argon이 Antigravity IDE에는 제공되지 않는다고 명시한다. 대신 Antigravity 2.0, Antigravity CLI, IDE extensions에서 사용할 수 있다고 안내한다. 방에서 “IDE에는 아직 없다”는 반응이 나온 이유가 여기에 있다. (<a href="https://www.antigravity.google/docs/getting-started/" target="_blank" rel="nofollow noopener">antigravity.google</a>)</p>
+<p>따라서 테스트 순서는 계정과 앱 버전부터 확인해야 한다. Ultra 구독인데도 모델이 보이지 않는다면 Antigravity IDE의 모델 선택 화면만 반복해서 확인할 일이 아니다. Antigravity 2.0이나 CLI를 설치했는지, 사용하는 IDE에 확장이 연결됐는지부터 살펴봐야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/gemini-4-argon-antigravity-guide.png" alt="" loading="lazy"><h2>첫 테스트는 새 기능보다 기존 버그 수정이 낫다</h2>
+<p>Argon을 처음 시험할 때는 대형 프로젝트를 통째로 맡기기보다 재현 가능한 작업을 고르는 편이 좋다. 예를 들어 로그인 화면에서 실패 메시지가 사라지는 작은 웹 앱을 준비한다. 저장소에는 실행 방법, 테스트 명령, 기대하는 동작을 적고, 에이전트에는 오류 재현과 수정, 테스트 실행을 한 번에 요청한다.</p>
+<p>Antigravity의 개발 흐름은 에이전트가 작업 계획을 세우고, 파일과 터미널을 다루며, 브라우저에서 결과를 확인하는 방식이다. 공식 문서도 첫 작업으로 간단한 Python 스크립트를 작성하게 한 뒤 에이전트가 작업 공간을 읽고 계획을 제안하는 흐름을 설명한다. (<a href="https://www.antigravity.google/docs/getting-started/" target="_blank" rel="nofollow noopener">antigravity.google</a>)</p>
+<p>실험 기록은 세 단계로 남기면 된다. 첫째, 요구사항을 이해했는지 확인한다. 둘째, 실제로 바꾼 파일과 테스트 결과를 확인한다. 셋째, 브라우저에서 사용자가 보는 결과가 요구사항과 일치하는지 검증한다. 모델이 설명을 잘했는지보다 수정 범위가 정확했는지, 기존 기능을 깨뜨리지 않았는지가 더 중요한 기준이다.</p>
+<p>방 논의에서도 복잡한 코딩과 추론 작업에 대한 기대가 컸지만, 아직 기존 모델과 비교할 구체적인 벤치마크나 충분한 사용 후기는 나오지 않았다. 외부 사용 경험에서도 한쪽은 장시간 작업과 요약 능력을 높게 평가했고, 다른 쪽은 특정 프로젝트에서 기대만큼의 점수를 얻지 못했다고 말했다. 이런 차이는 모델의 절대 성능보다 작업 유형과 검증 방식이 결과에 큰 영향을 준다는 점을 보여준다.</p>
+<h2>API와 Antigravity는 비용 구조도 다르다</h2>
+<p>API로 직접 호출하려는 개발자라면 가격과 구독을 구분해야 한다. Google AI Developers 문서에는 Argon의 도입 가격이 입력 100만 토큰당 2달러, 출력 100만 토큰당 10달러로 제시돼 있으며, 2026년 11월 30일 이후에는 각각 4달러와 20달러가 적용된다고 안내한다. (<a href="https://ai.google.dev/gemini-api/docs/latest-model?hl=en" target="_blank" rel="nofollow noopener">ai.google.dev</a>)</p>
+<p>Antigravity에서는 모델 접근이 구독과 사용량 한도에 연결된다. 문서에는 모델별로 5시간 단위와 주간 한도를 확인하는 화면이 소개돼 있다. 긴 에이전트 작업은 한 번의 요청으로 끝나지 않을 수 있으므로, 높은 모델 성능만 보고 비용을 판단하면 안 된다. 계획 수립, 파일 수정, 테스트 반복에 걸리는 사용량까지 계산해야 한다. (<a href="https://www.antigravity.google/docs/models/" target="_blank" rel="nofollow noopener">antigravity.google</a>)</p>
+<p>개인 개발자라면 먼저 작은 저장소에서 동일한 작업을 Gemini 3.8 Flash와 Argon에 각각 맡겨보는 방식이 현실적이다. 수정 파일 수, 첫 시도 성공 여부, 테스트 통과 여부, 사람이 다시 고친 시간만 기록해도 차이를 확인할 수 있다. 복잡한 문제를 잘 푸는 모델인지보다 자신의 작업에서 재작업을 줄이는지가 구독료를 결정한다.</p>
+<h2>Argon의 장점은 모델 이름보다 작업 연결에 있다</h2>
+<p>Argon을 단순한 채팅 모델로 사용하면 100만 토큰 컨텍스트의 의미가 작아진다. 저장소 구조를 읽고, 요구사항을 작업 단위로 나누고, 터미널 명령을 실행하고, 브라우저에서 결과를 확인하는 흐름을 연결해야 장점이 드러난다. Antigravity가 에디터·터미널·브라우저를 함께 다루는 플랫폼으로 설명되는 이유도 이 작업 연결에 있다. (<a href="https://www.antigravity.google/" target="_blank" rel="nofollow noopener">antigravity.google</a>)</p>
+<p>다만 IDE에서 바로 선택할 수 없다는 점은 초기 사용성을 떨어뜨린다. Ultra 구독자라도 기존 Antigravity IDE만 설치한 상태라면 Argon을 찾지 못할 수 있다. 현재 확인되는 접근 경로는 Antigravity 2.0, Antigravity CLI, IDE extensions이며, 제품별 지원 범위는 계속 바뀔 수 있으므로 공식 모델 표와 시작 문서를 함께 확인해야 한다.</p>
+<p>지금 Argon에 기대할 답은 “모든 코딩에서 가장 좋은 모델인가”가 아니다. 긴 맥락을 유지해야 하는 리팩터링, 여러 파일을 넘나드는 버그 수정, 테스트와 브라우저 확인이 필요한 에이전트 작업에서 기존 모델보다 재작업을 줄이는지다. 그 질문에 답하려면 공개 벤치마크보다 자신의 저장소에서 같은 과제를 반복 측정해야 한다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Gemini 4 Argon</span><span class="chip">Google Antigravity</span><span class="chip">AI 코딩</span><span class="chip">에이전트 개발</span><span class="chip">Gemini API</span><span class="chip">Antigravity CLI</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://deepmind.google/models/model-cards/gemini-4-argon/" rel="nofollow noopener">https://deepmind.google/models/model-cards/gemini-4-argon/</a></li><li><a href="https://ai.google.dev/gemini-api/docs/models/gemini-4-argon" rel="nofollow noopener">https://ai.google.dev/gemini-api/docs/models/gemini-4-argon</a></li><li><a href="https://www.antigravity.google/docs/getting-started/" rel="nofollow noopener">https://www.antigravity.google/docs/getting-started/</a></li><li><a href="https://www.antigravity.google/docs/ide/overview/" rel="nofollow noopener">https://www.antigravity.google/docs/ide/overview/</a></li><li><a href="https://www.antigravity.google/docs/models/" rel="nofollow noopener">https://www.antigravity.google/docs/models/</a></li><li><a href="https://ai.google.dev/gemini-api/docs/latest-model" rel="nofollow noopener">https://ai.google.dev/gemini-api/docs/latest-model</a></li><li><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/" rel="nofollow noopener">https://blog.google/innovation-and-ai/models-and-research/gemini-models/introduc</a></li><li><a href="https://cloud.google.com/blog/products/ai-machine-learning/gemini-4-argon-available-on-google-cloud" rel="nofollow noopener">https://cloud.google.com/blog/products/ai-machine-learning/gemini-4-argon-availa</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Gemini 4 Argon은 Antigravity IDE에서 사용할 수 있나요?</h2><p class="sum">현재 Google 문서 기준으로 Gemini 4 Argon은 Antigravity IDE에서 제공되지 않습니다. Antigravity 2.0, Antigravity CLI, IDE extensions에서 사용할 수 있습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Gemini 4 Argon은 어떤 요금제에서 쓸 수 있나요?</h2><p class="sum">Antigravity에서는 Google AI Ultra와 Enterprise에 제공됩니다. API와 AI Studio는 별도의 접근·과금 체계를 사용합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Gemini 4 Argon을 코딩에 어떻게 테스트하면 좋나요?</h2><p class="sum">작은 저장소에서 재현 가능한 버그 수정 과제를 맡기고, 수정 파일과 테스트 결과, 브라우저 동작을 기록하세요. Gemini 3.8 Flash와 같은 과제를 비교하면 실제 생산성 차이를 확인하기 쉽습니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-14-0900.html">2026-10-14 10-13 23:34~10-14 08:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
