@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>겜스고 Gemini Ultra 월 15달러, 실제 사용량과 위험 따져보니</title>
+    <link>https://chat.axwith.com/mag/resources/gamsgo-gemini-ultra-review.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/gamsgo-gemini-ultra-review.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Thu, 15 Oct 2026 12:00:00 +0900</pubDate>
+    <description>겜스고에서 월 15달러 안팎으로 판매되는 Gemini Ultra 상품이 공식 구독과 어떻게 다른지, 사용량 할당과 계정 위험을 중심으로 정리했다.</description>
+  </item>
+  <item>
+    <title>Apache TLS 1.0·1.1 차단 후 외부에서 다시 열리는 이유</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/apache-tls-legacy-protocol-debugging.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/apache-tls-legacy-protocol-debugging.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Thu, 15 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Apache의 SSLProtocol 설정으로 TLS 1.0과 1.1을 끄는 방법부터 프록시·로드밸런서·가상호스트 때문에 내부와 외부 결과가 달라지는 이유, 검증 절차까지 설명한다.</description>
+  </item>
+  <item>
     <title>Gemini 4 Argon, Antigravity에서 실제로 쓸 수 있나</title>
     <link>https://chat.axwith.com/mag/models/gemini-4-argon-antigravity-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-4-argon-antigravity-guide.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate>
     <description>Cursor용 GPT Pro 프록시는 응답을 연결하는 것만으로 완성되지 않는다. 공식 구독 경로와 API의 차이, OpenCodex의 역할, 툴 호출·긴 작업 테스트 방법을 살펴본다.</description>
-  </item>
-  <item>
-    <title>ChatGPT 구독 환불, 결제 직후라면 어디서 어떻게 요청하나</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/chatgpt-subscription-refund-request-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/chatgpt-subscription-refund-request-guide.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate>
-    <description>ChatGPT를 잘못 구독했거나 예상 밖의 요금이 청구됐다면 결제 경로부터 확인해야 한다. 공식 도움말을 바탕으로 환불 채팅 접수법, 한국 거주자 조건, 구독 취소와의 차이를 정리했다.</description>
-  </item>
-  <item>
-    <title>챗봇 호출량이 늘 때 무료 API보다 먼저 따져야 할 것</title>
-    <link>https://chat.axwith.com/mag/ops/chatbot-traffic-cost-response-quality.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/chatbot-traffic-cost-response-quality.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate>
-    <description>커뮤니티 챗봇의 사용량이 늘었을 때 무료 API나 Nemotron으로 옮기면 해결될까. 과금 방식, 무료 서비스의 조건, 원치 않는 요청을 줄이는 운영 방법을 구분했다.</description>
   </item>
 </channel></rss>

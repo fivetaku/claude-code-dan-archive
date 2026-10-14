@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apache TLS 1.0·1.1 차단 후 외부에서 다시 열리는 이유 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Apache의 SSLProtocol 설정으로 TLS 1.0과 1.1을 끄는 방법부터 프록시·로드밸런서·가상호스트 때문에 내부와 외부 결과가 달라지는 이유, 검증 절차까지 설명한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/apache-tls-legacy-protocol-debugging.html">
+<meta property="og:title" content="Apache TLS 1.0·1.1 차단 후 외부에서 다시 열리는 이유">
+<meta property="og:description" content="Apache의 SSLProtocol 설정으로 TLS 1.0과 1.1을 끄는 방법부터 프록시·로드밸런서·가상호스트 때문에 내부와 외부 결과가 달라지는 이유, 검증 절차까지 설명한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/apache-tls-legacy-protocol-debugging.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Apache TLS 1.0·1.1 차단 후 외부에서 다시 열리는 이유", "description": "Apache의 SSLProtocol 설정으로 TLS 1.0과 1.1을 끄는 방법부터 프록시·로드밸런서·가상호스트 때문에 내부와 외부 결과가 달라지는 이유, 검증 절차까지 설명한다.", "datePublished": "2026-10-15", "dateModified": "2026-10-15", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/apache-tls-legacy-protocol-debugging.html"}, "articleSection": "질문·트러블슈팅", "keywords": "Apache, TLS 1.0, TLS 1.1, SSLProtocol, 로드밸런서, TLS 보안", "image": "https://chat.axwith.com/mag/hero/apache-tls-legacy-protocol-debugging.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Apache에서 TLS 1.0과 TLS 1.1을 끄려면 어떻게 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "`SSLProtocol -all +TLSv1.2 +TLSv1.3`처럼 허용할 버전을 명시할 수 있습니다. TLS 1.3 지원 여부는 Apache와 OpenSSL 버전을 함께 확인해야 합니다."}}, {"@type": "Question", "name": "내부에서는 TLS 1.0이 차단됐는데 외부에서는 왜 열리나요?", "acceptedAnswer": {"@type": "Answer", "text": "외부 요청이 CDN이나 로드밸런서에서 먼저 TLS를 종료할 수 있습니다. 내부 검사가 Apache를 보고 외부 검사가 앞단 장비를 본다면 서로 다른 정책이 표시됩니다."}}, {"@type": "Question", "name": "TLS 설정 변경 후 무엇을 검사해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "`apachectl configtest`와 `apachectl -S`로 설정과 가상호스트를 확인한 뒤, OpenSSL·testssl.sh·Nmap으로 외부 도메인과 내부 IP를 각각 검사해야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/apache-tls-legacy-protocol-debugging.png" alt="Apache TLS 1.0·1.1 차단 후 외부에서 다시 열리는 이유" loading="eager">
+<header>
+  <span class="catchip c-ask">질문·트러블슈팅</span>
+  <h1>Apache TLS 1.0·1.1 차단 후 외부에서 다시 열리는 이유</h1>
+  <p class="sub">내부 테스트는 통과했는데 외부 점검에서 구버전 TLS가 살아 있다면 설정값보다 실제 TLS 종단점을 먼저 확인해야 한다.</p>
+  <div class="meta"><span>2026-10-15</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>TLS 1.0과 TLS 1.1을 끄라는 보안 요구는 이제 예외적인 일이 아니다. IETF는 2021년 RFC 8996에서 두 버전을 폐기 단계로 분류했고 NIST와 PCI DSS도 구버전 TLS 사용을 제한한다. 그런데 Apache 설정 한 줄을 바꾼 뒤 내부에서는 차단된 것처럼 보이는데, 외부 검사에서는 여전히 구버전 TLS가 발견될 때가 있다. 이 차이를 설명하려면 실제 서비스 경로에서 어느 장비가 TLS를 종료하는지부터 확인해야 한다. (<a href="https://datatracker.ietf.org/doc/html/rfc8996.html" target="_blank" rel="nofollow noopener">datatracker.ietf.org</a>)</p>
+<h2>TLS 1.0과 1.1을 끄는 이유는 분명하다</h2>
+<p>TLS 1.0과 TLS 1.1은 단순히 이름만 오래된 프로토콜이 아니다. RFC 8996에 따르면 두 버전은 최신 암호 알고리즘과 메커니즘을 충분히 지원하지 못한다. 유지해야 할 프로토콜 선택지가 늘어 오설정 가능성도 커진다. TLS 1.2는 2008년부터 권장됐고 TLS 1.3은 2018년에 표준화됐다. (<a href="https://datatracker.ietf.org/doc/html/rfc8996.html" target="_blank" rel="nofollow noopener">datatracker.ietf.org</a>)</p>
+<p>브라우저와 결제 보안 기준도 같은 방향으로 움직였다. Mozilla는 Firefox에서 TLS 1.0과 1.1을 기본 비활성화하겠다고 발표했고 PCI DSS는 SSL과 초기 TLS를 강한 암호화로 인정하지 않는다. 구버전 차단은 특정 스캐너의 점수를 올리는 일이 아니다. 외부에 노출된 모든 TLS 종단점의 정책을 정리하는 작업이다. (<a href="https://blog.mozilla.org/security/2018/10/15/removing-old-versions-of-tls/" target="_blank" rel="nofollow noopener">blog.mozilla.org</a>)</p>
+<h2>Apache 설정은 맞아도 적용 지점이 다를 수 있다</h2>
+<p>Apache mod_ssl의 <code>SSLProtocol</code>은 서버 설정과 가상호스트에서 사용할 수 있다. <code>SSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1</code>은 구버전 프로토콜을 제외한다. 다만 <code>all</code>에 포함되는 버전은 Apache가 연결한 OpenSSL 버전에 따라 달라질 수 있다. Apache 문서도 <code>all</code>을 사용 가능한 프로토콜의 묶음으로 설명한다. (<a href="https://httpd.apache.org/docs/trunk/mod/mod_ssl.html" target="_blank" rel="nofollow noopener">httpd.apache.org</a>)</p>
+<p>운영 환경에서는 허용 목록을 직접 쓰는 편이 더 읽기 쉽다. TLS 1.2와 1.3을 지원하는 환경이라면 <code>SSLProtocol -all +TLSv1.2 +TLSv1.3</code>처럼 정책을 명시할 수 있다. 단, TLS 1.3에는 OpenSSL 1.1.1 이상이 필요하다. Apache 버전만 보고 설정 가능 여부를 판단해서는 안 되며 구형 배포판에서는 TLS 1.2만 지정해야 할 수도 있다. (<a href="https://httpd.apache.org/docs/trunk/mod/mod_ssl.html" target="_blank" rel="nofollow noopener">httpd.apache.org</a>)</p>
+<p>설정을 바꾼 뒤에는 <code>apachectl configtest</code>로 문법을 확인하고 <code>apachectl -S</code>로 실제 읽힌 가상호스트를 확인해야 한다. 첫 번째 가상호스트가 기본 서버로 선택되거나 예상과 다른 443 블록에 설정을 넣었다면, 파일 내용이 맞아도 요청에는 적용되지 않는다. Apache 공식 문서에 따르면 <code>-S</code>는 설정을 파싱한 결과와 IP·서버 이름 매핑을 보여준다. (<a href="https://httpd.apache.org/docs/2.4/en/programs/apachectl.html" target="_blank" rel="nofollow noopener">httpd.apache.org</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/apache-tls-legacy-protocol-debugging.png" alt="" loading="lazy"><h2>내부와 외부 결과가 갈리는 핵심은 TLS 종단점이다</h2>
+<p>외부 사용자가 접속하는 주소가 곧 Apache라는 보장은 없다. DNS 앞에 CDN이나 외부 로드밸런서가 있고 그 뒤에 Apache가 있다면, 외부 클라이언트와 처음 TLS를 맺는 장비는 앞단일 수 있다. 앞단에서 TLS를 종료한 뒤 Apache에는 HTTP로 전달할 수도 있고 다시 HTTPS를 맺어 재암호화할 수도 있다. 두 구간은 서로 다른 TLS 세션이어서 허용 버전도 달라질 수 있다. Apache의 reverse proxy 문서도 프록시가 외부 요청을 백엔드로 전달하고 부하분산 그룹을 구성할 수 있다고 설명한다. (<a href="https://httpd.apache.org/docs/current/en/howto/reverse_proxy.html" target="_blank" rel="nofollow noopener">httpd.apache.org</a>)</p>
+<p>이 구조에서는 내부망에서 백엔드 IP를 직접 검사한 결과와 외부 도메인을 검사한 결과가 달라도 이상하지 않다. 내부 검사는 Apache의 443 포트를 보고 외부 검사는 로드밸런서의 리스너나 CDN의 정책을 보는 셈이다. DNS가 여러 IP를 반환하거나 IPv4와 IPv6가 서로 다른 장비로 연결될 때도 검사 위치가 달라진다.</p>
+<p>운영자들의 경험담도 비슷하다. 설정을 바꿨는데 외부 스캔 결과가 그대로라면 앞단 CDN의 정책이 남아 있거나 다른 도메인·포트·IP를 검사했을 가능성을 먼저 의심한다는 반응이 많다. 점수보다 어떤 IP와 TLS 종단점이 응답했는지 확인해야 한다는 의견도 있다. 경험담만으로 원인을 확정할 수는 없지만 “Apache 파일이 바뀌었으니 외부도 같아야 한다”는 가정은 경계할 만하다. (<a href="https://www.reddit.com/r/aws/comments/ffywo7" target="_blank" rel="nofollow noopener">reddit.com</a>)</p>
+<h2>외부에서 열린다는 주장을 재현하는 방법</h2>
+<p>같은 이름을 놓고 내부와 외부에서 각각 검증해야 한다. <code>dig</code> 또는 <code>nslookup</code>으로 도메인의 A·AAAA 레코드와 응답 IP를 확인한다. 여러 IP가 나오면 각각 검사하고 필요하면 SNI를 유지한 채 특정 IP에 접속한다. 도메인 이름 없이 IP만 검사하면 기본 가상호스트가 선택돼 실제 사용자 경로와 다른 결과가 나올 수 있다.</p>
+<p>프로토콜별 연결은 OpenSSL이나 testssl.sh로 나눠 확인할 수 있다. <code>openssl s_client -connect example.com:443 -servername example.com -tls1</code>과 <code>-tls1_1</code>로 각각 연결을 시도하고 성공 여부와 서버 인증서의 주체를 기록한다. 다만 최신 OpenSSL 자체가 안전하지 않은 프로토콜을 거부할 수 있다. 실패 메시지가 서버 차단을 뜻하는지 클라이언트 정책 때문인지 구분해야 한다.</p>
+<p>testssl.sh는 서버가 지원하는 TLS 프로토콜과 암호군을 명령줄에서 점검할 수 있고 내부망에서도 실행할 수 있다. Nmap의 <code>ssl-enum-ciphers</code>도 여러 TLS 연결을 만들어 서버가 받아들이는 프로토콜과 암호군을 열거한다. 두 도구 모두 외부 도메인과 내부 IP를 같은 조건으로 비교할 때 유용하다. (<a href="https://nmap.org/nsedoc/scripts/ssl-enum-ciphers.html" target="_blank" rel="nofollow noopener">nmap.org</a>)</p>
+<h2>차단 작업은 설정 변경보다 경로 확인이 먼저다</h2>
+<p>점검 순서는 간단하다. 외부 도메인의 DNS 응답을 확인하고 외부 IP별로 TLS 버전을 검사한다. 이어 로드밸런서·CDN·방화벽·Apache의 443 리스너를 순서대로 대조한다. Apache에서는 <code>apachectl -S</code>로 대상 가상호스트를 찾고 <code>apachectl configtest</code> 후 graceful reload를 수행한다. 그다음 내부 백엔드 주소와 외부 도메인을 다시 검사해 어느 구간에서 결과가 달라지는지 기록한다.</p>
+<p>Apache가 reverse proxy로 백엔드에 HTTPS 연결을 만드는 구조라면 클라이언트 구간과 별도로 <code>SSLProxyProtocol</code> 정책도 살펴야 한다. 외부 클라이언트 연결을 TLS 1.2 이상으로 제한했더라도 Apache와 백엔드 사이의 정책은 별도일 수 있다. 외부에서 TLS 1.0이 보인다면 Apache 내부 설정만 반복해서 고치지 말고 가장 바깥쪽 TLS 종료 장비의 보안 정책과 리스너를 확인해야 한다. (<a href="https://httpd.apache.org/docs/current/mod/mod_proxy.html" target="_blank" rel="nofollow noopener">httpd.apache.org</a>)</p>
+<p>이번 문제의 답은 특정 설정 문자열 하나가 아니다. <code>SSLProtocol</code>은 필요한 출발점이지만 외부 사용자가 실제로 만나는 장비와 가상호스트, IP 경로를 함께 확인해야 차단 결과를 증명할 수 있다. 내부와 외부의 검사 결과가 다르다면 “설정이 실패했다”보다 “서로 다른 TLS 종단점을 검사했다”는 가설을 먼저 세우는 편이 빠르다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Apache</span><span class="chip">TLS 1.0</span><span class="chip">TLS 1.1</span><span class="chip">SSLProtocol</span><span class="chip">로드밸런서</span><span class="chip">TLS 보안</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://httpd.apache.org/docs/trunk/mod/mod_ssl.html" rel="nofollow noopener">https://httpd.apache.org/docs/trunk/mod/mod_ssl.html</a></li><li><a href="https://httpd.apache.org/docs/current/en/howto/reverse_proxy.html" rel="nofollow noopener">https://httpd.apache.org/docs/current/en/howto/reverse_proxy.html</a></li><li><a href="https://httpd.apache.org/docs/current/mod/mod_proxy.html" rel="nofollow noopener">https://httpd.apache.org/docs/current/mod/mod_proxy.html</a></li><li><a href="https://httpd.apache.org/docs/2.4/en/programs/apachectl.html" rel="nofollow noopener">https://httpd.apache.org/docs/2.4/en/programs/apachectl.html</a></li><li><a href="https://httpd.apache.org/docs/current/vhosts/" rel="nofollow noopener">https://httpd.apache.org/docs/current/vhosts/</a></li><li><a href="https://datatracker.ietf.org/doc/html/rfc8996.html" rel="nofollow noopener">https://datatracker.ietf.org/doc/html/rfc8996.html</a></li><li><a href="https://csrc.nist.gov/pubs/sp/800/52/r2/final" rel="nofollow noopener">https://csrc.nist.gov/pubs/sp/800/52/r2/final</a></li><li><a href="https://www.pcisecuritystandards.org/faqs/1491/" rel="nofollow noopener">https://www.pcisecuritystandards.org/faqs/1491/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Apache에서 TLS 1.0과 TLS 1.1을 끄려면 어떻게 하나요?</h2><p class="sum"><code>SSLProtocol -all +TLSv1.2 +TLSv1.3</code>처럼 허용할 버전을 명시할 수 있습니다. TLS 1.3 지원 여부는 Apache와 OpenSSL 버전을 함께 확인해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>내부에서는 TLS 1.0이 차단됐는데 외부에서는 왜 열리나요?</h2><p class="sum">외부 요청이 CDN이나 로드밸런서에서 먼저 TLS를 종료할 수 있습니다. 내부 검사가 Apache를 보고 외부 검사가 앞단 장비를 본다면 서로 다른 정책이 표시됩니다.</p></article><article class="dcard"><div class="t">Q</div><h2>TLS 설정 변경 후 무엇을 검사해야 하나요?</h2><p class="sum"><code>apachectl configtest</code>와 <code>apachectl -S</code>로 설정과 가상호스트를 확인한 뒤, OpenSSL·testssl.sh·Nmap으로 외부 도메인과 내부 IP를 각각 검사해야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-14-2200.html">2026-10-14 10-14 16:00~21:38</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
