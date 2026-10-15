@@ -13,12 +13,28 @@
     <description>겜스고에서 월 15달러 안팎으로 판매되는 Gemini Ultra 상품이 공식 구독과 어떻게 다른지, 사용량 할당과 계정 위험을 중심으로 정리했다.</description>
   </item>
   <item>
+    <title>Codex·Claude Code 데스크톱 앱과 CLI, 작업공간 통제는 어디서 갈리나</title>
+    <link>https://chat.axwith.com/mag/workflow/coding-agents-desktop-cli-workspace.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/coding-agents-desktop-cli-workspace.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 15 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Codex와 Claude Code를 데스크톱 앱 또는 CLI로 쓸 때 무엇이 달라지는지 비교한다. 작업공간 격리, 권한 설정, 병렬 작업과 메모리 우려를 공식 문서와 사용 경험으로 구분했다.</description>
+  </item>
+  <item>
     <title>Apache TLS 1.0·1.1 차단 후 외부에서 다시 열리는 이유</title>
     <link>https://chat.axwith.com/mag/troubleshooting/apache-tls-legacy-protocol-debugging.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/apache-tls-legacy-protocol-debugging.html</guid>
     <category>질문·트러블슈팅</category>
     <pubDate>Thu, 15 Oct 2026 12:00:00 +0900</pubDate>
     <description>Apache의 SSLProtocol 설정으로 TLS 1.0과 1.1을 끄는 방법부터 프록시·로드밸런서·가상호스트 때문에 내부와 외부 결과가 달라지는 이유, 검증 절차까지 설명한다.</description>
+  </item>
+  <item>
+    <title>LLM 추론 예산은 언제 늘려야 하나: 적응형 계산과 검증 설계</title>
+    <link>https://chat.axwith.com/mag/models/adaptive-llm-inference-verification-design.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/adaptive-llm-inference-verification-design.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Thu, 15 Oct 2026 12:00:00 +0900</pubDate>
+    <description>LLM의 추론 성능은 호출 횟수만 늘린다고 개선되지 않는다. 반복 생성, 적응형 계산 배분, 검증기 평가를 연구 결과와 에이전트 설계 사례로 살펴본다.</description>
   </item>
   <item>
     <title>Gemini 4 Argon, Antigravity에서 실제로 쓸 수 있나</title>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Tue, 06 Oct 2026 12:00:00 +0900</pubDate>
     <description>Grok 유료 이용 중 다시 결제하라는 화면이 뜨는 이유는 하나가 아니다. 구독 등급, 계정 연결, 주간 사용량을 구분하고 환불 요청 경로를 정리했다.</description>
-  </item>
-  <item>
-    <title>OpenAI DevDay 2026에서 실제로 나온 것: Pro 소식과 Codex 변화</title>
-    <link>https://chat.axwith.com/mag/models/openai-devday-2026-codex-pro.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/openai-devday-2026-codex-pro.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate>
-    <description>OpenAI DevDay 2026 발표를 공식 자료로 확인했다. Pro 요금제 변경, Codex Cloud와 CLI, Agents API의 이용 조건과 개발자가 실제로 시도할 작업을 짚는다.</description>
-  </item>
-  <item>
-    <title>Cursor에서 GPT Pro를 쓰는 프록시, 툴 호출까지 통과할까</title>
-    <link>https://chat.axwith.com/mag/workflow/cursor-gpt-pro-proxy-tool-calls.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/cursor-gpt-pro-proxy-tool-calls.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Mon, 05 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Cursor용 GPT Pro 프록시는 응답을 연결하는 것만으로 완성되지 않는다. 공식 구독 경로와 API의 차이, OpenCodex의 역할, 툴 호출·긴 작업 테스트 방법을 살펴본다.</description>
   </item>
 </channel></rss>
