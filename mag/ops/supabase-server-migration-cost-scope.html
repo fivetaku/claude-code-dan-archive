@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supabase 서버 이전 비용 100만 원, 데이터만 옮기면 끝날까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Supabase 프로젝트를 다른 서버로 옮길 때 데이터베이스 복사와 서비스 이전은 다르다. 공식 이전 절차를 바탕으로 100만 원 견적에 포함할 작업과 검증 책임을 살핀다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/ops/supabase-server-migration-cost-scope.html">
+<meta property="og:title" content="Supabase 서버 이전 비용 100만 원, 데이터만 옮기면 끝날까">
+<meta property="og:description" content="Supabase 프로젝트를 다른 서버로 옮길 때 데이터베이스 복사와 서비스 이전은 다르다. 공식 이전 절차를 바탕으로 100만 원 견적에 포함할 작업과 검증 책임을 살핀다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/ops/supabase-server-migration-cost-scope.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Supabase 서버 이전 비용 100만 원, 데이터만 옮기면 끝날까", "description": "Supabase 프로젝트를 다른 서버로 옮길 때 데이터베이스 복사와 서비스 이전은 다르다. 공식 이전 절차를 바탕으로 100만 원 견적에 포함할 작업과 검증 책임을 살핀다.", "datePublished": "2026-10-17", "dateModified": "2026-10-17", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/ops/supabase-server-migration-cost-scope.html"}, "articleSection": "배포·운영", "keywords": "Supabase, 서버 이전, PostgreSQL 마이그레이션, Docker, 데이터베이스 백업, 이전 견적", "image": "https://chat.axwith.com/mag/hero/supabase-server-migration-cost-scope.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Supabase 데이터베이스를 Docker PostgreSQL로 옮기면 이전이 끝나나요?", "acceptedAnswer": {"@type": "Answer", "text": "데이터베이스만 쓰는 앱인지 먼저 확인해야 합니다. Supabase Auth, Storage, Realtime 등을 사용했다면 PostgreSQL 복원만으로 기존 서비스가 동일하게 동작하지는 않습니다."}}, {"@type": "Question", "name": "Supabase 백업에 Storage 파일도 포함되나요?", "acceptedAnswer": {"@type": "Answer", "text": "아니요. 데이터베이스 백업에는 Storage 객체의 메타데이터가 들어갈 수 있지만 실제 파일은 별도로 옮겨야 합니다."}}, {"@type": "Question", "name": "Supabase 서버 이전 견적에서 무엇을 확인해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "데이터베이스, 파일, 인증, 앱 연결 변경 중 어디까지 포함되는지 확인하세요. 시험 복원, 서비스 중단 시간, 전환 후 검증과 오류 대응의 범위도 합의해야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/supabase-server-migration-cost-scope.png" alt="Supabase 서버 이전 비용 100만 원, 데이터만 옮기면 끝날까" loading="eager">
+<header>
+  <span class="catchip c-res">배포·운영</span>
+  <h1>Supabase 서버 이전 비용 100만 원, 데이터만 옮기면 끝날까</h1>
+  <p class="sub">PostgreSQL 덤프부터 인증·파일·권한 검증까지, Supabase 이전 견적을 가르는 작업 범위를 따져봤다.</p>
+  <div class="meta"><span>2026-10-17</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Supabase 프로젝트를 다른 서버로 옮기고 100만 원을 받았다면, 그 금액은 비싼 걸까. 답은 이전 대상이 PostgreSQL 데이터인지, 로그인과 파일까지 포함한 서비스 전체인지에 달려 있다. 실제 작업 순서와 실패 시 책임을 나눠 견적의 경계를 살펴봤다.</p>
+<h2>먼저 ‘서버 이전’의 목적지를 구분해야 한다</h2>
+<p>커뮤니티에서는 기존 개발 견적보다 훨씬 적은 100만 원을 받고 AI의 도움으로 이전했다는 경험이 공유됐다. 일부는 덤프를 옮기는 작업치고는 큰 금액이라고 봤다. 다른 쪽에서는 데이터가 어긋났을 때 이를 고치는 시간까지 감안해야 한다고 봤다. 어느 의견도 이전 범위가 정해지기 전에는 단가의 근거가 되기 어렵다.</p>
+<p>목적지가 일반 PostgreSQL이라면 데이터베이스를 복원한 뒤에도 앱이 사용하던 Supabase 기능을 따로 살펴봐야 한다. Supabase 공식 Docker 구성은 PostgreSQL 외에 Auth, REST API, Realtime, Storage, Edge Runtime 등을 함께 운영한다. PostgreSQL 컨테이너 하나를 띄우는 일과 Supabase 전체를 자체 호스팅하는 일은 다르다. (<a href="https://supabase.com/docs/guides/self-hosting/docker" target="_blank" rel="nofollow noopener">supabase.com</a>)</p>
+<p>예를 들어 앱이 SQL로 데이터만 읽는다면 데이터베이스 이전에 가까울 수 있다. 브라우저에서 Supabase 인증, 파일 URL, 실시간 구독을 사용한다면 연결 지점도 바뀐다. 견적서에서 말하는 ‘완료’가 어느 상태를 가리키는지부터 달라진다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/supabase-server-migration-cost-scope.png" alt="" loading="lazy"><h2>데이터베이스는 세 파일로 내보내고 시험 복원한다</h2>
+<p>방에서 제안된 첫 단계는 데이터를 검토한 뒤 로컬 Docker PostgreSQL로 옮겨보는 방식이었다. 시험 복원은 유용하지만, 운영 목적지가 일반 PostgreSQL인지 자체 호스팅 Supabase인지 먼저 결정해야 한다. 두 환경의 기본 스키마와 서비스 구성이 같다고 가정할 수 없기 때문이다.</p>
+<p>자체 호스팅 Supabase로 옮긴다면 공식 가이드에 구체적인 순서가 나와 있다. 관리형 프로젝트의 연결 정보를 확보하고 Supabase CLI로 역할 <code>roles.sql</code>, 구조 <code>schema.sql</code>, 데이터 <code>data.sql</code>을 각각 만든다. 새 Docker 인스턴스에서 필요한 확장을 확인한 다음 <code>psql</code>로 세 파일을 순서대로 복원한다. 가이드는 단일 트랜잭션과 오류 시 중단 옵션을 사용하고, 복원 뒤 주요 테이블의 행 수와 확장을 확인한다. (<a href="https://supabase.com/docs/guides/self-hosting/restore-from-platform" target="_blank" rel="nofollow noopener">supabase.com</a>)</p>
+<p>내보내기 도구도 확인해야 한다. Supabase CLI의 기본 <code>db dump</code>에는 데이터와 사용자 정의 역할이 들어 있지 않아 별도 옵션이 필요하다. 공식 가이드는 CLI가 Supabase 내부 객체를 걸러낸다고 설명한다. 원본 데이터베이스에 <code>pg_dump</code>를 곧바로 실행하면 복원 중 권한 오류가 날 수 있다. (<a href="https://supabase.com/docs/reference/cli/supabase-inspect-db-blocking" target="_blank" rel="nofollow noopener">supabase.com</a>)</p>
+<p>시험 결과물은 ‘명령이 성공했다’는 기록만으로는 부족하다. 핵심 테이블의 행 수와 사용 중인 확장, 로그인에 필요한 데이터가 목적지에 있는지를 기록해야 한다. 관리형 환경과 자체 호스팅 환경의 버전 차이로 복원 SQL이 실패할 수도 있다. 공식 문서 역시 운영 이전에 테스트 인스턴스에서 호환성을 확인하라고 권한다. (<a href="https://supabase.com/docs/guides/self-hosting/restore-from-platform" target="_blank" rel="nofollow noopener">supabase.com</a>)</p>
+<h2>파일과 인증을 빼면 같은 서비스가 아니다</h2>
+<p>Supabase 백업에는 Storage 객체의 실제 파일이 포함되지 않는다. 데이터베이스에 파일 관련 메타데이터가 있어도 파일 자체는 별도로 옮겨야 한다. Supabase의 자체 호스팅 이전 가이드는 Edge Functions 복사 역시 데이터베이스 복원 범위 밖으로 둔다. (<a href="https://supabase.com/docs/guides/platform/backups" target="_blank" rel="nofollow noopener">supabase.com</a>)</p>
+<p>파일을 쓰는 프로젝트라면 버킷과 객체 이전을 작업 목록에 넣어야 한다. Supabase가 안내하는 방법은 목적지에 버킷을 준비하고 S3 프로토콜을 통해 <code>rclone</code>으로 객체를 복사하는 것이다. 파일을 내려받아 자체 호스팅 서버의 Storage 폴더에 그대로 놓는 방식은 지원되는 이전 절차가 아니다. 복사 후에는 양쪽의 객체 수와 크기를 비교하고 실제 파일을 열어 확인한다. (<a href="https://supabase.com/docs/guides/self-hosting/copy-from-platform-s3" target="_blank" rel="nofollow noopener">supabase.com</a>)</p>
+<p>인증 데이터도 행 수만 맞는다고 끝나지 않는다. 공식 문서에 따르면 <code>auth.users</code>는 데이터베이스 덤프에 포함될 수 있다. 그러나 관리형 프로젝트와 새 인스턴스의 JWT 비밀값이 다르면 기존 토큰은 유효하지 않다. 사용자는 다시 로그인해야 한다. 소셜 로그인 설정, 이메일 발송 설정, 리디렉션 주소도 별도로 맞춰야 한다. (<a href="https://supabase.com/docs/guides/self-hosting/restore-from-platform" target="_blank" rel="nofollow noopener">supabase.com</a>)</p>
+<p>그래서 ‘사용자 데이터 이전 완료’와 ‘사용자가 평소처럼 로그인 가능’은 서로 다른 검수 항목이다.</p>
+<h2>100만 원에 포함할 검증은 어디까지인가</h2>
+<p>가격을 가르는 부분은 복사 명령보다 전환 계획일 수 있다. 쓰기가 계속 발생하는 서비스를 한 시점의 덤프로 옮긴다면 추출 후 생긴 변경분을 어떻게 처리할지 정해야 한다. 점검 시간 동안 쓰기를 멈출지, 변경분을 다시 동기화할지, 문제가 생기면 어느 시점으로 돌아갈지 합의해야 한다. 이 계획 없이 구 서버 연결만 끊으면 데이터가 빠질 위험이 있다.</p>
+<p>전환 전에는 주요 화면의 읽기·쓰기, 파일 접근, 로그인, 권한을 새 환경에서 시험해야 한다. 특히 RLS는 테이블 접근 권한과 행별 정책을 함께 확인해야 한다. Supabase 문서는 노출된 스키마의 테이블에 RLS를 설정하고 허용·거부 동작을 테스트하도록 안내한다. 반대로 일반 PostgreSQL만 남기는 이전이라면 앱의 API와 인증을 누가 대체할지도 결정해야 한다. (<a href="https://supabase.com/docs/guides/database/postgres/row-level-security" target="_blank" rel="nofollow noopener">supabase.com</a>)</p>
+<p>직접 이전한 사람들 사이에서도 데이터베이스 밖의 기능을 하나씩 확인해야 한다는 반응이 있다. 자체 호스팅으로 운영비를 줄이더라도 업데이트와 백업을 직접 맡아야 하는 부담이 있다는 의견도 나온다. 이런 반응이 특정 프로젝트의 비용을 증명하지는 않지만, 검수 항목을 정할 때 참고할 만하다.</p>
+<p>100만 원의 적정성은 이전 범위에 따라 달라진다. 다만 작은 프로젝트의 일회성 데이터 복원과 인증·Storage·전환·복구 대응을 포함한 이전에 같은 가격표를 붙일 수는 없다. 개인 개발자나 작은 팀이 외주 범위를 적을 때도 ‘무엇을 옮긴다’보다 ‘무엇이 정상 작동해야 완료인가’를 기준으로 삼아야 분쟁을 줄일 수 있다. 이번 비용 논쟁에서 남는 질문은 금액 자체보다 이전 후 장애까지 누가 언제 책임지기로 했느냐이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Supabase</span><span class="chip">서버 이전</span><span class="chip">PostgreSQL 마이그레이션</span><span class="chip">Docker</span><span class="chip">데이터베이스 백업</span><span class="chip">이전 견적</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://supabase.com/docs/guides/self-hosting/restore-from-platform" rel="nofollow noopener">https://supabase.com/docs/guides/self-hosting/restore-from-platform</a></li><li><a href="https://supabase.com/docs/guides/self-hosting/docker" rel="nofollow noopener">https://supabase.com/docs/guides/self-hosting/docker</a></li><li><a href="https://supabase.com/docs/reference/cli/supabase-inspect-db-blocking" rel="nofollow noopener">https://supabase.com/docs/reference/cli/supabase-inspect-db-blocking</a></li><li><a href="https://supabase.com/docs/guides/platform/backups" rel="nofollow noopener">https://supabase.com/docs/guides/platform/backups</a></li><li><a href="https://supabase.com/docs/guides/self-hosting/copy-from-platform-s3" rel="nofollow noopener">https://supabase.com/docs/guides/self-hosting/copy-from-platform-s3</a></li><li><a href="https://supabase.com/docs/guides/database/postgres/row-level-security" rel="nofollow noopener">https://supabase.com/docs/guides/database/postgres/row-level-security</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Supabase 데이터베이스를 Docker PostgreSQL로 옮기면 이전이 끝나나요?</h2><p class="sum">데이터베이스만 쓰는 앱인지 먼저 확인해야 합니다. Supabase Auth, Storage, Realtime 등을 사용했다면 PostgreSQL 복원만으로 기존 서비스가 동일하게 동작하지는 않습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Supabase 백업에 Storage 파일도 포함되나요?</h2><p class="sum">아니요. 데이터베이스 백업에는 Storage 객체의 메타데이터가 들어갈 수 있지만 실제 파일은 별도로 옮겨야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Supabase 서버 이전 견적에서 무엇을 확인해야 하나요?</h2><p class="sum">데이터베이스, 파일, 인증, 앱 연결 변경 중 어디까지 포함되는지 확인하세요. 시험 복원, 서비스 중단 시간, 전환 후 검증과 오류 대응의 범위도 합의해야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="ai-product-real-estate-conversion-rate.html">AI로 만든 부동산 상품, 전환율이 안 오르는 진짜 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="vps-claude-code-always-on.html">VPS에서 클로드코드 24시간 돌리기, 맥미니와 뭐가 다른가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-github-outage-529-status-page.html">클로드·깃허브 동시 장애, 529 오류와 상태 페이지 읽는 법</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="local-ai-call-center-tco.html">콜센터 로컬 AI는 정말 월 비용을 없애는가, GPU 뒤의 TCO</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="toy-project-hosting-choices.html">토이프로젝트 배포, Vercel·Railway·VPS 중 무엇을 고를까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-16-1800.html">2026-10-16 10-16 14:38~17:38</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
