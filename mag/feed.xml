@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>SK하이닉스 AI 해커톤 예선, AI 활용 능력과 시험 적응력 중 무엇을 재나</title>
+    <link>https://chat.axwith.com/mag/models/sk-hynix-ai-hackathon-preliminary-assessment.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/sk-hynix-ai-hackathon-preliminary-assessment.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sun, 18 Oct 2026 12:00:00 +0900</pubDate>
+    <description>SK하이닉스 AI 해커톤 예선에서 응시자들은 시간 압박과 제공 AI의 답변 품질을 문제 삼았다. 주최 측의 평가 목표와 프로그래머스의 과정 평가 방식을 대조해 쟁점을 짚는다.</description>
+  </item>
+  <item>
+    <title>온라인 시험 막판 서버 장애, 남은 문제와 응시 기회는 어떻게 되나</title>
+    <link>https://chat.axwith.com/mag/ops/online-exam-server-failure-remedy.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/online-exam-server-failure-remedy.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Sun, 18 Oct 2026 12:00:00 +0900</pubDate>
+    <description>온라인 시험 종료 직전 서버가 멈춰 문제를 풀지 못했을 때 무엇을 확인해야 할까. 응시자 경험과 시험 운영기관의 규정을 바탕으로 기록 방법과 구제 범위를 짚는다.</description>
+  </item>
+  <item>
     <title>Supabase 서버 이전 비용 100만 원, 데이터만 옮기면 끝날까</title>
     <link>https://chat.axwith.com/mag/ops/supabase-server-migration-cost-scope.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/supabase-server-migration-cost-scope.html</guid>
@@ -227,21 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Wed, 07 Oct 2026 12:00:00 +0900</pubDate>
     <description>오픈채팅방 AI 봇이 사람처럼 대화하다가 문장을 되풀이하거나 엉뚱하게 답하는 이유를 살핀다. 멘션 판별, 대화 문맥, 거절 정책, 정보 노출을 각각 어떻게 검증할지도 정리했다.</description>
-  </item>
-  <item>
-    <title>OpenAI DOTS 클라우드 컴퓨터에서 파일이 사라졌다면, 작업 데이터는 어디에 둬야 하나</title>
-    <link>https://chat.axwith.com/mag/ops/dots-cloud-computer-file-backup.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/dots-cloud-computer-file-backup.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Wed, 07 Oct 2026 12:00:00 +0900</pubDate>
-    <description>DOTS 사용 중 클라우드 작업 파일을 잃었다는 경험이 공유됐다. 공식 문서로 확인한 파일 보관 방식과 작업 검토 기능을 바탕으로, 모델링 결과를 안전하게 남기는 방법을 살핀다.</description>
-  </item>
-  <item>
-    <title>Codex와 GPT-6 Astra가 50% 빨라졌다는데 왜 작업은 여전히 느릴까</title>
-    <link>https://chat.axwith.com/mag/tools/codex-astra-speed-task-latency.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/codex-astra-speed-task-latency.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Wed, 07 Oct 2026 12:00:00 +0900</pubDate>
-    <description>OpenAI는 GPT-6 Astra와 GPT-6.1 Sol의 기본 텍스트 생성 속도가 약 50% 높아졌다고 밝혔다. Codex 작업이 여전히 느리게 느껴지는 이유와 모델·속도 설정별 사용량 차이를 살폈다.</description>
   </item>
 </channel></rss>
