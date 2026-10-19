@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>재난 대피 앱은 왜 화살표보다 신뢰를 먼저 설계해야 하나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="재난 알림과 위치 정보를 결합한 대피 앱의 구현 방법과 한계를 살핀다. 공식 데이터, 안전한 경로, 오보 대응, 개인정보 보호까지 다룬다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/disaster-evacuation-app-trust.html">
+<meta property="og:title" content="재난 대피 앱은 왜 화살표보다 신뢰를 먼저 설계해야 하나">
+<meta property="og:description" content="재난 알림과 위치 정보를 결합한 대피 앱의 구현 방법과 한계를 살핀다. 공식 데이터, 안전한 경로, 오보 대응, 개인정보 보호까지 다룬다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/disaster-evacuation-app-trust.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "재난 대피 앱은 왜 화살표보다 신뢰를 먼저 설계해야 하나", "description": "재난 알림과 위치 정보를 결합한 대피 앱의 구현 방법과 한계를 살핀다. 공식 데이터, 안전한 경로, 오보 대응, 개인정보 보호까지 다룬다.", "datePublished": "2026-10-20", "dateModified": "2026-10-20", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/disaster-evacuation-app-trust.html"}, "articleSection": "워크플로우·방법론", "keywords": "재난 대피 앱, 지진 경보, 안전디딤돌, 국민안전24, 위치 기반 서비스, 대피 경로, 재난문자", "image": "https://chat.axwith.com/mag/hero/disaster-evacuation-app-trust.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "재난 대피 앱은 가장 가까운 대피소를 안내하면 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "항상 그렇지는 않습니다. 재난 유형과 침수·붕괴·화재 위험을 함께 계산해 더 안전한 시설과 경로를 제시해야 합니다."}}, {"@type": "Question", "name": "재난 대피 앱은 인터넷이 끊겨도 작동할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "미리 저장한 행동요령, 대피시설 목록, 지도 구역은 일부 기능을 유지할 수 있습니다. 실시간 경보와 도로 상태는 통신이 끊기면 제한될 수 있습니다."}}, {"@type": "Question", "name": "위치 권한을 항상 허용해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "주변 대피시설을 한 번 조회하는 기능에는 사용 중 위치 권한만으로 충분할 수 있습니다. 백그라운드 위치 수집은 필요성과 보관 방식을 별도로 확인해야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/disaster-evacuation-app-trust.png" alt="재난 대피 앱은 왜 화살표보다 신뢰를 먼저 설계해야 하나" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>재난 대피 앱은 왜 화살표보다 신뢰를 먼저 설계해야 하나</h1>
+  <p class="sub">지진 경보 뒤 안전한 방향을 알려주는 앱은 위치·지도보다 데이터 출처와 오프라인 대응이 먼저다</p>
+  <div class="meta"><span>2026-10-20</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>재난 알림을 받은 직후 화면에 대피 방향을 화살표로 보여주는 앱은 직관적이다. 하지만 지진 경보가 한 번이라도 빗나가면 사용자는 화살표보다 먼저 앱 자체를 의심한다. 이 글은 위치 기반 대피 앱을 실제로 만들 때 무엇을 연결하고 어떤 순서로 검증해야 하는지, 긴급 상황에서 신뢰를 어떻게 유지할 수 있는지 답한다.</p>
+<h2>재난문자 다음에 필요한 것은 ‘가장 가까운 곳’이 아니다</h2>
+<p>행정안전부의 안전디딤돌은 재난문자, 국민행동요령, 대피시설 위치를 함께 제공한다. 사용자는 재난문자에서 행동요령으로 이동한 뒤 가까운 대피시설을 조회할 수 있다. 국민안전24도 지진옥외 대피소와 지진해일 대피소를 포함한 안전시설을 지도에서 확인하도록 지원한다. (<a href="https://mois.go.kr/frt/bbs/type002/commonSelectBoardArticle.do%3Bjsessionid%3Dz96ePahCeGKx0swtee6EIhuBNpF6DDWcQsxc7-Dd.node50?bbsId=BBSMSTR_000000000205&amp;nttId=119803" target="_blank" rel="nofollow noopener">mois.go.kr</a>)</p>
+<p>방 논의에서 나온 앱 구상은 이 과정을 한 화면으로 줄이자는 데서 출발했다. 경보를 확인한 뒤 지도를 다시 검색하는 대신 현재 위치와 재난 종류를 바탕으로 이동 방향을 바로 보여주자는 생각이다. 개인 개발자나 소규모 팀이 이 아이디어를 구현한다면 첫 화면에는 지도보다 세 가지를 먼저 배치해야 한다. 발생한 재난의 종류, 정보가 나온 기관, 지금 해야 할 행동이다.</p>
+<p>가장 가까운 시설이 언제나 가장 안전한 목적지는 아니다. 국민안전24는 집중호우 때 저지대의 지하시설로 대피하지 말고 더 안전한 지역으로 이동하라고 안내한다. 재난 종류에 따라 지진옥외 대피소, 지진해일 대피소, 실내 대피 장소의 우선순위도 달라진다. (<a href="https://safekorea.go.kr/safekorea-kor/acts/nacts/action-guide.do?actsHeaderTitle=%EB%B9%84%EC%83%81%EC%82%AC%ED%83%9C&amp;category=stateOfEmergency&amp;menuSn=4" target="_blank" rel="nofollow noopener">safekorea.go.kr</a>)</p>
+<h2>공식 경보와 지도 데이터를 분리해 연결해야 한다</h2>
+<p>앱의 입력은 두 갈래로 나뉜다. 첫째는 기상청이나 행정안전부가 제공하는 재난 알림이다. 둘째는 국민안전24와 공공데이터에서 가져오는 대피시설, 도로, 위험지역 정보다. 두 데이터를 한 출처처럼 다루면 갱신 시점과 책임 주체를 구분하기 어려워진다.</p>
+<p>기상청은 2026년 지진조기경보 체계에서 최초 관측 뒤 5~10초 이내 긴급재난문자를 발송하는 절차를 안내하고 있다. 지진은 예측이 아니라 감지 뒤 전파되는 체계다. 따라서 앱이 제공하는 시간도 ‘몇 분 전 예고’가 아니라 지진파 도달 전 확보되는 짧은 여유로 표시해야 한다. (<a href="https://testweather.kma.go.kr/kma/news/press_01.jsp?mode=view&amp;num=1194648" target="_blank" rel="nofollow noopener">testweather.kma.go.kr</a>)</p>
+<p>구현 순서는 단순하다. 먼저 재난문자의 발신 기관, 발생 시각, 영향 지역, 재난 유형을 저장한다. 다음으로 대피시설 데이터의 좌표와 시설 유형, 갱신 시각을 붙인다. 마지막으로 사용자의 위치를 기준으로 후보 시설을 추린다. 침수·화재·붕괴 위험 구역과 겹치는 도로는 경로 계산에서 제외한다.</p>
+<p>공공데이터를 앱에서 쓰려면 데이터포털에서 활용 신청과 인증키 발급이 필요한 경우가 있다. 개발 단계에서는 호출량과 갱신 주기를 확인하고 운영 단계에서는 원본 데이터가 바뀌었을 때 기존 경로를 폐기하는 절차까지 마련해야 한다. (<a href="https://www.fairdata.go.kr/ext/data/openApiGuidance.do" target="_blank" rel="nofollow noopener">fairdata.go.kr</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/disaster-evacuation-app-trust.png" alt="" loading="lazy"><h2>화살표는 최단 경로가 아니라 위험을 피하는 경로여야 한다</h2>
+<p>일반 지도 앱의 최단 경로를 그대로 재난 안내에 사용하면 안 된다. 지진 뒤에는 건물 잔해가 도로를 막을 수 있고 침수 때는 평소 통행 가능한 지하차도가 위험 구간이 된다. 대피 경로 연구에서도 거리만 줄이는 방식보다 도로 폐쇄 가능성, 위험 노출, 혼잡을 함께 반영해야 한다는 지적이 반복된다. (<a href="https://www.mdpi.com/1911-8074/10/3/14" target="_blank" rel="nofollow noopener">mdpi.com</a>)</p>
+<p>따라서 앱은 목적지를 하나만 찍기보다 두세 개의 선택지를 제시해야 한다. 예를 들어 첫 번째는 이동거리가 짧은 경로, 두 번째는 위험 구간을 우회하는 경로, 세 번째는 공식 대피시설 대신 현 위치에서 실내 대피를 유지하는 선택지다. 각 경로에는 ‘왜 이 길을 추천했는지’를 짧게 적어야 한다.</p>
+<p>화살표의 모양보다 설명의 출처가 중요하다. “현재 위치에서 420m”만 보여주면 사용자는 경로의 안전성을 판단할 수 없다. “침수 취약 지하구간을 제외한 경로”, “지진옥외 대피소까지 도보 기준”처럼 계산 기준을 함께 제시해야 한다. 연구자들은 재난 경로가 짧기만 해서는 부족하며 막힌 도로와 위험 노출을 함께 계산해야 한다고 설명한다. (<a href="https://www.sciencedirect.com/science/article/pii/S221242092400400X" target="_blank" rel="nofollow noopener">sciencedirect.com</a>)</p>
+<h2>오보와 통신 두절을 기능으로 다뤄야 한다</h2>
+<p>방 논의에서 가장 중요한 쟁점은 오보 뒤에도 사용자가 안내를 믿겠느냐는 문제였다. 이 우려는 단순한 감상이 아니다. 재난 경보 연구는 잘못된 알림, 놓친 알림, 불완전한 설명이 기관과 시스템에 대한 신뢰를 약화시킬 수 있다고 지적한다. 반대로 발신 주체와 한계, 다음 행동을 명확히 설명하면 사용자가 경보를 계속 받아들일 가능성도 있다. (<a href="https://www.frontiersin.org/journals/earth-science/articles/10.3389/feart.2020.533498/full" target="_blank" rel="nofollow noopener">frontiersin.org</a>)</p>
+<p>행정안전부는 2026년 재난문자 표준문안 163개를 운영하며 대피장소와 행동요령을 보강하고 있다고 밝혔다. 여름철 재난문자에는 발생 지역, 위험 상황, 대피 방법을 더 구체적으로 담는 시범 운영도 전국으로 확대됐다. 앱은 이 원문을 임의로 요약하기보다 원문과 앱의 해석을 나란히 보여주는 편이 안전하다. (<a href="https://mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do%3Bjsessionid%3DNvY-XxWeWCr2vKM12g5FT3iHENbGA0k0Uy0ve9i5.node10?bbsId=BBSMSTR_000000000009&amp;nttId=129836" target="_blank" rel="nofollow noopener">mois.go.kr</a>)</p>
+<p>오보 정정도 별도 화면이 필요하다. 최초 경보를 지우지 말고 정정 시각과 정정 기관을 함께 표시해야 한다. 그래야 사용자는 “앱이 말을 바꿨다”고 느끼지 않고 어떤 정보가 갱신됐는지 확인할 수 있다.</p>
+<p>통신이 끊기면 지도 타일과 서버 API에 의존하는 기능은 멈춘다. 안전디딤돌은 대형재난 때 서버 접속 지연을 고려해 주변 대피소 정보를 미리 확인하도록 안내해 왔다. 새 앱도 최소한 사용자가 미리 지정한 집·직장 주변 대피시설, 기본 행동요령, 마지막으로 확인한 지도 구역을 기기에 저장해야 한다. (<a href="https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&amp;nttId=60120" target="_blank" rel="nofollow noopener">mois.go.kr</a>)</p>
+<h2>위치 권한은 넓게 받지 말고 짧게 써야 한다</h2>
+<p>위치 기반 안내를 위해 항상 위치를 수집할 필요는 없다. 앱을 처음 실행할 때 현재 위치를 한 번 받아 주변 대피시설을 계산하고 이동 중에는 사용자가 허용한 경우에만 갱신하는 방식이 가능하다. 백그라운드 위치 권한을 요구한다면 재난문자 수신에 필요한지, 단순 편의를 위한 것인지 분리해 설명해야 한다.</p>
+<p>안전디딤돌의 앱 안내도 대피시설 조회와 기지국 기반 재난문자 수신에 위치 정보가 쓰일 수 있음을 밝힌다. 위치 정보가 필요한 이유, 보관 기간, 외부 전송 여부를 설정 화면에서 확인할 수 있어야 한다. (<a href="https://play.google.com/store/apps/details?id=kr.go.nema.disasteralert_new" target="_blank" rel="nofollow noopener">play.google.com</a>)</p>
+<p>써본 사람들 사이에서는 재난 앱이 유용해도 알림이 너무 자주 오거나 번역과 위치가 어긋나면 금세 무시하게 된다는 반응이 있다. 반대로 오프라인 지도와 대피소 목록을 미리 내려받을 수 있으면 평소에 한 번 점검해 두기 좋다는 평가도 나온다. 이런 반응은 성능 수치가 아니라 신뢰를 만드는 사용 경험의 조건으로 봐야 한다.</p>
+<p>재난 대피 앱의 첫 버전은 인공지능이 알아서 최적 경로를 정하는 서비스일 필요가 없다. 공식 경보를 원문 그대로 보여주고 검증된 대피시설을 표시하며 위험 구간을 피한 두세 개의 경로와 오프라인 정보를 제공하는 것부터 시작하면 된다. 사용자가 화살표를 믿는 순간은 화면이 화려해서가 아니다. 그 화살표가 어떤 기관의 어떤 데이터와 어떤 기준으로 만들어졌는지 확인할 수 있을 때다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">재난 대피 앱</span><span class="chip">지진 경보</span><span class="chip">안전디딤돌</span><span class="chip">국민안전24</span><span class="chip">위치 기반 서비스</span><span class="chip">대피 경로</span><span class="chip">재난문자</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://mois.go.kr/frt/bbs/type002/commonSelectBoardArticle.do%3Bjsessionid%3Dz96ePahCeGKx0swtee6EIhuBNpF6DDWcQsxc7-Dd.node50?bbsId=BBSMSTR_000000000205&amp;nttId=119803" rel="nofollow noopener">https://mois.go.kr/frt/bbs/type002/commonSelectBoardArticle.do%3Bjsessionid%3Dz9</a></li><li><a href="https://www.safekorea.go.kr/" rel="nofollow noopener">https://www.safekorea.go.kr/</a></li><li><a href="https://nmepv.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do?menuSn=237&amp;title=%EC%83%9D%ED%99%9C%EC%95%88%EC%A0%84" rel="nofollow noopener">https://nmepv.safekorea.go.kr/safekorea-kor/flsm/flsm/facilitiesSafteyMap.do?men</a></li><li><a href="https://testweather.kma.go.kr/kma/news/press_01.jsp?mode=view&amp;num=1194648" rel="nofollow noopener">https://testweather.kma.go.kr/kma/news/press_01.jsp?mode=view&amp;num=1194648</a></li><li><a href="https://www.kma.go.kr/eqk_pub/data/file/contents/cdd1a253-442b-4741-83d0-99a3d72fe6dd.pdf%3Bjsessionid%3DE411640891F3D5082B39B26848A99FE1" rel="nofollow noopener">https://www.kma.go.kr/eqk_pub/data/file/contents/cdd1a253-442b-4741-83d0-99a3d72</a></li><li><a href="https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&amp;nttId=60120" rel="nofollow noopener">https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR</a></li><li><a href="https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&amp;nttId=125992" rel="nofollow noopener">https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR</a></li><li><a href="https://www.nature.com/articles/s41598-026-37958-1" rel="nofollow noopener">https://www.nature.com/articles/s41598-026-37958-1</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>재난 대피 앱은 가장 가까운 대피소를 안내하면 되나요?</h2><p class="sum">항상 그렇지는 않습니다. 재난 유형과 침수·붕괴·화재 위험을 함께 계산해 더 안전한 시설과 경로를 제시해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>재난 대피 앱은 인터넷이 끊겨도 작동할 수 있나요?</h2><p class="sum">미리 저장한 행동요령, 대피시설 목록, 지도 구역은 일부 기능을 유지할 수 있습니다. 실시간 경보와 도로 상태는 통신이 끊기면 제한될 수 있습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>위치 권한을 항상 허용해야 하나요?</h2><p class="sum">주변 대피시설을 한 번 조회하는 기능에는 사용 중 위치 권한만으로 충분할 수 있습니다. 백그라운드 위치 수집은 필요성과 보관 방식을 별도로 확인해야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-19-1135-s.html">2026-10-19 10-19 11:14~11:35</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
