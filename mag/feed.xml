@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>직장인 개인사업자 등록, 회사 허가와 세금 신고는 별개다</title>
+    <link>https://chat.axwith.com/mag/ops/employee-side-business-registration-korea.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/employee-side-business-registration-korea.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Tue, 20 Oct 2026 12:00:00 +0900</pubDate>
+    <description>직장인의 개인사업자 등록은 세무상 의무와 회사의 겸업 규정을 따로 판단해야 한다. 수익의 성격, 등록 시점, 종합소득세와 건강보험료, 회사 통보에 관한 오해를 살폈다.</description>
+  </item>
+  <item>
     <title>재난 대피 앱은 왜 화살표보다 신뢰를 먼저 설계해야 하나</title>
     <link>https://chat.axwith.com/mag/workflow/disaster-evacuation-app-trust.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/disaster-evacuation-app-trust.html</guid>
@@ -19,6 +27,14 @@
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 20 Oct 2026 12:00:00 +0900</pubDate>
     <description>쿠팡 판매 자동화를 가격 추적에서 상품 개선으로 넓히려면 무엇을 비교해야 할까. 비즈니스 인사이트, 리뷰 분석, Open API의 역할과 과일 판매자가 확인할 비용·표시 정보를 정리했다.</description>
+  </item>
+  <item>
+    <title>앱인토스 수익화, 여러 미니앱을 만들면 수익도 늘어날까</title>
+    <link>https://chat.axwith.com/mag/ops/apps-in-toss-miniapp-revenue-strategy.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/apps-in-toss-miniapp-revenue-strategy.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Tue, 20 Oct 2026 12:00:00 +0900</pubDate>
+    <description>앱인토스에서 앱을 많이 출시하는 전략은 수익으로 이어질까. 공식 광고·정산 문서와 콘솔 MCP 기능을 바탕으로 매출을 만드는 조건과 앱별 성과를 확인하는 방법을 정리했다.</description>
   </item>
   <item>
     <title>일본 IT 채용시장, 엔지니어 구인난에도 취업이 쉽지 않은 이유</title>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Sat, 10 Oct 2026 12:00:00 +0900</pubDate>
     <description>학계는 왜를 묻고 기업은 어떻게를 묻는다는 구분은 어디까지 맞을까. 연구비 심사 기준, 기업의 개발 비중, 연구 조직의 사례를 통해 주제 선정권의 차이를 살펴본다.</description>
-  </item>
-  <item>
-    <title>Kordoc은 어디에 쓰나: HWP 문서를 읽고 채우고 비교하는 방법</title>
-    <link>https://chat.axwith.com/mag/tools/kordoc-hwp-document-automation-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/kordoc-hwp-document-automation-guide.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 09 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Kordoc의 HWP·HWPX·PDF 파싱, OCR, 양식 채우기, 문서 비교 기능을 실제 명령과 함께 설명한다. MCP 연결 방법과 서식 검증이 필요한 지점도 짚었다.</description>
-  </item>
-  <item>
-    <title>Capsomnia로 맥북 덮고 장시간 작업하기, VPS 없이 어디까지 가능한가</title>
-    <link>https://chat.axwith.com/mag/tools/capsomnia-macbook-closed-lid-long-running-jobs.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/capsomnia-macbook-closed-lid-long-running-jobs.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 09 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Capsomnia는 맥북 덮개를 닫아도 로컬 작업이 계속되도록 잠자기를 막는다. 설치와 작동 확인 방법, caffeinate와의 차이, 핫스팟·전원·발열 때문에 VPS를 완전히 대체할 수 없는 이유를 정리했다.</description>
   </item>
 </channel></rss>
