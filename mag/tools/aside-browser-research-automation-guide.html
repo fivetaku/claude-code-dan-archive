@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>어사이드 브라우저로 자료조사 자동화하기: 클릭부터 근거 검토까지 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="어사이드 브라우저의 조사 작업 설정부터 출처표 작성, CLI·MCP 활용, 권한과 개인정보 점검까지 살펴본다. 병렬 크롤링 경험과 공식 기능의 차이도 구분한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/aside-browser-research-automation-guide.html">
+<meta property="og:title" content="어사이드 브라우저로 자료조사 자동화하기: 클릭부터 근거 검토까지">
+<meta property="og:description" content="어사이드 브라우저의 조사 작업 설정부터 출처표 작성, CLI·MCP 활용, 권한과 개인정보 점검까지 살펴본다. 병렬 크롤링 경험과 공식 기능의 차이도 구분한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/aside-browser-research-automation-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "어사이드 브라우저로 자료조사 자동화하기: 클릭부터 근거 검토까지", "description": "어사이드 브라우저의 조사 작업 설정부터 출처표 작성, CLI·MCP 활용, 권한과 개인정보 점검까지 살펴본다. 병렬 크롤링 경험과 공식 기능의 차이도 구분한다.", "datePublished": "2026-10-21", "dateModified": "2026-10-21", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/aside-browser-research-automation-guide.html"}, "articleSection": "도구·라이브러리", "keywords": "어사이드, Aside 브라우저, AI 브라우저, 브라우저 자동화, 자료조사, MCP", "image": "https://chat.axwith.com/mag/hero/aside-browser-research-automation-guide.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "어사이드 브라우저로 여러 사이트의 자료를 표로 모을 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "가능하다. 수집할 사이트와 표의 열, 출처 URL·확인 날짜 같은 검토 항목을 먼저 지정하면 된다. 중요한 값은 완성된 표에서 원문 페이지와 다시 대조해야 한다."}}, {"@type": "Question", "name": "어사이드의 Read only 모드면 웹사이트 내용도 변경하지 못하나?", "acceptedAnswer": {"@type": "Answer", "text": "공식 도움말은 이 모드를 파일 변경을 막는 권한으로 설명한다. 웹사이트의 모든 변경을 차단한다고 가정하지 말고, 작업 지시와 도구 권한을 별도로 제한해야 한다."}}, {"@type": "Question", "name": "어사이드에 저장한 비밀번호가 AI 모델에 전달되나?", "acceptedAnswer": {"@type": "Answer", "text": "공식 안내에 따르면 Aside Vault는 비밀번호 원문을 에이전트에 보여 주지 않고 로그인 화면에 자동 입력한다. 다만 작업에 필요한 페이지 내용과 선택된 파일 등은 사용하는 호스팅 모델로 전달될 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/aside-browser-research-automation-guide.png" alt="어사이드 브라우저로 자료조사 자동화하기: 클릭부터 근거 검토까지" loading="eager">
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>어사이드 브라우저로 자료조사 자동화하기: 클릭부터 근거 검토까지</h1>
+  <p class="sub">로그인한 사이트를 오가며 자료를 모으는 AI 브라우저, 어디까지 맡길 수 있고 무엇을 직접 확인해야 할까</p>
+  <div class="meta"><span>2026-10-21</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>자료를 찾고 여러 사이트를 열어 결과를 표로 옮기는 일은 검색 한 번으로 끝나지 않는다. 어사이드(Aside)는 이 과정을 브라우저 안에서 맡길 수 있다고 내세운다. 실제로 어디까지 자동화할 수 있고, 결과를 믿으려면 무엇을 남겨야 할까?</p>
+<h2>검색 결과 대신 웹사이트에서 작업한다</h2>
+<p>어사이드는 질문에 답하는 채팅창만 붙인 서비스가 아니다. 회사 설명에 따르면 로그인한 웹사이트를 탐색하고 페이지를 조작하며 파일과 스프레드시트까지 다루는 AI 브라우저다. 별도의 서비스별 연동을 먼저 만들지 않고, 사용자가 접속하는 웹 화면에서 작업하는 방식이 핵심이다. 현재 공식 다운로드 안내에는 macOS와 Windows 설치 방법이 모두 나와 있다. (<a href="https://aside.com/" target="_blank" rel="nofollow noopener">aside.com</a>)</p>
+<p>클코단 대화에서는 자료 수집에 어사이드를 써 보니 브라우저 조작이 특히 편리했다는 의견이 나왔다. 병렬 서브에이전트가 크롤링을 도왔다는 경험도 공유됐다. 다만 공식 도움말은 복잡한 조사에 쓰는 Ultrabrowse를 안내할 뿐, 모든 조사 작업이 병렬 서브에이전트로 실행된다고 명시하지는 않는다. 병렬 처리 방식이나 속도 향상을 일반적인 제품 보장으로 받아들여서는 안 된다. (<a href="https://docs.aside.com/help/ultrabrowse" target="_blank" rel="nofollow noopener">docs.aside.com</a>)</p>
+<p>차이는 ‘무엇을 찾았나’보다 ‘찾은 다음 무엇을 했나’에서 드러난다. 어사이드의 연구 활용 안내는 페이지 주소와 확인 날짜를 기록하고 화면을 캡처하며, PDF에서 정해 둔 항목을 추출하는 작업을 제시한다. 자료가 바뀌었거나 사라졌다면 그 상태도 표시하도록 권한다. 조사 결과를 검토 가능한 작업물로 남기는 접근이다. (<a href="https://aside.com/blog/researchers" target="_blank" rel="nofollow noopener">aside.com</a>)</p>
+<h2>조사표는 검색 전에 설계한다</h2>
+<p>예를 들어 소규모 팀이 경쟁 서비스 세 곳의 요금과 기능을 비교한다고 하자. 먼저 표에 서비스명, 요금제, 표시 가격, 포함 기능, 원문 URL, 확인 날짜, 화면 캡처, 검토 상태를 넣는다. 어사이드에서 각 공식 요금 페이지를 열고 사이드 패널에 현재 페이지를 첨부한 뒤, 지정한 항목만 모으라고 요청할 수 있다. 사이드 패널은 열어 둔 페이지를 작업의 출발점으로 전달한다. (<a href="https://docs.aside.com/help/side-panel" target="_blank" rel="nofollow noopener">docs.aside.com</a>)</p>
+<p>요청문에는 조사할 사이트와 결과물뿐 아니라 제외할 행동도 적는다. 가령 ‘세 요금 페이지의 공개 정보를 비교표로 만들고, 각 행에 URL과 확인 날짜를 붙여라. 가격을 확인할 수 없으면 추측하지 말고 검토 필요로 표시하라. 계정 정보는 수정하지 마라’처럼 쓸 수 있다. 어사이드 도움말도 막연한 업무 지시보다 대상 계정, 산출물, 저장 위치, 피해야 할 행동을 구체화하라고 안내한다. (<a href="https://docs.aside.com/help/tasks" target="_blank" rel="nofollow noopener">docs.aside.com</a>)</p>
+<p>PDF가 끼어 있다면 다운로드한 파일명과 추출 항목을 같은 행에 연결하도록 한다. 오래된 조사표를 갱신할 때는 이전 주장과 현재 페이지를 나란히 비교해 바뀜·누락·확인 필요 상태를 구분할 수 있다. 여기서 자동화가 만드는 것은 확정 판정이 아니라 검토할 근거 묶음이다. 유료 데이터베이스나 접근 권한이 필요한 자료라면 팀에 그 자료를 사용할 권리가 있는지도 별도로 확인해야 한다. (<a href="https://aside.com/blog/researchers" target="_blank" rel="nofollow noopener">aside.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/aside-browser-research-automation-guide.png" alt="" loading="lazy"><h2>코딩 도구와 역할을 나누면 무엇이 달라지나</h2>
+<p>클코단에서는 코드 작업과 브라우저 작업을 서로 다른 도구에 맡기는 조합이 생산적이라는 의견도 있었다. 어사이드는 CLI와 MCP를 제공하므로 개발 흐름에서 브라우저에 있는 근거를 가져올 수 있다. 공식 개발자 안내는 코드 변경은 코딩 도구에 두고, CI 화면·사내 대시보드·스테이징 페이지 확인은 어사이드에 맡기는 사례를 든다. (<a href="https://aside.com/blog/developers" target="_blank" rel="nofollow noopener">aside.com</a>)</p>
+<p>구체적인 입력은 ‘실패한 CI 실행을 열어 첫 오류 단계와 로그 링크를 찾고, 마지막 성공 실행과 비교해 메모를 작성하되 게시하지 말라’가 될 수 있다. 산출물은 수정된 코드가 아니라 로그 주소, 화면 캡처, 검토용 메모다. CLI로 작업을 시작하거나 <code>aside mcp</code>를 MCP 서버로 연결할 수 있지만, 연결 자체가 결과의 정확성을 보증하지는 않는다. 담당자는 로그가 가리키는 실행과 캡처 시점을 다시 대조해야 한다. (<a href="https://aside.com/blog/developers" target="_blank" rel="nofollow noopener">aside.com</a>)</p>
+<p>반복되는 정형 수집도 모두 에이전트에게 맡길 이유는 없다. 실제 사용 의견에는 여러 단계의 웹 작업이 편하다는 평가와 함께 잦은 개입이나 AI 사용 한도가 부담스럽다는 반응도 있다. 고정된 입력을 정기적으로 옮기는 일과 페이지를 해석해야 하는 일을 나눠 비용과 검토 시간을 비교하는 편이 현실적이다.</p>
+<h2>로그인과 권한은 조사 범위만큼 좁힌다</h2>
+<p>로그인 뒤에 있는 페이지까지 접근할 수 있다는 점은 어사이드의 장점이자 위험 지점이다. Aside Vault는 허용된 저장 자격증명을 로그인 화면에 자동 입력하며, 원래 비밀번호 값은 에이전트에 보여 주지 않는다고 설명한다. 그러나 MFA나 CAPTCHA 등에는 사람이 직접 응답해야 할 수 있다. 비밀번호 자동 입력과 자료 열람 권한을 혼동해서는 안 된다. (<a href="https://docs.aside.com/help/password-manager" target="_blank" rel="nofollow noopener">docs.aside.com</a>)</p>
+<p>권한 설정에는 도구별 허용·확인 요청·차단 규칙이 있고, 작업별 파일 접근 모드도 있다. 특히 <code>Read only</code>는 도움말상 파일 변경을 막는 설명이므로 웹사이트에서의 모든 변경을 막는 안전장치로 확대 해석하면 안 된다. 결제·게시·메시지 전송 같은 행동은 작업 지시에서 제외하고, 화면과 승인 요청을 직접 살펴야 한다. (<a href="https://docs.aside.com/help/security" target="_blank" rel="nofollow noopener">docs.aside.com</a>)</p>
+<p>법무 자료를 조사할 때는 경계가 더 선명해진다. 공개 판례나 법령의 URL·날짜를 모으는 일과 의뢰인 계약서나 내부 분쟁 자료를 읽히는 일은 다르다. 어사이드 개인정보 정책에 따르면 작업 기록은 로컬에 저장되지만, 호스팅된 AI 모델은 작업 수행에 필요한 선택된 페이지 내용·화면·파일 정보를 받을 수 있다. ‘로컬 중심’이라는 소개만으로 민감한 자료가 기기를 떠나지 않는다고 판단할 수 없다. (<a href="https://aside.com/policy/privacy" target="_blank" rel="nofollow noopener">aside.com</a>)</p>
+<h2>결과표의 출처가 자동화의 성패를 가른다</h2>
+<p>브라우저를 대신 클릭하는 제품은 어사이드만이 아니다. Perplexity의 Comet도 열린 탭을 바탕으로 질문에 답하고 웹사이트에서 작업하는 브라우저 보조 기능을 안내한다. 어사이드를 고를 때 따져볼 차이는 ‘AI 브라우저인가’보다 로그인한 업무 화면에서 필요한 결과물을 만들고 그 과정을 다시 확인할 수 있는가에 있다. (<a href="https://www.perplexity.ai/comet/resources/articles/comet-data-privacy-security-faq-s" target="_blank" rel="nofollow noopener">perplexity.ai</a>)</p>
+<p>자료 수집이 끝난 뒤에도 URL이 없는 행, 날짜가 빠진 가격, 원문과 다른 요약은 사람의 확인 대상으로 남는다. 어사이드의 연구 활용 안내 역시 수집은 에이전트에 맡기되 무엇을 증거로 인정할지는 연구자가 결정하도록 구분한다. 병렬로 페이지를 훑었는지보다 중요한 질문은 단순하다. 완성된 표의 각 칸을 원래 페이지로 돌아가 확인할 수 있는가. (<a href="https://aside.com/blog/researchers" target="_blank" rel="nofollow noopener">aside.com</a>)</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">어사이드</span><span class="chip">Aside 브라우저</span><span class="chip">AI 브라우저</span><span class="chip">브라우저 자동화</span><span class="chip">자료조사</span><span class="chip">MCP</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://aside.com/" rel="nofollow noopener">https://aside.com/</a></li><li><a href="https://aside.com/download" rel="nofollow noopener">https://aside.com/download</a></li><li><a href="https://docs.aside.com/help/ultrabrowse" rel="nofollow noopener">https://docs.aside.com/help/ultrabrowse</a></li><li><a href="https://docs.aside.com/help/side-panel" rel="nofollow noopener">https://docs.aside.com/help/side-panel</a></li><li><a href="https://docs.aside.com/help/tasks" rel="nofollow noopener">https://docs.aside.com/help/tasks</a></li><li><a href="https://aside.com/blog/researchers" rel="nofollow noopener">https://aside.com/blog/researchers</a></li><li><a href="https://aside.com/blog/developers" rel="nofollow noopener">https://aside.com/blog/developers</a></li><li><a href="https://docs.aside.com/help/developers" rel="nofollow noopener">https://docs.aside.com/help/developers</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>어사이드 브라우저로 여러 사이트의 자료를 표로 모을 수 있나?</h2><p class="sum">가능하다. 수집할 사이트와 표의 열, 출처 URL·확인 날짜 같은 검토 항목을 먼저 지정하면 된다. 중요한 값은 완성된 표에서 원문 페이지와 다시 대조해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>어사이드의 Read only 모드면 웹사이트 내용도 변경하지 못하나?</h2><p class="sum">공식 도움말은 이 모드를 파일 변경을 막는 권한으로 설명한다. 웹사이트의 모든 변경을 차단한다고 가정하지 말고, 작업 지시와 도구 권한을 별도로 제한해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>어사이드에 저장한 비밀번호가 AI 모델에 전달되나?</h2><p class="sum">공식 안내에 따르면 Aside Vault는 비밀번호 원문을 에이전트에 보여 주지 않고 로그인 화면에 자동 입력한다. 다만 작업에 필요한 페이지 내용과 선택된 파일 등은 사용하는 호스팅 모델로 전달될 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-20-1800.html">2026-10-20 10-20 14:06~17:48</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
