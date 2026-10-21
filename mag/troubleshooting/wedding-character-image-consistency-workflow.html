@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>결혼식 캐릭터 이미지, 장면마다 같은 두 사람으로 만드는 법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="결혼식 영상과 인쇄물에 쓸 커플 캐릭터가 장면마다 달라지는 문제를 살폈다. 캐릭터 시트 제작부터 ComfyUI의 얼굴·자세·화풍 제어, 컷별 검수까지 실제 제작 순서로 설명한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/wedding-character-image-consistency-workflow.html">
+<meta property="og:title" content="결혼식 캐릭터 이미지, 장면마다 같은 두 사람으로 만드는 법">
+<meta property="og:description" content="결혼식 영상과 인쇄물에 쓸 커플 캐릭터가 장면마다 달라지는 문제를 살폈다. 캐릭터 시트 제작부터 ComfyUI의 얼굴·자세·화풍 제어, 컷별 검수까지 실제 제작 순서로 설명한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/wedding-character-image-consistency-workflow.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "결혼식 캐릭터 이미지, 장면마다 같은 두 사람으로 만드는 법", "description": "결혼식 영상과 인쇄물에 쓸 커플 캐릭터가 장면마다 달라지는 문제를 살폈다. 캐릭터 시트 제작부터 ComfyUI의 얼굴·자세·화풍 제어, 컷별 검수까지 실제 제작 순서로 설명한다.", "datePublished": "2026-10-21", "dateModified": "2026-10-21", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/wedding-character-image-consistency-workflow.html"}, "articleSection": "질문·트러블슈팅", "keywords": "결혼식 캐릭터, 캐릭터 일관성, ComfyUI, InstantID, IPAdapter, ControlNet, 식전 영상", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "사진 한 장만으로 결혼식 캐릭터를 여러 장면에서 똑같이 만들 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "한 장은 출발점이 될 수 있지만 얼굴, 전신 비율, 화풍을 모두 고정한다고 보장할 수는 없습니다. 먼저 기준 캐릭터 시트를 만들고 장면별 결과와 비교하는 방식이 유용합니다."}}, {"@type": "Question", "name": "ComfyUI에서 얼굴은 닮았는데 자세가 달라지면 무엇을 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "얼굴 참조와 별도로 목표 자세 이미지를 준비해 포즈 제어 워크플로를 시험할 수 있습니다. 사용하는 InstantID·ControlNet 예제와 기본 모델의 호환성을 먼저 확인해야 합니다."}}, {"@type": "Question", "name": "영상으로 만들기 전에 어떤 이미지를 확정해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "두 사람의 얼굴과 전신 특징이 정해진 캐릭터 시트, 그리고 장면별로 검수를 통과한 정지 이미지를 확정하는 편이 좋습니다. 영상 생성 단계에서 처음으로 캐릭터의 모습을 결정하면 컷 사이의 차이를 추적하기 어렵습니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-ask">질문·트러블슈팅</span>
+  <h1>결혼식 캐릭터 이미지, 장면마다 같은 두 사람으로 만드는 법</h1>
+  <p class="sub">사진을 캐릭터로 바꾼 뒤 표정과 동작을 바꿔도 얼굴·비율·화풍을 지키려면, 무엇을 기준 이미지로 고정해야 할까</p>
+  <div class="meta"><span>2026-10-21</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>결혼식 식전 영상의 첫 장면과 마지막 장면에는 같은 두 사람이 나와야 한다. 그런데 사진을 캐릭터로 바꾸고 새 장면을 생성할 때마다 얼굴은 물론 어깨 너비와 다리 길이까지 달라진다. 두 사람의 모습을 유지하면서 동작만 바꾸려면 무엇을 먼저 고정해야 할까?</p>
+<h2>얼굴 사진만으로는 전신 캐릭터를 고정하기 어렵다</h2>
+<p>클코단에서는 사진의 특징을 자세히 적어도 생성할 때마다 인물의 비율과 화풍이 흔들린다는 경험이 공유됐다. 프롬프트를 손봐 턱이나 허리의 위치를 맞춰도 손발과 어깨선은 다시 어긋났다는 이야기였다. 그래서 완성 장면을 곧장 뽑기보다 먼저 기준 캐릭터를 정하자는 의견이 나왔다.</p>
+<p>여기에는 서로 다른 세 가지 기준이 섞여 있다. 얼굴이 닮았는지, 몸과 의상이 같은 캐릭터처럼 보이는지, 그림의 질감과 색이 이어지는지다. IPAdapter 개발 문서에 따르면 참조 이미지로 피사체와 화풍을 생성에 반영할 수 있다. 반면 InstantID는 얼굴 정체성을 유지하는 도구이며 별도 이미지로 얼굴의 자세를 지정할 수 있다. 얼굴용 참조 하나에 전신 비율과 화풍까지 맡기지 말아야 하는 이유다. (<a href="https://github.com/Comfy-Org/workflow_templates/blob/main/site/knowledge/custom-nodes/comfyui-ipadapter-plus.md" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<h2>기준 캐릭터 시트는 장면 생성 전에 만든다</h2>
+<p>작업 재료는 신랑과 신부의 사용 허락을 받은 사진, 목표 화풍을 보여주는 이미지, 필요한 장면 목록이다. 두 사람의 얼굴이 구분되는 사진을 고른 뒤 각각 정면과 측면에 가까운 캐릭터 초안을 만든다. 마음에 드는 한 장을 고르는 데서 멈추지 않고 얼굴형, 머리 모양, 의상 색, 키 차이와 전신 윤곽이 함께 보이는 기준 시트로 정리한다.</p>
+<p>시트는 자동으로 정확도를 보장하는 파일이 아니다. 이후 장면을 만들고 비교할 때 되돌아갈 시각적 기준이다. 예컨대 카페에서 만나는 장면과 식장에서 걷는 장면을 만든다면 두 장면 모두 같은 시트의 인물을 참조한다. 새 장면에서 우연히 잘 나온 얼굴을 다음 장면의 유일한 기준으로 바꾸면 오류가 이어질 수 있다.</p>
+<p>한 컷에 표정 변화, 의상 변경, 큰 동작, 배경 전환을 모두 요구하지 않는 편이 검수하기도 쉽다. 먼저 시트를 기준으로 장면별 짧은 정지 이미지를 만든다. 그다음 통과한 이미지만 영상이나 인쇄물에 쓴다. 구글은 Flow의 ‘Ingredients to Video’에서 캐릭터·사물·스타일 이미지를 영상의 반복 참조 요소로 사용한다고 안내한다. 영상 도구에서도 출발점은 장면 설명만이 아니라 재사용할 이미지 자산이다. (<a href="https://blog.google/innovation-and-ai/products/flow-video-tips/" target="_blank" rel="nofollow noopener">blog.google</a>)</p>
+<h2>ComfyUI에서는 얼굴·자세·화풍을 나눠 제어한다</h2>
+<p>ComfyUI로 작업한다면 먼저 SDXL 기반 워크플로와 참조 이미지를 준비할 수 있다. ComfyUI_InstantID 저장소에는 기본 워크플로 예제가 있고 필요한 얼굴 분석 모델과 ControlNet 설치 위치도 적혀 있다. 저장소는 해당 구현이 SDXL용이라고 명시한다. 다른 모델에 그대로 연결될 것이라고 가정하지 말고 예제의 모델 구성을 먼저 확인해야 한다. (<a href="https://github.com/cubiq/ComfyUI_InstantID" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>사진을 얼굴 참조로 넣고 장면에서 원하는 인물의 자세는 별도 이미지로 넣는다. InstantID 예제의 <code>image_kps</code> 입력은 참조 사진과 다른 얼굴 자세를 지정할 때 쓰인다. 팔을 들거나 앉은 전신 동작에는 포즈 참조를 따로 마련한다. ComfyUI용 보조 전처리 저장소에는 몸과 손의 포즈를 추출하는 DWPose·OpenPose 노드가 정리돼 있다. 얼굴 닮음과 관절 배치를 각각 확인할 수 있는 구성이다. (<a href="https://github.com/cubiq/ComfyUI_InstantID" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>그림체가 장면마다 달라진다면 스타일 참조를 분리한다. IPAdapter Plus의 예제 워크플로에는 <code>image_style</code>과 <code>image_composition</code>을 따로 받는 노드가 있다. 기준 시트에서 화풍을, 장면 스케치나 포즈 이미지에서 구도를 가져오는 식으로 시험할 수 있다. 다만 저장소의 해당 스타일·구도 결합 기능은 SDXL에 한정된다. 얼굴, 자세, 화풍을 한 번에 강하게 걸기보다 하나씩 적용하고 결과를 비교하는 편이 원인을 찾기 쉽다. (<a href="https://github.com/cubiq/ComfyUI_IPAdapter_plus/blob/main/examples/ipadapter_style_composition.json" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<h2>닮은 얼굴과 같은 캐릭터는 검수 기준이 다르다</h2>
+<p>생성 후에는 두 사람을 각각 확대해 얼굴형과 머리 모양을 비교한다. 이어 두 사람이 함께 있는 화면에서 키 차이, 어깨선, 손의 위치, 옷의 형태를 본다. 얼굴이 닮았어도 전신 비율이 달라지면 결혼식 영상에서는 다른 캐릭터처럼 읽힌다. 장면마다 화풍이 같은지도 따로 확인해야 한다.</p>
+<p>써본 사람들 사이에선 참조 이미지만으로 동작을 크게 바꾸면 얼굴과 몸의 일관성을 함께 지키기 어렵다는 반응도 있다. 강한 얼굴 제어가 표정을 부자연스럽게 만들 수 있다는 우려 역시 나온다. 한 번의 생성으로 모든 컷을 확정하기보다 기준 시트와 각 결과물을 나란히 놓고 탈락 컷을 골라내야 한다.</p>
+<p>수정할 곳이 얼굴뿐이라면 전체 장면을 다시 만드는 대신 해당 영역을 고치는 방법도 있다. 이미지 편집 워크플로의 마스크는 바꿀 부분을 지정한다. 다만 얼굴만 고쳐서는 손, 체형, 의상의 어긋남이 해결되지 않는다. 어떤 기준이 실패했는지 먼저 구분해야 재생성과 부분 수정을 선택할 수 있다. (<a href="https://docs.comfy.org/tutorials/api-nodes/openai/gpt-image-1" target="_blank" rel="nofollow noopener">docs.comfy.org</a>)</p>
+<h2>추가 도구보다 먼저 결정할 것은 허용 오차다</h2>
+<p>소규모 제작에서는 시트 한 장과 시험 장면 몇 개만으로도 워크플로를 평가할 수 있다. 정면에서는 닮았지만 옆모습이 계속 무너지는지, 두 사람이 함께 나오면 키 차이가 바뀌는지 확인한다. 이 시험에서 얼굴·전신·화풍 중 어디가 흔들리는지 기록하면 다음 도구를 고를 이유가 분명해진다. 클코단에서도 새 결제에 앞서 현재 환경에서 해결할 문제를 좁혀보자는 의견이 있었다.</p>
+<p>정지 이미지가 목표인지 움직이는 영상이 목표인지도 결과를 바꾼다. Flow의 참조 이미지 기능은 영상 제작의 선택지지만 참조를 제공한다는 사실만으로 모든 프레임의 비율이 같아지는 것은 아니다. ComfyUI 역시 세밀하게 나눠 제어할 수 있는 만큼 컷마다 검수해야 한다. 결혼식에 쓸 최종 장면을 가르는 질문은 ‘어느 도구가 일관성을 보장하나’보다 ‘두 사람을 같은 인물로 알아볼 수 있는 허용 오차가 어디까지인가’다. (<a href="https://blog.google/innovation-and-ai/products/flow-video-tips/" target="_blank" rel="nofollow noopener">blog.google</a>)</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">결혼식 캐릭터</span><span class="chip">캐릭터 일관성</span><span class="chip">ComfyUI</span><span class="chip">InstantID</span><span class="chip">IPAdapter</span><span class="chip">ControlNet</span><span class="chip">식전 영상</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/cubiq/ComfyUI_InstantID" rel="nofollow noopener">https://github.com/cubiq/ComfyUI_InstantID</a></li><li><a href="https://github.com/cubiq/ComfyUI_IPAdapter_plus" rel="nofollow noopener">https://github.com/cubiq/ComfyUI_IPAdapter_plus</a></li><li><a href="https://github.com/cubiq/ComfyUI_IPAdapter_plus/blob/main/examples/ipadapter_style_composition.json" rel="nofollow noopener">https://github.com/cubiq/ComfyUI_IPAdapter_plus/blob/main/examples/ipadapter_sty</a></li><li><a href="https://github.com/Fannovel16/comfyui_controlnet_aux" rel="nofollow noopener">https://github.com/Fannovel16/comfyui_controlnet_aux</a></li><li><a href="https://docs.comfy.org/tutorials/api-nodes/openai/gpt-image-1" rel="nofollow noopener">https://docs.comfy.org/tutorials/api-nodes/openai/gpt-image-1</a></li><li><a href="https://blog.google/innovation-and-ai/products/flow-video-tips/" rel="nofollow noopener">https://blog.google/innovation-and-ai/products/flow-video-tips/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>사진 한 장만으로 결혼식 캐릭터를 여러 장면에서 똑같이 만들 수 있나요?</h2><p class="sum">한 장은 출발점이 될 수 있지만 얼굴, 전신 비율, 화풍을 모두 고정한다고 보장할 수는 없습니다. 먼저 기준 캐릭터 시트를 만들고 장면별 결과와 비교하는 방식이 유용합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>ComfyUI에서 얼굴은 닮았는데 자세가 달라지면 무엇을 써야 하나요?</h2><p class="sum">얼굴 참조와 별도로 목표 자세 이미지를 준비해 포즈 제어 워크플로를 시험할 수 있습니다. 사용하는 InstantID·ControlNet 예제와 기본 모델의 호환성을 먼저 확인해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>영상으로 만들기 전에 어떤 이미지를 확정해야 하나요?</h2><p class="sum">두 사람의 얼굴과 전신 특징이 정해진 캐릭터 시트, 그리고 장면별로 검수를 통과한 정지 이미지를 확정하는 편이 좋습니다. 영상 생성 단계에서 처음으로 캐릭터의 모습을 결정하면 컷 사이의 차이를 추적하기 어렵습니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-21-1330.html">2026-10-21 10-20 23:53~10-21 13:16</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

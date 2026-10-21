@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>결혼식 캐릭터 이미지, 장면마다 같은 두 사람으로 만드는 법</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/wedding-character-image-consistency-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/wedding-character-image-consistency-workflow.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Wed, 21 Oct 2026 12:00:00 +0900</pubDate>
+    <description>결혼식 영상과 인쇄물에 쓸 커플 캐릭터가 장면마다 달라지는 문제를 살폈다. 캐릭터 시트 제작부터 ComfyUI의 얼굴·자세·화풍 제어, 컷별 검수까지 실제 제작 순서로 설명한다.</description>
+  </item>
+  <item>
+    <title>아이패드에서 리눅스 실행하기: LinPad는 진짜 OS인가, 화면 데모인가</title>
+    <link>https://chat.axwith.com/mag/tools/ipad-linux-linpad-local-execution.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/ipad-linux-linpad-local-execution.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Wed, 21 Oct 2026 12:00:00 +0900</pubDate>
+    <description>아이패드의 리눅스 화면은 실제로 조작할 수 있을까? LinPad의 실행 방식과 설치 절차를 확인하고, 듀얼 부팅·가상 머신·원격 접속과의 차이를 짚었다.</description>
+  </item>
+  <item>
     <title>금융권 생성형 AI, 반복 업무는 어디까지 맡길 수 있나</title>
     <link>https://chat.axwith.com/mag/ops/financial-ai-workflow-security-controls.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/financial-ai-workflow-security-controls.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Mon, 12 Oct 2026 12:00:00 +0900</pubDate>
     <description>중학생이 Claude와 함께 rhombicosidodecahedron의 루퍼트 성질 부재를 증명한 사례를 통해 구간 연산, 공개 코드, 독립 검증의 의미를 살펴본다.</description>
-  </item>
-  <item>
-    <title>온프레미스 OpenCode, 사내 개발팀의 구현 담당으로 쓸 만한가</title>
-    <link>https://chat.axwith.com/mag/ops/onprem-opencode-development-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/onprem-opencode-development-workflow.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Sun, 11 Oct 2026 12:00:00 +0900</pubDate>
-    <description>온프레미스 오픈웨이트 모델에 OpenCode를 연결해 PRD 작성, 구현, 검증을 나누는 방법과 실제 운영에서 마주치는 지연 시간·도구 호출·모델 성능 문제를 정리했다.</description>
-  </item>
-  <item>
-    <title>고사양 맥북 대신 맥 미니·맥 스튜디오를 원격으로 쓸 수 있을까</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/macbook-vs-remote-mac-desktop.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/macbook-vs-remote-mac-desktop.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sun, 11 Oct 2026 12:00:00 +0900</pubDate>
-    <description>고사양 맥북과 맥 미니·맥 스튜디오 원격 구성의 선택 기준을 살폈다. 통합 메모리, 실제 작업 위치, 화면 공유의 제약과 구매 전 확인할 항목을 정리했다.</description>
   </item>
 </channel></rss>
