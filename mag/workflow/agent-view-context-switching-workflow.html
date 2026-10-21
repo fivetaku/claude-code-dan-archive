@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>에이전트 세션을 늘려도 집중력을 잃지 않는 법: Agent View의 역할과 한계 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code Agent View의 실행·알림·검토 흐름을 살펴보고, 에이전트 대기 시간에 다른 일을 하면서도 작업 맥락을 잃지 않으려면 무엇을 기록해야 하는지 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/agent-view-context-switching-workflow.html">
+<meta property="og:title" content="에이전트 세션을 늘려도 집중력을 잃지 않는 법: Agent View의 역할과 한계">
+<meta property="og:description" content="Claude Code Agent View의 실행·알림·검토 흐름을 살펴보고, 에이전트 대기 시간에 다른 일을 하면서도 작업 맥락을 잃지 않으려면 무엇을 기록해야 하는지 짚는다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/agent-view-context-switching-workflow.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "에이전트 세션을 늘려도 집중력을 잃지 않는 법: Agent View의 역할과 한계", "description": "Claude Code Agent View의 실행·알림·검토 흐름을 살펴보고, 에이전트 대기 시간에 다른 일을 하면서도 작업 맥락을 잃지 않으려면 무엇을 기록해야 하는지 짚는다.", "datePublished": "2026-10-22", "dateModified": "2026-10-22", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/agent-view-context-switching-workflow.html"}, "articleSection": "워크플로우·방법론", "keywords": "Agent View, Claude Code, 에이전트 병렬 작업, 컨텍스트 스위칭, 백그라운드 세션, 개발자 생산성", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code Agent View는 어떻게 실행하나요?", "acceptedAnswer": {"@type": "Answer", "text": "터미널에서 `claude agents`를 실행하면 백그라운드 세션 목록이 열린다. 기존 세션은 `/bg`로 보내거나 새 작업을 `claude --bg \"작업 지시\"`로 시작할 수 있다."}}, {"@type": "Question", "name": "Agent View를 쓰면 작업 전환 비용이 없어지나요?", "acceptedAnswer": {"@type": "Answer", "text": "세션의 상태와 질문을 찾는 수고는 줄일 수 있다. 다만 작업 목표를 다시 떠올리고 결과를 검토하는 인지적 비용까지 없애지는 못한다."}}, {"@type": "Question", "name": "논문에서 읽은 내용을 에이전트가 자동으로 학습하나요?", "acceptedAnswer": {"@type": "Answer", "text": "읽은 내용을 다른 작업의 규칙으로 자동 반영하는 것은 아니다. 적용 조건을 확인해 현재 작업에서 시험한 뒤, 반복해서 필요한 규칙만 `CLAUDE.md`나 skill에 기록할 수 있다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>에이전트 세션을 늘려도 집중력을 잃지 않는 법: Agent View의 역할과 한계</h1>
+  <p class="sub">여러 작업을 동시에 맡기면 기다리는 시간은 줄어든다. 하지만 세션을 확인하고 판단하는 일까지 줄어들까?</p>
+  <div class="meta"><span>2026-10-22</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>에이전트에게 일을 나눠 맡기면 기다리는 시간은 줄지만, 열린 세션마다 진행 상황을 확인하는 일은 사람에게 남는다. 작업 중 논문을 읽다가 완료 알림을 받고 돌아오는 방식은 왜 편하고, 세션을 더 늘리는 방식은 왜 버거울까? 답은 병렬 실행 자체보다 <strong>언제 돌아와 무엇을 확인해야 하는지</strong>에 있다.</p>
+<h2>세션을 늘리면 확인할 일도 늘어난다</h2>
+<p>커뮤니티 논의에서는 세션과 브라우저 탭을 계속 추가할수록 작업의 맥락을 다시 떠올리기 어렵다는 의견이 나왔다. 에이전트가 코드를 작성하는 동안에도 사람은 각 작업의 목표와 맡긴 범위, 아직 내리지 않은 결정을 기억해야 한다. 창을 하나 더 여는 일과 일을 하나 더 감독하는 일은 다르다.</p>
+<p>소프트웨어 개발자 141명을 조사한 연구에서 응답자의 81%는 작업 전환을 일종의 방해로 여겼다. 연구진은 인지적 부담과 집중력 저하를 응답자들이 꼽은 주요 이유로 설명했다. 다만 이 설문은 에이전트 사용자를 측정한 결과가 아니다. 에이전트 세션이 몇 개부터 과하다는 기준으로 읽어서는 안 된다. (<a href="https://arxiv.org/abs/1805.05504" target="_blank" rel="nofollow noopener">arxiv.org</a>)</p>
+<p>기다리는 동안 다른 일을 하는 방식에도 차이가 있다. 커뮤니티에서는 에이전트에게 작업을 맡긴 뒤 논문을 읽고 완료 알림이 오면 원래 작업으로 돌아오는 흐름이 효율적이라는 의견이 있었다. 세션을 차례로 들여다보는 대신 돌아올 시점을 정해 두는 방식이다. 다만 읽던 논문의 맥락에서 코드 검토로 넘어갈 때 드는 비용까지 알림이 없애 주지는 않는다.</p>
+<h2>Agent View는 탭 대신 작업 상태를 보여준다</h2>
+<p>Anthropic이 공개한 Claude Code의 Agent View는 백그라운드 세션을 한 화면에 모은다. 터미널에서 <code>claude agents</code>를 실행하면 작업 중인 세션, 입력을 기다리는 세션, 끝난 세션을 구분해 볼 수 있다. 기존 세션은 <code>/bg</code>로 보내고 새 작업은 <code>claude --bg &quot;작업 지시&quot;</code>로 시작할 수 있다. Anthropic은 이 기능을 연구 프리뷰로 제공하며 화면과 단축키가 바뀔 수 있다고 명시한다. (<a href="https://claude.com/resources/articles/agent-view-in-claude-code?_hsmi=46260858&amp;banner=learn-more-banner-click&amp;wtime=54s" target="_blank" rel="nofollow noopener">claude.com</a>)</p>
+<p>예를 들어 작은 팀이 오류 수정과 테스트 실패 원인 조사를 분리한다고 해 보자. 각 세션에 수정 범위와 원하는 결과를 적어 맡긴 뒤 사람은 다른 창에서 문서를 검토한다. 돌아왔을 때 모든 대화 기록을 처음부터 읽지는 않는다. 먼저 어떤 세션이 질문 때문에 멈췄고 어떤 세션이 결과를 냈는지 확인한다.</p>
+<p>Agent View에서 행을 선택하고 <code>Space</code>를 누르면 최근 질문이나 결과를 살펴볼 수 있다. 짧은 답은 그 자리에서 보내고 변경 과정 전체가 필요하면 세션에 들어간다. 일반 터미널에서 연 대화는 백그라운드로 보내기 전까지 목록에 나타나지 않는다. 한 화면에 모인다는 말은 모든 대화와 하위 에이전트가 각각 표시된다는 뜻은 아니다. (<a href="https://code.claude.com/docs/en/agent-view" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<h2>알림을 기다리는 동안에도 복귀 단서는 남겨야 한다</h2>
+<p>Anthropic 문서에 따르면 Agent View가 열려 있을 때 백그라운드 세션이 입력을 요청하거나 종료되면 터미널 알림을 보낼 수 있다. <code>Notification</code> hook으로 데스크톱 알림을 설정하는 방법도 안내한다. 완료 여부를 확인하려고 주기적으로 탭을 열 필요는 줄어든다. 알림 설정과 전달은 사용 환경에서 확인해야 한다. (<a href="https://code.claude.com/docs/en/agent-view" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>알림이 해결하지 못하는 문제는 ‘내가 왜 이 일을 맡겼는가’다. 세션을 시작할 때 작업 목표와 제외할 범위, 완료 뒤 확인할 증거를 지시에 넣으면 복귀가 쉬워진다. 오류 수정이라면 재현 조건과 테스트 결과를 요청하고, 조사라면 확인한 사실과 남은 의문을 나눠 달라고 할 수 있다. 결과가 도착했을 때 사람은 긴 대화를 재구성하기보다 처음 정한 기준과 대조한다.</p>
+<p>논문을 읽고 돌아오는 흐름도 마찬가지다. 읽던 곳과 작업에 반영할 만한 생각을 짧게 남겨야 두 맥락을 모두 되살릴 수 있다. 연구 자료에서 발견한 주장을 곧바로 에이전트의 상시 지침으로 넣기보다 원문과 적용 조건을 먼저 확인하는 편이 낫다. 커뮤니티에서 제안된 ‘읽은 내용을 파이프라인에 흡수하는’ 구상은 흥미롭지만 논문 읽기만으로 개선이 자동으로 일어나는 기능은 아니다.</p>
+<h2>여러 에이전트가 만든 결과는 따로 검토해야 한다</h2>
+<p>Agent View는 세션을 모아 보여주지만 결과물을 하나로 합치지는 않는다. Anthropic 문서에 따르면 Git 저장소의 백그라운드 세션은 작업을 별도 worktree에서 진행할 수 있다. Git 저장소 밖에서는 같은 작업 디렉터리에 기록할 수 있으므로 여러 세션에 동일한 파일 수정을 맡길 때 주의가 필요하다. 세션 목록이 깔끔해져도 변경 파일과 테스트 결과를 대조하는 일은 남는다. (<a href="https://code.claude.com/docs/en/agent-view" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>병렬 실행의 비용도 확인해야 한다. Anthropic은 백그라운드 세션에도 일반 세션과 같은 사용량 제한이 적용된다고 설명한다. 여러 작업을 동시에 끝내는 속도와 사용량을 아끼는 목표는 같지 않다. 한 파일을 순서대로 고쳐야 하는 일이라면 세션을 늘리는 편이 오히려 검토를 복잡하게 만든다. (<a href="https://code.claude.com/docs/en/agent-view" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>써본 사람들 사이에서도 상태를 한눈에 보는 편리함과 승인·결과 통합은 여전히 사람이 맡는다는 반응이 함께 나온다. Agent View가 줄이는 것은 ‘어느 탭에 무엇이 있나’라는 탐색이다. ‘이 결과를 받아들여도 되나’라는 판단까지 대신하지는 않는다. (<a href="https://code.claude.com/docs/en/agent-view" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<h2>읽은 지식을 다음 작업에 반영하는 방법은 별개다</h2>
+<p>커뮤니티에서는 논문에서 얻은 내용을 이후 에이전트 작업에 반영하는 self-conditioning 구상도 언급됐다. 여기에는 서로 다른 두 단계가 있다. 이번 조사나 코딩 작업의 지시를 바꾸는 일과 다음 세션에도 적용할 프로젝트 규칙을 남기는 일이다. 구분하지 않으면 아직 검증하지 않은 아이디어가 모든 작업의 전제가 될 수 있다.</p>
+<p>Claude Code 문서는 프로젝트 전반에 필요한 규칙은 <code>CLAUDE.md</code>에, 필요할 때 쓰는 반복 절차는 skill에 두도록 안내한다. 따라서 읽은 논문에서 가설을 얻었다면 현재 작업에서 적용 범위와 확인 방법을 정해 시험할 수 있다. 결과가 반복해서 유효할 때 비로소 상시 규칙이나 재사용 절차로 옮길 이유가 생긴다. 이 과정은 도구가 보장하는 자동 학습이 아니라 사람이 검증하고 기록하는 작업이다. (<a href="https://code.claude.com/docs/id/features-overview" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>여러 세션을 감독하면서 다른 공부까지 병행하려는 개인 개발자에게 필요한 것은 더 많은 창이 아니다. 세션마다 돌아올 조건과 검토 기준을 남기고 알림이 왔을 때 필요한 맥락만 다시 불러오는 흐름이다. Agent View는 그 복귀 지점을 찾게 해준다. 다음 과제는 세션 수를 늘리는 일이 아니라 돌아온 사람이 판단할 근거를 결과에 얼마나 남겼는가다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Agent View</span><span class="chip">Claude Code</span><span class="chip">에이전트 병렬 작업</span><span class="chip">컨텍스트 스위칭</span><span class="chip">백그라운드 세션</span><span class="chip">개발자 생산성</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/agent-view" rel="nofollow noopener">https://code.claude.com/docs/en/agent-view</a></li><li><a href="https://claude.com/resources/articles/agent-view-in-claude-code" rel="nofollow noopener">https://claude.com/resources/articles/agent-view-in-claude-code</a></li><li><a href="https://code.claude.com/docs/en/hooks-guide" rel="nofollow noopener">https://code.claude.com/docs/en/hooks-guide</a></li><li><a href="https://code.claude.com/docs/id/features-overview" rel="nofollow noopener">https://code.claude.com/docs/id/features-overview</a></li><li><a href="https://arxiv.org/abs/1805.05504" rel="nofollow noopener">https://arxiv.org/abs/1805.05504</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code Agent View는 어떻게 실행하나요?</h2><p class="sum">터미널에서 <code>claude agents</code>를 실행하면 백그라운드 세션 목록이 열린다. 기존 세션은 <code>/bg</code>로 보내거나 새 작업을 <code>claude --bg &quot;작업 지시&quot;</code>로 시작할 수 있다.</p></article><article class="dcard"><div class="t">Q</div><h2>Agent View를 쓰면 작업 전환 비용이 없어지나요?</h2><p class="sum">세션의 상태와 질문을 찾는 수고는 줄일 수 있다. 다만 작업 목표를 다시 떠올리고 결과를 검토하는 인지적 비용까지 없애지는 못한다.</p></article><article class="dcard"><div class="t">Q</div><h2>논문에서 읽은 내용을 에이전트가 자동으로 학습하나요?</h2><p class="sum">읽은 내용을 다른 작업의 규칙으로 자동 반영하는 것은 아니다. 적용 조건을 확인해 현재 작업에서 시험한 뒤, 반복해서 필요한 규칙만 <code>CLAUDE.md</code>나 skill에 기록할 수 있다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-21-2200.html">2026-10-21 10-21 13:48~21:41</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

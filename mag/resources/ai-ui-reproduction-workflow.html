@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>웹 URL과 UI 자료로 AI 인터랙션 재현하기 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="AI 코딩 에이전트가 웹페이지의 디자인과 애니메이션을 더 정확히 재현하도록 URL, UI 코드, 디자인 토큰, 공개 자료를 조합하는 방법을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/resources/ai-ui-reproduction-workflow.html">
+<meta property="og:title" content="웹 URL과 UI 자료로 AI 인터랙션 재현하기">
+<meta property="og:description" content="AI 코딩 에이전트가 웹페이지의 디자인과 애니메이션을 더 정확히 재현하도록 URL, UI 코드, 디자인 토큰, 공개 자료를 조합하는 방법을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/resources/ai-ui-reproduction-workflow.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "웹 URL과 UI 자료로 AI 인터랙션 재현하기", "description": "AI 코딩 에이전트가 웹페이지의 디자인과 애니메이션을 더 정확히 재현하도록 URL, UI 코드, 디자인 토큰, 공개 자료를 조합하는 방법을 정리했다.", "datePublished": "2026-10-22", "dateModified": "2026-10-22", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/resources/ai-ui-reproduction-workflow.html"}, "articleSection": "자료·링크 공유", "keywords": "AI 코딩 에이전트, Lucian UX/UI Prompt, 인터랙티브 UI, 웹 애니메이션, 디자인 토큰, UI 재현", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI 코딩 에이전트에게 웹사이트 URL만 보내도 UI를 재현할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "기본 레이아웃과 색상은 재현할 수 있지만, 상태 변화와 애니메이션까지 정확히 맞추기는 어렵습니다. 실행 코드, 디자인 토큰, 상태별 참고 자료를 함께 제공하는 편이 낫습니다."}}, {"@type": "Question", "name": "Lucian UX/UI Prompt는 어떻게 사용하나요?", "acceptedAnswer": {"@type": "Answer", "text": "갤러리에서 요소를 직접 확인한 뒤 프롬프트나 코드를 복사하면 됩니다. 에이전트에서 쓰려면 `npx skills add Seokwoooo/lucian-uxui`로 스킬을 설치할 수 있습니다."}}, {"@type": "Question", "name": "애니메이션을 구현할 때 반드시 확인할 항목은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "라이트·다크 테마, 모바일 너비, 키보드 조작, 최종 상태, `prefers-reduced-motion` 대응을 확인해야 합니다. 성능을 위해 `transform`과 `opacity` 중심으로 설계하는 것도 중요합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-res">자료·링크 공유</span>
+  <h1>웹 URL과 UI 자료로 AI 인터랙션 재현하기</h1>
+  <p class="sub">URL만 던지는 방식의 한계를 넘어, 실제 코드와 디자인 자료를 함께 전달하는 UI 구현 흐름을 살펴본다.</p>
+  <div class="meta"><span>2026-10-22</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI 코딩 에이전트에게 참고 사이트 URL 하나를 주면 비슷한 화면은 만들 수 있다. 하지만 인터랙션의 타이밍과 상태 변화까지 맞추기는 어렵다. 클코단 논의는 이 문제를 Lucian UX/UI Prompt와 공개 UI 자료로 보완하는 방법에서 출발했다. 이 글은 URL만 전달할 때 무엇이 빠지는지, 어떤 자료를 함께 넣어야 결과가 달라지는지, 실제 구현 순서를 설명한다.</p>
+<h2>URL은 분위기를 보여주지만 동작 명세가 되지 않는다</h2>
+<p>웹페이지 URL은 색상, 간격, 글꼴, 카드 구조를 살피는 출발점이다. 그러나 에이전트가 모든 페이지의 상태 변화와 애니메이션 의도를 정확히 읽는다는 보장은 없다. 특히 스크롤에 반응하는 요소, 포인터 위치에 따라 변하는 카드, 클릭 뒤 여러 단계로 바뀌는 버튼은 정적인 화면만으로 구현하기 어렵다.</p>
+<p>최근에는 웹사이트에서 디자인 토큰과 컴포넌트 정보를 추출해 코딩 에이전트에 전달하는 도구도 등장했다. Layout은 라이브 웹사이트에서 토큰, 컴포넌트, 폰트, 스크린샷을 추출한 뒤 <code>layout.md</code>나 MCP를 통해 에이전트에 제공한다. URL을 보여주는 데서 끝나지 않고 색상·간격·컴포넌트 규칙을 별도의 구조화된 문서로 바꾸는 방식이다. (<a href="https://layout.design/docs" target="_blank" rel="nofollow noopener">layout.design</a>)</p>
+<p>방 논의에서도 URL만 전달했을 때보다 관련 UI/UX 자료를 폴더째 내려받아 함께 참조시키면 애니메이션 재현이 나아졌다는 의견이 많았다. URL은 최종 답안이 아니라 관찰 대상으로 보는 편이 정확하다.</p>
+<h2>Lucian UX/UI Prompt는 실행 가능한 기준점을 만든다</h2>
+<p>Lucian UX/UI Prompt는 버튼, 입력창, 메뉴, 차트 같은 인터페이스 요소 200개를 제공한다. 공식 갤러리에서는 각 요소를 자동으로 시연하거나 직접 조작할 수 있고, 프롬프트와 코드로 가져갈 수도 있다. 2026년 10월 현재 갤러리와 저장소에는 200개 요소가 안내돼 있다. (<a href="https://lucianlabs.dev/uxui-prompt/" target="_blank" rel="nofollow noopener">lucianlabs.dev</a>)</p>
+<p>이 프로젝트는 예시 이미지 대신 실행되는 HTML, CSS, JavaScript를 제공한다. 각 요소는 독립된 파일로 관리하고 CSS 선택자는 <code>.uNNN</code> 계열로 범위를 제한한다. 색상에는 <code>--ux-*</code> 토큰을 쓰며, 요소별 자동 시연에는 클릭·호버·드래그·키보드 입력 단계가 기록된다. 에이전트가 화면 모양뿐 아니라 동작 순서도 참고할 수 있다. (<a href="https://github.com/Seokwoooo/lucian-uxui-prompt" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>사용자는 갤러리에서 요소를 먼저 누른 뒤 적용 프롬프트를 복사할 수 있다. 프롬프트에는 프로젝트의 프레임워크와 스타일링 방식을 먼저 확인하고 기존 컴포넌트와 접근성 속성을 보존하며 테마 토큰을 연결하라는 절차가 포함된다. 파일 변경 목록과 확인 범위를 보고하도록 요구하는 점도 일반적인 “비슷하게 만들어줘”와 다르다. (<a href="https://lucianlabs.dev/uxui-prompt/introducing/" target="_blank" rel="nofollow noopener">lucianlabs.dev</a>)</p>
+<h2>실제 구현은 관찰·분리·이식 순서로 진행한다</h2>
+<p>가장 재현성이 높은 흐름은 다음과 같다. 먼저 참고 페이지 URL을 전달하고 에이전트에게 색상·글꼴·간격·레이아웃·상태 변화를 목록으로 추출하게 한다. 그다음 구현하려는 인터랙션을 하나의 컴포넌트로 좁힌다. 예를 들어 “가격표 전체”가 아니라 “월간·연간 요금 전환 카드”처럼 동작 단위를 분리한다.</p>
+<p>두 번째로 Lucian 갤러리에서 유사한 요소를 찾는다. 번호를 지정하거나 <code>npx skills add Seokwoooo/lucian-uxui</code>로 스킬을 설치하면 코딩 에이전트가 라이브러리에서 요소를 검색하고 프로젝트로 옮길 수 있다. 저장소는 정적 데이터를 <code>api/v1/</code>에 제공한다. 로컬에서는 저장소를 내려받은 뒤 <code>node src/build.mjs</code>로 독립 갤러리를 만들 수 있다. (<a href="https://github.com/Seokwoooo/lucian-uxui-prompt" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>세 번째로 공개된 참고 자료를 로컬 폴더에 모은다. 이미지 모음만으로는 부족하다. 관련 HTML·CSS·JavaScript, 디자인 토큰, 애니메이션 설명, 상태별 캡처를 함께 묶어야 한다. 에이전트에는 “이 폴더는 참고 자료이며, 기존 프로젝트의 프레임워크와 파일 구조를 우선한다”고 명시하고 새로 가져올 것과 버릴 것을 구분하게 해야 한다.</p>
+<p>마지막으로 에이전트에게 삽입 위치와 교체 대상을 정확히 지정한다. Lucian의 적용 지침처럼 기존 데이터와 이벤트 핸들러를 유지하고 전역 CSS를 건드리지 않으며 실제 서비스 데이터로 샘플 내용을 교체하도록 요구한다. 결과는 화면 캡처만 보지 말고 라이트·다크 테마, 모바일 너비, 키보드 조작, 최종 상태까지 확인해야 한다. (<a href="https://lucianlabs.dev/uxui-prompt/introducing/" target="_blank" rel="nofollow noopener">lucianlabs.dev</a>)</p>
+<h2>애니메이션 자료는 코드와 접근성을 함께 봐야 한다</h2>
+<p>애니메이션을 그대로 복사해도 항상 좋은 결과가 나오지는 않는다. MDN은 성능을 위해 <code>transform</code>과 <code>opacity</code>처럼 레이아웃을 다시 계산하지 않는 속성을 우선하고 <code>width</code>, <code>height</code>, <code>margin</code>, <code>top</code>, <code>left</code>처럼 기하 구조를 바꾸는 속성은 사용을 줄이라고 설명한다. CSS 애니메이션은 브라우저가 탭의 가시성이나 프레임 갱신을 고려할 여지가 있다는 장점도 있다. (<a href="https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/CSS_JavaScript_animation_performance" target="_blank" rel="nofollow noopener">developer.mozilla.org</a>)</p>
+<p>접근성도 구현 명세에 포함해야 한다. <code>prefers-reduced-motion</code>은 운영체제나 브라우저에서 움직임을 줄이도록 설정했는지 감지하는 미디어 기능이다. MDN은 큰 이동이나 확대 대신 더 단순한 페이드 같은 대체 애니메이션을 사용할 수 있다고 안내한다. W3C 역시 상호작용으로 시작되는 비필수 애니메이션을 끌 수 있어야 하며 사용자의 동작 선호를 존중하라고 설명한다. (<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/%40media/prefers-reduced-motion" target="_blank" rel="nofollow noopener">developer.mozilla.org</a>)</p>
+<p>Lucian의 적용 프롬프트가 축소 모션 상태에서도 기능과 최종 상태를 확인하라고 요구하는 이유가 여기에 있다. 애니메이션을 제거했을 때 버튼의 완료 표시나 오류 상태까지 사라진다면 시각 효과를 줄인 게 아니라 기능을 잃은 것이다.</p>
+<h2>자료를 많이 넣는 것보다 역할을 나누는 편이 낫다</h2>
+<p>AI 코딩 에이전트가 UI를 엉뚱하게 만드는 원인으로는 구조, 문구, 기술 스택을 한 번에 추측하게 만드는 상황이 자주 거론된다. 실사용자들 사이에서도 에이전트가 필요 이상으로 컴포넌트를 추가하거나 프로젝트에 없는 UI 라이브러리를 임의로 불러오거나 원하는 계층 구조와 다른 화면을 만든다는 반응이 있다. UI 입력을 더 많이 넣기보다 입력마다 역할을 나눠야 한다는 뜻에 가깝다. (<a href="https://www.reddit.com/r/microsaas/comments/1sx63yk/im_tired_of_ai_agents_guessing_at_my_ui_built/" target="_blank" rel="nofollow noopener">reddit.com</a>)</p>
+<p>URL은 전체 분위기와 화면 관계를 설명한다. Lucian 요소는 재현할 인터랙션의 작동 예시가 된다. 내려받은 폴더는 세부 스타일과 상태별 참고 자료가 된다. 프로젝트 파일은 실제 데이터와 기존 규칙을 제공한다. 네 자료를 한 덩어리로 붙이지 말고 각각의 우선순위를 지정하면 에이전트가 참고 자료를 제품 코드로 오인할 가능성을 줄일 수 있다.</p>
+<p>개인 개발자나 소규모 팀에게 이 방식의 장점은 디자인 시스템을 새로 문서화하는 시간을 줄이는 데 있다. 다만 결과물은 자동 생성보다 이식 작업에 가깝다. 원본의 구조와 움직임을 보존하되 현재 프로젝트의 컴포넌트 경계·테마 변수·접근성 요구에 맞춰 바꾸는 과정이 필요하다.</p>
+<p>URL만 던지는 방식은 빠르지만 정교한 인터랙션을 만들기에는 정보가 부족하다. 실행 가능한 UI 요소와 로컬 참고 자료를 함께 제공하면 에이전트가 무엇을 닮아야 하는지뿐 아니라 무엇을 어떻게 움직여야 하는지도 판단할 수 있다. 앞으로의 질문은 “AI가 이 화면을 만들 수 있나”보다 “어떤 동작 명세를 어떤 형식으로 넘겨야 같은 화면이 다시 나오나”에 가까워질 것이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">AI 코딩 에이전트</span><span class="chip">Lucian UX/UI Prompt</span><span class="chip">인터랙티브 UI</span><span class="chip">웹 애니메이션</span><span class="chip">디자인 토큰</span><span class="chip">UI 재현</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/Seokwoooo/lucian-uxui-prompt" rel="nofollow noopener">https://github.com/Seokwoooo/lucian-uxui-prompt</a></li><li><a href="https://lucianlabs.dev/uxui-prompt/" rel="nofollow noopener">https://lucianlabs.dev/uxui-prompt/</a></li><li><a href="https://lucianlabs.dev/uxui-prompt/introducing/" rel="nofollow noopener">https://lucianlabs.dev/uxui-prompt/introducing/</a></li><li><a href="https://layout.design/docs" rel="nofollow noopener">https://layout.design/docs</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion" rel="nofollow noopener">https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefe</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/CSS_JavaScript_animation_performance" rel="nofollow noopener">https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/CSS_JavaScript_a</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Performance/CSS" rel="nofollow noopener">https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Perfor</a></li><li><a href="https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions" rel="nofollow noopener">https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI 코딩 에이전트에게 웹사이트 URL만 보내도 UI를 재현할 수 있나요?</h2><p class="sum">기본 레이아웃과 색상은 재현할 수 있지만, 상태 변화와 애니메이션까지 정확히 맞추기는 어렵습니다. 실행 코드, 디자인 토큰, 상태별 참고 자료를 함께 제공하는 편이 낫습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Lucian UX/UI Prompt는 어떻게 사용하나요?</h2><p class="sum">갤러리에서 요소를 직접 확인한 뒤 프롬프트나 코드를 복사하면 됩니다. 에이전트에서 쓰려면 <code>npx skills add Seokwoooo/lucian-uxui</code>로 스킬을 설치할 수 있습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>애니메이션을 구현할 때 반드시 확인할 항목은 무엇인가요?</h2><p class="sum">라이트·다크 테마, 모바일 너비, 키보드 조작, 최종 상태, <code>prefers-reduced-motion</code> 대응을 확인해야 합니다. 성능을 위해 <code>transform</code>과 <code>opacity</code> 중심으로 설계하는 것도 중요합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="dexa-vfx-remotion-hyperframes.html">모션 이펙트 214종을 코드로 가져오는 법, Remotion과 HyperFrames</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-ai-archive-magazine.html">오픈채팅 대화 AI 자동 아카이브·매거진, 어디까지 믿을 수 있나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-adoption-authority-bottleneck.html">AI 전환이 막히는 진짜 이유, 기술 아닌 권한 문제</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="seedance-25-unlimited-access.html">Seedance 2.5 무제한 이용처, 어디까지 진짜인가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="grok-annual-discount-eligibility.html">그록 SuperGrok 연간 구독 할인, 대상은 왜 갈렸나</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-21-2200.html">2026-10-21 10-21 13:48~21:41</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

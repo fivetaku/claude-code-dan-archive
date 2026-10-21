@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>웹 URL과 UI 자료로 AI 인터랙션 재현하기</title>
+    <link>https://chat.axwith.com/mag/resources/ai-ui-reproduction-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/ai-ui-reproduction-workflow.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Thu, 22 Oct 2026 12:00:00 +0900</pubDate>
+    <description>AI 코딩 에이전트가 웹페이지의 디자인과 애니메이션을 더 정확히 재현하도록 URL, UI 코드, 디자인 토큰, 공개 자료를 조합하는 방법을 정리했다.</description>
+  </item>
+  <item>
+    <title>에이전트 세션을 늘려도 집중력을 잃지 않는 법: Agent View의 역할과 한계</title>
+    <link>https://chat.axwith.com/mag/workflow/agent-view-context-switching-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/agent-view-context-switching-workflow.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 22 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code Agent View의 실행·알림·검토 흐름을 살펴보고, 에이전트 대기 시간에 다른 일을 하면서도 작업 맥락을 잃지 않으려면 무엇을 기록해야 하는지 짚는다.</description>
+  </item>
+  <item>
     <title>결혼식 캐릭터 이미지, 장면마다 같은 두 사람으로 만드는 법</title>
     <link>https://chat.axwith.com/mag/troubleshooting/wedding-character-image-consistency-workflow.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/wedding-character-image-consistency-workflow.html</guid>
@@ -227,21 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Mon, 12 Oct 2026 12:00:00 +0900</pubDate>
     <description>Qwen 27B를 1비트로 줄여 로컬에서 돌리면 실무에도 쓸 수 있을까? 양자화 품질과 메모리, oMLX의 캐싱 효과, 클라우드 모델과 비교할 때 확인할 기준을 정리했다.</description>
-  </item>
-  <item>
-    <title>그록 구독할 가치 있나: X 실시간 검색과 이미지·영상 생성의 쓰임새</title>
-    <link>https://chat.axwith.com/mag/models/grok-subscription-search-imagine-value.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/grok-subscription-search-imagine-value.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 12 Oct 2026 12:00:00 +0900</pubDate>
-    <description>그록 구독을 고민한다면 X Premium과 SuperGrok의 차이부터 확인해야 한다. 실시간 반응 조사, Imagine 제작, 코딩 작업에서 무료 사용과 유료 사용의 경계를 살펴봤다.</description>
-  </item>
-  <item>
-    <title>중학생과 Claude가 검증한 루퍼트 문제, AI 증명은 믿을 수 있나</title>
-    <link>https://chat.axwith.com/mag/models/claude-rupert-proof-verification.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-rupert-proof-verification.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 12 Oct 2026 12:00:00 +0900</pubDate>
-    <description>중학생이 Claude와 함께 rhombicosidodecahedron의 루퍼트 성질 부재를 증명한 사례를 통해 구간 연산, 공개 코드, 독립 검증의 의미를 살펴본다.</description>
   </item>
 </channel></rss>
