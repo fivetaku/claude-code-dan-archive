@@ -2114,3 +2114,8 @@
 {"code": "1b1a4e", "url": "https://www.aitimes.com/news/articleView.html?idxno=216483", "title": "인셉션, 초당 1000토큰 dLLM '머큐리 3' 공개...\"GPT·Claude(클로드) 맞먹어\""}
 {"code": "92df3f", "url": "https://www.aitimes.com/news/articleView.html?idxno=216470", "title": "OpenAI(오픈AI), ChatGPT(챗GPT)에 '채팅 잠금' 기능 도입... 민감 대화 분리 보호"}
 {"code": "e67157", "url": "https://news.hada.io/topic?id=35752", "title": "크래프톤, 자체 개발 30B급 오픈웨이트 LLM 'Raon-1 mini' 프리뷰 공개"}
+{"code": "140f65", "url": "https://blogs.nvidia.com/blog/open-models-europe-industry", "title": "NVIDIA(엔비디아), Nemotron 3.5 등 오픈 모델 패밀리 대거 공개…유럽 소버린 AI 겨냥"}
+{"code": "cc5dc2", "url": "https://blogs.nvidia.com/blog/enterprise-platforms-agent-toolkit", "title": "NVIDIA(엔비디아), 오픈소스 에이전트 툴킷 확장… 사내 데이터 연동·거버넌스 강화"}
+{"code": "82603c", "url": "https://blogs.nvidia.com/blog/confidential-computing-model-builders-infrastructure", "title": "NVIDIA(엔비디아), 'Confidential Bare Metal' 공개로 기밀 컴퓨팅 확장"}
+{"code": "b06325", "url": "https://huggingface.co/blog/nvidia/nemotron-retriever-world-class-agentic-retrieval", "title": "NVIDIA(엔비디아), Nemotron 3.5 임베딩·리랭크·파싱 모델 공개... 에이전트 검색 성능 강화"}
+{"code": "db7306", "url": "https://blogs.nvidia.com/blog/google-cloud-vera-rubin-infrastructure", "title": "구글 클라우드, 엔비디아 Vera Rubin 인프라 정식 출시"}
