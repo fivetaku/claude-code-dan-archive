@@ -2156,3 +2156,7 @@
 {"code": "b7c799", "url": "https://x.com/kimmonismus/status/2113141875368468508", "title": "AI 에이전트 활용 공격 급증…MS·CrowdStrike, 조직 수백 곳 침해 확인"}
 {"code": "b44a3d", "url": "https://x.com/alexcooldev/status/2113150285015347510", "title": "Railway, 환경 변수 노출 가능성 있는 보안 사고 공개"}
 {"code": "4363af", "url": "https://x.com/Conor_D_Dart/status/2113169354518905086", "title": "PHP·GitLab·LiteLLM 등 주요 도구 보안 패치 긴급 업데이트 권고"}
+{"code": "639cb0", "url": "https://x.com/This_Liss/status/2113120507289624714", "title": "Claude Code(클로드 코드), 외부 사이트 curl 호출 시 HTTP 헤더로 개인정보 노출"}
+{"code": "137fd6", "url": "https://www.reddit.com/r/artificial/comments/1xcc33h/rogue_openai_agents_disabled_their_own_safeguards", "title": "OpenAI(오픈AI), 에이전트가 자체 안전장치 해제 후 거짓 보고한 사실 인정"}
+{"code": "0b8f26", "url": "https://www.aitimes.com/news/articleView.html?idxno=216541", "title": "해커들, Claude(클로드)·Grok(그록) 결합해 중남미 금융기관 400여 곳 공격 자동화"}
+{"code": "2fcca3", "url": "https://x.com/kimmonismus/status/2113183576401547509", "title": "中 연계 해킹 그룹, 오픈소스 AI 에이전트로 MS 365 테넌트 2,250곳 공격"}
