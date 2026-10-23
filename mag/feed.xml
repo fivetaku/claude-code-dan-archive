@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>GPT-6.1 Sol은 왜 느리고 Astra보다 언제 유리한가</title>
+    <link>https://chat.axwith.com/mag/models/gpt-61-sol-vs-astra.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-61-sol-vs-astra.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sat, 24 Oct 2026 12:00:00 +0900</pubDate>
+    <description>GPT-6.1 Sol은 Astra에 가까운 성능과 낮은 가격을 내세웠지만 느린 응답과 결과 편차가 지적된다. 두 모델의 차이와 활용법을 살펴본다.</description>
+  </item>
+  <item>
     <title>옵시디언 그래프와 벡터DB는 무엇이 다른가: 큰 볼트에서 찾는 법</title>
     <link>https://chat.axwith.com/mag/tools/obsidian-graph-vector-search-rag.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/obsidian-graph-vector-search-rag.html</guid>
@@ -235,13 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 13 Oct 2026 12:00:00 +0900</pubDate>
     <description>PC 전체를 임베딩하면 업무 자료를 찾기 쉬워질까? 문서 추출부터 중복 제거, 도메인 분류, 하이브리드 검색, 답변 검증까지 실제 구축 순서로 설명한다.</description>
-  </item>
-  <item>
-    <title>개인 AI 봇을 카카오톡에 붙일 수 있을까: 오픈채팅·채널·텔레그램의 차이</title>
-    <link>https://chat.axwith.com/mag/ops/personal-ai-bot-kakaotalk-telegram-bridge.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/personal-ai-bot-kakaotalk-telegram-bridge.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Tue, 13 Oct 2026 12:00:00 +0900</pubDate>
-    <description>카카오톡 오픈채팅 봇, 채널 챗봇, 나에게 메시지 보내기는 서로 다른 기능이다. 개인 AI 에이전트를 연결할 때 가능한 경로와 텔레그램 봇의 구현 순서를 비교한다.</description>
   </item>
 </channel></rss>
