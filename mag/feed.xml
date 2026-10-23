@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>옵시디언 그래프와 벡터DB는 무엇이 다른가: 큰 볼트에서 찾는 법</title>
+    <link>https://chat.axwith.com/mag/tools/obsidian-graph-vector-search-rag.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/obsidian-graph-vector-search-rag.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Fri, 23 Oct 2026 12:00:00 +0900</pubDate>
+    <description>옵시디언 그래프는 명시적 링크를 보여주고 벡터DB는 내용이 비슷한 문서를 찾는다. 큰 볼트에서 로컬 그래프와 검색을 활용하고, 마크다운 노트를 RAG에 연결하는 순서를 설명한다.</description>
+  </item>
+  <item>
+    <title>AI_TOP_100 예선, 가상 인물 인터뷰로 에이전트를 만드는 방법</title>
+    <link>https://chat.axwith.com/mag/resources/ai-top-100-persona-interview-agent.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/ai-top-100-persona-interview-agent.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Fri, 23 Oct 2026 12:00:00 +0900</pubDate>
+    <description>AI_TOP_100 2026의 예선은 가상 인물 인터뷰에서 단서를 모아 AI 에이전트를 제작하는 방식이다. 공식 일정과 도구·지원금 조건을 확인하고, 질문부터 검증까지의 설계 순서를 짚는다.</description>
+  </item>
+  <item>
     <title>웹 URL과 UI 자료로 AI 인터랙션 재현하기</title>
     <link>https://chat.axwith.com/mag/resources/ai-ui-reproduction-workflow.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/ai-ui-reproduction-workflow.html</guid>
@@ -227,21 +243,5 @@
     <category>배포·운영</category>
     <pubDate>Tue, 13 Oct 2026 12:00:00 +0900</pubDate>
     <description>카카오톡 오픈채팅 봇, 채널 챗봇, 나에게 메시지 보내기는 서로 다른 기능이다. 개인 AI 에이전트를 연결할 때 가능한 경로와 텔레그램 봇의 구현 순서를 비교한다.</description>
-  </item>
-  <item>
-    <title>아파트 임장, 현장 사진과 실거래가를 함께 읽는 집사냥 방법</title>
-    <link>https://chat.axwith.com/mag/workflow/apartment-field-visit-data-checklist.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/apartment-field-visit-data-checklist.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 13 Oct 2026 12:00:00 +0900</pubDate>
-    <description>아파트 임장에서 무엇을 보고 어떻게 기록해야 할까. 현장 사진과 생활 동선을 실거래가·관리비·학교 정보와 대조하고, ‘집사냥’ 기록을 만드는 순서를 정리했다.</description>
-  </item>
-  <item>
-    <title>Qwen 27B 1비트 로컬 모델은 실무에 쓸 만한가: 속도와 품질을 가르는 조건</title>
-    <link>https://chat.axwith.com/mag/models/qwen-27b-one-bit-local-use.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/qwen-27b-one-bit-local-use.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Mon, 12 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Qwen 27B를 1비트로 줄여 로컬에서 돌리면 실무에도 쓸 수 있을까? 양자화 품질과 메모리, oMLX의 캐싱 효과, 클라우드 모델과 비교할 때 확인할 기준을 정리했다.</description>
   </item>
 </channel></rss>
