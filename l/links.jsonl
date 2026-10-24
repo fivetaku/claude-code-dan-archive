@@ -2227,3 +2227,7 @@
 {"code": "0370b2", "url": "https://x.com/ClaudeDevs/status/2113698001889927608", "title": "Anthropic(앤트로픽), Claude(클로드)에 MCP Tasks·Elicitations 지원 추가"}
 {"code": "2194f1", "url": "https://www.reddit.com/r/LocalLLM/comments/1xdm3mc/full_deepseekv41flash1017_510_gb_original_weights", "title": "64GB RAM+RTX 3060에서 510GB DeepSeek-V4.1(딥시크 V4.1)-Flash 풀 구동 엔진 'PROMETHEVS' 공개 (Apache-2.0)"}
 {"code": "f60802", "url": "https://x.com/OpenAI/status/2113718797505036665", "title": "OpenAI(오픈AI), 프론티어 모델 학습 환경에 인터넷 차단·AI 에이전트 레드팀 투입"}
+{"code": "d824cc", "url": "https://www.reddit.com/r/artificial/comments/1xdngrd/metas_new_commercial_terms_say_if_its_ai_makes_a", "title": "Meta(메타), 새 상업 약관에서 'AI 오류 책임은 고객에게' 명시"}
+{"code": "313024", "url": "https://x.com/OpenAI/status/2113766354386084338", "title": "OpenAI(오픈AI), Node.js·Bun·Envoy에 쓰이는 Brotli에서 인증 없는 RCE 취약점 발견"}
+{"code": "f699a3", "url": "https://techcrunch.com/2026/10/23/openai-says-it-will-no-longer-train-its-ai-models-on-the-live-internet-citing-significant-risks", "title": "OpenAI(오픈AI), \"심각한 위험\" 들어 실시간 인터넷 학습 중단…캐시·시뮬레이션 활용"}
+{"code": "48b8d8", "url": "https://www.aitimes.com/news/articleView.html?idxno=216603", "title": "문샷 'Kimi K3.1(키미 K3.1) Pro' 출시…오픈웨이트 모델 성능 1위 등극"}
