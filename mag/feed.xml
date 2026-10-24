@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>RAG에 벡터DB가 꼭 필요할까, PostgreSQL·Elasticsearch 선택법</title>
+    <link>https://chat.axwith.com/mag/tools/rag-vector-db-postgresql-elasticsearch.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/rag-vector-db-postgresql-elasticsearch.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Sat, 24 Oct 2026 12:00:00 +0900</pubDate>
+    <description>RAG에서 벡터DB가 맡는 역할과 임베딩·HNSW·청크의 관계를 설명하고, pgvector와 Elasticsearch가 별도 벡터DB를 대신할 조건을 비교한다.</description>
+  </item>
+  <item>
     <title>GPT-6.1 Sol은 왜 느리고 Astra보다 언제 유리한가</title>
     <link>https://chat.axwith.com/mag/models/gpt-61-sol-vs-astra.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-61-sol-vs-astra.html</guid>
@@ -235,13 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Wed, 14 Oct 2026 12:00:00 +0900</pubDate>
     <description>AI를 허용하는 채용 시험이 곧 실무형 평가는 아니다. 넥토리얼, 프로그래머스, 코파톤, NHN 해커톤의 과제와 도구 조건을 비교하고 지원자가 증명할 수 있는 역량을 짚는다.</description>
-  </item>
-  <item>
-    <title>PC 전체 임베딩, 파일을 모두 넣으면 검색도 좋아질까</title>
-    <link>https://chat.axwith.com/mag/workflow/personal-pc-embedding-search-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/personal-pc-embedding-search-guide.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 13 Oct 2026 12:00:00 +0900</pubDate>
-    <description>PC 전체를 임베딩하면 업무 자료를 찾기 쉬워질까? 문서 추출부터 중복 제거, 도메인 분류, 하이브리드 검색, 답변 검증까지 실제 구축 순서로 설명한다.</description>
   </item>
 </channel></rss>
