@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OMP와 OMO 차이, 코딩 에이전트 선택과 설치 방법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="OMP와 OMO는 이름이 비슷하지만 역할이 다르다. 두 도구의 구조와 설치법, 모델 선택 방식, 실제 사용 시 주의점을 비교한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/omp-omo-coding-agent-guide.html">
+<meta property="og:title" content="OMP와 OMO 차이, 코딩 에이전트 선택과 설치 방법">
+<meta property="og:description" content="OMP와 OMO는 이름이 비슷하지만 역할이 다르다. 두 도구의 구조와 설치법, 모델 선택 방식, 실제 사용 시 주의점을 비교한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/omp-omo-coding-agent-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "OMP와 OMO 차이, 코딩 에이전트 선택과 설치 방법", "description": "OMP와 OMO는 이름이 비슷하지만 역할이 다르다. 두 도구의 구조와 설치법, 모델 선택 방식, 실제 사용 시 주의점을 비교한다.", "datePublished": "2026-10-27", "dateModified": "2026-10-27", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/omp-omo-coding-agent-guide.html"}, "articleSection": "도구·라이브러리", "keywords": "OMP, OMO, Oh My OpenAgent, OpenCode, AI 코딩 에이전트, 멀티모델, 개발 도구", "image": "https://chat.axwith.com/mag/hero/omp-omo-coding-agent-guide.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "OMP와 OMO는 같은 도구인가요?", "acceptedAnswer": {"@type": "Answer", "text": "아닙니다. OMP는 터미널에서 코딩 작업을 수행하는 에이전트이고, OMO는 여러 에이전트와 모델을 조율하는 계층입니다. OMO는 OpenCode나 Codex 같은 호스트와 함께 사용할 수 있습니다."}}, {"@type": "Question", "name": "OMO는 Claude 전용 도구인가요?", "acceptedAnswer": {"@type": "Answer", "text": "아닙니다. OMO의 공식 명칭은 Oh My OpenAgent이며, Claude는 연결 가능한 모델 계열 중 하나입니다. OpenAI, Gemini, Kimi, 로컬 모델 등도 구성에 따라 사용할 수 있습니다."}}, {"@type": "Question", "name": "처음 시작할 때 OMP와 OMO 중 무엇을 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "작은 프로젝트에서 파일 수정과 테스트를 직접 경험하려면 OMP가 간단합니다. 탐색·설계·구현·검토를 여러 역할로 나눠야 한다면 OpenCode와 OMO 조합을 검토할 만합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/omp-omo-coding-agent-guide.png" alt="OMP와 OMO 차이, 코딩 에이전트 선택과 설치 방법" loading="eager">
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>OMP와 OMO 차이, 코딩 에이전트 선택과 설치 방법</h1>
+  <p class="sub">OMP는 작업 공간을 갖춘 코딩 에이전트이고 OMO는 여러 모델과 에이전트를 조율하는 계층이다</p>
+  <div class="meta"><span>2026-10-27</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI 코딩 도구를 찾다 보면 OMP와 OMO라는 약어가 함께 등장한다. 둘 다 터미널에서 코드를 다루지만, 하나는 작업을 수행하는 코딩 에이전트이고 다른 하나는 여러 에이전트와 모델을 조율하는 오케스트레이션 계층이다. 무엇이 다른지, OpenCode와 어떤 관계인지, 개인 개발자와 소규모 팀은 어디부터 써야 하는지가 이번 비교의 핵심이다.</p>
+<h2>OMP는 코딩 작업을 직접 수행하는 실행 환경이다</h2>
+<p>OMP는 현재 <code>omp</code> 명령으로 배포되는 Oh My Pi 계열의 코딩 에이전트다. 터미널에서 파일을 읽고 수정하며, 셸 명령과 테스트를 실행한다. 프로젝트 안에서 작업을 끝내는 데 필요한 도구를 한 화면에 묶은 제품에 가깝다.</p>
+<p>공식 프로젝트는 OMP를 IDE 기능이 결합된 에이전트 하네스로 설명한다. LSP, 디버거, 브라우저 도구, 서브에이전트, Python 실행 환경을 제공하고, 다양한 모델 제공자를 연결할 수 있다. 모델을 바꾸더라도 같은 작업 인터페이스를 유지하는 구조다. (<a href="https://omp.sh/" target="_blank" rel="nofollow noopener">omp.sh</a>)</p>
+<p>설치 뒤에는 프로젝트 폴더에서 <code>omp</code>를 실행하고, 사용할 모델 제공자를 연결한다. 이후 자연어로 파일 수정이나 리팩터링을 지시하면 OMP가 저장소를 탐색하고 명령을 실행한다. 단일 프로젝트를 오래 붙잡고 작업하거나, LSP 진단과 테스트 실행을 한 흐름으로 묶고 싶다면 OMP가 먼저다.</p>
+<p>다만 OMP가 여러 모델을 지원한다고 해서 작업마다 알아서 가장 적합한 모델을 고르는 것은 아니다. 기본 모델 역할과 제공자 설정은 사용자가 확인해야 한다. 실사용자 사이에서는 기능이 풍부하다는 평가와 함께, 모델별 도구 호출 형식이 맞지 않을 때 루프나 중단을 직접 점검해야 한다는 반응도 나온다.</p>
+<h2>OMO의 OpenCode용 에디션은 OpenCode 위에서 작동하는 조율 계층이다</h2>
+<p>OMO의 공식 명칭은 Oh My OpenAgent다. 이전 이름은 Oh My OpenCode였고, 현재 문서에는 OpenCode 플러그인, Codex용 에디션, 독립 실행형 OmO Native가 함께 설명돼 있다. 따라서 OMO를 ‘Claude 전용 버전’으로 이해하면 정확하지 않다. Claude는 연결할 수 있는 모델 계열 중 하나일 뿐이다. (<a href="https://omo.dev/docs" target="_blank" rel="nofollow noopener">omo.dev</a>)</p>
+<p>OMO가 하는 일은 사용자의 요청을 역할별 작업으로 나누는 것이다. 주 에이전트가 계획을 세운 뒤 탐색, 문서 확인, 설계, 구현, 검토 같은 작업을 별도 에이전트에 넘긴다. 각 역할에는 모델 우선순위와 대체 모델 목록을 둘 수 있다. 작업 성격에 따라 비싼 모델과 빠른 모델을 나누는 이유가 여기에 있다.</p>
+<p>OpenCode는 여러 LLM 제공자와 로컬 모델을 연결하는 호스트다. 공식 문서는 API 키를 연결한 뒤 설정에서 제공자와 모델을 선택하는 방식을 안내한다. OMO는 그 위에서 에이전트 구성과 모델 매칭, 병렬 실행, 계획 검토 같은 흐름을 추가한다. (<a href="https://docs.opencode.ai/docs/providers/" target="_blank" rel="nofollow noopener">docs.opencode.ai</a>)</p>
+<p>이 차이를 한 문장으로 줄이면 이렇다. OMP는 ‘한 에이전트가 쓸 수 있는 작업 환경’이고, OMO는 ‘여러 에이전트가 어떤 순서와 모델로 움직일지 정하는 운영 계층’이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/omp-omo-coding-agent-guide.png" alt="" loading="lazy"><h2>OMP와 OMO는 경쟁 제품보다 서로 다른 출발점이다</h2>
+<p>OMP는 설치 후 바로 프로젝트를 열고 작업하는 데 초점이 있다. 별도의 호스트를 먼저 준비하지 않아도 되고, 코딩·검색·셸·진단 도구가 한 실행 파일 안에서 작동한다. 모델과 도구를 직접 조정하면서 단순한 기능 추가나 버그 수정부터 시작하기 쉽다.</p>
+<p>OMO의 기본 경로는 다르다. OpenCode를 설치한 뒤 <code>bunx oh-my-openagent install</code>을 실행해 플러그인을 등록하고, 연결된 모델과 에이전트 구성을 확인한다. 공식 설치 문서는 OpenCode용 <code>opencode</code>, Codex용 <code>codex</code>, 두 환경을 함께 쓰는 <code>both</code>를 구분한다. (<a href="https://github.com/code-yeongyu/oh-my-openagent/blob/dev/docs/guide/installation.md?ref=conversun.com" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>OMO는 요청 하나를 여러 단계로 확장할 때 강점을 보인다. 예를 들어 기존 저장소의 인증 구조를 바꾸는 작업이라면 탐색 에이전트가 관련 파일을 찾고, 설계 에이전트가 변경 범위를 제안하며, 구현 에이전트가 코드를 고친다. 마지막으로 테스트와 리뷰를 별도 흐름에 맡길 수 있다.</p>
+<p>반대로 작은 작업에 OMO를 항상 켜면 호출 수와 설정 복잡도가 늘어난다. 실사용자들 사이에서도 자동 위임이 편리하다는 의견과, 단순한 수정에는 오케스트레이션이 과하다는 의견이 함께 나온다. 작업을 여러 역할로 나눌 이유가 있을 때 OMO의 이점이 커진다.</p>
+<h2>실제 사용은 호스트, 플러그인, 모델 순서로 시작한다</h2>
+<p>OMP를 시험할 때는 먼저 프로젝트 하나를 정하고, 읽기 중심 작업부터 요청하는 편이 안전하다. 예를 들어 “이 저장소의 테스트 실행 명령과 주요 진입점을 찾아 설명해 달라”고 지시한다. 이후 작은 버그 수정, 테스트 추가, 리팩터링 순서로 범위를 넓힌다. 수정 전후의 diff와 테스트 결과를 확인하면 에이전트의 도구 사용과 모델 품질을 함께 평가할 수 있다.</p>
+<p>OpenCode용 OMO는 다음 순서가 명확하다. OpenCode를 설치하고, OMO 플러그인을 등록한 뒤, 사용할 제공자의 인증을 연결한다. 그다음 <code>~/.omo/omo.jsonc</code> 또는 프로젝트의 <code>.omo/omo.jsonc</code>에서 모델과 에이전트 구성을 확인한다. 현재 문서는 하나의 통합 설정 파일이 여러 OMO 하네스에 적용되며, 프로젝트 설정이 사용자 설정보다 우선한다고 설명한다. (<a href="https://github.com/code-yeongyu/oh-my-openagent/blob/dev/docs/reference/configuration.md" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>처음부터 모든 에이전트를 켤 필요는 없다. 탐색과 구현을 분리하고, 마지막 검토만 별도로 호출하는 정도면 구조를 이해하기 쉽다. 모델 매칭은 자동화할 수 있지만, 각 역할에 어떤 모델이 연결됐는지와 실패 시 대체 경로가 있는지는 확인해야 한다.</p>
+<p>여기서 중요한 산출물은 화면의 진행 애니메이션이 아니다. 어떤 파일을 읽었는지, 어떤 명령을 실행했는지, 어떤 테스트가 통과했는지, 최종 diff가 요구사항과 맞는지가 결과다. OMP든 OMO든 이 기록을 검토하지 않으면 여러 에이전트를 붙인 만큼 검증 부담도 커진다.</p>
+<h2>개인 개발자와 작은 팀의 선택 기준은 작업 규모다</h2>
+<p>혼자 만드는 웹 서비스에서 하루에 몇 개 파일을 고치고 테스트하는 정도라면 OMP가 더 짧은 경로를 제공한다. 단일 에이전트의 행동을 관찰하면서 모델과 도구를 조정하기 쉽고, 별도 오케스트레이션 설정도 필요하지 않다.</p>
+<p>반면 요구사항 정리, 코드베이스 탐색, 구현, 리뷰를 반복하는 팀이라면 OMO가 유리할 수 있다. 역할별 모델을 지정하고 작업 단계를 나누면 같은 프로세스를 재사용할 수 있기 때문이다. OpenCode의 제공자 설정을 이용해 클라우드 모델과 로컬 모델을 섞는 선택지도 있다. (<a href="https://docs.opencode.ai/docs/providers/" target="_blank" rel="nofollow noopener">docs.opencode.ai</a>)</p>
+<p>다만 OMO를 설치한다고 결과가 자동으로 좋아지는 것은 아니다. 위임할 작업의 경계를 정하고, 에이전트가 수정할 수 있는 범위와 검증 명령을 프롬프트에 넣어야 한다. 모델 비용도 호출 수와 컨텍스트 크기에 따라 달라지므로, ‘여러 모델을 쓰면 항상 저렴하다’고 단정할 수 없다.</p>
+<p>OMP와 OMO의 차이를 이해하는 가장 쉬운 방법은 같은 작은 작업을 각각에 맡겨 보는 것이다. OMP로 직접 탐색과 수정을 끝내 보고, 같은 작업을 OMO에서 탐색·구현·검토로 나눠 비교한다. 한 명의 에이전트로 충분한 문제라면 OMP가 남고, 역할 분리가 실제 시간을 줄이는 문제라면 OMO가 남는다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">OMP</span><span class="chip">OMO</span><span class="chip">Oh My OpenAgent</span><span class="chip">OpenCode</span><span class="chip">AI 코딩 에이전트</span><span class="chip">멀티모델</span><span class="chip">개발 도구</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://omp.sh/" rel="nofollow noopener">https://omp.sh/</a></li><li><a href="https://github.com/unsigned-gg/omp" rel="nofollow noopener">https://github.com/unsigned-gg/omp</a></li><li><a href="https://omo.dev/docs" rel="nofollow noopener">https://omo.dev/docs</a></li><li><a href="https://github.com/code-yeongyu/oh-my-openagent" rel="nofollow noopener">https://github.com/code-yeongyu/oh-my-openagent</a></li><li><a href="https://github.com/code-yeongyu/oh-my-openagent/blob/dev/docs/guide/installation.md" rel="nofollow noopener">https://github.com/code-yeongyu/oh-my-openagent/blob/dev/docs/guide/installation</a></li><li><a href="https://github.com/code-yeongyu/oh-my-openagent/blob/dev/docs/reference/configuration.md" rel="nofollow noopener">https://github.com/code-yeongyu/oh-my-openagent/blob/dev/docs/reference/configur</a></li><li><a href="https://docs.opencode.ai/docs/providers/" rel="nofollow noopener">https://docs.opencode.ai/docs/providers/</a></li><li><a href="https://docs.opencode.ai/docs/" rel="nofollow noopener">https://docs.opencode.ai/docs/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>OMP와 OMO는 같은 도구인가요?</h2><p class="sum">아닙니다. OMP는 터미널에서 코딩 작업을 수행하는 에이전트이고, OMO는 여러 에이전트와 모델을 조율하는 계층입니다. OMO는 OpenCode나 Codex 같은 호스트와 함께 사용할 수 있습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>OMO는 Claude 전용 도구인가요?</h2><p class="sum">아닙니다. OMO의 공식 명칭은 Oh My OpenAgent이며, Claude는 연결 가능한 모델 계열 중 하나입니다. OpenAI, Gemini, Kimi, 로컬 모델 등도 구성에 따라 사용할 수 있습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>처음 시작할 때 OMP와 OMO 중 무엇을 써야 하나요?</h2><p class="sum">작은 프로젝트에서 파일 수정과 테스트를 직접 경험하려면 OMP가 간단합니다. 탐색·설계·구현·검토를 여러 역할로 나눠야 한다면 OpenCode와 OMO 조합을 검토할 만합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-26-1800.html">2026-10-26 10-26 13:25~17:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

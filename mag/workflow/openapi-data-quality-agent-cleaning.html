@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>낮은 품질의 OpenAPI 데이터, AI 에이전트만으로 정제할 수 있나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="OpenAPI 명세와 실제 데이터의 차이, LLM의 비결정성, Harness² 사례를 바탕으로 AI 에이전트 데이터 전처리의 한계와 실전 설계를 살펴본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/openapi-data-quality-agent-cleaning.html">
+<meta property="og:title" content="낮은 품질의 OpenAPI 데이터, AI 에이전트만으로 정제할 수 있나">
+<meta property="og:description" content="OpenAPI 명세와 실제 데이터의 차이, LLM의 비결정성, Harness² 사례를 바탕으로 AI 에이전트 데이터 전처리의 한계와 실전 설계를 살펴본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/openapi-data-quality-agent-cleaning.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "낮은 품질의 OpenAPI 데이터, AI 에이전트만으로 정제할 수 있나", "description": "OpenAPI 명세와 실제 데이터의 차이, LLM의 비결정성, Harness² 사례를 바탕으로 AI 에이전트 데이터 전처리의 한계와 실전 설계를 살펴본다.", "datePublished": "2026-10-27", "dateModified": "2026-10-27", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/openapi-data-quality-agent-cleaning.html"}, "articleSection": "워크플로우·방법론", "keywords": "OpenAPI, 데이터 전처리, 데이터 품질, LLM 에이전트, Human-in-the-loop, Harness²", "image": "https://chat.axwith.com/mag/hero/openapi-data-quality-agent-cleaning.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "OpenAPI 검증을 통과하면 데이터 품질도 보장되나요?", "acceptedAnswer": {"@type": "Answer", "text": "보장되지 않습니다. OpenAPI 검증은 주로 구조와 타입을 확인하며, 필드의 업무 의미나 실제 응답의 정확성까지 보증하지 않습니다."}}, {"@type": "Question", "name": "LLM으로 데이터 전처리를 자동화할 때 가장 중요한 원칙은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "원본과 모델 출력을 분리하고, 확정 규칙과 의미 추정을 나눠야 합니다. 불확실한 결과는 자동 반영하지 말고 사람의 검토 목록으로 보내야 합니다."}}, {"@type": "Question", "name": "Harness²는 OpenAPI 데이터 정제 도구인가요?", "acceptedAnswer": {"@type": "Answer", "text": "아닙니다. Harness²는 모델 주변의 프롬프트, 도구, 메모리, 스킬 등을 개선하는 연구 프레임워크입니다. 데이터 정제 파이프라인의 실행 구조를 설계할 때 참고할 수 있지만, 데이터의 의미를 보증하지는 않습니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/openapi-data-quality-agent-cleaning.png" alt="낮은 품질의 OpenAPI 데이터, AI 에이전트만으로 정제할 수 있나" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>낮은 품질의 OpenAPI 데이터, AI 에이전트만으로 정제할 수 있나</h1>
+  <p class="sub">OpenAPI 검증부터 의미 보정과 사람의 최종 확인까지, 확률형 에이전트를 데이터 파이프라인에 넣는 현실적인 방법</p>
+  <div class="meta"><span>2026-10-27</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>낮은 품질의 OpenAPI 데이터를 AI 에이전트에게 맡기면 전처리와 후보정까지 끝낼 수 있을까. 현장 경험은 단순한 자동화만으로는 부족하다고 말한다. 이 글은 어디까지 자동화하고 어느 지점에서 사람이 개입해야 하는지 답한다.</p>
+<h2>OpenAPI 명세는 데이터 품질 보증서가 아니다</h2>
+<p>OpenAPI는 API의 경로, 메서드, 파라미터, 응답 구조를 설명하는 표준이다. 공식 명세는 스키마가 많은 오류를 잡지만 모든 위반을 검출하지는 못한다고 명시한다. 형식 검증을 통과해도 필드 설명이 빈약하거나 실제 응답이 문서와 다를 수 있다.</p>
+<p>유럽연합 데이터 품질 가이드도 같은 지점을 짚는다. API에는 구조뿐 아니라 데이터의 의미와 접근 방식도 설명돼야 한다. <code>customer_id</code>라는 이름만으로는 내부 고객번호인지 외부 식별자인지 알 수 없다. <code>status</code>가 결제 상태인지 배송 상태인지도 스키마만으로 확정하기 어렵다.</p>
+<p>방 논의에서 낮은 품질의 OpenAPI를 다룰 때 사람이 직접 확인해야 한다는 의견이 많았던 이유다. 에이전트는 누락된 설명을 문맥으로 추정할 수 있지만 업무 현장에서 쓰이는 의미까지 자동으로 확정하지는 못한다.</p>
+<h2>자동화는 검증·변환·판단을 분리해야 한다</h2>
+<p>실전 파이프라인에서는 먼저 원본을 보존해야 한다. <code>openapi.yaml</code> 또는 <code>openapi.json</code>을 저장하고 API 응답도 날짜와 요청 조건을 포함해 별도 원본 디렉터리에 둔다. 이후 스키마 검증기와 요청·응답 검증기를 통과시킨 결과만 정제 단계로 넘긴다.</p>
+<p>OpenAPI-core 같은 도구는 명세에 정의된 스키마를 기준으로 요청과 응답을 검사한다. 날짜, UUID, 숫자 형식처럼 기계적으로 확인할 수 있는 항목은 규칙 엔진이 담당해야 한다. 누락값, 중복 키, 타입 불일치, 허용 범위 밖의 값도 같은 단계에서 처리한다.</p>
+<p>그다음 LLM은 의미 후보를 제안한다. 예를 들어 <code>amt</code>를 금액으로 볼지 수량으로 볼지, 두 날짜 필드의 선후관계가 무엇인지 추정하게 한다. 모델의 산출물은 원본에 곧바로 덮어쓰지 않고 <code>mapping_candidates.json</code> 같은 검토용 파일에 기록한다.</p>
+<p>자동화의 산출물은 정답 데이터가 아니라 검토 가능한 후보여야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/openapi-data-quality-agent-cleaning.png" alt="" loading="lazy"><h2>사람이 봐야 하는 데이터는 따로 표시해야 한다</h2>
+<p>현실 세계와 가까운 데이터일수록 의미 판단에 드는 비용이 커진다. 주소, 의료 기록, 재고 상태, 계약 단계처럼 같은 단어가 조직마다 다르게 쓰이는 영역이 그렇다. 모델이 가장 그럴듯한 의미를 고르더라도 업무 규칙과 일치한다는 보장은 없다.</p>
+<p>NIST의 생성형 AI 지침은 자동 처리에서 놓칠 수 있는 맥락과 한계를 확인하도록 사람의 검토 절차를 두라고 권고한다.</p>
+<p>에이전트는 불확실한 행을 숨기지 말고 격리해야 한다. 근거가 부족한 매핑, 서로 충돌하는 필드 설명, 값 분포가 갑자기 바뀐 항목에 <code>needs_review</code> 표시를 붙인다. 사람은 전체 데이터를 다시 읽는 대신 이 목록과 대표 샘플을 확인한다.</p>
+<p>이 구조라면 사람의 역할이 병목이 아니라 품질 게이트가 된다. 검토 결과는 승인·수정·반려로 남기고 다음 실행에서 같은 규칙을 재사용한다.</p>
+<h2>LLM의 확률성은 결정론적 단계로 감싸야 한다</h2>
+<p>LLM은 같은 입력에서도 결과가 달라질 수 있다. 코드 생성 실험에서는 temperature를 0으로 낮춰도 결과의 비결정성이 사라지지 않았다. 호스팅 환경에서는 모델 버전과 실행 환경에 따라 결과가 달라질 수 있다.</p>
+<p>LLM에게 데이터 정제 전체를 맡기면 재실행 때 다른 보정이 나올 수 있다. 같은 원본에서 매번 다른 표준화 결과가 나오면 감사 추적과 오류 재현이 어려워진다. 결정이 필요한 부분은 코드와 규칙으로 고정하고 의미 추정이 필요한 부분만 모델에 맡겨야 한다.</p>
+<p>권장 순서는 간단하다. 원본을 해시로 고정하고 모델 이름과 프롬프트 버전을 기록한다. 모델 출력은 구조화된 JSON으로 제한한 뒤 JSON Schema로 다시 검사한다. 승인된 변환만 버전 관리되는 코드나 규칙 파일로 승격한다.</p>
+<p>정제 후에는 샘플 비교, 행 수 변화, 주요 필드 분포, 금액 합계 같은 회귀 검사를 실행한다. 이전 결과와 달라진 항목은 자동 배포하지 않고 검토 대상으로 보낸다.</p>
+<h2>Harness²가 보여준 것은 모델보다 실행 구조의 영향이다</h2>
+<p>Google Research의 Harness²는 모델 가중치를 바꾸지 않고 에이전트 주변의 실행 구조를 수정한다. 시스템 프롬프트, 가드레일, 메모리, 도구 안내, 서브에이전트, 스킬, 스크립트, 플러그인이 편집 대상이다.</p>
+<p>현재 하니스를 실행한 뒤 개선안을 제안하고 후보를 시험해 결과를 비교·조합하는 방식으로 작동한다. 연구진은 WorkBuddy-Bench, JobBench, LAB에서 한 단계의 개선만으로도 성능 상승을 보고했다. 다만 연구 저장소는 공식 Google 제품이 아니며 실행 환경의 네트워크 접근과 샌드박스 설정을 점검해야 한다고 안내한다.</p>
+<p>써본 사람들 사이에서는 하니스가 작업별로 좋아질 수 있다는 기대와 함께 특정 테스트에 과적합하거나 컨텍스트를 불필요하게 키울 수 있다는 우려도 나온다. 반복 업무에는 유용하지만 일반화 여부를 별도 테스트하지 않으면 개선처럼 보이는 우연을 배제하기 어렵다는 반응이다.</p>
+<p>이 논점은 OpenAPI 전처리에도 적용된다. 에이전트가 스스로 프롬프트와 스킬을 고쳐도 데이터 의미의 정답을 자동으로 만들어내는 것은 아니다. 개선된 하니스는 후보 생성과 검증 순서를 효율화할 수 있지만 도메인 규칙과 승인 기준까지 대신하지는 못한다.</p>
+<h2>작은 팀이 실제로 만들 수 있는 최소 파이프라인</h2>
+<p>개인 개발자나 소규모 팀이라면 거대한 데이터 플랫폼보다 다섯 개 산출물부터 정하면 된다. 첫째는 원본 명세와 API 응답이다. 둘째는 기계 검증 로그다. 셋째는 LLM이 만든 매핑 후보와 근거다. 넷째는 사람이 승인한 정제 규칙이다. 다섯째는 정제 결과와 회귀검사 보고서다.</p>
+<p>실행 순서도 고정한다. 명세를 읽고 응답을 수집한 뒤 스키마를 검사하고 규칙 기반 변환을 적용한다. 이후 LLM이 의미 후보와 이상값 목록을 만들면 사람이 불확실한 항목을 승인한다. 마지막으로 승인된 규칙을 다시 실행해 결과를 재현한다.</p>
+<p>이 방법은 에이전트를 배제하지 않는다. 에이전트는 문서가 부족한 필드를 찾고 샘플을 요약하며 후보 변환을 작성하고 실패 로그를 분류하는 데 쓸 수 있다. 다만 원본 보존, 규칙 검증, 승인 기록, 회귀 테스트는 확률형 모델 바깥에 둬야 한다.</p>
+<p>낮은 품질의 OpenAPI 데이터에서 자동화의 한계는 모델의 지능만으로 해결되지 않는다. 데이터의 의미를 결정하는 권한과 그 결정을 재현하는 구조를 함께 설계해야 한다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">OpenAPI</span><span class="chip">데이터 전처리</span><span class="chip">데이터 품질</span><span class="chip">LLM 에이전트</span><span class="chip">Human-in-the-loop</span><span class="chip">Harness²</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://spec.openapis.org/oas/" rel="nofollow noopener">https://spec.openapis.org/oas/</a></li><li><a href="https://spec.openapis.org/oas/v3.1" rel="nofollow noopener">https://spec.openapis.org/oas/v3.1</a></li><li><a href="https://op.europa.eu/webpub/op/data-quality-guidelines/en/" rel="nofollow noopener">https://op.europa.eu/webpub/op/data-quality-guidelines/en/</a></li><li><a href="https://github.com/google-research/harness2" rel="nofollow noopener">https://github.com/google-research/harness2</a></li><li><a href="https://arxiv.org/abs/2610.14224" rel="nofollow noopener">https://arxiv.org/abs/2610.14224</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13576654/" rel="nofollow noopener">https://pmc.ncbi.nlm.nih.gov/articles/PMC13576654/</a></li><li><a href="https://arxiv.org/abs/2308.02828" rel="nofollow noopener">https://arxiv.org/abs/2308.02828</a></li><li><a href="https://www.nist.gov/publications/human-loop-technical-document-annotation-developing-and-validating-system-provide" rel="nofollow noopener">https://www.nist.gov/publications/human-loop-technical-document-annotation-devel</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>OpenAPI 검증을 통과하면 데이터 품질도 보장되나요?</h2><p class="sum">보장되지 않습니다. OpenAPI 검증은 주로 구조와 타입을 확인하며, 필드의 업무 의미나 실제 응답의 정확성까지 보증하지 않습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>LLM으로 데이터 전처리를 자동화할 때 가장 중요한 원칙은 무엇인가요?</h2><p class="sum">원본과 모델 출력을 분리하고, 확정 규칙과 의미 추정을 나눠야 합니다. 불확실한 결과는 자동 반영하지 말고 사람의 검토 목록으로 보내야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Harness²는 OpenAPI 데이터 정제 도구인가요?</h2><p class="sum">아닙니다. Harness²는 모델 주변의 프롬프트, 도구, 메모리, 스킬 등을 개선하는 연구 프레임워크입니다. 데이터 정제 파이프라인의 실행 구조를 설계할 때 참고할 수 있지만, 데이터의 의미를 보증하지는 않습니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-26-1800.html">2026-10-26 10-26 13:25~17:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
