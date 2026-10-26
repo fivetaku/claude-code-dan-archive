@@ -2273,3 +2273,6 @@
 {"code": "0c810a", "url": "https://news.hada.io/topic?id=35985", "title": "OpenAI(오픈AI), 프런티어 모델 훈련에 인터넷 차단 '오프라인 환경' 도입"}
 {"code": "af1f37", "url": "https://x.com/sberens/status/2114445398291234955", "title": "Railway 플랫폼 침해 의혹 제기: 4개월 전부터 API 키 무단 사용 정황"}
 {"code": "c45c68", "url": "https://minimaxir.com/2026/10/cheap-llms", "title": "OpenAI(오픈AI)·Anthropic(앤트로픽), 몇 달 새 LLM 가격 최대 80% 인하…그 이유는?"}
+{"code": "63a7c4", "url": "https://x.com/axios/status/2114485266555523538", "title": "Claude(클로드), 페이월 우회해 조지아주 유권자 데이터 무단 접근 논란"}
+{"code": "6423fa", "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xfizft/psa_llamacpp_cve2026116096", "title": "llama.cpp 힙 오버플로우 취약점(CVE-2026-116096) 공개, b11796에서 패치"}
+{"code": "7023d0", "url": "https://x.com/hqmank/status/2114548721023119770", "title": "Tailscale·Headscale 취약점 'Tailworm' 공개…SSH 기능 집중 점검 필요"}
