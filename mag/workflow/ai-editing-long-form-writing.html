@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 윤문은 왜 긴 글에서 무너질까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="AI 윤문은 맞춤법과 문장 정리에는 유용하지만 긴 글의 문체, 논리, 떡밥 회수까지 안정적으로 보장하지 못한다. 책과 논문을 안전하게 편집하는 방법을 살펴본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/ai-editing-long-form-writing.html">
+<meta property="og:title" content="AI 윤문은 왜 긴 글에서 무너질까">
+<meta property="og:description" content="AI 윤문은 맞춤법과 문장 정리에는 유용하지만 긴 글의 문체, 논리, 떡밥 회수까지 안정적으로 보장하지 못한다. 책과 논문을 안전하게 편집하는 방법을 살펴본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/ai-editing-long-form-writing.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI 윤문은 왜 긴 글에서 무너질까", "description": "AI 윤문은 맞춤법과 문장 정리에는 유용하지만 긴 글의 문체, 논리, 떡밥 회수까지 안정적으로 보장하지 못한다. 책과 논문을 안전하게 편집하는 방법을 살펴본다.", "datePublished": "2026-10-28", "dateModified": "2026-10-28", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/ai-editing-long-form-writing.html"}, "articleSection": "워크플로우·방법론", "keywords": "AI 윤문, AI 글쓰기, 장문 편집, 논문 교정, 책 쓰기, 문체 일관성", "image": "https://chat.axwith.com/mag/hero/ai-editing-long-form-writing.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI로 책 전체를 한 번에 윤문해도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "권장하지 않습니다. 장이나 절 단위로 나누고, 먼저 오류 목록과 수정 제안을 받은 뒤 사람이 변경 내용을 확인하는 방식이 안전합니다."}}, {"@type": "Question", "name": "논문 맞춤법을 AI로 고쳐도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "일부 학술 출판 지침은 맞춤법과 문법 교정을 허용하지만, 도구 사용 공개와 최종 검토를 요구할 수 있습니다. 투고 대상 학술지의 최신 정책과 원고 기밀성 조건을 먼저 확인해야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-editing-long-form-writing.png" alt="AI 윤문은 왜 긴 글에서 무너질까" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>AI 윤문은 왜 긴 글에서 무너질까</h1>
+  <p class="sub">책과 논문을 AI로 다듬을 때 문체와 맥락이 흔들리는 이유, 사람의 판단을 남기는 실전 편집법</p>
+  <div class="meta"><span>2026-10-28</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI에게 문장을 다듬어 달라는 일은 이제 흔하다. 맞춤법과 중복 표현을 고치는 데서 시작해 책과 논문 전체의 문체를 맞추려는 시도도 늘었다. 문제는 글이 길어질수록 ‘더 자연스럽게’라는 주문이 문장 하나의 개선을 넘어 구조와 저자의 목소리까지 흔든다는 점이다. 긴 글을 AI로 윤문할 때 어디까지 맡길 수 있고, 무엇을 사람이 끝까지 확인해야 하는지 살펴봤다.</p>
+<h2>짧은 문장은 고쳐도 긴 글의 맥락은 달라진다</h2>
+<p>AI는 문장 단위의 맞춤법, 문법, 중복 표현을 빠르게 찾아낸다. OpenAI의 글쓰기 안내도 초안을 주고 명확성, 흐름, 어조, 길이를 조정하는 작업을 AI의 대표적인 활용 사례로 소개한다. 다만 긴 문서에는 먼저 개요를 요청하고, 분량과 독자, 문체 규칙을 함께 제시하라고 권한다.</p>
+<p>긴 글의 어려움은 문장 자체보다 문장 사이에 있다. 연구에서는 장문 생성 모델이 주제의 큰 방향은 따라가도 구조적 일관성이나 대명사가 가리키는 대상을 유지하는 데 취약하다는 결과가 반복됐다. 다른 연구 역시 문장이 길어질수록 논리적 일관성과 품질을 유지하기 어렵다고 지적한다.</p>
+<p>책에서는 앞부분의 설정이 뒤에서 회수돼야 한다. 논문에서는 연구 질문, 방법, 결과, 해석이 서로 맞물려야 한다. 한 문단을 매끄럽게 고친 결과가 전체 글의 약속을 깨뜨릴 수 있는 이유다.</p>
+<h2>자료를 많이 넣어도 문체 기준이 자동으로 생기지는 않는다</h2>
+<p>방 논의에서는 관련 전자책과 논문을 많이 제공하고 글을 나눠 입력해도 결과가 기대만큼 좋아지지 않았다는 경험이 공유됐다. 참고 자료가 늘면 AI가 표현의 범위를 넓힐 수는 있지만, 그 자료에서 저자가 지키려는 문체 규칙을 안정적으로 추출한다는 보장은 없다.</p>
+<p>문체는 단어 선택만으로 결정되지 않는다. 문장의 길이, 생략하는 정보, 단락을 끊는 위치, 독자에게 설명하는 순서가 함께 작동한다. 서로 다른 작가의 책과 논문을 한꺼번에 넣으면 AI는 평균적인 전문 문체를 만들기 쉽다. 그 결과 문법은 정돈돼도 글쓴이의 리듬과 판단이 약해질 수 있다.</p>
+<p>실사용자들 사이에서도 비슷한 반응이 나온다. 맞춤법과 구두점만 보는 작업은 유용하지만, 문장을 더 세련되게 바꾸거나 전체 단락을 다시 쓰게 하면 글이 비슷한 AI식 어조로 수렴한다는 의견이다. 반대로 수정 제안을 목록이나 변경 표시로 받고 직접 선택하면 원래 목소리를 지키기 쉽다는 팁도 공유된다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-editing-long-form-writing.png" alt="" loading="lazy"><h2>윤문 작업을 네 단계로 나누면 실패 지점을 찾기 쉽다</h2>
+<p>긴 글을 한 번에 붙여넣고 “자연스럽게 고쳐 달라”고 요청하는 방식은 가장 위험하다. 작업을 다음처럼 나누면 무엇이 바뀌었는지 추적할 수 있다.</p>
+<p>첫 단계는 진단이다. 원문을 바꾸지 말고 문법 오류, 중복, 모호한 문장, 논리적 단절, 용어 불일치를 각각 목록으로 만들게 한다. 이때 결과물은 수정본이 아니라 문제 목록이어야 한다.</p>
+<p>둘째는 국소 수정이다. 한 번에 한 문단이나 한 절만 다루고, 의미 추가와 삭제를 금지한다. 수정 전과 수정 후를 나란히 제시하게 하면 사람이 변경 범위를 확인할 수 있다. 문장 구조를 바꿔야 할 때도 왜 바꿨는지 짧은 설명을 붙이게 하는 편이 안전하다.</p>
+<p>셋째는 전역 점검이다. 장별 요약, 핵심 용어 목록, 인물·주장·근거 표를 따로 만든다. 책이라면 사건과 설정이 어느 장에서 등장하고 회수되는지 표시한다. 논문이라면 연구 질문과 결과가 초록, 본문, 결론에서 같은 의미로 유지되는지 확인한다.</p>
+<p>마지막은 사람의 재작성이다. AI가 제안한 문장을 그대로 확정하지 않고, 작성자가 원문과 변경 이유를 대조한다. 방 논의에서 언급된 체크리스트형 활용은 이 단계와 잘 맞는다. AI에게 ‘떡밥을 회수하라’고 맡기는 것이 아니라, 회수되지 않은 항목을 찾아 표로 보여 달라고 시키는 방식이다.</p>
+<h2>좋은 프롬프트보다 더 중요한 것은 편집 경계다</h2>
+<p>AI 윤문 프롬프트에는 최소한 네 가지 경계가 필요하다. 원래 의미를 추가하거나 바꾸지 말 것, 확신이 없는 부분은 추정하지 말고 표시할 것, 전문 용어와 인용을 임의로 바꾸지 말 것, 전면 재작성 대신 수정 후보를 제시할 것이다.</p>
+<p>예를 들어 “이 문단을 더 자연스럽게 써 달라”보다 “문법 오류와 중복만 표시하고, 수정이 필요한 문장마다 대안을 하나씩 제시하라”가 낫다. 문체를 맞추고 싶다면 먼저 저자의 문장을 분석하게 하되, 분석 결과를 곧바로 전체 글에 적용하지 말고 짧은 시험 문단에서 확인해야 한다.</p>
+<p>긴 글에서는 파일을 장별로 나누고, 별도의 스타일 시트를 둔다. 스타일 시트에는 존댓말 여부, 숫자 표기, 용어 표기, 문장 길이, 금지 표현, 인용 방식만 적는다. 입력 자료에는 현재 작업 중인 장과 필요한 맥락만 넣는다. 이렇게 하면 참고 자료를 많이 넣는 것보다 기준을 좁고 명확하게 유지할 수 있다.</p>
+<p>AI를 평가자로만 쓰는 방법도 있다. 수정본을 만들게 하지 않고 “이 글에서 앞뒤가 충돌하는 주장, 설명이 갑자기 사라지는 항목, 같은 말의 반복을 찾아라”라고 요청하는 방식이다. 2025년 ACL 연구는 대표 문서군을 검색해 과학 글쓰기의 수정 품질과 문체 차이를 평가하는 방법을 제시했다. AI가 작가를 대신하기보다 여러 초안을 비교하는 보조 평가자로 쓰일 때 강점이 커진다는 뜻이다.</p>
+<h2>책과 논문은 정확성보다 먼저 책임 소재를 확인해야 한다</h2>
+<p>학술 글에서는 문장이 매끄러운지만 볼 수 없다. AI가 만든 인용과 참고문헌은 틀리거나 존재하지 않을 수 있으며, 그 사실을 확인할 책임은 저자에게 있다. ICMJE는 AI를 저자로 올릴 수 없고, 사용한 도구와 목적을 공개해야 하며, 최종 내용의 정확성과 독창성을 사람이 책임져야 한다고 안내한다.</p>
+<p>APA도 AI를 편집에 사용할 수 있지만 공개가 필요한 경우가 있다고 설명한다. 단순한 맞춤법 검사와 달리 문장 구조나 표현을 광범위하게 바꾸면 사용 도구와 목적을 밝혀야 한다. Elsevier 역시 정책에서 AI를 언어와 가독성 개선에 사용할 수 있지만, 사람의 검토와 편집, 기여 내용의 책임을 요구한다.</p>
+<p>원고를 외부 서비스에 올리는 문제도 별도로 판단해야 한다. 미출판 논문, 개인정보, 출판사와의 계약이 걸린 원고는 도구의 보관·학습·재사용 조건을 확인하지 않고 입력하면 안 된다. Elsevier와 ICMJE는 비공개 원고를 기밀성이 보장되지 않는 AI 시스템에 올리는 행위를 경고한다.</p>
+<p>개인 작가나 소규모 연구팀에게 현실적인 기준은 간단하다. AI에게 문장을 대신 쓰게 할수록 검토 범위가 넓어지고, 원고의 책임은 줄어들지 않는다. 반대로 오류 목록, 용어 점검, 장별 요약, 회수 누락 탐지처럼 결과를 판단 자료로 받으면 시간은 줄이면서 최종 목소리는 사람이 쥘 수 있다.</p>
+<p>긴 글의 AI 윤문은 ‘사람처럼 만들어 달라’는 한 문장으로 해결되지 않는다. AI는 문장을 고치는 도구로는 쓸 수 있지만, 책과 논문의 기준을 스스로 정하고 끝까지 지키는 편집자는 아니다. 긴 글일수록 좋은 질문은 전면 재작성보다 작은 수정, 명확한 기록, 반복 가능한 점검표에 가까워진다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">AI 윤문</span><span class="chip">AI 글쓰기</span><span class="chip">장문 편집</span><span class="chip">논문 교정</span><span class="chip">책 쓰기</span><span class="chip">문체 일관성</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://openai.com/academy/writing/" rel="nofollow noopener">https://openai.com/academy/writing/</a></li><li><a href="https://arxiv.org/abs/2210.08444" rel="nofollow noopener">https://arxiv.org/abs/2210.08444</a></li><li><a href="https://arxiv.org/abs/2506.04180" rel="nofollow noopener">https://arxiv.org/abs/2506.04180</a></li><li><a href="https://aclanthology.org/2025.eval4nlp-1.6/" rel="nofollow noopener">https://aclanthology.org/2025.eval4nlp-1.6/</a></li><li><a href="https://www.icmje.org/recommendations/browse/artificial-intelligence/" rel="nofollow noopener">https://www.icmje.org/recommendations/browse/artificial-intelligence/</a></li><li><a href="https://www.apa.org/pubs/journals/resources/publishing-policies/" rel="nofollow noopener">https://www.apa.org/pubs/journals/resources/publishing-policies/</a></li><li><a href="https://www-prod.elsevier.com/about/policies-and-standards/generative-ai-policies-for-journals" rel="nofollow noopener">https://www-prod.elsevier.com/about/policies-and-standards/generative-ai-policie</a></li><li><a href="https://www-prod.elsevier.com/about/policies-and-standards/publishing-ethics-books/generative-ai-policies" rel="nofollow noopener">https://www-prod.elsevier.com/about/policies-and-standards/publishing-ethics-boo</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI로 책 전체를 한 번에 윤문해도 되나요?</h2><p class="sum">권장하지 않습니다. 장이나 절 단위로 나누고, 먼저 오류 목록과 수정 제안을 받은 뒤 사람이 변경 내용을 확인하는 방식이 안전합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>논문 맞춤법을 AI로 고쳐도 되나요?</h2><p class="sum">일부 학술 출판 지침은 맞춤법과 문법 교정을 허용하지만, 도구 사용 공개와 최종 검토를 요구할 수 있습니다. 투고 대상 학술지의 최신 정책과 원고 기밀성 조건을 먼저 확인해야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-27-2200.html">2026-10-27 10-27 18:15~21:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
