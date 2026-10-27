@@ -21,6 +21,14 @@
     <description>OMP와 OMO는 이름이 비슷하지만 역할이 다르다. 두 도구의 구조와 설치법, 모델 선택 방식, 실제 사용 시 주의점을 비교한다.</description>
   </item>
   <item>
+    <title>AI 코딩 에이전트 대기 시간을 줄이는 병렬 세션과 교차 리뷰</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-coding-agent-parallel-review.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-coding-agent-parallel-review.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Tue, 27 Oct 2026 12:00:00 +0900</pubDate>
+    <description>AI 코딩 에이전트가 작업하는 동안 무엇을 병렬화하고 어떻게 교차 리뷰를 구성해야 하는지, 토큰 절약과 검증 방법까지 정리했다.</description>
+  </item>
+  <item>
     <title>Codex 사용 한도가 빨리 줄어들 때, 작업 범위와 모델을 어떻게 바꿀까</title>
     <link>https://chat.axwith.com/mag/workflow/codex-usage-limits-task-scope-models.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/codex-usage-limits-task-scope-models.html</guid>
@@ -235,13 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Thu, 15 Oct 2026 12:00:00 +0900</pubDate>
     <description>LLM의 추론 성능은 호출 횟수만 늘린다고 개선되지 않는다. 반복 생성, 적응형 계산 배분, 검증기 평가를 연구 결과와 에이전트 설계 사례로 살펴본다.</description>
-  </item>
-  <item>
-    <title>Gemini 4 Argon, Antigravity에서 실제로 쓸 수 있나</title>
-    <link>https://chat.axwith.com/mag/models/gemini-4-argon-antigravity-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-4-argon-antigravity-guide.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Wed, 14 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Gemini 4 Argon이 Antigravity에 추가됐지만 IDE에서는 아직 쓸 수 없다. 지원 요금제와 CLI·확장 기능, 테스트 방법을 확인한다.</description>
   </item>
 </channel></rss>

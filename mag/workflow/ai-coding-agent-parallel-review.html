@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 코딩 에이전트 대기 시간을 줄이는 병렬 세션과 교차 리뷰 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="AI 코딩 에이전트가 작업하는 동안 무엇을 병렬화하고 어떻게 교차 리뷰를 구성해야 하는지, 토큰 절약과 검증 방법까지 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/ai-coding-agent-parallel-review.html">
+<meta property="og:title" content="AI 코딩 에이전트 대기 시간을 줄이는 병렬 세션과 교차 리뷰">
+<meta property="og:description" content="AI 코딩 에이전트가 작업하는 동안 무엇을 병렬화하고 어떻게 교차 리뷰를 구성해야 하는지, 토큰 절약과 검증 방법까지 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/ai-coding-agent-parallel-review.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI 코딩 에이전트 대기 시간을 줄이는 병렬 세션과 교차 리뷰", "description": "AI 코딩 에이전트가 작업하는 동안 무엇을 병렬화하고 어떻게 교차 리뷰를 구성해야 하는지, 토큰 절약과 검증 방법까지 정리했다.", "datePublished": "2026-10-27", "dateModified": "2026-10-27", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/ai-coding-agent-parallel-review.html"}, "articleSection": "워크플로우·방법론", "keywords": "Claude Code, OpenAI Codex, AI 코딩 에이전트, 병렬 세션, 코드 리뷰, Git worktree", "image": "https://chat.axwith.com/mag/hero/ai-coding-agent-parallel-review.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code와 Codex를 함께 쓰는 가장 안전한 방법은 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Code는 구현과 테스트를 맡기고 Codex는 읽기 전용 리뷰를 맡기는 방식이 안전하다. 리뷰 대상은 대화 전체보다 커밋, diff, 테스트 결과처럼 고정된 산출물로 제한하는 편이 좋다."}}, {"@type": "Question", "name": "Claude Code 여러 세션을 동시에 실행해도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "가능하지만 같은 브랜치와 파일을 동시에 수정하면 충돌이 커진다. Git worktree로 작업공간을 분리하고, 조사·테스트·문서처럼 독립적인 작업부터 병렬화해야 한다."}}, {"@type": "Question", "name": "AI 코딩 에이전트의 토큰 사용량을 줄이는 방법은 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "질문을 짧게 만드는 것보다 관련 파일과 로그를 먼저 좁히는 편이 효과적이다. 증상과 성공 조건을 함께 쓰고, 반복 규칙은 CLAUDE.md에 간결하게 정리하며, 실패한 검사 주변부터 읽게 하라."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-coding-agent-parallel-review.png" alt="AI 코딩 에이전트 대기 시간을 줄이는 병렬 세션과 교차 리뷰" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>AI 코딩 에이전트 대기 시간을 줄이는 병렬 세션과 교차 리뷰</h1>
+  <p class="sub">Claude Code와 Codex를 기다리는 시간을 병렬 작업과 검증 루프로 바꾸는 실전 운영법</p>
+  <div class="meta"><span>2026-10-27</span><span>논의 <b>2</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI 코딩 에이전트가 코드를 읽고 수정하는 동안 개발자는 화면만 바라봐야 할까. 클코단에서는 여러 Claude Code 세션을 동시에 돌리고 GitHub 자료를 찾거나 다이어그램을 만드는 방식이 공유됐다. 이 글은 대기 시간을 줄이는 데서 출발해 Claude Code와 Codex를 어떤 순서로 나누고 어디에서 멈춰 검증해야 하는지 답한다.</p>
+<h2>대기 시간을 줄이는 핵심은 세션 수보다 작업 분리다</h2>
+<p>Claude Code는 대화형 REPL뿐 아니라 <code>claude -p</code> 형태의 비대화형 실행도 지원한다. 출력 형식을 JSON으로 고르거나 최대 턴 수를 제한할 수 있어 반복 작업을 스크립트와 연결하기 쉽다. Anthropic CLI 문서는 세션을 이어가거나 특정 세션을 재개하는 옵션도 제공한다.</p>
+<p>방에서는 다섯 개에서 일곱 개 세션을 병렬로 운영한다는 경험이 나왔다. 다만 세션 수를 늘린다고 생산성이 자동으로 오르지는 않는다. 같은 파일과 브랜치를 여러 에이전트가 동시에 만지면 충돌을 정리하는 시간이 늘어나기 때문이다.</p>
+<p>실용적인 기준은 작업의 독립성이다. 자료 조사, 테스트 작성, UI 검토, 문서 초안처럼 결과물이 분리되는 일은 병렬화한다. 반대로 같은 모듈의 설계와 구현처럼 상태를 공유해야 하는 일은 한 세션에서 이어간다.</p>
+<h2>여러 세션은 Git worktree로 서로 격리해야 한다</h2>
+<p>병렬 세션을 운영할 때 가장 먼저 나눌 것은 모델이 아니라 작업 디렉터리다. 기능 구현은 <code>feature-auth</code>, 테스트 보강은 <code>test-auth</code>, 리뷰는 별도 읽기 전용 작업공간에 배치하면 각 세션이 서로 다른 브랜치와 파일 상태를 본다.</p>
+<p>작업 순서는 간단하다. 기준 브랜치에서 worktree를 만들고 각 디렉터리에서 Claude Code를 실행한다. 구현 세션에는 변경 범위와 성공 조건을 주고 조사 세션에는 파일 수정 금지와 산출물 위치를 명시한다. 마지막에는 사람이 diff를 비교해 하나의 브랜치로 합친다.</p>
+<p>Codex 앱은 프로젝트별 스레드를 나누고 여러 에이전트를 병렬로 실행하는 방향을 공식 기능으로 내세웠다. OpenAI는 별도 작업을 병렬로 돌릴 때 에이전트 간 문맥을 분리하고 결과를 검토한 뒤 다음 작업으로 넘기는 운영을 강조한다. 개인 개발자라면 앱을 새로 도입하기보다 Git worktree와 터미널 세션만으로 같은 원칙을 먼저 재현할 수 있다.</p>
+<p>써본 사람들 사이에서는 모델보다 사람이 병목이 된다는 반응도 있다. 세션마다 어떤 파일을 바꿨는지 추적하지 못하면 병렬화가 작업 속도가 아니라 확인할 목록만 늘린다는 지적이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-coding-agent-parallel-review.png" alt="" loading="lazy"><h2>토큰을 줄이려면 요청보다 읽는 범위를 먼저 줄여야 한다</h2>
+<p>AI 코딩 에이전트의 사용량은 질문 문장만으로 결정되지 않는다. 코드와 검색 결과, 로그, 도구 호출 결과가 함께 문맥에 들어간다. Anthropic은 긴 작업에서 관련 위치를 먼저 찾고 필요한 자료만 읽게 하며 반복 규칙은 <code>CLAUDE.md</code> 같은 메모리 파일에 짧게 정리하라고 안내한다.</p>
+<p>작업 요청은 “예약 기능을 고쳐 달라”보다 구체적이어야 한다. “취소한 시간은 다시 예약할 수 있어야 한다. 확정 예약과 결제 대기 예약은 계속 막아야 한다. 관련 파일을 먼저 찾고 수정 뒤 해당 검사와 브라우저 동작을 확인하라”처럼 증상과 보존 조건을 함께 적는다.</p>
+<p>로그도 전체를 매번 붙이지 않는다. 실패한 검사 이름과 오류 주변의 호출 흐름, 변경된 파일의 diff부터 보여 준다. 원인을 찾지 못했을 때만 읽는 범위를 넓힌다. 이는 응답을 짧게 만드는 기술이 아니라 에이전트가 불필요한 파일을 순회하지 않도록 탐색 순서를 바꾸는 방법이다.</p>
+<p>프로젝트 규칙 파일에는 실행 명령과 테스트 명령, 디렉터리 구조, 절대 지켜야 할 보안 규칙만 남긴다. 긴 배경 설명은 별도 문서로 분리하고 필요할 때만 불러온다. 규칙 파일이 커지면 모든 세션이 시작할 때 같은 내용을 다시 읽게 된다.</p>
+<h2>Claude Code가 만들고 Codex가 검토하는 루프는 이렇게 구성한다</h2>
+<p>Claude Code와 Codex를 연결할 때 핵심은 역할 분담보다 경계 설정이다. 구현 담당은 파일을 수정하고 테스트를 실행한다. 리뷰 담당은 변경 내용을 읽고 결함과 누락된 조건, 보안 문제를 보고하되 직접 수정하지 않는다.</p>
+<p>가장 안전한 흐름은 네 단계다.</p>
+<ol><li>Claude Code가 계획을 작성하고 관련 파일을 찾는다.</li><li>Codex가 계획이나 현재 diff를 읽기 전용으로 검토한다.</li><li>Claude Code가 승인된 방향으로 구현하고 테스트한다.</li><li>Codex가 <code>codex review --uncommitted</code> 또는 기준 브랜치 비교로 다시 검토한다.</li></ol>
+<p>Codex CLI는 현재 변경 내용과 특정 기준 브랜치와의 차이, 특정 커밋을 대상으로 리뷰할 수 있다. OpenAI의 Codex 플러그인은 Claude Code 안에서 <code>/codex:review --background</code>를 실행하고 결과를 확인하는 통합 방식을 제공한다. 여러 파일을 다루는 리뷰는 시간이 걸릴 수 있어 백그라운드 실행이 권장된다.</p>
+<p>다만 “리뷰에서 지적한 내용을 다시 고치고 또 리뷰한다”는 루프를 무제한으로 돌리면 비용과 시간이 빠르게 늘어난다. 한 번의 리뷰에서 심각도와 재현 조건을 분류하고 수정 횟수와 종료 조건을 정한다. 예를 들어 테스트 실패와 데이터 손실 가능성, 인증 우회처럼 중대한 항목만 다음 루프로 넘기고 문체나 취향 차이는 사람이 판단한다.</p>
+<p>바깥 실사용 반응에서도 계획을 먼저 검토한 뒤 구현하는 방식과 서로 다른 모델을 설계와 리뷰에 배치하는 방식이 반복해서 언급된다. 반면 세션 간 메시지를 계속 주고받으면 공유 상태가 불명확해진다는 불만도 있다. 리뷰 입력은 대화 전체보다 커밋과 diff, 테스트 결과처럼 고정된 산출물로 제한하는 편이 낫다.</p>
+<h2>다이어그램과 자료 탐색은 대기 시간에 하기 좋은 독립 작업이다</h2>
+<p>방에서 소개된 <code>cathrynlavery/diagram-design</code>은 Claude Code와 Codex에서 사용할 수 있는 에이전트 스킬이다. 저장소 README에 따르면 이 프로젝트는 브랜드 색상과 폰트를 반영한 자체 포함 HTML·SVG 다이어그램을 만들고 Mermaid나 draw.io 입력을 다시 그리는 기능을 제공한다.</p>
+<p>사용 순서도 비교적 분명하다. 저장소를 가져오고 스킬을 에이전트에 등록한 뒤 “프론트엔드와 API 서버, 데이터베이스의 관계를 아키텍처 다이어그램으로 만들어 달라”처럼 구조와 산출 형식을 요청한다. 결과는 브라우저에서 열 수 있는 HTML이 되며 필요하면 SVG나 PNG로 내보낸다.</p>
+<p>이 작업은 구현 세션과 파일을 공유하지 않을 때 대기 시간 활용도가 높다. 개발자가 기능을 기다리는 동안 다른 세션에서 README의 구조를 다이어그램으로 바꾸고 브랜드 사이트의 색상과 독자 수준을 입력해 문서용 결과물을 준비할 수 있다. 다만 다이어그램이 코드의 정확성을 대신 검증하지는 않는다. 실제 API 흐름과 화면 동작은 별도의 테스트가 필요하다.</p>
+<p>GitHub 탐색도 같은 방식으로 분리할 수 있다. 구현에 필요한 라이브러리를 찾는 세션에는 후보 저장소와 최근 커밋, 라이선스, 설치 조건만 정리하게 한다. 에이전트가 찾은 자료를 바로 코드에 반영하지 말고 사람이나 리뷰 세션이 유지보수 상태와 보안 위험을 확인한 뒤 채택한다.</p>
+<h2>병렬화의 성과는 세션 수가 아니라 검증 가능한 산출물로 판단한다</h2>
+<p>개인 개발자와 소규모 팀에게 필요한 것은 열 개의 에이전트가 아니다. 서로 겹치지 않는 작업 목록과 변경 범위를 고정한 브랜치, 재현 가능한 테스트, 읽기 전용 리뷰어가 더 중요하다.</p>
+<p>실전 템플릿은 다음과 같다. 구현 요청에는 증상·성공 조건·수정 범위를 넣는다. 조사 요청에는 수정 금지·출력 파일·확인할 출처를 넣는다. 리뷰 요청에는 대상 diff·중점 위험·종료 조건을 넣는다. 모든 세션은 마지막에 변경 파일과 실행한 검사, 남은 문제를 짧게 남긴다.</p>
+<p>Claude Code의 병렬 도구 호출과 Codex의 멀티에이전트 기능은 기다리는 시간을 줄여 준다. 하지만 여러 모델을 연결하는 순간 사람의 역할은 입력자가 아니라 작업 큐와 검증 기준을 관리하는 감독자로 바뀐다. 대기 시간을 없애는 가장 현실적인 방법은 세션을 더 여는 일이 아니라 각 세션이 독립적으로 끝낼 수 있는 결과를 먼저 정의하는 것이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">OpenAI Codex</span><span class="chip">AI 코딩 에이전트</span><span class="chip">병렬 세션</span><span class="chip">코드 리뷰</span><span class="chip">Git worktree</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://docs.anthropic.com/en/docs/claude-code/cli-usage" rel="nofollow noopener">https://docs.anthropic.com/en/docs/claude-code/cli-usage</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-templates-and-variables" rel="nofollow noopener">https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/prompt-t</a></li><li><a href="https://docs.anthropic.com/zh-CN/docs/claude-code/memory" rel="nofollow noopener">https://docs.anthropic.com/zh-CN/docs/claude-code/memory</a></li><li><a href="https://docs.anthropic.com/en/docs/mcp" rel="nofollow noopener">https://docs.anthropic.com/en/docs/mcp</a></li><li><a href="https://help.openai.com/en/articles/11096431" rel="nofollow noopener">https://help.openai.com/en/articles/11096431</a></li><li><a href="https://help.openai.com/en/articles/11369540" rel="nofollow noopener">https://help.openai.com/en/articles/11369540</a></li><li><a href="https://openai.com/index/introducing-the-codex-app/" rel="nofollow noopener">https://openai.com/index/introducing-the-codex-app/</a></li><li><a href="https://github.com/openai/codex" rel="nofollow noopener">https://github.com/openai/codex</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code와 Codex를 함께 쓰는 가장 안전한 방법은 무엇인가?</h2><p class="sum">Claude Code는 구현과 테스트를 맡기고 Codex는 읽기 전용 리뷰를 맡기는 방식이 안전하다. 리뷰 대상은 대화 전체보다 커밋, diff, 테스트 결과처럼 고정된 산출물로 제한하는 편이 좋다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Code 여러 세션을 동시에 실행해도 되나요?</h2><p class="sum">가능하지만 같은 브랜치와 파일을 동시에 수정하면 충돌이 커진다. Git worktree로 작업공간을 분리하고, 조사·테스트·문서처럼 독립적인 작업부터 병렬화해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI 코딩 에이전트의 토큰 사용량을 줄이는 방법은 무엇인가?</h2><p class="sum">질문을 짧게 만드는 것보다 관련 파일과 로그를 먼저 좁히는 편이 효과적이다. 증상과 성공 조건을 함께 쓰고, 반복 규칙은 CLAUDE.md에 간결하게 정리하며, 실패한 검사 주변부터 읽게 하라.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-08-20-2200.html">2026-08-20 08-20 17:53~21:33</a> · <a href="../../s/2026-10-27-0900.html">2026-10-27 10-26 18:26~10-27 08:45</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
