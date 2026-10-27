@@ -2339,3 +2339,5 @@
 {"code": "668dee", "url": "https://x.com/godofprompt/status/2115092420069343464", "title": "OpenAI(오픈AI), Brotli 압축 라이브러리서 인증 없는 원격코드실행 취약점 공개"}
 {"code": "b363be", "url": "https://x.com/mark_k/status/2115097517373227511", "title": "LiteLLM 릴리스 파이프라인 해킹, 악성 코드 심긴 v1.107.0 PyPI·컨테이너에 유포"}
 {"code": "470e7f", "url": "https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training", "title": "Claude(클로드) 상업용 제품, 피드백 버튼 누르면 대화가 학습에 쓰인다"}
+{"code": "3513fb", "url": "https://www.theverge.com/tech/1019076/google-genie-4-ai-model", "title": "구글, 더 사실적인 월드 모델 'Genie 4' 공개"}
+{"code": "a30b42", "url": "https://techcrunch.com/2026/10/27/googles-genie-4-world-model-adds-audio-more-realistic-worlds-and-real-time-steering", "title": "구글 딥마인드, 실시간 오디오·조작 지원하는 월드 모델 'Genie 4' 공개"}
