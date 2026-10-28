@@ -2382,3 +2382,5 @@
 {"code": "149f63", "url": "https://x.com/_avichawla/status/2115400590960599112", "title": "DeepSeek(딥시크), KV 캐시를 SSD에 저장하는 추론 스택 'DeepInfer' 오픈소스 공개"}
 {"code": "fedf51", "url": "https://x.com/lyraxana/status/2115365362913231332", "title": "'gemini-omni-1.2-flash' 배포 정황 포착…정식 출시 임박 관측"}
 {"code": "a6146e", "url": "https://x.com/testingcatalog/status/2115370094658240579", "title": "앤트로픽, 'Claude(클로드) Duet' 미국 Max 사용자부터 순차 배포 시작"}
+{"code": "17fc97", "url": "https://x.com/MistralAI/status/2115443720371814478", "title": "Mistral(미스트랄), 에이전트 구축용 'Responses API' 공개 프리뷰 공개"}
+{"code": "7ae8eb", "url": "https://huggingface.co/blog/nvidia/nemotron-transcribe-granary", "title": "NVIDIA(엔비디아), 프롬프트로 제어하는 오픈 가중치 음성 인식 모델 'Nemotron 3.5 Transcribe' 공개"}
