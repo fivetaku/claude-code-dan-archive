@@ -13,6 +13,14 @@
     <description>GPT-6.1 Terra Medium을 블로그 자동화에 써도 되는지 GPT-6.1 Sol과 비용, 성능, 검색 노출 위험, 운영 절차를 비교했다.</description>
   </item>
   <item>
+    <title>Claude API 토큰, 영상·멀티모델 작업에 쓰는 법</title>
+    <link>https://chat.axwith.com/mag/models/claude-api-token-workflows.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-api-token-workflows.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Wed, 28 Oct 2026 12:00:00 +0900</pubDate>
+    <description>Claude API 토큰을 어디에 배분해야 할까. 영상 처리의 한계부터 prompt caching, Batch API, GPT·Gemini 협업 구조까지 실제 구축 순서로 정리했다.</description>
+  </item>
+  <item>
     <title>AI 윤문은 왜 긴 글에서 무너질까</title>
     <link>https://chat.axwith.com/mag/workflow/ai-editing-long-form-writing.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-editing-long-form-writing.html</guid>
@@ -235,13 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Thu, 15 Oct 2026 12:00:00 +0900</pubDate>
     <description>겜스고에서 월 15달러 안팎으로 판매되는 Gemini Ultra 상품이 공식 구독과 어떻게 다른지, 사용량 할당과 계정 위험을 중심으로 정리했다.</description>
-  </item>
-  <item>
-    <title>Codex·Claude Code 데스크톱 앱과 CLI, 작업공간 통제는 어디서 갈리나</title>
-    <link>https://chat.axwith.com/mag/workflow/coding-agents-desktop-cli-workspace.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/coding-agents-desktop-cli-workspace.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Thu, 15 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Codex와 Claude Code를 데스크톱 앱 또는 CLI로 쓸 때 무엇이 달라지는지 비교한다. 작업공간 격리, 권한 설정, 병렬 작업과 메모리 우려를 공식 문서와 사용 경험으로 구분했다.</description>
   </item>
 </channel></rss>

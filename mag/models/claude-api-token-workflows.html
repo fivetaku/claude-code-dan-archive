@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude API 토큰, 영상·멀티모델 작업에 쓰는 법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude API 토큰을 어디에 배분해야 할까. 영상 처리의 한계부터 prompt caching, Batch API, GPT·Gemini 협업 구조까지 실제 구축 순서로 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/claude-api-token-workflows.html">
+<meta property="og:title" content="Claude API 토큰, 영상·멀티모델 작업에 쓰는 법">
+<meta property="og:description" content="Claude API 토큰을 어디에 배분해야 할까. 영상 처리의 한계부터 prompt caching, Batch API, GPT·Gemini 협업 구조까지 실제 구축 순서로 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/claude-api-token-workflows.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude API 토큰, 영상·멀티모델 작업에 쓰는 법", "description": "Claude API 토큰을 어디에 배분해야 할까. 영상 처리의 한계부터 prompt caching, Batch API, GPT·Gemini 협업 구조까지 실제 구축 순서로 정리했다.", "datePublished": "2026-10-28", "dateModified": "2026-10-28", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/claude-api-token-workflows.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Claude API, Anthropic API, 영상 분석 AI, 멀티모델, Prompt caching, Batch API", "image": "https://chat.axwith.com/mag/hero/claude-api-token-workflows.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude API로 영상을 직접 분석할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "영상 전체를 그대로 보내기보다 음성을 전사하고 주요 프레임을 추출해 Claude에 전달하는 방식이 현실적입니다. 영상 편집까지 하려면 FFmpeg나 MCP 기반 외부 도구를 함께 연결해야 합니다."}}, {"@type": "Question", "name": "Claude API 비용을 줄이는 가장 쉬운 방법은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "반복되는 시스템 프롬프트와 문서를 Prompt caching으로 재사용하고, 즉시 응답이 필요 없는 대량 작업은 Batch API로 처리하세요. 요청별 입력·출력 토큰과 캐시 적중률도 함께 기록해야 합니다."}}, {"@type": "Question", "name": "GPT·Claude·Gemini를 함께 쓰면 더 좋은 결과가 나오나요?", "acceptedAnswer": {"@type": "Answer", "text": "모델마다 역할과 입력 유형을 나눌 때 효과가 있습니다. 같은 질문을 무작정 세 번 보내기보다 라우터와 공통 JSON 형식을 두고 결과를 비교하는 구조가 비용과 품질을 관리하기 쉽습니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-api-token-workflows.png" alt="Claude API 토큰, 영상·멀티모델 작업에 쓰는 법" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>Claude API 토큰, 영상·멀티모델 작업에 쓰는 법</h1>
+  <p class="sub">Claude API를 채팅 대체재가 아닌 영상 분석·문서 처리·멀티모델 자동화에 쓰는 방법</p>
+  <div class="meta"><span>2026-10-28</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude API 토큰을 결제해 둔 뒤 무엇부터 만들어야 할지 막막하다는 질문이 늘었다. 특히 영상 처리 서비스와 GPT·Claude·Gemini를 한 작업 흐름에 묶는 방법에 관심이 쏠린다. 이 글은 Claude API가 잘 맞는 작업과 맞지 않는 작업, 비용을 줄이는 구성, 실제로 멀티모델 파이프라인을 만드는 순서를 설명한다.</p>
+<h2>Claude API는 채팅창보다 반복 작업에 강하다</h2>
+<p>Claude API의 기본 단위는 Messages API다. 애플리케이션이 텍스트나 이미지가 담긴 메시지를 보내면 모델이 결과를 반환한다. 대화 상태를 서버가 자동으로 보존하는 방식이 아니라 애플리케이션이 필요한 대화 이력을 다시 보내야 한다. (<a href="https://platform.claude.com/docs/en/api/cli/messages" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<p>그래서 API는 일회성 질문보다 반복되는 업무에 잘 맞는다. 고객 문의 분류, 긴 문서 요약, 회의록에서 할 일 추출, 상품 설명 생성, 내부 자료 검색처럼 입력과 출력의 형태가 정해진 작업이다. 결과를 JSON으로 받아 데이터베이스에 저장하거나 다른 서비스의 다음 단계로 넘길 수도 있다.</p>
+<p>방 논의에서도 API를 단순한 채팅용으로 쓰기보다 사이트나 업무 도구에 넣으려는 관심이 컸다. 실제 구현은 어렵지 않다. Python 프로젝트를 만들고 <code>anthropic</code> SDK를 설치한 뒤 서버 환경변수에 API 키를 저장한다. 사용자가 입력한 질문을 서버가 받아 <code>messages.create()</code>로 전달하고 응답의 텍스트를 화면에 보여주면 가장 작은 형태의 Claude 기반 서비스가 완성된다.</p>
+<p>다만 브라우저 코드에 API 키를 직접 넣으면 안 된다. 키는 서버에서만 읽고 사용자 요청에는 사용량 제한과 인증을 붙여야 한다.</p>
+<h2>영상은 Claude에 바로 보내기보다 쪼개서 처리한다</h2>
+<p>Claude API가 현재 제공하는 대표적인 파일 입력은 이미지, PDF, 텍스트 문서다. Files API로 파일을 한 번 올린 뒤 <code>file_id</code>를 여러 요청에서 재사용할 수 있고 같은 자료를 반복 업로드하지 않아도 된다. (<a href="https://platform.claude.com/docs/en/build-with-claude/files" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<p>영상 작업은 이 구조를 그대로 적용하면 된다. MP4 전체를 Claude가 영상 모델처럼 재생한다고 가정하지 말고 먼저 영상에서 음성과 화면을 분리한다. 음성은 전사 API나 로컬 음성 인식기로 텍스트로 만들고 화면은 일정 간격의 프레임이나 장면 전환 지점의 이미지로 추출한다. 그다음 전사문과 대표 프레임을 Claude에 보내면 장면 설명, 핵심 구간, 자막 초안, 콘텐츠 요약을 얻을 수 있다.</p>
+<p>순서는 구체적이다. <code>input.mp4</code>를 저장하고 FFmpeg로 5초 또는 장면 전환 단위의 JPEG를 만든다. 음성은 타임코드가 포함된 <code>transcript.json</code>으로 저장한다. Python 서버는 두 파일을 읽어 프레임 이미지와 전사문을 Claude에 전달한다. 산출물은 <code>summary.json</code>, <code>chapters.json</code>, <code>subtitle_draft.srt</code>처럼 후속 프로그램이 읽을 수 있는 형식으로 받는다.</p>
+<p>영상 편집까지 자동화하려면 Claude가 직접 편집하는 것이 아니라 도구를 호출하게 해야 한다. 예를 들어 <code>extract_frames</code>, <code>transcribe_audio</code>, <code>render_clip</code>이라는 함수를 정의하고 입력 스키마를 제공한다. Claude가 <code>tool_use</code>를 반환하면 서버가 실제 함수를 실행한 뒤 결과를 다시 보내는 방식이다. Anthropic 문서도 모델이 도구를 직접 실행하는 것이 아니라 구조화된 요청을 만들고 애플리케이션이 실행한다고 설명한다. (<a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<p>영상 파일을 업로드하고 자르기, 자막 생성, 포맷 변환까지 묶은 MCP 서비스도 등장했다. OpenClip은 Claude와 ChatGPT에서 영상 업로드, 전사, 클리핑, 변환 작업을 연결하는 MCP 인터페이스를 제공한다. 다만 이런 서비스는 Claude API 자체와 별도 제품이므로 계정 권한·파일 보관 기간·추가 요금을 따로 확인해야 한다. (<a href="https://evals.openclip.app/mcp" target="_blank" rel="nofollow noopener">evals.openclip.app</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-api-token-workflows.png" alt="" loading="lazy"><h2>비용은 모델 선택보다 입력 구조가 좌우한다</h2>
+<p>Claude API 비용은 입력 토큰과 출력 토큰을 따로 계산한다. 긴 시스템 프롬프트나 같은 문서를 매번 다시 보내면 입력 비용이 누적된다. Prompt caching을 사용하면 반복되는 프롬프트 일부를 캐시에 저장하고 이후 요청에서 더 낮은 가격으로 읽을 수 있다. 기본 캐시 유효시간은 5분이며 1시간 TTL도 설정할 수 있다. (<a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<p>캐시가 항상 절약을 보장하는 것은 아니다. 캐시 대상 앞부분이 바이트 단위로 같아야 한다. 요청마다 시간, 사용자 ID, 무작위 값이 프롬프트 앞쪽에 들어가면 캐시 적중률이 떨어진다. 재사용할 시스템 지침, 업무 규칙, 긴 문서를 앞에 배치하고 변하는 질문은 뒤에 두는 구성이 안전하다. Anthropic은 캐시 실패 원인을 확인하는 진단 기능도 제공한다. (<a href="https://platform.claude.com/docs/en/build-with-claude/cache-diagnostics" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<p>즉시 답이 필요하지 않은 대량 작업은 Batch API가 더 적합하다. 여러 Messages 요청을 묶어 비동기로 처리하며 공식 문서는 표준 API보다 50% 낮은 비용과 높은 처리량을 안내한다. 배치는 최대 10만 건 또는 256MB까지 담을 수 있지만 결과를 기다리는 구조라 실시간 채팅에는 맞지 않는다. (<a href="https://platform.claude.com/docs/en/build-with-claude/batch-processing?fcdaa149_sort_date=desc" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<p>개인 개발자라면 세 종류의 예산을 분리하는 편이 낫다. 실시간 사용자 응답에는 빠르고 저렴한 모델을 쓰고 긴 문서나 복잡한 판단에만 상위 모델을 배정한다. 매일 밤 영상 1,000개를 분석하는 작업은 Batch API로 보내고 공통 지침과 포맷 예시는 캐시한다. Console의 Workspace별 사용량과 지출 제한도 함께 설정해야 예상 밖의 반복 호출을 막을 수 있다. (<a href="https://platform.claude.com/docs/en/api/rate-limits" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<h2>GPT·Claude·Gemini를 한 방에 넣을 때 필요한 것</h2>
+<p>여러 모델을 한 채팅방에 연결하는 아이디어는 모델을 많이 부르는 것 자체보다 역할을 분리할 때 의미가 생긴다. 하나의 프롬프트를 세 모델에 동시에 던지는 방식은 답변만 늘리고 비용도 세 배로 만들 수 있다.</p>
+<p>실용적인 구조는 오케스트레이터를 중심에 두는 방식이다. 사용자의 요청은 먼저 라우터가 분류한다. 최신 정보 검색은 검색 기능이 있는 모델로 보내고 긴 문서 분석은 Claude로, 영상의 시각·음성 처리는 해당 입력을 직접 지원하는 도구로 보낸다. 각 모델의 결과는 공통 JSON 형식으로 저장하고 마지막 검토 단계에서 Claude가 충돌하는 답을 비교하도록 한다.</p>
+<p>예를 들어 <code>task_id</code>, <code>model</code>, <code>input</code>, <code>result</code>, <code>confidence</code>, <code>cost</code> 필드를 가진 결과 객체를 만든다. GPT는 초안 작성, Gemini는 영상의 장면별 확인, Claude는 정책 문서와 초안의 논리 검토를 맡길 수 있다. 마지막에는 모델 이름이 아니라 결과의 근거와 실패 여부를 기준으로 선택한다.</p>
+<p>이 방식에서 중요한 파일은 <code>router.py</code>, <code>providers.py</code>, <code>schemas.py</code>, <code>.env</code>, <code>requirements.txt</code>다. <code>providers.py</code>에는 각 API 호출을 함수로 분리하고 <code>schemas.py</code>에는 공통 출력 형식을 둔다. 사용자는 자연어 요청을 입력하고 시스템은 모델별 결과와 비용 로그를 저장한 뒤 최종 답변만 보여준다. 방에서 언급된 ‘AI들이 서로 대화하는 채팅방’도 이 구조로 바꾸면 재현 가능한 프로그램이 된다.</p>
+<p>다만 API 키를 여러 서비스에 무분별하게 넣는 방식은 피해야 한다. 키를 한 서버에 모으고 서비스별 권한과 월별 지출 한도를 나누는 편이 안전하다. 파일도 Workspace 단위로 공유되므로 여러 고객의 자료를 처리하는 서비스라면 고객별 Workspace 격리를 검토해야 한다. (<a href="https://platform.claude.com/docs/en/build-with-claude/files" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<h2>구독과 API는 대체재가 아니라 작업별 선택지다</h2>
+<p>구독형 채팅 서비스는 사람이 직접 질문하고 결과를 확인할 때 편하다. API는 같은 작업을 여러 번 실행하거나 사용자의 서비스 안에 기능을 넣을 때 필요하다. 따라서 ‘API가 구독보다 무조건 싸다’거나 그 반대라고 말하기 어렵다.</p>
+<p>짧은 질문을 가끔 하는 사람은 구독형 화면이 편할 수 있다. 반면 매일 같은 양식의 문서를 처리하거나 고객별로 다른 결과를 자동 생성한다면 API가 더 자연스럽다. 사람이 최종 판단하는 작업은 구독으로 처리하고 반복·대량·예약 작업만 API로 분리하는 혼합 구성이 현실적이다.</p>
+<p>실제 사용 경험을 공유한 사람들 사이에서는 API의 유연성을 높게 평가하면서도 캐시가 깨지거나 긴 작업이 반복 호출될 때 비용이 빠르게 늘어난다는 반응이 함께 나온다. 모델이 똑똑하다는 사실보다 어떤 입력을 몇 번 보내는지 기록하는 일이 중요하다는 뜻이다.</p>
+<p>Claude API 토큰의 가장 좋은 사용처는 ‘Claude에게 무엇이든 시키는 채팅방’이 아니다. 영상은 프레임과 전사문으로 쪼개고 문서는 Files API와 캐시로 재사용한다. 대량 처리는 Batch API로 넘기며 GPT·Claude·Gemini는 역할과 출력 형식을 나눠야 한다. 이 네 가지를 지키면 API는 비싼 실험용 크레딧이 아니라 반복 업무를 줄이는 백엔드가 된다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude API</span><span class="chip">Anthropic API</span><span class="chip">영상 분석 AI</span><span class="chip">멀티모델</span><span class="chip">Prompt caching</span><span class="chip">Batch API</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://platform.claude.com/docs/en/api/overview" rel="nofollow noopener">https://platform.claude.com/docs/en/api/overview</a></li><li><a href="https://platform.claude.com/docs/en/api/cli/messages" rel="nofollow noopener">https://platform.claude.com/docs/en/api/cli/messages</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/working-with-messages" rel="nofollow noopener">https://platform.claude.com/docs/en/build-with-claude/working-with-messages</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/vision" rel="nofollow noopener">https://platform.claude.com/docs/en/build-with-claude/vision</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/files" rel="nofollow noopener">https://platform.claude.com/docs/en/build-with-claude/files</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-caching" rel="nofollow noopener">https://platform.claude.com/docs/en/build-with-claude/prompt-caching</a></li><li><a href="https://platform.claude.com/docs/en/build-with-claude/batch-processing" rel="nofollow noopener">https://platform.claude.com/docs/en/build-with-claude/batch-processing</a></li><li><a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works" rel="nofollow noopener">https://platform.claude.com/docs/en/agents-and-tools/tool-use/how-tool-use-works</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude API로 영상을 직접 분석할 수 있나요?</h2><p class="sum">영상 전체를 그대로 보내기보다 음성을 전사하고 주요 프레임을 추출해 Claude에 전달하는 방식이 현실적입니다. 영상 편집까지 하려면 FFmpeg나 MCP 기반 외부 도구를 함께 연결해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude API 비용을 줄이는 가장 쉬운 방법은 무엇인가요?</h2><p class="sum">반복되는 시스템 프롬프트와 문서를 Prompt caching으로 재사용하고, 즉시 응답이 필요 없는 대량 작업은 Batch API로 처리하세요. 요청별 입력·출력 토큰과 캐시 적중률도 함께 기록해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>GPT·Claude·Gemini를 함께 쓰면 더 좋은 결과가 나오나요?</h2><p class="sum">모델마다 역할과 입력 유형을 나눌 때 효과가 있습니다. 같은 질문을 무작정 세 번 보내기보다 라우터와 공통 JSON 형식을 두고 결과를 비교하는 구조가 비용과 품질을 관리하기 쉽습니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-28-1330.html">2026-10-28 10-27 23:29~10-28 13:19</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
