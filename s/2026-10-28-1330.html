@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 10월 28일 13:30 — Hermes 에이전트 확장</title>
+<meta name="description" content="10월 28일 클코단 논의 요약 — Hermes 에이전트 확장 · Claude·Codex MD 관리 · Codex 리셋 일정 · AI 스타트업 지원사업">
+<link rel="canonical" href="https://chat.axwith.com/s/2026-10-28-1330.html">
+<meta property="og:title" content="10월 28일 클코단 논의 요약">
+<meta property="og:description" content="10월 28일 클코단 논의 요약 — Hermes 에이전트 확장 · Claude·Codex MD 관리 · Codex 리셋 일정 · AI 스타트업 지원사업">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/s/2026-10-28-1330.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "10월 28일 클코단 논의 요약", "description": "10월 28일 클코단 논의 요약 — Hermes 에이전트 확장 · Claude·Codex MD 관리 · Codex 리셋 일정 · AI 스타트업 지원사업", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "datePublished": "2026-10-28", "image": "https://chat.axwith.com/apple-touch-icon.png", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/s/2026-10-28-1330.html"}}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 타임라인 접기 — 그래프 띠 전체가 여는 버튼이다 (details, JS 없이 동작).
+   같은 컴포넌트를 요약 상세와 검색 결과 양쪽에 쓴다 — 스타일 갈림 방지(2026-09-07 오너). */
+.tlbox{margin:24px 0 0}
+.tlstrip{display:block;cursor:pointer;list-style:none;background:var(--surface);
+border:1px solid var(--line);border-radius:14px;padding:15px 18px 11px;box-shadow:var(--shadow)}
+.tlstrip::-webkit-details-marker{display:none}
+.tlstrip:hover{border-color:var(--accent)}
+.tshead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+font-size:12.5px;color:var(--muted)}
+.tshead b{font-size:15.5px;color:var(--ink);font-weight:750;letter-spacing:-.01em}
+.tshead b small{font-size:12px;font-weight:500;color:var(--muted)}
+.tshead span{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+.tsbars{display:flex;align-items:flex-end;gap:2px;height:34px;margin:11px 0 7px}
+.tsb{flex:1;min-width:2px;background:var(--line);border-radius:2px;transition:opacity .12s}
+.tsb.on{background:var(--accent);opacity:.4}
+.tsb.peak{background:var(--accent);opacity:1}
+.tlstrip:hover .tsb.on{opacity:.6}
+.tstrip-foot,.tsfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;color:var(--muted);
+font-variant-numeric:tabular-nums}
+.tspill{border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);
+border-radius:999px;padding:7px 17px;font-family:"Pretendard Variable","Pretendard",
+-apple-system,sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.tlbox[open] .tspill{background:var(--surface);color:var(--accent-deep)}
+.tlstrip:hover .tspill{filter:brightness(1.05)}
+@media(max-width:520px){.tsbars{height:26px}.tshead b{font-size:14px}
+.tsfoot{justify-content:center}.tsfoot .tsl,.tsfoot .tsr{display:none}}
+
+
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{position:relative;margin:44px -24px 0;padding:8px 24px;overflow-x:auto;
+-webkit-overflow-scrolling:touch}
+.bone{position:relative;min-width:880px;height:430px}
+/* 모바일에선 가로 스크롤인 걸 알 수 없어 잘린 카드가 오류처럼 보였다(2026-08-30 실측).
+   힌트 라벨 + 오른쪽 페이드로 "밀 수 있다"를 알린다. 높이도 화면에 맞게 줄인다. */
+.bonehint{display:none}
+@media(max-width:640px){
+.bonebox{margin-top:26px}
+.bone{height:340px}
+.bonewrap{position:relative}
+.bonewrap::after{content:"";position:absolute;right:0;top:0;bottom:0;width:40px;pointer-events:none;
+background:linear-gradient(90deg,transparent,var(--ground) 78%)}
+.bonehint{display:flex;align-items:center;gap:6px;margin:26px 0 -18px;
+font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.bonehint b{color:var(--accent-deep);font-weight:700}}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+/* B 강조형 (2026-09-01 확정) — 흰 카드는 본문에 묻혀 지나쳤다. 배경을 채우고 왼쪽 바를 굵게. */
+.joinbox{margin:30px 0 6px;padding:18px 20px;border:1px solid var(--line);
+border-left:5px solid var(--accent);border-radius:12px;background:var(--chip-bg)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a class="on" href="../"><b>요약</b><i> 대화</i></a><a href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>10월 28일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>10-27 23:29~10-28 13:19</b></span>
+    <span>발화 <b>240</b></span>
+    <span>참여 <b>65</b>명</span>
+    <span>주제 <b>17</b>갈래</span>
+  </div>
+</header>
+
+<details class="tlbox"><summary class="tlstrip"><span class="tshead"><b>대화가 몰린 시각</b><span>240건 · 10-27 23:29~10-28 13:19</span></span><span class="tsbars"><i class="tsb on" style="height:26%" title="00:04~00:14 · 5건"></i><i class="tsb on" style="height:26%" title="00:15~00:51 · 5건"></i><i class="tsb on" style="height:37%" title="05:36~06:34 · 7건"></i><i class="tsb on" style="height:53%" title="06:36~06:56 · 10건"></i><i class="tsb on" style="height:42%" title="07:01~07:23 · 8건"></i><i class="tsb on" style="height:37%" title="07:27~07:42 · 7건"></i><i class="tsb on" style="height:37%" title="07:47~07:56 · 7건"></i><i class="tsb on" style="height:53%" title="08:00~08:13 · 10건"></i><i class="tsb on" style="height:32%" title="08:15~08:23 · 6건"></i><i class="tsb on" style="height:26%" title="08:24~08:41 · 5건"></i><i class="tsb on" style="height:42%" title="08:52~09:18 · 8건"></i><i class="tsb on" style="height:42%" title="09:21~09:31 · 8건"></i><i class="tsb on" style="height:32%" title="09:34~09:44 · 6건"></i><i class="tsb on" style="height:26%" title="09:45~10:06 · 5건"></i><i class="tsb on" style="height:32%" title="10:08~10:26 · 6건"></i><i class="tsb on" style="height:89%" title="10:39~10:45 · 17건"></i><i class="tsb on" style="height:21%" title="10:46~11:36 · 4건"></i><i class="tsb on" style="height:37%" title="11:41~11:45 · 7건"></i><i class="tsb on" style="height:26%" title="11:49~11:57 · 5건"></i><i class="tsb on" style="height:68%" title="11:58~12:03 · 13건"></i><i class="tsb on" style="height:32%" title="12:04~12:12 · 6건"></i><i class="tsb on" style="height:26%" title="12:14~12:26 · 5건"></i><i class="tsb peak" style="height:100%" title="12:27~12:30 · 19건"></i><i class="tsb on" style="height:37%" title="12:31~12:35 · 7건"></i><i class="tsb on" style="height:53%" title="12:36~12:44 · 10건"></i><i class="tsb on" style="height:53%" title="12:46~12:51 · 10건"></i><i class="tsb on" style="height:47%" title="12:52~12:55 · 9건"></i><i class="tsb on" style="height:68%" title="12:56~12:59 · 13건"></i><i class="tsb on" style="height:42%" title="13:00~13:17 · 8건"></i><i class="tsb on" style="height:21%" title="13:19~23:32 · 4건"></i></span><span class="tsfoot"><span class="tsl">00:04</span><span class="tspill">타임라인 보기</span><span class="tsr">23:32</span></span></summary><p class="bonehint"><b>&rarr;</b> 옆으로 밀어 시간대별 흐름 보기</p><div class="bonewrap"><div class="bonebox"><div class="bone" style="height:700px;min-width:1800px"><div class="spine"></div><div class="bar" style="left:2.0%;height:7px"></div><div class="bar" style="left:2.8%;height:7px"></div><div class="bar" style="left:3.6%;height:14px"></div><div class="bar" style="left:4.4%;height:7px"></div><div class="bar" style="left:5.2%;height:7px"></div><div class="bar" style="left:5.9%;height:7px"></div><div class="bar" style="left:6.7%;height:7px"></div><div class="bar" style="left:7.5%;height:14px"></div><div class="bar" style="left:8.3%;height:7px"></div><div class="bar" style="left:9.1%;height:14px"></div><div class="bar" style="left:9.9%;height:14px"></div><div class="bar" style="left:10.7%;height:14px"></div><div class="bar" style="left:11.5%;height:14px"></div><div class="bar" style="left:12.3%;height:14px"></div><div class="bar" style="left:13.1%;height:14px"></div><div class="bar" style="left:13.8%;height:29px"></div><div class="bar" style="left:14.6%;height:14px"></div><div class="bar" style="left:15.4%;height:14px"></div><div class="bar" style="left:16.2%;height:14px"></div><div class="bar" style="left:17.0%;height:14px"></div><div class="bar" style="left:17.8%;height:7px"></div><div class="bar" style="left:18.6%;height:14px"></div><div class="bar" style="left:19.4%;height:14px"></div><div class="bar" style="left:20.2%;height:14px"></div><div class="bar" style="left:21.0%;height:7px"></div><div class="bar" style="left:21.7%;height:14px"></div><div class="bar" style="left:22.5%;height:14px"></div><div class="bar" style="left:23.3%;height:14px"></div><div class="bar" style="left:24.1%;height:14px"></div><div class="bar" style="left:24.9%;height:29px"></div><div class="bar" style="left:25.7%;height:14px"></div><div class="bar" style="left:26.5%;height:14px"></div><div class="bar" style="left:27.3%;height:7px"></div><div class="bar" style="left:28.1%;height:14px"></div><div class="bar" style="left:28.9%;height:14px"></div><div class="bar" style="left:29.6%;height:7px"></div><div class="bar" style="left:30.4%;height:14px"></div><div class="bar" style="left:31.2%;height:7px"></div><div class="bar" style="left:32.0%;height:7px"></div><div class="bar" style="left:32.8%;height:7px"></div><div class="bar" style="left:33.6%;height:14px"></div><div class="bar" style="left:34.4%;height:14px"></div><div class="bar" style="left:35.2%;height:14px"></div><div class="bar" style="left:36.0%;height:14px"></div><div class="bar" style="left:36.8%;height:7px"></div><div class="bar" style="left:37.5%;height:7px"></div><div class="bar" style="left:38.3%;height:29px"></div><div class="bar" style="left:39.1%;height:14px"></div><div class="bar" style="left:39.9%;height:14px"></div><div class="bar" style="left:40.7%;height:7px"></div><div class="bar" style="left:41.5%;height:14px"></div><div class="bar" style="left:42.3%;height:7px"></div><div class="bar" style="left:43.1%;height:14px"></div><div class="bar" style="left:43.9%;height:7px"></div><div class="bar" style="left:44.7%;height:7px"></div><div class="bar" style="left:45.4%;height:7px"></div><div class="bar" style="left:46.2%;height:22px"></div><div class="bar" style="left:47.0%;height:7px"></div><div class="bar" style="left:47.8%;height:7px"></div><div class="bar" style="left:48.6%;height:7px"></div><div class="bar peak" style="left:49.4%;height:44px"></div><div class="bar" style="left:50.2%;height:22px"></div><div class="bar" style="left:51.0%;height:14px"></div><div class="bar peak" style="left:51.8%;height:44px"></div><div class="bar" style="left:52.6%;height:7px"></div><div class="bar" style="left:53.3%;height:7px"></div><div class="bar" style="left:54.1%;height:7px"></div><div class="bar" style="left:54.9%;height:7px"></div><div class="bar" style="left:55.7%;height:7px"></div><div class="bar" style="left:56.5%;height:7px"></div><div class="bar" style="left:57.3%;height:14px"></div><div class="bar" style="left:58.1%;height:22px"></div><div class="bar" style="left:58.9%;height:7px"></div><div class="bar" style="left:59.7%;height:7px"></div><div class="bar" style="left:60.5%;height:14px"></div><div class="bar" style="left:61.2%;height:7px"></div><div class="bar" style="left:62.0%;height:22px"></div><div class="bar" style="left:62.8%;height:14px"></div><div class="bar" style="left:63.6%;height:14px"></div><div class="bar peak" style="left:64.4%;height:44px"></div><div class="bar" style="left:65.2%;height:7px"></div><div class="bar" style="left:66.0%;height:7px"></div><div class="bar" style="left:66.8%;height:7px"></div><div class="bar" style="left:67.6%;height:22px"></div><div class="bar" style="left:68.4%;height:7px"></div><div class="bar" style="left:69.1%;height:7px"></div><div class="bar" style="left:69.9%;height:7px"></div><div class="bar" style="left:70.7%;height:14px"></div><div class="bar" style="left:71.5%;height:29px"></div><div class="bar peak" style="left:72.3%;height:58px"></div><div class="bar" style="left:73.1%;height:36px"></div><div class="bar" style="left:73.9%;height:14px"></div><div class="bar" style="left:74.7%;height:14px"></div><div class="bar" style="left:75.5%;height:14px"></div><div class="bar" style="left:76.3%;height:14px"></div><div class="bar" style="left:77.0%;height:7px"></div><div class="bar" style="left:77.8%;height:22px"></div><div class="bar" style="left:78.6%;height:22px"></div><div class="bar" style="left:79.4%;height:7px"></div><div class="bar" style="left:80.2%;height:22px"></div><div class="bar" style="left:81.0%;height:14px"></div><div class="bar" style="left:81.8%;height:36px"></div><div class="bar" style="left:82.6%;height:14px"></div><div class="bar" style="left:83.4%;height:7px"></div><div class="bar" style="left:84.2%;height:7px"></div><div class="bar" style="left:84.9%;height:14px"></div><div class="bar" style="left:85.7%;height:22px"></div><div class="bar" style="left:86.5%;height:22px"></div><div class="bar" style="left:87.3%;height:22px"></div><div class="bar" style="left:88.1%;height:29px"></div><div class="bar" style="left:88.9%;height:14px"></div><div class="bar" style="left:89.7%;height:29px"></div><div class="bar" style="left:90.5%;height:7px"></div><div class="bar" style="left:91.3%;height:7px"></div><div class="bar" style="left:92.1%;height:22px"></div><div class="bar" style="left:92.8%;height:22px"></div><div class="bar" style="left:93.6%;height:7px"></div><div class="bar" style="left:94.4%;height:7px"></div><div class="bar" style="left:95.2%;height:7px"></div><div class="bar" style="left:96.0%;height:7px"></div><div class="lbl" style="left:2.0%">00:04</div><div class="lbl" style="left:17.8%">07:27</div><div class="lbl" style="left:33.6%">08:52</div><div class="peaktag" style="left:49.4%;bottom:52px">10:39 · 6건</div><div class="lbl" style="left:49.4%">10:39</div><div class="peaktag" style="left:64.4%;bottom:52px">12:03 · 6건</div><div class="lbl" style="left:65.2%">12:04</div><div class="lbl" style="left:81.0%">12:46</div><div class="lbl" style="left:96.0%">23:32</div><div class="rib up" style="left:2.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">00:09-00:51</div><h3>Claude 장애와 복구</h3></div></div><div class="rib dn" style="left:8.3%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">05:36-05:36</div><h3>앤트로픽 신약 개발 협력</h3></div></div><div class="rib up" style="left:17.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">07:27-07:27</div><h3>OneGov 정부 할인</h3></div></div><div class="rib dn" style="left:36.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">09:21-09:22</div><h3>Codex 이미지 생성 도구</h3></div></div><div class="rib up" style="left:40.7%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">09:38-10:40</div><h3>YubiKey 구매와 2차 인증</h3></div></div><div class="rib dn" style="left:46.2%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">10:08-10:10</div><h3>Codex 연결 오류</h3></div></div><div class="rib up" style="left:48.6%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">10:26-12:59</div><h3>Claude API 활용처</h3></div></div><div class="rib dn" style="left:54.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">11:35-11:50</div><h3>Hermes 에이전트 확장</h3></div></div><div class="rib up" style="left:55.7%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">11:41-12:53</div><h3>Claude·Codex MD 관리</h3></div></div><div class="rib dn" style="left:57.3%"><div class="stem" style="height:230px"></div><div class="ribcard" style="margin-top:230px"><div class="t">11:44-12:35</div><h3>Codex 리셋 일정</h3></div></div><div class="rib up" style="left:64.4%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">12:03-12:16</div><h3>Ultra Code 사용량 변화</h3></div></div><div class="rib dn" style="left:70.7%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">12:26-12:30</div><h3>Terra와 Sol 작업 차이</h3></div></div><div class="rib up" style="left:73.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">12:29-12:36</div><h3>Dot 기반 작업 위임</h3></div></div><div class="rib dn flip" style="left:80.8%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">13:17-13:19</div><h3>AI 해커톤 혜택</h3></div></div><div class="rib up flip" style="left:82.4%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">23:29-13:19</div><h3>출석과 일상 잡담</h3></div></div><div class="rib dn" style="left:82.6%"><div class="stem" style="height:230px"></div><div class="ribcard" style="margin-top:230px"><div class="t">12:50-13:00</div><h3>AI 스타트업 지원사업</h3></div></div><div class="rib dn" style="left:84.9%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">12:53-13:15</div><h3>Aside 에이전트 활용</h3></div></div></div></div></div></details>
+
+<section class="details"><article class="dcard"><div class="t">11:35-11:50<span class="catchip c-tool">도구·라이브러리</span></div><h2>Hermes 에이전트 확장</h2><p class="sum">Hermes agent에 연결할 만한 도구와 플러그인을 추천해 달라는 질문이 나왔다. Codex를 Hermes에 붙여 사용하는 사례와 함께 Aside, Pi, 가재코드 등이 후보로 언급됐다. 무료 환경에서도 Codex CLI를 연결할 수 있는지, Codex를 슈퍼바이저처럼 활용하는 방식이 충분한지도 논의됐다.</p><ul><li>Hermes agent는 Codex CLI와 결합해 사용할 수 있는지 질문됐다.</li><li>Aside, Pi, 가재코드가 플러그인 또는 연계 도구 후보로 언급됐다.</li><li>무료 환경에서 Codex CLI를 연결할 수 있는지에 대한 관심이 있었다.</li><li>Codex를 상위 감독자처럼 두고 프로젝트 안에서 에이전트를 운영하는 방식이 제안됐다.</li></ul></article><article class="dcard"><div class="t">11:41-12:53<span class="catchip c-flow">워크플로우·방법론</span></div><h2>Claude·Codex MD 관리</h2><p class="sum">Claude Code와 Codex를 함께 사용할 때 지침용 Markdown 파일을 어떻게 관리하는지 논의됐다. 한 방식은 Claude.md에서 Agent.md 또는 Agents.md를 불러오게 하는 구조였고, 반대로 Claude.md를 기준으로 유지하며 Agents.md에서 참조하게 하는 방식도 공유됐다. Claude Code가 CLAUDE.md가 없을 때 AGENTES.md를 읽도록 업데이트됐다는 자료 링크도 제시됐다. Claude와 Codex의 역할이 다르면 규칙 파일을 별도로 구성할 수 있다는 결론으로 이어졌다.</p><ul><li>Claude Code와 Codex의 공통 지침 및 역할별 지침을 Markdown 파일로 관리하는 방법이 논의됐다.</li><li>Claude.md에서 다른 에이전트 지침 파일을 불러오는 구조가 소개됐다.</li><li>반대로 Claude.md를 기준 파일로 두고 Agents.md가 참조하도록 하는 방식도 공유됐다.</li><li>도구별 역할이 다르면 MD 파일을 별도로 구성하는 것이 가능하다는 의견이 나왔다.</li><li><a href="https://www.digitalmarketer.co.kr/insights/claude-code-agents-md-support" rel="nofollow ugc noopener noreferrer" target="_blank">https://www.digitalmarketer.co.kr/insights/claude-code-agents-md-support</a></li></ul></article><article class="dcard"><div class="t">11:44-12:35<span class="catchip c-res">배포·운영</span></div><h2>Codex 리셋 일정</h2><p class="sum">Codex 사용량이 10월 28일 오후 4시쯤 리셋될 예정이라는 공지가 공유됐다. 티보의 게시물에는 Day 23에서 iCloud 메일·캘린더 플러그인을 소개하는 척하다가 리셋이라고 농담한 내용과 PST 자정 언급이 포함됐다. 미국 서머타임을 적용하면 한국 시간 오후 4시로 환산된다는 설명이 나왔다. 리셋 전 사용량을 최대한 활용하려는 반응과 사용 한도에 대한 이야기도 이어졌다.</p><ul><li>Codex 사용량 리셋 예정 시각은 한국 시간 10월 28일 오후 4시로 안내됐다.</li><li>리셋 시각은 미국 서머타임과 PST/PDT 환산을 고려해 설명됐다.</li><li>iCloud 메일·캘린더 플러그인은 실제 출시 공지가 아니라 농담으로 언급됐다.</li><li>사용자들은 리셋 전 남은 한도를 활용할 작업을 논의했다.</li><li><a href="https://x.com/thsottiaux/status/2115273064481218829" rel="nofollow ugc noopener noreferrer" target="_blank">https://x.com/thsottiaux/status/2115273064481218829</a></li></ul></article><article class="dcard"><div class="t">12:50-13:00<span class="catchip c-res">자료·링크 공유</span></div><h2>AI 스타트업 지원사업</h2><p class="sum">Grok의 스타트업 지원사업과 현재 신청 가능한 다른 AI 스타트업 지원 프로그램을 찾아 달라는 요청이 이어졌다. xAI의 스타트업 신청 주소가 공유됐고, Aside도 지원 대상이라는 안내가 나왔다. AI 크레딧이나 구독을 지원하는 회사별 프로그램의 상세 조건을 정리해 달라는 요구가 있었다. Claude API 키를 받을 수 있는 지원 프로그램에 대한 관심도 나타났다.</p><ul><li>Grok을 포함한 AI 스타트업 지원사업의 신청 가능 여부가 질문됐다.</li><li>xAI 스타트업 지원 신청 주소가 공유됐다.</li><li>Aside도 스타트업 지원 프로그램을 제공한다는 안내가 나왔다.</li><li>AI 크레딧, 구독권, Claude API 키 지원 여부와 회사별 조건에 관심이 모였다.</li><li><a href="https://x.ai/startups/apply" rel="nofollow ugc noopener noreferrer" target="_blank">https://x.ai/startups/apply</a></li></ul></article><article class="dcard"><div class="t">13:17-13:19<span class="catchip c-res">자료·링크 공유</span></div><h2>AI 해커톤 혜택</h2><p class="sum">2026년 11월 7일 서울 강남의 해시드 라운지에서 열리는 AI 해커톤 정보가 공유됐다. 행사 참가자 전원에게 OpenAI API 크레딧 250달러와 ChatGPT·Codex Pro 3개월 이용권을 제공한다고 안내됐다. 행사 참가 조건이나 누구나 참여할 수 있는지에 대한 질문이 이어졌다.</p><ul><li>행사는 2026년 11월 7일 오전 9시 30분부터 오후 8시까지 진행될 예정이다.</li><li>장소는 서울 강남구의 해시드 라운지로 안내됐다.</li><li>참가자 전원에게 OpenAI API 크레딧 250달러가 제공된다.</li><li>ChatGPT와 Codex Pro 3개월 이용권도 혜택으로 제시됐다.</li><li>참가 자격과 신청 조건은 대화에서 추가로 확인되지 않았다.</li></ul></article><article class="dcard"><div class="t">00:09-00:51<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>Claude 장애와 복구</h2><p class="sum">Claude Sonnet 5.5에서 오류가 발생해 claude.ai, API, Claude Code, Claude Cowork에 큰 영향이 있다는 상태 알림이 공유됐다. 원인을 확인하며 해결 중이라는 안내 후 약 40분 뒤 복구 완료 공지가 나왔다. 이후에도 Gmail 커넥터에서 일부 오류가 조사 중이라는 상태 알림이 다시 공유됐다.</p><ul><li>Claude Sonnet 5.5 관련 장애는 웹, API, Claude Code, Claude Cowork에 영향을 줬다.</li><li>장애 상태는 복구 완료로 변경됐다.</li><li>Gmail 커넥터에서는 별도의 일부 영향 오류가 다시 보고됐다.</li></ul></article><article class="dcard"><div class="t">05:36-05:36<span class="catchip c-res">자료·링크 공유</span></div><h2>앤트로픽 신약 개발 협력</h2><p class="sum">앤트로픽이 신약 개발 여러 단계에 Claude를 활용하는 초기 진행 상황을 소개했다는 내용이 공유됐다. 지난 몇 달 동안 신약 개발 기관 여섯 곳과 협력했고, 앤트로픽 자체 신약 발굴도 시작했다고 전해졌다. 아직 실제 신약 출시를 의미하는 내용은 아니며 생명과학 분야 활용 가능성과 초기 결과를 다룬 글로 소개됐다.</p><ul><li>Claude가 신약 개발의 여러 단계에 활용될 수 있는지 검토한 초기 사례가 소개됐다.</li><li>앤트로픽은 여섯 곳의 신약 개발 기관과 협력했다.</li><li>공유된 내용은 초기 진행 상황이며 즉각적인 신약 출시 소식은 아니다.</li></ul></article><article class="dcard"><div class="t">07:27-07:27<span class="catchip c-res">자료·링크 공유</span></div><h2>OneGov 정부 할인</h2><p class="sum">미국 정부가 OneGov를 이용할 때 40% 할인받을 수 있다는 소식이 공유됐다. 할인 대상은 연방정부뿐 아니라 주정부, 지방정부, 부족정부, 준주까지 포함된다고 소개됐다. OneGov는 법안·법령·규제 정보를 AI로 검색·분석하고 Claude, Codex, Cursor 같은 도구에서도 활용하는 입법 인텔리전스 서비스로 설명됐다.</p><ul><li>OneGov 이용 시 미국 정부 기관에 40% 할인이 적용된다는 내용이다.</li><li>연방·주·지방·부족·준주 정부가 할인 대상에 포함된다.</li><li>서비스는 정부·정책 분야의 법안·법령·규제 정보 검색과 분석을 지원한다.</li></ul></article><article class="dcard"><div class="t">10:26-12:59<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>Claude API 활용처</h2><p class="sum">Claude API 토큰을 어디에 활용하는 것이 좋은지, 영상이나 작업을 처리할 수 있는 사이트가 있는지 질문이 이어졌다. Manus FLEX와 비슷한 서비스, API 키를 사용할 수 있는 도구, 실제 사용자들의 활용 사례에 관심이 모였다. 한 참여자는 AI 채팅방을 만들어 GPT·Claude·Gemini가 서로 대화하며 작업하도록 구성했다고 공유했다.</p><ul><li>Claude API 토큰의 효율적인 활용처가 질문됐다.</li><li>Claude API로 영상이나 여러 작업을 처리할 수 있는 서비스가 언급됐다.</li><li>GPT·Claude·Gemini를 한 채팅방에서 협업시키는 활용 사례가 공유됐다.</li><li>API 키와 구독 크레딧을 실제 작업에 어떻게 배분할지 고민이 이어졌다.</li></ul></article><article class="dcard"><div class="t">12:03-12:16<span class="catchip c-tool">도구·라이브러리</span></div><h2>Ultra Code 사용량 변화</h2><p class="sum">Ultra Code에 노력 단계별 옵션이나 Extra Ultra, 중간 Ultra 같은 구분이 생긴 것인지 질문이 나왔다. 병렬 오케스트레이션을 기본으로 사용하는 구조 때문에 단계가 나뉜 것일 수 있다는 추측이 제시됐다. 워크플로우 자동 실행과 기본값 설정, 서브에이전트와 메인 세션의 역량 관계도 함께 논의됐다. 이후 Ultra Code가 별도 토글로 분리됐다는 관찰이 공유됐다.</p><ul><li>Ultra Code의 노력 단계와 사용량 표기가 바뀐 것인지 질문이 나왔다.</li><li>병렬 오케스트레이션과 서브에이전트 구조가 변경 배경으로 추측됐다.</li><li>워크플로우 자동 실행과 기본값 설정 가능성이 언급됐다.</li><li>Ultra Code가 별도 토글로 분리됐다는 사용 경험이 공유됐다.</li></ul></article><article class="dcard"><div class="t">12:26-12:30<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>Terra와 Sol 작업 차이</h2><p class="sum">Terra를 사용해 원고 작성을 시도했지만 실행하지 못하고 계속 재시도하는 문제가 제기됐다. 버전 변경이나 업데이트 문제가 원인일 수 있다는 추측이 나왔다. 같은 작업을 Sol로 바꾸자 정상적으로 동작해 Terra 단독 문제로 보인다는 경험이 공유됐다.</p><ul><li>Terra에서 원고 작성 작업이 실행되지 않는 문제가 보고됐다.</li><li>버전 변경 또는 업데이트가 원인일 가능성이 제기됐다.</li><li>Sol로 전환하자 같은 작업이 정상 실행됐다.</li><li>Terra와 Sol의 단독 실행 안정성 차이가 관찰됐다.</li></ul></article><article class="dcard"><div class="t">12:53-13:15<span class="catchip c-tool">도구·라이브러리</span></div><h2>Aside 에이전트 활용</h2><p class="sum">Aside가 무엇인지 묻는 질문과 함께 스타트업 지원 프로그램 대상으로 활용할 수 있다는 안내가 나왔다. Aside는 로그인된 웹사이트에서 조사, 메시지, 결제, 스크린샷 같은 작업을 대신 수행하는 AI 에이전트 브라우저로 소개됐다. CLI에서 할 일을 지정하는 방식도 언급됐고, 실제로 API 크레딧 활용처로 Aside를 쓰고 있다는 반응이 있었다.</p><ul><li>Aside는 로그인된 웹사이트에서 사람 대신 작업하는 AI 에이전트 브라우저로 소개됐다.</li><li>조사·메시지·결제·스크린샷 등의 작업을 수행할 수 있다.</li><li>CLI 명령으로 작업을 지정하는 방식이 언급됐다.</li><li>Claude API 크레딧 활용처로 Aside를 사용하는 사례가 공유됐다.</li></ul></article><article class="dcard"><div class="t">09:21-09:22<span class="catchip c-tool">도구·라이브러리</span></div><h2>Codex 이미지 생성 도구</h2><p class="sum">Codex CLI에서 이미지를 생성할 수 있는 스킬이나 GitHub 프로젝트가 있는지 질문이 나왔다. ImageGen 주소도 함께 요청됐다. 대화 안에서는 구체적인 저장소나 주소가 답변으로 제시되지는 않았다.</p><ul><li>Codex CLI와 이미지 생성 기능을 연결하는 방법이 질문됐다.</li><li>이미지 생성용 스킬 또는 GitHub 저장소가 필요한 상황이었다.</li><li>대화에 실제 ImageGen URL이나 저장소 주소는 공유되지 않았다.</li></ul></article><article class="dcard"><div class="t">09:38-10:40<span class="catchip c-tool">도구·라이브러리</span></div><h2>YubiKey 구매와 2차 인증</h2><p class="sum">YubiKey를 어디서 구매할 수 있는지와 국내 총판이 어디인지 질문이 나왔다. 검색하면 바로 확인할 수 있다는 짧은 답변이 있었지만, 국내 공식 판매처 정보는 구체적으로 제시되지 않았다. YubiKey를 사용하면 매번 인증번호를 입력하지 않아도 되는지에 대한 관심도 이어졌다.</p><ul><li>YubiKey 구매처와 국내 총판 정보가 질문됐다.</li><li>대화에서는 검색을 통한 구매 방법만 언급됐다.</li><li>YubiKey 사용 시 2차 인증 절차가 간소화되는지에 대한 질문이 나왔다.</li></ul></article><article class="dcard"><div class="t">10:08-10:10<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>Codex 연결 오류</h2><p class="sum">Codex가 정상적으로 실행되는지 묻는 질문에 이어 연결이 되지 않는다는 문제가 제기됐다. 구체적인 오류 메시지나 해결 방법은 대화에서 확인되지 않았다.</p><ul><li>Codex 연결 실패 사례가 공유됐다.</li><li>문제의 원인이나 사용 환경은 제시되지 않았다.</li><li>대화 안에서 해결책은 나오지 않았다.</li></ul></article><article class="dcard"><div class="t">12:29-12:36<span class="catchip c-flow">워크플로우·방법론</span></div><h2>Dot 기반 작업 위임</h2><p class="sum">개별 작업을 직접 시키기보다 Dot에 모든 작업을 넘기는 방식이 토큰을 효율적으로 사용하는 것 같다는 경험이 공유됐다. Dot이 작업을 잘 처리하는지에 대한 질문도 나왔다. 일부 사용자는 Dot이 다소 둔하거나 멍청하게 느껴진다고 평가했고, 다른 에이전트 사용 의향을 밝혔다.</p><ul><li>Dot을 작업 위임용 중간 계층처럼 사용하는 방식이 소개됐다.</li><li>모든 작업을 Dot에 넘기면 토큰 사용이 효율적이라는 체감이 공유됐다.</li><li>Dot의 작업 수행 품질에 대한 의문이 제기됐다.</li><li>일부 사용자는 Dot보다 다른 에이전트를 시험해 보고 싶다고 말했다.</li></ul></article><article class="dcard"><div class="t">23:29-13:19<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>출석과 일상 잡담</h2><p class="sum">방 초반에는 중고 기기 판매와 구매 문의, 출석 인사, 타로 요청, 피클과 오이지에 대한 농담 등이 오갔다. 출석왕 순위와 지각으로 인한 순위 변동을 두고 가벼운 대화가 이어졌다. 티보의 리셋 일정과 별명에 관한 농담도 나왔다. 여러 참여자가 매거진의 ‘낮은 품질의 OpenAPI 데이터’와 ‘블로그 자동화’ 글을 공유했다.</p><ul><li>중고 기기 판매 및 구매 관련 가벼운 대화가 있었다.</li><li>다수의 출석 인사와 출석왕 순위 확인이 이어졌다.</li><li>타로, 피클, 오이지, 리셋 일정에 대한 잡담이 오갔다.</li><li>매거진의 OpenAPI 데이터와 블로그 자동화 관련 글이 반복 공유됐다.</li><li><a href="https://chat.axwith.com/mag/">https://chat.axwith.com/mag/</a></li></ul></article></section>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-10-28-1330</span>
+</footer>
+</div>
+</body>
+</html>
