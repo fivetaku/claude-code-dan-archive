@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로컬 LLM, 구독 대신 쓸 수 있나: 장비 비용과 성능의 조건 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="로컬 LLM으로 클라우드 AI 구독을 대체할 수 있을까. Ollama 실행법과 메모리 계산, Mac Studio와 GPU의 차이, 툴 호출과 ComfyUI 활용 조건을 공식 문서로 확인한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/local-llm-cost-performance-tradeoffs.html">
+<meta property="og:title" content="로컬 LLM, 구독 대신 쓸 수 있나: 장비 비용과 성능의 조건">
+<meta property="og:description" content="로컬 LLM으로 클라우드 AI 구독을 대체할 수 있을까. Ollama 실행법과 메모리 계산, Mac Studio와 GPU의 차이, 툴 호출과 ComfyUI 활용 조건을 공식 문서로 확인한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/local-llm-cost-performance-tradeoffs.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "로컬 LLM, 구독 대신 쓸 수 있나: 장비 비용과 성능의 조건", "description": "로컬 LLM으로 클라우드 AI 구독을 대체할 수 있을까. Ollama 실행법과 메모리 계산, Mac Studio와 GPU의 차이, 툴 호출과 ComfyUI 활용 조건을 공식 문서로 확인한다.", "datePublished": "2026-10-29", "dateModified": "2026-10-29", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/local-llm-cost-performance-tradeoffs.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "로컬 LLM, Ollama, Mac Studio, VRAM, 툴 호출, ComfyUI", "image": "https://chat.axwith.com/mag/hero/local-llm-cost-performance-tradeoffs.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "로컬 LLM을 쓰려면 VRAM 1TB가 필요한가요?", "acceptedAnswer": {"@type": "Answer", "text": "모든 모델에 필요한 용량이 아닙니다. DeepSeek-V3의 671B 매개변수를 전부 16비트로 저장한다고 가정할 때 가중치만 약 1.34TB라는 계산이 나옵니다. 실제 요구량은 모델과 저장 형식, 문맥 길이에 따라 달라집니다. ([arxiv.org](https://arxiv.org/abs/2412.19437?utm_source=openai))"}}, {"@type": "Question", "name": "Ollama로 실행하면 데이터가 무조건 로컬에 남나요?", "acceptedAnswer": {"@type": "Answer", "text": "Ollama는 로컬 모델과 클라우드 모델을 모두 지원하므로 실행 위치를 구분해야 합니다. 공식 문서는 로컬만 사용하려면 클라우드 기능을 비활성화하도록 안내합니다. ([github.com](https://github.com/ollama/ollama/blob/main/docs/cloud.mdx?utm_source=openai))"}}, {"@type": "Question", "name": "로컬 모델도 툴 호출을 할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "Ollama는 툴 호출을 지원하고 Qwen3 예제를 제공합니다. 모델이 요청한 함수를 애플리케이션이 실행하고 결과를 돌려주는 구조이므로, 지원 여부와 실제 업무 성공은 따로 검사해야 합니다. ([docs.ollama.com](https://docs.ollama.com/capabilities/tool-calling))"}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/local-llm-cost-performance-tradeoffs.png" alt="로컬 LLM, 구독 대신 쓸 수 있나: 장비 비용과 성능의 조건" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>로컬 LLM, 구독 대신 쓸 수 있나: 장비 비용과 성능의 조건</h1>
+  <p class="sub">로컬 AI의 경제성은 구독료만으로 결정되지 않는다. 모델 크기와 메모리, 툴 호출, 데이터 전송 경로를 따져 실제로 대체할 업무를 가린다.</p>
+  <div class="meta"><span>2026-10-29</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI를 직접 돌리면 구독을 끊어도 될까. 클코단에서는 로컬 모델의 도구 실행에 실망했다는 경험과 자료를 외부에 맡기지 않으려면 필요하다는 의견이 함께 나왔다. 구독 대체 여부를 판단하려면 최고 성능을 재현하는 비용과 특정 업무를 내 컴퓨터로 옮기는 비용부터 나눠야 한다.</p>
+<h2>구독 대체를 시험하려면 업무 하나를 옮겨야 한다</h2>
+<p>방에서는 범용 업무를 처리할 때 클라우드의 상위 모델이 수월하다는 의견이 나왔다. 보안 요구가 있거나 실행 환경을 직접 통제해야 하는 작업에는 로컬을 남겨둘 이유가 있다는 시각도 있었다.</p>
+<p>두 의견은 서로 다른 구매 목적을 말한다.</p>
+<p>시험 경로는 구체적이다. Qwen 공식 저장소는 Ollama 설치 후 <code>ollama run qwen3:8b</code>로 모델을 내려받고 실행하는 방법을 안내한다. 여기서는 최신 모델을 추천하려는 게 아니라 재현 가능한 입문 사례로 Qwen3를 사용한다. 명령을 실행하면 대화창에 텍스트를 넣고 답을 받을 수 있다. (<a href="https://github.com/QwenLM/Qwen3" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>가령 개인 사업자는 공개 가능한 회의 메모를 넣고 결정 사항과 미해결 항목을 분리하도록 요청할 수 있다. 같은 입력을 평소 쓰던 서비스에도 넣어 누락, 잘못 추가한 내용, 수정 시간을 비교하는 방식이다. 이 시험의 산출물은 그럴듯한 답변보다 사람이 고치는 데 걸린 시간을 기록한 비교표여야 한다.</p>
+<p>평가 질문도 좁아진다. 모든 분야에서 상위 모델을 이기는가가 아니라 반복 업무 하나를 원하는 품질로 끝내는가다.</p>
+<h2>8GB와 1TB는 서로 다른 모델의 이야기다</h2>
+<p>Ollama 모델 목록에서 <code>qwen3:8b-q4_K_M</code> 파일은 5.2GB, 같은 모델의 FP16 파일은 16GB다. 같은 이름의 모델도 숫자를 저장하는 정밀도에 따라 크기가 달라진다. 다운로드 용량을 곧바로 실행에 필요한 전체 메모리로 해석해서는 안 된다. (<a href="https://registry.ollama.com/library/qwen3/tags" target="_blank" rel="nofollow noopener">registry.ollama.com</a>)</p>
+<p>Ollama 문서는 문맥 길이를 늘리면 메모리 요구량도 증가한다고 설명한다. 실행 중 <code>ollama ps</code>를 입력하면 <code>PROCESSOR</code>에서 CPU·GPU 분담을, <code>CONTEXT</code>에서 배정된 문맥 길이를 확인할 수 있다. (<a href="https://docs.ollama.com/context-length" target="_blank" rel="nofollow noopener">docs.ollama.com</a>)</p>
+<p>짧은 질문이 돌아갔다고 긴 문서 처리까지 검증된 것은 아니다.</p>
+<p>방에서 제기된 테라바이트급 메모리 질문은 초대형 모델을 상정하면 근거가 있다. DeepSeek-V3 기술보고서의 총 매개변수는 671B다. 이를 모두 16비트로 저장한다고 가정하면 가중치만 약 1.34TB라는 계산이 나온다. 연산 중 쓰는 추가 메모리를 제외한 단순 계산이며 모든 로컬 모델의 최소 사양은 아니다. (<a href="https://arxiv.org/abs/2412.19437" target="_blank" rel="nofollow noopener">arxiv.org</a>)</p>
+<p>원본이라는 표현에도 주의가 필요하다. DeepSeek는 V3 공개 가중치를 FP8로 제공하고 BF16이 필요하면 변환하도록 안내한다. 비양자화라는 말 하나로 장비를 산정하기보다 모델 이름과 저장 형식을 함께 지정해야 한다. (<a href="https://huggingface.co/deepseek-ai/DeepSeek-V3" target="_blank" rel="nofollow noopener">huggingface.co</a>)</p>
+<p>방에서 거론된 거액의 장비비는 검증된 견적으로 취급할 수 없다. 목표 모델, 정밀도, 문맥 길이도 정하지 않은 금액으로 구독과 비교하면 서로 다른 작업을 계산하게 된다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/local-llm-cost-performance-tradeoffs.png" alt="" loading="lazy"><h2>Mac Studio의 큰 메모리는 속도 보증이 아니다</h2>
+<p>2026년 10월 29일 확인한 Apple 지원 사양표에서 M3 Ultra Mac Studio는 최대 256GB 통합 메모리를 제공한다. 메모리 대역폭은 819GB/s다. NVIDIA가 공개한 GeForce RTX 5090의 메모리는 32GB이므로 두 제품의 숫자는 처음부터 같은 용량 구간을 가리키지 않는다. (<a href="https://www.apple.com/mac-studio/specs/?trk=public_post_comment-text" target="_blank" rel="nofollow noopener">apple.com</a>)</p>
+<p>큰 모델을 담는 문제와 빠르게 답하는 문제는 분리해야 한다.</p>
+<p>Ollama도 최적 성능을 내려면 CPU로 모델 일부를 넘기는 상황을 피하도록 안내한다. 공식 사양과 이 지침을 함께 보면 메모리 용량만으로 응답 속도까지 단정할 수 없다. (<a href="https://docs.ollama.com/context-length" target="_blank" rel="nofollow noopener">docs.ollama.com</a>)</p>
+<p>방에서는 맥의 공유 메모리를 장점으로, 대역폭을 우려할 요소로 꼽는 의견이 있었다. 다만 세대와 모델을 생략한 채 맥은 느리다고 일반화할 근거는 부족하다. 이 기사에서 확인한 제품 사양 역시 동일 모델을 돌린 비교 실험은 아니다.</p>
+<p>소규모 팀이 구매 비용을 계산할 때는 장비값만 넣지 않는 편이 타당하다. 전기 사용, 설치와 업데이트, 실패한 결과를 수정하는 시간을 별도 항목으로 두자는 제안이다. 이미 가진 컴퓨터로 업무를 옮기는 경우와 구독을 없애려고 새 장비를 사는 경우도 구분해야 한다. 구독료가 사라졌다는 사실만으로 투자금을 회수했다고 판단하지 않는 계산법이다.</p>
+<h2>툴 호출 지원과 업무 완료는 별개의 검증이다</h2>
+<p>로컬 모델로 도구 실행이 잘되지 않았다는 방의 경험을 기능 자체가 없다는 뜻으로 읽어서는 안 된다. Ollama 공식 문서는 툴 호출을 지원하며 Qwen3를 사용하는 예제를 제공한다. 모델에 함수의 이름과 입력 구조를 전달하고 호출 결과를 후속 대화에 넣는 구조다. (<a href="https://docs.ollama.com/capabilities/tool-calling" target="_blank" rel="nofollow noopener">docs.ollama.com</a>)</p>
+<p>공식 Python 예제는 도시 이름을 받는 <code>get_temperature</code> 함수를 등록한다. 모델이 반환한 <code>tool_calls</code>를 프로그램이 읽고 함수를 실행한 뒤 결과를 <code>tool</code> 메시지로 다시 보낸다. 최종 답변은 그 결과를 받은 모델이 작성한다. (<a href="https://docs.ollama.com/capabilities/tool-calling" target="_blank" rel="nofollow noopener">docs.ollama.com</a>)</p>
+<p>모델이 함수 실행을 요청하는 단계와 실제 프로그램이 실행하는 단계가 분리돼 있다.</p>
+<p>업무 시험도 그 구분을 따라 설계할 수 있다. 읽기 전용 조회 함수 하나를 연결한다. 입력한 요청이 올바른 함수와 인수로 바뀌는지 기록한 다음 실제 반환값과 최종 답변이 일치하는지 확인하는 방식이다.</p>
+<p>파일 생성 같은 작업이라면 완료했다는 문장 대신 실제 파일과 내용을 검사 항목으로 삼아야 한다. 이 기사에서 제안하는 판정 기준은 말의 자연스러움이 아니라 요청과 실행 결과의 일치다. 방에서 제기된 불편도 이 기준으로 재시험해야 모델의 한계와 연결 프로그램의 문제를 구분할 수 있다.</p>
+<h2>로컬의 실익은 실행 경로를 직접 정하는 데 있다</h2>
+<p>보안을 이유로 로컬을 택한다면 프로그램 이름보다 요청이 처리되는 위치가 중요하다. Ollama는 다운로드한 모델뿐 아니라 클라우드 모델도 지원한다. 공식 클라우드 문서는 원격 요청의 프롬프트와 응답을 처리한다고 밝힌다. 로컬만 쓰려면 클라우드 기능을 비활성화하도록 안내한다. (<a href="https://github.com/ollama/ollama/blob/main/docs/cloud.mdx" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>이미지 생성에서도 같은 구분이 필요하다. 방에서는 서비스의 콘텐츠 제약과 별개로 작업 과정을 자유롭게 조합하려고 ComfyUI를 쓴다는 의견이 나왔다. ComfyUI 공식 입문서는 텍스트 입력부터 이미지 저장까지 로컬에서 재현할 수 있는 예제를 제공한다. (<a href="https://docs.comfy.org/get_started/first_generation" target="_blank" rel="nofollow noopener">docs.comfy.org</a>)</p>
+<p>ComfyUI에서 예제 <code>text-to-image.json</code>을 열고 안내된 <code>v1-5-pruned-emaonly-fp16.safetensors</code>를 <code>models/checkpoints</code>에 둔다. <code>Load Checkpoint</code>에서 모델을 선택하고 프롬프트를 바꾼 뒤 <code>Run</code>을 누르면 <code>Save Image</code>에 결과가 나온다. 워크플로우는 JSON으로 내보내 다시 사용할 수 있다. (<a href="https://docs.comfy.org/get_started/first_generation" target="_blank" rel="nofollow noopener">docs.comfy.org</a>)</p>
+<p>다만 ComfyUI 화면에서 실행했다고 모두 내 장비에서 계산되는 것은 아니다.</p>
+<p>Comfy 공식 저장소는 Partner API 노드를 통해 로컬 워크플로우도 외부 모델을 호출할 수 있다고 설명한다. 문서와 이미지를 밖으로 보내지 않는 것이 목적이라면 이런 연결을 제외한 실행 경로를 구성해야 한다. (<a href="https://github.com/Comfy-Org/comfy-mcp" target="_blank" rel="nofollow noopener">github.com</a>)</p>
+<p>방의 질문으로 돌아가면 판단 기준은 최고급 모델을 집에 들이는 가격이 아니다. 정해진 업무를 외부 전송 없이 끝내고 결과를 고치는 시간까지 감당할 수 있는지가 기준이다.</p>
+<p>구독 버튼을 끄는 것만으로 로컬의 경제성이 성립하지는 않는다. 맡긴 업무가 그 조건으로 반복 완료돼야 한다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">로컬 LLM</span><span class="chip">Ollama</span><span class="chip">Mac Studio</span><span class="chip">VRAM</span><span class="chip">툴 호출</span><span class="chip">ComfyUI</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://github.com/QwenLM/Qwen3" rel="nofollow noopener">https://github.com/QwenLM/Qwen3</a></li><li><a href="https://registry.ollama.com/library/qwen3/tags" rel="nofollow noopener">https://registry.ollama.com/library/qwen3/tags</a></li><li><a href="https://docs.ollama.com/context-length" rel="nofollow noopener">https://docs.ollama.com/context-length</a></li><li><a href="https://arxiv.org/abs/2412.19437" rel="nofollow noopener">https://arxiv.org/abs/2412.19437</a></li><li><a href="https://huggingface.co/deepseek-ai/DeepSeek-V3" rel="nofollow noopener">https://huggingface.co/deepseek-ai/DeepSeek-V3</a></li><li><a href="https://www.apple.com/mac-studio/specs/?trk=public_post_comment-text" rel="nofollow noopener">https://www.apple.com/mac-studio/specs/?trk=public_post_comment-text</a></li><li><a href="https://www.nvidia.com/en-au/geforce/graphics-cards/50-series/rtx-5090/" rel="nofollow noopener">https://www.nvidia.com/en-au/geforce/graphics-cards/50-series/rtx-5090/</a></li><li><a href="https://docs.ollama.com/capabilities/tool-calling" rel="nofollow noopener">https://docs.ollama.com/capabilities/tool-calling</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>로컬 LLM을 쓰려면 VRAM 1TB가 필요한가요?</h2><p class="sum">모든 모델에 필요한 용량이 아닙니다. DeepSeek-V3의 671B 매개변수를 전부 16비트로 저장한다고 가정할 때 가중치만 약 1.34TB라는 계산이 나옵니다. 실제 요구량은 모델과 저장 형식, 문맥 길이에 따라 달라집니다. (<a href="https://arxiv.org/abs/2412.19437" target="_blank" rel="nofollow noopener">arxiv.org</a>)</p></article><article class="dcard"><div class="t">Q</div><h2>Ollama로 실행하면 데이터가 무조건 로컬에 남나요?</h2><p class="sum">Ollama는 로컬 모델과 클라우드 모델을 모두 지원하므로 실행 위치를 구분해야 합니다. 공식 문서는 로컬만 사용하려면 클라우드 기능을 비활성화하도록 안내합니다. (<a href="https://github.com/ollama/ollama/blob/main/docs/cloud.mdx" target="_blank" rel="nofollow noopener">github.com</a>)</p></article><article class="dcard"><div class="t">Q</div><h2>로컬 모델도 툴 호출을 할 수 있나요?</h2><p class="sum">Ollama는 툴 호출을 지원하고 Qwen3 예제를 제공합니다. 모델이 요청한 함수를 애플리케이션이 실행하고 결과를 돌려주는 구조이므로, 지원 여부와 실제 업무 성공은 따로 검사해야 합니다. (<a href="https://docs.ollama.com/capabilities/tool-calling" target="_blank" rel="nofollow noopener">docs.ollama.com</a>)</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-10-28-1800.html">2026-10-28 10-28 15:16~17:48</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

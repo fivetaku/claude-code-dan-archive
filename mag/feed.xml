@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>로컬 LLM, 구독 대신 쓸 수 있나: 장비 비용과 성능의 조건</title>
+    <link>https://chat.axwith.com/mag/models/local-llm-cost-performance-tradeoffs.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/local-llm-cost-performance-tradeoffs.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Thu, 29 Oct 2026 12:00:00 +0900</pubDate>
+    <description>로컬 LLM으로 클라우드 AI 구독을 대체할 수 있을까. Ollama 실행법과 메모리 계산, Mac Studio와 GPU의 차이, 툴 호출과 ComfyUI 활용 조건을 공식 문서로 확인한다.</description>
+  </item>
+  <item>
     <title>블로그 자동화, GPT-6.1 Terra Medium으로 바꿔도 될까</title>
     <link>https://chat.axwith.com/mag/workflow/gpt-61-terra-medium-blog-automation.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/gpt-61-terra-medium-blog-automation.html</guid>
@@ -235,13 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Fri, 16 Oct 2026 12:00:00 +0900</pubDate>
     <description>질적연구 석사논문에 Gemini와 ChatGPT 중 무엇을 써야 할까. Deep Research, Drive 연동, 면접 시뮬레이션과 글쓰기 기능을 실제 연구 순서에 맞춰 살펴본다.</description>
-  </item>
-  <item>
-    <title>겜스고 Gemini Ultra 월 15달러, 실제 사용량과 위험 따져보니</title>
-    <link>https://chat.axwith.com/mag/resources/gamsgo-gemini-ultra-review.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/gamsgo-gemini-ultra-review.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Thu, 15 Oct 2026 12:00:00 +0900</pubDate>
-    <description>겜스고에서 월 15달러 안팎으로 판매되는 Gemini Ultra 상품이 공식 구독과 어떻게 다른지, 사용량 할당과 계정 위험을 중심으로 정리했다.</description>
   </item>
 </channel></rss>
