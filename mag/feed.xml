@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>뮤즈와 그록봇 비교, 로그인보다 중요한 업무 완료와 승인</title>
+    <link>https://chat.axwith.com/mag/tools/muse-grok-bot-task-comparison.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/muse-grok-bot-task-comparison.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Fri, 30 Oct 2026 12:00:00 +0900</pubDate>
+    <description>뮤즈의 지시 이해력과 파일 첨부 불편, 그록봇의 로그인 성공 경험은 어떻게 해석해야 할까. 공식 문서를 바탕으로 두 AI 에이전트의 업무 처리, 인증, 승인, 구독 조건을 비교한다.</description>
+  </item>
+  <item>
     <title>로컬 LLM, 구독 대신 쓸 수 있나: 장비 비용과 성능의 조건</title>
     <link>https://chat.axwith.com/mag/models/local-llm-cost-performance-tradeoffs.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/local-llm-cost-performance-tradeoffs.html</guid>
@@ -235,13 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Fri, 16 Oct 2026 12:00:00 +0900</pubDate>
     <description>ChatGPT Plus와 Claude Pro·Max는 가격만으로 우열을 가리기 어렵다. 리셋 구조와 작업 유형에 따른 실제 비용을 비교한다.</description>
-  </item>
-  <item>
-    <title>질적연구 석사논문에 Gemini와 ChatGPT, 무엇을 어디에 쓸까</title>
-    <link>https://chat.axwith.com/mag/models/gemini-chatgpt-qualitative-thesis-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-chatgpt-qualitative-thesis-workflow.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Fri, 16 Oct 2026 12:00:00 +0900</pubDate>
-    <description>질적연구 석사논문에 Gemini와 ChatGPT 중 무엇을 써야 할까. Deep Research, Drive 연동, 면접 시뮬레이션과 글쓰기 기능을 실제 연구 순서에 맞춰 살펴본다.</description>
   </item>
 </channel></rss>
