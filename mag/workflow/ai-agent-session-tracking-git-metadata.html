@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 코딩 에이전트 세션 추적, 커밋 메타데이터의 설계법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="AI 코딩 에이전트의 작업을 커밋과 세션 ID로 추적하는 방법을 살핀다. Git 훅, 트레일러, 별도 데이터베이스, worktree의 차이와 보안 기준을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/ai-agent-session-tracking-git-metadata.html">
+<meta property="og:title" content="AI 코딩 에이전트 세션 추적, 커밋 메타데이터의 설계법">
+<meta property="og:description" content="AI 코딩 에이전트의 작업을 커밋과 세션 ID로 추적하는 방법을 살핀다. Git 훅, 트레일러, 별도 데이터베이스, worktree의 차이와 보안 기준을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/ai-agent-session-tracking-git-metadata.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI 코딩 에이전트 세션 추적, 커밋 메타데이터의 설계법", "description": "AI 코딩 에이전트의 작업을 커밋과 세션 ID로 추적하는 방법을 살핀다. Git 훅, 트레일러, 별도 데이터베이스, worktree의 차이와 보안 기준을 정리했다.", "datePublished": "2026-11-04", "dateModified": "2026-11-04", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/ai-agent-session-tracking-git-metadata.html"}, "articleSection": "워크플로우·방법론", "keywords": "AI 코딩 에이전트, Git 훅, 세션 추적, 커밋 메타데이터, OpenTelemetry, Git worktree", "image": "https://chat.axwith.com/mag/hero/ai-agent-session-tracking-git-metadata.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI 코딩 에이전트의 세션 ID를 커밋에 어떻게 남기나요?", "acceptedAnswer": {"@type": "Answer", "text": "커밋 메시지 끝에 `Session: 무작위ID`, `Agent: 모델명` 같은 trailer를 추가하면 됩니다. `commit-msg` 훅으로 자동 삽입하고, 커밋 해시와 상세 세션 기록은 별도 데이터베이스에 연결하는 방식이 안전합니다."}}, {"@type": "Question", "name": "세션 전문을 Git 저장소에 커밋해도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "공개 저장소에는 권장하지 않습니다. 프롬프트, 로컬 경로, 토큰, 고객 정보가 히스토리에 남을 수 있으므로 커밋에는 비식별 ID만 두고 원문 기록은 접근 통제된 저장소에 보관하는 편이 낫습니다."}}, {"@type": "Question", "name": "여러 AI 에이전트가 같은 저장소에서 작업할 때 가장 먼저 할 일은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "세션 추적보다 작업 공간 분리가 먼저입니다. 각 에이전트에 별도 브랜치와 `git worktree`를 배정하면 덮어쓰기 충돌이 병합 단계에서 드러납니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-agent-session-tracking-git-metadata.png" alt="AI 코딩 에이전트 세션 추적, 커밋 메타데이터의 설계법" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>AI 코딩 에이전트 세션 추적, 커밋 메타데이터의 설계법</h1>
+  <p class="sub">커밋에 모델과 세션 ID를 남기는 방식은 어디까지 유용하며, 공개 저장소 노출은 어떻게 피해야 할까</p>
+  <div class="meta"><span>2026-11-04</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI 코딩 에이전트가 만든 변경을 나중에 다시 설명해야 하는 순간이 늘고 있다. 작은 팀에서는 커밋에 모델명과 세션 식별자를 남겨 장애 원인을 되짚는 방식이 등장했다.</p>
+<p>문제는 추적 정보를 어디까지 Git에 넣고 무엇을 저장소 밖으로 빼야 하느냐이다. 이 글은 커밋과 세션을 연결하는 실용적인 설계가 실제로 어떤 도움을 주는지, 그리고 공개 저장소에서 어떤 선을 지켜야 하는지 답한다.</p>
+<h2>커밋은 세션을 기억하지 않지만 연결점은 제공한다</h2>
+<p>Git 커밋에는 작성자, 커미터, 시간, 메시지, 부모 커밋과 변경 트리가 들어간다. Git 공식 문서는 작성자와 커미터 정보가 환경 변수나 설정에서 채워진다고 설명하지만 에이전트가 어떤 세션에서 작업했는지는 기본 필드로 구분하지 않는다. 모델명이나 세션 ID를 기록하려면 별도 규칙이 필요하다. (<a href="https://git-scm.com/docs/git-commit" target="_blank" rel="nofollow noopener">git-scm.com</a>)</p>
+<p>가장 간단한 위치는 커밋 메시지 끝의 trailer다. Git의 <code>interpret-trailers</code>는 메시지 본문 뒤에 <code>Key: Value</code> 형식의 메타데이터를 추가하거나 읽는다. 예를 들면 <code>Agent: model-x</code>, <code>Session: 8f3...</code>, <code>Task: issue-142</code>처럼 남길 수 있다. 이 정보는 <code>git log</code>와 자동화 스크립트에서 읽기 쉽고 변경과 함께 이동한다. (<a href="https://git-scm.com/docs/git-interpret-trailers" target="_blank" rel="nofollow noopener">git-scm.com</a>)</p>
+<p>방 논의에서도 소규모 팀이 이런 방식을 쓴다는 설명이 나왔다. 커밋 단계에서 모델과 세션 정보를 붙여 두고 문제가 생기면 에이전트가 관련 세션을 찾아 이전 작업을 참고하게 만든다.</p>
+<p>이런 구조에서 커밋은 대화 기록 자체가 아니라 코드 변경과 세션 기록을 잇는 색인 역할을 한다.</p>
+<h2>Git 훅의 역할과 실행 순서</h2>
+<p>Git은 커밋 전후에 실행할 수 있는 훅을 제공한다. <code>prepare-commit-msg</code>는 편집기가 열리기 전에 메시지를 수정하고 <code>commit-msg</code>는 최종 메시지를 검사하거나 고칠 수 있다. <code>post-commit</code>은 커밋이 만들어진 뒤 알림이나 외부 기록을 남기는 데 적합하다. (<a href="https://git-scm.com/docs/githooks" target="_blank" rel="nofollow noopener">git-scm.com</a>)</p>
+<p>실용적인 순서는 단순하다. 에이전트 세션이 시작되면 로컬 또는 내부 서비스에 세션 ID를 만든다. 작업 디렉터리와 시작 커밋, 사용 모델, 작업 티켓을 기록한다. 커밋할 때 <code>commit-msg</code> 훅이 현재 세션 ID를 읽고 trailer를 추가한다. 커밋이 끝나면 <code>post-commit</code> 훅이 커밋 해시와 세션 ID를 별도 저장소에 보낸다.</p>
+<p>훅이 대화를 저장할 필요는 없다.</p>
+<p>커밋에는 검색에 필요한 짧은 식별자만 남기고 프롬프트·도구 호출·실행 결과·파일 목록은 별도 보관할 수 있다. 세션을 이어받는 에이전트는 커밋 해시로 필요한 기록을 조회한다. 저장소에는 민감한 내용을 남기지 않는다.</p>
+<p>다만 로컬 훅은 강제 장치가 아니다. Git 문서에 따르면 일부 훅은 <code>--no-verify</code>로 우회할 수 있고 설치되지 않은 훅은 실행되지 않는다. 중요한 감사 기록이라면 훅만 믿지 말고 서버 측 수집이나 CI 검증을 함께 둬야 한다. (<a href="https://git-scm.com/docs/githooks" target="_blank" rel="nofollow noopener">git-scm.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-agent-session-tracking-git-metadata.png" alt="" loading="lazy"><h2>공개 저장소에 세션 정보를 넣을 때 생기는 문제</h2>
+<p>공개 저장소의 커밋은 코드만 보여 주지 않는다. GitHub는 커밋 활동과 변경 내역을 분석할 수 있게 제공한다. 저장소가 공개되면 누구나 코드를 보고 포크할 수 있다고도 안내한다. 커밋 메시지에 내부 티켓 번호, 로컬 경로, 고객 식별자, 운영 환경 이름을 넣으면 코드와 함께 외부에 노출된다. (<a href="https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository" target="_blank" rel="nofollow noopener">docs.github.com</a>)</p>
+<p>더 큰 문제는 기록의 지속성이다. GitHub는 민감한 데이터를 제거할 때 히스토리 재작성, 다른 클론과 포크 정리, 캐시와 풀 리퀘스트 참조 문제까지 고려해야 한다고 설명한다. 비밀번호나 API 키가 들어갔다면 먼저 폐기·교체해야 한다. 커밋을 지우는 일만으로는 충분하지 않다. (<a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository?ref=techblog.kevinburns.de" target="_blank" rel="nofollow noopener">docs.github.com</a>)</p>
+<p>그래서 공개 커밋에는 비식별 세션 ID와 모델 계열 정도만 두는 편이 안전하다. 내부 데이터베이스에는 원래 세션 ID, 담당자, 저장 위치, 보존 기간, 접근 권한을 둔다. 세션 ID 자체도 사용자 이름이나 회사명에서 만들지 말고 무작위 값으로 생성해야 한다.</p>
+<p>방에서 나온 별도 데이터베이스 아이디어도 공개 저장소에는 코드 변경을 이해하는 데 필요한 최소 정보만 남기는 방식이다. 실제 세션 기록과 식별 관계는 내부 시스템에서 관리한다.</p>
+<p>팀 요금제나 공유 기능이 세션 기록을 어떻게 처리하는지는 제품별 범위가 다르다. 확인되지 않은 기능을 전제로 설계를 짜서는 안 된다.</p>
+<h2>추적성은 기록량보다 변경과 연결되는 정도가 중요하다</h2>
+<p>세션 전문을 모두 저장한다고 해서 사고 원인이 자동으로 밝혀지지는 않는다. 실제 조사에서는 어떤 커밋이 어떤 세션에서 나왔는지, 당시 기준 커밋은 무엇이었는지, 어떤 파일이 바뀌었는지, 테스트 결과가 무엇이었는지가 더 중요하다.</p>
+<p>OpenTelemetry의 세션 규칙은 하나의 세션을 로그·이벤트·스팬의 묶음으로 보고 고유 세션 ID를 각 기록에 연결하도록 설명한다. 세션 추적을 자체 형식으로 고립시키기보다 이런 구조를 참고하면 나중에 관측 시스템으로 옮기기 쉽다. (<a href="https://opentelemetry.io/docs/specs/semconv/general/session/" target="_blank" rel="nofollow noopener">opentelemetry.io</a>)</p>
+<p>써본 사람들 사이에서는 프로세스 감시만으로는 세션 상태를 알기 어렵다는 반응도 있다. 훅이나 세션 로그가 있어야 작업 시작과 입력 대기 상태를 구분할 수 있다는 얘기다. 반대로 세션 기록을 많이 남겨도 실제 변경 파일과 커밋이 연결되지 않으면 조사자가 터미널과 대화 기록을 다시 맞춰야 한다는 불만도 나온다.</p>
+<p>이런 반응에서도 저장량보다 증거의 연결성이 중요함을 알 수 있다.</p>
+<p>개인 개발자와 소규모 팀이라면 처음부터 거대한 관측 플랫폼을 만들 필요는 없다. <code>Session</code>, <code>Agent</code>, <code>Model</code>, <code>Base-Commit</code>, <code>Task</code> 다섯 필드를 정하고 커밋 trailer와 작은 SQLite 또는 사내 데이터베이스부터 시작하면 된다. 세션 종료 때는 마지막 커밋, 테스트 명령, 실패 상태만 구조화해도 다음 작업자가 출발점을 찾는 시간이 크게 줄어든다.</p>
+<h2>여러 에이전트가 같은 폴더를 쓸 때는 기록보다 격리가 먼저다</h2>
+<p>세션 ID를 붙이는 일은 이미 발생한 충돌을 추적하는 데 유용하지만 충돌 자체를 막지는 못한다. 두 에이전트가 같은 작업 디렉터리에서 같은 파일을 읽고 각각 커밋하면 한쪽 변경이 조용히 덮어써질 수 있다.</p>
+<p>커밋 기록은 사후 증거가 되지만 사전 안전장치는 아니다.</p>
+<p>Git의 <code>worktree</code>는 하나의 저장소에 여러 작업 트리를 연결해 서로 다른 브랜치를 동시에 체크아웃하게 한다. 에이전트마다 별도 worktree와 브랜치를 주면 변경 영역이 분리된다. 겹치는 작업은 병합 단계에서 드러난다. Git 공식 문서도 worktree가 같은 저장소에 여러 작업 트리를 연결한다고 설명한다. (<a href="https://git-scm.com/docs/git-worktree.html" target="_blank" rel="nofollow noopener">git-scm.com</a>)</p>
+<p>작업 시작 때 에이전트별 worktree와 세션 ID를 만들고 커밋에는 짧은 trailer를 남긴다. 커밋 직후에는 해시와 테스트 결과를 내부 데이터베이스에 기록한다. 풀 리퀘스트 단계에서는 사람이 diff와 테스트를 확인한다. 세션 기록으로 책임을 자동 판정하려 해서는 안 된다. 변경의 출처와 당시 맥락을 되찾는 탐색 장치로 써야 한다.</p>
+<p>커밋에 모델과 세션을 남기는 방식은 작은 팀의 문제 해결 속도를 높일 수 있다. 다만 공개 저장소에 대화와 내부 식별 정보를 복사하는 순간 추적성은 보안 부채로 바뀐다.</p>
+<p>가장 현실적인 설계는 Git에는 비식별 링크만 남기고 상세 기록은 접근 통제가 가능한 별도 저장소에 두는 것이다. 여러 에이전트의 동시 작업은 worktree로 먼저 분리한다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">AI 코딩 에이전트</span><span class="chip">Git 훅</span><span class="chip">세션 추적</span><span class="chip">커밋 메타데이터</span><span class="chip">OpenTelemetry</span><span class="chip">Git worktree</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://git-scm.com/docs/githooks" rel="nofollow noopener">https://git-scm.com/docs/githooks</a></li><li><a href="https://git-scm.com/docs/git-interpret-trailers" rel="nofollow noopener">https://git-scm.com/docs/git-interpret-trailers</a></li><li><a href="https://git-scm.com/docs/git-worktree" rel="nofollow noopener">https://git-scm.com/docs/git-worktree</a></li><li><a href="https://git-scm.com/docs/git-commit" rel="nofollow noopener">https://git-scm.com/docs/git-commit</a></li><li><a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository" rel="nofollow noopener">https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/r</a></li><li><a href="https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repository" rel="nofollow noopener">https://docs.github.com/en/repositories/viewing-activity-and-data-for-your-repos</a></li><li><a href="https://opentelemetry.io/docs/specs/semconv/general/session/" rel="nofollow noopener">https://opentelemetry.io/docs/specs/semconv/general/session/</a></li><li><a href="https://opentelemetry.io/docs/specs/semconv/" rel="nofollow noopener">https://opentelemetry.io/docs/specs/semconv/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI 코딩 에이전트의 세션 ID를 커밋에 어떻게 남기나요?</h2><p class="sum">커밋 메시지 끝에 <code>Session: 무작위ID</code>, <code>Agent: 모델명</code> 같은 trailer를 추가하면 됩니다. <code>commit-msg</code> 훅으로 자동 삽입하고, 커밋 해시와 상세 세션 기록은 별도 데이터베이스에 연결하는 방식이 안전합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>세션 전문을 Git 저장소에 커밋해도 되나요?</h2><p class="sum">공개 저장소에는 권장하지 않습니다. 프롬프트, 로컬 경로, 토큰, 고객 정보가 히스토리에 남을 수 있으므로 커밋에는 비식별 ID만 두고 원문 기록은 접근 통제된 저장소에 보관하는 편이 낫습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>여러 AI 에이전트가 같은 저장소에서 작업할 때 가장 먼저 할 일은 무엇인가요?</h2><p class="sum">세션 추적보다 작업 공간 분리가 먼저입니다. 각 에이전트에 별도 브랜치와 <code>git worktree</code>를 배정하면 덮어쓰기 충돌이 병합 단계에서 드러납니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-03-2200.html">2026-11-03 11-03 17:59~21:46</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

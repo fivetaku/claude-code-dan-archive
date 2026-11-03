@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>AI가 만든 코드 품질을 팀이 통제하는 방법</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-code-quality-control.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-code-quality-control.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Wed, 04 Nov 2026 12:00:00 +0900</pubDate>
+    <description>AI가 만든 코드가 늘면서 리뷰 병목과 보안 위험도 커졌다. 지침 파일, 린트, 테스트, AI 리뷰, 머지 규칙을 연결해 품질을 통제하는 방법을 살펴본다.</description>
+  </item>
+  <item>
+    <title>AI 코딩 에이전트 세션 추적, 커밋 메타데이터의 설계법</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-agent-session-tracking-git-metadata.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-session-tracking-git-metadata.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Wed, 04 Nov 2026 12:00:00 +0900</pubDate>
+    <description>AI 코딩 에이전트의 작업을 커밋과 세션 ID로 추적하는 방법을 살핀다. Git 훅, 트레일러, 별도 데이터베이스, worktree의 차이와 보안 기준을 정리했다.</description>
+  </item>
+  <item>
     <title>재난 대비 스타링크 구매, 배터리와 대기 요금까지 따져야 하는 이유</title>
     <link>https://chat.axwith.com/mag/ops/starlink-emergency-backup-power.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/starlink-emergency-backup-power.html</guid>
@@ -227,21 +243,5 @@
     <category>배포·운영</category>
     <pubDate>Wed, 21 Oct 2026 12:00:00 +0900</pubDate>
     <description>금융권의 망분리 개선과 AI 가이드라인을 바탕으로 반복 업무에 생성형 AI를 적용하는 방법, 데이터 통제와 사람의 검토가 필요한 경계를 살폈다.</description>
-  </item>
-  <item>
-    <title>어사이드 브라우저로 자료조사 자동화하기: 클릭부터 근거 검토까지</title>
-    <link>https://chat.axwith.com/mag/tools/aside-browser-research-automation-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/aside-browser-research-automation-guide.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Wed, 21 Oct 2026 12:00:00 +0900</pubDate>
-    <description>어사이드 브라우저의 조사 작업 설정부터 출처표 작성, CLI·MCP 활용, 권한과 개인정보 점검까지 살펴본다. 병렬 크롤링 경험과 공식 기능의 차이도 구분한다.</description>
-  </item>
-  <item>
-    <title>직장인 개인사업자 등록, 회사 허가와 세금 신고는 별개다</title>
-    <link>https://chat.axwith.com/mag/ops/employee-side-business-registration-korea.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/employee-side-business-registration-korea.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Tue, 20 Oct 2026 12:00:00 +0900</pubDate>
-    <description>직장인의 개인사업자 등록은 세무상 의무와 회사의 겸업 규정을 따로 판단해야 한다. 수익의 성격, 등록 시점, 종합소득세와 건강보험료, 회사 통보에 관한 오해를 살폈다.</description>
   </item>
 </channel></rss>
