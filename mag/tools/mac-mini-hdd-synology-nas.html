@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>맥미니 외장 HDD와 시놀로지 NAS, 비용과 백업 비교 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="맥미니에 HDD 독을 연결하는 구성과 시놀로지 NAS를 비교한다. 파일 공유 설정부터 중고 제품의 업데이트 지원, CMR 확인, 랜섬웨어 대응과 별도 백업까지 구매 판단에 필요한 조건을 짚는다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/mac-mini-hdd-synology-nas.html">
+<meta property="og:title" content="맥미니 외장 HDD와 시놀로지 NAS, 비용과 백업 비교">
+<meta property="og:description" content="맥미니에 HDD 독을 연결하는 구성과 시놀로지 NAS를 비교한다. 파일 공유 설정부터 중고 제품의 업데이트 지원, CMR 확인, 랜섬웨어 대응과 별도 백업까지 구매 판단에 필요한 조건을 짚는다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/mac-mini-hdd-synology-nas.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "맥미니 외장 HDD와 시놀로지 NAS, 비용과 백업 비교", "description": "맥미니에 HDD 독을 연결하는 구성과 시놀로지 NAS를 비교한다. 파일 공유 설정부터 중고 제품의 업데이트 지원, CMR 확인, 랜섬웨어 대응과 별도 백업까지 구매 판단에 필요한 조건을 짚는다.", "datePublished": "2026-11-03", "dateModified": "2026-11-03", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/mac-mini-hdd-synology-nas.html"}, "articleSection": "도구·라이브러리", "keywords": "맥미니, 외장 HDD, 시놀로지 NAS, 중고 NAS, Hyper Backup, 랜섬웨어, HDD 적출", "image": "https://chat.axwith.com/apple-touch-icon.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "맥미니에 외장 HDD를 연결하면 NAS처럼 공유할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "macOS 파일 공유에서 외장 볼륨의 폴더를 추가하고 계정별 접근 권한을 설정할 수 있다. 공유 폴더를 Time Machine 대상으로 지정하는 기능도 제공한다. ([support.apple.com](https://support.apple.com/guide/mac-help/set-up-file-sharing-on-mac-mh17131/mac?utm_source=openai))"}}, {"@type": "Question", "name": "중고 시놀로지 NAS를 살 때 무엇을 확인해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "정확한 모델명과 설치된 DSM, 지원되는 버전으로 업그레이드 가능한지 확인해야 한다. DSM 6.2는 2024년 10월 1일 연장 지원이 종료됐다. ([synology.com](https://www.synology.com/en-us/products/status/eol-dsm62?utm_source=openai))"}}, {"@type": "Question", "name": "NAS에 RAID를 구성하면 별도 백업이 필요 없나요?", "acceptedAnswer": {"@type": "Answer", "text": "시놀로지는 RAID와 SHR가 백업을 대신하지 않는다고 명시한다. Hyper Backup으로 외장 USB 저장장치 등에 별도 백업을 만들 수 있다. ([kb.synology.com](https://kb.synology.com/en-ca/DSM/tutorial/What_is_Synology_Hybrid_RAID_SHR?utm_source=openai))"}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>맥미니 외장 HDD와 시놀로지 NAS, 비용과 백업 비교</h1>
+  <p class="sub">저장 공간만 늘릴지, 여러 기기의 파일을 상시 관리할지에 따라 선택이 달라진다. 중고 NAS와 외장하드 적출까지 비용·호환성·복구 조건을 비교한다.</p>
+  <div class="meta"><span>2026-11-03</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>SSD 구매 부담 때문에 HDD로 눈을 돌렸다면, 다음 질문은 저장장치를 어디에 연결할지다. 클코단에서도 맥미니에 독을 붙이는 구성과 시놀로지 NAS 구매를 두고 고민이 나왔다. 가격 압박과 보안 업데이트 문제가 겹친 지금, 어느 쪽이 비용을 줄이면서 자료를 지킬 수 있는지 살펴본다.</p>
+<h2>저장 용량을 늘리는 일과 공유 서버를 사는 일은 다르다</h2>
+<p>커뮤니티에서는 SSD 대신 HDD를 고려했고, 시놀로지의 가격 대비 매력이 줄었다는 평가도 나왔다. 다만 이런 체감만으로 특정 제품의 가격 상승률을 확정할 수는 없다. 시장 배경으로는 TrendForce의 2026년 3월 분석이 있다. 회사는 AI·데이터센터 수요에 따른 NAND 가격 압력이 클라이언트 SSD에도 확산한다고 설명했다. (<a href="https://www.trendforce.com/presscenter/news/20260331-12995.html" target="_blank" rel="nofollow noopener">trendforce.com</a>)</p>
+<p>맥미니와 외장 HDD 조합은 이미 가진 컴퓨터의 저장 공간을 확장하는 방식이다. macOS 파일 공유를 켜면 다른 기기에도 폴더를 제공할 수 있다. Apple은 USB·Thunderbolt 외장 드라이브와 호환 NAS를 모두 Time Machine 저장 대상으로 안내한다. 백업 때문에 반드시 NAS부터 살 필요는 없다. (<a href="https://support.apple.com/guide/mac-help/set-up-file-sharing-on-mac-mh17131/mac" target="_blank" rel="nofollow noopener">support.apple.com</a>)</p>
+<p>이 기사에서 비용을 가르는 기준은 ‘공유를 위해 별도 장비가 필요한가’다. 이미 쓰는 맥미니에 자료를 보관하려는 사람과 여러 직원의 파일을 독립적으로 관리하려는 팀은 서로 다른 구매 문제를 풀고 있다. 비교 견적에는 본체뿐 아니라 디스크와 별도 백업 저장소까지 포함해야 한다.</p>
+<h2>맥미니와 HDD 독은 파일 공유까지 설정해야 비교가 된다</h2>
+<p>맥미니 구성을 검토한다면 HDD와 연결 장치만 고르고 끝내서는 안 된다. Apple 공식 안내에 따른 공유 절차는 다음과 같다. 외장 볼륨에 만든 작업 폴더를 바탕으로 접근 권한이 정해진 네트워크 공유 폴더를 만드는 과정이다. (<a href="https://support.apple.com/guide/mac-help/set-up-file-sharing-on-mac-mh17131/mac" target="_blank" rel="nofollow noopener">support.apple.com</a>)</p>
+<ol><li>HDD를 연결하고 공유할 폴더를 준비한다.</li><li>시스템 설정의 일반 → 공유에서 파일 공유를 켠다.</li><li>공유 폴더 목록에 해당 폴더를 추가한다.</li><li>사용할 계정을 지정하고 읽기 전용 또는 읽기·쓰기 권한을 설정한다.</li></ol>
+<p>전체 디스크를 모두에게 개방할 필요는 없다. Apple은 폴더별 권한과 공유 전용 계정을 지원한다. 같은 설정의 고급 옵션에서는 Time Machine 백업 대상 지정과 백업 용량 제한도 가능하다. 소규모 팀이라면 작업 자료와 백업용 폴더의 권한을 따로 설계할 수 있다. (<a href="https://support.apple.com/guide/mac-help/set-up-file-sharing-on-mac-mh17131/mac" target="_blank" rel="nofollow noopener">support.apple.com</a>)</p>
+<p>구매 전 시험도 구체적으로 진행할 수 있다. 다른 컴퓨터에서 파일을 복사하고 다시 열어본 뒤, 재시작한 다음에도 같은 작업을 반복한다. 운영 후보를 비교할 때는 단순 전송 속도뿐 아니라 공유가 끊겼을 때 누가 복구할지도 평가 항목에 넣을 만하다.</p>
+<p>맥미니를 이미 가진 사람에게 이 구성은 추가 지출 범위를 좁힐 수 있다는 장점이 있다. 반대로 파일 공유만을 위해 맥미니까지 새로 구매한다면 NAS와 비교할 견적부터 달라진다.</p>
+<h2>중고 NAS는 가격보다 지원 버전에서 갈린다</h2>
+<p>방에서는 중고 시놀로지도 절약 방안으로 거론됐다. 그러나 중고 본체의 구매가는 전체 판단의 일부일 뿐이다. 시놀로지는 DSM 6.2의 연장 지원이 2024년 10월 1일 종료됐다고 공지했다. 공지는 해당 계열의 기능·보안·패키지 업데이트 종료를 안내하므로, 지원되는 DSM으로 업그레이드할 수 있는지 확인해야 한다. (<a href="https://www.synology.com/en-us/products/status/eol-dsm62" target="_blank" rel="nofollow noopener">synology.com</a>)</p>
+<p>판매자가 ‘정상 작동’이라고 설명하는 것과 현재 보안 업데이트를 받을 수 있다는 것은 별개다. 중고 후보를 비교할 때는 정확한 모델명, 설치된 DSM, 업그레이드 가능한 버전을 함께 적는 편이 타당하다. 지원이 끝난 운영체제에 머무는 제품을 현행 제품과 같은 조건으로 계산하면 구매 판단이 왜곡된다. (<a href="https://www.synology.com/en-us/products/status/eol-dsm62" target="_blank" rel="nofollow noopener">synology.com</a>)</p>
+<p>디스크 호환성도 과거 평가를 그대로 적용해서는 안 된다. 시놀로지는 2025년 10월 DSM 7.3 발표에서 타사 드라이브 설치 선택지를 확대했다. 발표 대상인 2025년형 DiskStation Plus·Value·J 계열에서는 미검증 타사 드라이브로도 설치와 저장소 풀 생성이 가능해졌다. 모델과 DSM을 함께 확인해야 하는 이유다. (<a href="https://www.synology.com/en-global/company/news/article/dsm73" target="_blank" rel="nofollow noopener">synology.com</a>)</p>
+<p>따라서 ‘시놀로지는 타사 HDD를 못 쓴다’거나 ‘이제 아무 디스크나 동일하게 지원한다’고 단정해서는 안 된다. 공식 발표의 적용 범위와 구매하려는 모델의 호환 목록을 대조해야 정확하다. (<a href="https://www.synology.com/en-global/company/news/article/dsm73" target="_blank" rel="nofollow noopener">synology.com</a>)</p>
+<h2>외장하드 적출은 디스크 사양 확인을 대신하지 못한다</h2>
+<p>외장 제품에서 HDD를 꺼내 NAS에 넣는 사례도 커뮤니티에서 소개됐다. 다만 제공된 경험에는 구체적인 외장 제품명이나 내부 디스크 모델이 없다. 이 사례만으로 특정 외장 제품을 구매하거나 같은 내부 부품이 들어 있다고 기대할 근거는 부족하다.</p>
+<p>NAS용 후보를 좁힐 때는 정확한 모델별 기록 방식부터 확인해야 한다. 시놀로지 기술 문서는 SMR이 트랙을 겹쳐 기록하고 수정·덮어쓰기 과정에서 추가 작업을 수행한다고 설명한다. 읽기 위주 보관과 반복적인 쓰기 작업을 같은 조건으로 평가해서는 안 된다. (<a href="https://kb.synology.com/en-us/DSM/tutorial/PMR_SMR_hard_disk_drives?trk=public_post_comment-text" target="_blank" rel="nofollow noopener">kb.synology.com</a>)</p>
+<p>NAS 전용이라는 이름에도 구체적인 설계 조건이 붙는다. Western Digital은 WD Red Plus를 상시 가동과 다중 드라이브 환경에 맞춘 제품으로 설명한다. 제조사 자료에는 진동을 줄이기 위한 균형 설계와 NAS 호환성 시험도 명시돼 있다. 이런 조건은 ‘일반 HDD도 돌아간다’는 경험담과 구분해야 한다. (<a href="https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/product/internal-drives/wd-red-plus-hdd/data-sheet-western-digital-wd-red-plus-hdd.pdf" target="_blank" rel="nofollow noopener">documents.westerndigital.com</a>)</p>
+<p>적출을 검토하는 독자에게 필요한 비교표는 단순하다. 외장 제품 가격 옆에 확인된 내부 모델, 기록 방식, NAS 호환 여부를 적으면 된다. 확인되지 않은 칸이 많다면 저렴한 가격만으로 동등한 제품이라고 판단할 수 없다.</p>
+<h2>랜섬웨어 대응과 별도 백업까지 넣어야 총비용이 나온다</h2>
+<p>보안 우려는 실제 공지로 확인된다. 시놀로지는 2026년 10월 29일 구형 DSM을 노린 랜섬웨어 공격을 경고했다. 회사는 공격자가 2024년 12월 패치된 취약점을 악용한다고 설명하며 DSM 업데이트와 자동 업데이트 활성화를 권고했다. ‘새 취약점 때문에 모든 NAS가 위험하다’는 식의 해석과는 다르다. (<a href="https://www.synology.com/en-global/company/news/article/C3RB3R/security/company/company/company/case_study" target="_blank" rel="nofollow noopener">synology.com</a>)</p>
+<p>HKCERT도 11월 2일 경보에서 지원되는 DSM으로 업데이트하라고 안내했다. 별도로 공개된 PHP2Shell과 이번 랜섬웨어 공격의 연관성은 제조사가 확인하지 않았다고 구분했다. 취약점 공개와 개별 피해의 원인을 같은 이야기로 합쳐서는 안 된다. (<a href="https://www.hkcert.org/security-bulletin/security-alert-ransomware-attacks-targeting-synology-nas-devices_20261102" target="_blank" rel="nofollow noopener">hkcert.org</a>)</p>
+<p>계정 보호도 필요하다. 시놀로지 보안 가이드는 기본 admin 계정 비활성화, 최소한의 사용자 권한, 다중 인증을 권고한다. 하지만 RAID나 SHR를 설정했다고 복구 대책이 완성되지는 않는다. 시놀로지도 두 방식이 백업을 대신하지 않는다고 명시한다. (<a href="https://kb.synology.com/en-us/DSM/tutorial/How_to_add_extra_security_to_your_Synology_NAS" target="_blank" rel="nofollow noopener">kb.synology.com</a>)</p>
+<p>NAS에서 별도 USB HDD로 백업하려면 Hyper Backup을 사용할 수 있다. 패키지를 설치한 뒤 새 작업에서 폴더·패키지를 선택하고 대상을 ‘로컬 공유 폴더 또는 USB’로 지정한다. 원본 폴더와 일정을 설정하면 백업 작업이 생성된다. 다중 버전은 .hbk 형식으로 저장되며 단일 버전은 기존 백업을 최신 파일로 덮어쓴다. (<a href="https://kb.synology.com/en-br/DSM/tutorial/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank" rel="nofollow noopener">kb.synology.com</a>)</p>
+<p>작업을 만든 뒤에는 무결성 검사를 예약하고 필요한 파일을 실제로 복원하는 시험까지 설계할 수 있다. Hyper Backup은 이전 시점의 파일 탐색과 복원 기능을 제공한다. 오프라인 사본을 포함한 분리된 백업은 랜섬웨어 대응에서도 중요하다. (<a href="https://kb.synology.com/en-br/DSM/tutorial/How_to_back_up_your_data_to_local_shared_folders_or_USB_with_Hyper_Backup" target="_blank" rel="nofollow noopener">kb.synology.com</a>)</p>
+<p>이 비교에서 저렴한 구성은 본체 가격이 가장 낮은 쪽이 아니다. 필요한 공유 기능과 업데이트 지원, 복원 가능한 별도 사본까지 같은 견적에 넣었을 때 지출이 적은 쪽이다. NAS 구매로 백업 예산이 사라진다면 저장 공간은 늘었어도 구매 목적은 아직 달성하지 못한 셈이다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">맥미니</span><span class="chip">외장 HDD</span><span class="chip">시놀로지 NAS</span><span class="chip">중고 NAS</span><span class="chip">Hyper Backup</span><span class="chip">랜섬웨어</span><span class="chip">HDD 적출</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.trendforce.com/presscenter/news/20260331-12995.html" rel="nofollow noopener">https://www.trendforce.com/presscenter/news/20260331-12995.html</a></li><li><a href="https://support.apple.com/guide/mac-help/set-up-file-sharing-on-mac-mh17131/mac" rel="nofollow noopener">https://support.apple.com/guide/mac-help/set-up-file-sharing-on-mac-mh17131/mac</a></li><li><a href="https://support.apple.com/en-nz/guide/mac-help/mh15139/26/mac/26" rel="nofollow noopener">https://support.apple.com/en-nz/guide/mac-help/mh15139/26/mac/26</a></li><li><a href="https://www.synology.com/en-us/products/status/eol-dsm62" rel="nofollow noopener">https://www.synology.com/en-us/products/status/eol-dsm62</a></li><li><a href="https://www.synology.com/en-global/company/news/article/dsm73" rel="nofollow noopener">https://www.synology.com/en-global/company/news/article/dsm73</a></li><li><a href="https://kb.synology.com/en-us/DSM/tutorial/PMR_SMR_hard_disk_drives?trk=public_post_comment-text" rel="nofollow noopener">https://kb.synology.com/en-us/DSM/tutorial/PMR_SMR_hard_disk_drives?trk=public_p</a></li><li><a href="https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/product/internal-drives/wd-red-plus-hdd/data-sheet-western-digital-wd-red-plus-hdd.pdf" rel="nofollow noopener">https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public</a></li><li><a href="https://www.synology.com/en-global/company/news/article/C3RB3R/security/company/company/company/case_study" rel="nofollow noopener">https://www.synology.com/en-global/company/news/article/C3RB3R/security/company/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>맥미니에 외장 HDD를 연결하면 NAS처럼 공유할 수 있나요?</h2><p class="sum">macOS 파일 공유에서 외장 볼륨의 폴더를 추가하고 계정별 접근 권한을 설정할 수 있다. 공유 폴더를 Time Machine 대상으로 지정하는 기능도 제공한다. (<a href="https://support.apple.com/guide/mac-help/set-up-file-sharing-on-mac-mh17131/mac" target="_blank" rel="nofollow noopener">support.apple.com</a>)</p></article><article class="dcard"><div class="t">Q</div><h2>중고 시놀로지 NAS를 살 때 무엇을 확인해야 하나요?</h2><p class="sum">정확한 모델명과 설치된 DSM, 지원되는 버전으로 업그레이드 가능한지 확인해야 한다. DSM 6.2는 2024년 10월 1일 연장 지원이 종료됐다. (<a href="https://www.synology.com/en-us/products/status/eol-dsm62" target="_blank" rel="nofollow noopener">synology.com</a>)</p></article><article class="dcard"><div class="t">Q</div><h2>NAS에 RAID를 구성하면 별도 백업이 필요 없나요?</h2><p class="sum">시놀로지는 RAID와 SHR가 백업을 대신하지 않는다고 명시한다. Hyper Backup으로 외장 USB 저장장치 등에 별도 백업을 만들 수 있다. (<a href="https://kb.synology.com/en-ca/DSM/tutorial/What_is_Synology_Hybrid_RAID_SHR" target="_blank" rel="nofollow noopener">kb.synology.com</a>)</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-03-1330.html">2026-11-03 11-03 10:06~13:16</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

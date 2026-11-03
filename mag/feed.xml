@@ -13,6 +13,14 @@
     <description>재난 대비용 스타링크는 단말기만 구매해서 완성되지 않는다. Mini의 소비전력과 배터리 운용 시간, 하늘 시야, 대기 모드의 제약을 살펴보고 집에서 버티는 상황과 걸어서 대피하는 상황의 구매 기준을 나눈다.</description>
   </item>
   <item>
+    <title>맥미니 외장 HDD와 시놀로지 NAS, 비용과 백업 비교</title>
+    <link>https://chat.axwith.com/mag/tools/mac-mini-hdd-synology-nas.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/mac-mini-hdd-synology-nas.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Tue, 03 Nov 2026 12:00:00 +0900</pubDate>
+    <description>맥미니에 HDD 독을 연결하는 구성과 시놀로지 NAS를 비교한다. 파일 공유 설정부터 중고 제품의 업데이트 지원, CMR 확인, 랜섬웨어 대응과 별도 백업까지 구매 판단에 필요한 조건을 짚는다.</description>
+  </item>
+  <item>
     <title>피클 AI 사용법과 무료 한도, 국내 업무는 어디까지 맡길까</title>
     <link>https://chat.axwith.com/mag/tools/pickle-ai-tasks-usage-limits.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/pickle-ai-tasks-usage-limits.html</guid>
@@ -235,13 +243,5 @@
     <category>배포·운영</category>
     <pubDate>Tue, 20 Oct 2026 12:00:00 +0900</pubDate>
     <description>직장인의 개인사업자 등록은 세무상 의무와 회사의 겸업 규정을 따로 판단해야 한다. 수익의 성격, 등록 시점, 종합소득세와 건강보험료, 회사 통보에 관한 오해를 살폈다.</description>
-  </item>
-  <item>
-    <title>재난 대피 앱은 왜 화살표보다 신뢰를 먼저 설계해야 하나</title>
-    <link>https://chat.axwith.com/mag/workflow/disaster-evacuation-app-trust.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/disaster-evacuation-app-trust.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 20 Oct 2026 12:00:00 +0900</pubDate>
-    <description>재난 알림과 위치 정보를 결합한 대피 앱의 구현 방법과 한계를 살핀다. 공식 데이터, 안전한 경로, 오보 대응, 개인정보 보호까지 다룬다.</description>
   </item>
 </channel></rss>
