@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>클로드 코드 모델 선택, Opus와 effort를 따로 조절해야 하는 이유</title>
+    <link>https://chat.axwith.com/mag/models/claude-code-model-effort-selection.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-model-effort-selection.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Fri, 06 Nov 2026 12:00:00 +0900</pubDate>
+    <description>클로드 코드에서 Opus medium과 high는 다른 모델이 아니라 effort 설정이다. 훅이 많은 환경에서 생기는 지연을 구분하고, Sonnet과 Opus를 같은 작업으로 비교하는 방법을 공식 문서와 커뮤니티 경험으로 살펴본다.</description>
+  </item>
+  <item>
     <title>AI가 만든 코드 품질을 팀이 통제하는 방법</title>
     <link>https://chat.axwith.com/mag/workflow/ai-code-quality-control.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-code-quality-control.html</guid>
@@ -235,13 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Wed, 21 Oct 2026 12:00:00 +0900</pubDate>
     <description>아이패드의 리눅스 화면은 실제로 조작할 수 있을까? LinPad의 실행 방식과 설치 절차를 확인하고, 듀얼 부팅·가상 머신·원격 접속과의 차이를 짚었다.</description>
-  </item>
-  <item>
-    <title>금융권 생성형 AI, 반복 업무는 어디까지 맡길 수 있나</title>
-    <link>https://chat.axwith.com/mag/ops/financial-ai-workflow-security-controls.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/financial-ai-workflow-security-controls.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Wed, 21 Oct 2026 12:00:00 +0900</pubDate>
-    <description>금융권의 망분리 개선과 AI 가이드라인을 바탕으로 반복 업무에 생성형 AI를 적용하는 방법, 데이터 통제와 사람의 검토가 필요한 경계를 살폈다.</description>
   </item>
 </channel></rss>

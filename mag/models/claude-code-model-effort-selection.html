@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클로드 코드 모델 선택, Opus와 effort를 따로 조절해야 하는 이유 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="클로드 코드에서 Opus medium과 high는 다른 모델이 아니라 effort 설정이다. 훅이 많은 환경에서 생기는 지연을 구분하고, Sonnet과 Opus를 같은 작업으로 비교하는 방법을 공식 문서와 커뮤니티 경험으로 살펴본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/claude-code-model-effort-selection.html">
+<meta property="og:title" content="클로드 코드 모델 선택, Opus와 effort를 따로 조절해야 하는 이유">
+<meta property="og:description" content="클로드 코드에서 Opus medium과 high는 다른 모델이 아니라 effort 설정이다. 훅이 많은 환경에서 생기는 지연을 구분하고, Sonnet과 Opus를 같은 작업으로 비교하는 방법을 공식 문서와 커뮤니티 경험으로 살펴본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/claude-code-model-effort-selection.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "클로드 코드 모델 선택, Opus와 effort를 따로 조절해야 하는 이유", "description": "클로드 코드에서 Opus medium과 high는 다른 모델이 아니라 effort 설정이다. 훅이 많은 환경에서 생기는 지연을 구분하고, Sonnet과 Opus를 같은 작업으로 비교하는 방법을 공식 문서와 커뮤니티 경험으로 살펴본다.", "datePublished": "2026-11-06", "dateModified": "2026-11-06", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/claude-code-model-effort-selection.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "Claude Code, 클로드 코드 모델 선택, Opus, Sonnet, effort, 훅, 하네스", "image": "https://chat.axwith.com/mag/hero/claude-code-model-effort-selection.png"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "클로드 코드의 Opus medium과 high는 다른 모델인가요?", "acceptedAnswer": {"@type": "Answer", "text": "같은 Opus 모델에 적용하는 effort 단계다. effort는 추론뿐 아니라 탐색과 검증 등 작업량에도 영향을 준다. ([claude.com](https://claude.com/resources/articles/claude-model-and-effort-level-in-claude-code?trk=article-ssr-frontend-pulse_little-text-block&utm_source=openai))"}}, {"@type": "Question", "name": "클로드 코드에서 모델과 effort는 어떻게 변경하나요?", "acceptedAnswer": {"@type": "Answer", "text": "`/model`로 모델을 선택하고 `/effort`로 작업 강도를 조절한다. `/effort auto`를 입력하면 모델 기본값으로 돌아간다. ([support.claude.com](https://support.claude.com/en/articles/11940350-claude-code-model-configuration?utm_source=openai))"}}, {"@type": "Question", "name": "Sonnet보다 Opus가 항상 작업 비용이 많이 드나요?", "acceptedAnswer": {"@type": "Answer", "text": "토큰 단가만으로 작업 전체 비용을 판단할 수 없다. Anthropic은 재시도와 사용량을 포함한 완료 작업당 비용으로 비교하도록 권한다. ([platform.claude.com](https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence))"}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-model-effort-selection.png" alt="클로드 코드 모델 선택, Opus와 effort를 따로 조절해야 하는 이유" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>클로드 코드 모델 선택, Opus와 effort를 따로 조절해야 하는 이유</h1>
+  <p class="sub">훅과 하네스를 갖춘 환경에서도 최고 설정이 늘 유리하지는 않다. 모델 능력과 작업 강도를 구분하고, 재시도까지 포함해 선택하는 기준을 살펴본다.</p>
+  <div class="meta"><span>2026-11-06</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>클로드 코드에 작업 규칙과 자동 검사를 촘촘히 붙였다면 모델까지 가장 강한 설정으로 돌려야 할까. 클코단에서는 단순한 작업을 정돈할 때 설정을 높이자 기다림과 불필요한 설명이 늘었다는 경험이 공유됐다. 모델 선택과 effort를 분리하면 이 경험을 성능 우열이 아니라 작업에 맞는 설정을 찾는 문제로 해석할 수 있다.</p>
+<h2>Opus medium은 중간급 모델이 아니다</h2>
+<p>먼저 두 설정을 구분해야 한다. Anthropic의 모델·effort 안내에서 모델은 기본 능력을, effort는 요청에 투입하는 작업량을 조절한다. effort는 생각하는 시간뿐 아니라 파일 탐색, 도구 사용, 검증에도 영향을 준다. (<a href="https://claude.com/resources/articles/claude-model-and-effort-level-in-claude-code?trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="nofollow noopener">claude.com</a>)</p>
+<p>Opus의 medium과 high를 비교하는 것은 같은 모델의 작업 강도를 비교하는 일이다. Sonnet에서 Opus로 바꾸는 것과는 실험 조건이 다르다. 클코단에서 제시된 Opus의 중간·높음 설정 선호를 곧바로 ‘작은 모델이 더 정확하다’는 결론으로 옮길 수 없는 이유다. (<a href="https://claude.com/resources/articles/claude-model-and-effort-level-in-claude-code?trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="nofollow noopener">claude.com</a>)</p>
+<p>현재 Claude Code 모델 설정 문서는 Opus 5.5, Sonnet 5.5, Haiku 5.5의 기본 effort를 medium으로 명시한다. 반면 Sonnet 5.5의 API 기본값은 high다. 같은 모델이라도 제품별 기본값이 다르므로 비교할 때는 모델명과 실행 환경을 함께 기록해야 한다. (<a href="https://code.claude.com/docs/en/model-config" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>방에 공유된 경험에는 정확한 모델 버전과 비교 기록이 없다. 확인할 수 있는 것은 일부 작업에서 높은 설정을 덜 선호했다는 의견이지, 설정을 높이면 오류가 증가한다는 일반 법칙은 아니다.</p>
+<h2>훅이 많은 환경에서는 지연의 원인도 나눠야 한다</h2>
+<p>이 기사에서 하네스는 모델 주변의 지침, 도구, 실행 순서, 검증 장치를 묶어 부르는 말이다. Anthropic은 훅을 특정 실행 시점에 작동하는 제어 장치로 설명한다. 파일을 수정하거나 도구를 호출할 때 별도의 검사를 연결할 수 있다. (<a href="https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more?_bhlid=0e79798dd0ae79445b60d5ee8de8b98469a665ea" target="_blank" rel="nofollow noopener">claude.com</a>)</p>
+<p>하지만 모든 훅이 같은 방식으로 작동하지는 않는다. 공식 훅 문서의 command 훅은 명령을 실행하고, prompt 훅은 모델에 판단을 요청한다. agent 훅은 도구를 사용하는 검증 에이전트를 띄워 파일과 코드를 확인한다. (<a href="https://code.claude.com/docs/en/hooks" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>이 구조라면 메인 모델의 추론 외에도 시간이 들 수 있다. 도구 호출 뒤 검사가 반복되고 검증 에이전트까지 작동한다면 전체 대기 시간을 메인 모델 탓으로만 돌리기 어렵다. 방에서 언급한 느려짐을 설명할 수 있는 가설이지만 해당 환경의 실행 기록으로 확인된 원인은 아니다. (<a href="https://code.claude.com/docs/en/hooks" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<p>검사를 더 많이 하는 것과 필요한 검사를 하는 것은 다르다.</p>
+<p>고정된 형식 검사와 해석이 필요한 검토를 구분하면 비교가 명확해진다. 예컨대 포맷 검사는 명령으로 수행하고, 수정이 요구사항을 충족하는지는 별도로 평가하는 방식이다. 다만 훅이 있다는 이유만으로 판단 능력이 낮은 모델도 충분하다고 보장할 수는 없다. 훅은 실행을 제어하는 장치이지 모델의 능력을 바꾸는 기능이 아니기 때문이다. (<a href="https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more?_bhlid=0e79798dd0ae79445b60d5ee8de8b98469a665ea" target="_blank" rel="nofollow noopener">claude.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-model-effort-selection.png" alt="" loading="lazy"><h2>확인을 생략했는지, 확인하고도 틀렸는지</h2>
+<p>설정을 바꾸기 전에 실패를 분류할 필요가 있다. Anthropic의 안내는 필요한 맥락이 제공됐는지부터 점검하도록 권한다. 관련 파일이나 요구사항이 빠졌다면 모델과 effort 어느 쪽을 바꿔도 핵심 정보의 빈칸은 남는다. (<a href="https://claude.com/resources/articles/claude-model-and-effort-level-in-claude-code" target="_blank" rel="nofollow noopener">claude.com</a>)</p>
+<p>파일을 읽지 않았거나 테스트를 생략했다면 effort를 높이는 쪽이 맞을 수 있다. 반대로 자료를 충분히 확인하고도 설계나 오류 원인을 잘못 판단했다면 더 유능한 모델을 시험할 근거가 된다. Anthropic이 제시한 구분은 ‘실패했으니 최고 설정’보다 실패 과정에 초점을 둔다. (<a href="https://claude.com/resources/articles/claude-model-and-effort-level-in-claude-code?trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="nofollow noopener">claude.com</a>)</p>
+<p>반대 방향도 가능하다. Claude Academy는 요청보다 과하게 일하는 경우 역시 effort 문제로 다룬다. 모델을 교체했다면 이전의 높은 설정을 그대로 유지하지 말고 기본값에서 다시 조절하도록 안내한다. 같은 high라도 모델마다 실제 작업량이 같지 않기 때문이다. (<a href="https://academy.claude.com/tutorials/choosing-the-right-effort-level-in-claude-code" target="_blank" rel="nofollow noopener">academy.claude.com</a>)</p>
+<p>클코단에서 나온 단순 작업의 지연 경험은 이 구분으로 다시 살펴볼 수 있다. 불필요한 탐색이었는지, 잘못된 판단이었는지, 검사가 반복됐는지는 서로 다른 문제다. ‘설명을 많이 했다’는 관찰과 ‘사실을 잘못 말했다’는 판정도 분리해야 한다.</p>
+<h2>같은 작업으로 모델과 effort를 따로 비교하는 방법</h2>
+<p>개인 개발자나 소규모 팀이라면 대표 작업 하나를 정해 비교할 수 있다. 다음은 성능을 입증한 실험이 아니라 공식 설정 기능을 이용한 비교 절차다. 준비물은 동일한 시작 상태의 코드, 같은 요청문, 합격을 판단할 테스트다.</p>
+<ol><li>입력 범위를 고정한다. 예를 들어 특정 함수의 오류 수정만 요청하고 관련 파일과 실행할 테스트를 명시한다.</li><li><code>/model</code>에서 Sonnet을 선택하고 <code>/effort auto</code>로 모델 기본값을 적용한다. 산출물은 코드 변경분과 테스트 실행 결과로 제한한다.</li><li>원래 코드 상태에서 새 세션을 시작한다. 이번에는 Opus와 기본 effort를 선택하고 같은 요청을 실행한다.</li><li>선택한 모델을 고정한 뒤 medium과 high를 비교한다. 모델과 effort를 동시에 바꾸지 않는다. 해당 명령과 기본값 복원은 공식 문서에 안내돼 있다. (<a href="https://support.claude.com/en/articles/11940350-claude-code-model-configuration" target="_blank" rel="nofollow noopener">support.claude.com</a>)</li></ol>
+<p>평가표에는 완료 시간, 테스트 통과 여부, 요청 밖 수정, 사람의 추가 지시 횟수를 넣을 수 있다. 한 번의 성공보다 여러 작업에서 같은 경향이 반복되는지가 중요하다. 이 비교에서는 훅 구성도 유지해야 모델 설정의 차이를 해석하기 쉽다.</p>
+<p>사용량은 <code>/usage</code>로 확인할 수 있다. 공식 비용 문서에 따르면 구독자는 요금제 사용량과 활동 통계를 볼 수 있다. 세션에 표시되는 API 환산 비용은 구독자의 추가 청구액과 같지 않으므로 돈과 사용량을 혼동하지 않아야 한다. (<a href="https://code.claude.com/docs/en/costs" target="_blank" rel="nofollow noopener">code.claude.com</a>)</p>
+<h2>저렴한 모델보다 저렴하게 끝내는 조합</h2>
+<p>공식 권고도 적용 범위에 따라 다르다. Claude Code 도움말은 일반적인 코딩에 Sonnet을, 어려운 디버깅과 구조적 변경에 Opus를 제시한다. 반면 플랫폼의 비용 최적화 문서는 대부분의 에이전트 작업에서 Opus 5.5의 기본 effort를 출발점으로 권한다. (<a href="https://support.claude.com/en/articles/14552983-models-usage-and-limits-in-claude-code" target="_blank" rel="nofollow noopener">support.claude.com</a>)</p>
+<p>두 안내를 가르는 기준은 토큰 단가만이 아니다. Anthropic은 완료한 작업당 비용으로 비교하라고 설명한다. 더 유능한 모델이 적은 시도와 작업량으로 끝낸다면 높은 단가를 상쇄할 수 있기 때문이다. 공식 내부 평가도 공개 순위와 직접 비교할 수 없는 하위 집합이므로 특정 조합의 보편적 우승으로 읽어서는 안 된다. (<a href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p>
+<p>이 기준을 방의 사례에 적용하면 판단 대상은 명확해진다. 단순 정리 작업에서 medium이 합격 조건을 충족하고 high가 수정 품질을 높이지 못했다면 추가 작업량을 살 이유가 없다. 반대로 낮은 설정에서 재시도와 사람의 수정이 늘었다면 첫 응답이 빨랐다는 장점은 줄어든다.</p>
+<p>훅을 촘촘히 갖춘 환경의 기본값은 가장 높은 설정이 아니라 정해진 검증을 통과하며 일을 끝내는 조합이어야 한다. 이 사례가 남기는 질문은 모델이 얼마나 오래 일했느냐가 아니다. 추가로 한 일이 실제 오류를 줄였느냐다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">클로드 코드 모델 선택</span><span class="chip">Opus</span><span class="chip">Sonnet</span><span class="chip">effort</span><span class="chip">훅</span><span class="chip">하네스</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://claude.com/resources/articles/claude-model-and-effort-level-in-claude-code" rel="nofollow noopener">https://claude.com/resources/articles/claude-model-and-effort-level-in-claude-co</a></li><li><a href="https://code.claude.com/docs/en/model-config" rel="nofollow noopener">https://code.claude.com/docs/en/model-config</a></li><li><a href="https://www.anthropic.com/claude-sonnet-5-5" rel="nofollow noopener">https://www.anthropic.com/claude-sonnet-5-5</a></li><li><a href="https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more" rel="nofollow noopener">https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-mo</a></li><li><a href="https://code.claude.com/docs/en/hooks" rel="nofollow noopener">https://code.claude.com/docs/en/hooks</a></li><li><a href="https://academy.claude.com/tutorials/choosing-the-right-effort-level-in-claude-code" rel="nofollow noopener">https://academy.claude.com/tutorials/choosing-the-right-effort-level-in-claude-c</a></li><li><a href="https://support.claude.com/en/articles/11940350-claude-code-model-configuration" rel="nofollow noopener">https://support.claude.com/en/articles/11940350-claude-code-model-configuration</a></li><li><a href="https://code.claude.com/docs/en/costs" rel="nofollow noopener">https://code.claude.com/docs/en/costs</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>클로드 코드의 Opus medium과 high는 다른 모델인가요?</h2><p class="sum">같은 Opus 모델에 적용하는 effort 단계다. effort는 추론뿐 아니라 탐색과 검증 등 작업량에도 영향을 준다. (<a href="https://claude.com/resources/articles/claude-model-and-effort-level-in-claude-code?trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="nofollow noopener">claude.com</a>)</p></article><article class="dcard"><div class="t">Q</div><h2>클로드 코드에서 모델과 effort는 어떻게 변경하나요?</h2><p class="sum"><code>/model</code>로 모델을 선택하고 <code>/effort</code>로 작업 강도를 조절한다. <code>/effort auto</code>를 입력하면 모델 기본값으로 돌아간다. (<a href="https://support.claude.com/en/articles/11940350-claude-code-model-configuration" target="_blank" rel="nofollow noopener">support.claude.com</a>)</p></article><article class="dcard"><div class="t">Q</div><h2>Sonnet보다 Opus가 항상 작업 비용이 많이 드나요?</h2><p class="sum">토큰 단가만으로 작업 전체 비용을 판단할 수 없다. Anthropic은 재시도와 사용량을 포함한 완료 작업당 비용으로 비교하도록 권한다. (<a href="https://platform.claude.com/docs/en/about-claude/models/optimizing-for-cost-and-intelligence" target="_blank" rel="nofollow noopener">platform.claude.com</a>)</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-05-2200.html">2026-11-05 11-05 18:07~21:39</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
