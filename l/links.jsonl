@@ -2653,3 +2653,5 @@
 {"code": "b52928", "url": "https://www.theverge.com/ai-artificial-intelligence/1027599/openai-gpt-6-cyber-launch", "title": "OpenAI(오픈AI), 보안 특화 'GPT-6(지피티 6) Cyber' 출시…취약점 탐지 개선·이탈률 5%→1% 미만"}
 {"code": "6ed369", "url": "https://x.com/perplexity_ai/status/2118389326459670825", "title": "Perplexity(퍼플렉시티), 자율 업무 수행 에이전트 'Teammates' 공개"}
 {"code": "e8b14c", "url": "https://x.com/OfficialLoganK/status/2118390838434693281", "title": "구글, Gemini(제미나이) Omni Flash 1.2 공개…영상 생성 15초로 확장·가격 30% 인하"}
+{"code": "c62cbd", "url": "https://x.com/gdb/status/2118410818933203038", "title": "OpenAI(오픈AI), JP모건과 전략적 파트너십…금융 사이버보안·엔지니어링 협력"}
+{"code": "ff0465", "url": "https://www.reddit.com/r/LLMDevs/comments/1xoqobo/i_crashed_agents_right_after_an_approved_payment", "title": "LangGraph(랭그래프)·Pydantic AI·OpenAI(오픈AI) SDK, 결제 승인 직후 프로세스 중단 시 매번 이중 결제 발생"}
