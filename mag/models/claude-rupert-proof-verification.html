@@ -244,7 +244,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <p>2021년 Jakob Steininger와 Sergey Yurkevich는 루퍼트 문제를 대수적 좌표를 가진 다면체에 대해 알고리즘으로 판정할 수 있다고 설명했다. 두 연구자는 여러 입체의 통과 경로를 계산했고 rhombicosidodecahedron은 루퍼트 성질이 없을 가능성이 높다고 추측했다.</p>
 <p>당시에는 추측일 뿐이었다. 가능한 회전이 무한히 많다. 컴퓨터가 통과 경로를 찾지 못했다는 사실만으로는 통과 불가능을 증명할 수 없다. Quanta Magazine이 소개한 것처럼 연구자들은 이 입체를 오랫동안 계산했지만 발견된 경로는 없었다.</p>
 <p>2025년에는 Steininger와 Yurkevich가 Noperthedron이라는 별도 입체를 제시했다. 이 입체는 자기 복제본을 통과시킬 수 없다는 최초의 명시적 반례였다. 그 결과 모든 볼록 다면체가 루퍼트 성질을 가진다는 오래된 믿음은 깨졌고 다음 후보로 rhombicosidodecahedron이 남았다.</p>
-<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-rupert-proof-verification.png" alt="" loading="lazy"><h2>Claude는 증명을 어떻게 도왔나</h2>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-rupert-proof-verification.webp" alt="" loading="lazy"><h2>Claude는 증명을 어떻게 도왔나</h2>
 <p>공개된 설명에 따르면 연구자는 먼저 입체의 좌표와 회전 조건을 정리했다. Claude는 수학적 아이디어를 제안하고 계산 코드와 논문 초안을 작성하는 데 참여했다. 연구자는 문제를 고르고 각 단계의 방향을 결정했으며 결과를 다시 확인했다.</p>
 <p>증명의 계산 구조는 단순한 숫자 대입이 아니다. 가능한 두 입체의 방향을 매개변수 공간의 영역으로 나눈 뒤 각 영역에서 그림자가 서로 들어맞을 수 있는지 검사한다. 넓은 영역에서 조건이 성립하지 않으면 해당 영역을 제거한다. 애매한 영역은 더 작은 상자로 쪼개 다시 확인한다.</p>
 <p>여기서 사용한 방식이 branch-and-bound와 구간 연산이다. 구간 연산은 하나의 근삿값만 계산하지 않고 가능한 값의 하한과 상한을 함께 계산한다. 계산 결과가 조건을 위반하는 범위 전체를 포함하면 그 영역을 안전하게 제외할 수 있다. 반올림 오차가 우연히 통과 조건을 만들어내는 일을 막는 장치다.</p>
