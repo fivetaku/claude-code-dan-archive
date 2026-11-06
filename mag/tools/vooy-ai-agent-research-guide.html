@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vooy AI 에이전트, 부동산 리서치에 써도 될까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Vooy AI 에이전트가 당근·부동산 리서치와 예약 업무에서 어떻게 작동하는지, Pickle Rick과 무엇이 다른지 공식 정보와 사용 반응을 바탕으로 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/tools/vooy-ai-agent-research-guide.html">
+<meta property="og:title" content="Vooy AI 에이전트, 부동산 리서치에 써도 될까">
+<meta property="og:description" content="Vooy AI 에이전트가 당근·부동산 리서치와 예약 업무에서 어떻게 작동하는지, Pickle Rick과 무엇이 다른지 공식 정보와 사용 반응을 바탕으로 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/tools/vooy-ai-agent-research-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Vooy AI 에이전트, 부동산 리서치에 써도 될까", "description": "Vooy AI 에이전트가 당근·부동산 리서치와 예약 업무에서 어떻게 작동하는지, Pickle Rick과 무엇이 다른지 공식 정보와 사용 반응을 바탕으로 정리했다.", "datePublished": "2026-11-07", "dateModified": "2026-11-07", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/tools/vooy-ai-agent-research-guide.html"}, "articleSection": "도구·라이브러리", "keywords": "Vooy, AI 에이전트, 부동산 리서치, 당근마켓, MCP, Pickle Rick, 개인 비서", "image": "https://chat.axwith.com/mag/hero/vooy-ai-agent-research-guide.webp"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Vooy는 어떤 서비스인가요?", "acceptedAnswer": {"@type": "Answer", "text": "Vooy는 카카오톡·텔레그램·LINE에서 자연어 요청을 받아 검색, 비교, 예약, 주문 같은 작업을 수행하는 AI 에이전트입니다. 실제 예약이나 구매는 사용자 확인 뒤 진행됩니다."}}, {"@type": "Question", "name": "Vooy로 부동산 매물을 찾아도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "지역·예산·면적·교통 조건을 입력해 후보를 비교하는 용도로 사용할 수 있습니다. 다만 매물의 최신성, 허위 여부, 계약 조건은 원문과 중개업소를 통해 별도로 확인해야 합니다."}}, {"@type": "Question", "name": "Vooy와 Pickle Rick의 차이는 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "Vooy는 생활 서비스 검색과 예약을 실행하는 개인 에이전트입니다. Pickle Rick은 PRD를 바탕으로 코드를 작성하고 테스트·리뷰를 반복하는 개발 자동화 도구입니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/vooy-ai-agent-research-guide.webp" alt="Vooy AI 에이전트, 부동산 리서치에 써도 될까" loading="eager">
+<header>
+  <span class="catchip c-tool">도구·라이브러리</span>
+  <h1>Vooy AI 에이전트, 부동산 리서치에 써도 될까</h1>
+  <p class="sub">메신저 한 줄로 검색과 예약을 실행하는 Vooy의 구조와 실제 활용 조건을 살펴봤다</p>
+  <div class="meta"><span>2026-11-07</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI 에이전트가 검색 결과를 보여주는 데서 멈추지 않고 실제 작업까지 처리하기 시작했다. Vooy는 카카오톡·텔레그램·LINE에서 자연어로 요청을 받고 필요한 서비스를 찾아 비교한 뒤 예약이나 주문으로 이어가는 서비스다. 당근과 부동산처럼 조건이 많은 검색에 써도 되는지, 코딩 자동화 도구인 Pickle Rick보다 빠르다는 평가가 왜 나오는지 살펴봤다.</p>
+<h2>Vooy는 검색부터 실행까지 이어간다</h2>
+<p>Vooy는 공식 설명에서 단순한 챗봇보다 실행형 AI 에이전트를 표방한다. 사용자가 원하는 목표를 말하면 에이전트가 필요한 도구와 외부 서비스를 선택하고 결과를 비교해 다음 행동까지 이어간다. 식당 예약, 배달 주문, 주차권 구매, 쇼핑, 일정 관리가 대표 사례다.</p>
+<p>작동 방식은 비교적 분명하다. 먼저 요청의 조건을 해석하고 연결할 서비스를 고른다. 그다음 가격·거리·시간·후기 같은 기준으로 후보를 좁힌다. 예약이나 결제가 필요한 단계에서는 사용자 확인을 받은 뒤 실행한다.</p>
+<p>검색과 요약만 시킬 때는 외부 서비스 연결 없이 시작할 수 있다. 실제 예약이나 결제를 진행할 때만 권한과 계정 연결을 요구하는 구조다. 공식 개인정보 처리방침은 요청 내용과 메신저 식별정보, 에이전트 실행 기록, 연결된 외부 서비스 정보를 처리할 수 있다고 밝힌다.</p>
+<p>사용자가 여러 앱을 오가는 시간을 줄여준다는 점에서 의미가 있다.</p>
+<p>방 논의에서도 Vooy를 당근 상품 탐색과 부동산 리서치에 활용했다는 경험이 나왔다. 검색어를 바꿔가며 결과를 모으기보다 조건을 한 번에 전달하고 결과를 받는 방식이 편하다는 의견이 많았다.</p>
+<h2>당근·부동산 리서치의 이점은 비교 작업</h2>
+<p>Vooy가 특히 잘 맞는 작업은 정답 하나를 찾는 검색보다 여러 조건을 비교하는 일이다. 예를 들어 “서울 특정 지역에서 예산 이하인 중고 가구를 찾고, 이동거리와 상태를 비교해 달라”는 식으로 요청할 수 있다. 부동산이라면 지역, 보증금, 월세, 면적, 입주 가능일처럼 기준을 나눠 전달할 수 있다.</p>
+<p>다만 Vooy가 모든 매물이나 상품을 빠짐없이 본다고 단정할 수는 없다. 연결된 서비스가 제공하는 정보와 접근 권한에 결과가 좌우되기 때문이다. 공식 자료도 서비스별로 자동 실행 범위가 다르다고 설명한다. 부동산 검색에서는 매물의 최신성, 중복 등록, 허위 정보 여부를 별도로 확인해야 한다. AI가 여러 페이지를 읽어 표로 정리해도 현장 상태나 계약 조건까지 검증해 주는 것은 아니다.</p>
+<p>매물 추천은 후보를 좁히는 데 쓰고 계약 판단은 원문과 중개업소 확인으로 분리하는 편이 안전하다.</p>
+<p>실사용 반응에서도 기대와 경계가 함께 나타났다. 써본 사람들 사이에서는 국내 서비스 연결이 편하다는 평가가 있었다. 개인의 취향과 맥락을 얼마나 오래 정확하게 기억하는지는 더 지켜봐야 한다는 의견도 나왔다. 빠른 첫 결과와 장기적인 개인화는 서로 다른 문제다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/vooy-ai-agent-research-guide.webp" alt="" loading="lazy"><h2>Vooy가 Pickle Rick보다 빠르게 느껴지는 이유</h2>
+<p>방에서 비교 대상으로 언급된 Pickle Rick은 Vooy와 경쟁하는 같은 종류의 제품이 아니다. Pickle Rick은 GitHub에 공개된 Claude Code용 도구 모음으로, PRD를 바탕으로 작업을 티켓으로 나누고 구현·검증·리뷰를 반복하는 개발 자동화 루프다.</p>
+<p>사용자는 <code>prd.md</code> 같은 요구사항 문서를 준비하고 Pickle Rick이 작업을 분해하도록 한다. 이후 워커 프로세스가 코드를 작성하고 테스트와 리뷰를 거친다. 산출물은 코드 변경, 테스트 결과, 리뷰 기록처럼 개발 저장소에 남는다.</p>
+<p>Vooy는 이 과정을 거치지 않는다.</p>
+<p>사용자는 코드 저장소나 PRD를 준비하지 않고 메신저에 목적을 적는다. 서비스가 이미 연결해 둔 검색·예약·주문 도구를 호출하고 비교 결과나 다음 선택지를 돌려준다. 그래서 당근 상품을 찾거나 지역 매물을 비교하는 짧은 작업에서는 Vooy가 더 빠르게 느껴질 수 있다.</p>
+<p>반대로 새로운 업무 시스템을 만들거나 반복 가능한 개발 파이프라인을 구성하려면 Pickle Rick처럼 요구사항과 검증 절차를 관리하는 도구가 적합하다. 속도 차이는 작업의 시작점과 산출물의 종류에 따라 다르게 느껴질 수 있다.</p>
+<h2>실제 요청은 ‘조건표’처럼</h2>
+<p>Vooy에 “좋은 집 찾아줘”라고만 말하면 결과 기준이 모호해진다. 지역, 예산, 이동수단, 우선순위, 제외 조건을 함께 적어야 비교 결과가 쓸 만해진다. 중고 거래라면 희망 가격과 상태, 직거래 가능 여부, 이동 거리부터 정하는 식이다.</p>
+<p>부동산 리서치에서는 이렇게 요청할 수 있다. “마포구에서 보증금 1억 원 이하, 월세 100만 원 이하, 전용면적 40㎡ 이상, 지하철역 도보 10분 이내 매물을 찾고, 관리비와 입주 가능일을 표로 비교해 달라.”</p>
+<p>이때 결과에는 매물 링크와 확인 시각을 포함해 달라고 요청하는 편이 낫다. 출력도 단계별로 나누는 것이 좋다. 첫 요청에서는 후보 수집과 비교만 시키고 두 번째 요청에서 조건을 좁힌다. 연락이나 예약처럼 외부 행동이 필요한 단계는 마지막에 별도로 승인한다. Vooy 공식 안내도 예약·주문·구매 같은 실제 결과가 발생하는 행동에는 사용자 확인이 필요하다고 설명한다.</p>
+<p>개인 개발자와 소규모 팀에게 이 방식은 작은 업무 자동화 실험으로 유용하다. 별도 앱을 만들거나 API를 직접 묶기 전에 자연어 요청만으로 업무가 이어지는지 확인할 수 있다. 다만 반복 업무를 팀 프로세스로 굳히려면 실행 로그, 권한 관리, 실패 시 재처리 방법까지 확인해야 한다.</p>
+<h2>Vooy의 다음 경쟁력은 연결된 서비스 수다</h2>
+<p>Vooy의 성능은 대화 문장만으로 결정되지 않는다. 어떤 서비스에 접근할 수 있고 어떤 권한으로 검색·예약·주문을 실행할 수 있는지가 중요하다. Vooy는 여러 생활 서비스와의 연동을 확대하고 있다고 설명한다.</p>
+<p>문제는 한국의 소비자 서비스가 모두 AI에 열려 있지는 않다는 데 있다.</p>
+<p>최근 Vooy는 자체 앱을 내놓았지만 공식 사이트는 카카오톡·텔레그램·LINE을 주요 접점으로 안내한다. App Store 등록 정보에는 대화 맥락, 취향, 일정에 기반한 도움과 그룹 대화 기능이 소개돼 있다. 아직 리뷰가 충분히 쌓이지 않은 초기 단계라는 점은 사용자가 감안해야 한다.</p>
+<p>초대 방식의 베타 운영은 초기 사용자를 모으는 데 도움이 된다. 다만 릴레이가 계속 이어지는 것과 서비스가 안정적으로 확장되는 것은 다르다. 외부 반응에서도 초대 코드에 대한 관심과 함께 실제로 개인 맥락을 얼마나 잘 이해하는지 확인해야 한다는 분위기가 나타났다.</p>
+<p>Vooy를 바라볼 때 던질 질문은 “AI가 무엇을 알고 있나”보다 “내가 맡길 수 있는 마지막 단계가 어디까지인가”에 가깝다. 후보를 찾고 비교하는 일은 빠르게 맡길 수 있지만 계약·결제·대외 연락은 확인 절차를 남겨야 한다.</p>
+<p>Vooy가 Pickle Rick보다 빠른 순간은 개발을 자동화해서가 아니라, 이미 연결된 생활 서비스를 한 문장 뒤에 배치했을 때다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Vooy</span><span class="chip">AI 에이전트</span><span class="chip">부동산 리서치</span><span class="chip">당근마켓</span><span class="chip">MCP</span><span class="chip">Pickle Rick</span><span class="chip">개인 비서</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://vooy.com/en" rel="nofollow noopener">https://vooy.com/en</a></li><li><a href="https://vooy.com/ko" rel="nofollow noopener">https://vooy.com/ko</a></li><li><a href="https://vooy.com/en/docs/privacy/2026-08-11" rel="nofollow noopener">https://vooy.com/en/docs/privacy/2026-08-11</a></li><li><a href="https://apps.apple.com/kr/app/vooy/id6800661620" rel="nofollow noopener">https://apps.apple.com/kr/app/vooy/id6800661620</a></li><li><a href="https://www.digitaltoday.co.kr/en/view/119147/korean-actionable-ai-agents-expand-to-handle-booking-and-payments" rel="nofollow noopener">https://www.digitaltoday.co.kr/en/view/119147/korean-actionable-ai-agents-expand</a></li><li><a href="https://www.hankyung.com/article/202609289553i" rel="nofollow noopener">https://www.hankyung.com/article/202609289553i</a></li><li><a href="https://github.com/gregorydickson/pickle-rick-claude" rel="nofollow noopener">https://github.com/gregorydickson/pickle-rick-claude</a></li><li><a href="https://kr.linkedin.com/posts/yk-e_%EC%A7%80%EB%82%9C-%EC%A3%BC%EB%A7%90-%ED%95%B4%EC%8B%9C%EB%93%9C-%EB%9D%BC%EC%9A%B4%EC%A7%80%EC%97%90%EC%84%9C-%EC%97%B4%EB%A6%B0-vooy-recipe-day-%ED%95%B4%EC%BB%A4%ED%86%A4%EC%97%90-%EC%B0%B8%EA%B0%80%ED%96%88%EC%습니다-activity-7480571645284470784-P_aM" rel="nofollow noopener">https://kr.linkedin.com/posts/yk-e_%EC%A7%80%EB%82%9C-%EC%A3%BC%EB%A7%90-%ED%95%</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Vooy는 어떤 서비스인가요?</h2><p class="sum">Vooy는 카카오톡·텔레그램·LINE에서 자연어 요청을 받아 검색, 비교, 예약, 주문 같은 작업을 수행하는 AI 에이전트입니다. 실제 예약이나 구매는 사용자 확인 뒤 진행됩니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Vooy로 부동산 매물을 찾아도 되나요?</h2><p class="sum">지역·예산·면적·교통 조건을 입력해 후보를 비교하는 용도로 사용할 수 있습니다. 다만 매물의 최신성, 허위 여부, 계약 조건은 원문과 중개업소를 통해 별도로 확인해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Vooy와 Pickle Rick의 차이는 무엇인가요?</h2><p class="sum">Vooy는 생활 서비스 검색과 예약을 실행하는 개인 에이전트입니다. Pickle Rick은 PRD를 바탕으로 코드를 작성하고 테스트·리뷰를 반복하는 개발 자동화 도구입니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-sunsang-claude-code-score.html">바이브선생, 클로드코드 대화 로그로 AI 협업 실력 점수 매기기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kiro-claude-codex-workflow.html">키로(Kiro) 실사용기: 클로드·코덱스와 병행 조합은?</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-slop-style-cloning-tools.html">AI 슬롭체를 넘어서려는 클로드 코드 문체 복제 도구들</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-tax-invoice-automation-bolta-popbill.html">세금계산서, AI에게 말로 시키는 시대: 볼타 vs 팝빌</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-account-switch-tools.html">클로드코드 한도 걸릴 때 계정 갈아타는 멀티 계정 스위치 도구들</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-06-1800.html">2026-11-06 11-06 15:04~17:52</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
