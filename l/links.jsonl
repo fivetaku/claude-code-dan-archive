@@ -2667,3 +2667,4 @@
 {"code": "1426b6", "url": "https://www.aitimes.com/news/articleView.html?idxno=217042", "title": "미국 주민투표 '39대 1'...유권자들 AI 데이터센터에 압도적 반대"}
 {"code": "8e75ec", "url": "https://www.theverge.com/ai-artificial-intelligence/1028302/perplexity-teammates-ai-agents-work", "title": "Perplexity(퍼플렉시티), 업무용 AI 에이전트 'Teammates' 출시"}
 {"code": "c23817", "url": "https://x.com/minchoi/status/2118471354244800573", "title": "구글, 영상 생성 모델 'Gemini(제미나이) Omni 1.2 Flash' 공개"}
+{"code": "3b58ff", "url": "https://github.com/anthropics/claude-code/issues/107757", "title": "Claude Code(클로드 코드), 웹 검색 시 User-Agent 헤더에 사용자 이메일 노출 논란"}
