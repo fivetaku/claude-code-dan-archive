@@ -1,0 +1,38 @@
+# Pages 배포 — 레거시 브랜치 빌드 대체 (2026-11-07)
+# 레거시 빌드는 deploy 대기 10분 고정이라 GitHub 쪽 updating_pages가 늦으면 실패했고,
+# 매시 :25 단축링크 푸시와 겹치면 "in progress deployment"로 거절됐다.
+# 여기서는 대기 30분 + 동시 실행은 줄 세우기(cancel-in-progress: false).
+# Jekyll 미사용(앞머리 있는 파일 없음) — 대신 Jekyll이 빼던 점(.)파일만 제외한다.
+name: pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/configure-pages@v6
+      - name: stage
+        run: |
+          mkdir -p "$RUNNER_TEMP/site"
+          rsync -a --exclude='.*' ./ "$RUNNER_TEMP/site/"
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ runner.temp }}/site
+      - id: deploy
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 1800000
