@@ -2720,3 +2720,6 @@
 {"code": "54d4f6", "url": "https://community.openai.com/t/security-follow-up-tool-call-silently-routed-to-a-different-connector/1413053", "title": "ChatGPT(챗GPT), 커넥터 간 확인 코드 몰래 전달…MCP 보안 허점 드러나"}
 {"code": "166f42", "url": "https://www.reddit.com/r/ollama/comments/1xpvq9l/see_detailed_usage_metrics_on_the_new_settings", "title": "Ollama(올라마), 설정 페이지에 상세 사용량 지표 추가"}
 {"code": "be0ac8", "url": "https://www.reddit.com/r/ChatGPTCoding/comments/1xpr38u/cursor_stopped_serving_third_party_anthropic_and", "title": "Cursor(커서), Anthropic(앤트로픽)·OpenAI(오픈AI) 서드파티 모델 제공 중단"}
+{"code": "c217d3", "url": "https://www.aitimes.com/news/articleView.html?idxno=217114", "title": "예진, 사전학습부터 독자 개발한 한국어 특화 8B 모델 공개"}
+{"code": "349637", "url": "https://x.com/IntCyberDigest/status/2118878603299660016", "title": "뉴욕타임스, Brave를 '데이터 장물아비'로 제소…스크래핑한 300억 웹페이지 AI 업체에 판매 주장"}
+{"code": "d776f2", "url": "https://x.com/hqmank/status/2118960434405421105", "title": "OpenAI(오픈AI), AI 에이전트가 직접 전화 거는 'Outbound SIP Calling' 공개"}
