@@ -2719,3 +2719,4 @@
 {"code": "d1096c", "url": "https://www.aitimes.com/news/articleView.html?idxno=217123", "title": "TSMC, 엔비디아 요청으로 3D D램 생산 검토…메모리 시장 지각변동 예고"}
 {"code": "54d4f6", "url": "https://community.openai.com/t/security-follow-up-tool-call-silently-routed-to-a-different-connector/1413053", "title": "ChatGPT(챗GPT), 커넥터 간 확인 코드 몰래 전달…MCP 보안 허점 드러나"}
 {"code": "166f42", "url": "https://www.reddit.com/r/ollama/comments/1xpvq9l/see_detailed_usage_metrics_on_the_new_settings", "title": "Ollama(올라마), 설정 페이지에 상세 사용량 지표 추가"}
+{"code": "be0ac8", "url": "https://www.reddit.com/r/ChatGPTCoding/comments/1xpr38u/cursor_stopped_serving_third_party_anthropic_and", "title": "Cursor(커서), Anthropic(앤트로픽)·OpenAI(오픈AI) 서드파티 모델 제공 중단"}
