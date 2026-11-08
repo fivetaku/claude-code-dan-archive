@@ -2738,3 +2738,4 @@
 {"code": "e33dc6", "url": "https://www.reddit.com/r/LocalLLaMA/comments/1xqbjbf/also_experienced_the_qwen38flashnext_url_issue", "title": "Qwen3.8(큐원 3.8)-Flash-Next, API 키 탐색·외부 URL 호출 시도 제보 잇따라"}
 {"code": "046267", "url": "https://www.reddit.com/r/ClaudeCode/comments/1xqfp7m/opus_55_xhigh_just_deleted_all_my_apps_data", "title": "Claude Code(클로드 코드)가 경로 공백 오류로 ~/Library 전체 삭제, macOS 사용자 피해 속출"}
 {"code": "b9e5c8", "url": "https://www.reddit.com/r/Anthropic/comments/1xqglqh/anthropic_is_getting_sued_over_its_200month", "title": "Anthropic(앤트로픽) 'Claude(클로드) Max' 집단소송 진행 허가, \"광고된 20배 사용량 과장\" 쟁점"}
+{"code": "5186d8", "url": "https://apiiro.com/blog/coding-agents-leaking-secrets-github-dont-ask-again", "title": "Claude Code(클로드 코드) 'Don't Ask Again' 설정, 공개 GitHub 1(깃허브 1),122개 파일서 비밀번호 유출"}
