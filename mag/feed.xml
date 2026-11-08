@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>랜섬웨어 시대, 망 분리만으로 소스파일을 지킬 수 있을까</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/ransomware-network-segmentation-source-files.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/ransomware-network-segmentation-source-files.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 08 Nov 2026 12:00:00 +0900</pubDate>
+    <description>랜섬웨어는 단일 PC를 넘어 계정·백업·가상화 환경을 함께 노린다. 망 분리 기업이 소스파일을 옮길 때 확인할 통제와 복구 절차를 정리했다.</description>
+  </item>
+  <item>
+    <title>CCNP 수준 네트워크 담당자에게 필요한 AI 시대의 책임과 역량</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/ccnp-network-ai-responsibility.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/ccnp-network-ai-responsibility.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Sun, 08 Nov 2026 12:00:00 +0900</pubDate>
+    <description>CCNP Enterprise가 검증하는 기술 범위와 AI 네트워크 자동화의 현실을 살펴보고, 장애 책임자에게 필요한 설계·검증·통제 역량을 정리한다.</description>
+  </item>
+  <item>
     <title>Vooy AI 에이전트, 부동산 리서치에 써도 될까</title>
     <link>https://chat.axwith.com/mag/tools/vooy-ai-agent-research-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/vooy-ai-agent-research-guide.html</guid>
@@ -227,21 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Fri, 23 Oct 2026 12:00:00 +0900</pubDate>
     <description>AI_TOP_100 2026의 예선은 가상 인물 인터뷰에서 단서를 모아 AI 에이전트를 제작하는 방식이다. 공식 일정과 도구·지원금 조건을 확인하고, 질문부터 검증까지의 설계 순서를 짚는다.</description>
-  </item>
-  <item>
-    <title>웹 URL과 UI 자료로 AI 인터랙션 재현하기</title>
-    <link>https://chat.axwith.com/mag/resources/ai-ui-reproduction-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/ai-ui-reproduction-workflow.html</guid>
-    <category>자료·링크 공유</category>
-    <pubDate>Thu, 22 Oct 2026 12:00:00 +0900</pubDate>
-    <description>AI 코딩 에이전트가 웹페이지의 디자인과 애니메이션을 더 정확히 재현하도록 URL, UI 코드, 디자인 토큰, 공개 자료를 조합하는 방법을 정리했다.</description>
-  </item>
-  <item>
-    <title>에이전트 세션을 늘려도 집중력을 잃지 않는 법: Agent View의 역할과 한계</title>
-    <link>https://chat.axwith.com/mag/workflow/agent-view-context-switching-workflow.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/agent-view-context-switching-workflow.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Thu, 22 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Claude Code Agent View의 실행·알림·검토 흐름을 살펴보고, 에이전트 대기 시간에 다른 일을 하면서도 작업 맥락을 잃지 않으려면 무엇을 기록해야 하는지 짚는다.</description>
   </item>
 </channel></rss>

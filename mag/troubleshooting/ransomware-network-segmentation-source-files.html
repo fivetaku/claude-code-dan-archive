@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>랜섬웨어 시대, 망 분리만으로 소스파일을 지킬 수 있을까 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="랜섬웨어는 단일 PC를 넘어 계정·백업·가상화 환경을 함께 노린다. 망 분리 기업이 소스파일을 옮길 때 확인할 통제와 복구 절차를 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/ransomware-network-segmentation-source-files.html">
+<meta property="og:title" content="랜섬웨어 시대, 망 분리만으로 소스파일을 지킬 수 있을까">
+<meta property="og:description" content="랜섬웨어는 단일 PC를 넘어 계정·백업·가상화 환경을 함께 노린다. 망 분리 기업이 소스파일을 옮길 때 확인할 통제와 복구 절차를 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/ransomware-network-segmentation-source-files.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "랜섬웨어 시대, 망 분리만으로 소스파일을 지킬 수 있을까", "description": "랜섬웨어는 단일 PC를 넘어 계정·백업·가상화 환경을 함께 노린다. 망 분리 기업이 소스파일을 옮길 때 확인할 통제와 복구 절차를 정리했다.", "datePublished": "2026-11-08", "dateModified": "2026-11-08", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/ransomware-network-segmentation-source-files.html"}, "articleSection": "질문·트러블슈팅", "keywords": "랜섬웨어, 사내보안, 망분리, 백업, 네트워크보안, 소스코드보안", "image": "https://chat.axwith.com/mag/hero/ransomware-network-segmentation-source-files.webp"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "망 분리된 회사도 랜섬웨어에 감염될 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "가능합니다. 파일 반입·반출, 원격 접속, 공유 계정, 관리자 권한이 경계 역할을 대신할 수 있습니다. 망 분리는 공격자의 이동을 줄이지만 파일과 계정의 통제를 함께 운영해야 합니다."}}, {"@type": "Question", "name": "랜섬웨어 백업은 어디에 보관해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "운영망과 분리된 오프사이트 또는 오프라인 저장소를 포함해야 합니다. 백업 변경·삭제를 제한하고, 실제 복구 테스트로 파일과 시스템이 정상적으로 돌아오는지 확인해야 합니다."}}, {"@type": "Question", "name": "랜섬웨어 감염이 의심되면 가장 먼저 무엇을 해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "감염 의심 장비와 계정을 네트워크에서 격리하고 공유 폴더와 백업 연결을 차단해야 합니다. 포맷하기 전에 침해 범위와 증거를 보존하고, 깨끗한 환경에서 비밀번호와 접근 토큰을 재발급해야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ransomware-network-segmentation-source-files.webp" alt="랜섬웨어 시대, 망 분리만으로 소스파일을 지킬 수 있을까" loading="eager">
+<header>
+  <span class="catchip c-ask">질문·트러블슈팅</span>
+  <h1>랜섬웨어 시대, 망 분리만으로 소스파일을 지킬 수 있을까</h1>
+  <p class="sub">분리된 사내망도 파일 반출입과 계정 권한이 얽히면 안전하지 않다. 백업과 복구까지 점검하는 방법을 살폈다.</p>
+  <div class="meta"><span>2026-11-08</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>동료 PC의 랜섬웨어 피해 소식은 한 가지 불편한 질문을 남긴다. 외부 회사망과 내부 인트라망이 나뉘어 있고 소스파일을 가끔 옮긴다면, 그 경계는 실제로 얼마나 안전할까. 이 글은 망 분리만 믿기 어려운 이유와 개인 개발자·소규모 팀이 바로 점검할 항목을 다룬다.</p>
+<h2>랜섬웨어는 파일을 잠그는 데서 멈추지 않는다</h2>
+<p>랜섬웨어는 파일이나 시스템 접근을 막고 금전을 요구하는 악성코드다. FBI 인터넷범죄신고센터(IC3)는 2025년 랜섬웨어 신고가 3,600건을 넘었고 신고된 손실액은 3,200만 달러를 웃돌았다고 밝혔다. 신고되지 않은 업무 중단, 복구 비용, 외부 대응 비용은 이 수치에 모두 반영되지 않는다.</p>
+<p>공격 방식도 단순한 이메일 첨부파일에 머물지 않는다. Google Threat Intelligence Group이 2025년 사고 대응 사례를 분석한 결과, 랜섬웨어 침투의 약 3분의 1에서 취약점 악용이 초기 접근 수단으로 확인되거나 의심됐다. 분석한 침해의 약 77%에서는 데이터 탈취 정황도 함께 나타났다.</p>
+<p>파일을 암호화한 뒤 몸값을 요구하는 방식과 먼저 자료를 훔친 뒤 공개를 협박하는 방식이 결합된 셈이다. 방 논의에서 확인된 동료 PC의 감염 범위나 회사 전체 피해 여부는 공개 자료만으로 확인되지 않았다. 다만 한 대의 PC를 개인 장비 문제로만 취급하기 어려운 배경은 분명하다.</p>
+<h2>망 분리는 경계선이지 완전한 차단이 아니다</h2>
+<p>외부망과 내부망이 물리적 또는 논리적으로 분리돼 있다면 공격자의 이동 경로를 줄일 수 있다. CISA는 네트워크를 부서·업무 단위로 나누고 IT 환경과 운영기술 환경도 분리하라고 권고한다. Microsoft 역시 네트워크 분할의 핵심 목적을 침해 이후 공격자의 측면 이동을 제한하는 데 둔다.</p>
+<p>문제는 파일을 옮기는 순간 경계가 업무 절차로 바뀐다는 점이다. USB 저장장치, 공유 폴더, 원격 접속, 관리자 계정, 개발 도구의 동기화 기능이 연결 지점이 된다. 감염된 장비에서 복사된 실행파일·문서 매크로·압축파일에 포함된 악성코드가 내부 환경에서 실행되면 분리 구조의 효과가 약해진다.</p>
+<p>실무에서는 ‘망이 나뉘었는가’보다 ‘어떤 파일이, 어떤 검사를 거쳐, 누가 승인해 어느 방향으로 이동하는가’를 기록해야 한다. 소스파일 반입·반출이 있다면 전용 중계 장비를 두고 이동 가능한 확장자와 저장 위치를 제한해야 한다. 개인 클라우드나 개인 메신저를 경유하지 않는 규칙도 필요하다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ransomware-network-segmentation-source-files.webp" alt="" loading="lazy"><h2>백업은 연결돼 있으면 함께 공격받는다</h2>
+<p>개인 PC 이미지 백업을 해두자는 의견은 방향이 맞다. 다만 백업 파일이 항상 연결된 외장디스크나 같은 계정의 네트워크 드라이브에만 있다면 복구 수단이 아니라 공격 대상이 될 수 있다. FBI는 백업을 정기적으로 수행하는 것뿐 아니라 원래 시스템과 분리하고 실제 복구가 되는지 확인하라고 안내한다.</p>
+<p>CISA는 오프라인·암호화 백업과 정기적인 복구 테스트를 권고한다. KISA도 국내 기업을 대상으로 백업 데이터를 서비스망과 분리된 오프사이트에 보관하고, 백업 전 원본의 무결성을 확인하라고 안내한다. Microsoft는 여기에 변경·삭제를 어렵게 만드는 불변 저장소와 별도 인증 절차를 더한다.</p>
+<p>소규모 팀이라면 거창한 시스템보다 순서를 먼저 정할 수 있다. 중요한 소스 저장소와 문서를 분류하고, 운영 중인 복사본과 다른 저장소에 두 번째 사본을 만든다. 그중 하나는 평소 네트워크에서 분리한다. 분기마다 실제로 복구해 새 PC나 격리된 환경에서 빌드와 실행이 가능한지도 확인한다.</p>
+<p>백업 작업이 성공했다는 알림만으로는 부족하다. 실제 사용자가 필요한 파일을 열고 의존 패키지를 다시 설치해야 한다. 환경변수와 배포 키를 재발급하는 단계까지 확인해야 한다. 바깥 실무자들 사이에서도 “백업은 돌아가지만 복구는 실패할 수 있다”는 경험담과 복구 훈련에서 오래된 장비·문서·담당자 정보가 드러났다는 반응이 반복된다.</p>
+<h2>공격자는 먼저 계정과 복구 수단을 노린다</h2>
+<p>최근 랜섬웨어 대응에서 중요한 대상은 파일 서버만이 아니다. Google Threat Intelligence Group은 2025년 사고에서 공격자가 백업 인프라, 신원 관리 시스템, 가상화 관리 영역을 적극적으로 겨냥했다고 설명했다. 공격자가 관리자 권한을 얻으면 파일 암호화 전에 로그를 지우거나 백업을 삭제할 수 있다.</p>
+<p>그래서 업무용 PC에서 개인 서비스에 접근하지 못하게 하자는 방의 의견도 보안 원칙과 맞닿는다. 개인 이메일이나 클라우드 계정으로 회사 자료를 옮기면 통제되지 않은 계정과 토큰이 업무 환경에 들어온다. 회사 장비에서는 회사 계정만 사용하고 관리자 계정과 일반 업무 계정을 분리해야 한다. MFA도 적용해야 한다.</p>
+<p>개발팀은 저장소 권한도 다시 볼 필요가 있다. 모든 구성원이 전체 저장소를 쓰게 하지 말고 읽기·쓰기·관리 권한을 나눈다. 배포 키와 클라우드 자격증명은 소스코드나 개인 PC에 평문으로 저장하지 않는다. 침해가 의심되면 즉시 폐기·재발급할 수 있도록 목록을 만든다.</p>
+<h2>감염 의심 순간에는 복구보다 확산 차단이 먼저다</h2>
+<p>랜섬노트가 보이거나 여러 파일의 확장자가 갑자기 바뀌면 해당 PC를 즉시 네트워크에서 격리해야 한다. CISA와 Microsoft는 감염 장비를 분리하되 원인 분석에 필요한 증거를 보존하라고 권고한다. 무작정 포맷하거나 전원을 껐다 켜면 침해 범위를 확인할 자료를 잃을 수 있다.</p>
+<p>현장에서 필요한 순서는 단순하다. 감염 의심 장비와 계정을 식별하고 공유 폴더와 백업 시스템의 연결을 끊는다. 관리자 계정과 원격 접속 세션을 점검한 뒤, 깨끗하다고 확인된 장비에서 비밀번호와 접근 토큰을 바꾼다. 이후 포렌식과 복구를 분리해 진행해야 재감염을 막을 수 있다.</p>
+<p>복구 계획에는 담당자 이름보다 역할이 적혀 있어야 한다. 누가 네트워크를 끊는지, 누가 백업을 승인하는지, 누가 고객·법무·보험사와 소통하는지를 미리 정해야 한다. 그렇지 않으면 기술적으로 준비된 조직도 첫날에 멈출 수 있다. KISA는 랜섬웨어 대응 가이드라인에서 비즈니스 연속성 계획과 복구 훈련의 중요성을 강조한다.</p>
+<h2>소스파일을 옮기는 조직이 확인할 네 가지</h2>
+<p>첫째는 이동 경로다. USB, 중계 서버, 파일 전송 시스템 중 하나를 정하고 개인 메신저와 개인 클라우드는 예외로 두지 않는다. 둘째는 검사다. 반입 전 악성코드 검사와 파일 형식 제한을 적용하고 실행파일·스크립트·매크로 문서는 별도 승인을 거친다.</p>
+<p>셋째는 권한이다. 파일을 옮기는 계정은 필요한 저장소에만 접근하게 하고 관리자 권한은 부여하지 않는다. 넷째는 복구다. 소스 저장소, 이슈 문서, 빌드 설정, 패키지 목록, 배포 키의 백업 위치와 복구 절차를 문서화한다.</p>
+<p>이 네 가지는 대기업용 보안 제품을 사야만 가능한 작업이 아니다. 작은 팀도 승인표, 전용 계정, 오프라인 사본, 정기 복구 테스트부터 시작할 수 있다. 망 분리는 사고의 범위를 줄이는 장치다. 하지만 파일 이동과 계정 권한, 백업 운영이 연결돼 있다면 안전을 보장하는 답은 아니다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">랜섬웨어</span><span class="chip">사내보안</span><span class="chip">망분리</span><span class="chip">백업</span><span class="chip">네트워크보안</span><span class="chip">소스코드보안</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.ic3.gov/AnnualReport/Reports/2025_IC3Report.pdf" rel="nofollow noopener">https://www.ic3.gov/AnnualReport/Reports/2025_IC3Report.pdf</a></li><li><a href="https://www.ic3.gov/CrimeInfo/Ransomware" rel="nofollow noopener">https://www.ic3.gov/CrimeInfo/Ransomware</a></li><li><a href="https://www.cisa.gov/sites/default/files/2023-01/CISA_MS-ISAC_Ransomware%20Guide_S508C.pdf" rel="nofollow noopener">https://www.cisa.gov/sites/default/files/2023-01/CISA_MS-ISAC_Ransomware%20Guide</a></li><li><a href="https://www.cisa.gov/sites/default/files/publications/protecting_your_networks_from_ransomware.pdf" rel="nofollow noopener">https://www.cisa.gov/sites/default/files/publications/protecting_your_networks_f</a></li><li><a href="https://www.kisa.or.kr/402/form?lang_type=KO&amp;postSeq=2299" rel="nofollow noopener">https://www.kisa.or.kr/402/form?lang_type=KO&amp;postSeq=2299</a></li><li><a href="https://risc.kisa.or.kr/inform/secInfoDetail.do?pageIndex=3&amp;scrtyInfoId=SCR_0000000000000066&amp;searchCondition=&amp;searchKeyword=" rel="nofollow noopener">https://risc.kisa.or.kr/inform/secInfoDetail.do?pageIndex=3&amp;scrtyInfoId=SCR_0000</a></li><li><a href="https://cloud.google.com/blog/topics/threat-intelligence/ransomware-ttps-shifting-threat-landscape/" rel="nofollow noopener">https://cloud.google.com/blog/topics/threat-intelligence/ransomware-ttps-shiftin</a></li><li><a href="https://cloud.google.com/blog/topics/threat-intelligence/m-trends-2026" rel="nofollow noopener">https://cloud.google.com/blog/topics/threat-intelligence/m-trends-2026</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>망 분리된 회사도 랜섬웨어에 감염될 수 있나요?</h2><p class="sum">가능합니다. 파일 반입·반출, 원격 접속, 공유 계정, 관리자 권한이 경계 역할을 대신할 수 있습니다. 망 분리는 공격자의 이동을 줄이지만 파일과 계정의 통제를 함께 운영해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>랜섬웨어 백업은 어디에 보관해야 하나요?</h2><p class="sum">운영망과 분리된 오프사이트 또는 오프라인 저장소를 포함해야 합니다. 백업 변경·삭제를 제한하고, 실제 복구 테스트로 파일과 시스템이 정상적으로 돌아오는지 확인해야 합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>랜섬웨어 감염이 의심되면 가장 먼저 무엇을 해야 하나요?</h2><p class="sum">감염 의심 장비와 계정을 네트워크에서 격리하고 공유 폴더와 백업 연결을 차단해야 합니다. 포맷하기 전에 침해 범위와 증거를 보존하고, 깨끗한 환경에서 비밀번호와 접근 토큰을 재발급해야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-08-1330.html">2026-11-08 11-08 08:54~13:10</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
