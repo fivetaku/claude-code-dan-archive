@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한글 손글씨 OCR, 이미지 인식에서 검색 가능한 문서까지 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="노트 앱에 쓴 한글 손글씨를 검색 가능한 텍스트로 바꾸려면 어떤 OCR을 고르고 어떻게 후처리해야 할까. Azure, Google, PaddleOCR와 VLM의 역할을 비교한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/korean-handwriting-ocr-guide.html">
+<meta property="og:title" content="한글 손글씨 OCR, 이미지 인식에서 검색 가능한 문서까지">
+<meta property="og:description" content="노트 앱에 쓴 한글 손글씨를 검색 가능한 텍스트로 바꾸려면 어떤 OCR을 고르고 어떻게 후처리해야 할까. Azure, Google, PaddleOCR와 VLM의 역할을 비교한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/korean-handwriting-ocr-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "한글 손글씨 OCR, 이미지 인식에서 검색 가능한 문서까지", "description": "노트 앱에 쓴 한글 손글씨를 검색 가능한 텍스트로 바꾸려면 어떤 OCR을 고르고 어떻게 후처리해야 할까. Azure, Google, PaddleOCR와 VLM의 역할을 비교한다.", "datePublished": "2026-11-10", "dateModified": "2026-11-10", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/korean-handwriting-ocr-guide.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "손글씨 OCR, 한글 필기체 인식, PaddleOCR, Azure Vision, Google ML Kit, VLM, 문서 자동화", "image": "https://chat.axwith.com/mag/hero/korean-handwriting-ocr-guide.webp"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "한글 손글씨를 무료로 OCR할 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "Google ML Kit Digital Ink Recognition은 펜의 획 데이터를 기기에서 처리할 수 있습니다. 이미지 기반이라면 PaddleOCR 같은 로컬 도구를 시험할 수 있지만, 한국어 필기체와 문서 구조는 별도 검증이 필요합니다."}}, {"@type": "Question", "name": "Azure Vision은 한국어 손글씨를 인식하나요?", "acceptedAnswer": {"@type": "Answer", "text": "Azure Vision Read OCR은 한국어 필기 텍스트를 지원합니다. 인식 결과에는 줄과 단어의 위치, confidence가 포함될 수 있지만 필체와 이미지 품질에 따라 정확도가 달라집니다."}}, {"@type": "Question", "name": "VLM과 OCR 중 무엇을 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "OCR은 위치와 원문 후보를 남기는 데 유리하고, VLM은 문서 맥락과 필드 관계를 해석하는 데 유리합니다. 중요한 문서는 두 결과를 결합하고 숫자와 고유명사를 별도로 검증하는 방식이 안전합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/korean-handwriting-ocr-guide.webp" alt="한글 손글씨 OCR, 이미지 인식에서 검색 가능한 문서까지" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>한글 손글씨 OCR, 이미지 인식에서 검색 가능한 문서까지</h1>
+  <p class="sub">한글 손글씨를 OCR로 옮길 때 필요한 모델 선택과 세그멘테이션, 후처리 파이프라인을 정리했다</p>
+  <div class="meta"><span>2026-11-10</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>노트 앱에 연필로 쓴 한글을 사진이나 캡처 이미지로 남기는 사람은 많지만, 이를 검색 가능한 문서로 바꾸는 일은 아직 단순한 OCR 호출로 끝나지 않는다. 핵심 질문은 ‘한글 손글씨를 얼마나 잘 읽느냐’보다 ‘읽은 결과를 업무에 쓸 수 있는 구조로 만들 수 있느냐’에 가깝다. 이 글에서는 이미지 입력부터 영역 분리, 인식, 검증까지 실제 파이프라인을 살펴본다.</p>
+<h2>한글 손글씨 OCR은 이미 가능하지만, 조건이 붙는다</h2>
+<p>Microsoft의 Azure Vision Read OCR은 현재 한국어 필기 텍스트를 지원한다. 이미지와 PDF에서 글자·줄·단어의 위치와 신뢰도도 함께 반환한다. Google Cloud Vision 역시 Korean을 지원하는 필기 인식 스크립트로 분류하며, 문서 텍스트 인식 결과에 페이지·문단·단어·문자 계층을 제공한다.</p>
+<p>이 기능은 ‘한국어를 읽을 수 있다’는 의미이지, 어떤 필기체도 안정적으로 해석한다는 뜻은 아니다. 글자의 기울기, 획의 생략, 줄 간격, 배경색, 촬영 흔들림에 따라 결과가 크게 달라진다. 한글은 음절 블록 단위로 조합되기 때문에 한 획의 위치가 바뀌면 전혀 다른 글자로 해석될 수 있다.</p>
+<p>커뮤니티에서 공유된 노트 앱 손글씨 사례도 비슷했다. 또박또박 쓴 문장은 인식 가능성이 높지만, 필기체가 빠르게 이어지거나 문장이 기울면 제품별 차이가 커진다는 의견이 많았다. 손글씨를 이미지로 저장한 뒤 OCR을 적용하는 방식은 오프라인 필기 인식이고, 펜의 좌표와 시간 정보를 보존한 채 입력하는 방식은 온라인 필기 인식이다.</p>
+<h2>이미지와 획 데이터는 서로 다른 문제다</h2>
+<p>노트 앱에서 이미지를 캡처했다면 시스템은 글자가 어떤 순서로 쓰였는지 알 수 없다. 남은 정보는 픽셀뿐이다. 이때 OCR은 먼저 글이 있는 위치를 찾고 줄과 단어를 나눈 뒤 각 영역의 문자를 추정한다.</p>
+<p>반대로 태블릿이나 웹 캔버스가 펜의 움직임을 저장하면 입력은 좌표 배열이 된다. Google ML Kit Digital Ink Recognition은 이 방식으로 펜의 획과 시간 정보를 받아 기기에서 글자를 인식한다. 300개가 넘는 언어와 여러 문자 체계를 지원하며, Android와 iOS에서 오프라인 처리가 가능하다.</p>
+<p>온라인 방식은 글자의 순서와 획의 시간 정보를 활용할 수 있다는 장점이 있다. 대신 이미 찍힌 사진이나 종이 문서를 처리하지 못한다. 기존 노트 이미지, 스캔 문서, 보험 서류처럼 결과물이 픽셀로만 남아 있다면 Azure Vision, Google Cloud Vision, PaddleOCR, TrOCR 같은 이미지 기반 HTR 도구를 선택해야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/korean-handwriting-ocr-guide.webp" alt="" loading="lazy"><h2>제품 하나보다 세그멘테이션이 먼저다</h2>
+<p>손글씨 문서에서 자주 발생하는 오류는 글자를 잘못 읽는 문제만이 아니다. 제목, 본문, 표, 체크박스, 낙서, 인쇄 문자가 한 화면에 섞이면 OCR이 읽는 순서 자체를 틀릴 수 있다. 두 개의 문단을 한 줄로 합치거나 표의 열을 왼쪽에서 오른쪽 순서로 재배열하는 식이다.</p>
+<p>PaddleOCR의 PP-Structure는 레이아웃 분석 뒤 영역별 OCR을 수행하는 문서 분석 시스템이다. 이미지·텍스트·제목·표를 분리하고, 텍스트 영역에는 탐지와 인식을 적용한다. PaddleOCR 문서에는 Korean 인식 모델도 포함돼 있지만, 최신 범용 모델의 언어 범위와 한국어 모델의 제공 방식은 버전에 따라 다르므로 설치한 버전의 모델 목록을 확인해야 한다.</p>
+<p>실제 구현 순서는 다음처럼 잡는 편이 안전하다. 먼저 이미지에서 배경과 기울기를 보정한 다음 텍스트 영역을 분리한다. 영역별로 OCR을 실행하고 좌표를 이용해 읽기 순서를 복원한 뒤, 마지막에 VLM이나 규칙 기반 후처리로 문장과 필드를 정리한다.</p>
+<p>필기 이미지가 노트 한 장이라면 원본 전체를 곧바로 VLM에 넣는 방법도 있다. 하지만 금융·보험·의료 문서처럼 숫자와 고정 필드가 중요한 경우에는 영역별 인식과 검증을 분리하는 편이 낫다. 인식 결과가 그럴듯해 보여도 계좌번호, 날짜, 금액, 약품명은 별도 규칙으로 다시 확인해야 한다.</p>
+<h2>VLM은 문맥을 보완하지만 원문 판정자가 아니다</h2>
+<p>VLM은 손글씨를 단순한 문자 묶음이 아니라 문장과 문서의 맥락 속에서 해석할 수 있다. 흐릿한 글자 주변의 단어를 보고 후보를 좁히거나, 제목과 본문을 구분하거나, 질문에 맞는 필드를 찾는 데 유리하다. 최근 비교 연구에서도 현대적 손글씨에서는 일부 MLLM이 전용 모델보다 낮은 문자 오류율을 보인 결과가 보고됐다.</p>
+<p>그렇다고 VLM 출력을 정답으로 취급하면 안 된다. 문맥을 활용하는 모델은 읽지 못한 글자를 자연스러운 단어로 채울 수 있다. 특히 고유명사, 숫자, 전문 약어, 손으로 수정한 문장은 문장 전체가 자연스러워도 원문과 다를 수 있다.</p>
+<p>안전한 방식은 OCR 결과와 VLM 결과를 나란히 보관하는 것이다. OCR은 바운딩 박스와 confidence를 남기고, VLM은 문단 요약이나 필드 매핑을 담당한다. 두 결과가 다르면 원본 이미지의 해당 영역을 다시 보여주거나 사람이 확인해야 할 항목으로 분류한다.</p>
+<p>써본 사람들 사이에서도 비슷한 반응이 나온다. 깔끔한 문장과 일반적인 메모는 최신 VLM이 빠르게 읽지만, 표와 수식, 여러 열이 섞인 페이지에서는 레이아웃이 무너진다는 불만이 있다. 전용 OCR은 구조가 단순할 때 안정적이고, VLM은 애매한 문맥을 해석할 때 강하다는 평가가 엇갈린다.</p>
+<h2>금융·보험·의료 문서는 도메인 모델로 좁혀야 한다</h2>
+<p>도메인별 처리가 필요한 이유는 단어 목록만의 문제가 아니다. 보험 문서에는 상품명과 보장 항목이 반복되고, 금융 문서에는 금액·날짜·식별번호가 집중된다. 의료 기록은 약품명과 단위, 의학 약어가 섞이며 손글씨의 축약과 기호도 많다.</p>
+<p>따라서 ‘한글 손글씨 OCR 모델 하나’를 고르는 접근보다 문서 유형별 평가셋을 만드는 일이 먼저다. 실제 사용자가 쓰는 펜과 종이, 조명, 촬영 거리로 샘플을 모으고, 글자 오류율뿐 아니라 필드 추출 성공률과 숫자 오류율을 따로 측정해야 한다. 한국 국가기록원 연구에서도 한글 필기 기록에 OCR을 적용해 검색성을 높이는 것을 목표로 데이터셋과 테스트베드를 구축했다.</p>
+<p>개인 개발자나 소규모 팀이라면 처음부터 모델을 학습할 필요는 없다. 노트 이미지에는 Azure Vision이나 Google Cloud Vision으로 기준선을 만들고, 로컬 처리가 필요하면 PaddleOCR의 한국어 모델과 전처리 파이프라인을 시험하면 된다. 문서 수가 늘고 같은 사람이 반복해서 쓰는 양식이 생겼을 때만 자체 데이터로 미세조정을 검토하는 편이 비용을 통제하기 쉽다.</p>
+<h2>실제로 만들 때 필요한 입력과 산출물</h2>
+<p>최소 파이프라인의 입력은 손글씨 이미지 한 장이다. 저장소에는 원본 이미지, 보정 이미지, 영역 좌표 JSON, OCR 원문 JSON, 최종 텍스트를 별도 파일로 남긴다. 이미지 보정 단계에서는 회전·기울기·노이즈를 처리하고, 세그멘테이션 단계에서는 제목·본문·표·필기 영역을 분리한다.</p>
+<p>그다음 OCR 엔진에 영역 이미지를 전달한다. Azure Vision과 Google Cloud Vision은 텍스트와 위치 정보를 반환하며, PaddleOCR은 탐지 상자와 인식 문자열, confidence를 제공한다. 결과는 줄 단위로 정렬해 Markdown이나 JSON으로 저장하고, VLM에는 원본 전체보다 필요한 영역과 OCR 후보를 함께 전달한다.</p>
+<p>최종 산출물은 텍스트 하나가 아니다. 검색용 본문, 원본 좌표, confidence, 수정 이력, 사람 검수 여부가 함께 있어야 한다. 이 구조를 갖추면 같은 문서를 다시 읽을 때 오류 지점을 찾을 수 있고, 금융·보험·의료처럼 틀린 한 글자의 비용이 큰 영역에서도 자동화 범위를 통제할 수 있다.</p>
+<p>한글 손글씨 OCR의 성패는 인식 모델의 이름보다 입력 형태와 문서 구조에 달려 있다. 이미지뿐인 노트라면 세그멘테이션과 검증이 핵심이고, 펜의 획 데이터를 보존할 수 있다면 온라인 인식이 더 직접적인 선택이 된다. 검색 가능한 문서를 만들려는 팀이라면 ‘얼마나 잘 읽는가’에서 멈추지 말고 어떤 영역을 어떤 근거로 확정했는지까지 저장해야 한다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">손글씨 OCR</span><span class="chip">한글 필기체 인식</span><span class="chip">PaddleOCR</span><span class="chip">Azure Vision</span><span class="chip">Google ML Kit</span><span class="chip">VLM</span><span class="chip">문서 자동화</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/language-support" rel="nofollow noopener">https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/language-sup</a></li><li><a href="https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-ocr" rel="nofollow noopener">https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/overview-ocr</a></li><li><a href="https://docs.cloud.google.com/vision/docs/languages" rel="nofollow noopener">https://docs.cloud.google.com/vision/docs/languages</a></li><li><a href="https://developers.google.com/ml-kit/vision/digital-ink-recognition/" rel="nofollow noopener">https://developers.google.com/ml-kit/vision/digital-ink-recognition/</a></li><li><a href="https://www.paddleocr.ai/v2.9/en/ppstructure/overview.html" rel="nofollow noopener">https://www.paddleocr.ai/v2.9/en/ppstructure/overview.html</a></li><li><a href="https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/pipeline_usage/OCR.en.md" rel="nofollow noopener">https://github.com/PaddlePaddle/PaddleOCR/blob/main/docs/version3.x/pipeline_usa</a></li><li><a href="https://www.microsoft.com/en-us/research/publication/trocr-transformer-based-optical-character-recognition-with-pre-trained-models/" rel="nofollow noopener">https://www.microsoft.com/en-us/research/publication/trocr-transformer-based-opt</a></li><li><a href="https://arxiv.org/abs/2503.15195" rel="nofollow noopener">https://arxiv.org/abs/2503.15195</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>한글 손글씨를 무료로 OCR할 수 있나요?</h2><p class="sum">Google ML Kit Digital Ink Recognition은 펜의 획 데이터를 기기에서 처리할 수 있습니다. 이미지 기반이라면 PaddleOCR 같은 로컬 도구를 시험할 수 있지만, 한국어 필기체와 문서 구조는 별도 검증이 필요합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Azure Vision은 한국어 손글씨를 인식하나요?</h2><p class="sum">Azure Vision Read OCR은 한국어 필기 텍스트를 지원합니다. 인식 결과에는 줄과 단어의 위치, confidence가 포함될 수 있지만 필체와 이미지 품질에 따라 정확도가 달라집니다.</p></article><article class="dcard"><div class="t">Q</div><h2>VLM과 OCR 중 무엇을 써야 하나요?</h2><p class="sum">OCR은 위치와 원문 후보를 남기는 데 유리하고, VLM은 문서 맥락과 필드 관계를 해석하는 데 유리합니다. 중요한 문서는 두 결과를 결합하고 숫자와 고유명사를 별도로 검증하는 방식이 안전합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-09-2200.html">2026-11-09 11-09 17:50~21:14</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

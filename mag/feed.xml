@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>맥미니 메모리 서버, 16GB·32GB·64GB 선택 기준</title>
+    <link>https://chat.axwith.com/mag/tools/mac-mini-memory-server-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/mac-mini-memory-server-guide.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Tue, 10 Nov 2026 12:00:00 +0900</pubDate>
+    <description>맥미니를 로컬 임베딩과 에이전트 메모리 서버로 쓰는 방법을 살펴본다. M6와 M5 Pro의 메모리 선택, 모델 구성, 백업과 병렬 운영 기준을 정리했다.</description>
+  </item>
+  <item>
+    <title>한글 손글씨 OCR, 이미지 인식에서 검색 가능한 문서까지</title>
+    <link>https://chat.axwith.com/mag/models/korean-handwriting-ocr-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/korean-handwriting-ocr-guide.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Tue, 10 Nov 2026 12:00:00 +0900</pubDate>
+    <description>노트 앱에 쓴 한글 손글씨를 검색 가능한 텍스트로 바꾸려면 어떤 OCR을 고르고 어떻게 후처리해야 할까. Azure, Google, PaddleOCR와 VLM의 역할을 비교한다.</description>
+  </item>
+  <item>
     <title>AI 에이전트 하네스, 직접 만들까 기존 구현을 가져올까</title>
     <link>https://chat.axwith.com/mag/workflow/agent-harness-build-or-adopt.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/agent-harness-build-or-adopt.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sat, 24 Oct 2026 12:00:00 +0900</pubDate>
     <description>RAG에서 벡터DB가 맡는 역할과 임베딩·HNSW·청크의 관계를 설명하고, pgvector와 Elasticsearch가 별도 벡터DB를 대신할 조건을 비교한다.</description>
-  </item>
-  <item>
-    <title>GPT-6.1 Sol은 왜 느리고 Astra보다 언제 유리한가</title>
-    <link>https://chat.axwith.com/mag/models/gpt-61-sol-vs-astra.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-61-sol-vs-astra.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Sat, 24 Oct 2026 12:00:00 +0900</pubDate>
-    <description>GPT-6.1 Sol은 Astra에 가까운 성능과 낮은 가격을 내세웠지만 느린 응답과 결과 편차가 지적된다. 두 모델의 차이와 활용법을 살펴본다.</description>
-  </item>
-  <item>
-    <title>옵시디언 그래프와 벡터DB는 무엇이 다른가: 큰 볼트에서 찾는 법</title>
-    <link>https://chat.axwith.com/mag/tools/obsidian-graph-vector-search-rag.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/obsidian-graph-vector-search-rag.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 23 Oct 2026 12:00:00 +0900</pubDate>
-    <description>옵시디언 그래프는 명시적 링크를 보여주고 벡터DB는 내용이 비슷한 문서를 찾는다. 큰 볼트에서 로컬 그래프와 검색을 활용하고, 마크다운 노트를 RAG에 연결하는 순서를 설명한다.</description>
   </item>
 </channel></rss>
