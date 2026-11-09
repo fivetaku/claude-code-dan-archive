@@ -2788,3 +2788,5 @@
 {"code": "39aebc", "url": "https://news.hada.io/topic?id=36887", "title": "ChatGPT(챗GPT) Desktop, SSH 에이전트를 원격 머신으로 전달 — 로컬 자격 증명 노출 위험"}
 {"code": "1f917e", "url": "https://arstechnica.com/ai/2026/11/claude-code-settings-files-expose-thousands-of-secrets-on-github", "title": "Claude Code(클로드 코드) 설정 파일, GitHub(깃허브)에 수천 건 자격증명 노출"}
 {"code": "99d632", "url": "https://techcrunch.com/2026/11/09/meta-releases-muse-ember-a-new-lightweight-model-for-agent-execution", "title": "메타, 에이전트 실행용 경량 모델 'Muse Ember' 출시"}
+{"code": "2c3992", "url": "https://x.com/AIatMeta/status/2119853591703998787", "title": "메타, 복잡한 추론·에이전트 작업용 초경량 모델 'Muse Ember' 공개"}
+{"code": "b2eb0e", "url": "https://x.com/AnthropicAI/status/2119867707546071125", "title": "앤트로픽, Claude Fable 5.2(클로드 페이블 5.2) 및 Mythos 5.2 공개"}
