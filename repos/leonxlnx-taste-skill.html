@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leonxlnx/taste-skill — 클코단 레포 아카이브</title>
+<title>leonxlnx/taste-skill — 클코단 레포 아카이브</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="AI 에이전트용 프론트엔드 디자인 품질 개선 Agent Skills 모음">
-<link rel="canonical" href="https://chat.axwith.com/repos/Leonxlnx-taste-skill.html">
-<meta property="og:title" content="Leonxlnx/taste-skill — 클코단 레포 아카이브">
+<meta name="description" content="AI 코딩 에이전트용 프론트엔드 디자인 품질 개선 Agent Skills 모음">
+<link rel="canonical" href="https://chat.axwith.com/repos/leonxlnx-taste-skill.html">
+<meta property="og:title" content="leonxlnx/taste-skill — 클코단 레포 아카이브">
 <meta property="og:type" content="website">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "Leonxlnx/taste-skill", "codeRepository": "https://github.com/Leonxlnx/taste-skill", "description": "AI 에이전트용 프론트엔드 디자인 품질 개선 Agent Skills 모음"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareSourceCode", "name": "leonxlnx/taste-skill", "codeRepository": "https://github.com/leonxlnx/taste-skill", "description": "AI 코딩 에이전트용 프론트엔드 디자인 품질 개선 Agent Skills 모음"}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -24,6 +24,15 @@ font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
 .mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
 
 /* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
 /* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
@@ -163,13 +172,13 @@ border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
 <div class="tabwrap"><nav class="tabs"><a href="../"><b>요약</b><i> 대화</i></a><a class="on" href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
 <header>
   <div class="eyebrow" style="font-family:ui-monospace,Menlo,monospace;font-size:11.5px;font-weight:700;letter-spacing:.14em;color:var(--accent-deep)">REPOSITORY</div>
-  <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">Leonxlnx/taste-skill</h1>
-  <p class="sub">AI 에이전트용 프론트엔드 디자인 품질 개선 Agent Skills 모음</p>
+  <h1 style="font-size:clamp(24px,5vw,32px);margin:8px 0 6px">leonxlnx/taste-skill</h1>
+  <p class="sub">AI 코딩 에이전트용 프론트엔드 디자인 품질 개선 Agent Skills 모음</p>
 </header>
 <div class="repo">
-<p class="rmeta"><a class="gh" href="https://github.com/Leonxlnx/taste-skill">GitHub에서 보기 →</a></p>
-<p class="rmeta">Codex, Cursor, Claude Code 등으로 프론트엔드를 만들거나 이미지 레퍼런스를 생성하는 AI 에이전트 사용자</p>
-<ul><li>레이아웃 실험도·모션 강도·정보 밀도를 1~10 다이얼로 조절하는 taste-skill v2 제공</li><li>코드 출력 스킬과 이미지 생성 전용 스킬(웹·모바일·브랜드킷)을 분리 제공</li><li>GPT/Codex 전용 gpt-taste, 기존 프로젝트 리디자인용 redesign-skill 등 목적별 변형 다수</li><li>React, Vue, Svelte 등 프레임워크에 종속되지 않고 디자인 의도만 규정</li><li>SKILL.md 파일을 복사하거나 대화에 붙여넣어도 사용 가능</li></ul>
+<p class="rmeta"><a class="gh" href="https://github.com/leonxlnx/taste-skill">GitHub에서 보기 →</a></p>
+<p class="rmeta">AI 에이전트로 프론트엔드를 만들 때 상투적인(boilerplate) UI 대신 더 나은 디자인 결과물을 원하는 개발자</p>
+<ul><li>레이아웃 실험도(VARIANCE), 모션 강도(MOTION), 정보 밀도(DENSITY)를 1-10 다이얼로 조절하는 taste-skill v2 제공</li><li>구현용 스킬(코드 출력)과 이미지 생성용 스킬(웹/모바일/브랜드킷 레퍼런스 이미지 출력)로 구분</li><li>미니멀/브루탈리스트/소프트 등 이미 방향이 정해진 비주얼 스타일별 전용 스킬 제공</li><li>기존 프로젝트를 감사 후 레이아웃·간격·위계를 고치는 redesign-skill 포함</li><li>React, Vue, Svelte 등 프레임워크에 무관하게 Codex, Cursor, Claude Code 등 주요 코딩 에이전트에서 사용 가능</li></ul>
 <p class="rmeta">설치: npx skills add https://github.com/Leonxlnx/taste-skill</p>
 </div>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>

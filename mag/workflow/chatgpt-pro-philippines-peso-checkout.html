@@ -248,7 +248,7 @@ padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted)
 <ol><li>크롬(또는 엣지)에서 chatgpt.com에 현재 유료 구독이 없는 계정으로 로그인한다. 왼쪽 아래 플랜 표시가 Free여야 한다.</li><li>키보드 F12(맥은 Cmd+Option+I)를 눌러 개발자도구를 열고 위쪽 탭에서 Console을 고른다.</li><li>아래 코드 블록의 스크립트 전체를 복사해 콘솔 입력줄에 붙여 넣는다.</li><li>&quot;Don&#x27;t paste code into the DevTools Console&quot; 경고가 뜨면 콘솔에 allow pasting 이라고 직접 치고 엔터를 누른 뒤, 스크립트를 다시 붙여 넣는다.</li><li>엔터를 눌러 실행한다. 몇 초 뒤 페소(PHP) 금액이 표시된 결제 페이지로 자동 이동한다.</li><li>금액을 확인한다. 스크립트 기본값(country KR)으로 열면 매월 구독 PHP 8,919.64에 VAT 10%(PHP 891.96)가 붙어 결제 금액 PHP 9,811.60이 표시된다. 환율 22원 기준 약 21만 6천 원이다.</li><li>부가세 없이 8,919.64페소로 내려면 스크립트의 country 값을 &quot;KR&quot;에서 &quot;PH&quot;로 바꿔야 한다. 다만 한국 IP에서 그렇게 보내면 &#x27;Billing country must match request country&#x27; 오류가 나므로 필리핀 VPN을 켜고 3번부터 다시 한다. 그러면 주소 입력칸이 생기고, 판매세가 없는 미국 주(델라웨어·알래스카 등) 주소를 넣으면 세금이 붙지 않는다는 게 원글과 결제 성공자들의 보고다.</li><li>카드 정보를 넣고 결제한다. 카드가 거절되면 다른 카드사 카드로 다시 시도한다.</li></ol>
 <img class="artInline" src="/mag/shots/piljjonku-step1-home.png" alt="1단계 — 무구독(Free) 계정으로 chatgpt.com에 로그인한 화면" loading="lazy">
 <p>5~6단계에서 열리는 결제 페이지는 아래와 같다. 편집부가 무구독 계정에서 스크립트 기본값으로 직접 열어 본 화면이다. 결제는 하지 않았다.</p>
-<img class="artInline" src="/mag/shots/piljjonku-checkout-kr.png" alt="6단계 — country KR로 열린 결제 페이지. 매월 구독 PHP 8,919.64, VAT 10% PHP 891.96, 결제 금액 PHP 9,811.60" loading="lazy">
+<img class="artInline" src="/mag/shots/piljjonku-checkout-kr.webp" alt="6단계 — country KR로 열린 결제 페이지. 매월 구독 PHP 8,919.64, VAT 10% PHP 891.96, 결제 금액 PHP 9,811.60" loading="lazy">
 <p>아래가 그 스크립트다. 원본 대신 카드 거절 대응판을 실었다. country는 기본 KR이고, 결제 국가 불일치 오류가 나면 PH로 바꿔 다시 실행한다.</p>
 <pre><code>(async function () {
     const LOCK_KEY = &quot;__chatgptCheckoutCreating&quot;;

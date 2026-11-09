@@ -1,7 +1,9 @@
 # Pages 배포 — 레거시 브랜치 빌드 대체 (2026-11-07)
 # 레거시 빌드는 deploy 대기 10분 고정이라 GitHub 쪽 updating_pages가 늦으면 실패했고,
 # 매시 :25 단축링크 푸시와 겹치면 "in progress deployment"로 거절됐다.
-# 여기서는 대기 30분 + 동시 실행은 줄 세우기(cancel-in-progress: false).
+# 동시 실행은 줄 세우기(cancel-in-progress: false).
+# deploy-pages의 timeout 상한은 600000(10분)이라 1800000은 무시됐다(경고만) — 11-10 01:25
+# 배포가 10분에 끊겨 단축링크 2건이 404로 남았다. 상한 10분 그대로 두고, 끊기면 1회 다시 배포한다.
 # Jekyll 미사용(앞머리 있는 파일 없음) — 대신 Jekyll이 빼던 점(.)파일만 제외한다.
 name: pages
 on:
@@ -21,7 +23,7 @@ jobs:
     timeout-minutes: 45
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deploy.outputs.page_url || steps.deploy_retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/configure-pages@v6
@@ -34,5 +36,14 @@ jobs:
           path: ${{ runner.temp }}/site
       - id: deploy
         uses: actions/deploy-pages@v5
+        continue-on-error: true
         with:
-          timeout: 1800000
+          timeout: 600000
+      - name: wait before retry
+        if: steps.deploy.outcome == 'failure'
+        run: sleep 30
+      - id: deploy_retry
+        if: steps.deploy.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+        with:
+          timeout: 600000
