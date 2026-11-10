@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>GPU 6장에 4억 원, AI 서버로 합리적인가</title>
+    <link>https://chat.axwith.com/mag/ops/six-gpu-ai-server-cost.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/six-gpu-ai-server-cost.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Tue, 10 Nov 2026 12:00:00 +0900</pubDate>
+    <description>GPU 6장 이상을 넣은 AI 서버에 4억 원을 써도 되는지 RTX PRO 6000, H200, B200, B300의 가격·메모리·전력·조달 조건을 비교했다.</description>
+  </item>
+  <item>
+    <title>피지컬 AI가 현실에서 막히는 이유는 모델보다 운영 설계다</title>
+    <link>https://chat.axwith.com/mag/models/physical-ai-robotics-human-bottleneck.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/physical-ai-robotics-human-bottleneck.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Tue, 10 Nov 2026 12:00:00 +0900</pubDate>
+    <description>피지컬 AI와 VLA 모델이 로봇을 어떻게 움직이는지, 왜 실제 도입에서는 비용·안전·데이터·인간 개입이 병목이 되는지 정리했다.</description>
+  </item>
+  <item>
     <title>맥미니 메모리 서버, 16GB·32GB·64GB 선택 기준</title>
     <link>https://chat.axwith.com/mag/tools/mac-mini-memory-server-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/mac-mini-memory-server-guide.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 27 Oct 2026 12:00:00 +0900</pubDate>
     <description>AI 코딩 에이전트가 작업하는 동안 무엇을 병렬화하고 어떻게 교차 리뷰를 구성해야 하는지, 토큰 절약과 검증 방법까지 정리했다.</description>
-  </item>
-  <item>
-    <title>Codex 사용 한도가 빨리 줄어들 때, 작업 범위와 모델을 어떻게 바꿀까</title>
-    <link>https://chat.axwith.com/mag/workflow/codex-usage-limits-task-scope-models.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/codex-usage-limits-task-scope-models.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Mon, 26 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Codex의 5시간·주간 한도가 빠르게 소진되는 이유는 요청 횟수만으로 설명되지 않는다. 사용량 확인부터 파일 범위 지정, 세션 관리, 모델 선택까지 실제 작업 흐름에 맞춰 살펴본다.</description>
-  </item>
-  <item>
-    <title>RAG에 벡터DB가 꼭 필요할까, PostgreSQL·Elasticsearch 선택법</title>
-    <link>https://chat.axwith.com/mag/tools/rag-vector-db-postgresql-elasticsearch.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/rag-vector-db-postgresql-elasticsearch.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sat, 24 Oct 2026 12:00:00 +0900</pubDate>
-    <description>RAG에서 벡터DB가 맡는 역할과 임베딩·HNSW·청크의 관계를 설명하고, pgvector와 Elasticsearch가 별도 벡터DB를 대신할 조건을 비교한다.</description>
   </item>
 </channel></rss>
