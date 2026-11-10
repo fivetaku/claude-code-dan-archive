@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>sprite-gen 사용법, 이미지 한 장을 게임 스프라이트로</title>
+    <link>https://chat.axwith.com/mag/tools/sprite-gen-image-game-sprites.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/sprite-gen-image-game-sprites.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Wed, 11 Nov 2026 12:00:00 +0900</pubDate>
+    <description>sprite-gen으로 기준 이미지에서 투명 스프라이트 시트와 manifest를 만드는 과정을 설명한다. 영상 기반 애니메이션 생성, 프레임 검수, Aseprite·Godot 연동에서 구분해야 할 조건까지 짚는다.</description>
+  </item>
+  <item>
     <title>GPU 6장에 4억 원, AI 서버로 합리적인가</title>
     <link>https://chat.axwith.com/mag/ops/six-gpu-ai-server-cost.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/six-gpu-ai-server-cost.html</guid>
@@ -235,13 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Tue, 27 Oct 2026 12:00:00 +0900</pubDate>
     <description>OMP와 OMO는 이름이 비슷하지만 역할이 다르다. 두 도구의 구조와 설치법, 모델 선택 방식, 실제 사용 시 주의점을 비교한다.</description>
-  </item>
-  <item>
-    <title>AI 코딩 에이전트 대기 시간을 줄이는 병렬 세션과 교차 리뷰</title>
-    <link>https://chat.axwith.com/mag/workflow/ai-coding-agent-parallel-review.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-coding-agent-parallel-review.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Tue, 27 Oct 2026 12:00:00 +0900</pubDate>
-    <description>AI 코딩 에이전트가 작업하는 동안 무엇을 병렬화하고 어떻게 교차 리뷰를 구성해야 하는지, 토큰 절약과 검증 방법까지 정리했다.</description>
   </item>
 </channel></rss>
