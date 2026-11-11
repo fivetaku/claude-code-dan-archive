@@ -13,6 +13,14 @@
     <description>sprite-gen으로 기준 이미지에서 투명 스프라이트 시트와 manifest를 만드는 과정을 설명한다. 영상 기반 애니메이션 생성, 프레임 검수, Aseprite·Godot 연동에서 구분해야 할 조건까지 짚는다.</description>
   </item>
   <item>
+    <title>클로드 페이블 초기화권, 주간 한도에서 무엇이 돌아오나</title>
+    <link>https://chat.axwith.com/mag/models/claude-fable-limit-reset-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-fable-limit-reset-guide.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Wed, 11 Nov 2026 12:00:00 +0900</pubDate>
+    <description>클로드 페이블 초기화권은 주간 사용량 중 무엇을 되돌릴까. 공식 안내를 바탕으로 페이블·오퍼스 사용분의 처리 차이, 5시간 한도 회복, Pro와 Max의 만료일 및 사용 절차를 설명한다.</description>
+  </item>
+  <item>
     <title>GPU 6장에 4억 원, AI 서버로 합리적인가</title>
     <link>https://chat.axwith.com/mag/ops/six-gpu-ai-server-cost.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/six-gpu-ai-server-cost.html</guid>
@@ -235,13 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Tue, 27 Oct 2026 12:00:00 +0900</pubDate>
     <description>OpenAPI 명세와 실제 데이터의 차이, LLM의 비결정성, Harness² 사례를 바탕으로 AI 에이전트 데이터 전처리의 한계와 실전 설계를 살펴본다.</description>
-  </item>
-  <item>
-    <title>OMP와 OMO 차이, 코딩 에이전트 선택과 설치 방법</title>
-    <link>https://chat.axwith.com/mag/tools/omp-omo-coding-agent-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/omp-omo-coding-agent-guide.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Tue, 27 Oct 2026 12:00:00 +0900</pubDate>
-    <description>OMP와 OMO는 이름이 비슷하지만 역할이 다르다. 두 도구의 구조와 설치법, 모델 선택 방식, 실제 사용 시 주의점을 비교한다.</description>
   </item>
 </channel></rss>
