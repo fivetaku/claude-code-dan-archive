@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 11월 12일 09:00 — 클코 입문 환경 선택</title>
+<meta name="description" content="11월 12일 클코단 논의 요약 — 클코 입문 환경 선택 · 사용정책 강화와 계정 제재 · 키링과 피클 유사성 · sprite-gen 사용법 공유">
+<link rel="canonical" href="https://chat.axwith.com/s/2026-11-12-0900.html">
+<meta property="og:title" content="11월 12일 클코단 논의 요약">
+<meta property="og:description" content="11월 12일 클코단 논의 요약 — 클코 입문 환경 선택 · 사용정책 강화와 계정 제재 · 키링과 피클 유사성 · sprite-gen 사용법 공유">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/s/2026-11-12-0900.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "11월 12일 클코단 논의 요약", "description": "11월 12일 클코단 논의 요약 — 클코 입문 환경 선택 · 사용정책 강화와 계정 제재 · 키링과 피클 유사성 · sprite-gen 사용법 공유", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "datePublished": "2026-11-12", "image": "https://chat.axwith.com/apple-touch-icon.png", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/s/2026-11-12-0900.html"}}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 타임라인 접기 — 그래프 띠 전체가 여는 버튼이다 (details, JS 없이 동작).
+   같은 컴포넌트를 요약 상세와 검색 결과 양쪽에 쓴다 — 스타일 갈림 방지(2026-09-07 오너). */
+.tlbox{margin:24px 0 0}
+.tlstrip{display:block;cursor:pointer;list-style:none;background:var(--surface);
+border:1px solid var(--line);border-radius:14px;padding:15px 18px 11px;box-shadow:var(--shadow)}
+.tlstrip::-webkit-details-marker{display:none}
+.tlstrip:hover{border-color:var(--accent)}
+.tshead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+font-size:12.5px;color:var(--muted)}
+.tshead b{font-size:15.5px;color:var(--ink);font-weight:750;letter-spacing:-.01em}
+.tshead b small{font-size:12px;font-weight:500;color:var(--muted)}
+.tshead span{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+.tsbars{display:flex;align-items:flex-end;gap:2px;height:34px;margin:11px 0 7px}
+.tsb{flex:1;min-width:2px;background:var(--line);border-radius:2px;transition:opacity .12s}
+.tsb.on{background:var(--accent);opacity:.4}
+.tsb.peak{background:var(--accent);opacity:1}
+.tlstrip:hover .tsb.on{opacity:.6}
+.tstrip-foot,.tsfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;color:var(--muted);
+font-variant-numeric:tabular-nums}
+.tspill{border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);
+border-radius:999px;padding:7px 17px;font-family:"Pretendard Variable","Pretendard",
+-apple-system,sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.tlbox[open] .tspill{background:var(--surface);color:var(--accent-deep)}
+.tlstrip:hover .tspill{filter:brightness(1.05)}
+@media(max-width:520px){.tsbars{height:26px}.tshead b{font-size:14px}
+.tsfoot{justify-content:center}.tsfoot .tsl,.tsfoot .tsr{display:none}}
+
+
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{position:relative;margin:44px -24px 0;padding:8px 24px;overflow-x:auto;
+-webkit-overflow-scrolling:touch}
+.bone{position:relative;min-width:880px;height:430px}
+/* 모바일에선 가로 스크롤인 걸 알 수 없어 잘린 카드가 오류처럼 보였다(2026-08-30 실측).
+   힌트 라벨 + 오른쪽 페이드로 "밀 수 있다"를 알린다. 높이도 화면에 맞게 줄인다. */
+.bonehint{display:none}
+@media(max-width:640px){
+.bonebox{margin-top:26px}
+.bone{height:340px}
+.bonewrap{position:relative}
+.bonewrap::after{content:"";position:absolute;right:0;top:0;bottom:0;width:40px;pointer-events:none;
+background:linear-gradient(90deg,transparent,var(--ground) 78%)}
+.bonehint{display:flex;align-items:center;gap:6px;margin:26px 0 -18px;
+font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.bonehint b{color:var(--accent-deep);font-weight:700}}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+/* B 강조형 (2026-09-01 확정) — 흰 카드는 본문에 묻혀 지나쳤다. 배경을 채우고 왼쪽 바를 굵게. */
+.joinbox{margin:30px 0 6px;padding:18px 20px;border:1px solid var(--line);
+border-left:5px solid var(--accent);border-radius:12px;background:var(--chip-bg)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a class="on" href="../"><b>요약</b><i> 대화</i></a><a href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>11월 12일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>11-11 21:51~11-12 08:38</b></span>
+    <span>발화 <b>126</b></span>
+    <span>참여 <b>45</b>명</span>
+    <span>주제 <b>8</b>갈래</span>
+  </div>
+</header>
+
+<details class="tlbox"><summary class="tlstrip"><span class="tshead"><b>대화가 몰린 시각</b><span>126건 · 11-11 21:51~11-12 08:38</span></span><span class="tsbars"><i class="tsb on" style="height:14%" title="00:12~00:13 · 2건"></i><i class="tsb on" style="height:14%" title="00:23~00:26 · 2건"></i><i class="tsb on" style="height:43%" title="00:27~00:33 · 6건"></i><i class="tsb on" style="height:29%" title="00:34~00:35 · 4건"></i><i class="tsb on" style="height:29%" title="06:32~06:34 · 4건"></i><i class="tsb on" style="height:29%" title="06:37~06:38 · 4건"></i><i class="tsb on" style="height:43%" title="06:44~06:53 · 6건"></i><i class="tsb on" style="height:29%" title="06:56~07:00 · 4건"></i><i class="tsb on" style="height:29%" title="07:04~07:08 · 4건"></i><i class="tsb on" style="height:29%" title="07:10~07:11 · 4건"></i><i class="tsb on" style="height:29%" title="07:25~07:34 · 4건"></i><i class="tsb on" style="height:43%" title="07:37~07:38 · 6건"></i><i class="tsb on" style="height:29%" title="07:41~07:49 · 4건"></i><i class="tsb on" style="height:21%" title="07:52~07:54 · 3건"></i><i class="tsb on" style="height:29%" title="07:57~07:59 · 4건"></i><i class="tsb on" style="height:29%" title="08:08~08:11 · 4건"></i><i class="tsb on" style="height:29%" title="08:13~08:18 · 4건"></i><i class="tsb on" style="height:43%" title="08:19~08:23 · 6건"></i><i class="tsb on" style="height:29%" title="08:34~08:35 · 4건"></i><i class="tsb on" style="height:21%" title="08:38~21:51 · 3건"></i><i class="tsb on" style="height:29%" title="21:52~22:28 · 4건"></i><i class="tsb on" style="height:43%" title="23:45~23:46 · 6건"></i><i class="tsb on" style="height:64%" title="23:47~23:48 · 9건"></i><i class="tsb peak" style="height:100%" title="23:49~23:50 · 14건"></i><i class="tsb on" style="height:50%" title="23:51~23:52 · 7건"></i><i class="tsb on" style="height:21%" title="23:53~23:54 · 3건"></i><i class="tsb on" style="height:7%" title="23:58 · 1건"></i></span><span class="tsfoot"><span class="tsl">00:12</span><span class="tspill">타임라인 보기</span><span class="tsr">23:58</span></span></summary><p class="bonehint"><b>&rarr;</b> 옆으로 밀어 시간대별 흐름 보기</p><div class="bonewrap"><div class="bonebox"><div class="bone" style="height:516px;min-width:1050px"><div class="spine"></div><div class="bar" style="left:2.0%;height:8px"></div><div class="bar" style="left:3.8%;height:8px"></div><div class="bar" style="left:5.6%;height:8px"></div><div class="bar" style="left:7.4%;height:8px"></div><div class="bar" style="left:9.2%;height:41px"></div><div class="bar" style="left:11.0%;height:8px"></div><div class="bar" style="left:12.8%;height:17px"></div><div class="bar" style="left:14.7%;height:17px"></div><div class="bar" style="left:16.5%;height:17px"></div><div class="bar" style="left:18.3%;height:17px"></div><div class="bar" style="left:20.1%;height:17px"></div><div class="bar" style="left:21.9%;height:17px"></div><div class="bar" style="left:23.7%;height:33px"></div><div class="bar" style="left:25.5%;height:17px"></div><div class="bar" style="left:27.3%;height:17px"></div><div class="bar" style="left:29.1%;height:17px"></div><div class="bar" style="left:30.9%;height:17px"></div><div class="bar" style="left:32.7%;height:17px"></div><div class="bar" style="left:34.5%;height:17px"></div><div class="bar" style="left:36.3%;height:17px"></div><div class="bar" style="left:38.2%;height:17px"></div><div class="bar" style="left:40.0%;height:17px"></div><div class="bar" style="left:41.8%;height:17px"></div><div class="bar" style="left:43.6%;height:33px"></div><div class="bar" style="left:45.4%;height:17px"></div><div class="bar" style="left:47.2%;height:17px"></div><div class="bar" style="left:49.0%;height:17px"></div><div class="bar" style="left:50.8%;height:8px"></div><div class="bar" style="left:52.6%;height:17px"></div><div class="bar" style="left:54.4%;height:17px"></div><div class="bar" style="left:56.2%;height:17px"></div><div class="bar" style="left:58.0%;height:17px"></div><div class="bar" style="left:59.8%;height:17px"></div><div class="bar" style="left:61.7%;height:17px"></div><div class="bar" style="left:63.5%;height:17px"></div><div class="bar" style="left:65.3%;height:33px"></div><div class="bar" style="left:67.1%;height:17px"></div><div class="bar" style="left:68.9%;height:17px"></div><div class="bar" style="left:70.7%;height:17px"></div><div class="bar" style="left:72.5%;height:8px"></div><div class="bar" style="left:74.3%;height:8px"></div><div class="bar" style="left:76.1%;height:25px"></div><div class="bar" style="left:77.9%;height:8px"></div><div class="bar" style="left:79.7%;height:41px"></div><div class="bar" style="left:81.5%;height:41px"></div><div class="bar" style="left:83.3%;height:33px"></div><div class="bar peak" style="left:85.2%;height:58px"></div><div class="bar peak" style="left:87.0%;height:58px"></div><div class="bar" style="left:88.8%;height:17px"></div><div class="bar" style="left:90.6%;height:41px"></div><div class="bar" style="left:92.4%;height:17px"></div><div class="bar" style="left:94.2%;height:8px"></div><div class="bar" style="left:96.0%;height:8px"></div><div class="lbl" style="left:2.0%">00:12</div><div class="lbl" style="left:16.5%">06:32</div><div class="lbl" style="left:30.9%">07:04</div><div class="lbl" style="left:45.4%">07:41</div><div class="lbl" style="left:59.8%">08:13</div><div class="lbl" style="left:74.3%">21:52</div><div class="peaktag" style="left:85.2%;bottom:66px">23:49 · 7건</div><div class="lbl" style="left:88.8%">23:51</div><div class="lbl" style="left:96.0%">23:58</div><div class="rib up" style="left:3.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">00:13-00:13</div><h3>타로 요청</h3></div></div><div class="rib dn" style="left:5.6%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">00:23-00:35</div><h3>키링과 피클 유사성</h3></div></div><div class="rib up" style="left:16.5%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">06:32-07:41</div><h3>sprite-gen 사용법 공유</h3></div></div><div class="rib dn" style="left:47.2%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">07:49-08:38</div><h3>힉스필드 무료 체험</h3></div></div><div class="rib up" style="left:50.8%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">07:54-07:57</div><h3>엔비디아 CEO 관련 보도</h3></div></div><div class="rib dn flip" style="left:74.6%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">23:54-23:58</div><h3>Claude 영상 TTS 추천</h3></div></div><div class="rib up" style="left:76.1%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">22:28-22:28</div><h3>사용정책 강화와 계정 제재</h3></div></div><div class="rib dn" style="left:77.9%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">23:45-00:12</div><h3>클코 입문 환경 선택</h3></div></div></div></div></div></details>
+
+<section class="details"><article class="dcard"><div class="t">23:45-00:12<span class="catchip c-flow">워크플로우·방법론</span></div><h2>클코 입문 환경 선택</h2><p class="sum">Claude Code를 처음 시작할 때 터미널과 데스크톱 앱 중 무엇을 써야 하는지에 대한 논의가 있었다. 데스크톱 앱만으로도 많은 작업이 가능하지만, 깊게 활용하면 결국 터미널을 쓰게 될 수 있다는 의견이 나왔다. 환경보다 실제로 무엇을 만들고 해보는지가 중요하며, 여러 강의를 동시에 보기보다 하나를 골라 깊게 따라가라는 조언으로 정리됐다.</p><ul><li>Claude Code는 데스크톱 앱으로도 상당한 작업을 수행할 수 있다는 의견이 나왔다.</li><li>하드하게 사용할수록 터미널의 필요성이 커질 수 있다고 했다.</li><li>초보자는 강의나 영상을 여러 개 병행하기보다 하나를 깊게 보는 편이 낫다고 조언했다.</li><li>사용 환경을 오래 고민하기보다 목표를 정하고 직접 사용해보는 것이 핵심으로 제시됐다.</li></ul></article><article class="dcard"><div class="t">22:28-22:28<span class="catchip c-res">배포·운영</span></div><h2>사용정책 강화와 계정 제재</h2><p class="sum">Anthropic이 사용 정책 업데이트를 공개했다는 링크가 공유됐다. 이를 계기로 일부 계정이 정지되는 사례가 생기는 것 같다는 이야기가 나왔다. IPO를 앞두고 정책 집행이 강화되는 것 아니냐는 추측이 제기됐다.</p><ul><li>Anthropic 사용 정책 업데이트 링크가 공유됐다.</li><li>일부 계정 정지 사례가 발생하는 것 같다는 의견이 나왔다.</li><li>정책 강화 배경으로 IPO가 거론됐지만 사실로 확인되지는 않았다.</li><li><a href="https://www.anthropic.com/news/2026-usage-policy-update" rel="nofollow ugc noopener noreferrer" target="_blank">https://www.anthropic.com/news/2026-usage-policy-update</a></li></ul></article><article class="dcard"><div class="t">00:23-00:35<span class="catchip c-tool">도구·라이브러리</span></div><h2>키링과 피클 유사성</h2><p class="sum">키링의 초대권과 이용 가능 여부에 대한 대화가 오갔다. 키링이 피클 리버스를 한 수준으로 비슷하다는 평가와 함께 UI·UX가 거의 복사한 것처럼 보인다는 의견이 나왔다. 이런 유사성이 법적으로 문제가 될 수 있는지 질문이 나왔고, REA로 피클 UI·UX를 따라 할 수 있는지도 언급됐다.</p><ul><li>키링 이용을 위한 초대권과 사전 신청 여부가 화제가 됐다.</li><li>키링이 피클과 매우 유사하다는 평가가 나왔다.</li><li>UI·UX 유사성이 법적 문제로 이어질 수 있는지 질문이 제기됐다.</li><li>REA를 이용해 피클 UI·UX를 따라 할 수 있는지에 대한 질문이 나왔다.</li></ul></article><article class="dcard"><div class="t">06:32-07:41<span class="catchip c-res">자료·링크 공유</span></div><h2>sprite-gen 사용법 공유</h2><p class="sum">sprite-gen 사용법을 다룬 커뮤니티 매거진 글이 공유됐다. sprite-gen은 2D 게임용 스프라이트와 애니메이션 시트를 생성하는 Claude Code·Codex용 스킬이자 명령줄 도구로 소개됐다. 여러 참여자에게 같은 글이 반복적으로 안내됐지만, 실제 사용법이나 평가 내용은 대화에 포함되지 않았다.</p><ul><li>sprite-gen 사용법을 다룬 매거진 글이 공유됐다.</li><li>sprite-gen은 2D 게임 스프라이트와 애니메이션 시트 생성 도구로 소개됐다.</li><li>Claude Code와 Codex에서 사용할 수 있는 스킬이자 CLI 도구로 설명됐다.</li><li>구체적인 설치법이나 사용 예시는 대화에 나오지 않았다.</li><li><a href="https://chat.axwith.com/mag/">https://chat.axwith.com/mag/</a></li></ul></article><article class="dcard"><div class="t">07:49-08:38<span class="catchip c-res">자료·링크 공유</span></div><h2>힉스필드 무료 체험</h2><p class="sum">힉스필드 3일 무료 체험을 다룬 커뮤니티 매거진 글이 공유됐다. 힉스필드는 텍스트·이미지로 AI 영상을 생성하는 플랫폼이며 MCP·CLI 연동으로 클로드 코드에서 영상 제작을 자동화할 수 있는 서비스로 소개됐다. 여러 참여자에게 같은 글이 반복 안내됐지만, 체험 조건이나 실제 사용 후기는 대화에 포함되지 않았다.</p><ul><li>힉스필드 3일 무료 체험 관련 매거진 글이 공유됐다.</li><li>힉스필드는 텍스트와 이미지 기반 AI 영상 생성 플랫폼으로 소개됐다.</li><li>MCP·CLI 연동을 통해 클로드 코드에서 영상 제작을 자동화할 수 있다고 알려졌다.</li><li>무료 체험의 구체적인 조건이나 절차는 대화에 나오지 않았다.</li><li><a href="https://chat.axwith.com/mag/">https://chat.axwith.com/mag/</a></li></ul></article><article class="dcard"><div class="t">23:54-23:58<span class="catchip c-tool">도구·라이브러리</span></div><h2>Claude 영상 TTS 추천</h2><p class="sum">Claude로 영상을 만들고 TTS를 넣을 때 어떤 도구를 사용하는지 질문이 나왔다. 질문에 대한 구체적인 추천은 대화 안에서 이어지지 않았고, TTS 추천을 요청하는 수준에서 끝났다.</p><ul><li>Claude를 활용한 영상 제작 과정에서 TTS 도구 추천이 요청됐다.</li><li>구체적인 제품명이나 사용법은 대화에서 제시되지 않았다.</li><li>추후 TTS 도구 비교가 필요한 질문으로 남았다.</li></ul></article><article class="dcard"><div class="t">07:54-07:57<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>엔비디아 CEO 관련 보도</h2><p class="sum">엔비디아 이사회가 CEO의 해임을 검토 중이라는 내용의 보도가 공유됐다. 보도 내용에는 사생활 의혹과 중국 정보기관 관련 의심이 함께 언급됐다. 이후 해당 인물이 CEO가 아니라 부사장이라는 정정성 반응과 다른 인물일 수 있다는 추측이 나왔지만, 사실관계는 대화에서 확인되지 않았다.</p><ul><li>엔비디아 CEO 거취와 관련된 보도 내용이 공유됐다.</li><li>사생활 및 정보기관 연계 의혹이 함께 언급됐다.</li><li>해당 인물의 직책과 신원에 대해 반박성 반응이 나왔다.</li><li>대화 안에서는 보도의 진위나 최종 사실관계가 확인되지 않았다.</li></ul></article><article class="dcard"><div class="t">00:13-00:13<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>타로 요청</h2><p class="sum">타로를 봐달라는 짧은 요청이 있었다. 숫자 세 개가 함께 제시됐지만, 해석이나 후속 대화는 이어지지 않았다.</p><ul><li>타로 해석 요청이 나왔다.</li><li>숫자 세 개가 함께 언급됐다.</li><li>구체적인 타로 결과는 대화에 없다.</li></ul></article></section>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-11-12-0900</span>
+</footer>
+</div>
+</body>
+</html>
