@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 생성 속도 저하, 모델 문제인지 서비스 문제인지 구별하는 법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="AI 코딩 도구가 갑자기 느려졌을 때 모델 추론, 서버 혼잡, 긴 컨텍스트, 에이전트 도구 호출을 구분하고 직접 측정하는 방법을 정리했다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/ai-latency-diagnosis-guide.html">
+<meta property="og:title" content="AI 생성 속도 저하, 모델 문제인지 서비스 문제인지 구별하는 법">
+<meta property="og:description" content="AI 코딩 도구가 갑자기 느려졌을 때 모델 추론, 서버 혼잡, 긴 컨텍스트, 에이전트 도구 호출을 구분하고 직접 측정하는 방법을 정리했다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/ai-latency-diagnosis-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI 생성 속도 저하, 모델 문제인지 서비스 문제인지 구별하는 법", "description": "AI 코딩 도구가 갑자기 느려졌을 때 모델 추론, 서버 혼잡, 긴 컨텍스트, 에이전트 도구 호출을 구분하고 직접 측정하는 방법을 정리했다.", "datePublished": "2026-11-12", "dateModified": "2026-11-12", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/ai-latency-diagnosis-guide.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "AI 속도, LLM latency, TTFT, TPS, Antigravity, AI 코딩 도구, 에이전트", "image": "https://chat.axwith.com/mag/hero/ai-latency-diagnosis-guide.webp"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI 답변이 느려졌을 때 가장 먼저 확인할 것은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "첫 토큰까지의 시간, 토큰 사이 간격, 전체 완료 시간을 나눠 기록하세요. 공식 상태 페이지에서 장애를 확인한 뒤 짧은 프롬프트와 긴 프롬프트를 비교하면 원인 범위를 좁힐 수 있습니다."}}, {"@type": "Question", "name": "Antigravity는 왜 일반 채팅보다 느릴 수 있나요?", "acceptedAnswer": {"@type": "Answer", "text": "Antigravity는 코드 탐색, 파일 수정, 터미널 실행, 테스트 같은 여러 단계를 수행하는 에이전트입니다. 모델 생성 속도보다 도구 호출과 검증 단계가 전체 시간을 더 크게 늘릴 수 있습니다."}}, {"@type": "Question", "name": "모델을 바꾸면 AI 속도 문제가 해결되나요?", "acceptedAnswer": {"@type": "Answer", "text": "서비스 장애나 특정 모델의 혼잡이라면 도움이 될 수 있습니다. 다만 품질, 사용 한도, 컨텍스트 처리 방식도 함께 바뀌므로 같은 프롬프트를 여러 번 비교해야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-latency-diagnosis-guide.webp" alt="AI 생성 속도 저하, 모델 문제인지 서비스 문제인지 구별하는 법" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>AI 생성 속도 저하, 모델 문제인지 서비스 문제인지 구별하는 법</h1>
+  <p class="sub">Claude·GPT·Antigravity가 느려졌을 때 체감만으로 결론 내리지 않고 원인과 대응을 나누는 방법</p>
+  <div class="meta"><span>2026-11-12</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI 코딩 도구를 쓰다 보면 어느 날 갑자기 답변이 늦고, 토큰이 끊겨 나오며, 작업 완료까지 걸리는 시간이 길어진다. 클코단에서도 Claude와 Antigravity를 시작으로 GPT와 Codex까지 비슷한 체감이 이어졌지만, 사람마다 느린 정도는 달랐다. 이 글은 느려진 AI가 모델 자체의 문제인지, 서비스 혼잡인지, 에이전트 구조 때문인지 구분하는 방법을 다룬다.</p>
+<h2>먼저 ‘느리다’를 세 구간으로 나눠야 한다</h2>
+<p>AI 응답 속도는 한 숫자로 설명되지 않는다. NVIDIA는 첫 토큰까지 걸리는 시간인 TTFT, 토큰 사이 간격인 TPOT 또는 ITL, 전체 응답 완료 시간인 E2E latency를 별도 지표로 구분한다. 화면에 첫 글자가 늦게 나타나는지, 글자가 나타난 뒤 끊기는지, 마지막까지 끝나는 시간이 긴지를 나눠 봐야 한다. (<a href="https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/" target="_blank" rel="nofollow noopener">developer.nvidia.com</a>)</p>
+<p>예를 들어 TTFT만 늘었다면 대기열, 긴 입력을 읽는 prefill, 네트워크 지연을 의심할 수 있다. 첫 글자는 빨리 나오지만 이후 생성이 느리다면 모델의 출력 처리량이나 서버의 동시 요청 부담이 더 가까운 원인이다. 전체 작업만 길어졌다면 모델이 코드를 작성하는 시간보다 파일 검색, 테스트 실행, 도구 호출이 늘었을 가능성도 있다.</p>
+<p>방 논의에서 언급된 TPS 하락은 유용한 단서지만, 그 자체로 장애 증거는 아니다. 같은 모델도 입력 길이, 출력 길이, 요금제, 요청 시점에 따라 체감 속도가 달라진다.</p>
+<h2>최근 장애 기록은 ‘느낌’이 실제 현상일 수 있음을 보여준다</h2>
+<p>서비스 제공업체의 상태 기록을 보면 속도 저하는 단순한 착각으로만 치부하기 어렵다. OpenAI는 ChatGPT와 API에서 대규모 요청 실패가 발생한 사례를 설명했고, 원인으로 라우팅 계층의 메모리 한계와 용량 부족을 들었다. 2026년 9월 29일에는 기능 배포가 내부 네트워크 트래픽을 과도하게 늘려 ChatGPT와 Codex, API에 오류와 지연이 나타났다고 밝혔다. (<a href="https://status.openai.com/incidents/01JMYB63BJ47J3SXV6KSCT4D2A/write-up" target="_blank" rel="nofollow noopener">status.openai.com</a>)</p>
+<p>Anthropic도 2026년 11월 8일 Claude Fable 5.1 요청에서 성능 저하를 공지했다. 해당 기록에는 claude.ai뿐 아니라 Claude API와 Claude Code가 영향 범위로 포함됐다. 11월 10일에는 특정 모델 요청에서 오류가 짧게 발생했다는 기록도 남아 있다. 다만 이 기록만으로 클코단에서 느꼈던 모든 지연이 같은 장애였다고 단정할 수는 없다. (<a href="https://anthropic.statuspage.io/" target="_blank" rel="nofollow noopener">anthropic.statuspage.io</a>)</p>
+<p>공식 상태 페이지에 장애가 없는데도 느릴 수 있다. 상태 페이지는 전체 서비스의 평균적인 이상을 보여주지만, 특정 모델·지역·계정 등급·기능 조합의 지연까지 모두 드러내지는 않는다. OpenAI도 개별 고객의 가용성이 요금제와 모델, API 기능에 따라 달라질 수 있다고 안내한다. (<a href="https://status.openai.com/incidents/d5c9gbfh" target="_blank" rel="nofollow noopener">status.openai.com</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-latency-diagnosis-guide.webp" alt="" loading="lazy"><h2>Antigravity가 특히 느리게 느껴지는 이유</h2>
+<p>Antigravity는 단순히 한 번 질문하고 한 번 답하는 채팅 도구가 아니다. Google 문서에 따르면 Agent는 기존 코드를 읽고, 도구를 사용하고, 결과물을 만들며, 여러 대화를 병렬로 운영할 수 있는 다단계 시스템이다. 따라서 화면에 답변이 나타나기 전에도 계획 수립, 파일 탐색, 터미널 실행, 검증 과정이 진행될 수 있다. (<a href="https://www.antigravity.google/docs/agent/" target="_blank" rel="nofollow noopener">antigravity.google</a>)</p>
+<p>이 구조에서는 모델의 TPS가 빨라도 작업 전체가 빨라지지 않는다. Microsoft Research는 에이전트 작업에서 도구 호출이 최종 응답이 보이기 전까지 걸리는 시간의 30~80%를 차지할 수 있다고 분석했다. 여러 호출을 순서대로 실행하면 각각의 대기 시간이 누적되고, 같은 저장소를 반복해서 읽는 과정에서 캐시 효율도 떨어질 수 있다. (<a href="https://www.microsoft.com/en-us/research/publication/sutradhara-an-intelligent-orchestrator-engine-co-design-for-tool-based-agentic-inference/?lang=ko-kr" target="_blank" rel="nofollow noopener">microsoft.com</a>)</p>
+<p>Antigravity 공식 문서도 목표 모드가 작업 완료 여부를 확인하고, 하위 작업이 끝날 때까지 기다리며, 테스트나 빌드 같은 증거를 요구한다고 설명한다. 사용자가 짧은 코드 수정으로 생각한 요청을 에이전트가 검토와 검증을 포함한 장기 작업으로 해석하면, 일반 채팅보다 느린 것이 이상하지 않다. (<a href="https://www.antigravity.google/docs/commands/goal" target="_blank" rel="nofollow noopener">antigravity.google</a>)</p>
+<p>실사용자 사이에서는 Antigravity가 작은 수정에도 저장소를 넓게 읽거나 여러 단계를 거쳐 답답하다는 반응이 나온다. 반대로 작업을 작게 나누고 한 번에 한 단계씩 요청하면 충분히 쓸 만하다는 의견도 있다. 이 차이는 모델 성능보다 에이전트가 수행하는 작업 경로에서 생길 수 있다.</p>
+<h2>속도 진단 절차</h2>
+<p>첫 번째로 같은 프롬프트를 준비한다. 짧은 코드 설명, 20줄 안팎의 수정 요청, 긴 저장소 분석 요청을 각각 하나씩 만들고 같은 모델과 같은 계정에서 여러 번 실행한다. 결과를 비교할 때는 답변 품질보다 TTFT, TPOT, 전체 완료 시간을 따로 기록한다.</p>
+<p>두 번째로 입력을 줄여 본다. 긴 대화와 저장소 전체를 붙인 요청이 느리고 짧은 새 대화가 빠르다면, 모델이 느려졌다기보다 컨텍스트 처리 비용이 커졌을 가능성이 높다. OpenAI는 긴 출력을 줄이고, 반복되는 입력을 캐시하며, 가능한 경우 Predicted Outputs를 활용하는 방식을 지연 최적화 방법으로 안내한다. (<a href="https://developers.openai.com/api/docs/guides/latency-optimization" target="_blank" rel="nofollow noopener">developers.openai.com</a>)</p>
+<p>세 번째로 도구를 끈 요청과 켠 요청을 비교한다. 파일 검색이나 테스트 실행이 없는 단순 생성은 빠른데 에이전트 작업만 늦다면, 도구 호출과 오케스트레이션에 걸리는 시간을 따로 확인한다. 연구에서도 계획·검색·도구를 결합한 에이전트가 단일 호출보다 정확해질 수 있지만, 사례에 따라 지연 시간이 수 초에서 수백 초까지 늘어날 수 있다고 보고했다. (<a href="https://arxiv.org/abs/2601.02663" target="_blank" rel="nofollow noopener">arxiv.org</a>)</p>
+<p>마지막으로 같은 시간대에 다른 모델과 서비스를 비교한다. Claude, GPT, Codex, DeepSeek, Qwen처럼 대안을 번갈아 쓰는 것은 장애 우회에는 도움이 되지만, 결과 품질과 사용 한도까지 함께 바뀐다. 방에서 일부 참여자가 모델을 바꿔 보려 했던 경험도 이 지점과 맞닿아 있다. 다만 모델을 바꿨더니 빨라졌다는 사실만으로 기존 서비스의 공식 장애를 입증할 수는 없다.</p>
+<h2>개인 개발자에게 중요한 것은 평균 속도보다 작업당 대기 시간이다</h2>
+<p>개인 개발자나 소규모 팀은 ‘초당 토큰 수’만 보고 도구를 고르면 안 된다. 짧은 코드 보완은 TTFT와 TPOT가 중요하지만, 테스트와 파일 수정이 포함된 에이전트 작업은 도구 호출 횟수와 검증 단계가 더 큰 영향을 준다. Google도 Gemini API에서 표준 처리, 우선 처리, 배치 처리, 캐시를 작업 성격에 맞춰 선택하도록 안내한다. 우선 처리는 지연을 낮추고 신뢰성을 높이는 대신 표준 요금보다 비싸고, Flex나 Batch는 비용을 낮추지만 즉시 응답에는 적합하지 않다. (<a href="https://ai.google.dev/gemini-api/docs/optimization?hl=en" target="_blank" rel="nofollow noopener">ai.google.dev</a>)</p>
+<p>실무에서는 요청을 세 종류로 나누는 편이 낫다. 즉시 답이 필요한 작은 수정은 빠른 모델과 짧은 컨텍스트를 사용하고, 저장소 전체를 읽어야 하는 작업은 기다릴 시간을 감안해 목표와 검증 조건을 명확히 적는다. 반복되는 분석은 캐시나 고정된 작업 흐름으로 줄이고, 불필요한 재시도는 중단한다.</p>
+<p>클코단의 체감처럼 여러 AI 도구가 동시에 느려졌다면 서비스 공급자의 장애나 공용 인프라 혼잡을 먼저 확인할 이유가 있다. 반대로 특정 프로젝트에서만 느리고 새 대화나 짧은 요청은 정상이라면 컨텍스트와 에이전트 경로를 먼저 봐야 한다. 느림을 하나의 감상으로 묶지 않고 TTFT·TPOT·도구 호출로 쪼개는 순간, 모델을 무작정 갈아타지 않고 무엇을 줄여야 하는지 판단할 수 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">AI 속도</span><span class="chip">LLM latency</span><span class="chip">TTFT</span><span class="chip">TPS</span><span class="chip">Antigravity</span><span class="chip">AI 코딩 도구</span><span class="chip">에이전트</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/" rel="nofollow noopener">https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/</a></li><li><a href="https://docs.nvidia.com/nim/benchmarking/llm/metrics" rel="nofollow noopener">https://docs.nvidia.com/nim/benchmarking/llm/metrics</a></li><li><a href="https://developers.openai.com/api/docs/guides/latency-optimization" rel="nofollow noopener">https://developers.openai.com/api/docs/guides/latency-optimization</a></li><li><a href="https://status.openai.com/incidents/01JMYB63BJ47J3SXV6KSCT4D2A/write-up" rel="nofollow noopener">https://status.openai.com/incidents/01JMYB63BJ47J3SXV6KSCT4D2A/write-up</a></li><li><a href="https://status.openai.com/incidents/01M3Q4RK1SM4EMK445GGPG7C0N/write-up" rel="nofollow noopener">https://status.openai.com/incidents/01M3Q4RK1SM4EMK445GGPG7C0N/write-up</a></li><li><a href="https://anthropic.statuspage.io/" rel="nofollow noopener">https://anthropic.statuspage.io/</a></li><li><a href="https://developers.googleblog.com/en/build-with-google-antigravity-our-new-agentic-development-platform/" rel="nofollow noopener">https://developers.googleblog.com/en/build-with-google-antigravity-our-new-agent</a></li><li><a href="https://antigravity.google/docs/agent/" rel="nofollow noopener">https://antigravity.google/docs/agent/</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI 답변이 느려졌을 때 가장 먼저 확인할 것은 무엇인가요?</h2><p class="sum">첫 토큰까지의 시간, 토큰 사이 간격, 전체 완료 시간을 나눠 기록하세요. 공식 상태 페이지에서 장애를 확인한 뒤 짧은 프롬프트와 긴 프롬프트를 비교하면 원인 범위를 좁힐 수 있습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Antigravity는 왜 일반 채팅보다 느릴 수 있나요?</h2><p class="sum">Antigravity는 코드 탐색, 파일 수정, 터미널 실행, 테스트 같은 여러 단계를 수행하는 에이전트입니다. 모델 생성 속도보다 도구 호출과 검증 단계가 전체 시간을 더 크게 늘릴 수 있습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>모델을 바꾸면 AI 속도 문제가 해결되나요?</h2><p class="sum">서비스 장애나 특정 모델의 혼잡이라면 도움이 될 수 있습니다. 다만 품질, 사용 한도, 컨텍스트 처리 방식도 함께 바뀌므로 같은 프롬프트를 여러 번 비교해야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-11-2200.html">2026-11-11 11-11 18:04~21:49</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
