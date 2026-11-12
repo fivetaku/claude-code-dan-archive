@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude Code가 규칙을 잊는 이유와 고치는 설정법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="Claude Code가 세션 중 규칙을 놓치는 이유를 공식 문서와 사용 경험으로 살펴보고, CLAUDE.md·Skills·Hooks·Subagents를 어떻게 나눠야 안정적인지 설명한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/troubleshooting/claude-code-rules-hooks-skills.html">
+<meta property="og:title" content="Claude Code가 규칙을 잊는 이유와 고치는 설정법">
+<meta property="og:description" content="Claude Code가 세션 중 규칙을 놓치는 이유를 공식 문서와 사용 경험으로 살펴보고, CLAUDE.md·Skills·Hooks·Subagents를 어떻게 나눠야 안정적인지 설명한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/troubleshooting/claude-code-rules-hooks-skills.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claude Code가 규칙을 잊는 이유와 고치는 설정법", "description": "Claude Code가 세션 중 규칙을 놓치는 이유를 공식 문서와 사용 경험으로 살펴보고, CLAUDE.md·Skills·Hooks·Subagents를 어떻게 나눠야 안정적인지 설명한다.", "datePublished": "2026-11-13", "dateModified": "2026-11-13", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/troubleshooting/claude-code-rules-hooks-skills.html"}, "articleSection": "질문·트러블슈팅", "keywords": "Claude Code, CLAUDE.md, Claude Code Hooks, Claude Code Skills, Subagents, 컨텍스트 윈도우", "image": "https://chat.axwith.com/mag/hero/claude-code-rules-hooks-skills.webp"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Claude Code는 CLAUDE.md를 매번 읽나요?", "acceptedAnswer": {"@type": "Answer", "text": "프로젝트와 사용자 범위에 맞는 CLAUDE.md는 세션 시작 시 로드됩니다. 다만 컨텍스트로 취급되므로 모든 지시가 강제로 집행되는 것은 아닙니다."}}, {"@type": "Question", "name": "CLAUDE.md와 Skills는 어떻게 나누나요?", "acceptedAnswer": {"@type": "Answer", "text": "매 작업에 필요한 프로젝트 사실과 공통 규칙은 CLAUDE.md에 둡니다. 반복되는 체크리스트와 긴 절차는 `.claude/skills/`의 `SKILL.md`로 분리하는 편이 적합합니다."}}, {"@type": "Question", "name": "규칙을 반드시 지키게 하려면 무엇을 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "위험한 파일 수정이나 명령 차단에는 `PreToolUse` Hook과 권한 설정을 사용해야 합니다. CLAUDE.md는 행동을 안내하지만, Hook은 조건에 따라 실행 자체를 막을 수 있습니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/claude-code-rules-hooks-skills.webp" alt="Claude Code가 규칙을 잊는 이유와 고치는 설정법" loading="eager">
+<header>
+  <span class="catchip c-ask">질문·트러블슈팅</span>
+  <h1>Claude Code가 규칙을 잊는 이유와 고치는 설정법</h1>
+  <p class="sub">CLAUDE.md만으로 부족한 이유를 컨텍스트 구조와 Hooks·Skills·Subagents 활용법으로 풀어봤다.</p>
+  <div class="meta"><span>2026-11-13</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>Claude Code를 오래 쓰면 비슷한 장면을 만난다. 초반에는 프로젝트 규칙을 잘 따르다가 어느 순간 테스트 순서나 파일 수정 범위를 놓친다. 이 기사는 규칙이 왜 흐려지는지, CLAUDE.md만으로 부족할 때 무엇을 어디에 배치해야 하는지에 답한다.</p>
+<h2>규칙이 사라진 게 아니라 컨텍스트에서 밀린다</h2>
+<p>Anthropic 공식 문서는 Claude Code의 각 세션이 새로운 컨텍스트 윈도우에서 시작한다고 설명한다. 이전 대화의 기억이 자동으로 영구 보존되는 구조는 아니다. 세션 사이에 남는 것은 사용자가 작성한 CLAUDE.md와 Claude가 저장하는 자동 메모리다.</p>
+<p>CLAUDE.md는 프로젝트 루트, 사용자 설정, 하위 디렉터리별로 둘 수 있다. 작업 디렉터리와 상위 경로의 파일은 시작할 때 읽히고 하위 디렉터리의 파일은 필요할 때 읽히지만 문서 자체가 강제 설정으로 작동하지는 않는다. 공식 문서도 CLAUDE.md와 자동 메모리를 “컨텍스트”로 설명하며 더 구체적이고 짧은 지시일수록 잘 따른다고 안내한다.</p>
+<p>방 논의에서도 비슷한 경험이 많았다. 세션에서 정한 규칙이 한 시간 안에 약해지거나 전역 규칙과 프로젝트 규칙을 함께 둬도 다음 날에는 품질이 달라졌다는 의견이 나왔다. 일부 사용자는 모델을 바꾼 뒤 응답 태도가 크게 달라졌다고 느꼈지만 특정 모델 하나의 문제로만 단정하기는 어렵다.</p>
+<p>컨텍스트가 길어지면 규칙이 삭제되지 않아도 작업과 직접 관련된 정보에 비해 주목도가 낮아진다. 긴 로그, 검색 결과, 파일 내용이 이어지면 모델이 현재 목표를 우선 처리하는 과정에서 오래된 지시를 덜 활용할 수 있다. 공식 문서가 장기 작업에서 진행 상태를 파일에 남기고 새 컨텍스트에서 다시 읽게 하라고 권하는 이유도 여기에 있다.</p>
+<h2>CLAUDE.md에는 항상 필요한 사실만 남겨야 한다</h2>
+<p>CLAUDE.md에 넣을 내용은 프로젝트 전반에 늘 필요한 정보가 적합하다. 예를 들면 패키지 설치 명령, 테스트 실행법, 디렉터리 구조, 반드시 지켜야 할 코드 스타일처럼 매 작업마다 참고할 사실이다. 한 번만 수행하는 배포 절차나 긴 체크리스트까지 모두 넣으면 매번 컨텍스트 비용이 발생한다.</p>
+<p>공식 문서의 현재 권장 구조는 파일을 여러 범위로 나누는 방식이다. 루트 CLAUDE.md에는 공통 규칙을 두고 특정 디렉터리의 규칙은 해당 위치의 파일이나 <code>.claude/rules/</code>에 둔다. 자동 메모리는 사용자의 선호나 반복해서 수정한 부분을 기록하는 용도다. 두 장치를 하나의 강제 정책처럼 다루면 기대와 실제 동작 사이에 틈이 생긴다.</p>
+<p>긴 문서를 줄이는 작업도 단순히 문장 수를 줄이는 데서 끝나지 않는다. “항상 지켜야 하는 원칙”과 “필요할 때 찾아볼 절차”를 분리해야 한다. 반복 절차가 CLAUDE.md의 상당 부분을 차지한다면 Skills로 옮기는 편이 맞다.</p>
+<p>써본 사람들 사이에서는 규칙을 여러 파일에 반복하면 오히려 컨텍스트만 늘어난다는 반응도 있다. 반대로 짧은 규칙을 상단에 배치하고 작업 시작 때 핵심 조건을 다시 확인시키면 체감이 좋아졌다는 의견도 있다. 공통점은 규칙을 많이 쓰는 것보다 현재 작업에 필요한 규칙을 좁히는 편이 낫다는 점이다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/claude-code-rules-hooks-skills.webp" alt="" loading="lazy"><h2>반복 절차는 Skills로, 위험한 행동은 Hooks로 옮긴다</h2>
+<p>Skills는 필요할 때 불러오는 작업 설명서다. Claude Code 공식 문서에 따르면 <code>.claude/skills/이름/SKILL.md</code>를 만들고 반복되는 지침·체크리스트·다단계 절차를 담을 수 있다. Skill의 본문은 매번 전부 컨텍스트에 들어가는 것이 아니라 사용될 때 로드된다.</p>
+<p>예를 들어 <code>release-check</code> Skill을 만든다면 문서에 버전 확인, 테스트, 변경 로그 생성, 빌드 검증 순서를 적는다. 사용자가 <code>/release-check</code>를 호출하거나 현재 작업이 설명과 맞을 때 Claude가 해당 절차를 읽는다. 입력은 저장소 상태와 릴리스 버전이고 산출물은 검사 결과와 누락된 단계다.</p>
+<p>Hooks는 성격이 다르다. Hooks reference에 따르면 특정 이벤트에서 셸 명령이나 검증 로직을 실행할 수 있다. <code>PreToolUse</code>는 도구 실행 전에 검사하고 조건에 맞으면 작업을 막을 수 있다. 비밀 키가 파일에 들어가는지, 보호된 경로를 지우려는지, 위험한 명령이 실행되는지를 검사하는 데 적합하다.</p>
+<p>구성 순서는 간단하다. 먼저 <code>.claude/settings.json</code>에 어떤 이벤트를 감시할지 적고 검사 스크립트가 도구 입력을 받아 허용 또는 차단 결과를 반환하게 만든다. 파일 수정 뒤 테스트를 돌리고 싶다면 <code>PostToolUse</code>를 활용할 수 있다. 규칙을 “잊지 말라”고 부탁하는 대신 실패하면 다시 수정하도록 피드백을 돌려주는 구조다.</p>
+<p>다만 Hooks는 임의의 셸 명령을 실행하므로 출처와 내용을 검토해야 한다. 공식 자료도 Hooks가 사용자 권한으로 파일을 읽거나 변경할 수 있다고 경고한다. 강제성이 필요한 만큼 잘못 만든 Hook의 영향도 크다.</p>
+<h2>검색과 로그는 Subagents의 별도 컨텍스트에서 처리한다</h2>
+<p>Subagents는 메인 세션과 다른 컨텍스트 윈도우에서 작업한다. Claude Code 문서는 검색 결과, 로그, 대량의 파일 내용처럼 메인 대화에 다시 가져올 필요가 적은 작업을 Subagent에 맡기면 컨텍스트를 보존할 수 있다고 설명한다.</p>
+<p>구성 파일은 보통 <code>.claude/agents/이름.md</code>에 둔다. 파일에는 역할, 사용할 도구, 권한, 결과 형식을 적는다. 예를 들어 <code>security-reviewer</code>는 읽기 전용으로 저장소를 검사하고 발견한 위험과 파일 위치만 요약하게 만들 수 있다. 메인 세션은 전체 로그 대신 요약만 받는다.</p>
+<p>방에서 공유된 경험처럼 한 작업 안에서 모델이나 담당 에이전트를 바꾸는 경우에도 이 구분이 중요하다. 메인 대화에 모든 탐색 기록을 쌓으면 다음 단계의 구현이 느려질 수 있다. 반면 Subagent의 결과가 지나치게 짧으면 판단 근거가 사라지므로 “위험도·근거 파일·재현 명령”처럼 반환 형식을 정해야 한다.</p>
+<p>Anthropic의 공식 가이드도 복잡한 문제를 탐색·계획·구현으로 나누고 초기에 Subagents를 활용하면 메인 컨텍스트를 보존할 수 있다고 설명한다. 단순한 한 파일 수정까지 무조건 분리할 필요는 없다. 병렬 처리, 독립적인 조사, 대량 출력처럼 분리 효과가 뚜렷한 경우가 기준이다.</p>
+<h2>개인 개발자에게 필요한 최소 구성은 네 층이다</h2>
+<p>작은 프로젝트라면 처음부터 복잡한 에이전트 팀을 만들 필요가 없다. 루트 <code>CLAUDE.md</code>에는 실행 명령과 핵심 금지사항만 둔다. 반복 작업은 <code>.claude/skills/</code> 아래에 절차별로 나누고 삭제·비밀정보·보호 경로 같은 위험 행동은 <code>PreToolUse</code> Hook으로 차단한다.</p>
+<p>검색이나 테스트 로그가 커질 때만 읽기 전용 Subagent를 추가한다. 작업이 길어지면 <code>progress.md</code>나 테스트 목록을 저장해 다음 세션이 현재 상태를 다시 발견하게 한다. 새 세션이 이전 대화를 기억하지 못해도 저장소 안의 상태와 검증 명령은 남는다.</p>
+<p>이 구성은 규칙을 더 많이 주입하는 방법이 아니다. 모델이 참고할 내용은 짧게 유지하고 필요한 절차는 호출 시점에 불러오며 반드시 막아야 할 행동은 프로그램이 검사한다. Claude Code가 규칙을 잊는 문제에 대한 현실적인 해법은 기억력을 기대하는 대신 규칙의 역할을 컨텍스트·절차·검증으로 나누는 데 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">Claude Code</span><span class="chip">CLAUDE.md</span><span class="chip">Claude Code Hooks</span><span class="chip">Claude Code Skills</span><span class="chip">Subagents</span><span class="chip">컨텍스트 윈도우</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://code.claude.com/docs/en/memory" rel="nofollow noopener">https://code.claude.com/docs/en/memory</a></li><li><a href="https://code.claude.com/docs/en/hooks" rel="nofollow noopener">https://code.claude.com/docs/en/hooks</a></li><li><a href="https://code.claude.com/docs/en/skills" rel="nofollow noopener">https://code.claude.com/docs/en/skills</a></li><li><a href="https://code.claude.com/docs/en/sub-agents" rel="nofollow noopener">https://code.claude.com/docs/en/sub-agents</a></li><li><a href="https://www.anthropic.com/engineering/claude-code-best-practices" rel="nofollow noopener">https://www.anthropic.com/engineering/claude-code-best-practices</a></li><li><a href="https://www.anthropic.com/research/equipping-agents-for-the-real-world-with-agent-skills" rel="nofollow noopener">https://www.anthropic.com/research/equipping-agents-for-the-real-world-with-agen</a></li><li><a href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" rel="nofollow noopener">https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agent</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>Claude Code는 CLAUDE.md를 매번 읽나요?</h2><p class="sum">프로젝트와 사용자 범위에 맞는 CLAUDE.md는 세션 시작 시 로드됩니다. 다만 컨텍스트로 취급되므로 모든 지시가 강제로 집행되는 것은 아닙니다.</p></article><article class="dcard"><div class="t">Q</div><h2>CLAUDE.md와 Skills는 어떻게 나누나요?</h2><p class="sum">매 작업에 필요한 프로젝트 사실과 공통 규칙은 CLAUDE.md에 둡니다. 반복되는 체크리스트와 긴 절차는 <code>.claude/skills/</code>의 <code>SKILL.md</code>로 분리하는 편이 적합합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>규칙을 반드시 지키게 하려면 무엇을 써야 하나요?</h2><p class="sum">위험한 파일 수정이나 명령 차단에는 <code>PreToolUse</code> Hook과 권한 설정을 사용해야 합니다. CLAUDE.md는 행동을 안내하지만, Hook은 조건에 따라 실행 자체를 막을 수 있습니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-delete-quarantine.html">클로드코드 파일 삭제 사고와 &#x27;격리&#x27; 방어법이 뜨는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="mcp-vs-api-internal-data.html">매출 DB에 MCP까지 필요할까: 오버엔지니어링과 보안의 경계선</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="coupang-smartstore-crawl-block.html">쿠팡·스마트스토어 크롤링 차단, AI 에이전트는 어떻게 뚫나</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-cache-bug-usage.html">클로드코드 토큰이 순식간에 사라진 이유, 캐싱 버그의 전말</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-beginner-automation-guide.html">챗지피티처럼 쓰던 클로드, 이제 자동화 에이전트로: 클로드코드 입문법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-12-1800.html">2026-11-12 11-12 08:51~17:51</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

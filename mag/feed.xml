@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Claude Code가 규칙을 잊는 이유와 고치는 설정법</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/claude-code-rules-hooks-skills.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-rules-hooks-skills.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Fri, 13 Nov 2026 12:00:00 +0900</pubDate>
+    <description>Claude Code가 세션 중 규칙을 놓치는 이유를 공식 문서와 사용 경험으로 살펴보고, CLAUDE.md·Skills·Hooks·Subagents를 어떻게 나눠야 안정적인지 설명한다.</description>
+  </item>
+  <item>
     <title>힉스필드 3일 무료 체험, MCP와 Seedance 사용법</title>
     <link>https://chat.axwith.com/mag/tools/higgsfield-mcp-free-trial-seedance.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/higgsfield-mcp-free-trial-seedance.html</guid>
@@ -235,13 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Wed, 28 Oct 2026 12:00:00 +0900</pubDate>
     <description>GPT-6.1 Terra Medium을 블로그 자동화에 써도 되는지 GPT-6.1 Sol과 비용, 성능, 검색 노출 위험, 운영 절차를 비교했다.</description>
-  </item>
-  <item>
-    <title>Claude API 토큰, 영상·멀티모델 작업에 쓰는 법</title>
-    <link>https://chat.axwith.com/mag/models/claude-api-token-workflows.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-api-token-workflows.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Wed, 28 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Claude API 토큰을 어디에 배분해야 할까. 영상 처리의 한계부터 prompt caching, Batch API, GPT·Gemini 협업 구조까지 실제 구축 순서로 정리했다.</description>
   </item>
 </channel></rss>
