@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>HR 업무에 AI를 어디까지 써도 될까: 자소서·KPI·채용 실무 가이드</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-hr-recruiting-kpi-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-hr-recruiting-kpi-guide.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sat, 14 Nov 2026 12:00:00 +0900</pubDate>
+    <description>AI를 HR에 도입할 때 자소서 검토와 KPI 관리부터 시작해야 하는 이유, 채용·급여 자동화의 한계와 개인정보·차별 위험을 실무 관점에서 설명한다.</description>
+  </item>
+  <item>
     <title>Claude Code가 규칙을 잊는 이유와 고치는 설정법</title>
     <link>https://chat.axwith.com/mag/troubleshooting/claude-code-rules-hooks-skills.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/claude-code-rules-hooks-skills.html</guid>
@@ -235,13 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Thu, 29 Oct 2026 12:00:00 +0900</pubDate>
     <description>로컬 LLM으로 클라우드 AI 구독을 대체할 수 있을까. Ollama 실행법과 메모리 계산, Mac Studio와 GPU의 차이, 툴 호출과 ComfyUI 활용 조건을 공식 문서로 확인한다.</description>
-  </item>
-  <item>
-    <title>블로그 자동화, GPT-6.1 Terra Medium으로 바꿔도 될까</title>
-    <link>https://chat.axwith.com/mag/workflow/gpt-61-terra-medium-blog-automation.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/gpt-61-terra-medium-blog-automation.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 28 Oct 2026 12:00:00 +0900</pubDate>
-    <description>GPT-6.1 Terra Medium을 블로그 자동화에 써도 되는지 GPT-6.1 Sol과 비용, 성능, 검색 노출 위험, 운영 절차를 비교했다.</description>
   </item>
 </channel></rss>

@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HR 업무에 AI를 어디까지 써도 될까: 자소서·KPI·채용 실무 가이드 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="AI를 HR에 도입할 때 자소서 검토와 KPI 관리부터 시작해야 하는 이유, 채용·급여 자동화의 한계와 개인정보·차별 위험을 실무 관점에서 설명한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/ai-hr-recruiting-kpi-guide.html">
+<meta property="og:title" content="HR 업무에 AI를 어디까지 써도 될까: 자소서·KPI·채용 실무 가이드">
+<meta property="og:description" content="AI를 HR에 도입할 때 자소서 검토와 KPI 관리부터 시작해야 하는 이유, 채용·급여 자동화의 한계와 개인정보·차별 위험을 실무 관점에서 설명한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/ai-hr-recruiting-kpi-guide.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "HR 업무에 AI를 어디까지 써도 될까: 자소서·KPI·채용 실무 가이드", "description": "AI를 HR에 도입할 때 자소서 검토와 KPI 관리부터 시작해야 하는 이유, 채용·급여 자동화의 한계와 개인정보·차별 위험을 실무 관점에서 설명한다.", "datePublished": "2026-11-14", "dateModified": "2026-11-14", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/ai-hr-recruiting-kpi-guide.html"}, "articleSection": "워크플로우·방법론", "keywords": "HR AI, AI 채용, 자소서 검토, KPI 관리, 급여 자동화, 개인정보 보호, AI 윤리", "image": "https://chat.axwith.com/mag/hero/ai-hr-recruiting-kpi-guide.webp"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "HR에서 AI를 가장 먼저 적용하기 좋은 업무는 무엇인가?", "acceptedAnswer": {"@type": "Answer", "text": "자소서 요약, 면접 질문 작성, KPI 초안, 주간 보고서 정리처럼 사람이 결과를 검토할 수 있는 업무가 적합하다. 채용 탈락이나 임금 변경 같은 최종 결정은 자동화하지 않는 편이 안전하다."}}, {"@type": "Question", "name": "AI로 이력서를 검토할 때 개인정보를 어떻게 보호해야 하나?", "acceptedAnswer": {"@type": "Answer", "text": "이름, 사진, 주소, 나이처럼 판단에 불필요한 정보는 제거하고 직무 관련 경력과 기술만 전달하는 방식이 좋다. 외부 AI 서비스의 보관·재사용 정책과 개인정보 처리 계약도 확인해야 한다."}}, {"@type": "Question", "name": "AI가 만든 KPI를 인사평가에 바로 사용해도 되나?", "acceptedAnswer": {"@type": "Answer", "text": "AI는 목표와 지표의 초안을 만드는 데 활용할 수 있지만, 평가와 보상 결정에는 사람의 검토가 필요하다. 지표가 업무 환경과 개인별 조건을 제대로 반영하는지도 함께 확인해야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-hr-recruiting-kpi-guide.webp" alt="HR 업무에 AI를 어디까지 써도 될까: 자소서·KPI·채용 실무 가이드" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>HR 업무에 AI를 어디까지 써도 될까: 자소서·KPI·채용 실무 가이드</h1>
+  <p class="sub">자소서 검토부터 KPI 관리와 급여까지, HR 업무에 AI를 적용할 때 얻는 효율과 피해야 할 위험을 정리했다.</p>
+  <div class="meta"><span>2026-11-14</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>HR에 AI를 붙이면 자소서 검토와 KPI 관리처럼 반복적인 업무가 빨라진다. 하지만 채용과 급여처럼 개인정보와 권리가 직접 걸린 영역은 속도만 보고 자동화하기 어렵다. 이 글에서는 AI를 HR에 어디까지 맡길 수 있는지, 실제 업무 흐름과 규제 기준을 함께 살펴본다.</p>
+<h2>HR에서 AI가 먼저 자리 잡은 업무는 따로 있다</h2>
+<p>SHRM 조사에 따르면 HR에서 AI가 가장 많이 쓰이는 영역은 채용이다. 2025년 조사에서 조직의 51%가 채용 업무에 AI를 활용했고, 대표 사례는 직무기술서 작성, 이력서 검토, 후보자 검색, 공고 맞춤화, 지원자 커뮤니케이션이었다. 채용에 AI를 활용하는 조직의 HR 전문가 중 시간 절약이나 효율성 향상을 경험했다는 응답은 89%로 나타났다. (<a href="https://www.shrm.org/content/dam/en/shrm/advocacy/workforce-development-website-uploads/shrm_response-ostp-rfi_ai-deployment-and-fed-reg-frameworks.pdf" target="_blank" rel="nofollow noopener">shrm.org</a>)</p>
+<p>자소서 검토가 대표적인 이유는 입력과 출력이 비교적 분명하기 때문이다. 직무 설명과 평가 기준을 넣으면 AI가 지원자의 경험을 항목별로 요약하고, 확인이 필요한 부분을 표시할 수 있다. 다만 합격자와 탈락자를 자동으로 가르는 방식보다는 사람이 읽을 후보자와 질문 목록을 좁히는 보조 도구로 쓰는 편이 안전하다.</p>
+<p>실무에서는 다음 순서가 현실적이다. 먼저 직무에 꼭 필요한 역량을 세 가지에서 다섯 가지로 고정한다. 지원자 이름, 사진, 주소, 나이처럼 판단에 불필요한 정보는 가리고 경력·기술·성과만 넣는다. AI에는 후보자별 점수보다 ‘근거가 있는 문장’, ‘확인할 질문’, ‘판단 불가 항목’을 출력하게 한다.</p>
+<h2>자소서 검토는 점수보다 근거를 남겨야 한다</h2>
+<p>AI가 만든 후보자 순위는 그럴듯해 보여도 평가 기준을 바꾸면 결과가 달라질 수 있다. 미국 EEOC는 AI가 채용·선발뿐 아니라 성과 모니터링, 생산성 평가, 임금 설정에도 쓰일 수 있으며, 기존 고용차별 법령의 적용을 받는다고 설명한다. 겉으로 중립적인 기준도 특정 집단에 불리한 결과를 만들면 문제가 될 수 있다. (<a href="https://www.eeoc.gov/sites/default/files/2024-04/20240429_What%20is%20the%20EEOCs%20role%20in%20AI.pdf" target="_blank" rel="nofollow noopener">eeoc.gov</a>)</p>
+<p>따라서 프롬프트에는 ‘학교 이름이 유명한지’, ‘문장이 세련됐는지’ 같은 모호한 기준을 넣지 않는 편이 좋다. 대신 ‘공고의 필수 기술을 실제 프로젝트에서 사용했는가’, ‘성과를 검증할 수 있는 수치나 산출물이 있는가’, ‘경력 기간이 직무 요구와 맞는가’처럼 확인 가능한 기준을 써야 한다.</p>
+<p>산출물은 표 형태가 유용하다. 후보자별로 요구 역량, 자소서 근거, 불확실한 부분, 면접 확인 질문을 나누면 채용 담당자가 원문과 비교하기 쉽다. AI가 ‘적합’이라고 쓴 한 단어보다 왜 그렇게 판단했는지 추적할 수 있는 기록이 중요하다.</p>
+<p>써본 사람들 사이에서는 AI 심사를 의식한 지원자가 공고의 키워드를 과하게 넣거나 비슷한 문체의 자소서를 제출한다는 반응도 있다. 이런 환경에서는 키워드 일치율을 높이는 것만으로 채용 품질을 보장하기 어렵다. 짧은 실무 질문이나 작업 샘플로 실제 경험을 확인하는 절차가 필요하다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-hr-recruiting-kpi-guide.webp" alt="" loading="lazy"><h2>KPI 관리는 초안 작성에 강하고 평가 결정에는 약하다</h2>
+<p>KPI 업무에서 AI가 잘하는 일은 목표 문장을 정리하고 팀 목표를 개인 업무로 나누며, 주간 보고에서 진행률과 지연 항목을 찾아내는 것이다. 예를 들어 ‘고객 문의를 줄인다’는 목표를 입력하면 응답 시간, 재문의율, 해결률처럼 측정 가능한 후보 지표를 제안하게 할 수 있다.</p>
+<p>구체적인 작업 흐름은 간단하다. 회사의 분기 목표, 팀의 역할, 현재 업무 목록, 측정 가능한 데이터의 위치를 한 문서에 모은다. AI에는 목표별 KPI 초안과 계산식, 데이터 담당자, 측정 주기를 만들게 한다. 사람이 실제로 수집할 수 없는 지표는 삭제하고, 숫자만으로 품질을 판단하기 어려운 업무에는 정성 평가 항목을 덧붙인다.</p>
+<p>문제는 KPI가 곧 사람의 가치처럼 사용될 때 생긴다. EEOC는 AI를 이용한 생산성 평가와 임금 설정도 차별 위험이 있는 고용 활동으로 분류한다. 한 사람이 돌봄, 장애, 휴가, 업무 배정 차이 때문에 낮은 수치를 기록했다면 알고리즘은 그 맥락을 제대로 반영하지 못할 수 있다. (<a href="https://www.eeoc.gov/sites/default/files/2024-04/20240429_What%20is%20the%20EEOCs%20role%20in%20AI.pdf" target="_blank" rel="nofollow noopener">eeoc.gov</a>)</p>
+<p>방 논의에서도 KPI를 정리하고 관리하는 데 AI를 활용할 수 있다는 의견이 나왔다. 다만 KPI 초안을 만드는 것과 승진·보상 결정을 자동화하는 것은 같은 문제가 아니다. 전자는 문서 작업에 가깝지만, 후자는 설명과 이의 제기, 기록 보존까지 필요한 인사 결정이다.</p>
+<h2>급여와 채용 자동화가 느린 이유는 개인정보만이 아니다</h2>
+<p>급여 업무는 이름, 계좌, 세금 정보, 근무 시간, 휴가 기록처럼 민감한 데이터가 한곳에 모인다. AI가 급여 명세서를 요약하거나 이상한 수치를 표시하는 일은 가능하지만, 원천 데이터를 외부 서비스에 그대로 올리려면 데이터 처리 목적과 보관 범위를 먼저 확인해야 한다.</p>
+<p>영국 ICO는 AI 채용 도구를 도입하기 전에 개인정보 영향평가를 실시하고 필요한 정보만 처리하며, 공급자가 데이터를 다른 목적으로 재사용하지 않는지 계약과 운영 절차로 확인하라고 권고한다. 공급자의 역할이 개인정보 처리자인지 공동 책임자인지도 명확히 해야 한다. (<a href="https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2024/11/thinking-of-using-ai-to-assist-recruitment-our-key-data-protection-considerations/" target="_blank" rel="nofollow noopener">ico.org.uk</a>)</p>
+<p>채용 쪽에서는 규제도 빠르게 구체화되고 있다. 뉴욕시는 자동화된 고용 의사결정 도구를 사용하려면 독립적인 편향 감사를 받고 감사 결과를 공개하며, 지원자에게 관련 고지를 해야 한다. 뉴욕시의 정의에는 AI뿐 아니라 머신러닝, 통계 모델, 데이터 분석으로 점수·분류·추천을 내리고 사람의 판단을 크게 돕거나 대신하는 도구도 포함된다. (<a href="https://www.nyc.gov/site/dca/businesses/faq-automated-employment-decision-tools.page" target="_blank" rel="nofollow noopener">nyc.gov</a>)</p>
+<p>유럽연합 AI Act도 채용·평가·승진과 관련된 일부 AI 시스템을 고위험으로 분류한다. 미국 사업자라도 유럽 인재를 채용하거나 해당 시장에서 서비스를 제공한다면 적용 범위를 검토해야 한다. (<a href="https://digital-strategy.ec.europa.eu/en/faqs/navigating-ai-act" target="_blank" rel="nofollow noopener">digital-strategy.ec.europa.eu</a>)</p>
+<h2>작은 팀은 자동 결정 대신 검토 보조부터 시작해야 한다</h2>
+<p>개인 사업자나 소규모 팀이 처음 도입할 때는 후보자 탈락, 임금 변경, 해고처럼 되돌리기 어려운 작업을 피하는 편이 낫다. 자소서 요약, 면접 질문 생성, KPI 초안, 주간 보고서 요약처럼 사람이 최종 판단을 유지하는 업무가 시작점으로 적합하다.</p>
+<p>데이터를 넣는 방식도 정해야 한다. 원본 파일에는 개인정보를 남겨두고 AI에는 필요한 항목만 추출한 별도 파일을 전달한다. 결과에는 반드시 원문 근거와 ‘확인 필요’를 남긴다. 샘플 몇 건은 사람이 다시 읽어 오류와 누락을 기록한다. 같은 업무를 반복한다면 프롬프트, 평가 기준, 검수 결과를 한 문서로 관리해야 다음 달 결과를 비교할 수 있다.</p>
+<p>NIST AI Risk Management Framework는 AI 시스템의 역할과 사람의 감독 책임을 구분하고, 개인정보 위험을 문서화하며, 운영 중 성능을 계속 측정해야 한다고 안내한다. SHRM도 AI 도입에서 HR이 교육과 변화 관리에 참여해야 한다고 강조했다. (<a href="https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" target="_blank" rel="nofollow noopener">airc.nist.gov</a>)</p>
+<p>써본 사람들 사이에서는 AI가 초안과 분류에는 빠르지만 애매한 경력과 조직 맥락을 판단할 때는 자신 있게 틀릴 수 있다는 지적이 반복된다. HR에서 AI의 현실적인 역할은 사람을 없애는 심판보다 사람이 더 짧은 시간에 근거를 확인하도록 자료를 정리하는 조력자에 가깝다.</p>
+<p>남는 질문은 기술이 아니라 책임이다. 최종 판단을 누가 내리고, 잘못된 결과를 누가 설명하며, 지원자와 직원이 그 판단에 이의를 제기할 수 있는가가 도입의 기준이 된다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">HR AI</span><span class="chip">AI 채용</span><span class="chip">자소서 검토</span><span class="chip">KPI 관리</span><span class="chip">급여 자동화</span><span class="chip">개인정보 보호</span><span class="chip">AI 윤리</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.shrm.org/content/dam/en/shrm/advocacy/workforce-development-website-uploads/shrm_response-ostp-rfi_ai-deployment-and-fed-reg-frameworks.pdf" rel="nofollow noopener">https://www.shrm.org/content/dam/en/shrm/advocacy/workforce-development-website-</a></li><li><a href="https://www.shrm.org/content/dam/en/shrm/topics-tools/research/from-adoption-to-empowerment-shaping-the-ai-driven-workforce-of-tomorrow.pdf" rel="nofollow noopener">https://www.shrm.org/content/dam/en/shrm/topics-tools/research/from-adoption-to-</a></li><li><a href="https://www.eeoc.gov/sites/default/files/2024-04/20240429_What%20is%20the%20EEOCs%20role%20in%20AI.pdf" rel="nofollow noopener">https://www.eeoc.gov/sites/default/files/2024-04/20240429_What%20is%20the%20EEOC</a></li><li><a href="https://www.eeoc.gov/laws/guidance/employment-tests-and-selection-procedures" rel="nofollow noopener">https://www.eeoc.gov/laws/guidance/employment-tests-and-selection-procedures</a></li><li><a href="https://airc.nist.gov/airmf-resources/airmf/5-sec-core/" rel="nofollow noopener">https://airc.nist.gov/airmf-resources/airmf/5-sec-core/</a></li><li><a href="https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2024/11/thinking-of-using-ai-to-assist-recruitment-our-key-data-protection-considerations/" rel="nofollow noopener">https://ico.org.uk/about-the-ico/media-centre/news-and-blogs/2024/11/thinking-of</a></li><li><a href="https://ico.org.uk/media2/migrated/4031620/ai-in-recruitment-outcomes-report.pdf" rel="nofollow noopener">https://ico.org.uk/media2/migrated/4031620/ai-in-recruitment-outcomes-report.pdf</a></li><li><a href="https://www.gov.uk/government/publications/responsible-ai-in-recruitment-guide/responsible-ai-in-recruitment" rel="nofollow noopener">https://www.gov.uk/government/publications/responsible-ai-in-recruitment-guide/r</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>HR에서 AI를 가장 먼저 적용하기 좋은 업무는 무엇인가?</h2><p class="sum">자소서 요약, 면접 질문 작성, KPI 초안, 주간 보고서 정리처럼 사람이 결과를 검토할 수 있는 업무가 적합하다. 채용 탈락이나 임금 변경 같은 최종 결정은 자동화하지 않는 편이 안전하다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI로 이력서를 검토할 때 개인정보를 어떻게 보호해야 하나?</h2><p class="sum">이름, 사진, 주소, 나이처럼 판단에 불필요한 정보는 제거하고 직무 관련 경력과 기술만 전달하는 방식이 좋다. 외부 AI 서비스의 보관·재사용 정책과 개인정보 처리 계약도 확인해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI가 만든 KPI를 인사평가에 바로 사용해도 되나?</h2><p class="sum">AI는 목표와 지표의 초안을 만드는 데 활용할 수 있지만, 평가와 보상 결정에는 사람의 검토가 필요하다. 지표가 업무 환경과 개인별 조건을 제대로 반영하는지도 함께 확인해야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-13-2200.html">2026-11-13 11-13 17:51~21:34</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
