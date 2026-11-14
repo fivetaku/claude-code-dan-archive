@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPT·Claude·Gemini 비교, 문서와 검수에 맞는 선택법 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="GPT-6 Astra, Claude Fable 5.2·Opus 5.5, Gemini 4 Carbon을 문서 작성과 검수 관점에서 비교하고 실전 조합을 살펴본다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/gpt-claude-gemini-model-comparison.html">
+<meta property="og:title" content="GPT·Claude·Gemini 비교, 문서와 검수에 맞는 선택법">
+<meta property="og:description" content="GPT-6 Astra, Claude Fable 5.2·Opus 5.5, Gemini 4 Carbon을 문서 작성과 검수 관점에서 비교하고 실전 조합을 살펴본다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/gpt-claude-gemini-model-comparison.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "GPT·Claude·Gemini 비교, 문서와 검수에 맞는 선택법", "description": "GPT-6 Astra, Claude Fable 5.2·Opus 5.5, Gemini 4 Carbon을 문서 작성과 검수 관점에서 비교하고 실전 조합을 살펴본다.", "datePublished": "2026-11-14", "dateModified": "2026-11-14", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/gpt-claude-gemini-model-comparison.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "GPT-6 Astra, Claude Fable, Claude Opus, Gemini 4 Carbon, AI 모델 비교, 생성형 AI, 문서 작성", "image": "https://chat.axwith.com/mag/hero/gpt-claude-gemini-model-comparison.webp"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "GPT, Claude, Gemini 중 문서 작성에 가장 좋은 모델은 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "GPT-6 Astra는 템플릿과 문서 형식을 지키는 작업에 강점을 내세웁니다. 다만 한국어 문서의 자연스러움과 요구사항 준수는 실제 업무 자료로 직접 비교하는 편이 정확합니다."}}, {"@type": "Question", "name": "Claude Fable과 Opus는 어떻게 나눠 써야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "Claude Fable 5.2는 고난도 기술 업무와 장기 작업에 적합하고, Claude Opus 5.5는 비용과 속도를 고려한 일상 업무용 선택지입니다. 모든 작업에 Fable을 쓰기보다 중요한 문제에 집중하는 편이 효율적입니다."}}, {"@type": "Question", "name": "AI 모델 결과를 다른 모델로 검수해도 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "가능합니다. 다만 검수 모델도 오류를 낼 수 있으므로 사실 확인과 원자료 대조를 함께 해야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/gpt-claude-gemini-model-comparison.webp" alt="GPT·Claude·Gemini 비교, 문서와 검수에 맞는 선택법" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>GPT·Claude·Gemini 비교, 문서와 검수에 맞는 선택법</h1>
+  <p class="sub">최신 모델의 성능표보다 중요한 것은 문서 작성, 장기 맥락, 검수 방식에 맞춘 조합이다</p>
+  <div class="meta"><span>2026-11-14</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>생성형 AI를 여러 개 써본 사람에게 남는 질문은 “가장 똑똑한 모델이 무엇인가”보다 “내 작업의 어느 단계에 어떤 모델을 배치해야 하는가”에 가깝다. 최근 GPT-6 Astra, Claude Fable 5.2·Opus 5.5, Gemini 4 Carbon이 잇따라 등장하면서 이 선택은 더 복잡해졌다. 문서 작성과 장기 작업, 결과 검수라는 세 가지 기준으로 실제 선택법을 따져봤다.</p>
+<h2>최신 모델은 모두 강하지만 잘하는 일은 다르다</h2>
+<p>OpenAI는 GPT-6 Astra를 복잡한 추론, 코딩, 컴퓨터 사용, 문서 작성에 특화한 모델로 소개한다. 105만 토큰 컨텍스트와 최대 12만8000 토큰 출력을 제공하며, 기존 템플릿을 따르고 문서·프레젠테이션·스프레드시트를 완성하는 능력을 강조한다. OpenAI 자체 평가에서는 Astra가 전문 업무에서 비교 대상 모델보다 적은 출력 토큰으로 결과를 내는 사례도 제시됐다. (<a href="https://openai.com/index/gpt-6-astra/" target="_blank" rel="nofollow noopener">openai.com</a>)</p>
+<p>Anthropic의 Claude Fable 5.2는 가장 어려운 기술 업무를 겨냥한다. 여러 저장소를 넘나드는 코딩, 과학 연구, 금융 분석처럼 목표가 모호하고 작업 시간이 긴 문제를 주요 용도로 내세운다. 반면 Anthropic은 일상적인 코딩과 지식 업무에는 Claude Opus 5.5부터 시작하라고 안내한다. Fable 5.2의 API 가격은 입력 100만 토큰당 8달러, 출력 100만 토큰당 40달러다. Opus 5.5는 각각 4달러와 20달러다. (<a href="https://www.anthropic.com/claude/fable" target="_blank" rel="nofollow noopener">anthropic.com</a>)</p>
+<p>Google은 Gemini 4 Carbon을 복잡한 다단계 코딩과 개방형 과학 연구를 위한 모델로 설명한다. 사고 토큰 사용량을 조절해 품질·지연시간·비용 사이의 균형을 맞출 수 있다는 점이 특징이다. Google이 공개한 평가 자료는 Carbon을 GPT-6 Astra, Claude Opus 5.5, Claude Fable 5.1과 비교한다. 하지만 벤치마크마다 승자가 달라 단일 순위로 읽기 어렵다. (<a href="https://deepmind.google/models/model-cards/gemini-4-carbon/" target="_blank" rel="nofollow noopener">deepmind.google</a>)</p>
+<h2>보고서 작성에서는 모델의 ‘완성 습관’이 갈린다</h2>
+<p>커뮤니티에서 나온 가장 구체적인 불만은 Gemini가 한국어 문장 자체는 자연스럽지만, 보고서나 소개서에서는 내용을 충분히 쓰지 않고 문서 번호나 항목 표시로 넘기는 듯하다는 평가였다. 이 판단은 개인 사용 경험에 기반한 의견이다. Gemini 전체를 설명하는 일반 법칙으로 확대할 수는 없다.</p>
+<p>문서 작업에서 모델의 실력은 문장을 매끄럽게 만드는 데서 끝나지 않는다. 요구사항을 빠뜨리지 않고 표와 본문을 연결하며, 독자가 바로 사용할 수 있는 수준까지 마무리해야 한다. GPT-6 Astra는 기존 템플릿과 문체를 유지하면서 문서와 프레젠테이션을 구성하는 기능을 핵심 강점으로 내세운다. 템플릿, 참고 자료, 분량 기준을 함께 제공할수록 강점을 확인하기 쉽다. (<a href="https://openai.com/index/gpt-6-astra/" target="_blank" rel="nofollow noopener">openai.com</a>)</p>
+<p>Gemini 4 Carbon은 복잡한 사고와 검증 루프를 강조한다. 긴 자료를 읽고 여러 조건을 비교하거나 논리적 결함을 찾는 작업에서 시험하는 편이 합리적이다. 다만 개인 사용자는 모델 자체보다 프롬프트와 입력 자료의 구조에 더 큰 차이를 느낄 수 있다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/gpt-claude-gemini-model-comparison.webp" alt="" loading="lazy"><h2>속도보다 완성도가 중요할 때는 선택이 달라진다</h2>
+<p>방 논의에서는 Astra가 세 모델 중 가장 느리지만 결과물의 완성도는 높다는 개인 평가가 나왔다. 반대로 GPT는 장기간 사용하면서 사용자 취향과 작업 패턴이 축적돼 가장 편하다는 의견이 많았다. 두 평가는 충돌하지 않는다. 전자는 한 번의 결과 품질에 관한 판단이고, 후자는 반복 사용에서 생기는 마찰 비용에 관한 판단이기 때문이다.</p>
+<p>실사용 반응에서도 Astra는 느리지만 차분하게 끝까지 처리한다는 평가와 작업 시간이 길어 답답하다는 불만이 함께 나온다. 모델 선택에서 속도는 단순한 편의가 아니다. 짧은 답을 하루에 수십 번 받는 업무라면 지연시간이 생산성을 좌우한다. 한 번의 보고서나 설계안을 오래 검토한다면 재작업 횟수가 더 중요해진다.</p>
+<p>Claude Fable 5.2는 Anthropic이 장시간 자율 작업과 반복 검증을 강조하는 모델이다. 공식 설명에 따르면 Fable은 자신의 작업을 질문하고 확인하며 여러 하위 작업을 조율하는 방식으로 설계됐다. 반면 Opus 5.5는 Fable 5.1 수준의 성능을 더 낮은 비용으로 제공하는 일상용 고성능 모델로 포지셔닝됐다. (<a href="https://www.anthropic.com/claude/fable" target="_blank" rel="nofollow noopener">anthropic.com</a>)</p>
+<h2>가장 현실적인 조합은 ‘생성’과 ‘검수’를 나누는 방식이다</h2>
+<p>방에서는 Fable과 Opus를 결과 검수에 쓰자는 제안도 나왔다. 모델마다 오류를 만드는 방식이 다르다는 전제에서 출발한 접근이다. 한 모델이 만든 보고서를 다른 모델에 넣고 사실 누락, 논리 비약, 표현의 부자연스러움, 요구사항 미반영 여부를 따로 점검하면 단일 모델에 모든 책임을 맡기는 것보다 실패 지점을 찾기 쉽다.</p>
+<p>다만 검수 모델의 판단을 최종 사실로 받아들여서는 안 된다. 외부 사용 경험에서도 한 모델이 다른 모델의 결과를 잘 평가했다는 사례와 검수 모델 자체가 놓치는 문제가 있다는 반응이 함께 나타난다. 검수는 정답 판정이 아니라 추가적인 오류 탐지 단계에 가깝다.</p>
+<p>개인 개발자나 소규모 팀이라면 다음과 같은 구성이 현실적이다. 초안과 구조화된 문서는 GPT-6 Astra로 만들고, 복잡한 분석이나 장기 추론은 Claude Fable 5.2 또는 Gemini 4 Carbon으로 별도 요청한다. 비용과 속도가 중요하면 Claude Opus 5.5를 기본 모델로 두고, 중요한 결과만 Fable 5.2나 Astra에 재검토시킬 수 있다.</p>
+<h2>벤치마크보다 작업 로그가 더 정확한 선택 기준이다</h2>
+<p>공식 비교표는 모델의 방향성을 보여주지만 사용자의 업무를 그대로 대신하지는 않는다. Anthropic의 비교표에서는 Fable 5.2가 코딩과 과학 영역에서 높은 점수를 보였고, Google의 평가 자료에서는 Carbon이 일부 장기 추론과 에이전트 업무에서 강점을 보였다. OpenAI 역시 Astra의 문서 작성과 컴퓨터 사용, 코딩 성능을 별도 평가로 제시한다. 서로 다른 회사가 서로 다른 조건과 벤치마크를 사용하므로 숫자를 한 줄 순위로 합치면 오해가 생긴다. (<a href="https://www.anthropic.com/claude/fable" target="_blank" rel="nofollow noopener">anthropic.com</a>)</p>
+<p>실전에서는 같은 입력을 세 모델에 넣고 네 항목만 기록하면 된다. 요구사항 누락 수, 사람이 고친 문장 수, 사실 확인이 필요한 주장 수, 첫 결과부터 사용 가능한 데 걸린 시간을 비교한다. 이 기록이 쌓이면 한국어 문서, 코드 리뷰, 조사 보고서처럼 자신의 업무에 맞는 모델 순위가 만들어진다.</p>
+<p>세 모델 중 하나를 영구적인 1위로 고르는 전략은 오래가기 어렵다. 2026년 Vercel 자료에서는 새 모델로의 빠른 교체와 여러 모델을 함께 쓰는 양상이 나타난다. (<a href="https://www.techradar.com/pro/teams-are-moving-to-new-models-almost-as-fast-as-labs-release-them-vercel-data-reveals-ai-models-now-have-a-half-life-of-just-six-weeks-with-most-most-ai-traffic-running-on-models-less-than-two-months-old" target="_blank" rel="nofollow noopener">techradar.com</a>) 가장 편한 모델을 기본값으로 두되 중요한 결과에는 다른 모델의 시선을 추가하는 방식이 현재로서는 가장 견고하다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">GPT-6 Astra</span><span class="chip">Claude Fable</span><span class="chip">Claude Opus</span><span class="chip">Gemini 4 Carbon</span><span class="chip">AI 모델 비교</span><span class="chip">생성형 AI</span><span class="chip">문서 작성</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://openai.com/index/gpt-6-astra/" rel="nofollow noopener">https://openai.com/index/gpt-6-astra/</a></li><li><a href="https://developers.openai.com/api/docs/models/gpt-6-astra" rel="nofollow noopener">https://developers.openai.com/api/docs/models/gpt-6-astra</a></li><li><a href="https://www.anthropic.com/claude/fable" rel="nofollow noopener">https://www.anthropic.com/claude/fable</a></li><li><a href="https://www.anthropic.com/claude/opus" rel="nofollow noopener">https://www.anthropic.com/claude/opus</a></li><li><a href="https://www.anthropic.com/claude-fable-and-mythos-5-2" rel="nofollow noopener">https://www.anthropic.com/claude-fable-and-mythos-5-2</a></li><li><a href="https://deepmind.google/models/model-cards/gemini-4-carbon/" rel="nofollow noopener">https://deepmind.google/models/model-cards/gemini-4-carbon/</a></li><li><a href="https://blog.google/innovation-and-ai/technology/developers-tools/gemini-4-carbon-developers/" rel="nofollow noopener">https://blog.google/innovation-and-ai/technology/developers-tools/gemini-4-carbo</a></li><li><a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_4_carbon_model_evaluation.pdf" rel="nofollow noopener">https://storage.googleapis.com/deepmind-media/gemini/gemini_4_carbon_model_evalu</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>GPT, Claude, Gemini 중 문서 작성에 가장 좋은 모델은 무엇인가요?</h2><p class="sum">GPT-6 Astra는 템플릿과 문서 형식을 지키는 작업에 강점을 내세웁니다. 다만 한국어 문서의 자연스러움과 요구사항 준수는 실제 업무 자료로 직접 비교하는 편이 정확합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>Claude Fable과 Opus는 어떻게 나눠 써야 하나요?</h2><p class="sum">Claude Fable 5.2는 고난도 기술 업무와 장기 작업에 적합하고, Claude Opus 5.5는 비용과 속도를 고려한 일상 업무용 선택지입니다. 모든 작업에 Fable을 쓰기보다 중요한 문제에 집중하는 편이 효율적입니다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI 모델 결과를 다른 모델로 검수해도 되나요?</h2><p class="sum">가능합니다. 다만 검수 모델도 오류를 낼 수 있으므로 사실 확인과 원자료 대조를 함께 해야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-14-0900.html">2026-11-14 11-13 21:52~11-14 08:42</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

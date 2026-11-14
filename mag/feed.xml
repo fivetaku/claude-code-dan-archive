@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>GPT·Claude·Gemini 비교, 문서와 검수에 맞는 선택법</title>
+    <link>https://chat.axwith.com/mag/models/gpt-claude-gemini-model-comparison.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-claude-gemini-model-comparison.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Sat, 14 Nov 2026 12:00:00 +0900</pubDate>
+    <description>GPT-6 Astra, Claude Fable 5.2·Opus 5.5, Gemini 4 Carbon을 문서 작성과 검수 관점에서 비교하고 실전 조합을 살펴본다.</description>
+  </item>
+  <item>
+    <title>논문 수집과 검수, AI 자동화는 어디까지 맡길 수 있나</title>
+    <link>https://chat.axwith.com/mag/resources/ai-paper-research-review.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/ai-paper-research-review.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Sat, 14 Nov 2026 12:00:00 +0900</pubDate>
+    <description>논문을 모으고 읽고 검수하는 과정에서 AI가 실제로 맡을 수 있는 일과 사람이 끝까지 확인해야 할 지점을 정리했다.</description>
+  </item>
+  <item>
     <title>HR 업무에 AI를 어디까지 써도 될까: 자소서·KPI·채용 실무 가이드</title>
     <link>https://chat.axwith.com/mag/workflow/ai-hr-recruiting-kpi-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-hr-recruiting-kpi-guide.html</guid>
@@ -227,21 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Sat, 31 Oct 2026 12:00:00 +0900</pubDate>
     <description>AI로 플랫폼을 만들면 바로 판매할 수 있을까? Acquire.com의 매물 기준, 거래액과 매출의 차이, 초기 수요 검증 방법을 통해 사이트 완성과 사업 가치 사이에 무엇이 필요한지 짚는다.</description>
-  </item>
-  <item>
-    <title>뮤즈와 그록봇 비교, 로그인보다 중요한 업무 완료와 승인</title>
-    <link>https://chat.axwith.com/mag/tools/muse-grok-bot-task-comparison.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/muse-grok-bot-task-comparison.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Fri, 30 Oct 2026 12:00:00 +0900</pubDate>
-    <description>뮤즈의 지시 이해력과 파일 첨부 불편, 그록봇의 로그인 성공 경험은 어떻게 해석해야 할까. 공식 문서를 바탕으로 두 AI 에이전트의 업무 처리, 인증, 승인, 구독 조건을 비교한다.</description>
-  </item>
-  <item>
-    <title>로컬 LLM, 구독 대신 쓸 수 있나: 장비 비용과 성능의 조건</title>
-    <link>https://chat.axwith.com/mag/models/local-llm-cost-performance-tradeoffs.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/local-llm-cost-performance-tradeoffs.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Thu, 29 Oct 2026 12:00:00 +0900</pubDate>
-    <description>로컬 LLM으로 클라우드 AI 구독을 대체할 수 있을까. Ollama 실행법과 메모리 계산, Mac Studio와 GPU의 차이, 툴 호출과 ComfyUI 활용 조건을 공식 문서로 확인한다.</description>
   </item>
 </channel></rss>
