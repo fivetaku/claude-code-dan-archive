@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Pickle AI는 모바일 비서인가 클라우드 에이전트인가</title>
+    <link>https://chat.axwith.com/mag/tools/pickle-ai-mobile-agent-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/pickle-ai-mobile-agent-guide.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Mon, 16 Nov 2026 12:00:00 +0900</pubDate>
+    <description>Pickle AI가 모바일 앱인지 PC용 도구인지 헷갈리는 이유를 공식 기능과 사용 흐름으로 정리했다. 무료 여부, 클라우드 작업, 친구 에이전트, 개인정보 보호까지 확인한다.</description>
+  </item>
+  <item>
     <title>Gemini 4 Hydrogen 써보니 가격보다 중요한 차이</title>
     <link>https://chat.axwith.com/mag/models/gemini-4-hydrogen-review.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/models/gemini-4-hydrogen-review.html</guid>
@@ -235,13 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Sat, 31 Oct 2026 12:00:00 +0900</pubDate>
     <description>Node.js 버전 업그레이드 뒤 Redis 연결 장애가 발생했을 때 ioredis와 node-redis, 네이티브 모듈, TLS, 재연결 설정을 확인하고 안전하게 복구하는 방법을 설명한다.</description>
-  </item>
-  <item>
-    <title>보험 AI 영업 자동화, 고객 모집과 개인정보 처리의 경계</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/insurance-ai-marketing-privacy.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/insurance-ai-marketing-privacy.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sat, 31 Oct 2026 12:00:00 +0900</pubDate>
-    <description>보험영업에 AI를 도입할 때 SNS 광고, 상담 신청 페이지, 병력 분석은 어디까지 연결해도 될까. 금융위원회 해석과 개인정보 보호법을 바탕으로 광고 검수, 최소 수집, 외부 AI 전송과 플랫폼 판매자의 책임을 살펴본다.</description>
   </item>
 </channel></rss>
