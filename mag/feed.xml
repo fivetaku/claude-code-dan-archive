@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>AI 에이전트 세션 기억, 요약 파일과 그래프는 언제 필요한가</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-agent-session-memory-design.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-session-memory-design.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Tue, 17 Nov 2026 12:00:00 +0900</pubDate>
+    <description>AI 에이전트가 세션을 바꿀 때 작업 맥락을 잃는 문제를 살펴본다. GCC의 파일 기반 기억, LangGraph의 저장 범위, Graphiti의 관계 검색을 비교하고 작은 팀이 검증할 비용과 복원 기준을 짚는다.</description>
+  </item>
+  <item>
     <title>Pickle AI는 모바일 비서인가 클라우드 에이전트인가</title>
     <link>https://chat.axwith.com/mag/tools/pickle-ai-mobile-agent-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/pickle-ai-mobile-agent-guide.html</guid>
@@ -235,13 +243,5 @@
     <category>자료·링크 공유</category>
     <pubDate>Sat, 31 Oct 2026 12:00:00 +0900</pubDate>
     <description>스타링크 미니의 한국 요금제, 로밍 조건, 전력 요구량, 장애물 문제와 실제 사용 반응을 바탕으로 이동형 인터넷의 장단점을 정리했다.</description>
-  </item>
-  <item>
-    <title>Node 버전 업그레이드 뒤 Redis 장애, 원인부터 복구까지</title>
-    <link>https://chat.axwith.com/mag/troubleshooting/node-redis-upgrade-troubleshooting.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/node-redis-upgrade-troubleshooting.html</guid>
-    <category>질문·트러블슈팅</category>
-    <pubDate>Sat, 31 Oct 2026 12:00:00 +0900</pubDate>
-    <description>Node.js 버전 업그레이드 뒤 Redis 연결 장애가 발생했을 때 ioredis와 node-redis, 네이티브 모듈, TLS, 재연결 설정을 확인하고 안전하게 복구하는 방법을 설명한다.</description>
   </item>
 </channel></rss>
