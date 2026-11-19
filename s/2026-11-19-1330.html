@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>클코단 2026 11월 19일 13:30 — 수능과 AI 모델 비교</title>
+<meta name="description" content="11월 19일 클코단 논의 요약 — 수능과 AI 모델 비교 · 제미나이 코딩 평가 · herdr 장단점 질문 · 네온 사용 질문">
+<link rel="canonical" href="https://chat.axwith.com/s/2026-11-19-1330.html">
+<meta property="og:title" content="11월 19일 클코단 논의 요약">
+<meta property="og:description" content="11월 19일 클코단 논의 요약 — 수능과 AI 모델 비교 · 제미나이 코딩 평가 · herdr 장단점 질문 · 네온 사용 질문">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/s/2026-11-19-1330.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "11월 19일 클코단 논의 요약", "description": "11월 19일 클코단 논의 요약 — 수능과 AI 모델 비교 · 제미나이 코딩 평가 · herdr 장단점 질문 · 네온 사용 질문", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "datePublished": "2026-11-19", "image": "https://chat.axwith.com/apple-touch-icon.png", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/s/2026-11-19-1330.html"}}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 타임라인 접기 — 그래프 띠 전체가 여는 버튼이다 (details, JS 없이 동작).
+   같은 컴포넌트를 요약 상세와 검색 결과 양쪽에 쓴다 — 스타일 갈림 방지(2026-09-07 오너). */
+.tlbox{margin:24px 0 0}
+.tlstrip{display:block;cursor:pointer;list-style:none;background:var(--surface);
+border:1px solid var(--line);border-radius:14px;padding:15px 18px 11px;box-shadow:var(--shadow)}
+.tlstrip::-webkit-details-marker{display:none}
+.tlstrip:hover{border-color:var(--accent)}
+.tshead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+font-size:12.5px;color:var(--muted)}
+.tshead b{font-size:15.5px;color:var(--ink);font-weight:750;letter-spacing:-.01em}
+.tshead b small{font-size:12px;font-weight:500;color:var(--muted)}
+.tshead span{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+.tsbars{display:flex;align-items:flex-end;gap:2px;height:34px;margin:11px 0 7px}
+.tsb{flex:1;min-width:2px;background:var(--line);border-radius:2px;transition:opacity .12s}
+.tsb.on{background:var(--accent);opacity:.4}
+.tsb.peak{background:var(--accent);opacity:1}
+.tlstrip:hover .tsb.on{opacity:.6}
+.tstrip-foot,.tsfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;color:var(--muted);
+font-variant-numeric:tabular-nums}
+.tspill{border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);
+border-radius:999px;padding:7px 17px;font-family:"Pretendard Variable","Pretendard",
+-apple-system,sans-serif;font-size:14px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+.tlbox[open] .tspill{background:var(--surface);color:var(--accent-deep)}
+.tlstrip:hover .tspill{filter:brightness(1.05)}
+@media(max-width:520px){.tsbars{height:26px}.tshead b{font-size:14px}
+.tsfoot{justify-content:center}.tsfoot .tsl,.tsfoot .tsr{display:none}}
+
+
+
+.wrap{max-width:900px;margin:0 auto;padding:36px 24px 88px}
+/* 전역 기본 링크 — _INDEX_CSS와 같은 바닥 스타일 (규칙 없는 컨텍스트의 보라 밑줄 방지) */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+header{margin:26px 0 8px}
+.eyebrow{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px;font-weight:700;
+letter-spacing:.14em;color:var(--accent-deep);text-transform:uppercase}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:800;margin:8px 0 14px;letter-spacing:-.03em;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--muted)}
+.meta span{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.meta b{color:var(--ink);font-weight:700}
+.bonebox{position:relative;margin:44px -24px 0;padding:8px 24px;overflow-x:auto;
+-webkit-overflow-scrolling:touch}
+.bone{position:relative;min-width:880px;height:430px}
+/* 모바일에선 가로 스크롤인 걸 알 수 없어 잘린 카드가 오류처럼 보였다(2026-08-30 실측).
+   힌트 라벨 + 오른쪽 페이드로 "밀 수 있다"를 알린다. 높이도 화면에 맞게 줄인다. */
+.bonehint{display:none}
+@media(max-width:640px){
+.bonebox{margin-top:26px}
+.bone{height:340px}
+.bonewrap{position:relative}
+.bonewrap::after{content:"";position:absolute;right:0;top:0;bottom:0;width:40px;pointer-events:none;
+background:linear-gradient(90deg,transparent,var(--ground) 78%)}
+.bonehint{display:flex;align-items:center;gap:6px;margin:26px 0 -18px;
+font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.bonehint b{color:var(--accent-deep);font-weight:700}}
+.spine{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--line)}
+.bar{position:absolute;bottom:50%;width:5px;border-radius:2px 2px 0 0;
+background:var(--line);opacity:.9}
+.bar.peak{background:var(--accent);opacity:1}
+.peaktag{position:absolute;transform:translateX(-50%);white-space:nowrap;
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;font-weight:700;
+color:var(--accent-deep);background:var(--surface);border:1px solid var(--line);
+border-radius:999px;padding:1px 7px}
+.lbl{position:absolute;top:calc(50% + 10px);transform:translateX(-50%);
+font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;color:var(--muted)}
+.rib{position:absolute;width:190px}
+.rib .stem{position:absolute;left:12px;width:2px;background:var(--line)}
+.rib.flip .stem{left:auto;right:12px}  /* 오른쪽 끝 카드는 왼쪽으로 펼치고 줄기는 시간 좌표 쪽에 */
+.rib.up{bottom:50%}
+.rib.up .stem{bottom:0;height:46px}
+.rib.dn{top:50%}
+.rib.dn .stem{top:0;height:46px}
+.ribcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+padding:11px 13px;box-shadow:var(--shadow)}
+.rib.up .ribcard{margin-bottom:46px}
+.rib.dn .ribcard{margin-top:46px}
+.ribcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:10.5px;
+font-weight:700;color:var(--accent-deep);letter-spacing:.05em;margin-bottom:3px}
+.ribcard h3{margin:0;font-size:14px;font-weight:750;letter-spacing:-.01em}
+.details{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.dcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+padding:22px 24px;box-shadow:var(--shadow)}
+.dcard .t{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11px;font-weight:700;
+color:var(--accent-deep);letter-spacing:.06em}
+.dcard h2{margin:6px 0 8px;font-size:18px;font-weight:800;letter-spacing:-.015em}
+.dcard p.sum{margin:0 0 12px;font-size:13.5px}
+.dcard ul{margin:0;padding-left:17px;font-size:13px;color:var(--muted)}
+.dcard li{margin-bottom:6px}
+.dcard li::marker{color:var(--accent-deep)}
+.dcard a{color:var(--accent-deep);text-decoration-thickness:1px;text-underline-offset:3px;word-break:break-all}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);
+display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:12px;color:var(--muted)}
+@media(min-width:760px){
+  .meta{font-size:14px}
+  .dcard h2{font-size:20px}
+  .dcard p.sum{font-size:15.5px}
+  .dcard ul{font-size:14.5px}
+  .dcard .t{font-size:12px}
+  footer{font-size:13.5px}
+}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+/* B 강조형 (2026-09-01 확정) — 흰 카드는 본문에 묻혀 지나쳤다. 배경을 채우고 왼쪽 바를 굵게. */
+.joinbox{margin:30px 0 6px;padding:18px 20px;border:1px solid var(--line);
+border-left:5px solid var(--accent);border-radius:12px;background:var(--chip-bg)}
+.joinbox b{display:block;margin-bottom:4px}
+.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);
+border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a class="on" href="../"><b>요약</b><i> 대화</i></a><a href="../repos/"><b>레포</b><i> 공유된</i></a><a href="../weekly/"><b>주간</b><i> 정리</i></a><a href="../mag/"><b>매거진</b><i></i></a><a href="../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+
+<header>
+  <div class="eyebrow">GPTAKU BOT &middot; DIGEST</div>
+  <h1>11월 19일, 클코단에서 오간 이야기</h1>
+  <div class="meta">
+    <span><b>11-19 08:50~13:17</b></span>
+    <span>발화 <b>129</b></span>
+    <span>참여 <b>37</b>명</span>
+    <span>주제 <b>8</b>갈래</span>
+  </div>
+</header>
+
+<details class="tlbox"><summary class="tlstrip"><span class="tshead"><b>대화가 몰린 시각</b><span>129건 · 11-19 08:50~13:17</span></span><span class="tsbars"><i class="tsb on" style="height:40%" title="08:50~08:51 · 6건"></i><i class="tsb on" style="height:40%" title="08:52~08:53 · 6건"></i><i class="tsb on" style="height:47%" title="08:59~09:00 · 7건"></i><i class="tsb on" style="height:33%" title="09:01~09:02 · 5건"></i><i class="tsb on" style="height:13%" title="09:04~09:05 · 2건"></i><i class="tsb on" style="height:20%" title="09:12~09:13 · 3건"></i><i class="tsb on" style="height:13%" title="09:15~09:17 · 2건"></i><i class="tsb on" style="height:40%" title="09:21~09:25 · 6건"></i><i class="tsb on" style="height:13%" title="10:00~10:01 · 2건"></i><i class="tsb on" style="height:20%" title="10:04~10:57 · 3건"></i><i class="tsb peak" style="height:100%" title="11:09~11:12 · 15건"></i><i class="tsb on" style="height:27%" title="11:15~11:16 · 4건"></i><i class="tsb on" style="height:40%" title="11:17~11:18 · 6건"></i><i class="tsb on" style="height:87%" title="11:19~11:20 · 13건"></i><i class="tsb on" style="height:73%" title="11:21~11:26 · 11건"></i><i class="tsb on" style="height:20%" title="11:28~11:33 · 3건"></i><i class="tsb on" style="height:13%" title="11:36~11:37 · 2건"></i><i class="tsb on" style="height:53%" title="11:38~11:39 · 8건"></i><i class="tsb on" style="height:53%" title="11:40~11:41 · 8건"></i><i class="tsb on" style="height:20%" title="11:42~11:43 · 3건"></i><i class="tsb on" style="height:13%" title="11:47~11:55 · 2건"></i><i class="tsb on" style="height:20%" title="12:59~13:13 · 3건"></i><i class="tsb on" style="height:33%" title="13:14~13:15 · 5건"></i><i class="tsb on" style="height:27%" title="13:16~13:17 · 4건"></i></span><span class="tsfoot"><span class="tsl">08:50</span><span class="tspill">타임라인 보기</span><span class="tsr">13:17</span></span></summary><p class="bonehint"><b>&rarr;</b> 옆으로 밀어 시간대별 흐름 보기</p><div class="bonewrap"><div class="bonebox"><div class="bone" style="height:516px;min-width:1050px"><div class="spine"></div><div class="bar" style="left:2.0%;height:19px"></div><div class="bar" style="left:4.0%;height:10px"></div><div class="bar" style="left:6.0%;height:10px"></div><div class="bar" style="left:8.0%;height:19px"></div><div class="bar" style="left:10.0%;height:29px"></div><div class="bar" style="left:12.0%;height:6px"></div><div class="bar" style="left:14.0%;height:14px"></div><div class="bar" style="left:16.0%;height:10px"></div><div class="bar" style="left:18.0%;height:6px"></div><div class="bar" style="left:20.0%;height:6px"></div><div class="bar" style="left:22.0%;height:6px"></div><div class="bar" style="left:24.0%;height:10px"></div><div class="bar" style="left:26.0%;height:6px"></div><div class="bar" style="left:28.0%;height:6px"></div><div class="bar" style="left:30.0%;height:10px"></div><div class="bar" style="left:32.0%;height:19px"></div><div class="bar" style="left:34.0%;height:6px"></div><div class="bar" style="left:36.0%;height:6px"></div><div class="bar" style="left:38.0%;height:6px"></div><div class="bar" style="left:40.0%;height:10px"></div><div class="bar" style="left:42.0%;height:14px"></div><div class="bar peak" style="left:44.0%;height:58px"></div><div class="bar" style="left:46.0%;height:10px"></div><div class="bar" style="left:48.0%;height:10px"></div><div class="bar" style="left:50.0%;height:10px"></div><div class="bar" style="left:52.0%;height:19px"></div><div class="bar" style="left:54.0%;height:29px"></div><div class="bar" style="left:56.0%;height:34px"></div><div class="bar" style="left:58.0%;height:39px"></div><div class="bar" style="left:60.0%;height:14px"></div><div class="bar" style="left:62.0%;height:10px"></div><div class="bar" style="left:64.0%;height:6px"></div><div class="bar" style="left:66.0%;height:6px"></div><div class="bar" style="left:68.0%;height:6px"></div><div class="bar" style="left:70.0%;height:10px"></div><div class="bar" style="left:72.0%;height:29px"></div><div class="bar" style="left:74.0%;height:24px"></div><div class="bar" style="left:76.0%;height:14px"></div><div class="bar" style="left:78.0%;height:6px"></div><div class="bar" style="left:80.0%;height:10px"></div><div class="bar" style="left:82.0%;height:6px"></div><div class="bar" style="left:84.0%;height:6px"></div><div class="bar" style="left:86.0%;height:6px"></div><div class="bar" style="left:88.0%;height:10px"></div><div class="bar" style="left:90.0%;height:6px"></div><div class="bar" style="left:92.0%;height:19px"></div><div class="bar" style="left:94.0%;height:14px"></div><div class="bar" style="left:96.0%;height:6px"></div><div class="lbl" style="left:2.0%">08:50</div><div class="lbl" style="left:18.0%">09:04</div><div class="lbl" style="left:34.0%">10:00</div><div class="peaktag" style="left:44.0%;bottom:66px">11:12 · 12건</div><div class="lbl" style="left:50.0%">11:17</div><div class="lbl" style="left:66.0%">11:36</div><div class="lbl" style="left:82.0%">11:47</div><div class="lbl" style="left:96.0%">13:17</div><div class="rib up" style="left:2.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">08:50-08:52</div><h3>시험 관련 이슈</h3></div></div><div class="rib dn" style="left:8.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">08:53-09:05</div><h3>제미나이 코딩 평가</h3></div></div><div class="rib up" style="left:12.0%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-bottom:138px"><div class="t">09:00-10:00</div><h3>네온 사용 질문</h3></div></div><div class="rib up" style="left:22.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">09:12-09:17</div><h3>타로와 특허 질문</h3></div></div><div class="rib dn" style="left:42.0%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">11:09-11:55</div><h3>수능과 AI 모델 비교</h3></div></div><div class="rib dn flip" style="left:62.4%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-top:46px"><div class="t">11:47-11:47</div><h3>herdr 장단점 질문</h3></div></div><div class="rib up flip" style="left:66.4%"><div class="stem" style="height:46px"></div><div class="ribcard" style="margin-bottom:46px"><div class="t">12:59-12:59</div><h3>클로드 리셋권</h3></div></div><div class="rib dn flip" style="left:68.4%"><div class="stem" style="height:138px"></div><div class="ribcard" style="margin-top:138px"><div class="t">13:13-13:17</div><h3>봇 기능과 모델 질문</h3></div></div></div></div></div></details>
+
+<section class="details"><article class="dcard"><div class="t">11:09-11:55<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>수능과 AI 모델 비교</h2><p class="sum">수능 관련 기사 두 건이 공유되고, 수능 국어 문제를 여러 AI 모델로 풀어 점수와 소요 시간을 비교하는 대화가 이어짐. 한 참여자는 AI의 국어 답안과 채점 결과를 공유하며 만점과 약 3분의 소요 시간을 보고했고, 다른 참여자들도 GPT 웹의 Pro와 Opus 5.5에서 각각 약 5분, 1~2분 만에 만점이 나왔다고 전함. 네온은 약 6분이 걸렸다는 보고도 나왔으며, 프론티어 모델과 로컬 모델의 성능 차이에 대한 관심이 이어짐. Qwen3.8 Flash의 Think off 설정 결과는 공통 약 32개 정답, 선택 과목별 약 5~7개 정답으로 추정해 공유됨. 이 점수와 시간은 대화 참여자들의 자체 보고이며 독립적으로 검증된 결과는 아님.</p><ul><li>수능 관련 기사 링크가 공유되고 AI 모델별 수능 문제 풀이 점수에 대한 기대가 나옴.</li><li>한 참여자가 국어 답안과 만점 채점 결과를 공유하고 풀이 시간이 약 3분이라고 전함.</li><li>GPT 웹 Pro는 약 5분, Opus 5.5는 약 1~2분 만에 만점이 나왔다는 사용자 보고가 이어짐.</li><li>네온은 약 6분이 걸렸다는 보고와 함께 로컬 모델의 성능도 궁금하다는 의견이 나옴.</li><li>Qwen3.8 Flash의 Think off 결과는 공통 약 32개, 선택 과목별 약 5~7개 정답으로 추정됐으며, 보고된 결과들은 별도 검증되지 않음.</li><li><a href="https://n.news.naver.com/article/001/0016451538?type=breakingnews&amp;cds=news_my" rel="nofollow ugc noopener noreferrer" target="_blank">https://n.news.naver.com/article/001/0016451538?type=breakingnews&amp;cds=news_my</a></li></ul></article><article class="dcard"><div class="t">08:53-09:05<span class="catchip c-model">AI 모델·프롬프트</span></div><h2>제미나이 코딩 평가</h2><p class="sum">제미나이 하이드로겐을 장시간 사용한 참여자가 엑스트라하이 설정에서 쓸 만하고 GPT Sol에 견줄 정도라고 평가함. 제미나이가 클로드보다 성능이 떨어지는지 질문이 나왔고, 개발에 웬만큼 문제없이 쓸 수 있다는 의견이 이어짐. 다만 환각이 여전히 있어 결과를 검증하거나 검증 모델을 함께 쓰는 편이 좋다는 경험이 공유됨. 제미나이 캔버스의 localStorage 지원에 대한 아쉬움도 나옴.</p><ul><li>제미나이 하이드로겐을 엑스트라하이 설정으로 사용한 경험이 공유됨.</li><li>한 참여자는 개발 작업에서 제미나이를 써 본 결과 큰 문제가 없어 보인다고 평가함.</li><li>환각을 줄이기 위해 결과 검증이나 별도 검증 모델을 붙이는 방법이 언급됨.</li><li>제미나이 캔버스에서 localStorage를 지원했으면 좋겠다는 의견이 나옴.</li><li>모델 간 성능 비교는 참여자들의 사용 경험에 기반한 주관적 평가임.</li></ul></article><article class="dcard"><div class="t">11:47-11:47<span class="catchip c-tool">도구·라이브러리</span></div><h2>herdr 장단점 질문</h2><p class="sum">herdr를 쓰는 사람이 많은지와 장단점이 무엇인지 질문이 나옴. herdr는 여러 AI 코딩 에이전트를 한 터미널 창에서 실행·관리하는 오픈소스 도구로 소개됐으나, 대화에는 사용 규모나 장단점에 대한 답변이 없음.</p><ul><li>herdr의 사용 규모와 장단점을 질문함.</li><li>herdr는 여러 코딩 에이전트의 실행과 상태 추적을 위한 터미널 도구로 소개됨.</li><li>공유된 대화에는 질문에 대한 구체적인 답변이 없음.</li></ul></article><article class="dcard"><div class="t">09:00-10:00<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>네온 사용 질문</h2><p class="sum">네온이 괜찮은지와 아르곤 튜닝 버전인지 질문이 나옴. 어디에 강한지 직접 써봐야겠다는 반응이 있었으나 구체적인 답변이나 검증 결과는 제시되지 않음. 대화에서 말한 네온의 정확한 대상은 확실하지 않음.</p><ul><li>네온의 사용성과 아르곤과의 관계에 관한 질문이 나옴.</li><li>강점을 확인하려면 직접 써봐야 한다는 반응이 이어짐.</li><li>질문에 대한 확정적인 답변은 대화에 없음.</li></ul></article><article class="dcard"><div class="t">08:50-08:52<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>시험 관련 이슈</h2><p class="sum">시험과 관련된 인물과 이슈를 두고 심각하다는 반응이 오갔음. 관련 인물이 법학적성시험 만점자라는 설명이 나왔으나 구체적인 사건 내용은 대화에 드러나지 않음.</p><ul><li>참여자들이 관련 사안을 심각하게 받아들이고 취소 가능성을 언급함.</li><li>해당 인물이 법학적성시험 만점자라는 설명이 나옴.</li><li>구체적인 사건 경위는 대화만으로 확인하기 어려움.</li></ul></article><article class="dcard"><div class="t">09:12-09:17<span class="catchip c-ask">질문·트러블슈팅</span></div><h2>타로와 특허 질문</h2><p class="sum">타로 풀이를 요청하는 대화가 두 차례 나옴. 국내 특허 신청 시 유형이 어떻게 나뉘는지도 질문했으나, 해당 질문에 대한 답변은 대화에 보이지 않음.</p><ul><li>숫자를 제시하며 타로 풀이를 요청함.</li><li>국내 특허 신청의 유형 구분을 질문함.</li><li>공유된 대화에는 특허 질문에 대한 답변이 없음.</li></ul></article><article class="dcard"><div class="t">12:59-12:59<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>클로드 리셋권</h2><p class="sum">클로드에서 리셋권을 잘 주지 않는다는 아쉬움이 나옴. 구체적인 조건이나 해결책은 논의되지 않음.</p><ul><li>클로드 리셋권 제공에 대한 불만이 언급됨.</li><li>리셋권의 구체적인 조건이나 대안은 공유되지 않음.</li><li>후속 답변은 대화에 보이지 않음.</li></ul></article><article class="dcard"><div class="t">13:13-13:17<span class="catchip c-etc">커뮤니티·잡담</span></div><h2>봇 기능과 모델 질문</h2><p class="sum">대화 상대의 기능 목록과 사용 모델을 묻는 질문이 이어짐. 1보다 작은 자연수를 찾아 달라는 요청과 커피를 가져다 달라는 농담도 나옴. 로컬 모델일 수 있다는 추측이 있었지만 실제 모델을 확인할 수 있는 답변은 공유된 대화에 없음.</p><ul><li>대화 상대가 할 수 있는 일의 목록을 요청함.</li><li>사용 모델이 무엇인지 질문하고 로컬 모델일 가능성을 추측함.</li><li>자연수와 커피를 소재로 한 가벼운 요청도 오감.</li><li>공유된 대화만으로 실제 사용 모델은 확인되지 않음.</li></ul></article></section>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+
+<footer>
+  <span>지피탁구 봇이 자동 생성한 요약 — 발화 원문과 닉네임은 담지 않습니다.</span>
+  <span class="mono">2026-11-19-1330</span>
+</footer>
+</div>
+</body>
+</html>
