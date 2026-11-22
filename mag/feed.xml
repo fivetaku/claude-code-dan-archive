@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>ChatGPT Dot·Chat·Work·Codex, 무엇을 어디에 써야 하나</title>
+    <link>https://chat.axwith.com/mag/workflow/chatgpt-dot-chat-work-codex-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/chatgpt-dot-chat-work-codex-guide.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sun, 22 Nov 2026 12:00:00 +0900</pubDate>
+    <description>ChatGPT Dot, Chat, Work, Codex의 역할과 차이를 클코단의 질문에서 출발해 공식 문서와 최신 사용 조건으로 비교한다. 로컬·클라우드 작업, 권한, 비용, 검수 방법까지 설명한다.</description>
+  </item>
+  <item>
+    <title>AI 초보자는 무엇부터 기록해야 오래 쓰는가</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-beginner-learning-recording-workflow.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-beginner-learning-recording-workflow.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Sun, 22 Nov 2026 12:00:00 +0900</pubDate>
+    <description>AI를 처음 배우는 사람에게 필요한 것은 비싼 장비나 복잡한 프롬프트가 아니다. 질문하고 실험하고 기록한 뒤 다시 꺼내 쓰는 과정을 ChatGPT, Gemini, 짧은 영상 제작과 연결하는 방법을 살펴본다.</description>
+  </item>
+  <item>
     <title>Orca·herdr·Warp 비교: 병렬 에이전트와 세션 관리</title>
     <link>https://chat.axwith.com/mag/tools/orca-herdr-warp-agent-sessions.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/orca-herdr-warp-agent-sessions.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Tue, 03 Nov 2026 12:00:00 +0900</pubDate>
     <description>맥미니에 HDD 독을 연결하는 구성과 시놀로지 NAS를 비교한다. 파일 공유 설정부터 중고 제품의 업데이트 지원, CMR 확인, 랜섬웨어 대응과 별도 백업까지 구매 판단에 필요한 조건을 짚는다.</description>
-  </item>
-  <item>
-    <title>피클 AI 사용법과 무료 한도, 국내 업무는 어디까지 맡길까</title>
-    <link>https://chat.axwith.com/mag/tools/pickle-ai-tasks-usage-limits.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/pickle-ai-tasks-usage-limits.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Mon, 02 Nov 2026 12:00:00 +0900</pubDate>
-    <description>피클 AI는 국내 서비스에서 어떤 일을 대신할 수 있을까. 공식 기능과 커뮤니티 경험을 대조하고, 메일 초안·상품 비교를 맡기는 방법부터 무료 한도 확인과 개인정보 처리 범위까지 살펴본다.</description>
-  </item>
-  <item>
-    <title>OWC 1M2 외장 SSD 인클로저, 상시 연결과 듀얼 확장 선택법</title>
-    <link>https://chat.axwith.com/mag/tools/owc-ssd-enclosure-expansion-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/owc-ssd-enclosure-expansion-guide.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Mon, 02 Nov 2026 12:00:00 +0900</pubDate>
-    <description>OWC Express 1M2를 맥 스튜디오에 상시 연결해도 괜찮을까? 커뮤니티 사용 경험과 공식 문서로 발열·전원·포트 조건을 확인하고, NVMe SSD 조립과 듀얼 인클로저 확장의 차이를 짚는다.</description>
   </item>
 </channel></rss>
