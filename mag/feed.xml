@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>Claude M365 애드인 사라진 이유와 복구 방법</title>
+    <link>https://chat.axwith.com/mag/ops/claude-m365-addin-missing-fix.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/claude-m365-addin-missing-fix.html</guid>
+    <category>배포·운영</category>
+    <pubDate>Wed, 25 Nov 2026 12:00:00 +0900</pubDate>
+    <description>Claude for Microsoft 365 애드인이 일부 Mac 사용자에게서 사라진 원인과 영향 범위, 웹 버전 우회 방법, 재설치 전에 확인할 조건을 정리했다.</description>
+  </item>
+  <item>
     <title>LG유플러스 신호는 잡히는데 통화가 안 될 때 점검법</title>
     <link>https://chat.axwith.com/mag/troubleshooting/lguplus-signal-no-service-check.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/lguplus-signal-no-service-check.html</guid>
@@ -235,13 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Wed, 04 Nov 2026 12:00:00 +0900</pubDate>
     <description>AI가 만든 코드가 늘면서 리뷰 병목과 보안 위험도 커졌다. 지침 파일, 린트, 테스트, AI 리뷰, 머지 규칙을 연결해 품질을 통제하는 방법을 살펴본다.</description>
-  </item>
-  <item>
-    <title>AI 코딩 에이전트 세션 추적, 커밋 메타데이터의 설계법</title>
-    <link>https://chat.axwith.com/mag/workflow/ai-agent-session-tracking-git-metadata.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-session-tracking-git-metadata.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 04 Nov 2026 12:00:00 +0900</pubDate>
-    <description>AI 코딩 에이전트의 작업을 커밋과 세션 ID로 추적하는 방법을 살핀다. Git 훅, 트레일러, 별도 데이터베이스, worktree의 차이와 보안 기준을 정리했다.</description>
   </item>
 </channel></rss>
