@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>LG유플러스 신호는 잡히는데 통화가 안 될 때 점검법</title>
+    <link>https://chat.axwith.com/mag/troubleshooting/lguplus-signal-no-service-check.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/troubleshooting/lguplus-signal-no-service-check.html</guid>
+    <category>질문·트러블슈팅</category>
+    <pubDate>Tue, 24 Nov 2026 12:00:00 +0900</pubDate>
+    <description>LG유플러스에서 신호는 잡히지만 통화·문자·데이터가 모두 끊길 때 유심 업데이트, 삼성 SIM 제한, 통신 장애를 구분하는 점검 순서를 정리했다.</description>
+  </item>
+  <item>
     <title>아파트 분양 홈페이지 외주, 적정 가격은 어떻게 정할까</title>
     <link>https://chat.axwith.com/mag/workflow/apartment-sales-website-pricing.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/apartment-sales-website-pricing.html</guid>
@@ -235,13 +243,5 @@
     <category>워크플로우·방법론</category>
     <pubDate>Wed, 04 Nov 2026 12:00:00 +0900</pubDate>
     <description>AI 코딩 에이전트의 작업을 커밋과 세션 ID로 추적하는 방법을 살핀다. Git 훅, 트레일러, 별도 데이터베이스, worktree의 차이와 보안 기준을 정리했다.</description>
-  </item>
-  <item>
-    <title>재난 대비 스타링크 구매, 배터리와 대기 요금까지 따져야 하는 이유</title>
-    <link>https://chat.axwith.com/mag/ops/starlink-emergency-backup-power.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/ops/starlink-emergency-backup-power.html</guid>
-    <category>배포·운영</category>
-    <pubDate>Tue, 03 Nov 2026 12:00:00 +0900</pubDate>
-    <description>재난 대비용 스타링크는 단말기만 구매해서 완성되지 않는다. Mini의 소비전력과 배터리 운용 시간, 하늘 시야, 대기 모드의 제약을 살펴보고 집에서 버티는 상황과 걸어서 대피하는 상황의 구매 기준을 나눈다.</description>
   </item>
 </channel></rss>
