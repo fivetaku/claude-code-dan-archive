@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 비서 고객센터 대리 상담, 왜 본인 확인에서 막히나 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="AI 비서가 고객센터에 전화를 걸어도 상담이 중단되는 이유를 본인확인, 개인정보, 책임 소재, 통화 설계 관점에서 분석한다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/workflow/ai-agent-customer-service-calls.html">
+<meta property="og:title" content="AI 비서 고객센터 대리 상담, 왜 본인 확인에서 막히나">
+<meta property="og:description" content="AI 비서가 고객센터에 전화를 걸어도 상담이 중단되는 이유를 본인확인, 개인정보, 책임 소재, 통화 설계 관점에서 분석한다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/workflow/ai-agent-customer-service-calls.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI 비서 고객센터 대리 상담, 왜 본인 확인에서 막히나", "description": "AI 비서가 고객센터에 전화를 걸어도 상담이 중단되는 이유를 본인확인, 개인정보, 책임 소재, 통화 설계 관점에서 분석한다.", "datePublished": "2026-11-26", "dateModified": "2026-11-26", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/workflow/ai-agent-customer-service-calls.html"}, "articleSection": "워크플로우·방법론", "keywords": "AI 에이전트, AI 비서, 고객센터, 본인확인, 음성 AI, 개인정보 보호", "image": "https://chat.axwith.com/mag/hero/ai-agent-customer-service-calls.webp"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "AI 비서가 고객센터에 전화하면 왜 상담을 거절하나요?", "acceptedAnswer": {"@type": "Answer", "text": "AI가 사용자의 위임을 받았는지, 개인정보를 조회하거나 계약을 변경할 권한이 있는지 확인하기 어렵기 때문입니다. 기업은 민감한 업무를 본인에게 직접 안내하는 방식을 택하고 있습니다."}}, {"@type": "Question", "name": "AI가 대신 전화해도 되는 업무는 무엇인가요?", "acceptedAnswer": {"@type": "Answer", "text": "영업시간, 공개 가격, 예약 가능 여부처럼 개인정보가 필요 없는 문의가 상대적으로 적합합니다. 환불, 해지, 결제, 의료·금융 정보는 별도 인증이나 사용자의 최종 승인이 필요합니다."}}, {"@type": "Question", "name": "AI 전화 서비스는 무엇을 먼저 구현해야 하나요?", "acceptedAnswer": {"@type": "Answer", "text": "통화 목적과 권한 범위를 사용자가 미리 승인하게 하고, 통화 시작 때 AI임을 밝히는 기능부터 갖춰야 합니다. 민감한 요청은 결과를 확정하지 말고 사람 상담원이나 사용자에게 넘겨야 합니다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/ai-agent-customer-service-calls.webp" alt="AI 비서 고객센터 대리 상담, 왜 본인 확인에서 막히나" loading="eager">
+<header>
+  <span class="catchip c-flow">워크플로우·방법론</span>
+  <h1>AI 비서 고객센터 대리 상담, 왜 본인 확인에서 막히나</h1>
+  <p class="sub">AI가 사용자를 대신해 전화하는 시대, 기업이 상담을 거절하는 이유와 안전한 대리 통화의 조건을 짚었다.</p>
+  <div class="meta"><span>2026-11-26</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>AI 비서에게 식당 예약이나 단순 문의 전화를 맡기는 서비스가 빠르게 늘고 있다. 하지만 고객센터에서는 AI라고 밝히는 순간 통화를 종료하거나 본인에게 직접 연락하겠다고 안내하는 사례가 나온다. 왜 기업은 사용자의 위임을 인정하지 않고, AI 대리 통화를 어디까지 허용할 수 있을까.</p>
+<h2>AI에게 권한을 줬다는 말만으로는 본인확인이 되지 않는다</h2>
+<p>최근 국내 이동통신 3사와 네이버는 AI 에이전트가 고객센터에 직접 전화해 상담하는 요청을 제한하기 시작했다. 통신사들은 가입자의 연락처를 확인한 뒤 AI와 통화를 끝내고, 가입자 본인에게 직접 안내하는 방식을 택했다. 개인정보 조회나 요금제 변경처럼 민감한 업무에서는 AI가 사용자의 권한을 실제로 받았는지 확인하기 어렵다는 이유다. (<a href="https://www.yna.co.kr/view/AKR20261123165600017?input=1195m" target="_blank" rel="nofollow noopener">yna.co.kr</a>)</p>
+<p>핵심은 인증과 위임이 서로 다른 문제라는 점이다. AI가 이름, 전화번호, 계정 정보를 알고 있어도 사용자가 이번 통화에서 특정 업무를 맡겼다는 증거가 되지는 않는다. 환불, 해지, 주소 변경, 결제 변경처럼 결과가 되돌리기 어려운 업무라면 본인확인만으로도 충분하지 않다.</p>
+<p>이 구분이 없으면 AI가 잘못 이해한 요청도 사용자의 의사로 처리될 수 있다. 요금 절감 방법을 물어보라는 지시가 실제 요금제 변경으로 이어졌을 때, 그 결과를 누가 책임질지 아직 분명한 기준이 없다. 연합뉴스는 이 문제를 AI 에이전트의 법적 대리인 지위와 책임 공백으로 설명했다. (<a href="https://www.yna.co.kr/view/AKR20261125118900017" target="_blank" rel="nofollow noopener">yna.co.kr</a>)</p>
+<h2>상담 거절은 AI 자체보다 통화의 위험도 때문이다</h2>
+<p>모든 전화가 같은 방식으로 막히는 것은 아니다. 영업시간, 공개 상품 가격, 일반적인 이용 방법처럼 누구나 알 수 있는 정보는 비교적 낮은 위험에 속한다. 반면 계정 조회, 계약 변경, 의료·금융 정보, 환불과 해지는 별도의 인증이나 최종 승인이 필요하다.</p>
+<p>미국에서도 비슷한 원칙이 작동한다. FCC는 2024년 AI가 만든 음성을 TCPA가 규정한 인공 음성에 포함한다고 판단했다. 소비자에게 원치 않는 AI 음성 전화를 걸 때는 기존의 동의와 로보콜 규제가 적용될 수 있다는 뜻이다. FCC는 발신번호를 속이는 행위도 별도로 문제 삼고 있으며, STIR/SHAKEN 같은 발신자 인증 체계를 강화하고 있다. (<a href="https://docs.fcc.gov/public/attachments/FCC-24-17A1_Rcd.pdf" target="_blank" rel="nofollow noopener">docs.fcc.gov</a>)</p>
+<p>FTC의 Telemarketing Sales Rule도 발신 주체와 통화 목적을 분명히 밝히도록 요구한다. 다만 소비자가 먼저 전화를 거는 단순 문의와 판매 목적의 아웃바운드 통화는 적용 범위가 다르다. AI가 고객센터에 문의하는 상황도 통화 목적과 요청 내용에 따라 위험도가 달라지는 이유다. (<a href="https://www.ftc.gov/business-guidance/resources/complying-telemarketing-sales-rule" target="_blank" rel="nofollow noopener">ftc.gov</a>)</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/ai-agent-customer-service-calls.webp" alt="" loading="lazy"><h2>상담원에게는 한 통화가 아니라 반복 업무로 남는다</h2>
+<p>AI 대리 통화의 편리함은 사용자의 시간을 줄인다. 전화가 부담스럽거나 업무 중 통화하기 어려운 사람에게는 예약, 배송 문의, 일정 확인을 맡기는 방식이 유용하다. 반대로 상담원은 AI가 사용자의 의도를 정확히 이해했는지 판단해야 하고, 본인확인 불가를 설명한 뒤에도 같은 질문을 반복해서 받을 수 있다.</p>
+<p>실제 현장에서는 AI가 상담원의 거절을 새로운 질문으로 받아들이며 통화를 길게 끄는 문제가 제기됐다. 국내 보도에 따르면 일부 기업은 다른 고객의 대기 시간과 상담원 피로도까지 고려해 AI 통화를 제한했다. 건강보험 관련 상담에서도 본인 확인이 되지 않은 AI가 일반적인 제도 문의로 대화를 이어가려 한 사례가 보도됐다. (<a href="https://news.sbs.co.kr/news/endPage.do?cooper=SBSNEWSAMP&amp;news_id=N1008859949&amp;plink=ORI" target="_blank" rel="nofollow noopener">news.sbs.co.kr</a>)</p>
+<p>써본 사람들 사이에서도 반응은 갈린다. 예약이나 단순 확인을 빠르게 끝내주는 점은 편리하다는 평가가 있지만, 상대방이 AI인지 밝히지 않거나 사람 상담원 연결을 계속 미루면 불쾌하다는 의견도 나온다. 반대로 매장과 상담원 쪽에서는 AI가 반복 전화와 예약 변경을 늘려 업무를 방해한다는 불만이 나타난다. 이런 반응은 기술의 정확도보다 상대방이 통화를 통제할 수 있는지가 더 중요하다는 점을 보여준다.</p>
+<h2>안전한 AI 전화는 권한을 단계별로 나눠야 한다</h2>
+<p>개인 개발자나 소규모 팀이 AI 전화 기능을 만들 때는 ‘전화할 수 있음’과 ‘업무를 완료할 수 있음’을 분리해야 한다. 가장 낮은 단계는 영업시간이나 공개 요금처럼 공개 정보만 묻는 통화다. 그다음은 예약 가능 시간을 확인하고, 사용자가 최종 승인한 뒤 예약을 확정하는 방식이다.</p>
+<p>구현 흐름은 다음처럼 설계할 수 있다. 사용자가 앱에서 통화 목적과 허용 범위를 입력한다. AI는 별도의 작업 ID를 만들고, 통화 시작 때 사업자명과 AI라는 사실, 문의 목적을 밝힌다. 상대방이 본인확인을 요구하면 계정 정보나 비밀번호를 대신 말하지 않고, 사용자의 휴대전화나 앱으로 인증 요청을 보낸다.</p>
+<p>환불, 해지, 결제, 의료 기록처럼 민감한 작업은 AI가 결과를 확정하지 않아야 한다. AI는 필요한 정보를 수집하고 상담원을 연결한 뒤, 사용자가 앱에서 승인하거나 직접 통화에 참여하는 지점에서 멈춰야 한다. 통화 로그에는 AI가 어떤 지시를 받았고 어떤 문장을 전달했는지 남겨야 하며, 사용자가 취소할 수 있는 기능도 필요하다.</p>
+<p>이런 구조는 통화 상대방에게도 선택권을 준다. 기업은 AI 통화를 거부하거나 사람에게 전환할 수 있고, 사용자는 상담 결과를 확인한 뒤 후속 행동을 결정할 수 있다. AI가 상대방의 거절을 설득 대상으로 여기지 않도록 종료 조건을 명시하는 것도 중요하다.</p>
+<h2>기업의 대응은 전면 차단보다 업무별 규칙에 가까워질 수 있다</h2>
+<p>현재 기업들이 AI 대리 통화를 제한하는 이유 중 하나는 요청의 위험도를 일률적으로 판단하기 어렵다는 점이다. 그러나 공개 정보 문의까지 본인 통화로 제한하면 AI가 제공할 수 있는 편익도 사라진다. 앞으로는 업무별 위험 등급과 인증 수준을 나누는 정책이 현실적인 대안이 될 가능성이 크다.</p>
+<p>낮은 위험의 문의는 AI가 처리하되, 개인정보 조회와 계약 변경은 본인에게 전환하는 식이다. 발신번호 인증, AI 신분 공개, 통화 목적 고지, 반복 질문 제한, 사람 연결 요청 처리 같은 공통 규칙도 필요하다. 미국의 발신자 인증 강화와 국내 기업들의 대리 상담 제한은 서로 다른 제도에서 출발했지만, 상대방이 누구인지 확인하고 책임 주체를 남겨야 한다는 방향은 같다. (<a href="https://docs.fcc.gov/public/attachments/DOC-407664A1.pdf" target="_blank" rel="nofollow noopener">docs.fcc.gov</a>)</p>
+<p>AI 비서가 고객센터에 전화를 거는 기능은 이미 시연 단계를 지나 실제 서비스로 들어왔다. 다만 사용자가 “전화해 달라”고 말한 사실만으로 모든 상담 권한을 넘긴 것은 아니다. 앞으로의 기준은 AI가 사람처럼 말하는지가 아니라, 어떤 업무까지 위임받았는지와 그 결과를 누가 승인했는지를 통화 안에서 확인할 수 있느냐에 달려 있다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">AI 에이전트</span><span class="chip">AI 비서</span><span class="chip">고객센터</span><span class="chip">본인확인</span><span class="chip">음성 AI</span><span class="chip">개인정보 보호</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://www.yna.co.kr/view/AKR20261123165600017?input=1195m" rel="nofollow noopener">https://www.yna.co.kr/view/AKR20261123165600017?input=1195m</a></li><li><a href="https://www.yna.co.kr/view/AKR20261125118900017" rel="nofollow noopener">https://www.yna.co.kr/view/AKR20261125118900017</a></li><li><a href="https://news.sbs.co.kr/news/endPage.do?cooper=SBSNEWSAMP&amp;news_id=N1008859949&amp;plink=ORI" rel="nofollow noopener">https://news.sbs.co.kr/news/endPage.do?cooper=SBSNEWSAMP&amp;news_id=N1008859949&amp;pli</a></li><li><a href="https://docs.fcc.gov/public/attachments/FCC-24-17A1_Rcd.pdf" rel="nofollow noopener">https://docs.fcc.gov/public/attachments/FCC-24-17A1_Rcd.pdf</a></li><li><a href="https://docs.fcc.gov/public/attachments/DOC-407664A1.pdf" rel="nofollow noopener">https://docs.fcc.gov/public/attachments/DOC-407664A1.pdf</a></li><li><a href="https://www.ftc.gov/business-guidance/resources/complying-telemarketing-sales-rule" rel="nofollow noopener">https://www.ftc.gov/business-guidance/resources/complying-telemarketing-sales-ru</a></li><li><a href="https://www.ftc.gov/legal-library/browse/rules/telemarketing-sales-rule" rel="nofollow noopener">https://www.ftc.gov/legal-library/browse/rules/telemarketing-sales-rule</a></li><li><a href="https://www.reddit.com/r/antiai/comments/1x1gwb0/i_just_had_an_ai_assistant_call_my_store_with_pre/" rel="nofollow noopener">https://www.reddit.com/r/antiai/comments/1x1gwb0/i_just_had_an_ai_assistant_call</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>AI 비서가 고객센터에 전화하면 왜 상담을 거절하나요?</h2><p class="sum">AI가 사용자의 위임을 받았는지, 개인정보를 조회하거나 계약을 변경할 권한이 있는지 확인하기 어렵기 때문입니다. 기업은 민감한 업무를 본인에게 직접 안내하는 방식을 택하고 있습니다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI가 대신 전화해도 되는 업무는 무엇인가요?</h2><p class="sum">영업시간, 공개 가격, 예약 가능 여부처럼 개인정보가 필요 없는 문의가 상대적으로 적합합니다. 환불, 해지, 결제, 의료·금융 정보는 별도 인증이나 사용자의 최종 승인이 필요합니다.</p></article><article class="dcard"><div class="t">Q</div><h2>AI 전화 서비스는 무엇을 먼저 구현해야 하나요?</h2><p class="sum">통화 목적과 권한 범위를 사용자가 미리 승인하게 하고, 통화 시작 때 AI임을 밝히는 기능부터 갖춰야 합니다. 민감한 요청은 결과를 확정하지 말고 사람 상담원이나 사용자에게 넘겨야 합니다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="vibe-coding-terms-bug-fix-routine.html">바이브코딩 시대, 리팩토링 용어와 버그 수정 루틴이 무기인 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-memory-collapse.html">AI 에이전트 장기 기억, 파일시스템 메모리는 왜 무너지는가</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kakaotalk-bot-loco-guide.html">카카오톡 챗봇 만드는 법: LOCO부터 트리거 감지까지</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="claude-code-rag-without-vectordb.html">클로드 코드로 대용량 문서 RAG 만들기, 벡터DB 없이도 되는 이유</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="ai-agent-orchestrator-goal-design.html">AI 에이전트 오케스트레이터가 위험한 이유와 골 설계법</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-25-0900.html">2026-11-25 11-24 13:55~11-25 08:48</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>

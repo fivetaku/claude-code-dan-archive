@@ -5,6 +5,22 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>바닐라 HTML·CSS·JavaScript로 웹게임 만드는 법</title>
+    <link>https://chat.axwith.com/mag/tools/vanilla-web-game-guide.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/vanilla-web-game-guide.html</guid>
+    <category>도구·라이브러리</category>
+    <pubDate>Thu, 26 Nov 2026 12:00:00 +0900</pubDate>
+    <description>바닐라 HTML·CSS·JavaScript만으로 브라우저 게임을 만드는 방법을 살펴본다. 파일 구성부터 게임 루프, 입력 처리, 저장과 배포 전 고려사항까지 설명한다.</description>
+  </item>
+  <item>
+    <title>AI 비서 고객센터 대리 상담, 왜 본인 확인에서 막히나</title>
+    <link>https://chat.axwith.com/mag/workflow/ai-agent-customer-service-calls.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-agent-customer-service-calls.html</guid>
+    <category>워크플로우·방법론</category>
+    <pubDate>Thu, 26 Nov 2026 12:00:00 +0900</pubDate>
+    <description>AI 비서가 고객센터에 전화를 걸어도 상담이 중단되는 이유를 본인확인, 개인정보, 책임 소재, 통화 설계 관점에서 분석한다.</description>
+  </item>
+  <item>
     <title>리만 가설은 왜 소수와 파이를 한 줄로 잇나</title>
     <link>https://chat.axwith.com/mag/resources/riemann-hypothesis-primes-zeta.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/resources/riemann-hypothesis-primes-zeta.html</guid>
@@ -227,21 +243,5 @@
     <category>도구·라이브러리</category>
     <pubDate>Sat, 07 Nov 2026 12:00:00 +0900</pubDate>
     <description>Vooy AI 에이전트가 당근·부동산 리서치와 예약 업무에서 어떻게 작동하는지, Pickle Rick과 무엇이 다른지 공식 정보와 사용 반응을 바탕으로 정리했다.</description>
-  </item>
-  <item>
-    <title>AI 교육비가 책으로 묶였을 때, 실무로 이어지는 선택법</title>
-    <link>https://chat.axwith.com/mag/workflow/ai-training-book-budget.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-training-book-budget.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Sat, 07 Nov 2026 12:00:00 +0900</pubDate>
-    <description>AI 교육 예산이 도서 구매로 제한된 조직을 위해 책의 역할과 실습 설계, 도구 접근권, 저작권·보안 주의점을 정리했다.</description>
-  </item>
-  <item>
-    <title>클로드 코드 모델 선택, Opus와 effort를 따로 조절해야 하는 이유</title>
-    <link>https://chat.axwith.com/mag/models/claude-code-model-effort-selection.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/models/claude-code-model-effort-selection.html</guid>
-    <category>AI 모델·프롬프트</category>
-    <pubDate>Fri, 06 Nov 2026 12:00:00 +0900</pubDate>
-    <description>클로드 코드에서 Opus medium과 high는 다른 모델이 아니라 effort 설정이다. 훅이 많은 환경에서 생기는 지연을 구분하고, Sonnet과 Opus를 같은 작업으로 비교하는 방법을 공식 문서와 커뮤니티 경험으로 살펴본다.</description>
   </item>
 </channel></rss>
