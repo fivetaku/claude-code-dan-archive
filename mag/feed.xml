@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>리만 가설은 왜 소수와 파이를 한 줄로 잇나</title>
+    <link>https://chat.axwith.com/mag/resources/riemann-hypothesis-primes-zeta.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/resources/riemann-hypothesis-primes-zeta.html</guid>
+    <category>자료·링크 공유</category>
+    <pubDate>Wed, 25 Nov 2026 12:00:00 +0900</pubDate>
+    <description>리만 가설이 소수의 분포와 어떤 관계인지, 오일러 곱·바젤 문제·복소평면이 어떻게 하나의 설명으로 이어지는지 살펴본다.</description>
+  </item>
+  <item>
     <title>Claude M365 애드인 사라진 이유와 복구 방법</title>
     <link>https://chat.axwith.com/mag/ops/claude-m365-addin-missing-fix.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/ops/claude-m365-addin-missing-fix.html</guid>
@@ -235,13 +243,5 @@
     <category>AI 모델·프롬프트</category>
     <pubDate>Fri, 06 Nov 2026 12:00:00 +0900</pubDate>
     <description>클로드 코드에서 Opus medium과 high는 다른 모델이 아니라 effort 설정이다. 훅이 많은 환경에서 생기는 지연을 구분하고, Sonnet과 Opus를 같은 작업으로 비교하는 방법을 공식 문서와 커뮤니티 경험으로 살펴본다.</description>
-  </item>
-  <item>
-    <title>AI가 만든 코드 품질을 팀이 통제하는 방법</title>
-    <link>https://chat.axwith.com/mag/workflow/ai-code-quality-control.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/workflow/ai-code-quality-control.html</guid>
-    <category>워크플로우·방법론</category>
-    <pubDate>Wed, 04 Nov 2026 12:00:00 +0900</pubDate>
-    <description>AI가 만든 코드가 늘면서 리뷰 병목과 보안 위험도 커졌다. 지침 파일, 린트, 테스트, AI 리뷰, 머지 규칙을 연결해 품질을 통제하는 방법을 살펴본다.</description>
   </item>
 </channel></rss>
