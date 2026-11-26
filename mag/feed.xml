@@ -5,6 +5,14 @@
   <description>클로드코드 사용자 커뮤니티(클코단) 논의를 정리한 매거진</description>
   <language>ko</language>
   <item>
+    <title>GPT-6.2 Astra·Sol 소진 40%·25% 빨라진 이유와 리셋권 조건</title>
+    <link>https://chat.axwith.com/mag/models/gpt-6-2-usage-billing-fix-reset.html</link>
+    <guid isPermaLink="true">https://chat.axwith.com/mag/models/gpt-6-2-usage-billing-fix-reset.html</guid>
+    <category>AI 모델·프롬프트</category>
+    <pubDate>Fri, 27 Nov 2026 12:00:00 +0900</pubDate>
+    <description>GPT-6.2 Astra는 40%, Sol은 25% 빨리 소진된다. OpenAI가 인정한 할인 오류의 내용, 가격 인상 여부, 리셋권 사용 조건, 사용량 아끼는 법을 정리했다.</description>
+  </item>
+  <item>
     <title>바닐라 HTML·CSS·JavaScript로 웹게임 만드는 법</title>
     <link>https://chat.axwith.com/mag/tools/vanilla-web-game-guide.html</link>
     <guid isPermaLink="true">https://chat.axwith.com/mag/tools/vanilla-web-game-guide.html</guid>
@@ -235,13 +243,5 @@
     <category>질문·트러블슈팅</category>
     <pubDate>Sun, 08 Nov 2026 12:00:00 +0900</pubDate>
     <description>CCNP Enterprise가 검증하는 기술 범위와 AI 네트워크 자동화의 현실을 살펴보고, 장애 책임자에게 필요한 설계·검증·통제 역량을 정리한다.</description>
-  </item>
-  <item>
-    <title>Vooy AI 에이전트, 부동산 리서치에 써도 될까</title>
-    <link>https://chat.axwith.com/mag/tools/vooy-ai-agent-research-guide.html</link>
-    <guid isPermaLink="true">https://chat.axwith.com/mag/tools/vooy-ai-agent-research-guide.html</guid>
-    <category>도구·라이브러리</category>
-    <pubDate>Sat, 07 Nov 2026 12:00:00 +0900</pubDate>
-    <description>Vooy AI 에이전트가 당근·부동산 리서치와 예약 업무에서 어떻게 작동하는지, Pickle Rick과 무엇이 다른지 공식 정보와 사용 반응을 바탕으로 정리했다.</description>
   </item>
 </channel></rss>
