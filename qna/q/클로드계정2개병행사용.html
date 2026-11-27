@@ -6,13 +6,13 @@
 <title>클로드 계정 2개를 같이 쓰면 어떤 이점이 있나요? — 클코단 Q&amp;A</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
-<meta name="description" content="한 컴퓨터와 한 작업물에서 여러 Claude 계정을 번갈아 사용해 작업을 이어갈 수 있는지 질문이 나왔다. 사용 한도가 소진된 뒤 README 같은 문서 작업을 못 했을 때의 대응도 함께 물었다. 답변은 기록되지 않았다.">
+<meta name="description" content="한 컴퓨터에서 Claude 계정 2개를 쓰면서 세션을 공유하는 방법을 물었다. 계정 분리는 CLAUDE_CONFIG_DIR 환경변수로 하고, 세션 공유는 projects 폴더를 심볼릭 링크로 연결하는 방식이 안내됐다. 환경변수 방식은 공식 지원이지만 ">
 <link rel="canonical" href="https://chat.axwith.com/qna/q/클로드계정2개병행사용.html">
 <meta property="og:title" content="클로드 계정 2개를 같이 쓰면 어떤 이점이 있나요?">
-<meta property="og:description" content="한 컴퓨터와 한 작업물에서 여러 Claude 계정을 번갈아 사용해 작업을 이어갈 수 있는지 질문이 나왔다. 사용 한도가 소진된 뒤 README 같은 문서 작업을 못 했을 때의 대응도 함께 물었다. 답변은 기록되지 않았다.">
+<meta property="og:description" content="한 컴퓨터에서 Claude 계정 2개를 쓰면서 세션을 공유하는 방법을 물었다. 계정 분리는 CLAUDE_CONFIG_DIR 환경변수로 하고, 세션 공유는 projects 폴더를 심볼릭 링크로 연결하는 방식이 안내됐다. 환경변수 방식은 공식 지원이지만 ">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://chat.axwith.com/qna/q/클로드계정2개병행사용.html">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "클로드 계정 2개를 같이 쓰면 어떤 이점이 있나요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "한 컴퓨터와 한 작업물에서 여러 Claude 계정을 번갈아 사용해 작업을 이어갈 수 있는지 질문이 나왔다. 사용 한도가 소진된 뒤 README 같은 문서 작업을 못 했을 때의 대응도 함께 물었다. 답변은 기록되지 않았다. Max20 요금제 기준 계정 2개 병행 사용 문의 동일 작업물을 여러 Claude 계정으로 이어 작업하는 방안이 질문됐다. 사용 한도 소진 시 문서화 작업을 못 한 상황도 언급됐다. 대화에는 구체적인 해결 답변이 남지 않았다."}}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "QAPage", "mainEntity": {"@type": "Question", "name": "클로드 계정 2개를 같이 쓰면 어떤 이점이 있나요?", "answerCount": 1, "acceptedAnswer": {"@type": "Answer", "text": "한 컴퓨터에서 Claude 계정 2개를 쓰면서 세션을 공유하는 방법을 물었다. 계정 분리는 CLAUDE_CONFIG_DIR 환경변수로 하고, 세션 공유는 projects 폴더를 심볼릭 링크로 연결하는 방식이 안내됐다. 환경변수 방식은 공식 지원이지만 심볼릭 링크는 AI 요약 기준이라 근거가 약하다. 자동 전환 프록시 툴은 약관 위반 소지가 있다는 경고도 있었다. Max20 요금제 기준 계정 2개 병행 사용 문의 동일 작업물을 여러 Claude 계정으로 이어 작업하는 방안이 질문됐다. 사용 한도 소진 시 문서화 작업을 못 한 상황도 언급됐다. 대화에는 구체적인 해결 답변이 남지 않았다. 계정마다 설정 폴더를 따로 만든다 (예: ~/.claude-acc1, ~/.claude-acc2)."}}}</script>
 <style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
 @media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
 :root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
@@ -240,13 +240,13 @@ background:var(--surface);text-decoration:none}
 <header>
   <span class="catchip c-etc">요금·사용량</span>
   <h1>클로드 계정 2개를 같이 쓰면 어떤 이점이 있나요?</h1>
-  <p class="sub">방에서 2번 논의된 질문입니다.</p>
+  <p class="sub">방에서 3번 논의된 질문입니다.</p>
 </header>
 <article class="qbody">
-  <p class="qanswer">한 컴퓨터와 한 작업물에서 여러 Claude 계정을 번갈아 사용해 작업을 이어갈 수 있는지 질문이 나왔다. 사용 한도가 소진된 뒤 README 같은 문서 작업을 못 했을 때의 대응도 함께 물었다. 답변은 기록되지 않았다.</p>
-  <ul><li>Max20 요금제 기준 계정 2개 병행 사용 문의</li><li>동일 작업물을 여러 Claude 계정으로 이어 작업하는 방안이 질문됐다.</li><li>사용 한도 소진 시 문서화 작업을 못 한 상황도 언급됐다.</li><li>대화에는 구체적인 해결 답변이 남지 않았다.</li></ul>
+  <p class="qanswer">한 컴퓨터에서 Claude 계정 2개를 쓰면서 세션을 공유하는 방법을 물었다. 계정 분리는 CLAUDE_CONFIG_DIR 환경변수로 하고, 세션 공유는 projects 폴더를 심볼릭 링크로 연결하는 방식이 안내됐다. 환경변수 방식은 공식 지원이지만 심볼릭 링크는 AI 요약 기준이라 근거가 약하다. 자동 전환 프록시 툴은 약관 위반 소지가 있다는 경고도 있었다.</p>
+  <ul><li>Max20 요금제 기준 계정 2개 병행 사용 문의</li><li>동일 작업물을 여러 Claude 계정으로 이어 작업하는 방안이 질문됐다.</li><li>사용 한도 소진 시 문서화 작업을 못 한 상황도 언급됐다.</li><li>대화에는 구체적인 해결 답변이 남지 않았다.</li><li>계정마다 설정 폴더를 따로 만든다 (예: ~/.claude-acc1, ~/.claude-acc2).</li></ul>
 </article>
-<a class="srccard" href="../../s/2026-08-16-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-08-16 아카이브</span></a>
+<a class="srccard" href="../../s/2026-11-27-2200.html"><span class="srclabel">이 대화의 원문 보기</span><span class="srcdate">2026-11-27 아카이브</span></a>
 <section class="qrel"><h2>같은 주제 질문</h2><ul><li><a href="claudecode최신업데이트소식.html">Claude Code 최신 업데이트 소식 아시는 분 계신가요?</a></li><li><a href="claude구독중복결제.html">Claude 구독료가 중복으로 결제됐는데 어떻게 해결하나요?</a></li><li><a href="claude비즈니스요금제.html">Claude 비즈니스 요금제는 어떻게 구성되어 있나요?</a></li><li><a href="claude성능체감변화.html">Claude 성능이 예전보다 체감상 달라졌나요?</a></li><li><a href="claudemd정리주기.html">CLAUDE.md는 얼마나 자주 정리해줘야 하나요?</a></li></ul></section>
 <aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
 <footer>클코단 오픈채팅 논의를 정리한 답변입니다. 개별 발화·닉네임은 담지 않습니다.<br>
