@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>로컬 LLM용 맥 고르기: M5 Pro 48GB와 M5 Max 36GB 중 무엇이 나은가 — 클코단 매거진</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-STD1JBGG3R"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-STD1JBGG3R");</script>
+<meta name="description" content="M5 Pro 48GB와 M5 Max 36GB 중 로컬 LLM에 맞는 쪽은 어디일까. 메모리 대역폭, 27B 모델 용량, KV캐시 압축, Qwen4 출시 상황을 공식 사양 기준으로 짚었다.">
+<link rel="canonical" href="https://chat.axwith.com/mag/models/m5-pro-48gb-vs-m5-max-36gb-local-llm.html">
+<meta property="og:title" content="로컬 LLM용 맥 고르기: M5 Pro 48GB와 M5 Max 36GB 중 무엇이 나은가">
+<meta property="og:description" content="M5 Pro 48GB와 M5 Max 36GB 중 로컬 LLM에 맞는 쪽은 어디일까. 메모리 대역폭, 27B 모델 용량, KV캐시 압축, Qwen4 출시 상황을 공식 사양 기준으로 짚었다.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://chat.axwith.com/mag/models/m5-pro-48gb-vs-m5-max-36gb-local-llm.html">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "로컬 LLM용 맥 고르기: M5 Pro 48GB와 M5 Max 36GB 중 무엇이 나은가", "description": "M5 Pro 48GB와 M5 Max 36GB 중 로컬 LLM에 맞는 쪽은 어디일까. 메모리 대역폭, 27B 모델 용량, KV캐시 압축, Qwen4 출시 상황을 공식 사양 기준으로 짚었다.", "datePublished": "2026-11-28", "dateModified": "2026-11-28", "author": {"@type": "Organization", "name": "클코단 매거진"}, "publisher": {"@type": "Organization", "name": "클코단 매거진"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://chat.axwith.com/mag/models/m5-pro-48gb-vs-m5-max-36gb-local-llm.html"}, "articleSection": "AI 모델·프롬프트", "keywords": "로컬 LLM, M5 Max, M5 Pro, 맥 메모리, KV캐시, Qwen4, 양자화", "image": "https://chat.axwith.com/mag/hero/m5-pro-48gb-vs-m5-max-36gb-local-llm.webp"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "M5 Pro 48GB와 M5 Max 36GB 중 로컬 LLM에는 어느 쪽이 유리한가?", "acceptedAnswer": {"@type": "Answer", "text": "M5 Pro는 대역폭이 최대 307GB/s이고, 36GB M5 Max는 460GB/s다. 디코딩 속도는 대역폭에 좌우되므로 속도는 Max가, 올릴 수 있는 모델 크기와 여유는 48GB Pro가 유리하다. 둘 다 원하면 48GB 이상 40코어 Max(614GB/s)를 고려해야 한다."}}, {"@type": "Question", "name": "Qwen4 27B는 지금 로컬에서 돌릴 수 있나?", "acceptedAnswer": {"@type": "Answer", "text": "아니다. 2026년 11월 현재 확인된 Qwen4는 API 전용 플래그십 Qwen4-Max뿐이고, 27B를 포함한 작은 모델의 가중치는 공개 시기가 발표되지 않았다."}}, {"@type": "Question", "name": "KV캐시를 8비트로 압축하면 256k 컨텍스트가 가능한가?", "acceptedAnswer": {"@type": "Answer", "text": "모델 구조에 달렸다. 풀 어텐션 층이 적은 하이브리드 구조의 27B라면 q8_0 캐시가 256k에서 9GB 안팎으로 추정된다. 풀 어텐션 층이 많은 모델은 4배쯤 커져서 메모리 부담이 크다. 속도 저하도 따로 감안해야 한다."}}]}</script>
+<style>:root{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+@media (prefers-color-scheme: dark){:root{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}}
+:root[data-theme="dark"]{--ground:#17140F;--surface:#211C13;--line:#37301F;--ink:#EFE8D8;--muted:#ADA189;--accent:#FBDA30;--on-accent:#201C13;--accent-deep:#FBDA30;--shadow:0 1px 2px rgba(0,0,0,.5),0 8px 22px rgba(0,0,0,.35);--chip-bg:#2C2617;}
+:root[data-theme="light"]{--ground:#F7F5EF;--surface:#FFFFFF;--line:#E3DECF;--ink:#201C13;--muted:#6B6152;--accent:#F5C400;--on-accent:#201C13;--accent-deep:#7A6200;--shadow:0 1px 2px rgba(32,28,19,.05),0 6px 18px rgba(32,28,19,.06);--chip-bg:#F2EBD4;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+font-family:"Pretendard Variable","Pretendard",-apple-system,"Apple SD Gothic Neo",
+"Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word;
+-webkit-text-size-adjust:100%}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:760px){body{font-size:18px}}
+
+/* 검색 결과 위 타임라인 진입 — 목록은 그대로 두고 새 탭으로 보낸다 (2026-09-07 오너) */
+.tlgo{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:2px 12px;margin:0 0 14px;
+padding:14px 18px;border:1px solid var(--accent);border-radius:12px;background:var(--surface);
+text-decoration:none;color:var(--ink)}
+.tlgoi{grid-row:1/3;width:26px;height:26px;color:var(--accent-deep)}
+.tlgo:hover{background:var(--chip-bg)}
+.tlgo b{font-size:15.5px;font-weight:750;letter-spacing:-.01em}
+.tlgo span{font-size:13px;color:var(--muted)}
+
+/* mono는 한글이 섞이지 않는 곳에만 — mono 폰트에 한글이 없어 서체가 섞이면 지저분해진다 */
+/* 전역 기본 링크 — 규칙 없는 컨텍스트(푸터·본문·소개 페이지 등)가 브라우저 기본
+   보라 밑줄로 새는 걸 막는 바닥 스타일(2026-08-06 오너 스크린샷 2건: nav·푸터).
+   구체 선택자(nav a·.tabs a·.entry h3 a…)가 우선순위로 이기므로 기존 스타일은 안 깨진다. */
+a{color:var(--accent-deep);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+footer a{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--accent-deep)}
+/* 되돌아가기 링크. _PAGE_CSS에만 있어서 이 CSS를 쓰는 페이지(매거진·레포·주간·Q&A·월별)는
+   전부 브라우저 기본 보라 밑줄로 나왔다(2026-08-06 오너 스크린샷). 두 CSS 모두에 둔다. */
+nav a{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:12.5px;font-weight:600;
+color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent-deep)}
+.wrap{max-width:900px;margin:0 auto;padding:28px 20px 88px}
+@media(min-width:600px){.wrap{padding:44px 24px 88px}}
+header .mark{display:inline-block;background:var(--accent);color:var(--on-accent);font-weight:800;
+font-size:13px;padding:5px 11px;border-radius:5px;margin-bottom:12px}
+h1{font-size:clamp(27px,6vw,34px);font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.3}
+.sub{font-size:16px;color:var(--muted);margin:0;max-width:52ch;line-height:1.7}
+
+.hero{margin:24px 0 8px;padding:18px 20px;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);position:relative}
+.hero .fresh{font-size:13px;font-weight:700;color:var(--accent-deep);letter-spacing:.01em}
+.hero h2{margin:6px 0 8px;font-size:20px;font-weight:800;line-height:1.45;letter-spacing:-.01em}
+.hero h2 a{color:var(--ink);text-decoration:none}
+.hero h2 a::after{content:"";position:absolute;inset:0}
+.hero .hmeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.find{margin:20px 0 8px}
+.find input{width:100%;font-size:17px;padding:13px 15px;min-height:48px;
+border:1px solid var(--line);border-radius:10px;background:var(--surface);
+color:var(--ink);font-family:inherit}
+.find input::placeholder{color:var(--muted)}
+.findhint{font-size:13px;color:var(--muted);margin:7px 2px 0}
+
+.dategroup{margin-top:28px}
+.dategroup>h2{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:15px;font-weight:800;
+color:var(--accent-deep);letter-spacing:.06em;margin:0 0 2px}
+.entry{display:block;padding:16px 4px;border-top:1px solid var(--line);position:relative}
+.entry:last-child{border-bottom:1px solid var(--line)}
+.slot{display:inline-block;font-family:ui-monospace,"SF Mono",Menlo,monospace;
+font-weight:800;font-size:14px;color:var(--accent-deep);margin-bottom:4px}
+@media(min-width:600px){
+  .entry{display:grid;grid-template-columns:56px 1fr;gap:16px}
+  .slot{margin:0;padding-top:4px;font-size:15px;color:var(--ink)}
+}
+.entry h3{margin:0 0 4px;font-size:18px;font-weight:750;letter-spacing:-.01em;line-height:1.45}
+@media(min-width:600px){.entry h3{font-size:19px}}
+.entry h3 a{color:var(--ink);text-decoration:none}
+.entry h3 a::after{content:"";position:absolute;inset:0}
+.entry h3 a:hover{text-decoration:underline;text-decoration-color:var(--accent);
+text-decoration-thickness:2px;text-underline-offset:3px}
+.emeta{font-size:13.5px;color:var(--muted);font-variant-numeric:tabular-nums;
+margin-bottom:8px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1}
+.chip{font-size:13px;font-weight:600;color:var(--muted);background:var(--chip-bg);
+border-radius:4px;padding:3px 8px;letter-spacing:.01em;line-height:1.45}
+
+.months{margin-top:34px;padding-top:18px;border-top:1px solid var(--line)}
+.months h2{font-size:15px;font-weight:800;margin:0 0 10px;color:var(--muted)}
+.months a{display:inline-block;font-size:14px;font-weight:700;color:var(--accent-deep);
+text-decoration:none;border:1px solid var(--line);border-radius:8px;
+padding:7px 13px;margin:0 6px 6px 0}
+.empty{padding:26px 4px;color:var(--muted);font-size:15px}
+/* 탭 규칙은 _TABS_CSS 단일 정본 — 여기 복제하지 마라.
+   2026-08-30 사고: _INDEX_CSS에만 있고 _TABS_CSS엔 없어서 홈 모바일 수정이 안 먹었다. */
+/* 레포 카드는 대화 카드의 grid(56px 1fr)를 물려받지 않는다 — slot이 없어 좁은 컬럼에 갇힌다 */
+.entry.repo{display:block;padding:18px 4px}
+.entry.repo>div{min-width:0}
+.entry.repo h3{word-break:normal;overflow-wrap:anywhere}
+/* 레포 카탈로그도 대화 요약과 같은 900px 폭 — 그 안에서 카드를 2~3열로 */
+.repogrid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:680px){
+  .repogrid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .repogrid .entry.repo{border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;box-shadow:var(--shadow)}
+}
+.repo .rmeta{font-size:13px;color:var(--muted);margin:2px 0 8px}
+.ghbtn{position:relative;z-index:1;display:inline-block;margin-top:6px;font-size:12.5px;
+font-weight:700;color:var(--accent-deep);text-decoration:none;border:1px solid var(--line);
+border-radius:8px;padding:5px 11px;background:var(--surface)}
+.ghbtn:hover{border-color:var(--accent)}
+@media(min-width:760px){
+  .sub{font-size:17px}
+  .entry h3{font-size:20px}
+  .emeta,.rmeta,.findhint{font-size:14.5px}
+  .chip{font-size:13.5px}
+  .repo ul{font-size:14.5px}
+  footer{font-size:14px}
+  .find input{font-size:17px}
+  .tabs a{font-size:15px}
+}
+.repo .rlang{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+background:var(--chip-bg);border-radius:4px;padding:2px 8px;margin-right:6px}
+.repo .rstar{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+margin-right:6px;font-variant-numeric:tabular-nums}
+.repo ul{margin:8px 0 0;padding-left:17px;font-size:13.5px;color:var(--muted)}
+.repo li{margin-bottom:5px}
+.repo .gh{font-size:13px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+font-size:13px;color:var(--muted);max-width:60ch;line-height:1.7}
+.tabs{display:flex;gap:6px;margin:18px 0 4px}
+.tabs a{font-size:14px;font-weight:700;color:var(--muted);text-decoration:none;
+padding:8px 14px;border-radius:8px;border:1px solid var(--line)}
+.tabs a.on{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
+.tabs a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border-color:var(--accent);opacity:.92}
+.tabs a{white-space:nowrap;display:inline-flex;align-items:baseline;gap:0}
+.tabs a i{font-style:normal;order:-1}
+.joinrow{display:none}
+@media(max-width:640px){
+.tabs{flex-wrap:nowrap;gap:5px}
+.tabs a{flex:0 0 auto;font-size:13.5px;padding:8px 11px}
+.tabs a i{display:none}            /* 라벨 축약: '대화 요약'→'요약' */
+.tabs a.join{display:none}          /* 참여 버튼은 탭 줄에서 빼고 아래 줄로 */
+.joinrow{display:block;margin:8px 0 4px}
+.joinrow a.join{display:inline-flex;align-items:center;justify-content:center;width:100%;
+color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);
+border-radius:8px;padding:10px 14px;font-size:14px;font-weight:700;text-decoration:none}}
+@media(max-width:640px){.tabs{overflow-x:auto;flex-wrap:nowrap;
+-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-24px;padding-right:24px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;font-size:13px;padding:7px 12px}
+.tabs a.join{margin-left:6px}}
+
+.wkstat{margin-top:30px}
+.wkstat h2{font-size:15px;font-weight:800;color:var(--muted);margin:22px 0 10px}
+.days{display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 2px}
+.daycol{display:flex;flex-direction:column;align-items:center;gap:5px;flex:1}
+.daybar{width:100%;max-width:44px;background:var(--accent);border-radius:3px 3px 0 0}
+.daylbl{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.catrow{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.catname{font-size:13.5px;min-width:110px;color:var(--ink)}
+.catbar{height:9px;background:var(--accent);border-radius:5px;opacity:.85}
+.catnum{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted)}
+.wkbanner{display:block;margin:18px 0 4px;padding:13px 16px;background:var(--surface);
+border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);
+font-size:15px;font-weight:700;box-shadow:var(--shadow)}
+.wkbanner span{color:var(--accent-deep)}
+
+/* 카테고리 칩 — 옐로 액센트와 경쟁하지 않는 저채도 흙빛 6색.
+   대비비 실측(WCAG): 라이트 칩내부 5.75~6.38:1 / 다크 8.10~8.57:1 — 전 항목 AA 통과. */
+:root{--cat-tool-bg:#E7EADB;--cat-tool-fg:#4A5A38;
+--cat-flow-bg:#F0E2D8;--cat-flow-fg:#7A4B33;
+--cat-ask-bg:#F2E0DC;--cat-ask-fg:#7E3F35;
+--cat-model-bg:#EAE3E8;--cat-model-fg:#5E4A5C;
+--cat-res-bg:#E0E6EA;--cat-res-fg:#3F5563;
+--cat-etc-bg:#EAE6DC;--cat-etc-fg:#5A5344}
+@media (prefers-color-scheme: dark){:root{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}}
+:root[data-theme="dark"]{--cat-tool-bg:#2A3021;--cat-tool-fg:#C3D2AB;
+--cat-flow-bg:#34261D;--cat-flow-fg:#E2BFA6;
+--cat-ask-bg:#35241F;--cat-ask-fg:#E8B4A8;
+--cat-model-bg:#2E2730;--cat-model-fg:#D3C0D0;
+--cat-res-bg:#212B31;--cat-res-fg:#B4C9D6;
+--cat-etc-bg:#2C281E;--cat-etc-fg:#CFC5AE}
+.dcard .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.catchip{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:-.01em;
+padding:3px 9px;border-radius:999px;background:var(--chip-bg);color:var(--muted);white-space:nowrap}
+.catchip.c-tool{background:var(--cat-tool-bg);color:var(--cat-tool-fg)}
+.catchip.c-flow{background:var(--cat-flow-bg);color:var(--cat-flow-fg)}
+.catchip.c-ask{background:var(--cat-ask-bg);color:var(--cat-ask-fg)}
+.catchip.c-model{background:var(--cat-model-bg);color:var(--cat-model-fg)}
+.catchip.c-res{background:var(--cat-res-bg);color:var(--cat-res-fg)}
+.catchip.c-etc{background:var(--cat-etc-bg);color:var(--cat-etc-fg)}
+
+.artbody{margin-top:22px}
+.artnav{display:flex;align-items:center}.artnav a.join{margin-left:auto;color:var(--on-accent);background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 14px;font-size:13.5px;text-decoration:none;opacity:.92}
+.joinbox{margin:26px 0 6px;padding:16px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;background:var(--surface)}
+.joinbox b{display:block;margin-bottom:4px}.joinbox p{margin:0 0 10px;color:var(--muted);font-size:14px;line-height:1.6}
+.joinbox a.join{display:inline-block;color:var(--on-accent);background:var(--accent);border-radius:999px;padding:7px 16px;text-decoration:none;font-weight:600}
+.artHero{width:100%;border-radius:12px;margin:16px 0 4px;display:block;border:1px solid var(--line)}
+.artbody h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:28px 0 10px}
+.artbody p{margin:13px 0;line-height:1.78}
+.artbody ul,.artbody ol{margin:13px 0 13px 18px}.artbody li{margin:6px 0;line-height:1.7}
+.artbody ol{padding-left:8px}.artbody ol li{padding-left:6px;margin:10px 0}
+.artbody pre{margin:14px 0;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow-x:auto;font-size:12.5px;line-height:1.55}
+.artbody pre code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre;color:var(--fg,inherit)}
+.artbody :not(pre)>code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;padding:1px 5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);word-break:break-all}
+.artbody a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.artInline{width:100%;border-radius:12px;margin:26px 0 8px;display:block;border:1px solid var(--line)}
+.secttl{font-size:15px;font-weight:800;color:var(--muted);margin:36px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="tabwrap"><nav class="tabs"><a href="../../"><b>요약</b><i> 대화</i></a><a href="../../repos/"><b>레포</b><i> 공유된</i></a><a href="../../weekly/"><b>주간</b><i> 정리</i></a><a class="on" href="../../mag/"><b>매거진</b><i></i></a><a href="../../qna/"><b>Q&amp;A</b><i></i></a></nav><div class="joinrow"><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'nav'})}catch(e){}">클코단 참여하기 &rarr;</a></div></div>
+<nav class="artnav"><a href="../">&larr; 클코단 매거진</a></nav>
+<img class="artHero" src="https://chat.axwith.com/mag/hero/m5-pro-48gb-vs-m5-max-36gb-local-llm.webp" alt="로컬 LLM용 맥 고르기: M5 Pro 48GB와 M5 Max 36GB 중 무엇이 나은가" loading="eager">
+<header>
+  <span class="catchip c-model">AI 모델·프롬프트</span>
+  <h1>로컬 LLM용 맥 고르기: M5 Pro 48GB와 M5 Max 36GB 중 무엇이 나은가</h1>
+  <p class="sub">27B급 모델을 로컬에서 돌릴 맥을 고민한다면 메모리 용량보다 대역폭과 컨텍스트 길이를 같이 따져야 한다.</p>
+  <div class="meta"><span>2026-11-28</span><span>논의 <b>1</b>회 정리</span></div>
+</header>
+<div class="artbody"><p>맥미니 32GB로 로컬 AI를 돌리다 한계를 느낀 개발자가 M5 Pro 48GB와 M5 Max 36GB 사이에서 고민하고 있다. 목표는 Qwen4가 나오면 27B급 모델을 올리는 것이다. 이 글은 두 사양 중 어느 쪽이 그 목표에 맞는지, 지금 사는 게 맞는지를 공식 사양과 계산으로 따져 본다.</p>
+<h2>두 칩의 차이는 용량보다 대역폭이다</h2>
+<p>애플이 2026년 3월 3일 발표한 사양을 보면 M5 Pro는 메모리를 24·48·64GB로 고를 수 있고 대역폭은 최대 307GB/s다. M5 Max는 GPU 코어 수에 따라 갈린다. 32코어 GPU는 460GB/s에 36GB부터 시작하고, 40코어 GPU는 614GB/s에 48GB 이상이다.</p>
+<p>그래서 &quot;Pro 48GB 대 Max 36GB&quot;는 용량 48 대 36의 문제가 아니다. 36GB Max는 Pro보다 대역폭이 약 1.5배 넓고, 같은 48GB라도 Max 40코어는 Pro의 두 배 가까운 대역폭을 준다.</p>
+<p>로컬 LLM에서 이 숫자가 중요한 이유가 있다. 답을 한 토큰씩 만드는 디코딩은 메모리 대역폭이 속도를 정하고, 긴 입력을 읽는 프리필은 연산 성능이 좌우한다. 한 비교 자료는 Llama 3.1 8B 4비트 기준으로 M5 Pro가 초당 50~60토큰, 40코어 M5 Max가 100~120토큰이라고 전한다. 다만 이런 수치 상당수는 실측이 아니라 대역폭에서 역산한 추정이라고 해당 자료들이 밝히고 있다.</p>
+<h2>27B 모델은 48GB에 들어가지만 여유가 문제다</h2>
+<p>방에서는 48GB에 27B는 무겁다는 의견이 다수였다. 숫자로 확인해 보자. Qwen 3.8 27B의 Q4_K_M 파일은 약 16.5GB이고 Q8_0은 약 29GB다. 4비트라면 가중치만으로는 48GB에 넉넉히 들어간다.</p>
+<p>문제는 가중치 바깥에 있다. 운영체제와 브라우저, 다른 앱이 쓰는 몫이 있고, macOS는 GPU에 통합 메모리 전체를 내주지도 않는다. 여기에 에이전트 도구까지 같이 띄우면 상황이 달라진다. 질문자가 보조용으로 쓰겠다는 헤르메스 같은 에이전트는 세션이 늘수록 컨텍스트가 쌓이고 KV캐시도 그만큼 커진다.</p>
+<p>일부 참여자는 36GB Max가 더 답답할 것이라고 봤다. 4비트 27B에 시스템 몫을 빼면 남는 공간이 얼마 안 되기 때문이다. 용량만 보면 48GB가 낫고 속도만 보면 Max가 낫다. 둘을 동시에 잡으려면 48GB Max로 올라가야 한다.</p>
+<img class="artInline" src="https://chat.axwith.com/mag/inline/m5-pro-48gb-vs-m5-max-36gb-local-llm.webp" alt="" loading="lazy"><h2>4비트에 KV캐시 8비트로 256k까지 갈 수 있나</h2>
+<p>한 참여자는 4비트 모델에 KV캐시를 8비트로 압축하면 256k 컨텍스트도 가능하다고 했다. 이론상으로는 맞는 말이다. llama.cpp는 캐시 타입을 q8_0으로 지정할 수 있고, 기본값인 f16과 비교하면 캐시 크기가 대략 절반이 된다.</p>
+<p>실제 크기는 모델 구조가 갈라놓는다. Qwen 3.8 27B는 선형 어텐션 층 48개와 풀 어텐션 층 16개를 섞은 하이브리드 구조라서 캐시를 쌓는 층이 16개뿐이다. 한 해설에 따르면 128K 컨텍스트의 캐시가 f16에서 8.59GB, q8_0에서 4.6GB다. 256k는 이 두 배쯤으로 추정되니 q8_0에서 9GB 안팎이다.</p>
+<p>같은 해설은 풀 어텐션만 쓰는 일반적인 64층 모델이라면 토큰당 캐시가 4배라고 계산한다. 이 경우 256k는 8비트로 줄여도 매우 크다. &quot;256k가 된다&quot;는 말은 어떤 모델이냐에 따라 참이기도 거짓이기도 하다.</p>
+<p>속도 문제도 겹친다. 방에서 가장 많이 나온 반론이 이쪽이다. 밀집 27B 모델은 토큰마다 가중치 전체를 읽는다. 16.5GB를 307GB/s로 나누면 이론상 한계가 초당 18토큰 안팎이고, 460GB/s면 28토큰, 614GB/s면 37토큰이다. 필자가 대역폭에서 계산한 상한선일 뿐 측정값이 아니며, 실제로는 이보다 낮다. 긴 컨텍스트를 채울수록 프리필 대기도 길어진다. 느려서 스트레스가 쌓인다는 의견은 이 구조와 맞는다.</p>
+<h2>아직 나오지 않은 모델을 위해 사도 되나</h2>
+<p>구매 계획의 전제부터 짚어야 한다. 알리바바는 2026년 11월 16일 Qwen4-Max를 출시했지만 API 전용 폐쇄 가중치 모델이다. The New Stack에 따르면 다운로드할 가중치 계획은 발표되지 않았다. 알리바바는 더 작은 Qwen4 모델의 가중치를 공개하겠다고만 했고 어떤 모델을 언제 내놓을지는 밝히지 않았다.</p>
+<p>Qwen4 27B는 이름만 거론될 뿐 허깅페이스에 올라와 있지 않다. 크기도 구조도 모르는 모델에 맞춰 사양을 정하는 셈이다. 구조가 하이브리드일지 밀집일지에 따라 위의 캐시 계산이 통째로 바뀐다.</p>
+<p>방에서는 모델을 정해 놓고 사기보다 예산 안에서 가장 높은 사양을 사라는 조언이 나왔다. 128GB는 1000만 원에 가깝다는 이야기도 함께 오갔다. 애플 사양상 128GB는 40코어 M5 Max에서만 고를 수 있다. 직접 써 보고 돈을 날려 봐야 다음 선택이 정해진다는 말도 있었다. 로컬 AI 장비는 용도에 따라 만족도 차이가 큰 물건이니 일리가 있다.</p>
+<h2>지금 결정해야 한다면</h2>
+<p>몇 가지 조건으로 갈린다.</p>
+<ul><li>27B를 4비트로, 컨텍스트 32k~64k 정도로 쓴다면 48GB Pro로도 돌아간다. 속도는 이론 상한이 낮은 만큼 체감이 느릴 수 있다.</li><li>속도가 우선이면 36GB Max의 460GB/s가 Pro보다 낫다. 대신 에이전트를 함께 띄우고 긴 컨텍스트를 쓰기엔 메모리가 빠듯하다.</li><li>용량과 속도를 같이 원하면 48GB 이상의 40코어 Max가 맞다. 가격이 크게 오른다.</li><li>보조 에이전트 용도라면 큰 모델을 로컬로 고집하지 않고 작은 모델 로컬, 큰 작업은 API로 나누는 방법도 있다.</li></ul>
+<p>외부 사용자들 사이에서도 로컬 AI를 쓰는 이유로 비용과 보안, 개인 자료 처리가 자주 꼽힌다. 그 이유가 본인에게 해당하는지부터 확인하는 게 먼저다. 월 구독 몇 개로 충분한 작업이라면 수백만 원짜리 장비가 정답이 아닐 수 있다.</p>
+<p>질문자는 반응을 보고 구매를 재고하겠다고 했다. Qwen4 27B의 가중치가 나오고 실제 속도 측정이 쌓일 때까지 기다리는 것이 가장 싼 선택지다.</p></div>
+<aside class="joinbox"><b>이런 얘기가 매일 오가는 방이 있어요</b><p>클로드 코드 쓰는 사람들이 모여 질문하고 답하는 오픈채팅 — 이 글도 거기서 나온 대화예요.</p><a class="join" href="https://open.kakao.com/o/g7t4M0Fi" target="_blank" rel="noopener" onclick="try{gtag('event','openchat_join_click',{page:location.pathname,placement:'page-end'})}catch(e){}">클코단 참여하기 &rarr;</a></aside>
+<div class="chips"><span class="chip">로컬 LLM</span><span class="chip">M5 Max</span><span class="chip">M5 Pro</span><span class="chip">맥 메모리</span><span class="chip">KV캐시</span><span class="chip">Qwen4</span><span class="chip">양자화</span></div>
+<section class="refs"><h2>참고 링크</h2><ul><li><a href="https://support.apple.com/en-us/126318" rel="nofollow noopener">https://support.apple.com/en-us/126318</a></li><li><a href="https://www.apple.com/newsroom/2026/03/apple-introduces-macbook-pro-with-all-new-m5-pro-and-m5-max/" rel="nofollow noopener">https://www.apple.com/newsroom/2026/03/apple-introduces-macbook-pro-with-all-new</a></li><li><a href="https://thenewstack.io/qwen4-max-alibaba-open-weights/" rel="nofollow noopener">https://thenewstack.io/qwen4-max-alibaba-open-weights/</a></li><li><a href="https://dev.to/purpledoubled/run-qwen-38-27b-locally-real-gguf-sizes-the-kv-cache-trick-and-the-template-trap-114j" rel="nofollow noopener">https://dev.to/purpledoubled/run-qwen-38-27b-locally-real-gguf-sizes-the-kv-cach</a></li><li><a href="https://insiderllm.com/guides/apple-m5-pro-max-local-ai/" rel="nofollow noopener">https://insiderllm.com/guides/apple-m5-pro-max-local-ai/</a></li><li><a href="https://www.promptquorum.com/local-llms/m5-pro-max-llm-benchmarks-2026" rel="nofollow noopener">https://www.promptquorum.com/local-llms/m5-pro-max-llm-benchmarks-2026</a></li><li><a href="https://help.apiyi.com/en/qwen4-series-progress-max-api-27b-open-weights-en.html" rel="nofollow noopener">https://help.apiyi.com/en/qwen4-series-progress-max-api-27b-open-weights-en.html</a></li></ul></section>
+<h2 class="secttl">자주 묻는 질문</h2><div class="details"><article class="dcard"><div class="t">Q</div><h2>M5 Pro 48GB와 M5 Max 36GB 중 로컬 LLM에는 어느 쪽이 유리한가?</h2><p class="sum">M5 Pro는 대역폭이 최대 307GB/s이고, 36GB M5 Max는 460GB/s다. 디코딩 속도는 대역폭에 좌우되므로 속도는 Max가, 올릴 수 있는 모델 크기와 여유는 48GB Pro가 유리하다. 둘 다 원하면 48GB 이상 40코어 Max(614GB/s)를 고려해야 한다.</p></article><article class="dcard"><div class="t">Q</div><h2>Qwen4 27B는 지금 로컬에서 돌릴 수 있나?</h2><p class="sum">아니다. 2026년 11월 현재 확인된 Qwen4는 API 전용 플래그십 Qwen4-Max뿐이고, 27B를 포함한 작은 모델의 가중치는 공개 시기가 발표되지 않았다.</p></article><article class="dcard"><div class="t">Q</div><h2>KV캐시를 8비트로 압축하면 256k 컨텍스트가 가능한가?</h2><p class="sum">모델 구조에 달렸다. 풀 어텐션 층이 적은 하이브리드 구조의 27B라면 q8_0 캐시가 256k에서 9GB 안팎으로 추정된다. 풀 어텐션 층이 많은 모델은 4배쯤 커져서 메모리 부담이 크다. 속도 저하도 따로 감안해야 한다.</p></article></div>
+<h2 class="secttl">같은 주제 더 보기</h2><section class="dategroup"><article class="entry"><div class="slot">→</div><div><h3><a href="opus-5-claude-code-limits.html">오퍼스5 전환 후 클로드코드가 둔해졌다는 체감, 원인 뜯어보기</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="openchat-bot-prompt-injection-defense.html">오픈채팅 챗봇 노린 프롬프트 인젝션, 3진아웃 블랙리스트로 막다</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="gpt-luna-terra-price-cut.html">GPT-5.6 루나 API값 80% 인하, 하이쿠·딥시크와 비교해보니</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="kimi-glm-hermes-open-models.html">중국산 오픈소스 LLM 열풍, Kimi K3와 GLM-5.2 실전 성능 비교</a></h3></div></article><article class="entry"><div class="slot">→</div><div><h3><a href="opus-vs-fable-claude-code.html">클로드 코드 오푸스5 vs 페이블5, 코딩엔 뭐가 나을까</a></h3></div></article></section>
+<footer><span>원 아카이브: <a href="../../s/2026-11-27-2200.html">2026-11-27 11-27 13:28~20:37</a></span><span><a href="../">&larr; 매거진</a> · <a href="../../">아카이브</a></span></footer>
+</div>
+</body>
+</html>
